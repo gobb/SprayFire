@@ -78,10 +78,20 @@ $ConfigBootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($ConfigErrorLog, $co
 $ConfigBootstrap->runBootstrap();
 $ConfigMap = $ConfigBootstrap->getConfigs();
 
-$configErrors = $ConfigErrorLog->getMessages();
-
 $PrimaryConfig = $ConfigMap->getObject('PrimaryConfig');
 $RoutesConfig = $ConfigMap->getObject('RoutesConfig');
+
+$configValid = function() use ($PrimaryConfig, $RoutesConfig) {
+    if (!isset($PrimaryConfig) || !isset($RoutesConfig)) {
+        return false;
+    }
+    return true;
+};
+
+if (!$configValid()) {
+    
+}
+
 
 $Container = new \SprayFire\Core\Structure\GenericMap();
 $Container->setObject('PrimaryConfig', $PrimaryConfig);
