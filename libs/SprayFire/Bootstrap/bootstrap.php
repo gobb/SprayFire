@@ -89,9 +89,8 @@ $configValid = function() use ($PrimaryConfig, $RoutesConfig) {
 };
 
 if (!$configValid()) {
-    
+    throw new \SprayFire\Exception\FatalRuntimeException('A required configuration object could not be found.  Please ensure you have a configuration and routes file in your config path.');
 }
-
 
 $Container = new \SprayFire\Core\Structure\GenericMap();
 $Container->setObject('PrimaryConfig', $PrimaryConfig);
