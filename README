@@ -37,9 +37,10 @@ Testing Instructions
 ================================================================================
 Framework objects that can be reasonably unit tested will have those tests stored
 in /libs/SprayFire/Test/Cases/.  If you use the configuration.xml file stored in
-this folder you should be setup with a test suite of all the tests and it also
-includes the appropriate bootstrap needed and sets up code coverage reports.  Be
-aware that you may have to adjust the paths pointed to in this configuration file.
+the parent folder, /libs/SprayFire/Test/, you should be setup with a test suite
+of all the tests and it also includes the appropriate bootstrap needed and sets
+up code coverage reports.  Be aware that you may have to adjust the paths pointed
+to in this configuration file to match your system.
 
 The SprayFire development team consists of:
 ================================================================================
