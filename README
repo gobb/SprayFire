@@ -36,22 +36,16 @@ https://github.com/cspray/SprayFire/wiki/
 Testing Instructions
 ================================================================================
 Framework objects that can be reasonably unit tested will have those tests stored
-in {framework_dir}/tests/.  At the moment all tests have to be run individually,
-using the following directions:
-
-1. Ensure PHPUnit is installed and in the include path on your computer.
-2. Change directory to {framework_dir}/tests/.
-3. Run each test by inputting the following command in your terminal
-
-phpunit --bootstrap test_bootstrap.php {ClassNameTest} /path/to/{ClassNameTest}.php
-
-Please note that there is an AllTests suite that will, well, run all tests.
+in /libs/SprayFire/Test/Cases/.  If you use the configuration.xml file stored in
+this folder you should be setup with a test suite of all the tests and it also
+includes the appropriate bootstrap needed and sets up code coverage reports.  Be
+aware that you may have to adjust the paths pointed to in this configuration file.
 
 The SprayFire development team consists of:
 ================================================================================
 
-Charles Sprayberry
-Lead Developer and Creator
-Benevolent Dictator for Life
-twitter: @charlesspray
-github: cspray/SprayFire
+Charles Sprayberry                              Dyana Stewar
+Lead Developer and Creator                      Graphic Designer
+Benevolent Dictator for Life                    twitter: @Dy249
+twitter: @charlesspray                          github: Dyana
+github: cspray
