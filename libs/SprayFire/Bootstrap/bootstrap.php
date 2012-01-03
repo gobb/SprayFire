@@ -89,7 +89,9 @@ if (!$configValid()) {
     throw new \SprayFire\Exception\FatalRuntimeException('A required configuration object could not be found.  Please ensure you have a configuration and routes file in your config path.');
 }
 
-if ($PrimaryConfig->app->{'development-mode'} === 'on') {
+$isDevModeOn = ($PrimaryConfig->app->{'development-mode'} === 'on') ? true : false;
+
+if ($isDevModeOn) {
     $ErrorLogger = new \SprayFire\Logger\DevelopmentLogger();
 } else {
     $ErrorLogInfo = new \SplFileInfo($Directory->getLogsPath($errorLogFile));
@@ -101,7 +103,7 @@ if ($PrimaryConfig->app->{'development-mode'} === 'on') {
     }
 }
 
-$ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($ErrorLogger);
+$ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($ErrorLogger, $isDevModeOn);
 \set_error_handler(array($ErrorHandler, 'trap'));
 
 foreach ($errors as $error) {
