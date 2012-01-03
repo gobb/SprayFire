@@ -43,6 +43,23 @@ class ErrorHandler extends \SprayFire\Logger\CoreObject {
     protected $trappedErrors = array();
 
     /**
+     * @brief True/false on whether or not the environment is in development mode.
+     *
+     * @property $developmentModeOn
+     */
+    protected $developmentModeOn;
+
+    /**
+     * @param $Log \SprayFire\Logger\Log The log to use for this error handler
+     * @param $developmentModeOn True or false on whether or not the environment is in development mode
+     */
+    public function __construct(\SprayFire\Logger\Log $Log, $developmentModeOn = false) {
+        parent::__construct($Log);
+        $this->developmentModeOn = (boolean) $developmentModeOn;
+    }
+
+    /**
+     * @brief Used as the error handling callback.
      *
      * @param $severity int representing an error level constant
      * @param $message string representing an error message
@@ -56,36 +73,53 @@ class ErrorHandler extends \SprayFire\Logger\CoreObject {
             return false;
         }
 
-        $normalizeSeverity = function() use ($severity) {
-            $severityMap = array(
-                E_WARNING => 'E_WARNING',
-                E_NOTICE => 'E_NOTICE',
-                E_USER_ERROR => 'E_USER_ERROR',
-                E_USER_WARNING => 'E_USER_WARNING',
-                E_USER_NOTICE => 'E_USER_NOTICE',
-                E_USER_DEPRECATED => 'E_USER_DEPRECATED',
-                E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
-                E_DEPRECATED => 'E_DEPRECATED'
-            );
-            if (\array_key_exists($severity, $severityMap)) {
-                return $severityMap[$severity];
-            }
-            return 'E_UNKOWN_SEVERITY';
-        };
-
-        $errorMessage = 'severity:=' . $normalizeSeverity() . ' message:=' . $message;
-        $this->log($errorMessage);
+        $normalizedSeverity = $this->normalizeSeverity($severity);
+        $this->logMessage($normalizedSeverity, $message);
+        $data = \compact('severity', 'message', 'file', 'line');
+        if ($this->developmentModeOn) {
+            $data['context'] = $context;
+        }
         $index = \count($this->trappedErrors);
-        $this->trappedErrors[$index] = array();
-        $this->trappedErrors[$index]['severity'] = $normalizeSeverity();
-        $this->trappedErrors[$index]['message'] = $message;
-        $this->trappedErrors[$index]['file'] = $file;
-        $this->trappedErrors[$index]['line'] = $line;
+        $this->trappedErrors[$index] = $data;
 
         $nonHandledSeverity = array(E_RECOVERABLE_ERROR);
         if (in_array($severity, $nonHandledSeverity)) {
             return false;
         }
+    }
+
+    /**
+     * @brief Converts a numeric severity into the textual representation of the
+     * error level constant represnting it; if it the severity is not known or not
+     * one expected to be trapped by the handler it will return 'E_UNKNOWN_SEVERITY'
+     *
+     * @param $severity An integer
+     * @return string representing the name of the constant equal to \a $severity
+     */
+    protected function normalizeSeverity($severity) {
+        $severityMap = array(
+            E_WARNING => 'E_WARNING',
+            E_NOTICE => 'E_NOTICE',
+            E_USER_ERROR => 'E_USER_ERROR',
+            E_USER_WARNING => 'E_USER_WARNING',
+            E_USER_NOTICE => 'E_USER_NOTICE',
+            E_USER_DEPRECATED => 'E_USER_DEPRECATED',
+            E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
+            E_DEPRECATED => 'E_DEPRECATED'
+        );
+        if (\array_key_exists($severity, $severityMap)) {
+            return $severityMap[$severity];
+        }
+        return 'E_UNKOWN_SEVERITY';
+    }
+
+    /**
+     * @param $normalizedSeverity The textual representation of the severity for the trapped error
+     * @param $message The error message that was trapped
+     */
+    protected function logMessage($normalizedSeverity, $message) {
+        $errorMessage = 'severity:=' . $normalizedSeverity . ' message:=' . $message;
+        $this->log($errorMessage);
     }
 
     /**
