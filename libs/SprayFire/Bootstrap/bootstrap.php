@@ -95,7 +95,7 @@ if ($PrimaryConfig->app->{'development-mode'} === 'on') {
     $ErrorLogInfo = new \SplFileInfo($Directory->getLogsPath($errorLogFile));
     try {
         $ErrorLogger = new \SprayFire\Logger\FileLogger($ErrorLogInfo);
-    } catch(InvalidArgumentException $InvalArgExc) {
+    } catch(\InvalidArgumentException $InvalArgExc) {
         $ErrorLogger = new \SprayFire\Logger\SystemLogger();
         $ErrorLogger->log(\date('M-d-Y H:i:s'), 'The error file chosen could not be found.  Please check $errorLogFile in index.php');
     }
