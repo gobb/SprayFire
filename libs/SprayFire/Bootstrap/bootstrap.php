@@ -51,9 +51,6 @@ $PathGenBootstrap->runBootstrap();
 
 $Directory = $PathGenBootstrap->getPathGenerator();
 
-// We are setting exception handler here because later in the bootstrap if it is
-// found that we cannot continue with processing the request we will simply throw
-// an uncaught exception that will wind up sending an internal error response.
 $uncaughExceptionContent = $Directory->getWebPath('500.html');
 $SystemLogger = new \SprayFire\Logger\SystemLogger();
 $ExceptionHandler = new \SprayFire\Core\Handler\ExceptionHandler($SystemLogger, $uncaughExceptionContent);
@@ -91,6 +88,9 @@ $configValid = function() use ($PrimaryConfig, $RoutesConfig) {
 if (!$configValid()) {
     throw new \SprayFire\Exception\FatalRuntimeException('A required configuration object could not be found.  Please ensure you have a configuration and routes file in your config path.');
 }
+
+
+
 
 $Container = new \SprayFire\Core\Structure\GenericMap();
 $Container->setObject('PrimaryConfig', $PrimaryConfig);
