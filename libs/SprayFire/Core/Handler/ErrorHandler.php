@@ -73,8 +73,8 @@ class ErrorHandler extends \SprayFire\Logger\CoreObject {
             return false;
         }
 
-        $normalizedSeverity = $this->normalizeSeverity($severity);
-        $this->logMessage($normalizedSeverity, $message);
+        $severity = $this->normalizeSeverity($severity);
+        $this->logMessage($severity, $message);
         $data = \compact('severity', 'message', 'file', 'line');
         if ($this->developmentModeOn) {
             $data['context'] = $context;
@@ -83,7 +83,7 @@ class ErrorHandler extends \SprayFire\Logger\CoreObject {
         $this->trappedErrors[$index] = $data;
 
         $nonHandledSeverity = array(E_RECOVERABLE_ERROR);
-        if (in_array($severity, $nonHandledSeverity)) {
+        if (\in_array($severity, $nonHandledSeverity)) {
             return false;
         }
     }
