@@ -73,6 +73,7 @@ class ErrorHandler extends \SprayFire\Logger\CoreObject {
             return false;
         }
 
+        $intSeverity = $severity;
         $severity = $this->normalizeSeverity($severity);
         $this->logMessage($severity, $message);
         $data = \compact('severity', 'message', 'file', 'line');
@@ -83,7 +84,7 @@ class ErrorHandler extends \SprayFire\Logger\CoreObject {
         $this->trappedErrors[$index] = $data;
 
         $nonHandledSeverity = array(E_RECOVERABLE_ERROR);
-        if (\in_array($severity, $nonHandledSeverity)) {
+        if (\in_array($intSeverity, $nonHandledSeverity)) {
             return false;
         }
     }
@@ -110,7 +111,7 @@ class ErrorHandler extends \SprayFire\Logger\CoreObject {
         if (\array_key_exists($severity, $severityMap)) {
             return $severityMap[$severity];
         }
-        return 'E_UNKOWN_SEVERITY';
+        return 'E_UNKNOWN_SEVERITY';
     }
 
     /**
