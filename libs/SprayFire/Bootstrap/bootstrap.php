@@ -89,8 +89,20 @@ if (!$configValid()) {
     throw new \SprayFire\Exception\FatalRuntimeException('A required configuration object could not be found.  Please ensure you have a configuration and routes file in your config path.');
 }
 
+if ($PrimaryConfig->app->{'development-mode'} === 'on') {
+    $ErrorLogger = new \SprayFire\Logger\DevelopmentLogger();
+} else {
+    $ErrorLogInfo = new \SplFileInfo($Directory->getLogsPath($errorLogFile));
+    try {
+        $ErrorLogger = new \SprayFire\Logger\FileLogger($ErrorLogInfo);
+    } catch(InvalidArgumentException $InvalArgExc) {
+        $ErrorLogger = new \SprayFire\Logger\SystemLogger();
+        $ErrorLogger->log(\date('M-d-Y H:i:s'), 'The error file chosen could not be found.  Please check $errorLogFile in index.php');
+    }
+}
 
-
+$ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($ErrorLogger);
+\set_error_handler(array($ErrorHandler, 'trap'));
 
 $Container = new \SprayFire\Core\Structure\GenericMap();
 $Container->setObject('PrimaryConfig', $PrimaryConfig);
