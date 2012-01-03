@@ -72,7 +72,7 @@ class ConfigBootstrap extends \SprayFire\Logger\CoreObject implements \SprayFire
     /**
      * @param $Log SprayFire.Logger.Log To log various error messages that may occur
      * @param $configInfo An array of configuration information to create objects
-     * @throws RuntimeException
+     * @throws \SprayFire\Exception\FatalRuntimeException
      */
     public function __construct(\SprayFire\Logger\Log $Log, array $configInfo) {
         parent::__construct($Log);
@@ -84,7 +84,7 @@ class ConfigBootstrap extends \SprayFire\Logger\CoreObject implements \SprayFire
             // we are throwing an exception here because if the Configuration interface
             // could not be loaded for some reason the Configuration objects implementing
             // that interface could not be loaded either.
-            throw new \RuntimeException('The Configuration interface was not found, please ensure this interface was loaded or is loadable.');
+            throw new \SprayFire\Exception\FatalRuntimeException('The Configuration interface was not found, please ensure this interface was loaded or is loadable.');
         }
         $this->ConfigMap = $Map;
         $this->configInfo = $configInfo;
