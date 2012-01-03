@@ -59,6 +59,8 @@ $primaryConfigFile = array('json', 'configuration.json');
 // This should exist in \a $configPath
 $routesConfigFile = array('json', 'routes.json');
 
+$errorLogFile = array('errors.txt');
+
 // PLEASE DO NOT CHANGE CODE BELOW THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING!
 // SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE
 
