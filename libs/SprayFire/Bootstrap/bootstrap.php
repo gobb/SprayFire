@@ -104,8 +104,21 @@ if ($PrimaryConfig->app->{'development-mode'} === 'on') {
 $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($ErrorLogger);
 \set_error_handler(array($ErrorHandler, 'trap'));
 
+foreach ($errors as $error) {
+    $errorMessage = 'severity:=' . $error['severity'] . ' message:=' . $error['message'];
+    $ErrorLogger->log(\date('M-d-Y H:i:s'), $errorMessage);
+}
+
+$errors = null;
+$errorCallback = null;
+unset($errors, $errorCallback);
+
 $Container = new \SprayFire\Core\Structure\GenericMap();
 $Container->setObject('PrimaryConfig', $PrimaryConfig);
 $Container->setObject('RoutesConfig', $RoutesConfig);
+$Container->setObject('ErrorHandler', $ErrorHandler);
+if ($PrimaryConfig->{'development-mode'} === 'on') {
+    $Container->setObject('ErrorLogger', $ErrorLogger);
+}
 
 return $Container;
