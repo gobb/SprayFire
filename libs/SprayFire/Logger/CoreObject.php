@@ -58,7 +58,7 @@ abstract class CoreObject extends \SprayFire\Core\CoreObject {
      */
     public function __construct(\SprayFire\Logger\Log $Log, $timeStampFormat = 'M-d-Y H:i:s') {
         $this->Log = $Log;
-        $this->timeStampFormat = $timeStampFormat;
+        $this->timestampFormat = $timeStampFormat;
     }
 
     /**
