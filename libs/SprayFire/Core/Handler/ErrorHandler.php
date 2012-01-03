@@ -56,11 +56,28 @@ class ErrorHandler extends \SprayFire\Logger\CoreObject {
             return false;
         }
 
-        $errorMessage = 'message:=' . $message;
+        $normalizeSeverity = function() use ($severity) {
+            $severityMap = array(
+                E_WARNING => 'E_WARNING',
+                E_NOTICE => 'E_NOTICE',
+                E_USER_ERROR => 'E_USER_ERROR',
+                E_USER_WARNING => 'E_USER_WARNING',
+                E_USER_NOTICE => 'E_USER_NOTICE',
+                E_USER_DEPRECATED => 'E_USER_DEPRECATED',
+                E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
+                E_DEPRECATED => 'E_DEPRECATED'
+            );
+            if (\array_key_exists($severity, $severityMap)) {
+                return $severityMap[$severity];
+            }
+            return 'E_UNKOWN_SEVERITY';
+        };
+
+        $errorMessage = 'severity:=' . $normalizeSeverity() . ' message:=' . $message;
         $this->log($errorMessage);
         $index = \count($this->trappedErrors);
         $this->trappedErrors[$index] = array();
-        $this->trappedErrors[$index]['severity'] = $severity;
+        $this->trappedErrors[$index]['severity'] = $normalizeSeverity();
         $this->trappedErrors[$index]['message'] = $message;
         $this->trappedErrors[$index]['file'] = $file;
         $this->trappedErrors[$index]['line'] = $line;
