@@ -54,7 +54,7 @@ class ClassLoader {
         if (!isset($path)) {
             return false;
         }
-        $path .= '/' . $this->convertNamespacedClassToFilePath($className);
+        $path .= $this->convertNamespacedClassToFilePath($className);
         if (\file_exists($path)) {
             return (boolean) include $path;
         }
@@ -99,9 +99,7 @@ class ClassLoader {
      * @return The complete path to the class
      */
     protected function convertNamespacedClassToFilePath($className) {
-        $path = \str_replace('\\', '/', $className);
-        $path .= '.php';
-        return $path;
+        return '/' . \str_replace('\\', '/', $className) . '.php';
     }
 
     /**
