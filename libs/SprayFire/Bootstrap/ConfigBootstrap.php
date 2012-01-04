@@ -74,10 +74,10 @@ class ConfigBootstrap extends \SprayFire\Logger\CoreObject implements \SprayFire
      * @param $configInfo An array of configuration information to create objects
      * @throws \SprayFire\Exception\FatalRuntimeException
      */
-    public function __construct(\SprayFire\Logger\Log $Log, array $configInfo) {
+    public function __construct(\SprayFire\Logger\Log $Log, array $configInfo, $configInterface = '\\SprayFire\\Config\\Configuration') {
         parent::__construct($Log);
         try {
-            $ConfigReflection = new \ReflectionClass('\\SprayFire\\Config\\Configuration');
+            $ConfigReflection = new \ReflectionClass($configInterface);
             $Map = new \SprayFire\Core\Structure\RestrictedMap($ConfigReflection);
         } catch (\ReflectionException $ReflectExc) {
             $this->log('We were unable to load the \\SprayFire\\Config\\Configuration interface, unable to create the appropriate configuration objects.');
