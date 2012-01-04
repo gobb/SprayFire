@@ -43,14 +43,6 @@ namespace SprayFire\Core\Structure;
 interface ObjectMap extends \Traversable, \Countable {
 
     /**
-     * @brief Return an Object if one exists for the given key or null.
-     *
-     * @param $key string
-     * @return SprayFire.Core.Object
-     */
-    public function getObject($key);
-
-    /**
      * @brief Assigns the passed \a $Object to the given \a $key if
      * the key exists the value it stores will be overwritten by the new
      * \a $Object.
@@ -69,6 +61,28 @@ interface ObjectMap extends \Traversable, \Countable {
      * @throws InvalidArgumentException
      */
     public function setObject($key, \SprayFire\Core\Object $Object);
+
+    /**
+     * @brief Return an Object if one exists for the given key or null.
+     *
+     * @param $key string
+     * @return SprayFire.Core.Object
+     */
+    public function getObject($key);
+
+    /**
+     * @brief Return the index for \a $Object or false if the object does
+     * not exist in the storage.
+     *
+     * @details
+     * The value returned from this method is likely to be a string as compared
+     * to a numeric index; ultimately however it will return whatever index
+     * value was set for the \a $Object.
+     *
+     * @param $Object SprayFire.Core.Object
+     * @return mixed
+     */
+    public function getKey(\SprayFire\Core\Object $Object);
 
     /**
      * @brief Returns a boolean value indicating whether the \a $Object is
@@ -99,21 +113,7 @@ interface ObjectMap extends \Traversable, \Countable {
      * @param $key string
      * @return void
      */
-    public function removeObject($key);
-
-    /**
-     * @brief Return the index for \a $Object or false if the object does
-     * not exist in the storage.
-     *
-     * @details
-     * The value returned from this method is likely to be a string as compared
-     * to a numeric index; ultimately however it will return whatever index
-     * value was set for the \a $Object.
-     *
-     * @param $Object SprayFire.Core.Object
-     * @return mixed
-     */
-    public function indexOf(\SprayFire\Core\Object $Object);
+    public function removeKey($key);
 
     /**
      * @return boolean
