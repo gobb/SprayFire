@@ -81,7 +81,16 @@ interface ObjectMap extends \Traversable, \Countable {
      * @param $Object SprayFire.Core.Object
      * @return boolean true if \a $Object is stored; false if it isn't
      */
-    public function contains(\SprayFire\Core\Object $Object);
+    public function containsObject(\SprayFire\Core\Object $Object);
+
+    /**
+     * @brief Returns a boolean value indicating whether the \a $key exists and
+     * has an object associated with it.
+     *
+     * @param $key The string ID for the object to check
+     * @return boolean true if \a $key has an object associated with it; false if it doesn't
+     */
+    public function containsKey($key);
 
     /**
      * @brief Remove the object associated with \a $key, there is no need
