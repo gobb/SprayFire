@@ -29,4 +29,10 @@
       <log type="coverage-clover" target="/Users/charlessprayberry/Desktop/Projects/SprayFire/tests/coverage-clover.xml"/>
       <log type="testdox-html" target="/Users/charlessprayberry/Desktop/Projects/SprayFire/tests/testdox.html"/>
     </logging>
+    <filter>
+        <blacklist>
+            <directory suffix=".php">/Applications/NetBeans/NetBeans 7.0.1.app/Contents/Resources/NetBeans/php/phpunit</directory>
+        </blacklist>
+    </filter>
+
 </phpunit>
