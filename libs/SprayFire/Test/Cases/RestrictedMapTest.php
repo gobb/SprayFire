@@ -32,6 +32,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
         $initiationSize = \count($Storage);
         $this->assertSame($expectedInitiationSize, $initiationSize);
         $this->assertTrue($Storage->isEmpty());
+        $this->assertFalse($Storage->containsKey('object-one'));
 
         $FirstAdd = new \SprayFire\Test\Helpers\TestObject();
         $Storage->setObject('object-one', $FirstAdd);
@@ -40,6 +41,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
         $sizeAfterFirstAdd = \count($Storage);
         $this->assertSame($expectedSizeAfterFirstAdd, $sizeAfterFirstAdd);
         $this->assertFalse($Storage->isEmpty());
+        $this->assertTrue($Storage->containsKey('object-one'));
 
         $expectedFirstAddIndex = 'object-one';
         $firstAddIndex = $Storage->indexOf($FirstAdd);
