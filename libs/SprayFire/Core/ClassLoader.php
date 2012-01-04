@@ -81,14 +81,14 @@ class ClassLoader {
      * if not we assume that it is in the app path.
      *
      * @param $namespace A top-level namespace that may exist in \a $namespaceMap
-     * @return string
+     * @return Directory for namespace if registered or null
      * @see SprayFire.Core.Directory
      */
     protected function getDirectoryForTopLevelNamespace($namespace) {
         if (isset($namespace) && \array_key_exists($namespace, $this->namespaceMap)) {
             return $this->namespaceMap[$namespace];
         }
-        return false;
+        return null;
     }
 
     /**
