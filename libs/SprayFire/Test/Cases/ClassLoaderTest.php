@@ -47,6 +47,11 @@ class ClassLoaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($ClassLoader->load('\\SprayFire\\Core\\NoExist'));
     }
 
+    public function testNoNamespaceClassLoad() {
+        $ClassLoader = new \SprayFire\Core\ClassLoader();
+        $this->assertFalse($ClassLoader->load('NoNamespaceClass'));
+    }
+
     public function testGettingRegisteredNamespaces() {
         $ClassLoader = new \SprayFire\Core\ClassLoader();
         $ClassLoader->registerNamespaceDirectory('SprayFire', \SPRAYFIRE_ROOT);
