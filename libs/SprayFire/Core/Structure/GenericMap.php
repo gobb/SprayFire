@@ -88,7 +88,7 @@ class GenericMap extends \SprayFire\Core\CoreObject implements \IteratorAggregat
      * @param $Object SprayFire.Core.Object
      * @return mixed \a $key associated with \a $Object or false on failure
      */
-    public function indexOf(\SprayFire\Core\Object $Object) {
+    public function getKey(\SprayFire\Core\Object $Object) {
         $index = false;
         foreach ($this->data as $key => $StoredObject) {
             if ($Object->equals($StoredObject)) {
@@ -109,7 +109,7 @@ class GenericMap extends \SprayFire\Core\CoreObject implements \IteratorAggregat
     /**
      * @param $key A string associated with a key
      */
-    public function removeObject($key) {
+    public function removeKey($key) {
         if (\array_key_exists($key, $this->data)) {
             unset($this->data[$key]);
         }
