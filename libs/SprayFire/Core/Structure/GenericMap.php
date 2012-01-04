@@ -45,8 +45,19 @@ class GenericMap extends \SprayFire\Core\CoreObject implements \IteratorAggregat
      * @param $Object SprayFire.Core.Object to be stored in Map
      * @return True if Map stores \a $Object or false if it doesn't
      */
-    public function contains(\SprayFire\Core\Object $Object) {
+    public function containsObject(\SprayFire\Core\Object $Object) {
         if ($this->indexOf($Object) === false) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param $key string representing an ID associated with an object
+     * @return true if map has a key with an object associated to it false if not
+     */
+    public function containsKey($key) {
+        if (!\array_key_exists($key, $this->data) || !isset($this->data[$key])) {
             return false;
         }
         return true;
