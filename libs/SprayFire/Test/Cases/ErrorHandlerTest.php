@@ -70,7 +70,16 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
 
         $expectedMessages = array();
         $expectedMessages[0]['timestamp'] = $timestamp;
-        $expectedMessages[0]['info'] = 'severity:=E_USER_NOTICE message:=Another error message';
+        $expectedMessages[0]['info'] = array(
+            'severity' => 'E_USER_NOTICE',
+            'message' => 'Another error message',
+            'file' => \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/Cases/ErrorHandlerTest.php',
+            'line' => 59,
+            'context' => array(
+                'Log' => $Log,
+                'ErrorHandler' => $ErrorHandler
+            )
+        );
         $logMessages = $Log->getMessages();
         $this->assertSame($expectedMessages, $logMessages);
     }
