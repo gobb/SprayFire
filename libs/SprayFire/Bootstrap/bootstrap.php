@@ -107,8 +107,7 @@ $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($ErrorLogger, $isDevMod
 \set_error_handler(array($ErrorHandler, 'trap'));
 
 foreach ($errors as $error) {
-    $errorMessage = 'severity:=' . $error['severity'] . ' message:=' . $error['message'];
-    $ErrorLogger->log(\date('M-d-Y H:i:s'), $errorMessage);
+    $ErrorHandler->trap($error['severity'], $error['message'], $error['file'], $error['line']);
 }
 
 $errors = null;
@@ -120,6 +119,8 @@ $Container->setObject('PrimaryConfig', $PrimaryConfig);
 $Container->setObject('RoutesConfig', $RoutesConfig);
 $Container->setObject('ErrorHandler', $ErrorHandler);
 if ($PrimaryConfig->{'development-mode'} === 'on') {
+    // we are adding this object in development mode in case the error handler implementation
+    // changes and does not provide access to trapped errros...this will.
     $Container->setObject('ErrorLogger', $ErrorLogger);
 }
 
