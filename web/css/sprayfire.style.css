@@ -3,11 +3,6 @@ html {
     font-size: 100%;
 }
 
-h1 {
-    line-height: 75px;
-    font-size: 2.5em;
-}
-
 code {
     padding: 1px;
     background-color: white;
@@ -34,6 +29,12 @@ p {
 #header {
     margin-bottom: .5em;
     height: 75px;
+}
+
+#header ul {
+    list-style: none;
+    font-size: .85em;
+    margin-bottom: .75em;
 }
 
 #body {

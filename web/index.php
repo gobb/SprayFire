@@ -99,7 +99,7 @@ $SprayFireContainer = include $libsPath . '/SprayFire/Bootstrap/bootstrap.php';
 $installDir = \basename($installPath);
 
 $styleCss = $Directory->getUrlPath('css','sprayfire.style.css');
-$sprayFireLogo = $Directory->getUrlPath('images', 'sprayfire-logo-medium.png');
+$sprayFireLogo = $Directory->getUrlPath('images', 'sprayfire-logo-bar-75.png');
 $errors = 'Errors: ' . \print_r($errors, true);
 $memUsage = 'Memory usage: ' . \memory_get_peak_usage() / (1000*1024) . ' mb';
 $runTime = 'Execution time: ' . (\microtime(true) - $startTime) . ' seconds';
@@ -114,8 +114,14 @@ echo <<<HTML
         <body>
             <div id="content">
                 <div id="header">
-                    <img src="{$sprayFireLogo}" id="sprayfire-logo" alt="SprayFire logo" width="75" height="75" />
-                    <h1><span class="sprayfire-orange">Spray</span><span class="sprayfire-red">Fire</span> {$PrimaryConfig->SprayFire->version}</h1>
+                    <h1><img src="{$sprayFireLogo}" id="sprayfire-logo" alt="SprayFire logo" width="200" height="75" /></h1>
+                    <ul>
+                        <li>ver: {$PrimaryConfig->SprayFire->version}</li>
+                        <li>repo: <a href="http://www.github.com/cspray/SprayFire">http://www.github.com/cspray/SprayFire/</a></li>
+                        <li>wiki: <a href="http://www.github.com/cspray/SprayFire/wiki/">http://www.github.com/cspray/SprayFire/wiki/</a></li>
+                        <li>api docs: coming soon!</li>
+
+                    </ul>
                 </div>
 
                 <div id="body">
