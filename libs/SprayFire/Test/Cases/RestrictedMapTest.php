@@ -47,14 +47,14 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
 
         $SecondAdd = new \SprayFire\Test\Helpers\TestObject();
 
-        $this->assertFalse($Storage->contains($SecondAdd));
+        $this->assertFalse($Storage->containsObject($SecondAdd));
 
         $Storage->setObject('object-two', $SecondAdd);
 
         $expectedSizeAfterSecondAdd = 2;
         $sizeAfterSecondAdd = $Storage->count();
         $this->assertSame($expectedSizeAfterSecondAdd, $sizeAfterSecondAdd);
-        $this->assertTrue($Storage->contains($SecondAdd));
+        $this->assertTrue($Storage->containsObject($SecondAdd));
 
         $SecondFromGetObject = $Storage->getObject('object-two');
         $this->assertSame($SecondAdd, $SecondFromGetObject);
@@ -67,7 +67,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
             $exceptionThrown = true;
         }
         $this->assertTrue($exceptionThrown);
-        $this->assertFalse($Storage->contains($InvalidObject));
+        $this->assertFalse($Storage->containsObject($InvalidObject));
         $this->assertTrue((\count($Storage)) === 2);
     }
 
@@ -96,8 +96,8 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
 
         $Storage->setObject('two', $Five);
 
-        $this->assertTrue($Storage->contains($Five));
-        $this->assertFalse($Storage->contains($Two));
+        $this->assertTrue($Storage->containsObject($Five));
+        $this->assertFalse($Storage->containsObject($Two));
 
         $loopRan = false;
         $expectedKeys = array('one', 'three', 'four');
