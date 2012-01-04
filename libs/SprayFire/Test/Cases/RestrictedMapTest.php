@@ -44,7 +44,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($Storage->containsKey('object-one'));
 
         $expectedFirstAddIndex = 'object-one';
-        $firstAddIndex = $Storage->indexOf($FirstAdd);
+        $firstAddIndex = $Storage->getKey($FirstAdd);
         $this->assertSame($expectedFirstAddIndex, $firstAddIndex);
 
         $SecondAdd = new \SprayFire\Test\Helpers\TestObject();
@@ -110,7 +110,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
                 $loopRan = true;
             }
             if ($key === 'two') {
-                $Storage->removeObject('two');
+                $Storage->removeKey('two');
                 continue;
             }
             $this->assertSame($expectedKeys[$i], $key, 'The value of key is ' . $key . ' and the expected key is ' . $expectedKeys[$i]);
