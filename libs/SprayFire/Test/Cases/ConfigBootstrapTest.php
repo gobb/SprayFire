@@ -28,7 +28,7 @@ namespace SprayFire\Test\Cases;
  */
 class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
 
-    public function testConfigBootstrap() {
+    public function testValidConfigBootstrap() {
 
         $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/Config/json/test-config.json';
 
@@ -61,6 +61,54 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('tide', $SprayFireRollTide->roll);
         $this->assertSame('Roll Tide!', $PrimaryConfig->app->{'deep-one'}->{'deep-two'}->{'deep-three'}->value);
 
+    }
+
+    public function testInvalidConfigBootstrapWithNonExistentInterface() {
+        $exceptionThrown = false;
+        $Log = new \SprayFire\Logger\DevelopmentLogger();
+        $timestamp = '';
+        try {
+            $timestamp = \date('M-d-Y H:i:s');
+            $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, array(), '\\Some\\Nonexistent\\Interface');
+        } catch (\SprayFire\Exception\FatalRuntimeException $FatalRunExc) {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+        $messages = $Log->getMessages();
+        $message = $messages[0];
+        $this->assertSame($timestamp, $message['timestamp']);
+        $this->assertSame('Unable to load \\Some\\Nonexistent\\Interface, do not have resources to create appropriate configuration objects.', $message['info']);
+    }
+
+    public function testInvalidConfigFilePassed() {
+        $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/Config/json/no-exist.json';
+
+        $configs = array(
+            array(
+                'config-object' => '\\SprayFire\\Config\\ArrayConfig',
+                'config-data' => array('sprayfire' => 'best', 'roll' => 'tide'),
+                'map-key' => 'SprayFireRollTide'
+            ),
+            array(
+                'config-object' => '\\SprayFire\\Config\\JsonConfig',
+                'config-data' => $configPath,
+                'map-key' => 'PrimaryConfig'
+            )
+        );
+
+        $Log = new \SprayFire\Logger\DevelopmentLogger();
+        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $configs);
+        $Bootstrap->runBootstrap();
+        $timestamp = \date('M-d-Y H:i:s');
+        $ConfigMap = $Bootstrap->getConfigs();
+
+        $this->assertTrue($ConfigMap->containsKey('SprayFireRollTide'));
+        $this->assertFalse($ConfigMap->containsKey('PrimaryConfig'));
+
+        $expectedLogMessages = array(array('timestamp' => $timestamp, 'info' => 'Unable to instantiate the Configuration object, PrimaryConfig, or it does not implement Object interface.'));
+        $actualLogMessages = $Log->getMessages();
+
+        $this->assertSame($expectedLogMessages, $actualLogMessages);
     }
 
 }
