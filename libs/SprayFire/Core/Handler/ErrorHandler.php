@@ -75,11 +75,17 @@ class ErrorHandler extends \SprayFire\Logger\CoreObject {
 
         $intSeverity = $severity;
         $severity = $this->normalizeSeverity($severity);
-        $this->logMessage($severity, $message);
+
         $data = \compact('severity', 'message', 'file', 'line');
         if ($this->developmentModeOn) {
             $data['context'] = $context;
+            // We are using this method to log the info because we want more information
+            // about errors if we're in development mode.
+            $this->log($data);
+        } else {
+            $this->logMessage($severity, $message);
         }
+
         $index = \count($this->trappedErrors);
         $this->trappedErrors[$index] = $data;
 
