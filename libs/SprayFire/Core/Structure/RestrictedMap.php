@@ -30,25 +30,22 @@ namespace SprayFire\Core\Structure;
  * Allows for the associating of framework objects with a key and the retrieval
  * of that object using that key.  Also allows for the removal of an object
  * associated with a key and iterating over the stored objects.
+ *
+ * @uses SprayFire.Core.Object
+ * @uses SprayFire.Core.GenericMap
+ * @uses SprayFire.Core.ObjectTypeValidator
  */
 class RestrictedMap extends \SprayFire\Core\Structure\GenericMap {
 
-    /**
-     * @brief Holds a ReflectionClass of the data type that should be implemented by objects
-     * being added to this storage.
-     *
-     * @property ReflectionClass
-     */
-    protected $ReflectedParentType;
+    protected $Validator;
 
-    /**
-     * @brief Will initiate the object storage as an empty array and assign the passed
-     * ReflectionClass to the appropriate class property.
-     *
-     * @param $ReflectedObjectType ReflectionClass
-     */
-    public function __construct(\ReflectionClass $ReflectedObjectType) {
-        $this->ReflectedParentType = $ReflectedObjectType;
+    public function __construct($namespacedType) {
+        try {
+            $ReflectedType = new \ReflectionClass($namespacedType);
+            $this->Validator = new \SprayFire\Core\ObjectTypeValidator($ReflectedType);
+        } catch (\ReflectionException $ReflectExc) {
+            throw new \SprayFire\Exception\TypeNotFoundException('The type passed, ' . $namespacedType . ', could not be found or loaded.');
+        }
     }
 
     /**
@@ -68,58 +65,10 @@ class RestrictedMap extends \SprayFire\Core\Structure\GenericMap {
      * @return SprayFire.Core.Object
      */
     public function setObject($key, \SprayFire\Core\Object $Object) {
-        $this->throwExceptionIfObjectNotParentType($Object);
+        $this->Validator->throwExceptionIfObjectNotParentType($Object);
         parent::setObject($key, $Object);
     }
 
-    /**
-     * @param $Object SprayFire.Core.Object
-     * @throws InvalidArgumentException
-     */
-    protected function throwExceptionIfObjectNotParentType(\SprayFire\Core\Object $Object) {
-        if (!\is_object($Object) || !$this->isObjectParentType($Object)) {
-            throw new \InvalidArgumentException('The value being set does not properly implement the parent type for this store.');
-        }
-    }
 
-    /**
-     * @brief Determines whether or not the passed \a $Object \a implements
-     * the parent type set by the constructor dependency.
-     *
-     * @details
-     * The objet is considered valid if any of the following are true:
-     *
-     * 1) Implements the interface passed in the constructor
-     * 2) Is an instance of the class passed in the constructor
-     * 3) Is a subclass of the class passed in the constructor
-     *
-     * @param $Object SprayFire.Core.Object
-     * @return boolean
-     */
-    protected function isObjectParentType(\SprayFire\Core\Object $Object) {
-        $isValid = false;
-        $parentName = $this->ReflectedParentType->getName();
-        try {
-            $ReflectedObject = new \ReflectionClass($Object);
-            if ($this->ReflectedParentType->isInterface()) {
-                if ($ReflectedObject->implementsInterface($parentName)) {
-                    $isValid = true;
-                }
-            } else {
-                if ($ReflectedObject->getName() === $parentName || $ReflectedObject->isSubclassOf($parentName)) {
-                    $isValid = true;
-                }
-            }
-        } catch (\ReflectionException $ReflectionExc) {
-            // @codeCoverageIgnoreStart
-            // The possibility of this being thrown should be very, very slim as
-            // a properly instantiated object must be passed, and thus must be
-            // available for reflection...this is a fail safe to not leak an
-            // unnecessary exception
-            error_log($ReflectionExc->getMessage());
-            // @codeCoverageIgnoreEnd
-        }
-        return $isValid;
-    }
 
 }
