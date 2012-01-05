@@ -40,6 +40,26 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertSame(0, $Collection->getIndex($ObjectOne));
         $this->assertSame(1, $Collection->getIndex($ObjectTwo));
+        $this->assertTrue($Collection->containsObject($ObjectOne));
+    }
+
+    public function testAddingTooManyObjects() {
+        $Collection = new \SprayFire\Core\Structure\GenericCollection(2);
+        $ObjectOne = new \SprayFire\Test\Helpers\TestObject();
+        $ObjectTwo = new \SprayFire\Test\Helpers\TestObject();
+        $ObjectThree = new \SprayFire\Test\Helpers\TestObject();
+        $ObjectFour = new \SprayFire\Test\Helpers\TestObject();
+
+        $this->assertSame(2, $Collection->getNumberOfBuckets());
+        $Collection->addObject($ObjectOne);
+        $Collection->addObject($ObjectTwo);
+        $this->assertSame(2, \count($Collection));
+        $this->assertSame(4, $Collection->getNumberOfBuckets());
+        $Collection->addObject($ObjectThree);
+        $Collection->addObject($ObjectFour);
+        $this->assertSame(3, $Collection->getIndex($ObjectFour));
+        $this->assertSame($ObjectFour, $Collection->getObject(3));
+        $this->assertSame(8, $Collection->getNumberOfBuckets());
     }
 
 }
