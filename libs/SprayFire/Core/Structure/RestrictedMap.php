@@ -37,8 +37,19 @@ namespace SprayFire\Core\Structure;
  */
 class RestrictedMap extends \SprayFire\Core\Structure\GenericMap {
 
+    /**
+     * @brief A SprayFire.Core.ObjectValidator used to ensure objects added to the
+     * Map are of the correct type.
+     *
+     * @property $TypeValidator
+     */
     protected $TypeValidator;
 
+    /**
+     * @param $parentType The complete name of the class or interface that should
+     *        be stored in this Map.
+     * @throws TypeNotFoundException if the \a $parentType could not be loaded
+     */
     public function __construct($parentType) {
         try {
             $ReflectedType = new \ReflectionClass($parentType);
@@ -68,7 +79,5 @@ class RestrictedMap extends \SprayFire\Core\Structure\GenericMap {
         $this->TypeValidator->throwExceptionIfObjectNotParentType($Object);
         parent::setObject($key, $Object);
     }
-
-
 
 }
