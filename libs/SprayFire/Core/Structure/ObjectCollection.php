@@ -52,7 +52,7 @@ interface ObjectCollection extends \Countable, \Traversable {
 
     /**
      * @param $index An unsigned integer representing the object index to remove
-     * @return true if the object is removed, false it is not
+     * @throws InvalidArgumentException If the index is not an integer or valid index for the collection
      */
     public function removeIndex($index);
 
@@ -61,7 +61,6 @@ interface ObjectCollection extends \Countable, \Traversable {
      * the collection.
      *
      * @param $Object SprayFire.Core.Object object to remove all copies of
-     * @return true if all objects equal to \a $Object are removed, false if not
      */
     public function removeObject(\SprayFire\Core\Object $Object);
 
