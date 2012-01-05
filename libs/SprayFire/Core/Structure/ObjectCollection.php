@@ -29,9 +29,9 @@ namespace SprayFire\Core\Structure;
  *
  * @details
  * Please note that there should be 2 ways to count a Collection.  The first way,
- * which should be returned when you \count($Collection) or invoke $Collection->count(),
- * should return the actual number of objects stored in the collection.  The second
- * way, which is returned by $Collection->getNumberOfBuckets() should return the
+ * returned when you \count($Collection) or invoke $Collection->count(), should
+ * return the actual number of objects stored in the collection.  The second way,
+ * which is returned by $Collection->getNumberOfBuckets() should return the
  * available number of buckets for this collection.
  *
  */
