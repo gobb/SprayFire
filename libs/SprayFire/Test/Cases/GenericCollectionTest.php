@@ -30,9 +30,12 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     public function testAddingObjects() {
         $Collection = new \SprayFire\Core\Structure\GenericCollection();
 
+        $this->assertTrue($Collection->isEmpty());
+
         $ObjectOne = new \SprayFire\Test\Helpers\TestObject();
         $Collection->addObject($ObjectOne);
         $this->assertSame(1, $Collection->count());
+        $this->assertFalse($Collection->isEmpty());
 
         $ObjectTwo = new \SprayFire\Test\Helpers\TestObject();
         $Collection->addObject($ObjectTwo);
@@ -54,12 +57,26 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $Collection->addObject($ObjectOne);
         $Collection->addObject($ObjectTwo);
         $this->assertSame(2, \count($Collection));
-        $this->assertSame(4, $Collection->getNumberOfBuckets());
         $Collection->addObject($ObjectThree);
+        $this->assertSame(4, $Collection->getNumberOfBuckets());
         $Collection->addObject($ObjectFour);
         $this->assertSame(3, $Collection->getIndex($ObjectFour));
         $this->assertSame($ObjectFour, $Collection->getObject(3));
-        $this->assertSame(8, $Collection->getNumberOfBuckets());
+    }
+
+    public function testGettingObjectWithStringIndex() {
+        $Collection = new \SprayFire\Core\Structure\GenericCollection();
+        $exceptionThrown = false;
+        try {
+            $Collection->getObject('map-key');
+        } catch (\InvalidArgumentException $InvalArgExc) {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
+    public function testGettingIndexOfNonExistentObject() {
+        $Collection = new \SprayFire\Core\Structure\GenericCollection();
     }
 
 }
