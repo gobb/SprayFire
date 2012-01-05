@@ -21,6 +21,7 @@
  * @author Charles Sprayberry cspray at gmail dot com
  * @copyright Copyright (c) 2011,2012 Charles Sprayberry
  */
+
 namespace SprayFire\Bootstrap;
 
 /**
@@ -77,9 +78,8 @@ class ConfigBootstrap extends \SprayFire\Logger\CoreObject implements \SprayFire
     public function __construct(\SprayFire\Logger\Log $Log, array $configInfo, $configInterface = '\\SprayFire\\Config\\Configuration') {
         parent::__construct($Log);
         try {
-            $ConfigReflection = new \ReflectionClass($configInterface);
-            $Map = new \SprayFire\Core\Structure\RestrictedMap($ConfigReflection);
-        } catch (\ReflectionException $ReflectExc) {
+            $Map = new \SprayFire\Core\Structure\RestrictedMap($configInterface);
+        } catch (\SprayFire\Exception\TypeNotFoundException $TypeExc) {
             $this->log('Unable to load ' . $configInterface . ', do not have resources to create appropriate configuration objects.');
             // we are throwing an exception here because if the Configuration interface
             // could not be loaded for some reason the Configuration objects implementing
