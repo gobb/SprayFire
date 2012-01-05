@@ -35,4 +35,25 @@ class RestrictedSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(2, $Set->count());
     }
 
+    public function testAddingInvalidObject() {
+        $Set = new \SprayFire\Core\Structure\RestrictedSet('\\SprayFire\\Test\\Helpers\\TestObject');
+        $exceptionThrown = false;
+        try {
+
+        } catch (\InvalidArgumentException $InvalArgExc) {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
+    public function testCreatingSetWithImproperType() {
+        $exceptionThrown = false;
+        try {
+
+        } catch (\SprayFire\Exception\TypeNotFoundException $TypeNotFoundExc) {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
 }
