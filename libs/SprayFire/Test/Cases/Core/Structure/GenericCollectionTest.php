@@ -45,6 +45,10 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(0, $Collection->getIndex($ObjectOne));
         $this->assertSame(1, $Collection->getIndex($ObjectTwo));
         $this->assertTrue($Collection->containsObject($ObjectOne));
+
+        $Collection->addObject($ObjectTwo);
+        $this->assertSame(3, \count($Collection));
+        $this->assertSame($ObjectTwo, $Collection->getObject(2));
     }
 
     public function testAddingTooManyObjects() {
