@@ -77,6 +77,37 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
 
     public function testGettingIndexOfNonExistentObject() {
         $Collection = new \SprayFire\Core\Structure\GenericCollection();
+        $ObjectOne = new \SprayFire\Test\Helpers\TestObject();
+        $this->assertFalse($Collection->getIndex($ObjectOne));
+    }
+
+    public function testCollectionContainsNonExistentObject() {
+        $Collection = new \SprayFire\Core\Structure\GenericCollection();
+        $ObjectOne = new \SprayFire\Test\Helpers\TestObject();
+        $ObjectTwo = new \SprayFire\Test\Helpers\TestObject();
+        $ObjectThree = new \SprayFire\Test\Helpers\TestObject();
+        $Collection->addObject($ObjectOne);
+        $Collection->addObject($ObjectTwo);
+        $this->assertFalse($Collection->containsObject($ObjectThree));
+    }
+
+    public function testRemovingAnIndex() {
+        $Collection = new \SprayFire\Core\Structure\GenericCollection();
+        $ObjectOne = new \SprayFire\Test\Helpers\TestObject();
+        $ObjectTwo = new \SprayFire\Test\Helpers\TestObject();
+        $Collection->addObject($ObjectOne);
+        $Collection->addObject($ObjectTwo);
+
+        $this->assertTrue($Collection->containsObject($ObjectOne));
+        $this->assertTrue($Collection->containsObject($ObjectTwo));
+
+        $Collection->removeIndex(0);
+        $this->assertFalse($Collection->containsObject($ObjectOne));
+        $this->assertSame(1, $Collection->count());
+    }
+
+    public function testRemovingAnObject() {
+        
     }
 
 }
