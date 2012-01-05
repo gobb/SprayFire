@@ -25,7 +25,7 @@ namespace SprayFire\Test\Cases;
 class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
 
     public function testBasicObjectStorage() {
-        $ParentType = new \ReflectionClass('\\SprayFire\\Test\\Helpers\\TestObject');
+        $ParentType = '\\SprayFire\\Test\\Helpers\\TestObject';
         $Storage = new \SprayFire\Core\Structure\RestrictedMap($ParentType);
 
         $expectedInitiationSize = 0;
@@ -74,7 +74,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testInterfaceObjectStorage() {
-        $Type = new \ReflectionClass('\\SprayFire\\Core\\Structure\\Overloadable');
+        $Type = '\\SprayFire\\Core\\Structure\\Overloadable';
         $Storage = new \SprayFire\Core\Structure\RestrictedMap($Type);
 
         $Storage->setObject('key', new \SprayFire\Core\Structure\ImmutableStorage(array()));
@@ -82,7 +82,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testLoopingThroughObjectStore() {
-        $Type = new \ReflectionClass('\\SprayFire\\Core\\Object');
+        $Type = '\\SprayFire\\Core\\Object';
         $Storage = new \SprayFire\Core\Structure\RestrictedMap($Type);
 
         $One = new \SprayFire\Test\Helpers\TestObject();
@@ -129,7 +129,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
         $key = null;
         $Object = new \SprayFire\Test\Helpers\TestObject;
 
-        $Type = new \ReflectionClass($Object);
+        $Type = '\\SprayFire\\Test\\Helpers\\TestObject';
         $Storage = new \SprayFire\Core\Structure\RestrictedMap($Type);
 
         $Storage->setObject($key, $Object);
@@ -137,7 +137,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
 
     public function testGettingNonexistentKey() {
         $key = 'noexist';
-        $Type = new \ReflectionClass('\\SprayFire\\Core\\Object');
+        $Type = '\\SprayFire\\Core\\Object';
         $Storage = new \SprayFire\Core\Structure\RestrictedMap($Type);
 
         $Storage->setObject('i-do-exist', new \SprayFire\Test\Helpers\TestObject());
