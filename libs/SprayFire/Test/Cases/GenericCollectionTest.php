@@ -107,7 +107,18 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testRemovingAnObject() {
-        
+        $Collection = new \SprayFire\Core\Structure\GenericCollection();
+        $ObjectOne = new \SprayFire\Test\Helpers\TestObject();
+        $ObjectTwo = new \SprayFire\Test\Helpers\TestObject();
+        $Collection->addObject($ObjectOne);
+        $Collection->addObject($ObjectTwo);
+
+        $this->assertTrue($Collection->containsObject($ObjectOne));
+        $this->assertTrue($Collection->containsObject($ObjectTwo));
+
+        $Collection->removeObject($ObjectTwo);
+        $this->assertFalse($Collection->containsObject($ObjectTwo));
+        $this->assertSame(1, $Collection->count());
     }
 
 }
