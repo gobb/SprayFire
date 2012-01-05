@@ -28,7 +28,7 @@ namespace SprayFire\Test\Cases;
  */
 class GenericSetTest extends \PHPUnit_Framework_TestCase {
 
-    public function testAddingValidObjectToCollection() {
+    public function testAddingInvalidObjectToSet() {
 
         $Set = new \SprayFire\Core\Structure\GenericSet('\\SprayFire\\Test\\Helpers\\TestObject');
         $exceptionThrown = false;
@@ -41,9 +41,20 @@ class GenericSetTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertSame(1, \count($Set));
         $this->assertTrue($exceptionThrown);
-
     }
 
-    
+    public function testSettingParentTypeToNonExistent() {
+
+        $exceptionThrown = false;
+        try {
+            $Set = new \SprayFire\Core\Structure\GenericSet('NonExistentType');
+        } catch (\SprayFire\Exception\TypeNotFoundException $TypeExc) {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
+
+
 
 }
