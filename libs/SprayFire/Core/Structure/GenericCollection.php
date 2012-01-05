@@ -67,13 +67,16 @@ class GenericCollection extends \SprayFire\Core\CoreObject implements \IteratorA
      * @brief Adds an object to the collection, assigning the current index.
      *
      * @param $Object \SprayFire\Core\Object An object to add to the collection
+     * @return The index of \a $Object or false if \a $Object was not added
      */
     public function addObject(\SprayFire\Core\Object $Object) {
         if ($this->index === $this->data->count()) {
             $this->doubleSizeOfCollection();
         }
-        $this->data[$this->index] = $Object;
+        $objectIndex = $this->index;
+        $this->data[$objectIndex] = $Object;
         $this->index++;
+        return $objectIndex;
     }
 
     protected function doubleSizeOfCollection() {
