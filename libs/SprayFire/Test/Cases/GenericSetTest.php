@@ -35,7 +35,7 @@ class GenericSetTest extends \PHPUnit_Framework_TestCase {
         $Set->addObject(new \SprayFire\Test\Helpers\TestObject());
         try {
             $Set->addObject($Set);
-        } catch (\SprayFire\Exception\TypeNotFoundException $TypeExc) {
+        } catch (\InvalidArgumentException $InvalArgExc) {
             $exceptionThrown = true;
         }
 
@@ -43,5 +43,7 @@ class GenericSetTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($exceptionThrown);
 
     }
+
+    
 
 }
