@@ -37,14 +37,14 @@ namespace SprayFire\Core\Structure;
  */
 class RestrictedMap extends \SprayFire\Core\Structure\GenericMap {
 
-    protected $Validator;
+    protected $TypeValidator;
 
-    public function __construct($namespacedType) {
+    public function __construct($parentType) {
         try {
-            $ReflectedType = new \ReflectionClass($namespacedType);
-            $this->Validator = new \SprayFire\Core\ObjectTypeValidator($ReflectedType);
+            $ReflectedType = new \ReflectionClass($parentType);
+            $this->TypeValidator = new \SprayFire\Core\ObjectTypeValidator($ReflectedType);
         } catch (\ReflectionException $ReflectExc) {
-            throw new \SprayFire\Exception\TypeNotFoundException('The type passed, ' . $namespacedType . ', could not be found or loaded.');
+            throw new \SprayFire\Exception\TypeNotFoundException('The type passed, ' . $parentType . ', could not be found or loaded.');
         }
     }
 
@@ -65,7 +65,7 @@ class RestrictedMap extends \SprayFire\Core\Structure\GenericMap {
      * @return SprayFire.Core.Object
      */
     public function setObject($key, \SprayFire\Core\Object $Object) {
-        $this->Validator->throwExceptionIfObjectNotParentType($Object);
+        $this->TypeValidator->throwExceptionIfObjectNotParentType($Object);
         parent::setObject($key, $Object);
     }
 
