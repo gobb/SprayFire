@@ -28,6 +28,12 @@ namespace SprayFire\Test\Cases\Core\Structure;
  */
 class RestrictedCollectionTest extends \PHPUnit_Framework_TestCase {
 
+    public function testAddingValidObjectsToCollection() {
+        $Collection = new \SprayFire\Core\Structure\RestrictedCollection('\\SprayFire\\Test\\Helpers\\TestObject');
+        $this->assertSame(0, $Collection->addObject(new \SprayFire\Test\Helpers\TestObject));
+        $this->assertSame(1, $Collection->count());
+    }
+
     public function testAddingInvalidObjectToCollection() {
         $Collection = new \SprayFire\Core\Structure\RestrictedCollection('\\SprayFire\\Test\\Helpers\\TestObject');
 
@@ -35,6 +41,16 @@ class RestrictedCollectionTest extends \PHPUnit_Framework_TestCase {
         try {
             $Collection->addObject($Collection);
         } catch (\InvalidArgumentException $InvalArgExc) {
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
+    public function testInvalidTypePassed() {
+        $exceptionThrown = false;
+        try {
+            $Collection = new \SprayFire\Core\Structure\RestrictedCollection('NonExistentClass');
+        } catch (\SprayFire\Exception\TypeNotFoundException $TypeExc) {
             $exceptionThrown = true;
         }
         $this->assertTrue($exceptionThrown);
