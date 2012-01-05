@@ -26,6 +26,14 @@ namespace SprayFire\Core\Structure;
 /**
  * @brief Represents the interface for a data structure that holds a numeric-indexed
  * collection of objects.
+ *
+ * @details
+ * Please note that there should be 2 ways to count a Collection.  The first way,
+ * which should be returned when you \count($Collection) or invoke $Collection->count(),
+ * should return the actual number of objects stored in the collection.  The second
+ * way, which is returned by $Collection->getNumberOfBuckets() should return the
+ * available number of buckets for this collection.
+ *
  */
 interface ObjectCollection extends \Countable, \Traversable {
 
@@ -70,6 +78,12 @@ interface ObjectCollection extends \Countable, \Traversable {
      * @return Numeric index of the object or false if the object does not exist in collection
      */
     public function getIndex(\SprayFire\Core\Object $Object);
+
+    /**
+     * @return An integer representing number of buckets, not necessarily the number
+     *         of stored objects in the collection.
+     */
+    public function getNumberOfBuckets();
 
     /**
      * @return true if the collection has no members, false if it does
