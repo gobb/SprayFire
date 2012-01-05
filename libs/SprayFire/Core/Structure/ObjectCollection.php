@@ -39,6 +39,7 @@ interface ObjectCollection extends \Countable, \Traversable {
 
     /**
      * @param $Object SprayFire.Core.Object to add to the collection
+     * @return The integer representing the index for \a $Object or false if object not added
      * @throws InvalidArgumentException if the object type for the collection should be restricted
      *         and the object type passed does not match the restricted type
      */
