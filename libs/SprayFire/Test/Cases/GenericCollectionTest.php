@@ -121,4 +121,30 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(1, $Collection->count());
     }
 
+    public function testIteratingOverCollection() {
+        $Collection = new \SprayFire\Core\Structure\GenericCollection();
+        $ObjectOne = new \SprayFire\Test\Helpers\TestObject();
+        $ObjectTwo = new \SprayFire\Test\Helpers\TestObject();
+        $ObjectThree = new \SprayFire\Test\Helpers\TestObject();
+        $ObjectFour = new \SprayFire\Test\Helpers\TestObject();
+
+        $Collection->addObject($ObjectOne);
+        $Collection->addObject($ObjectTwo);
+        $Collection->addObject($ObjectThree);
+        $Collection->addObject($ObjectFour);
+
+        $expectedObject = array($ObjectOne, $ObjectTwo, $ObjectThree, $ObjectFour);
+        $expectedIndexes = array(0, 1, 2, 3);
+        $i = 0;
+
+        foreach ($Collection as $index => $object) {
+            if (is_null($object)) {
+                continue;
+            }
+            $this->assertSame($expectedIndexes[$i], $index);
+            $this->assertSame($expectedObject[$i], $object);
+            $i++;
+        }
+    }
+
 }
