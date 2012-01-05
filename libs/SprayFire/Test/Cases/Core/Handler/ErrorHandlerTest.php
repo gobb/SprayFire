@@ -21,7 +21,7 @@
  * @copyright Copyright (c) 2011, Charles Sprayberry
  */
 
-namespace SprayFire\Test\Cases;
+namespace SprayFire\Test\Cases\Core\Handler;
 
 /**
  * @brief
@@ -39,7 +39,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $expectedErrorData = array();
         $expectedErrorData[0]['severity'] = 'E_USER_WARNING';
         $expectedErrorData[0]['message'] = 'The first error message';
-        $expectedErrorData[0]['file'] = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/Cases/ErrorHandlerTest.php';
+        $expectedErrorData[0]['file'] = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/Cases/Core/Handler/ErrorHandlerTest.php';
         $expectedErrorData[0]['line'] = 36;
 
         $this->assertSame($expectedErrorData, $ErrorHandler->getTrappedErrors());
@@ -62,7 +62,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $expectedErrorData = array();
         $expectedErrorData[0]['severity'] = 'E_USER_NOTICE';
         $expectedErrorData[0]['message'] = 'Another error message';
-        $expectedErrorData[0]['file'] = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/Cases/ErrorHandlerTest.php';
+        $expectedErrorData[0]['file'] = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/Cases/Core/Handler/ErrorHandlerTest.php';
         $expectedErrorData[0]['line'] = 59;
         $expectedErrorData[0]['context'] = array('Log' => $Log, 'ErrorHandler' => $ErrorHandler);
 
@@ -73,7 +73,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $expectedMessages[0]['info'] = array(
             'severity' => 'E_USER_NOTICE',
             'message' => 'Another error message',
-            'file' => \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/Cases/ErrorHandlerTest.php',
+            'file' => \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/Cases/Core/Handler/ErrorHandlerTest.php',
             'line' => 59,
             'context' => array(
                 'Log' => $Log,

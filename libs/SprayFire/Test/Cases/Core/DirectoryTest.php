@@ -20,7 +20,7 @@
  * @copyright Copyright (c) 2011, Charles Sprayberry OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
 
-namespace SprayFire\Test\Cases;
+namespace SprayFire\Test\Cases\Core;
 
 /**
  *

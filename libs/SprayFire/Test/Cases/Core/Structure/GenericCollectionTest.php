@@ -20,7 +20,8 @@
  * @author Charles Sprayberry cspray at gmail dot com
  * @copyright Copyright (c) 2011, Charles Sprayberry
  */
-namespace SprayFire\Test\Cases;
+
+namespace SprayFire\Test\Cases\Core\Structure;
 
 /**
  * @brief
