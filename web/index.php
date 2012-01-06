@@ -84,6 +84,14 @@ $routesConfigFile = array('json', 'routes.json');
  */
 $errorLogFile = array('errors.txt');
 
+/**
+ * @brief This file should be located in the \a $webPath
+ *
+ * @var $serverErrorContent sub-directory and file name for content to be displayed
+ *      in case of a 500 Internal Server Error.
+ */
+$serverErrorContent = array('500.html');
+
 // PLEASE DO NOT CHANGE CODE BELOW THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING!
 // SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE
 
@@ -95,8 +103,6 @@ $SprayFireContainer = include $libsPath . '/SprayFire/Bootstrap/bootstrap.php';
  */
 
 // NOTE: The below code is a temporary measure until the templating system is in place
-
-$installDir = \basename($installPath);
 
 $styleCss = $Directory->getUrlPath('css','sprayfire.style.css');
 $sprayFireLogo = $Directory->getUrlPath('images', 'sprayfire-logo-bar-75.png');
