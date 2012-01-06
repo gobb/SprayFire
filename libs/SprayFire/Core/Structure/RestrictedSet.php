@@ -36,7 +36,38 @@ namespace SprayFire\Core\Structure;
  */
 class RestrictedSet extends \SprayFire\Core\Structure\GenericSet {
 
+    /**
+     * @brief Used to validate that an object added to the set adheres to a specific
+     * type.
+     *
+     * @propery SprayFire.Core.ObjectTypeValidator
+     */
+    protected $TypeValidator;
 
+    /**
+     * @param $parentType A string representing the interface or class that this
+     *        set should be restricted to
+     * @param $initialSize The number of buckets the set should be initialized to
+     * @throws SprayFire.Exception.TypeNotFoundException
+     */
+    public function __construct($parentType, $initialSize = 32) {
+        parent::__construct($initialSize);
+        try {
+            $ReflectedType = new \ReflectionClass($parentType);
+        } catch (\ReflectionException $ReflectExc) {
+            throw new \SprayFire\Exception\TypeNotFoundException('The parent type for this set, ' . $parentType . ', could not be loaded.');
+        }
+        $this->TypeValidator = new \SprayFire\Core\ObjectTypeValidator($ReflectedType);
+    }
 
+    /**
+     * @param $Object SprayFire.Core.Object
+     * @return The numeric index or false on failure
+     * @throws InvalidArgumentException
+     */
+    public function addObject(\SprayFire\Core\Object $Object) {
+        $this->TypeValidator->throwExceptionIfObjectNotParentType($Object);
+        return parent::addObject($Object);
+    }
 
 }
