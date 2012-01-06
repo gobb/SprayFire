@@ -39,7 +39,7 @@ class RestrictedSetTest extends \PHPUnit_Framework_TestCase {
         $Set = new \SprayFire\Core\Structure\RestrictedSet('\\SprayFire\\Test\\Helpers\\TestObject');
         $exceptionThrown = false;
         try {
-
+            $Set->addObject($Set);
         } catch (\InvalidArgumentException $InvalArgExc) {
             $exceptionThrown = true;
         }
@@ -49,7 +49,7 @@ class RestrictedSetTest extends \PHPUnit_Framework_TestCase {
     public function testCreatingSetWithImproperType() {
         $exceptionThrown = false;
         try {
-
+            $Set = new \SprayFire\Core\Structure\RestrictedSet('NonExistent');
         } catch (\SprayFire\Exception\TypeNotFoundException $TypeNotFoundExc) {
             $exceptionThrown = true;
         }
