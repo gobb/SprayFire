@@ -31,7 +31,7 @@
     </logging>
     <filter>
         <blacklist>
-            <directory suffix=".php">/Applications/NetBeans/NetBeans 7.0.1.app/Contents/Resources/NetBeans/php/phpunit</directory>
+            <directory suffix=".php">/Applications/NetBeans/NetBeans 7.1.app/Contents/Resources/NetBeans/php/phpunit</directory>
         </blacklist>
     </filter>
 
