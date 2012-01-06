@@ -113,14 +113,13 @@ class PathGeneratorBootstrap implements \SprayFire\Bootstrap\Bootstrapper {
      * the \a $Directory property.
      */
     protected function createDirectory() {
-        \extract($this->paths);
         $Directory = new \SprayFire\Core\Directory();
-        $Directory->setInstallPath($installPath);
-        $Directory->setLibsPath($libsPath);
-        $Directory->setAppPath($appPath);
-        $Directory->setLogsPath(($logsPath));
-        $Directory->setConfigPath($configPath);
-        $Directory->setWebPath($webPath);
+        $Directory->setInstallPath($this->paths['installPath']);
+        $Directory->setLibsPath($this->paths['libsPath']);
+        $Directory->setAppPath($this->paths['appPath']);
+        $Directory->setLogsPath($this->paths['logsPath']);
+        $Directory->setConfigPath($this->paths['configPath']);
+        $Directory->setWebPath($this->paths['webPath']);
         $this->Directory = $Directory;
     }
 
