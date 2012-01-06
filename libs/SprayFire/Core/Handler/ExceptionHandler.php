@@ -73,13 +73,33 @@ class ExceptionHandler extends \SprayFire\Logger\CoreObject {
      * @see http://www.php.net/manual/en/function.header.php
      */
     public function trap($Exception) {
+        $this->logExceptionInfo($Exception);
+        $this->setHeaders();
+        $this->sendContentAndExit();
+    }
+
+    /**
+     * @param $Exception An exception to log the info of.
+     */
+    protected function logExceptionInfo(\Exception $Exception) {
         $file = $Exception->getFile();
         $line = $Exception->getLine();
         $message = $Exception->getMessage();
         $logMessage = 'file:=' . $file . '|line:=' . $line . '|message:=' . $message;
         $this->log($logMessage);
+    }
+
+    protected function setHeaders() {
         \header('HTTP/1.1 500 Internal Server Error');
         \header('Content-Type: text/html; charset=UTF-8');
+        \header('X-Powered-By: SprayFire');
+    }
+
+    /**
+     * @brief If the content file injected into the constructor could not be found
+     * getDefaultMarkup() will be used in its place.
+     */
+    protected function sendContentAndExit() {
         if (\file_exists($this->replacePath)) {
             include $this->replacePath;
         } else {
@@ -106,7 +126,7 @@ class ExceptionHandler extends \SprayFire\Logger\CoreObject {
             <h1>Oops, we goofed!</h1>
             <p>Sorry, but it appears that we may be experiencing some unforeseen
             issues!  We apologize we couldn't get you to the content that you wanted
-            but please try back again next time!  We'll be sure to be right on this
+            but please try back again soon!  We'll be sure to be right on this
             and have the site back up as soon as possible!</p>
         </body>
     </html>
