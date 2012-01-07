@@ -127,6 +127,7 @@ $Container = new \SprayFire\Core\Structure\GenericMap();
 $Container->setObject('PrimaryConfig', $PrimaryConfig);
 $Container->setObject('RoutesConfig', $RoutesConfig);
 $Container->setObject('ErrorHandler', $ErrorHandler);
+$Container->setObject('PathGenerator', $Directory);
 if ($PrimaryConfig->{'development-mode'} === 'on') {
     // we are adding this object in development mode in case the error handler implementation
     // changes and does not provide access to trapped errros...this will.
