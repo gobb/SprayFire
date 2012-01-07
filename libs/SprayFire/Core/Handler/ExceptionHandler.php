@@ -56,12 +56,21 @@ class ExceptionHandler extends \SprayFire\Logger\CoreObject {
     protected $replacePath;
 
     /**
+     * @brief An array holding strings to be set with header() before the response
+     * is sent.
+     *
+     * @property $headers
+     */
+    protected $headers;
+
+    /**
      * @param $Log \SprayFire\Logger\Log to log information about the caught exception
      * @param $contentReplacementPath File path holding content to serve up after the info is logged
      */
-    public function __construct(\SprayFire\Logger\Log $Log, $contentReplacementPath) {
+    public function __construct(\SprayFire\Logger\Log $Log, $contentReplacementPath, array $headers = array()) {
         parent::__construct($Log);
         $this->replacePath = $contentReplacementPath;
+        $this->headers = $headers;
     }
 
     /**
@@ -89,10 +98,14 @@ class ExceptionHandler extends \SprayFire\Logger\CoreObject {
         $this->log($logMessage);
     }
 
+    /**
+     * @brief Will loop through the headers injected into the constructor, sending
+     * each one to the user.
+     */
     protected function setHeaders() {
-        \header('HTTP/1.1 500 Internal Server Error');
-        \header('Content-Type: text/html; charset=UTF-8');
-        \header('X-Powered-By: SprayFire');
+        foreach ($this->headers as $headerValue) {
+            \header($headerValue);
+        }
     }
 
     /**
