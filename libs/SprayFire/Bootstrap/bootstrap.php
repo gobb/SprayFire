@@ -51,9 +51,9 @@ $PathGenBootstrap->runBootstrap();
 
 $Directory = $PathGenBootstrap->getPathGenerator();
 
-$uncaughExceptionContent = $Directory->getWebPath('500.html');
+$uncaughExceptionContent = $Directory->getWebPath($serverErrorContent);
 $SystemLogger = new \SprayFire\Logger\SystemLogger();
-$ExceptionHandler = new \SprayFire\Core\Handler\ExceptionHandler($SystemLogger, $uncaughExceptionContent);
+$ExceptionHandler = new \SprayFire\Core\Handler\ExceptionHandler($SystemLogger, $uncaughExceptionContent, $headersFor500Response);
 \set_exception_handler(array($ExceptionHandler, 'trap'));
 
 $primaryConfigPath = $Directory->getConfigPath($primaryConfigFile);
@@ -70,24 +70,30 @@ $configs[1]['config-object'] = $configObject;
 $configs[1]['config-data'] = $routesConfigPath;
 $configs[1]['map-key'] = 'RoutesConfig';
 
+// Configuration objects aren't being created properly?  Check out the info in this object to figure out why!
 $ConfigErrorLog = new \SprayFire\Logger\DevelopmentLogger();
 $ConfigBootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($ConfigErrorLog, $configs);
 $ConfigBootstrap->runBootstrap();
 $ConfigMap = $ConfigBootstrap->getConfigs();
 
-$PrimaryConfig = $ConfigMap->getObject('PrimaryConfig');
-$RoutesConfig = $ConfigMap->getObject('RoutesConfig');
-
-$configValid = function() use ($PrimaryConfig, $RoutesConfig) {
-    if (!isset($PrimaryConfig) || !isset($RoutesConfig)) {
-        return false;
+$configValid = function() use ($ConfigMap) {
+    $requiredKeys = array('PrimaryConfig', 'RoutesConfig');
+    $allKeysValid = true;
+    foreach ($requiredKeys as $key) {
+        if (!$ConfigMap->containsKey($key)) {
+            $allKeysValid = false;
+            break;
+        }
     }
-    return true;
+    return $allKeysValid;
 };
 
 if (!$configValid()) {
     throw new \SprayFire\Exception\FatalRuntimeException('A required configuration object could not be found.  Please ensure you have a configuration and routes file in your config path.');
 }
+
+$PrimaryConfig = $ConfigMap->getObject('PrimaryConfig');
+$RoutesConfig = $ConfigMap->getObject('RoutesConfig');
 
 $isDevModeOn = ($PrimaryConfig->app->{'development-mode'} === 'on') ? true : false;
 
@@ -99,7 +105,7 @@ if ($isDevModeOn) {
         $ErrorLogger = new \SprayFire\Logger\FileLogger($ErrorLogInfo);
     } catch(\InvalidArgumentException $InvalArgExc) {
         $ErrorLogger = new \SprayFire\Logger\SystemLogger();
-        $ErrorLogger->log(\date('M-d-Y H:i:s'), 'The error file chosen could not be found.  Please check $errorLogFile in index.php');
+        $ErrorLogger->log(\LOG_NOTICE, 'The error file chosen could not be found.  Please check $errorLogFile in index.php');
     }
 }
 
@@ -113,6 +119,9 @@ foreach ($errors as $error) {
 $errors = null;
 $errorCallback = null;
 unset($errors, $errorCallback);
+
+
+
 
 $Container = new \SprayFire\Core\Structure\GenericMap();
 $Container->setObject('PrimaryConfig', $PrimaryConfig);
