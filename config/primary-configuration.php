@@ -3,19 +3,26 @@
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // The below variables can be changed to adjust the implementation details
 // of the framework's initialization process.
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+//
 // Please note that changing the names of variables in this file will have horrible
 // awful consequences that probably entails some things failing horribly.  Please
 // do not modify any variable names, add any variables or otherwise modify this
 // code outside of the values of the variables you see below.
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// DIRECTORY PATH CONFIGURATION DETAILS
+//
 // NO TRAILING SLASHES ON DIRECTORIES! NO TRAILING SLASHES ON DIRECTORIES!
-
-/**
- * @var $libsPath the directory SprayFire and third-party code is stored in
- */
-$libsPath = $installPath . '/libs';
+//
+// $installPath is defined in /web/index.php as the complete path to the app
+// install directory.  The install directory should hold, at minimum, the 'libs',
+// 'app' and 'web' folders.
+//
+// It is highly recommended that you do not change the libs directory or the
+// configs directory.  Changing these directory names would necessitate changing
+// this file, as well as `/web/index.php` and `/libs/SprayFire/Bootstrap/bootstap.php`
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 /**
  * @var $appPath the directory the app libraries are stored in
@@ -28,6 +35,10 @@ $appPath = $installPath . '/app';
 $logsPath = $installPath . '/logs';
 
 /**
+ * @brief Please note that if you change the location of the configuration file
+ * you will also need to update `/libs/SprayFire/Bootstrap/bootstrap.php` to properly
+ * include this file in the new directory.
+ *
  * @var $configPath the directory holding configuration values used by SprayFire
  */
 $configPath = $installPath .'/config';
@@ -36,6 +47,17 @@ $configPath = $installPath .'/config';
  * @var $webPath the directory holding web accessible files
  */
 $webPath = $installPath . '/web';
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// CONFIGURATION FILE PATHS DETAILS
+// The below variables hold the relative path to various configuration files used
+// by SprayFire.  Please see SprayFire.Core.Directory to see how these variables
+// are interpreted into the appropriate complete path.
+//
+// Please note that only configuration files used by SprayFire should be included
+// here. If you would like to create your own app specific configuration you should
+// be doing so in your app.
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 /**
  * @brief This file should be located in the \a $configPath
@@ -50,6 +72,20 @@ $primaryConfigFile = array('json', 'sprayfire-configuration.json');
  * @var $routesConfigFile sub-directory and file name for the SprayFire routes configuration file
  */
 $routesConfigFile = array('json', 'routes.json');
+
+/**
+ * @brief This file should be located in the \a $configPath
+ *
+ * @var $pluginsConfigFile sub-directory and file name for plugins loaded in this app
+ */
+$pluginsConfigFile = array('json', 'plugins.json');
+
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// ERROR LOGGING AND DISPLAY DETAILS
+// The below variables are used to determine what file errors are logged in and
+// some information needed to process uncaught exceptions by our ExceptionHandler.
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 /**
  * @brief This file should be located in the \a $logsPath
