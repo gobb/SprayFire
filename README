@@ -1,3 +1,7 @@
+SprayFire is licensed under the OSI MIT License.  For more information about the
+open-source license that SprayFire is released under please see the 'LICENSE' document
+located in the source code's root directory.
+
 SprayFire is a fully unit-tested, light-weight PHP framework for developers who
 want to make simple, secure, dynamic website content.  Some of the features built
 into SprayFire will include:
