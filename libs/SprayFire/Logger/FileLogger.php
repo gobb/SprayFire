@@ -69,7 +69,10 @@ class FileLogger extends \SprayFire\Core\CoreObject implements \SprayFire\Logger
 
         $separator = ' := ';
         $message = $timestamp . $separator . $message . PHP_EOL;
-        return $this->LogFile->fwrite($message);
+        $this->LogFile->flock(\LOCK_EX);
+        $wasWritten = $this->LogFile->fwrite($message);
+        $this->LogFile->flock(\LOCK_UN);
+        return $wasWritten;
     }
 
 }
