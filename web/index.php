@@ -92,6 +92,23 @@ $errorLogFile = array('errors.txt');
  */
 $serverErrorContent = array('500.html');
 
+/**
+ * @brief This array should hold whatever headers you feel is appropriate for your
+ * app to send back on a 500 server error response.
+ *
+ * @details
+ * Please note, it is required that you put in the appropriate HTTP status code for
+ * your server.
+ *
+ * @var $headersFor500Response an array of headers to be set by the exception handler
+ *      when a 500 error response is sent.
+ */
+$headersFor500Response = array();
+$headersFor500Response[] = 'HTTP/1.1 500 Internal Server Error';
+$headersFor500Response[] = 'Content-type: text/html;charset=UTF-8';
+$headersFor500Response[] = 'Server: Apache';
+$headersFor500Response[] = 'X-Powered-By: SprayFire Framework';
+
 // PLEASE DO NOT CHANGE CODE BELOW THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING!
 // SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE
 
@@ -99,7 +116,7 @@ $SprayFireContainer = include $libsPath . '/SprayFire/Bootstrap/bootstrap.php';
 
 /**
  * @todo The following markup eventually needs to be moved into the default
- * template for HtmlResponders.
+ * template for HtmlResponder.
  */
 
 // NOTE: The below code is a temporary measure until the templating system is in place
