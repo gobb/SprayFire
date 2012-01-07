@@ -2,24 +2,7 @@
 /**
  * @file
  * @brief The primary intialization script for SprayFire
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011,2012 Charles Sprayberry
  */
-
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // The below variables can be changed to adjust the implementation details
@@ -31,7 +14,7 @@
 // do not modify any variable names, add any variables or otherwise modify this
 // code outside of the values of the variables you see below.
 
-// NO TRAILING SLASHES ON DIRECTORIES!
+// NO TRAILING SLASHES ON DIRECTORIES! NO TRAILING SLASHES ON DIRECTORIES!
 
 /**
  * @var $installPath the directory libs, app and web directories are stored in
@@ -106,13 +89,14 @@ $serverErrorContent = array('500.html');
 $headersFor500Response = array();
 $headersFor500Response[] = 'HTTP/1.1 500 Internal Server Error';
 $headersFor500Response[] = 'Content-type: text/html;charset=UTF-8';
-$headersFor500Response[] = 'Server: Apache';
 $headersFor500Response[] = 'X-Powered-By: SprayFire Framework';
 
 // PLEASE DO NOT CHANGE CODE BELOW THIS LINE UNLESS YOU KNOW WHAT YOU ARE DOING!
 // SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE SPRAYFIRE
 
 $SprayFireContainer = include $libsPath . '/SprayFire/Bootstrap/bootstrap.php';
+
+$PathGenerator = $SprayFireContainer->getObject('PathGenerator');
 
 /**
  * @todo The following markup eventually needs to be moved into the default
@@ -121,8 +105,8 @@ $SprayFireContainer = include $libsPath . '/SprayFire/Bootstrap/bootstrap.php';
 
 // NOTE: The below code is a temporary measure until the templating system is in place
 
-$styleCss = $Directory->getUrlPath('css','sprayfire.style.css');
-$sprayFireLogo = $Directory->getUrlPath('images', 'sprayfire-logo-bar-75.png');
+$styleCss = $PathGenerator->getUrlPath('css','sprayfire.style.css');
+$sprayFireLogo = $PathGenerator->getUrlPath('images', 'sprayfire-logo-bar-75.png');
 
 
 if ($SprayFireContainer->getObject('PrimaryConfig')->app->{'development-mode'} === 'on') {
@@ -176,4 +160,3 @@ echo <<<HTML
         </body>
     </html>
 HTML;
-
