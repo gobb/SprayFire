@@ -3,22 +3,6 @@
 /**
  * @file
  * @brief Holds a class that implements error logging to an OS or system logger.
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011, Charles Sprayberry
  */
 
 namespace SprayFire\Logger;
@@ -52,8 +36,9 @@ class SystemLogger extends \SprayFire\Core\CoreObject implements \SprayFire\Logg
         $this->syslogOpened = \openlog('SprayFire', \LOG_NDELAY, \LOG_USER);
         $loggedtoSyslog = $this->logToSyslog($syslogSeverity, $message);
         if (!$loggedtoSyslog) {
-            $this->logToErrorLog($message);
+            return $this->logToErrorLog($message);
         }
+        return true;
     }
 
     /**
@@ -74,7 +59,7 @@ class SystemLogger extends \SprayFire\Core\CoreObject implements \SprayFire\Logg
      */
     protected function logToErrorLog($message) {
         $message = \date('M-d-Y H:i:s') . ' := ' . $message;
-        \error_log($message);
+        return \error_log($message);
     }
 
     /**
