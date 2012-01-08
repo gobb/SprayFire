@@ -10,7 +10,7 @@ namespace SprayFire\Logger;
 
 /**
  * @brief A CoreObject that allows for extending classes to log messages via a
- * `log()` method.
+ * `log()` method and only need to pass 1 parameter, the message being logged.
  *
  * @details
  * By default this method will log a message with the current timestamp at the time
@@ -47,7 +47,7 @@ abstract class CoreObject extends \SprayFire\Core\CoreObject {
     }
 
     /**
-     * @param $message A string message to log
+     * @param $message A string message to append a timestamp to and log
      */
     protected function log($message) {
         $timestamp = \date($this->timestampFormat);
