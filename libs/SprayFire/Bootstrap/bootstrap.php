@@ -43,17 +43,25 @@ $sanityCheckBootstrapData[2]['check-name'] = 'checkRoutesConfigExists';
 $sanityCheckBootstrapData[2]['argument'] = $routesConfigFile;
 $sanityCheckBootstrapData[2]['fail-message'] = 'Sorry, but it appears the routes configuration does not exist in its expected location; please ensure the file exists in your configs path.  Please also check that the sub-directory and filename set in primary-configuration.php are correct.';
 
+$handlersBootstrapData = array();
+$handlersBootstrapData['error-handler'] = array();
+$handlersBootstrapData['error-handler']['class'] = '\\SprayFire\\Core\\Handler\\ErrorHandler';
+$handlersBootstrapData['error-handler']['method'] = 'trap';
+$handlersBootstrapData['exception-handlers']['class'] = '\\SprayFire\\Core\\Handler\\ExceptionHandler';
+$handlersBootstrapData['exception-handlers']['method'] = 'trap';
+$handlersBootstrapData['exception-handlers']['content-replacement'] = $serverErrorContent;
+$handlersBootstrapData['exception-handlers']['content-headers'] = $headersFor500Response;
+
 $primaryBootstrapData = array();
 $primaryBootstrapData['PathGeneratorBootstrap'] = $pathGeneratorBootstrapData;
 $primaryBootstrapData['ConfigBootstrap'] = $configBootstrapData;
 $primaryBootstrapData['SanityCheckBootstrap'] = $sanityCheckBootstrapData;
+$primaryBootstrapData['HandlerBootstrap'] = $handlersBootstrapData;
 
 include $libsPath . '/SprayFire/Core/ClassLoader.php';
 
 $ClassLoader = new \SprayFire\Core\ClassLoader();
 \spl_autoload_register(array($ClassLoader, 'load'));
 $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
-
-
 
 return $Container;

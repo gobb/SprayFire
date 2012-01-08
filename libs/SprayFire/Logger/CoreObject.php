@@ -17,7 +17,7 @@ namespace SprayFire\Logger;
  * of call.  The timestamp format by default is `M-d-Y H:i:s` but you can change
  * the timestamp format by passing the optional second parameter on construction.
  *
- * @uses SprayFire.Logger.Log
+ * @uses SprayFire.Logger.Logger
  * @uses SprayFire.Core.CoreObject
  */
 abstract class CoreObject extends \SprayFire\Core\CoreObject {
@@ -38,20 +38,21 @@ abstract class CoreObject extends \SprayFire\Core\CoreObject {
     protected $timestampFormat;
 
     /**
-     * @param $Log SprayFire.Logger.Log to be used to store messages
+     * @param $Log SprayFire.Logger.Logger to be used to store messages
      * @param $timeStampFormat A string representing the format to use for log timestamps
      */
-    public function __construct(\SprayFire\Logger\Log $Log, $timeStampFormat = 'M-d-Y H:i:s') {
+    public function __construct(\SprayFire\Logger\Logger $Log, $timeStampFormat = 'M-d-Y H:i:s') {
         $this->Log = $Log;
         $this->timestampFormat = $timeStampFormat;
     }
 
     /**
      * @param $message A string message to append a timestamp to and log
+     * @return true if the message was logged, false if it wasn't
      */
     protected function log($message) {
         $timestamp = \date($this->timestampFormat);
-        $this->Log->log($timestamp, $message);
+        return $this->Log->log($timestamp, $message);
     }
 
 }

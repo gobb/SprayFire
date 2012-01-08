@@ -118,6 +118,11 @@ $headersFor500Response[] = 'HTTP/1.1 500 Internal Server Error';
 $headersFor500Response[] = 'Content-type: text/html;charset=UTF-8';
 $headersFor500Response[] = 'X-Powered-By: SprayFire Framework';
 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// FALLBACK SUPPORT DETAILS
+// The below variables provide fallback support in case a configuration file is
+// missing.  This is done to ensure the best possible opportunity of completing
+// the request.  Note, that
 
 /**
  * @var $fallbackPrimaryConfig An array of configuration data used if the primary
