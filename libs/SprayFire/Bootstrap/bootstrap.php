@@ -10,64 +10,42 @@ $pathGeneratorBootstrapData['webPath'] = $webPath;
 $pathGeneratorBootstrapData['configPath'] = $configPath;
 $pathGeneratorBootstrapData['logsPath'] = $logsPath;
 
-$configObject = '\\SprayFire\\Config\\JsonConfig';
+$preferredConfigObject = '\\SprayFire\\Config\\JsonConfig';
+$fallbackConfigObject = '\\SprayFire\\Config\\ArrayConfig';
 $configBootstrapData = array();
-$configBootstrapData[0]['config-object'] = $configObject;
-$configBootstrapData[0]['config-data'] = $primaryConfigFile;
-$configBootstrapData[0]['map-key'] = 'PrimaryConfig';
-$configBootstrapData[1]['config-object'] = $configObject;
-$configBootstrapData[1]['config-data'] = $routesConfigFile;
-$configBootstrapData[1]['map-key'] = 'RoutesConfig';
-$configBootstrapData[2]['config-object'] = $configObject;
-$configBootstrapData[2]['config-data'] = $pluginsConfigFile;
-$configBootstrapData[2]['map-key'] = 'PluginsConfig';
+
+$configBootstrapData[0]['preferred'] = array();
+$configBootstrapData[0]['fallback'] = array();
+$configBootstrapData[0]['preferred']['config-object'] = $preferredConfigObject;
+$configBootstrapData[0]['preferred']['config-data'] = $primaryConfigFile;
+$configBootstrapData[0]['preferred']['map-key'] = 'PrimaryConfig';
+$configBootstrapData[0]['fallback']['config-object'] = $fallbackConfigObject;
+$configBootstrapData[0]['fallback']['config-data'] = $fallbackPrimaryConfig;
+$configBootstrapData[0]['fallback']['map-key'] = 'PrimaryConfig';
+
+$configBootstrapData[1]['preferred'] = array();
+$configBootstrapData[1]['fallback'] = array();
+$configBootstrapData[1]['preferred']['config-object'] = $preferredConfigObject;
+$configBootstrapData[1]['preferred']['config-data'] = $routesConfigFile;
+$configBootstrapData[1]['preferred']['map-key'] = 'RoutesConfig';
+$configBootstrapData[1]['fallback']['config-object'] = $fallbackConfigObject;
+$configBootstrapData[1]['fallback']['config-data'] = $fallbackRoutesConfig;
+$configBootstrapData[1]['fallback']['map-key'] = 'RoutesConfig';
 
 $sanityCheckBootstrapData = array();
 $sanityCheckBootstrapData[0]['check-name'] = 'checkLogsPathWritable';
 $sanityCheckBootstrapData[0]['fail-message'] = 'Sorry, but it appears the logs path is not writable.  Please check the permissions on your logs directory.  The currently set logs path is: <code>' . $logsPath . '</code>';
+$sanityCheckBootstrapData[1]['check-name'] = 'checkSprayFireConfigExists';
+$sanityCheckBootstrapData[1]['argument'] = $sprayfireConfigFile;
+$sanityCheckBootstrapData[1]['fail-message'] = 'Sorry, but it appears the SprayFire configuration does not exist in its expected location; please ensure the file exists in your configs path.  Please also check that the sub-directory and filename set in primary-configuration.php are correct.';
+$sanityCheckBootstrapData[2]['check-name'] = 'checkRoutesConfigExists';
+$sanityCheckBootstrapData[2]['argument'] = $routesConfigFile;
+$sanityCheckBootstrapData[2]['fail-message'] = 'Sorry, but it appears the routes configuration does not exist in its expected location; please ensure the file exists in your configs path.  Please also check that the sub-directory and filename set in primary-configuration.php are correct.';
 
 $primaryBootstrapData = array();
 $primaryBootstrapData['PathGeneratorBootstrap'] = $pathGeneratorBootstrapData;
 $primaryBootstrapData['ConfigBootstrap'] = $configBootstrapData;
-
-
-
-$errors = array();
-
-$errorCallback = function($severity, $message, $file = null, $line = null, $context = null) use (&$errors) {
-
-    $normalizeSeverity = function() use ($severity) {
-        $severityMap = array(
-            E_WARNING => 'E_WARNING',
-            E_NOTICE => 'E_NOTICE',
-            E_USER_ERROR => 'E_USER_ERROR',
-            E_USER_WARNING => 'E_USER_WARNING',
-            E_USER_NOTICE => 'E_USER_NOTICE',
-            E_USER_DEPRECATED => 'E_USER_DEPRECATED',
-            E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
-            E_DEPRECATED => 'E_DEPRECATED'
-        );
-        if (\array_key_exists($severity, $severityMap)) {
-            return $severityMap[$severity];
-        }
-        return 'E_UNKOWN_SEVERITY';
-    };
-
-    $index = \count($errors);
-    $errors[$index]['severity'] = $normalizeSeverity();
-    $errors[$index]['message'] = $message;
-    $errors[$index]['file'] = $file;
-    $errors[$index]['line'] = $line;
-
-    // here to return an error if improper type hints are passed
-    $unhandledSeverity = array(E_RECOVERABLE_ERROR);
-    if (\in_array($severity, $unhandledSeverity)) {
-        return false;
-    }
-
-};
-
-\set_error_handler($errorCallback);
+$primaryBootstrapData['SanityCheckBootstrap'] = $sanityCheckBootstrapData;
 
 include $libsPath . '/SprayFire/Core/ClassLoader.php';
 
@@ -106,22 +84,6 @@ $ConfigBootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($ConfigErrorLog, $co
 $ConfigBootstrap->runBootstrap();
 $ConfigMap = $ConfigBootstrap->getConfigs();
 
-$configValid = function() use ($ConfigMap) {
-    $requiredKeys = array('PrimaryConfig', 'RoutesConfig');
-    $allKeysValid = true;
-    foreach ($requiredKeys as $key) {
-        if (!$ConfigMap->containsKey($key)) {
-            $allKeysValid = false;
-            break;
-        }
-    }
-    return $allKeysValid;
-};
-
-if (!$configValid()) {
-    throw new \SprayFire\Exception\FatalRuntimeException('A required configuration object could not be found.  Please ensure you have a configuration and routes file in your config path.');
-}
-
 $PrimaryConfig = $ConfigMap->getObject('PrimaryConfig');
 $RoutesConfig = $ConfigMap->getObject('RoutesConfig');
 
@@ -142,16 +104,13 @@ if ($isDevModeOn) {
 $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($ErrorLogger, $isDevModeOn);
 \set_error_handler(array($ErrorHandler, 'trap'));
 
-foreach ($errors as $error) {
+foreach ($preBootstrapErrors as $error) {
     $ErrorHandler->trap($error['severity'], $error['message'], $error['file'], $error['line']);
 }
 
-$errors = null;
+$preBootstrapErrors = null;
 $errorCallback = null;
-unset($errors, $errorCallback);
-
-
-
+unset($preBootstrapErrors, $errorCallback);
 
 $Container = new \SprayFire\Core\Structure\GenericMap();
 $Container->setObject('PrimaryConfig', $PrimaryConfig);
