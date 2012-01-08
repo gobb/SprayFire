@@ -25,15 +25,18 @@ class SystemLogger extends \SprayFire\Core\CoreObject implements \SprayFire\Logg
     protected $syslogOpened = false;
 
     /**
-     * @brief An implementation that uses PHP built in <code>error_log</code>
-     * function
-     *
+     * @param $syslogIdent
+     */
+    public function __construct($syslogIdent = 'SprayFire') {
+        $this->syslogOpened = \openlog($syslogIdent, \LOG_NDELAY, \LOG_USER);
+    }
+
+    /**
      * @param $syslogSeverity The timestamp for the \a $message being logged
      * @param $message The message to be logged
-     * @see http://php.net/manual/en/function.error-log.php
+     * @return true if message logged, false if not
      */
     public function log($syslogSeverity, $message) {
-        $this->syslogOpened = \openlog('SprayFire', \LOG_NDELAY, \LOG_USER);
         $loggedtoSyslog = $this->logToSyslog($syslogSeverity, $message);
         if (!$loggedtoSyslog) {
             return $this->logToErrorLog($message);
@@ -56,6 +59,8 @@ class SystemLogger extends \SprayFire\Core\CoreObject implements \SprayFire\Logg
 
     /**
      * @param $message The message to log with error_log
+     * @return true if logged, false if not
+     * @see http://php.net/manual/en/function.error-log.php
      */
     protected function logToErrorLog($message) {
         $message = \date('M-d-Y H:i:s') . ' := ' . $message;
