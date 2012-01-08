@@ -62,9 +62,9 @@ $webPath = $installPath . '/web';
 /**
  * @brief This file should be located in the \a $configPath
  *
- * @var $primaryConfigFile sub-directory and file name for the primary SprayFire configuration file
+ * @var $sprayfireConfigFile sub-directory and file name for the primary SprayFire configuration file
  */
-$primaryConfigFile = array('json', 'sprayfire-configuration.json');
+$sprayfireConfigFile = array('json', 'sprayfire-configuration.json');
 
 /**
  * @brief This file should be located in the \a $configPath
