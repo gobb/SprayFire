@@ -4,6 +4,43 @@
  * @brief The primary intialization script for SprayFire
  */
 
+$preBootstrapErrors = array();
+
+$errorCallback = function($severity, $message, $file = null, $line = null, $context = null) use (&$preBootstrapErrors) {
+
+    $normalizeSeverity = function() use ($severity) {
+        $severityMap = array(
+            E_WARNING => 'E_WARNING',
+            E_NOTICE => 'E_NOTICE',
+            E_USER_ERROR => 'E_USER_ERROR',
+            E_USER_WARNING => 'E_USER_WARNING',
+            E_USER_NOTICE => 'E_USER_NOTICE',
+            E_USER_DEPRECATED => 'E_USER_DEPRECATED',
+            E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
+            E_DEPRECATED => 'E_DEPRECATED'
+        );
+        if (\array_key_exists($severity, $severityMap)) {
+            return $severityMap[$severity];
+        }
+        return 'E_UNKOWN_SEVERITY';
+    };
+
+    $index = \count($preBootstrapErrors);
+    $preBootstrapErrors[$index]['severity'] = $normalizeSeverity();
+    $preBootstrapErrors[$index]['message'] = $message;
+    $preBootstrapErrors[$index]['file'] = $file;
+    $preBootstrapErrors[$index]['line'] = $line;
+
+    // here to return an error if improper type hints are passed
+    $unhandledSeverity = array(E_RECOVERABLE_ERROR);
+    if (\in_array($severity, $unhandledSeverity)) {
+        return false;
+    }
+
+};
+\set_error_handler($errorCallback);
+
+
 $requestStartTime = \microtime(true);
 
 /**
