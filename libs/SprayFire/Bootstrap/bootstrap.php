@@ -1,6 +1,36 @@
 <?php
 
-$startTime = \microtime(true);
+include $installPath . '/config/primary-configuration.php';
+
+$pathGeneratorBootstrapData = array();
+$pathGeneratorBootstrapData['installPath'] = $installPath;
+$pathGeneratorBootstrapData['libsPath'] = $libsPath;
+$pathGeneratorBootstrapData['appPath'] = $appPath;
+$pathGeneratorBootstrapData['webPath'] = $webPath;
+$pathGeneratorBootstrapData['configPath'] = $configPath;
+$pathGeneratorBootstrapData['logsPath'] = $logsPath;
+
+$configObject = '\\SprayFire\\Config\\JsonConfig';
+$configBootstrapData = array();
+$configBootstrapData[0]['config-object'] = $configObject;
+$configBootstrapData[0]['config-data'] = $primaryConfigFile;
+$configBootstrapData[0]['map-key'] = 'PrimaryConfig';
+$configBootstrapData[1]['config-object'] = $configObject;
+$configBootstrapData[1]['config-data'] = $routesConfigFile;
+$configBootstrapData[1]['map-key'] = 'RoutesConfig';
+$configBootstrapData[2]['config-object'] = $configObject;
+$configBootstrapData[2]['config-data'] = $pluginsConfigFile;
+$configBootstrapData[2]['map-key'] = 'PluginsConfig';
+
+$sanityCheckBootstrapData = array();
+$sanityCheckBootstrapData[0]['check-name'] = 'checkLogsPathWritable';
+$sanityCheckBootstrapData[0]['fail-message'] = 'Sorry, but it appears the logs path is not writable.  Please check the permissions on your logs directory.  The currently set logs path is: <code>' . $logsPath . '</code>';
+
+$primaryBootstrapData = array();
+$primaryBootstrapData['PathGeneratorBootstrap'] = $pathGeneratorBootstrapData;
+$primaryBootstrapData['ConfigBootstrap'] = $configBootstrapData;
+
+
 
 $errors = array();
 
