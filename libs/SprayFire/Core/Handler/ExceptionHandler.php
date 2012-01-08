@@ -3,30 +3,13 @@
 /**
  * @file
  * @brief A file storing the ExceptionHandler used as a callback for set_exception_handler()
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011,2012 Charles Sprayberry
  */
 
 namespace SprayFire\Core\Handler;
 
 /**
- * @brief A class that accepts a log and the absolute path to a content replacement
- * file, will log the uncaught exception info and then display whatever content is
- * held in the file passed.
+ * @brief A class that accepts a log, the absolute path to a content replacement
+ * file, and headers that should be sent with the request.
  *
  * @details
  * This class will log the appropriate exception information and then include the
@@ -34,18 +17,13 @@ namespace SprayFire\Core\Handler;
  * addition, a 500 HTTP status will be returned to the user.  For the interim, it
  * is expected that the content returned is HTML.
  *
- * @todo Eventually we need to refactor this so that instead of a path being injected
- * a Responder object is instantiated instead.  Doing this also has implications
- * that a factory will have to be available before the uncaught exception handler
- * can be properly set.
- *
  * @uses SprayFire.Logger.Log
  * @uses SprayFire.Logger.CoreObject
  */
 class ExceptionHandler extends \SprayFire\Logger\CoreObject {
 
     /**
-     * @brief A URL path to a page that should handle 500 requests
+     * @brief A complete path to a page that should handle 500 requests
      *
      * @details
      * The content of this file, if the file exists, will be included as the content
@@ -66,6 +44,7 @@ class ExceptionHandler extends \SprayFire\Logger\CoreObject {
     /**
      * @param $Log \SprayFire\Logger\Log to log information about the caught exception
      * @param $contentReplacementPath File path holding content to serve up after the info is logged
+     * @param $headers an array of header information to be sent to the user
      */
     public function __construct(\SprayFire\Logger\Log $Log, $contentReplacementPath, array $headers = array()) {
         parent::__construct($Log);
@@ -79,7 +58,6 @@ class ExceptionHandler extends \SprayFire\Logger\CoreObject {
      * content will be sent to the user.
      *
      * @param $Exception Exception thrown and not caught
-     * @see http://www.php.net/manual/en/function.header.php
      */
     public function trap($Exception) {
         $this->logExceptionInfo($Exception);
@@ -101,6 +79,8 @@ class ExceptionHandler extends \SprayFire\Logger\CoreObject {
     /**
      * @brief Will loop through the headers injected into the constructor, sending
      * each one to the user.
+     *
+     * @see http://www.php.net/manual/en/function.header.php
      */
     protected function setHeaders() {
         foreach ($this->headers as $headerValue) {
