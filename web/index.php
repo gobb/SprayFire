@@ -38,7 +38,7 @@ $sprayFireLogo = $PathGenerator->getUrlPath('images', 'sprayfire-logo-bar-75.png
 if ($SprayFireContainer->getObject('PrimaryConfig')->app->{'development-mode'} === 'on') {
     $errors = 'Errors: ' . \print_r($SprayFireContainer->getObject('ErrorHandler')->getTrappedErrors(), true);
     $memUsage = 'Memory usage: ' . \memory_get_peak_usage() / (1000*1024) . ' mb';
-    $runTime = 'Execution time: ' . (\microtime(true) - $startTime) . ' seconds';
+    $runTime = 'Execution time: ' . (\microtime(true) - $requestStartTime) . ' seconds';
     $debugInfo = <<<HTML
             <div id="debug-info" style="margin-top:1em;border:2px solid black;padding:5px;font-family:monospace;">
                 <ul>
