@@ -40,10 +40,6 @@ class DevelopmentLogger extends \SprayFire\Core\CoreObject implements \SprayFire
      */
     protected $messages = array();
 
-    public function openLog() {
-
-    }
-
     /**
      * @param $timestamp The time of the log
      * @param $message The message to log
@@ -52,10 +48,6 @@ class DevelopmentLogger extends \SprayFire\Core\CoreObject implements \SprayFire
         $index = \count($this->messages);
         $this->messages[$index]['timestamp'] = $timestamp;
         $this->messages[$index]['info'] = $message;
-    }
-
-    public function closeLog() {
-
     }
 
     /**
