@@ -15,14 +15,6 @@ namespace SprayFire\Logger;
 interface Logger {
 
     /**
-     * @brief We have left the parameters for this method blank on purpose; the
-     * implementations should be responsible for passing the appropriate arguments.
-     *
-     * @details
-     * It should be noted that if your implementation defines the method signature
-     * with parameters you may assign a default value to that parameter and your
-     * implementation will satisfy this method signature.
-     *
      * @return true if log opened, false if didn't
      */
     public function openLog();

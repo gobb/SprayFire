@@ -40,10 +40,8 @@ class DevelopmentLogger extends \SprayFire\Core\CoreObject implements \SprayFire
      */
     protected $messages = array();
 
-    protected $logOpened = false;
-
     public function openLog() {
-        
+
     }
 
     /**

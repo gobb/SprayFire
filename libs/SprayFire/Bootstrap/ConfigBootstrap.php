@@ -36,7 +36,7 @@ namespace SprayFire\Bootstrap;
  * @uses SprayFire.Logger.CoreObject
  * @uses SprayFire.Core.Structure.RestrictedMap
  */
-class ConfigBootstrap extends \SprayFire\Logger\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
+class ConfigBootstrap extends \SprayFire\Core\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
      * @brief A SprayFire.Core.Structure.RestrictedMap, restricted to SprayFire.Config.Configuration
@@ -46,6 +46,8 @@ class ConfigBootstrap extends \SprayFire\Logger\CoreObject implements \SprayFire
      */
     protected $ConfigMap;
 
+    protected $Logger;
+
     /**
      * @brief An array, holding the configuration information, formatted according
      * to the details of the class documentation.
@@ -54,21 +56,17 @@ class ConfigBootstrap extends \SprayFire\Logger\CoreObject implements \SprayFire
      */
     protected $configInfo;
 
+    protected $configInterface;
+
     /**
      * @param $Log SprayFire.Logger.Log To log various error messages that may occur
      * @param $configInfo An array of configuration information to create objects
-     * @throws \SprayFire\Exception\FatalRuntimeException
+     * @throws SprayFire.Exception.FatalRuntimeException
      */
-    public function __construct(\SprayFire\Logger\Log $Log, array $configInfo, $configInterface = '\\SprayFire\\Config\\Configuration') {
-        parent::__construct($Log);
-        try {
-            $Map = new \SprayFire\Core\Structure\RestrictedMap($configInterface);
-        } catch (\SprayFire\Exception\TypeNotFoundException $TypeExc) {
-            $this->log('Unable to load ' . $configInterface . ', do not have resources to create appropriate configuration objects.');
-            throw new \SprayFire\Exception\FatalRuntimeException('The Configuration interface was not found, please ensure this interface was loaded or is loadable.');
-        }
-        $this->ConfigMap = $Map;
+    public function __construct(\SprayFire\Logger\Logger $Logger, array $configInfo, $configInterface = '\\SprayFire\\Config\\Configuration') {
+        $this->Logger = $Logger;
         $this->configInfo = $configInfo;
+        $this->configInterface = $configInterface;
     }
 
     public function runBootstrap() {
