@@ -65,9 +65,6 @@ class ConfigBootstrap extends \SprayFire\Logger\CoreObject implements \SprayFire
             $Map = new \SprayFire\Core\Structure\RestrictedMap($configInterface);
         } catch (\SprayFire\Exception\TypeNotFoundException $TypeExc) {
             $this->log('Unable to load ' . $configInterface . ', do not have resources to create appropriate configuration objects.');
-            // we are throwing an exception here because if the Configuration interface
-            // could not be loaded for some reason the Configuration objects implementing
-            // that interface could not be loaded either.
             throw new \SprayFire\Exception\FatalRuntimeException('The Configuration interface was not found, please ensure this interface was loaded or is loadable.');
         }
         $this->ConfigMap = $Map;
