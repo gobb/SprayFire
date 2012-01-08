@@ -117,3 +117,29 @@ $headersFor500Response = array();
 $headersFor500Response[] = 'HTTP/1.1 500 Internal Server Error';
 $headersFor500Response[] = 'Content-type: text/html;charset=UTF-8';
 $headersFor500Response[] = 'X-Powered-By: SprayFire Framework';
+
+
+/**
+ * @var $fallbackPrimaryConfig An array of configuration data used if the primary
+ * configuration file could not be found.
+ *
+ * @see http://www.github.com/cspray/SprayFire/wiki/Configuration
+ */
+$fallbackPrimaryConfig = array();
+$fallbackPrimaryConfig['SprayFire'] = array();
+$fallbackPrimaryConfig['SprayFire']['version'] = '0.1.0-alpha';
+$fallbackPrimaryConfig['app'] = array();
+$fallbackPrimaryConfig['app']['name'] = 'YourApp';
+$fallbackPrimaryConfig['app']['development-mode'] = 'off';
+
+/**
+ * @var $fallbackRoutesConfig An array of routes configuration data used if the
+ * primary configuration file could not be found.
+ *
+ * @see http://www.github.com/cspray/SprayFire/wiki/Routing
+ */
+$fallbackRoutesConfig = array();
+$fallbackRoutesConfig['defaults'] = array();
+$fallbackRoutesConfig['defaults']['controller'] = 'pages';
+$fallbackRoutesConfig['defaults']['action'] = 'index';
+$fallbackRoutesConfig['routes'] = array();
