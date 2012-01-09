@@ -13,6 +13,6 @@ interface Factory {
      * @param $objectName namespaced class to create from the factory
      * @return An object representing the one requested or a NullObject of the given type
      */
-    public function produce($objectName);
+    public function makeObject($objectName, array $options = array());
 
 }
