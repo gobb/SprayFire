@@ -6,7 +6,7 @@
  * SprayFire.Core.Object passed.
  */
 
-namespace SprayFire\Core\Structure;
+namespace SprayFire\Structure\Map;
 
 /**
  * @brief Base implementation of the SprayFire.Core.Structure.ObjectMap interface,
@@ -15,10 +15,10 @@ namespace SprayFire\Core\Structure;
  * @uses IteratorAggregate
  * @uses InvalidArgumentException
  * @uses SprayFire.Core.Object
- * @uses SprayFire.Core.Structure.ObjectMap
+ * @uses SprayFire.Structure.ObjectMap
  * @uses SprayFire.Core.Util.CoreObject
  */
-class GenericMap extends \SprayFire\Core\Util\CoreObject implements \IteratorAggregate, \SprayFire\Core\Structure\ObjectMap {
+class GenericMap extends \SprayFire\Core\Util\CoreObject implements \IteratorAggregate, \SprayFire\Structure\ObjectMap {
 
     /**
      * @brief Holds the objects being stored in this data structure

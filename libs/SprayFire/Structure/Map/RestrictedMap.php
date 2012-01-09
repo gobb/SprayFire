@@ -5,7 +5,7 @@
  * @brief Framework's implementation of an ObjectStorage data structure.
  */
 
-namespace SprayFire\Core\Structure;
+namespace SprayFire\Structure\Map;
 
 /**
  * @brief The framework's primary implementation to store framework objects.
@@ -16,13 +16,13 @@ namespace SprayFire\Core\Structure;
  * associated with a key and iterating over the stored objects.
  *
  * @uses SprayFire.Core.Object
- * @uses SprayFire.Core.GenericMap
- * @uses SprayFire.Core.ObjectTypeValidator
+ * @uses SprayFire.Structure.Map.GenericMap
+ * @uses SprayFire.Core.Util.ObjectTypeValidator
  */
-class RestrictedMap extends \SprayFire\Core\Structure\GenericMap {
+class RestrictedMap extends \SprayFire\Structure\Map\GenericMap {
 
     /**
-     * @brief A SprayFire.Core.ObjectValidator used to ensure objects added to the
+     * @brief A SprayFire.Core.Util.ObjectValidator used to ensure objects added to the
      * Map are of the correct type.
      *
      * @property $TypeValidator

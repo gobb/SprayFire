@@ -6,7 +6,7 @@
  * notation.
  */
 
-namespace SprayFire\Core\Structure;
+namespace SprayFire\Structure\Storage;
 
 /**
  * @brief Stores data in a property and allows access to that data via object
@@ -46,7 +46,7 @@ namespace SprayFire\Core\Structure;
  * @uses SprayFire.Core.Structure.Overloadable
  * @uses SprayFire.Core.Util.CoreObject
  */
-abstract class DataStorage extends \SprayFire\Core\Util\CoreObject implements \ArrayAccess, \Countable, \IteratorAggregate, \SprayFire\Core\Structure\Overloadable {
+abstract class DataStorage extends \SprayFire\Core\Util\CoreObject implements \ArrayAccess, \Countable, \IteratorAggregate, \SprayFire\Structure\Overloadable {
 
     /**
      * An array holding the data being stored.

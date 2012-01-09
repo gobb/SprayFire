@@ -6,12 +6,12 @@
  * objects.
  */
 
-namespace SprayFire\Core\Structure;
+namespace SprayFire\Structure\Collection;
 
 /**
  * @brief Ensures that the collection of objects do not have duplicate values.
  */
-class GenericSet extends \SprayFire\Core\Structure\GenericCollection {
+class GenericSet extends \SprayFire\Structure\Collection\GenericCollection {
 
     /**
      * @param $Object \SprayFire\Core\Object

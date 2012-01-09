@@ -5,25 +5,9 @@
  * @brief A simple key/value storage object that extends SprayFire.Core.Structure.DataStorage
  * and does not allow the data associated to be changed after the object has been
  * constructed.
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011, Charles Sprayberry
  */
 
-namespace SprayFire\Core\Structure;
+namespace SprayFire\Structure\Storage;
 
 /**
  * @brief An object that allows for data to be stored and to be assured that
@@ -35,8 +19,10 @@ namespace SprayFire\Core\Structure;
  * results in a SprayFire.Exceptions.UnsupportedOperationException will
  * be thrown.  If a class extends this please ensure that it is a truly immutable
  * object and does not have any "backdoors".
+ *
+ * @uses SprayFire.Structure.Storage.DataStorage
  */
-class ImmutableStorage extends \SprayFire\Core\Structure\DataStorage {
+class ImmutableStorage extends \SprayFire\Structure\Storage\DataStorage {
 
     /**
      * @brief Accepts an array of data to store and gives the calling code the option to

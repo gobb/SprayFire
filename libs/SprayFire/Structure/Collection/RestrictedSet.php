@@ -4,25 +4,9 @@
  * @file
  * @brief A file holding a class that holds a set of objects; restricted to a specific
  * type.
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011, Charles Sprayberry
  */
 
-namespace SprayFire\Core\Structure;
+namespace SprayFire\Structure\Collection;
 
 /**
  * @brief This class will hold a collection of unique objects and ensure that those
@@ -30,17 +14,17 @@ namespace SprayFire\Core\Structure;
  *
  * @uses ReflectionClass
  * @uses InvalidArgumentException
- * @uses SprayFire.Core.Structure.GenericSet
- * @uses SprayFire.Core.ObjectTypeValidator
+ * @uses SprayFire.Structure.GenericSet
+ * @uses SprayFire.Core.Util.ObjectTypeValidator
  * @uses SprayFire.Exception.TypeNotFoundException
  */
-class RestrictedSet extends \SprayFire\Core\Structure\GenericSet {
+class RestrictedSet extends \SprayFire\Structure\Collection\GenericSet {
 
     /**
      * @brief Used to validate that an object added to the set adheres to a specific
      * type.
      *
-     * @propery SprayFire.Core.ObjectTypeValidator
+     * @propery SprayFire.Core.Util.ObjectTypeValidator
      */
     protected $TypeValidator;
 

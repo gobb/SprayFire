@@ -6,7 +6,7 @@
  * only a restricted type of object to be stored.
  */
 
-namespace SprayFire\Core\Structure;
+namespace SprayFire\Structure\Collection;
 
 /**
  * @brief A collection that allows any number of a restricted type of object to be
@@ -14,10 +14,10 @@ namespace SprayFire\Core\Structure;
  *
  * @uses ReflectionClass
  * @uses SprayFire.Core.Object
- * @uses SprayFire.Core.Structure.GenericCollection
+ * @uses SprayFire.Structure.Collection.GenericCollection
  * @uses SprayFire.Core.Util.ObjectTypeValidator
  */
-class RestrictedCollection extends \SprayFire\Core\Structure\GenericCollection {
+class RestrictedCollection extends \SprayFire\Structure\Collection\GenericCollection {
 
     /**
      * @brief A SprayFire.Core.ObjectTypeValidator used to ensure that the passed

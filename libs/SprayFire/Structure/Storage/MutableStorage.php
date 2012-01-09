@@ -4,31 +4,15 @@
  * @file
  * @brief A class that extends SprayFire.Core.Structure.DataStorage and allows
  * for any data to be manipulated, removed or added to the structure.
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011, Charles Sprayberry
  */
 
-namespace SprayFire\Core\Structure;
+namespace SprayFire\Structure\Storage;
 
 /**
  * @brief A simple data storage object that holds key/value pairs and allows additional
  * keys to be added and existing keys to be manipulated or removed.
  */
-class MutableStorage extends \SprayFire\Core\Structure\DataStorage {
+class MutableStorage extends \SprayFire\Structure\Storage\DataStorage {
 
     /**
      * @brief Requires an array of data is passed, optionally allowing the
