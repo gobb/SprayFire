@@ -18,9 +18,9 @@ namespace SprayFire\Core\Handler;
  * is expected that the content returned is HTML.
  *
  * @uses SprayFire.Logger.Log
- * @uses SprayFire.Logger.CoreObject
+ * @uses SprayFire.Core.Util.CoreObject
  */
-class ExceptionHandler extends \SprayFire\Logger\CoreObject {
+class ExceptionHandler extends \SprayFire\Core\Util\CoreObject {
 
     protected $Logger;
 

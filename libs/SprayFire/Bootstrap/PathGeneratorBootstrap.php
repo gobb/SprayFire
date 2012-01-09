@@ -53,9 +53,10 @@ namespace SprayFire\Bootstrap;
  * - <code>/web/index.php</code>
  *
  * @uses SprayFire.Bootstrap.Bootstrapper
- * @uses SprayFire.Core.Directory
+ * @uses SprayFire.Core.Util.CoreObject
+ * @uses SprayFire.Core.Util.Directory
  */
-class PathGeneratorBootstrap implements \SprayFire\Bootstrap\Bootstrapper {
+class PathGeneratorBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
      * @brief The SprayFire.Core.PathGenerator object created.

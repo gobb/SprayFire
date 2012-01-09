@@ -13,10 +13,10 @@ namespace SprayFire\Logger;
  *
  * @uses SplFileInfo
  * @uses InvalidArgumentException
- * @uses SprayFire.Logger.Log
- * @uses SprayFire.Core.CoreObject
+ * @uses SprayFire.Logger.Logger
+ * @uses SprayFire.Core.Util.CoreObject
  */
-class FileLogger extends \SprayFire\Core\CoreObject implements \SprayFire\Logger\Logger  {
+class FileLogger extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Logger\Logger  {
 
     /**
      * @brief A SplFileObject that should be used to write log messages to.

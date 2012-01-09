@@ -23,10 +23,10 @@ namespace SprayFire\Request\Router;
  * @uses SprayFire.Logger.Log
  * @uses SprayFire.Config.Configuration
  * @uses SprayFire.Request.Uri
- * @uses SprayFire.Logger.CoreObject
+ * @uses SprayFire.Core.Util.CoreObject
  * @uses SprayFire.Request.Router.DispatchUri
  */
-class SprayFireRouter extends \SprayFire\Core\CoreObject implements \SprayFire\Request\Router\Router {
+class SprayFireRouter extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Request\Router\Router {
 
     /**
      * @brief The SprayFire.Config.Configuration object holding the routing keys

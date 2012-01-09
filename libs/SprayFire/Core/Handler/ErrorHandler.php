@@ -14,9 +14,9 @@ namespace SprayFire\Core\Handler;
  * specific request.
  *
  * @uses SprayFire.Logger.Log
- * @uses SprayFire.Logger.CoreObject
+ * @uses SprayFire.Core.Util.CoreObject
  */
-class ErrorHandler extends \SprayFire\Core\CoreObject {
+class ErrorHandler extends \SprayFire\Core\Util\CoreObject {
 
     protected $Logger;
 

@@ -21,7 +21,7 @@ namespace SprayFire\Core\Util;
  * @uses SprayFire.Core.PathGenerator
  * @uses SprayFire.Core.CoreObject
  */
-class Directory extends \SprayFire\Core\CoreObject implements \SprayFire\Core\PathGenerator {
+class Directory extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Core\PathGenerator {
 
     /**
      * @brief The root path holding the primary directories used by the app and

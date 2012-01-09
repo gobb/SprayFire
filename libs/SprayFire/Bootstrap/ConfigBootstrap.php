@@ -33,10 +33,10 @@ namespace SprayFire\Bootstrap;
  * @uses SprayFire.Config.Configuration
  * @uses SprayFire.Logger.Log
  * @uses SprayFire.Bootstrap.Bootstrapper
- * @uses SprayFire.Logger.CoreObject
+ * @uses SprayFire.Core.Util.CoreObject
  * @uses SprayFire.Core.Structure.RestrictedMap
  */
-class ConfigBootstrap extends \SprayFire\Core\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
+class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
      * @brief A SprayFire.Core.Structure.RestrictedMap, restricted to SprayFire.Config.Configuration
