@@ -5,7 +5,7 @@
  * @brief Holds a class that allows messages to be logged to a file on disk.
  */
 
-namespace SprayFire\Logging;
+namespace SprayFire\Logging\Logifier;
 
 /**
  * @brief A framework implemented class that adds a timestamp log message to

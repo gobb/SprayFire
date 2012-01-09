@@ -6,7 +6,7 @@
  * design pattern.
  */
 
-namespace SprayFire\Logging;
+namespace SprayFire\Logging\Logifier;
 
 /**
  * @brief This SprayFire.Logger.Logger will not actually log messages to any medium;
