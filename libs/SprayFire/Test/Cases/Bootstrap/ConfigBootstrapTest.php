@@ -45,7 +45,7 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
 
-        $Log = new \SprayFire\Logging\NullLogger();
+        $Log = new \SprayFire\Logging\Logifier\NullLogger();
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $configs);
         $Bootstrap->runBootstrap();
         $ConfigMap = $Bootstrap->getConfigs();
@@ -65,7 +65,7 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
 
     public function testInvalidConfigBootstrapWithNonExistentInterface() {
         $exceptionThrown = false;
-        $Log = new \SprayFire\Logging\NullLogger();
+        $Log = new \SprayFire\Logging\Logifier\NullLogger();
         $timestamp = '';
         try {
             $timestamp = \date('M-d-Y H:i:s');
@@ -94,7 +94,7 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
 
-        $Log = new \SprayFire\Logging\NullLogger();
+        $Log = new \SprayFire\Logging\Logifier\NullLogger();
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $configs);
         $Bootstrap->runBootstrap();
         $timestamp = \date('M-d-Y H:i:s');

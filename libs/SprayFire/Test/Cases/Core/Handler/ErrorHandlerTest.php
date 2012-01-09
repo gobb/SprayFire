@@ -29,7 +29,7 @@ namespace SprayFire\Test\Cases\Core\Handler;
 class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
 
     public function testErrorHandlerFunctionNotInDevelopmentMode() {
-        $Log = new \SprayFire\Logging\NullLogger();
+        $Log = new \SprayFire\Logging\Logifier\NullLogger();
         $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($Log);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
@@ -46,7 +46,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testErrorHandlerFunctionInDevelopmentMode() {
-        $Log = new \SprayFire\Logging\NullLogger();
+        $Log = new \SprayFire\Logging\Logifier\NullLogger();
         $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($Log, true);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
@@ -77,7 +77,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testErrorHandlerFunctionUnhandledSeverity() {
-        $Log = new \SprayFire\Logging\NullLogger();
+        $Log = new \SprayFire\Logging\Logifier\NullLogger();
         $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($Log);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
@@ -92,7 +92,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testErrorHandlerFunctionUnknownSeverity() {
-        $Log = new \SprayFire\Logging\NullLogger();
+        $Log = new \SprayFire\Logging\Logifier\NullLogger();
         $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($Log);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
@@ -107,7 +107,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testErrorHandlerFunctionWithErrorReportingTurnedOff() {
-        $Log = new \SprayFire\Logging\NullLogger();
+        $Log = new \SprayFire\Logging\Logifier\NullLogger();
         $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($Log, true);
         \set_error_handler(array($ErrorHandler, 'trap'));
 

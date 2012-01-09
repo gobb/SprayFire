@@ -52,7 +52,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         \touch($file);
         \chmod($file, 0444);
         $LogFile = new \SplFileInfo($file);
-        $Logger = new \SprayFire\Logging\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
     }
 
     public function testBasicFileLogging() {
@@ -60,7 +60,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         \touch($file);
         \chmod($file, 0755);
         $LogFile = new \SplFileInfo($file);
-        $Logger = new \SprayFire\Logging\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
 
         $Logger->log('test','something');
         $Logger->log('something', 'else');
@@ -80,7 +80,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         \touch($file);
         \chmod($file, 0755);
         $LogFile = new \SplFileInfo($file);
-        $Logger = new \SprayFire\Logging\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
         $blankTimestamp = '';
         $Logger->log($blankTimestamp,'something');
         $Logger->log($blankTimestamp, 'else');
@@ -100,7 +100,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         \touch($file);
         \chmod($file, 0755);
         $LogFile = new \SplFileInfo($file);
-        $Logger = new \SprayFire\Logging\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
         $blankMessage = '';
         $Logger->log('12-24-2011 12:45:12', $blankMessage);
         $Logger->log('12-25-2011 13:56:10', $blankMessage);
