@@ -63,7 +63,7 @@ class ConfigBootstrap extends \SprayFire\Core\CoreObject implements \SprayFire\B
      * @param $configInfo An array of configuration information to create objects
      * @throws SprayFire.Exception.FatalRuntimeException
      */
-    public function __construct(\SprayFire\Logger\Log $Logger, array $configInfo, $configInterface = '\\SprayFire\\Config\\Configuration') {
+    public function __construct(\SprayFire\Logger\Logger $Logger, array $configInfo, $configInterface = '\\SprayFire\\Config\\Configuration') {
         $this->Logger = $Logger;
         $this->configInfo = $configInfo;
         $this->configInterface = $configInterface;
@@ -89,7 +89,7 @@ class ConfigBootstrap extends \SprayFire\Core\CoreObject implements \SprayFire\B
      */
     protected function populateConfigMap() {
         $configInfo = $this->configInfo;
-        $this->ConfigMap = new \SprayFire\Core\Structure\RestrictedMap($this->configInterface);
+        $this->createConfigMap();
         foreach ($configInfo as $info) {
             try {
                 $data = $info['config-data'];
@@ -106,6 +106,15 @@ class ConfigBootstrap extends \SprayFire\Core\CoreObject implements \SprayFire\B
             } catch (\InvalidArgumentException $InvalArgExc) {
                 $this->Logger->log('Unable to instantiate the Configuration object, ' . $info['map-key'] . ', or it does not implement Object interface.');
             }
+        }
+    }
+
+    protected function createConfigMap() {
+        try {
+            $this->ConfigMap = new \SprayFire\Core\Structure\RestrictedMap($this->configInterface);
+        } catch (\SprayFire\Exception\TypeNotFoundException $InvalArgExc) {
+            $this->Logger->log($InvalArgExc->getMessage());
+            throw new \SprayFire\Exception\BootstrapFailedException('The ConfigBootstrap failed due to the configuration interface being invalid.');
         }
     }
 
