@@ -26,7 +26,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
 
     public function testBasicObjectStorage() {
         $ParentType = '\\SprayFire\\Test\\Helpers\\TestObject';
-        $Storage = new \SprayFire\Core\Structure\RestrictedMap($ParentType);
+        $Storage = new \SprayFire\Structure\Map\RestrictedMap($ParentType);
 
         $expectedInitiationSize = 0;
         $initiationSize = \count($Storage);
@@ -61,7 +61,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
         $SecondFromGetObject = $Storage->getObject('object-two');
         $this->assertSame($SecondAdd, $SecondFromGetObject);
 
-        $InvalidObject = new \SprayFire\Core\Structure\ImmutableStorage(array());
+        $InvalidObject = new \SprayFire\Structure\Storage\ImmutableStorage(array());
         $exceptionThrown = false;
         try {
             $Storage->setObject('invalid-object', $InvalidObject);
@@ -74,16 +74,16 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testInterfaceObjectStorage() {
-        $Type = '\\SprayFire\\Core\\Structure\\Overloadable';
-        $Storage = new \SprayFire\Core\Structure\RestrictedMap($Type);
+        $Type = '\\SprayFire\\Structure\\Overloadable';
+        $Storage = new \SprayFire\Structure\Map\RestrictedMap($Type);
 
-        $Storage->setObject('key', new \SprayFire\Core\Structure\ImmutableStorage(array()));
+        $Storage->setObject('key', new \SprayFire\Structure\Storage\ImmutableStorage(array()));
         $this->assertTrue($Storage->count() === 1);
     }
 
     public function testLoopingThroughObjectStore() {
         $Type = '\\SprayFire\\Core\\Object';
-        $Storage = new \SprayFire\Core\Structure\RestrictedMap($Type);
+        $Storage = new \SprayFire\Structure\Map\RestrictedMap($Type);
 
         $One = new \SprayFire\Test\Helpers\TestObject();
         $Two = new \SprayFire\Test\Helpers\TestObject();
@@ -130,7 +130,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
         $Object = new \SprayFire\Test\Helpers\TestObject;
 
         $Type = '\\SprayFire\\Test\\Helpers\\TestObject';
-        $Storage = new \SprayFire\Core\Structure\RestrictedMap($Type);
+        $Storage = new \SprayFire\Structure\Map\RestrictedMap($Type);
 
         $Storage->setObject($key, $Object);
     }
@@ -138,7 +138,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
     public function testGettingNonexistentKey() {
         $key = 'noexist';
         $Type = '\\SprayFire\\Core\\Object';
-        $Storage = new \SprayFire\Core\Structure\RestrictedMap($Type);
+        $Storage = new \SprayFire\Structure\Map\RestrictedMap($Type);
 
         $Storage->setObject('i-do-exist', new \SprayFire\Test\Helpers\TestObject());
         $Noexist = $Storage->getObject($key);

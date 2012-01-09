@@ -53,7 +53,7 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
         $SprayFireRollTide = $ConfigMap->getObject('SprayFireRollTide');
         $PrimaryConfig = $ConfigMap->getObject('PrimaryConfig');
 
-        $this->assertTrue($ConfigMap instanceof \SprayFire\Core\Structure\RestrictedMap);
+        $this->assertTrue($ConfigMap instanceof \SprayFire\Structure\Map\RestrictedMap);
         $this->assertTrue($SprayFireRollTide instanceof \SprayFire\Config\ArrayConfig);
         $this->assertTrue($PrimaryConfig instanceof \SprayFire\Config\JsonConfig);
 
@@ -75,7 +75,7 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
             $exceptionThrown = true;
         }
         $this->assertTrue($exceptionThrown);
-        
+
     }
 
     public function testInvalidConfigFilePassed() {

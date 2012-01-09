@@ -5,6 +5,7 @@
  * @brief Holds a class that allows for a configuration to be stored by passing
  * a simple array
  */
+
 namespace SprayFire\Config;
 
 /**
@@ -17,6 +18,6 @@ namespace SprayFire\Config;
  * @uses SprayFire.Config.Configuration
  * @uses SprayFire.Core.Structure.ImmutableStorage
  */
-class ArrayConfig extends \SprayFire\Core\Structure\ImmutableStorage implements \SprayFire\Config\Configuration {
+class ArrayConfig extends \SprayFire\Structure\Storage\ImmutableStorage implements \SprayFire\Config\Configuration {
 
 }

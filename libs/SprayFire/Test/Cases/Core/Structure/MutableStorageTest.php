@@ -29,7 +29,7 @@ class MutableStorageTest extends \PHPUnit_Framework_TestCase {
         $data['key-one'] = 'value';
         $data['key-two'] = 'another value';
         $data['key-three'] = array('one' => '1');
-        $Storage = new \SprayFire\Core\Structure\MutableStorage($data, false);
+        $Storage = new \SprayFire\Structure\Storage\MutableStorage($data, false);
 
         $this->assertSame(\count($Storage), \count($data));
 
@@ -65,7 +65,7 @@ class MutableStorageTest extends \PHPUnit_Framework_TestCase {
             )
         );
 
-        $Storage = new \SprayFire\Core\Structure\MutableStorage($data);
+        $Storage = new \SprayFire\Structure\Storage\MutableStorage($data);
         $this->assertSame('value 1', $Storage->{'key-one'}->one);
         $this->assertSame('value 2', $Storage->{'key-two'}->one);
         $this->assertSame('value 3', $Storage->{'key-two'}->two->key);
@@ -73,7 +73,7 @@ class MutableStorageTest extends \PHPUnit_Framework_TestCase {
 
     public function testNullArrayKeyStorage() {
         $data = array();
-        $Storage = new \SprayFire\Core\Structure\MutableStorage($data);
+        $Storage = new \SprayFire\Structure\Storage\MutableStorage($data);
 
         $First = new \SprayFire\Test\Helpers\TestObject();
         $Second = new \SprayFire\Test\Helpers\TestObject();
@@ -95,7 +95,7 @@ class MutableStorageTest extends \PHPUnit_Framework_TestCase {
         $expectedKeys = array('charles', 'dyana', 'sprayfire');
         $expectedValues = array('sprayfire dictator', 'charles love', 'the project');
 
-        $Storage = new \SprayFire\Core\Structure\MutableStorage($data);
+        $Storage = new \SprayFire\Structure\Storage\MutableStorage($data);
         $i = 0;
         foreach ($Storage as $key => $value) {
             $this->assertSame($expectedKeys[$i], $key);

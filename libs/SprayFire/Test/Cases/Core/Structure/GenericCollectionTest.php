@@ -29,7 +29,7 @@ namespace SprayFire\Test\Cases\Core\Structure;
 class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
 
     public function testAddingObjects() {
-        $Collection = new \SprayFire\Core\Structure\GenericCollection();
+        $Collection = new \SprayFire\Structure\Collection\GenericCollection();
 
         $this->assertTrue($Collection->isEmpty());
 
@@ -52,7 +52,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testAddingTooManyObjects() {
-        $Collection = new \SprayFire\Core\Structure\GenericCollection(2);
+        $Collection = new \SprayFire\Structure\Collection\GenericCollection(2);
         $ObjectOne = new \SprayFire\Test\Helpers\TestObject();
         $ObjectTwo = new \SprayFire\Test\Helpers\TestObject();
         $ObjectThree = new \SprayFire\Test\Helpers\TestObject();
@@ -70,7 +70,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGettingObjectWithStringIndex() {
-        $Collection = new \SprayFire\Core\Structure\GenericCollection();
+        $Collection = new \SprayFire\Structure\Collection\GenericCollection();
         $exceptionThrown = false;
         try {
             $Collection->getObject('map-key');
@@ -81,13 +81,13 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGettingIndexOfNonExistentObject() {
-        $Collection = new \SprayFire\Core\Structure\GenericCollection();
+        $Collection = new \SprayFire\Structure\Collection\GenericCollection();
         $ObjectOne = new \SprayFire\Test\Helpers\TestObject();
         $this->assertFalse($Collection->getIndex($ObjectOne));
     }
 
     public function testCollectionContainsNonExistentObject() {
-        $Collection = new \SprayFire\Core\Structure\GenericCollection();
+        $Collection = new \SprayFire\Structure\Collection\GenericCollection();
         $ObjectOne = new \SprayFire\Test\Helpers\TestObject();
         $ObjectTwo = new \SprayFire\Test\Helpers\TestObject();
         $ObjectThree = new \SprayFire\Test\Helpers\TestObject();
@@ -97,7 +97,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testRemovingAnIndex() {
-        $Collection = new \SprayFire\Core\Structure\GenericCollection();
+        $Collection = new \SprayFire\Structure\Collection\GenericCollection();
         $ObjectOne = new \SprayFire\Test\Helpers\TestObject();
         $ObjectTwo = new \SprayFire\Test\Helpers\TestObject();
         $Collection->addObject($ObjectOne);
@@ -112,7 +112,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testRemovingAnObject() {
-        $Collection = new \SprayFire\Core\Structure\GenericCollection();
+        $Collection = new \SprayFire\Structure\Collection\GenericCollection();
         $ObjectOne = new \SprayFire\Test\Helpers\TestObject();
         $ObjectTwo = new \SprayFire\Test\Helpers\TestObject();
         $Collection->addObject($ObjectOne);
@@ -127,7 +127,7 @@ class GenericCollectionTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testIteratingOverCollection() {
-        $Collection = new \SprayFire\Core\Structure\GenericCollection();
+        $Collection = new \SprayFire\Structure\Collection\GenericCollection();
         $ObjectOne = new \SprayFire\Test\Helpers\TestObject();
         $ObjectTwo = new \SprayFire\Test\Helpers\TestObject();
         $ObjectThree = new \SprayFire\Test\Helpers\TestObject();
