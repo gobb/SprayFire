@@ -12,7 +12,7 @@ namespace SprayFire\Logger;
  * @brief An interface for implementing objects that should be responsible for
  * logging various messages to disk.
  */
-interface Log {
+interface Logger {
 
     /**
      * @param $timestamp the timestamp for the given message
@@ -20,6 +20,6 @@ interface Log {
      *        of the log
      * @return true if the message was logged, false if it didn't
      */
-    public function log($timestamp, $message);
+    public function log($message);
 
 }
