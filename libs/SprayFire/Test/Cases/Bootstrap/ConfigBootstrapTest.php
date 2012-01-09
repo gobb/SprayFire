@@ -45,7 +45,7 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
 
-        $Log = new \SprayFire\Logger\DevelopmentLogger();
+        $Log = new \SprayFire\Logger\NullLogger();
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $configs);
         $Bootstrap->runBootstrap();
         $ConfigMap = $Bootstrap->getConfigs();
@@ -65,19 +65,17 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
 
     public function testInvalidConfigBootstrapWithNonExistentInterface() {
         $exceptionThrown = false;
-        $Log = new \SprayFire\Logger\DevelopmentLogger();
+        $Log = new \SprayFire\Logger\NullLogger();
         $timestamp = '';
         try {
             $timestamp = \date('M-d-Y H:i:s');
             $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, array(), '\\Some\\Nonexistent\\Interface');
-        } catch (\SprayFire\Exception\FatalRuntimeException $FatalRunExc) {
+            $Bootstrap->runBootstrap();
+        } catch (\SprayFire\Exception\BootstrapFailedException $FatalRunExc) {
             $exceptionThrown = true;
         }
         $this->assertTrue($exceptionThrown);
-        $messages = $Log->getMessages();
-        $message = $messages[0];
-        $this->assertSame($timestamp, $message['timestamp']);
-        $this->assertSame('Unable to load \\Some\\Nonexistent\\Interface, do not have resources to create appropriate configuration objects.', $message['info']);
+        
     }
 
     public function testInvalidConfigFilePassed() {
@@ -96,7 +94,7 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
 
-        $Log = new \SprayFire\Logger\DevelopmentLogger();
+        $Log = new \SprayFire\Logger\NullLogger();
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $configs);
         $Bootstrap->runBootstrap();
         $timestamp = \date('M-d-Y H:i:s');
@@ -104,11 +102,6 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertTrue($ConfigMap->containsKey('SprayFireRollTide'));
         $this->assertFalse($ConfigMap->containsKey('PrimaryConfig'));
-
-        $expectedLogMessages = array(array('timestamp' => $timestamp, 'info' => 'Unable to instantiate the Configuration object, PrimaryConfig, or it does not implement Object interface.'));
-        $actualLogMessages = $Log->getMessages();
-
-        $this->assertSame($expectedLogMessages, $actualLogMessages);
     }
 
 }
