@@ -4,24 +4,9 @@
  * @file
  * @brief An implementation of SprayFire.Core.Structure.ObjectCollection that allows
  * for any SprayFire.Core.Object to be stored inside.
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011, Charles Sprayberry
  */
-namespace SprayFire\Core\Structure;
+
+namespace SprayFire\Structure\Collection;
 
 /**
  * @brief A data structure that allows for the storage of a series of SprayFire.Core.Object
@@ -38,9 +23,10 @@ namespace SprayFire\Core\Structure;
  *
  * @uses IteratorAggregate
  * @uses SplFixedArray
- * @uses SprayFire.Core.Structure.ObjectCollection
+ * @uses SprayFire.Structure.ObjectCollection
+ * @uses SprayFire.Core.Util.CoreObject
  */
-class GenericCollection extends \SprayFire\Core\CoreObject implements \IteratorAggregate, \SprayFire\Core\Structure\ObjectCollection {
+class GenericCollection extends \SprayFire\Core\Util\CoreObject implements \IteratorAggregate, \SprayFire\Structure\ObjectCollection {
 
     /**
      * @brief An SplFixedArray used to store the elements of the collection

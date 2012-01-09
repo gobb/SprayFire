@@ -4,24 +4,9 @@
  * @file
  * @brief Provides a very basic implementation that allows for the storing of any
  * SprayFire.Core.Object passed.
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011, Charles Sprayberry
  */
-namespace SprayFire\Core\Structure;
+
+namespace SprayFire\Structure\Map;
 
 /**
  * @brief Base implementation of the SprayFire.Core.Structure.ObjectMap interface,
@@ -30,9 +15,10 @@ namespace SprayFire\Core\Structure;
  * @uses IteratorAggregate
  * @uses InvalidArgumentException
  * @uses SprayFire.Core.Object
- * @uses SprayFire.Core.Structure.ObjectMap
+ * @uses SprayFire.Structure.ObjectMap
+ * @uses SprayFire.Core.Util.CoreObject
  */
-class GenericMap extends \SprayFire\Core\CoreObject implements \IteratorAggregate, \SprayFire\Core\Structure\ObjectMap {
+class GenericMap extends \SprayFire\Core\Util\CoreObject implements \IteratorAggregate, \SprayFire\Structure\ObjectMap {
 
     /**
      * @brief Holds the objects being stored in this data structure

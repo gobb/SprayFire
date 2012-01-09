@@ -26,7 +26,7 @@ namespace SprayFire\Test\Helpers;
 /**
  * @brief
  */
-class CrappyMutableStorage extends \SprayFire\Core\Structure\MutableStorage {
+class CrappyMutableStorage extends \SprayFire\Structure\Storage\MutableStorage {
 
     protected function convertDataDeep(array $array) {
         return null;

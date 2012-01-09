@@ -13,10 +13,10 @@ namespace SprayFire\Core\Handler;
  * messages and provides a means to get the error info for errors triggered in a
  * specific request.
  *
- * @uses SprayFire.Logger.Log
- * @uses SprayFire.Logger.CoreObject
+ * @uses SprayFire.Logging.Log
+ * @uses SprayFire.Core.Util.CoreObject
  */
-class ErrorHandler extends \SprayFire\Core\CoreObject {
+class ErrorHandler extends \SprayFire\Core\Util\CoreObject {
 
     protected $Logger;
 
@@ -39,7 +39,7 @@ class ErrorHandler extends \SprayFire\Core\CoreObject {
      * @param $Log \SprayFire\Logger\Log The log to use for this error handler
      * @param $developmentModeOn True or false on whether or not the environment is in development mode
      */
-    public function __construct(\SprayFire\Logger\Logger $Log, $developmentModeOn = false) {
+    public function __construct(\SprayFire\Logging\Logger $Log, $developmentModeOn = false) {
         $this->Logger = $Log;
         $this->developmentModeOn = (boolean) $developmentModeOn;
     }

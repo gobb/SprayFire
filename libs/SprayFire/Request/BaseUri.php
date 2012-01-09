@@ -4,22 +4,6 @@
  * @file
  * @brief Holds a class that implements the basic functionality to split a URI into
  * its appropriate controller, action and parameter fragments.
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011, Charles Sprayberry
  */
 
 namespace SprayFire\Request;
@@ -29,9 +13,9 @@ namespace SprayFire\Request;
  * will also urldecode() the original URI passed.
  *
  * @uses SprayFire.Request.Uri
- * @uses SprayFire.Core.CoreObject
+ * @uses SprayFire.Core.Util.CoreObject
  */
-class BaseUri extends \SprayFire\Core\CoreObject implements \SprayFire\Request\Uri {
+class BaseUri extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Request\Uri {
 
     /**
      * Holds the original, unaltered URI passed in the constructor.

@@ -6,7 +6,7 @@
  * messages and data.
  */
 
-namespace SprayFire\Logger;
+namespace SprayFire\Logging;
 
 /**
  * @brief An interface for implementing objects that should be responsible for

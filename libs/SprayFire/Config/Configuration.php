@@ -18,8 +18,8 @@ namespace SprayFire\Config;
  * existing data to be changed or removed.
  *
  * @uses ArrayAccess
- * @uses SprayFire.Core.Structure.Overloadable
+ * @uses SprayFire.Structure.Overloadable
  */
-interface Configuration extends \ArrayAccess, \SprayFire\Core\Structure\Overloadable {
+interface Configuration extends \ArrayAccess, \SprayFire\Structure\Overloadable {
 
 }

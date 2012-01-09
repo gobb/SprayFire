@@ -46,7 +46,7 @@ namespace SprayFire\Config;
  * @uses SprayFire.Config.Configuration
  * @uses SprayFire.Core.Structure.ImmutableStorage
  */
-class JsonConfig extends \SprayFire\Core\Structure\ImmutableStorage implements \SprayFire\Config\Configuration {
+class JsonConfig extends \SprayFire\Structure\Storage\ImmutableStorage implements \SprayFire\Config\Configuration {
 
     /**
      * @brief Holds the SplFileInfo object passed in the constructor.

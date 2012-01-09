@@ -31,21 +31,26 @@ namespace SprayFire\Bootstrap;
  *
  * @uses ReflectionClass
  * @uses SprayFire.Config.Configuration
- * @uses SprayFire.Logger.Log
+ * @uses SprayFire.Logging.Logger
  * @uses SprayFire.Bootstrap.Bootstrapper
- * @uses SprayFire.Logger.CoreObject
- * @uses SprayFire.Core.Structure.RestrictedMap
+ * @uses SprayFire.Core.Util.CoreObject
+ * @uses SprayFire.Structure.Map.RestrictedMap
  */
-class ConfigBootstrap extends \SprayFire\Core\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
+class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
-     * @brief A SprayFire.Core.Structure.RestrictedMap, restricted to SprayFire.Config.Configuration
+     * @brief A SprayFire.Structure.Map.RestrictedMap, restricted to SprayFire.Config.Configuration
      * objects, that will hold the objects created when the bootstrap is ran.
      *
      * @property $ConfigMap
      */
     protected $ConfigMap;
 
+    /**
+     * @brief A SprayFire.Logging.Logger used to store messages.
+     *
+     * @property $Logger
+     */
     protected $Logger;
 
     /**
@@ -56,6 +61,12 @@ class ConfigBootstrap extends \SprayFire\Core\CoreObject implements \SprayFire\B
      */
     protected $configInfo;
 
+    /**
+     * @brief Complete namespace to the interface that Configuration objects created
+     * should implement.
+     *
+     * @property $configInterface
+     */
     protected $configInterface;
 
     /**
@@ -63,7 +74,7 @@ class ConfigBootstrap extends \SprayFire\Core\CoreObject implements \SprayFire\B
      * @param $configInfo An array of configuration information to create objects
      * @throws SprayFire.Exception.FatalRuntimeException
      */
-    public function __construct(\SprayFire\Logger\Logger $Logger, array $configInfo, $configInterface = '\\SprayFire\\Config\\Configuration') {
+    public function __construct(\SprayFire\Logging\Logger $Logger, array $configInfo, $configInterface = '\\SprayFire\\Config\\Configuration') {
         $this->Logger = $Logger;
         $this->configInfo = $configInfo;
         $this->configInterface = $configInterface;
@@ -111,7 +122,7 @@ class ConfigBootstrap extends \SprayFire\Core\CoreObject implements \SprayFire\B
 
     protected function createConfigMap() {
         try {
-            $this->ConfigMap = new \SprayFire\Core\Structure\RestrictedMap($this->configInterface);
+            $this->ConfigMap = new \SprayFire\Structure\Map\RestrictedMap($this->configInterface);
         } catch (\SprayFire\Exception\TypeNotFoundException $InvalArgExc) {
             $this->Logger->log($InvalArgExc->getMessage());
             throw new \SprayFire\Exception\BootstrapFailedException('The ConfigBootstrap failed due to the configuration interface being invalid.');

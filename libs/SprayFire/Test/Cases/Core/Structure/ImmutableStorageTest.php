@@ -31,7 +31,7 @@ class ImmutableStorageTest extends \PHPUnit_Framework_TestCase {
     public function testAddingDataToImmutableStorage() {
         $exceptionThrown = false;
         $data = array('test' => 'one');
-        $ImmutableStorage = new \SprayFire\Core\Structure\ImmutableStorage($data);
+        $ImmutableStorage = new \SprayFire\Structure\Storage\ImmutableStorage($data);
         $this->assertSame('one', $ImmutableStorage->test);
         try {
             $ImmutableStorage->something = 'not valid';
@@ -45,7 +45,7 @@ class ImmutableStorageTest extends \PHPUnit_Framework_TestCase {
     public function testChangingDataInImmutableStorage() {
         $exceptionThrown = false;
         $data = array('test' => 'one');
-        $ImmutableStorage = new \SprayFire\Core\Structure\ImmutableStorage($data);
+        $ImmutableStorage = new \SprayFire\Structure\Storage\ImmutableStorage($data);
         $this->assertSame('one', $ImmutableStorage->test);
         try {
             $ImmutableStorage->test = 'something else';

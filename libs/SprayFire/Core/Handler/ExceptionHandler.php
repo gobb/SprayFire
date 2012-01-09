@@ -17,10 +17,10 @@ namespace SprayFire\Core\Handler;
  * addition, a 500 HTTP status will be returned to the user.  For the interim, it
  * is expected that the content returned is HTML.
  *
- * @uses SprayFire.Logger.Log
- * @uses SprayFire.Logger.CoreObject
+ * @uses SprayFire.Logging.Logger
+ * @uses SprayFire.Core.Util.CoreObject
  */
-class ExceptionHandler extends \SprayFire\Logger\CoreObject {
+class ExceptionHandler extends \SprayFire\Core\Util\CoreObject {
 
     protected $Logger;
 
@@ -44,11 +44,11 @@ class ExceptionHandler extends \SprayFire\Logger\CoreObject {
     protected $headers;
 
     /**
-     * @param $Log \SprayFire\Logger\Log to log information about the caught exception
+     * @param $Log SprayFire.Loging.Logger to log information about the caught exception
      * @param $contentReplacementPath File path holding content to serve up after the info is logged
      * @param $headers an array of header information to be sent to the user
      */
-    public function __construct(\SprayFire\Logger\Logger $Log, $contentReplacementPath, array $headers = array()) {
+    public function __construct(\SprayFire\Logging\Logger $Log, $contentReplacementPath, array $headers = array()) {
         $this->Logger = $Log;
         $this->replacePath = $contentReplacementPath;
         $this->headers = $headers;

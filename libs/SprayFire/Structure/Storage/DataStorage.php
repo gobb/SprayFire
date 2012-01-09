@@ -4,25 +4,9 @@
  * @file
  * @brief Provides a generic means to store data through object (->) or array ([])
  * notation.
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011, Charles Sprayberry
  */
 
-namespace SprayFire\Core\Structure;
+namespace SprayFire\Structure\Storage;
 
 /**
  * @brief Stores data in a property and allows access to that data via object
@@ -60,8 +44,9 @@ namespace SprayFire\Core\Structure;
  * @uses Countable
  * @uses IteratorAggregate
  * @uses SprayFire.Core.Structure.Overloadable
+ * @uses SprayFire.Core.Util.CoreObject
  */
-abstract class DataStorage extends \SprayFire\Core\CoreObject implements \ArrayAccess, \Countable, \IteratorAggregate, \SprayFire\Core\Structure\Overloadable {
+abstract class DataStorage extends \SprayFire\Core\Util\CoreObject implements \ArrayAccess, \Countable, \IteratorAggregate, \SprayFire\Structure\Overloadable {
 
     /**
      * An array holding the data being stored.

@@ -29,7 +29,7 @@ namespace SprayFire\Test\Cases\Core\Structure;
 class GenericSetTest extends \PHPUnit_Framework_TestCase {
 
     public function testAddingDuplicateObjectsToSet() {
-        $Set = new \SprayFire\Core\Structure\GenericSet();
+        $Set = new \SprayFire\Structure\Collection\GenericSet();
         $Object = new \SprayFire\Test\Helpers\TestObject();
         $DiffObject = new \SprayFire\Test\Helpers\TestObject();
 

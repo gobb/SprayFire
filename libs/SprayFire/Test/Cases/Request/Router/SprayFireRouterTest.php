@@ -47,7 +47,7 @@ class SprayFireRouterTest extends \PHPUnit_Framework_TestCase {
         $RoutesConfig = new \SprayFire\Config\JsonConfig($RoutesConfigFile);
 
         $LogFile = new \SplFileInfo($this->validLogPath);
-        $Logger = new \SprayFire\Logger\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\FileLogger($LogFile);
 
         $Router = new \SprayFire\Request\Router\SprayFireRouter($RoutesConfig, $Logger);
 
@@ -74,7 +74,7 @@ class SprayFireRouterTest extends \PHPUnit_Framework_TestCase {
         $RoutesConfig = new \SprayFire\Config\JsonConfig($RoutesConfigFile);
 
         $LogFile = new \SplFileInfo($this->validLogPath);
-        $Logger = new \SprayFire\Logger\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\FileLogger($LogFile);
 
         $Router = new \SprayFire\Request\Router\SprayFireRouter($RoutesConfig, $Logger);
 
@@ -100,7 +100,7 @@ class SprayFireRouterTest extends \PHPUnit_Framework_TestCase {
         $RoutesConfig = new \SprayFire\Config\JsonConfig($RoutesConfigFile);
 
         $LogFile = new \SplFileInfo($this->validLogPath);
-        $Logger = new \SprayFire\Logger\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\FileLogger($LogFile);
 
         $Router = new \SprayFire\Request\Router\SprayFireRouter($RoutesConfig, $Logger);
 
@@ -126,7 +126,7 @@ class SprayFireRouterTest extends \PHPUnit_Framework_TestCase {
         $RoutesConfig = new \SprayFire\Config\JsonConfig($RoutesConfigFile);
 
         $LogFile = new \SplFileInfo($this->validLogPath);
-        $Logger = new \SprayFire\logger\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\FileLogger($LogFile);
 
         $Router = new \SprayFire\Request\Router\SprayFireRouter($RoutesConfig, $Logger);
 
@@ -152,7 +152,7 @@ class SprayFireRouterTest extends \PHPUnit_Framework_TestCase {
         $RoutesConfig = new \SprayFire\Config\JsonConfig($RoutesConfigFile);
 
         $LogFile = new \SplFileInfo($this->validLogPath);
-        $Logger = new \SprayFire\Logger\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\FileLogger($LogFile);
 
         $Router = new \SprayFire\Request\Router\SprayFireRouter($RoutesConfig, $Logger);
 
@@ -178,7 +178,7 @@ class SprayFireRouterTest extends \PHPUnit_Framework_TestCase {
         $RoutesConfig = new \SprayFire\Config\JsonConfig($RoutesConfigFile);
 
         $LogFile = new \SplFileInfo($this->validLogPath);
-        $Logger = new \SprayFire\Logger\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\FileLogger($LogFile);
 
         $Router = new \SprayFire\Request\Router\SprayFireRouter($RoutesConfig, $Logger);
 
@@ -204,7 +204,7 @@ class SprayFireRouterTest extends \PHPUnit_Framework_TestCase {
         $RoutesConfig = new \SprayFire\Config\JsonConfig($RoutesConfigFile);
 
         $LogFile = new \SplFileInfo($this->validLogPath);
-        $Logger = new \SprayFire\Logger\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\FileLogger($LogFile);
 
         $Router = new \SprayFire\Request\Router\SprayFireRouter($RoutesConfig, $Logger);
 
@@ -231,7 +231,7 @@ class SprayFireRouterTest extends \PHPUnit_Framework_TestCase {
 
 
         $LogFile = new \SplFileInfo($this->validLogPath);
-        $Logger = new \SprayFire\Logger\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\FileLogger($LogFile);
         $Router = new \SprayFire\Request\Router\SprayFireRouter($RoutesConfig, $Logger);
 
         $requestedUri = '/:genre/:hip-hop';
@@ -258,7 +258,7 @@ class SprayFireRouterTest extends \PHPUnit_Framework_TestCase {
         $RoutesConfig = new \SprayFire\Config\JsonConfig($RoutesConfigFile);
 
         $LogFile = new \SplFileInfo($this->validLogPath);
-        $Logger = new \SprayFire\Logger\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\FileLogger($LogFile);
 
         $Router = new \SprayFire\Request\Router\SprayFireRouter($RoutesConfig, $Logger);
 

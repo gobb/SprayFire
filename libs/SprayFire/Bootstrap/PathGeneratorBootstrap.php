@@ -53,15 +53,16 @@ namespace SprayFire\Bootstrap;
  * - <code>/web/index.php</code>
  *
  * @uses SprayFire.Bootstrap.Bootstrapper
- * @uses SprayFire.Core.Directory
+ * @uses SprayFire.Core.Util.CoreObject
+ * @uses SprayFire.Core.Util.Directory
  */
-class PathGeneratorBootstrap implements \SprayFire\Bootstrap\Bootstrapper {
+class PathGeneratorBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
      * @brief The SprayFire.Core.PathGenerator object created.
      *
      * @details
-     * By default the object returned will be a SprayFire.Core.Directory implementation
+     * By default the object returned will be a SprayFire.Core.Util.Directory implementation
      * of the required interface.
      *
      * @property $Directory
@@ -96,7 +97,7 @@ class PathGeneratorBootstrap implements \SprayFire\Bootstrap\Bootstrapper {
      * the \a $Directory property.
      */
     protected function createDirectory() {
-        $Directory = new \SprayFire\Core\Directory();
+        $Directory = new \SprayFire\Core\Util\Directory();
         $Directory->setInstallPath($this->paths['installPath']);
         $Directory->setLibsPath($this->paths['libsPath']);
         $Directory->setAppPath($this->paths['appPath']);

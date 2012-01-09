@@ -29,14 +29,14 @@ namespace SprayFire\Test\Cases\Core\Structure;
 class RestrictedSetTest extends \PHPUnit_Framework_TestCase {
 
     public function testAddingObjects() {
-        $Set = new \SprayFire\Core\Structure\RestrictedSet('\\SprayFire\\Test\\Helpers\\TestObject');
+        $Set = new \SprayFire\Structure\Collection\RestrictedSet('\\SprayFire\\Test\\Helpers\\TestObject');
         $this->assertSame(0, $Set->addObject(new \SprayFire\Test\Helpers\TestObject()));
         $this->assertSame(1, $Set->addObject(new \SprayFire\Test\Helpers\TestObject()));
         $this->assertSame(2, $Set->count());
     }
 
     public function testAddingInvalidObject() {
-        $Set = new \SprayFire\Core\Structure\RestrictedSet('\\SprayFire\\Test\\Helpers\\TestObject');
+        $Set = new \SprayFire\Structure\Collection\RestrictedSet('\\SprayFire\\Test\\Helpers\\TestObject');
         $exceptionThrown = false;
         try {
             $Set->addObject($Set);
@@ -49,7 +49,7 @@ class RestrictedSetTest extends \PHPUnit_Framework_TestCase {
     public function testCreatingSetWithImproperType() {
         $exceptionThrown = false;
         try {
-            $Set = new \SprayFire\Core\Structure\RestrictedSet('NonExistent');
+            $Set = new \SprayFire\Structure\Collection\RestrictedSet('NonExistent');
         } catch (\SprayFire\Exception\TypeNotFoundException $TypeNotFoundExc) {
             $exceptionThrown = true;
         }

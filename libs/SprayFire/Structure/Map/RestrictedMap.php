@@ -3,25 +3,9 @@
 /**
  * @file
  * @brief Framework's implementation of an ObjectStorage data structure.
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011, Charles Sprayberry
  */
 
-namespace SprayFire\Core\Structure;
+namespace SprayFire\Structure\Map;
 
 /**
  * @brief The framework's primary implementation to store framework objects.
@@ -32,13 +16,13 @@ namespace SprayFire\Core\Structure;
  * associated with a key and iterating over the stored objects.
  *
  * @uses SprayFire.Core.Object
- * @uses SprayFire.Core.GenericMap
- * @uses SprayFire.Core.ObjectTypeValidator
+ * @uses SprayFire.Structure.Map.GenericMap
+ * @uses SprayFire.Core.Util.ObjectTypeValidator
  */
-class RestrictedMap extends \SprayFire\Core\Structure\GenericMap {
+class RestrictedMap extends \SprayFire\Structure\Map\GenericMap {
 
     /**
-     * @brief A SprayFire.Core.ObjectValidator used to ensure objects added to the
+     * @brief A SprayFire.Core.Util.ObjectValidator used to ensure objects added to the
      * Map are of the correct type.
      *
      * @property $TypeValidator
@@ -53,7 +37,7 @@ class RestrictedMap extends \SprayFire\Core\Structure\GenericMap {
     public function __construct($parentType) {
         try {
             $ReflectedType = new \ReflectionClass($parentType);
-            $this->TypeValidator = new \SprayFire\Core\ObjectTypeValidator($ReflectedType);
+            $this->TypeValidator = new \SprayFire\Core\Util\ObjectTypeValidator($ReflectedType);
         } catch (\ReflectionException $ReflectExc) {
             throw new \SprayFire\Exception\TypeNotFoundException('The type passed, ' . $parentType . ', could not be found or loaded.');
         }

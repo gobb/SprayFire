@@ -20,13 +20,13 @@ namespace SprayFire\Request\Router;
  * even if an invalid configuration file is used.
  *
  * @uses SprayFire.Request.Router.Router
- * @uses SprayFire.Logger.Log
+ * @uses SprayFire.Logging.Logger
  * @uses SprayFire.Config.Configuration
  * @uses SprayFire.Request.Uri
- * @uses SprayFire.Logger.CoreObject
+ * @uses SprayFire.Core.Util.CoreObject
  * @uses SprayFire.Request.Router.DispatchUri
  */
-class SprayFireRouter extends \SprayFire\Core\CoreObject implements \SprayFire\Request\Router\Router {
+class SprayFireRouter extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Request\Router\Router {
 
     /**
      * @brief The SprayFire.Config.Configuration object holding the routing keys
@@ -76,9 +76,9 @@ class SprayFireRouter extends \SprayFire\Core\CoreObject implements \SprayFire\R
      * chosen controller and action will be invoked.
      *
      * @param $RoutesConfig SprayFire.Config.Configuration
-     * @param $Log SprayFire.Logger.Log
+     * @param $Log SprayFire.Logging.Logger
      */
-    public function __construct(\SprayFire\Config\Configuration $RoutesConfig, \SprayFire\Logger\Logger $Log) {
+    public function __construct(\SprayFire\Config\Configuration $RoutesConfig, \SprayFire\Logging\Logger $Log) {
         $this->Logger = $Log;
         $this->RoutesConfig = $RoutesConfig;
         if (!isset($RoutesConfig->defaults->controller)) {
