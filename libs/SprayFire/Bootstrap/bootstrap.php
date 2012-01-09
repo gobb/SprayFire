@@ -63,5 +63,5 @@ $ClassLoader = new \SprayFire\Core\ClassLoader();
 \spl_autoload_register(array($ClassLoader, 'load'));
 $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 
-$Container = new \SprayFire\Core\Structure\GenericMap();
+$Container = new \SprayFire\Structure\Map\GenericMap();
 return $Container;
