@@ -31,7 +31,7 @@ namespace SprayFire\Bootstrap;
  *
  * @uses ReflectionClass
  * @uses SprayFire.Config.Configuration
- * @uses SprayFire.Logger.Log
+ * @uses SprayFire.Logging.Logger
  * @uses SprayFire.Bootstrap.Bootstrapper
  * @uses SprayFire.Core.Util.CoreObject
  * @uses SprayFire.Structure.Map.RestrictedMap
@@ -47,7 +47,7 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
     protected $ConfigMap;
 
     /**
-     * @brief A SprayFire.Logger.Logger used to store messages.
+     * @brief A SprayFire.Logging.Logger used to store messages.
      *
      * @property $Logger
      */
@@ -74,7 +74,7 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
      * @param $configInfo An array of configuration information to create objects
      * @throws SprayFire.Exception.FatalRuntimeException
      */
-    public function __construct(\SprayFire\Logger\Logger $Logger, array $configInfo, $configInterface = '\\SprayFire\\Config\\Configuration') {
+    public function __construct(\SprayFire\Logging\Logger $Logger, array $configInfo, $configInterface = '\\SprayFire\\Config\\Configuration') {
         $this->Logger = $Logger;
         $this->configInfo = $configInfo;
         $this->configInterface = $configInterface;
