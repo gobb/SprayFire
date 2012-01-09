@@ -22,6 +22,8 @@ namespace SprayFire\Core\Handler;
  */
 class ExceptionHandler extends \SprayFire\Logger\CoreObject {
 
+    protected $Logger;
+
     /**
      * @brief A complete path to a page that should handle 500 requests
      *
@@ -46,8 +48,8 @@ class ExceptionHandler extends \SprayFire\Logger\CoreObject {
      * @param $contentReplacementPath File path holding content to serve up after the info is logged
      * @param $headers an array of header information to be sent to the user
      */
-    public function __construct(\SprayFire\Logger\Log $Log, $contentReplacementPath, array $headers = array()) {
-        parent::__construct($Log);
+    public function __construct(\SprayFire\Logger\Logger $Log, $contentReplacementPath, array $headers = array()) {
+        $this->Logger = $Log;
         $this->replacePath = $contentReplacementPath;
         $this->headers = $headers;
     }
@@ -73,7 +75,7 @@ class ExceptionHandler extends \SprayFire\Logger\CoreObject {
         $line = $Exception->getLine();
         $message = $Exception->getMessage();
         $logMessage = 'file:=' . $file . '|line:=' . $line . '|message:=' . $message;
-        $this->log($logMessage);
+        $this->Logger->log($logMessage);
     }
 
     /**
