@@ -4,22 +4,6 @@
  * @file
  * @brief A file holding classes reponsible for logging and keeping track of errors
  * triggered.
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011,2012 Charles Sprayberry
  */
 
 namespace SprayFire\Core\Handler;
@@ -32,7 +16,9 @@ namespace SprayFire\Core\Handler;
  * @uses SprayFire.Logger.Log
  * @uses SprayFire.Logger.CoreObject
  */
-class ErrorHandler extends \SprayFire\Logger\CoreObject {
+class ErrorHandler extends \SprayFire\Core\CoreObject {
+
+    protected $Logger;
 
     /**
      * @brief An array holding the \a $severity , \a $message , \a $file and \a $line
@@ -53,8 +39,8 @@ class ErrorHandler extends \SprayFire\Logger\CoreObject {
      * @param $Log \SprayFire\Logger\Log The log to use for this error handler
      * @param $developmentModeOn True or false on whether or not the environment is in development mode
      */
-    public function __construct(\SprayFire\Logger\Log $Log, $developmentModeOn = false) {
-        parent::__construct($Log);
+    public function __construct(\SprayFire\Logger\Logger $Log, $developmentModeOn = false) {
+        $this->Logger = $Log;
         $this->developmentModeOn = (boolean) $developmentModeOn;
     }
 
@@ -81,9 +67,9 @@ class ErrorHandler extends \SprayFire\Logger\CoreObject {
             $data['context'] = $context;
             // We are using this method to log the info because we want more information
             // about errors if we're in development mode.
-            $this->log($data);
+            $this->Logger->log($data);
         } else {
-            $this->logMessage($severity, $message);
+            $this->Logger->log($message);
         }
 
         $index = \count($this->trappedErrors);
@@ -118,15 +104,6 @@ class ErrorHandler extends \SprayFire\Logger\CoreObject {
             return $severityMap[$severity];
         }
         return 'E_UNKNOWN_SEVERITY';
-    }
-
-    /**
-     * @param $normalizedSeverity The textual representation of the severity for the trapped error
-     * @param $message The error message that was trapped
-     */
-    protected function logMessage($normalizedSeverity, $message) {
-        $errorMessage = 'severity:=' . $normalizedSeverity . ' message:=' . $message;
-        $this->log($errorMessage);
     }
 
     /**
