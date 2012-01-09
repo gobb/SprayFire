@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * @brief The primary intialization script for SprayFire
@@ -40,11 +41,11 @@ $errorCallback = function($severity, $message, $file = null, $line = null, $cont
 };
 \set_error_handler($errorCallback);
 
-
 $requestStartTime = \microtime(true);
 
 /**
- * @var $installPath the directory libs, app and web directories are stored in
+ * @var $installPath the complete path that the libs, app, and web paths is stored
+ * in.
  */
 $installPath = \dirname(__DIR__);
 
@@ -57,7 +58,7 @@ $libsPath = $installPath . '/libs';
 /**
  * @var $SprayFireContainer
  */
-$SprayFireContainer = include $libsPath  . '/SprayFire/Bootstrap/bootstrap.php';
+$SprayFireContainer = include $installPath  . '/libs/SprayFire/Bootstrap/bootstrap.php';
 
 /**
  * @todo The following markup eventually needs to be moved into the default
@@ -66,11 +67,11 @@ $SprayFireContainer = include $libsPath  . '/SprayFire/Bootstrap/bootstrap.php';
 
 // NOTE: The below code is a temporary measure until the templating system is in place
 
-$PathGenerator = $SprayFireContainer->getObject('PathGenerator');
-$PrimaryConfig = $SprayFireContainer->getObject('PrimaryConfig');
+//$PathGenerator = $SprayFireContainer->getObject('PathGenerator');
+//$PrimaryConfig = $SprayFireContainer->getObject('PrimaryConfig');
 
-$styleCss = $PathGenerator->getUrlPath('css','sprayfire.style.css');
-$sprayFireLogo = $PathGenerator->getUrlPath('images', 'sprayfire-logo-bar-75.png');
+//$styleCss = $PathGenerator->getUrlPath('css','sprayfire.style.css');
+//$sprayFireLogo = $PathGenerator->getUrlPath('images', 'sprayfire-logo-bar-75.png');
 
 echo <<<HTML
 <!DOCTYPE html>
@@ -103,7 +104,7 @@ echo <<<HTML
             </div>
 HTML;
 
-if ($PrimaryConfig->app->{'development-mode'} === 'on') {
+if (isset($PrimaryConfig) && $PrimaryConfig->app->{'development-mode'} === 'on') {
     $errors = 'Errors: ' . \print_r($SprayFireContainer->getObject('ErrorHandler')->getTrappedErrors(), true);
     $memUsage = 'Memory usage: ' . \memory_get_peak_usage() / (1000*1024) . ' mb';
     $runTime = 'Execution time: ' . (\microtime(true) - $requestStartTime) . ' seconds';
