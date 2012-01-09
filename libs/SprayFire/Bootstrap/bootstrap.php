@@ -1,6 +1,8 @@
 <?php
 
-include $installPath . '/config/primary-configuration.php';
+include $installPath . '/libs/SprayFire/Core/ClassLoader.php';
+
+
 
 $pathGeneratorBootstrapData = array();
 $pathGeneratorBootstrapData['installPath'] = $installPath;
@@ -58,10 +60,9 @@ $primaryBootstrapData['ConfigBootstrap'] = $configBootstrapData;
 $primaryBootstrapData['SanityCheckBootstrap'] = $sanityCheckBootstrapData;
 $primaryBootstrapData['HandlerBootstrap'] = $handlersBootstrapData;
 
-include $libsPath . '/SprayFire/Core/ClassLoader.php';
-
 $ClassLoader = new \SprayFire\Core\ClassLoader();
 \spl_autoload_register(array($ClassLoader, 'load'));
 $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 
-return $Container;
+//$Container = new \SprayFire\Core\Structure\GenericMap();
+//return $Container;
