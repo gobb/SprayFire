@@ -3,22 +3,6 @@
 /**
  * @file
  * @brief Holds a class that allows messages to be logged to a file on disk.
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011, Charles Sprayberry
  */
 
 namespace SprayFire\Logger;
@@ -32,7 +16,7 @@ namespace SprayFire\Logger;
  * @uses SprayFire.Logger.Log
  * @uses SprayFire.Core.CoreObject
  */
-class FileLogger extends \SprayFire\Core\CoreObject implements \SprayFire\Logger\Log  {
+class FileLogger extends \SprayFire\Core\CoreObject implements \SprayFire\Logger\Logger  {
 
     /**
      * @brief A SplFileObject that should be used to write log messages to.
@@ -58,7 +42,7 @@ class FileLogger extends \SprayFire\Core\CoreObject implements \SprayFire\Logger
      * @param $message The message string to log
      * @return int The number of bytes written or null on error
      */
-    public function log($timestamp, $message) {
+    public function log($message) {
         if (!isset($timestamp) || empty($timestamp)) {
             $timestamp = '00-00-0000 00:00:00';
         }
