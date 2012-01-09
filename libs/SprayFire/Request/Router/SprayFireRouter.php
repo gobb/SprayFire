@@ -26,7 +26,7 @@ namespace SprayFire\Request\Router;
  * @uses SprayFire.Logger.CoreObject
  * @uses SprayFire.Request.Router.DispatchUri
  */
-class SprayFireRouter extends \SprayFire\Logger\CoreObject implements \SprayFire\Request\Router\Router {
+class SprayFireRouter extends \SprayFire\Core\CoreObject implements \SprayFire\Request\Router\Router {
 
     /**
      * @brief The SprayFire.Config.Configuration object holding the routing keys
@@ -35,6 +35,8 @@ class SprayFireRouter extends \SprayFire\Logger\CoreObject implements \SprayFire
      * @property $RoutesConfig
      */
     protected $RoutesConfig;
+
+    protected $Logger;
 
     /**
      * @brief The default controller to use if the %default_controller% flag is
@@ -76,18 +78,18 @@ class SprayFireRouter extends \SprayFire\Logger\CoreObject implements \SprayFire
      * @param $RoutesConfig SprayFire.Config.Configuration
      * @param $Log SprayFire.Logger.Log
      */
-    public function __construct(\SprayFire\Config\Configuration $RoutesConfig, \SprayFire\Logger\Log $Log) {
-        parent::__construct($Log);
+    public function __construct(\SprayFire\Config\Configuration $RoutesConfig, \SprayFire\Logger\Logger $Log) {
+        $this->Logger = $Log;
         $this->RoutesConfig = $RoutesConfig;
         if (!isset($RoutesConfig->defaults->controller)) {
-            $this->log('The default controller was not properly set, using \'pages\' as default controller.');
+            $this->Logger->log('The default controller was not properly set, using \'pages\' as default controller.');
             $defaultController = 'pages';
         } else {
             $defaultController = $RoutesConfig->defaults->controller;
         }
 
         if (!isset($RoutesConfig->defaults->action)) {
-            $this->log('The default action was not properly set, using \'index\' as the default action.');
+            $this->Logger->log('The default action was not properly set, using \'index\' as the default action.');
             $defaultAction = 'index';
         } else {
             $defaultAction = $RoutesConfig->defaults->action;
