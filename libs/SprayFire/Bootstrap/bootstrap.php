@@ -1,8 +1,7 @@
 <?php
 
-include $installPath . '/libs/SprayFire/Core/ClassLoader.php';
-
-
+include $libsPath . '/SprayFire/Core/ClassLoader.php';
+include $installPath . '/config/primary-configuration.php';
 
 $pathGeneratorBootstrapData = array();
 $pathGeneratorBootstrapData['installPath'] = $installPath;
@@ -64,5 +63,5 @@ $ClassLoader = new \SprayFire\Core\ClassLoader();
 \spl_autoload_register(array($ClassLoader, 'load'));
 $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 
-//$Container = new \SprayFire\Core\Structure\GenericMap();
-//return $Container;
+$Container = new \SprayFire\Core\Structure\GenericMap();
+return $Container;
