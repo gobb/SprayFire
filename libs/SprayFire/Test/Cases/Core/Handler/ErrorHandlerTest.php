@@ -29,7 +29,7 @@ namespace SprayFire\Test\Cases\Core\Handler;
 class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
 
     public function testErrorHandlerFunctionNotInDevelopmentMode() {
-        $Log = new \SprayFire\Logger\DevelopmentLogger();
+        $Log = new \SprayFire\Logger\NullLogger();
         $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($Log);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
@@ -43,16 +43,10 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $expectedErrorData[0]['line'] = 36;
 
         $this->assertSame($expectedErrorData, $ErrorHandler->getTrappedErrors());
-
-        $expectedMessages = array();
-        $expectedMessages[0]['timestamp'] = $timestamp;
-        $expectedMessages[0]['info'] = 'severity:=E_USER_WARNING message:=The first error message';
-        $logMessages = $Log->getMessages();
-        $this->assertSame($expectedMessages, $logMessages);
     }
 
     public function testErrorHandlerFunctionInDevelopmentMode() {
-        $Log = new \SprayFire\Logger\DevelopmentLogger();
+        $Log = new \SprayFire\Logger\NullLogger();
         $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($Log, true);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
@@ -63,7 +57,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $expectedErrorData[0]['severity'] = 'E_USER_NOTICE';
         $expectedErrorData[0]['message'] = 'Another error message';
         $expectedErrorData[0]['file'] = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/Cases/Core/Handler/ErrorHandlerTest.php';
-        $expectedErrorData[0]['line'] = 59;
+        $expectedErrorData[0]['line'] = 53;
         $expectedErrorData[0]['context'] = array('Log' => $Log, 'ErrorHandler' => $ErrorHandler);
 
         $this->assertSame($expectedErrorData, $ErrorHandler->getTrappedErrors());
@@ -80,12 +74,10 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
                 'ErrorHandler' => $ErrorHandler
             )
         );
-        $logMessages = $Log->getMessages();
-        $this->assertSame($expectedMessages, $logMessages);
     }
 
     public function testErrorHandlerFunctionUnhandledSeverity() {
-        $Log = new \SprayFire\Logger\DevelopmentLogger();
+        $Log = new \SprayFire\Logger\NullLogger();
         $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($Log);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
@@ -100,7 +92,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testErrorHandlerFunctionUnknownSeverity() {
-        $Log = new \SprayFire\Logger\DevelopmentLogger();
+        $Log = new \SprayFire\Logger\NullLogger();
         $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($Log);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
@@ -115,7 +107,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testErrorHandlerFunctionWithErrorReportingTurnedOff() {
-        $Log = new \SprayFire\Logger\DevelopmentLogger();
+        $Log = new \SprayFire\Logger\NullLogger();
         $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($Log, true);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
@@ -124,7 +116,6 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($ErrorHandler->trap(E_USER_DEPRECATED, 'Should return false.'));
 
         $this->assertSame(array(), $ErrorHandler->getTrappedErrors());
-        $this->assertSame(array(), $Log->getMessages());
     }
 
 }
