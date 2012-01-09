@@ -230,7 +230,7 @@ class SprayFireRouterTest extends \PHPUnit_Framework_TestCase {
         $RoutesConfig = new \SprayFire\Config\JsonConfig($RoutesConfigFile);
 
 
-        $LogFile = new \SplFileInfo($this->invalidLogPath);
+        $LogFile = new \SplFileInfo($this->validLogPath);
         $Logger = new \SprayFire\Logger\FileLogger($LogFile);
         $Router = new \SprayFire\Request\Router\SprayFireRouter($RoutesConfig, $Logger);
 
