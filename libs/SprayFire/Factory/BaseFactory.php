@@ -70,7 +70,7 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
             $TypeValidator = new \SprayFire\Core\Util\ObjectTypeValidator($ReflectedType);
             return $TypeValidator;
         } catch (\ReflectionException $ReflectExc) {
-            throw new \SprayFire\Exception\TypeNotFoundException('The passed interface or class, ' . $returnTypeRestriction . ', could not be found.');
+            throw new \SprayFire\Exception\TypeNotFoundException('The passed interface or class, ' . $returnTypeRestriction . ', could not be found.', null, $ReflectExc);
         }
     }
 
@@ -83,10 +83,11 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
         $NullObject = $nullPrototype;
         if (!\is_object($NullObject)) {
             try {
+                $nullPrototype = $this->replaceDotsWithBackSlashes($nullPrototype);
                 $ReflectedNullObject = new \ReflectionClass($nullPrototype);
                 $NullObject = $ReflectedNullObject->newInstance();
             } catch (\ReflectionException $ReflectExc) {
-                throw new \InvalidArgumentException('The given, ' . $nullPrototype . ', could not be loaded.');
+                throw new \InvalidArgumentException('The given, ' . $nullPrototype . ', could not be loaded.', null, $ReflectExc);
             }
         }
         $this->TypeValidator->throwExceptionIfObjectNotParentType($NullObject);
