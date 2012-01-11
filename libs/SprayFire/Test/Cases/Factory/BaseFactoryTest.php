@@ -110,13 +110,9 @@ class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testPassingInvalidNullPrototype() {
-        $exceptionThrown = false;
-        try {
-            $Factory = new \SprayFire\Test\Helpers\TestBaseFactory('SprayFire.NonExistent');
-        } catch (\SprayFire\Exception\FactoryConstructionException $FactoryConstructExc) {
-            $exceptionThrown = true;
-        }
-        $this->assertTrue($exceptionThrown);
+        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory('SprayFire.NonExistent');
+        $Object = $Factory->makeObject('SprayFire.NonExistent.Either');
+        $this->assertTrue($Object instanceof \stdClass);
     }
 
 
