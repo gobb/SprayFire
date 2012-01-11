@@ -226,7 +226,7 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
     }
 
     /**
-     * @param $dotSeparatedClass A Java-style namespaced class
+     * @param $className A Java-style namespaced class
      * @return A PHP-style namespaced class
      */
     protected function replaceDotsWithBackSlashes($className) {
