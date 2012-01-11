@@ -33,7 +33,7 @@ class ObjectTypeValidator {
      * @param $Object SprayFire.Core.Object
      * @throws InvalidArgumentException
      */
-    public function throwExceptionIfObjectNotParentType(\SprayFire\Core\Object $Object) {
+    public function throwExceptionIfObjectNotParentType($Object) {
         if (!$this->isObjectParentType($Object)) {
             throw new \InvalidArgumentException('The value being set does not properly implement the parent type for this store.');
         }
@@ -53,7 +53,7 @@ class ObjectTypeValidator {
      * @param $Object SprayFire.Core.Object
      * @return boolean
      */
-    protected function isObjectParentType(\SprayFire\Core\Object $Object) {
+    protected function isObjectParentType($Object) {
         $isValid = false;
         $parentName = $this->ReflectedParentType->getName();
         try {
