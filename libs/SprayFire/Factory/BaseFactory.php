@@ -18,7 +18,6 @@ namespace SprayFire\Factory;
  * @uses SprayFire.Core.Util.CoreObject
  * @uses SprayFire.Core.Util.ObjectTypeValidator
  * @uses SprayFire.Exception.TypeNotFoundException
- *
  */
 abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Factory\Factory {
 
