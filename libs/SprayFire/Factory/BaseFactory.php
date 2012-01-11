@@ -11,6 +11,14 @@ namespace SprayFire\Factory;
 /**
  * @brief Will provide a variety of utility functions that factory implementations
  * may find useful; all SprayFire provided factories will extend this class.
+ *
+ * @uses ReflectionClass
+ * @uses InvalidArgumentException
+ * @uses SprayFire.Factory.Factory
+ * @uses SprayFire.Core.Util.CoreObject
+ * @uses SprayFire.Core.Util.ObjectTypeValidator
+ * @uses SprayFire.Exception.TypeNotFoundException
+ *
  */
 abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Factory\Factory {
 
@@ -27,24 +35,63 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
     protected $NullObject;
 
     /**
+     * @property $TypeValidator A SprayFire.Core.Util.ObjectTypeValidator used to
+     * ensure a created object implements the correct interface or extends the
+     * correct class
+     */
+    protected $TypeValidator;
+
+    /**
      * @brief It should be noted that if the \a $nullPrototype is not an object and
      * cannot be instantiated as an object with no parameters passed to its constructor
      * a stdClass will be used as the NullObject for the given factory.
      *
+     * @param $returnTypeRestriction A string class or interface name that objects
+     *        of this factory must implement.
      * @param $nullPrototype An object or classname to use as the NullObject returned
      *        if there was an error creating the requested object.
+     * @throws InvalidArgumentException
+     * @throws SprayFire.Exception.TypeNotFoundException
      */
-    public function __construct($nullPrototype) {
+    public function __construct($returnTypeRestriction, $nullPrototype) {
+        $this->TypeValidator = $this->createTypeValidator($returnTypeRestriction);
+        $this->NullObject = $this->createNullObjectPrototype($nullPrototype);
+    }
+
+    /**
+     * @param $returnTypeRestriction The class or interface name that this factory
+     *        should return
+     * @return SprayFire.Core.Util.ObjectTypeValidator
+     * @throws SprayFire.Exception.TypeNotFoundException
+     */
+    protected function createTypeValidator($returnTypeRestriction) {
+        try {
+            $className = $this->replaceDotsWithBackSlashes($returnTypeRestriction);
+            $ReflectedType = new \ReflectionClass($className);
+            $TypeValidator = new \SprayFire\Core\Util\ObjectTypeValidator($ReflectedType);
+            return $TypeValidator;
+        } catch (\ReflectionException $ReflectExc) {
+            throw new \SprayFire\Exception\TypeNotFoundException('The passed interface or class, ' . $returnTypeRestriction . ', could not be found.');
+        }
+    }
+
+    /**
+     * @param $nullPrototype The name or object to use for NullObject prototype
+     * @return A class that implements the given interface or type
+     * @throws InvalidArgumentException
+     */
+    protected function createNullObjectPrototype($nullPrototype) {
         $NullObject = $nullPrototype;
-        if (!is_object($NullObject)) {
+        if (!\is_object($NullObject)) {
             try {
-                $ReflectedNullPrototype = new \ReflectionClass($nullPrototype);
-                $NullObject = $ReflectedNullPrototype->newInstance();
+                $ReflectedNullObject = new \ReflectionClass($nullPrototype);
+                $NullObject = $ReflectedNullObject->newInstance();
             } catch (\ReflectionException $ReflectExc) {
-                $NullObject = new \stdClass();
+                throw new \InvalidArgumentException('The given, ' . $nullPrototype . ', could not be loaded.');
             }
         }
-        $this->NullObject = $NullObject;
+        $this->TypeValidator->throwExceptionIfObjectNotParentType($NullObject);
+        return $NullObject;
     }
 
     /**
@@ -97,7 +144,10 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
             $options = $this->getFinalBlueprint($className, $options);
             $ReflectedClass = new \ReflectionClass($className);
             $returnObject = $ReflectedClass->newInstanceArgs($options);
+            $this->TypeValidator->throwExceptionIfObjectNotParentType($returnObject);
         } catch (\ReflectionException $ReflectExc) {
+            $returnObject = clone $this->NullObject;
+        } catch (\InvalidArgumentException $InvalArgExc) {
             $returnObject = clone $this->NullObject;
         }
         return $returnObject;
