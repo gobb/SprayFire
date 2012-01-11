@@ -10,7 +10,7 @@ namespace SprayFire\Test\Helpers;
 /**
  * @brief
  */
-class TestFactoryObject {
+class TestFactoryObject extends \SprayFire\Core\Util\CoreObject {
 
     public $passedParams;
 
