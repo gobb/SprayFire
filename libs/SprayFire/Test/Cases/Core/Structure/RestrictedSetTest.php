@@ -29,7 +29,7 @@ namespace SprayFire\Test\Cases\Core\Structure;
 class RestrictedSetTest extends \PHPUnit_Framework_TestCase {
 
     public function testAddingObjects() {
-        $Set = new \SprayFire\Structure\Collection\RestrictedSet('\\SprayFire\\Test\\Helpers\\TestObject');
+        $Set = new \SprayFire\Structure\Collection\RestrictedSet('SprayFire.Test.Helpers.TestObject');
         $this->assertSame(0, $Set->addObject(new \SprayFire\Test\Helpers\TestObject()));
         $this->assertSame(1, $Set->addObject(new \SprayFire\Test\Helpers\TestObject()));
         $this->assertSame(2, $Set->count());
