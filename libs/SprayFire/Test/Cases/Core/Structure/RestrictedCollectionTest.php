@@ -29,13 +29,13 @@ namespace SprayFire\Test\Cases\Core\Structure;
 class RestrictedCollectionTest extends \PHPUnit_Framework_TestCase {
 
     public function testAddingValidObjectsToCollection() {
-        $Collection = new \SprayFire\Structure\Collection\RestrictedCollection('\\SprayFire\\Test\\Helpers\\TestObject');
+        $Collection = new \SprayFire\Structure\Collection\RestrictedCollection('SprayFire.Test.Helpers.TestObject');
         $this->assertSame(0, $Collection->addObject(new \SprayFire\Test\Helpers\TestObject));
         $this->assertSame(1, $Collection->count());
     }
 
     public function testAddingInvalidObjectToCollection() {
-        $Collection = new \SprayFire\Structure\Collection\RestrictedCollection('\\SprayFire\\Test\\Helpers\\TestObject');
+        $Collection = new \SprayFire\Structure\Collection\RestrictedCollection('SprayFire.Test.Helpers.TestObject');
 
         $exceptionThrown = false;
         try {
