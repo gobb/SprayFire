@@ -43,14 +43,11 @@ class FileLogger extends \SprayFire\Core\Util\CoreObject implements \SprayFire\L
      * @return int The number of bytes written or null on error
      */
     public function log($message) {
-        if (!isset($timestamp) || empty($timestamp)) {
-            $timestamp = '00-00-0000 00:00:00';
-        }
-
         if (!isset($message) || empty($message)) {
             $message = 'Blank message.';
         }
 
+        $timestamp = \date('M-d-Y H:i:s');
         $separator = ' := ';
         $message = $timestamp . $separator . $message . PHP_EOL;
         $this->LogFile->flock(\LOCK_EX);
