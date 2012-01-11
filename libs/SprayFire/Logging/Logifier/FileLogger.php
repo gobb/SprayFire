@@ -38,11 +38,11 @@ class FileLogger extends \SprayFire\Core\Util\CoreObject implements \SprayFire\L
     }
 
     /**
-     * @param $timestamp A formatted timestamp string
      * @param $message The message string to log
+     * @param $options This parameter is not used in this implementation
      * @return int The number of bytes written or null on error
      */
-    public function log($message) {
+    public function log($message, $options = null) {
         if (!isset($message) || empty($message)) {
             $message = 'Blank message.';
         }
