@@ -11,21 +11,6 @@ namespace SprayFire\Factory;
 /**
  * @brief Will provide a variety of utility functions that factory implementations
  * may find useful; all SprayFire provided factories will extend this class.
- *
- * @details
- * Some of the functionality provided includes:
- *
- * - storeBlueprint()
- *      Allows you to set the default options that should be passed to a particular
- *      class name.  This should allow you to be certain of the exact state of an
- *      object created by a factory.  The default options stored as a blueprint
- *      should be merged with the options passed in `Factory::makeObject()`
- * - setNullPrototype()
- *      Allows you to determine what is considered a NullObject for a given factory.
- * - replaceDotsWithBackSlashes()
- *      This is a convenience method to allow the passing of Java style "package"
- *      class names as if they were PHP namespace class names.  As the method name
- *      implies it will replace any '.' with '\\'
  */
 abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Factory\Factory {
 
@@ -37,10 +22,18 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
     protected $blueprints = array();
 
     /**
-     * @property $ReflectedNullPrototype The name of the class to use for NullObject on this factory
+     * @property $NullObject The name of the class to use for NullObject on this factory
      */
     protected $NullObject;
 
+    /**
+     * @brief It should be noted that if the \a $nullPrototype is not an object and
+     * cannot be instantiated as an object with no parameters passed to its constructor
+     * a stdClass will be used as the NullObject for the given factory.
+     *
+     * @param $nullPrototype An object or classname to use as the NullObject returned
+     *        if there was an error creating the requested object.
+     */
     public function __construct($nullPrototype) {
         $NullObject = $nullPrototype;
         if (!is_object($NullObject)) {
@@ -48,7 +41,7 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
                 $ReflectedNullPrototype = new \ReflectionClass($nullPrototype);
                 $NullObject = $ReflectedNullPrototype->newInstance();
             } catch (\ReflectionException $ReflectExc) {
-                throw new \SprayFire\Exception\FactoryConstructionException('The given NullObject prototype, ' . $nullPrototype . ', could not be loaded.', null, $ReflectExc);
+                $NullObject = new \stdClass();
             }
         }
         $this->NullObject = $NullObject;
@@ -92,7 +85,8 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
     }
 
     /**
-     * @brief
+     * @brief If there is a problem creating the given object a clone of the NullObject
+     * prototype for this factory will be returned.
      *
      * @param $className A Java-stye or PHP-style namespaced class
      * @param $options An array of options to be used when creating this object.
@@ -114,7 +108,21 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
      * replace any NULL values with those values stored in \a $blueprints, given
      * that the \a $className has a blueprint associated with it.
      *
-     * @internal
+     * @details
+     * The final blueprint is a combination of the default blueprint, if one is
+     * stored for a given class, and the \a $options passed when creating the
+     * object.  The options passed should be whatever parameters are needed for
+     * the given object, in the order of the parameters in the constructor.  Meaning
+     * the 0-index array element will be the first argument in the constructor, the
+     * 1-index array element will be the second argument, etc.
+     *
+     * If an n-index array element in \a $options is null it is replaced with the
+     * appropriate value in the default blueprint.  If there is no stored blueprint
+     * \a $options will be returned with no changes.  Finally, if there are more
+     * elements in \a $options than the default blueprint the additional elements
+     * will be appended on the end, after all null elements are replaced with
+     * their default values.
+     *
      * We are not using array_merge here for a reason.  We want users to be able
      * to use any kind of index they would like for their options arrays.  If we
      * used array_merge users would have to ensure that the keys for the blueprint
@@ -125,7 +133,9 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
      * {@link http://www.github.com/cspray/issues/}
      *
      * @param $className The PHP-style namespaced class
-     * @param array $options
+     * @param $options An array of constructor arguments
+     * @return An array with null elements in \a $options replaced with default
+     *         blueprint values if they exist.
      */
     protected function getFinalBlueprint($className, array $options) {
         $storedBlueprint = $this->getBlueprint($className);
@@ -149,11 +159,9 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
         $finalBlueprint = array();
 
         for ($i; $i < $blueprintCount; $i++) {
-            $blueprintVal = $storedBlueprint[$i];
-            $optionVal = $options[$i];
-            $indexVal = $blueprintVal;
-            if (!is_null($optionVal)) {
-                $indexVal = $optionVal;
+            $indexVal = $storedBlueprint[$i];
+            if (!is_null($options[$i])) {
+                $indexVal = $options[$i];
             }
             $finalBlueprint[] = $indexVal;
         }
@@ -175,7 +183,7 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
         $backSlash = '\\';
         $dot = '.';
         if (\strpos($className, $dot) !== false) {
-            $className = \str_replace($dot, $backSlash, $dotSeparatedClass);
+            $className = \str_replace($dot, $backSlash, $className);
         }
         return $backSlash . \trim($className, '\\ ');
     }
