@@ -59,17 +59,6 @@ namespace SprayFire\Bootstrap;
 class PathGeneratorBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
-     * @brief The SprayFire.Core.PathGenerator object created.
-     *
-     * @details
-     * By default the object returned will be a SprayFire.Core.Util.Directory implementation
-     * of the required interface.
-     *
-     * @property $Directory
-     */
-    protected $Directory;
-
-    /**
      * @brief Holds the associative array, as described in class details.
      *
      * @property $paths
@@ -89,7 +78,7 @@ class PathGeneratorBootstrap extends \SprayFire\Core\Util\CoreObject implements 
      * created
      */
     public function runBootstrap() {
-        $this->createDirectory();
+        return $this->createDirectory();
     }
 
     /**
@@ -104,14 +93,7 @@ class PathGeneratorBootstrap extends \SprayFire\Core\Util\CoreObject implements 
         $Directory->setLogsPath($this->paths['logsPath']);
         $Directory->setConfigPath($this->paths['configPath']);
         $Directory->setWebPath($this->paths['webPath']);
-        $this->Directory = $Directory;
-    }
-
-    /**
-     * @return SprayFire.Core.PathGenerator object
-     */
-    public function getPathGenerator() {
-        return $this->Directory;
+        return $Directory;
     }
 
 }
