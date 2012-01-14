@@ -15,4 +15,9 @@ interface Factory {
      */
     public function makeObject($objectName, array $options = array());
 
+    /**
+     *@return The complete, namespaced class that this factory will produce.
+     */
+    public function getObjectName();
+
 }
