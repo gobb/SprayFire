@@ -2,46 +2,21 @@
 
 /**
  * @file
- * @brief
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011, Charles Sprayberry
+ * @brief Will test the various functionality of SprayFire.Logging.Logifier.FileLogger
  */
 
 namespace SprayFire\Test\Cases\Logger;
 
-/**
- * @brief
- */
 class FileLoggerTest extends \PHPUnit_Framework_TestCase {
 
     private $readOnlyLog;
 
     private $writableLog;
 
-    private $noTimestampLog;
-
     public function setUp() {
-
-
         $logPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/logs';
-
         $this->readOnlyLog = $logPath . '/readonly-log.txt';
         $this->writableLog = $logPath . 'writable-log.txt';
-        $this->noTimestampLog = $logPath . 'no-timestamp-log.txt';
     }
 
     /**
@@ -63,38 +38,90 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
 
         $Logger->log('something');
-        $firstTimestamp = \date('M-d-Y H:i:s');
+        $firstTimestamp = \date('[M-d-Y H:i:s]');
         $Logger->log('else');
-        $secondTimestamp = \date('M-d-Y H:i:s');
+        $secondTimestamp = \date('[M-d-Y H:i:s]');
 
         $Log = $LogFile->openFile('r');
         $i = 0;
         $expected = array($firstTimestamp . ' := something', $secondTimestamp . ' := else', '');
         while (!$Log->eof()) {
             $line = $Log->fgets();
-            $this->assertSame(\trim($line), $expected[$i]);
+            $this->assertSame($expected[$i], \trim($line));
             $i++;
         }
     }
 
     public function testEmptyLogMessage() {
-        $file = $this->noTimestampLog;
+        $file = $this->writableLog;
         \touch($file);
         \chmod($file, 0755);
         $LogFile = new \SplFileInfo($file);
         $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
         $blankMessage = '';
         $Logger->log($blankMessage);
-        $firstTimestamp = \date('M-d-Y H:i:s');
+        $firstTimestamp = \date('[M-d-Y H:i:s]');
         $Logger->log($blankMessage);
-        $secondTimestamp = \date('M-d-Y H:i:s');
+        $secondTimestamp = \date('[M-d-Y H:i:s]');
 
         $Log = $LogFile->openFile('r');
         $i = 0;
         $expected = array($firstTimestamp . ' := Blank message.', $secondTimestamp . ' := Blank message.', '');
         while (!$Log->eof()) {
             $line = $Log->fgets();
-            $this->assertSame(\trim($line), $expected[$i]);
+            $this->assertSame($expected[$i], \trim($line));
+            $i++;
+        }
+    }
+
+    public function testLengthOption() {
+        $file = $this->writableLog;
+        \touch($file);
+        \chmod($file, 0755);
+        $LogFile = new \SplFileInfo($file);
+        $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
+
+        $options = array();
+        $noTimestampMessage = 'This is a message long enough to be long.';
+        $message = \date('[M-d-Y H:i:s]') . ' := ' . $noTimestampMessage;
+        $strLength = \strlen($message);
+        $modStrLength = $strLength / 2;
+
+        $options['length'] = (int) $modStrLength;
+        $Logger->log($noTimestampMessage, $options);
+
+        $Log = $LogFile->openFile('r');
+        $i = 0;
+        $expected = array(\substr($message, 0, $modStrLength));
+        while (!$Log->eof()) {
+            $line = $Log->fgets();
+            $this->assertSame($expected[$i], \trim($line));
+            $i++;
+        }
+
+    }
+
+    public function testTimestampOption() {
+        $file = $this->writableLog;
+        \touch($file);
+        \chmod($file, 0755);
+        $LogFile = new \SplFileInfo($file);
+        $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
+
+        $options = array();
+        $timestamp = 'M-d-Y';
+        $noTimestampMessage = 'This is a message long enough to be long.';
+        $message = \date($timestamp) . ' := ' . $noTimestampMessage;
+        $options['timestampFormat'] = $timestamp;
+        $Logger->log($noTimestampMessage, $options);
+
+        $Log = $LogFile->openFile('r');
+        $i = 0;
+        $expected = array($message);
+        while (!$Log->eof()) {
+            $line = $Log->fgets();
+            $expectedVal = (isset($expected[$i])) ? $expected[$i] : '';
+            $this->assertSame($expectedVal, \trim($line));
             $i++;
         }
     }
@@ -109,15 +136,6 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
             \unlink($this->writableLog);
         }
         $this->assertFalse(\file_exists($this->writableLog));
-
-        if (\file_exists($this->noTimestampLog)) {
-            \unlink($this->noTimestampLog);
-        }
-        $this->assertFalse(\file_exists($this->noTimestampLog));
     }
 
 }
-
-// End FileLoggerTest
-
-// End libs.sprayfire
