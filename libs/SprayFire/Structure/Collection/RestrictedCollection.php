@@ -35,10 +35,11 @@ class RestrictedCollection extends \SprayFire\Structure\Collection\GenericCollec
     public function __construct($parentType, $initialSize = 32) {
         parent::__construct($initialSize);
         try {
+            $parentType = $this->replaceDotsWithBackSlashes($parentType);
             $ReflectedType = new \ReflectionClass($parentType);
             $this->TypeValidator = new \SprayFire\Core\Util\ObjectTypeValidator($ReflectedType);
         } catch (\ReflectionException $ReflectExc) {
-            throw new \SprayFire\Exception\TypeNotFoundException('The passed type, ' . $parentType . ', could not be loaded.');
+            throw new \SprayFire\Exception\TypeNotFoundException('The passed type, ' . $parentType . ', could not be loaded.', null, $ReflectExc);
         }
     }
 
@@ -51,6 +52,19 @@ class RestrictedCollection extends \SprayFire\Structure\Collection\GenericCollec
     public function addObject(\SprayFire\Core\Object $Object) {
         $this->TypeValidator->throwExceptionIfObjectNotParentType($Object);
         return parent::addObject($Object);
+    }
+
+    /**
+     * @param $className A Java-style namespaced class
+     * @return A PHP-style namespaced class
+     */
+    protected function replaceDotsWithBackSlashes($className) {
+        $backSlash = '\\';
+        $dot = '.';
+        if (\strpos($className, $dot) !== false) {
+            $className = \str_replace($dot, $backSlash, $className);
+        }
+        return $backSlash . \trim($className, '\\ ');
     }
 
 }

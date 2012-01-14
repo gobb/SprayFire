@@ -38,8 +38,7 @@ class PathGeneratorBootstrapTest extends \PHPUnit_Framework_TestCase {
         $webPath = $installPath . '/web';
         $paths = \compact('installPath', 'libsPath', 'appPath', 'logsPath', 'configPath', 'webPath');
         $PathGen = new \SprayFire\Bootstrap\PathGeneratorBootstrap($paths);
-        $PathGen->runBootstrap();
-        $Directory = $PathGen->getPathGenerator();
+        $Directory = $PathGen->runBootstrap();
         $this->assertSame($installPath, $Directory->getInstallPath());
         $this->assertSame($libsPath, $Directory->getLibsPath());
         $this->assertSame($appPath, $Directory->getAppPath());

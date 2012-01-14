@@ -15,11 +15,12 @@ namespace SprayFire\Logging;
 interface Logger {
 
     /**
-     * @param $timestamp the timestamp for the given message
      * @param $message The string message that should be appended to the end
      *        of the log
+     * @param $options Data that might need to be used as an option or flag for
+     *        the underlying implementation of a logger.
      * @return true if the message was logged, false if it didn't
      */
-    public function log($message);
+    public function log($message, $options = null);
 
 }

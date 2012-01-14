@@ -32,6 +32,8 @@
     <filter>
         <blacklist>
             <directory suffix=".php">/Applications/NetBeans/NetBeans 7.1.app/Contents/Resources/NetBeans/php/phpunit</directory>
+            <directory suffix=".php">../Test/Helpers/</directory>
+            <directory suffix=".php">../Test/mockframework/</directory>
         </blacklist>
     </filter>
 

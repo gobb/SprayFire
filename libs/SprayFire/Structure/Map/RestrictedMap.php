@@ -30,16 +30,18 @@ class RestrictedMap extends \SprayFire\Structure\Map\GenericMap {
     protected $TypeValidator;
 
     /**
-     * @param $parentType The complete name of the class or interface that should
-     *        be stored in this Map.
-     * @throws TypeNotFoundException if the \a $parentType could not be loaded
+     * @param $parentType A Java or PHP-style namespaced class that objects in this
+     *        map should be restricted to.
+     * @throws SprayFire.Exception.TypeNotFoundException if the \a $parentType could
+     *         not be loaded
      */
     public function __construct($parentType) {
         try {
+            $parentType = $this->replaceDotsWithBackSlashes($parentType);
             $ReflectedType = new \ReflectionClass($parentType);
             $this->TypeValidator = new \SprayFire\Core\Util\ObjectTypeValidator($ReflectedType);
         } catch (\ReflectionException $ReflectExc) {
-            throw new \SprayFire\Exception\TypeNotFoundException('The type passed, ' . $parentType . ', could not be found or loaded.');
+            throw new \SprayFire\Exception\TypeNotFoundException('The type passed, ' . $parentType . ', could not be found or loaded.', null, $ReflectExc);
         }
     }
 
@@ -56,12 +58,25 @@ class RestrictedMap extends \SprayFire\Structure\Map\GenericMap {
      *
      * @param $key A string or numeric index
      * @param $Object Should implement SprayFire.Core.Object
-     * @throws InvalidArgumentException
      * @return SprayFire.Core.Object
+     * @throws InvalidArgumentException
      */
     public function setObject($key, \SprayFire\Core\Object $Object) {
         $this->TypeValidator->throwExceptionIfObjectNotParentType($Object);
         parent::setObject($key, $Object);
+    }
+
+    /**
+     * @param $className A Java-style namespaced class
+     * @return A PHP-style namespaced class
+     */
+    protected function replaceDotsWithBackSlashes($className) {
+        $backSlash = '\\';
+        $dot = '.';
+        if (\strpos($className, $dot) !== false) {
+            $className = \str_replace($dot, $backSlash, $className);
+        }
+        return $backSlash . \trim($className, '\\ ');
     }
 
 }

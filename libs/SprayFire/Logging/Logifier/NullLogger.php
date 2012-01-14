@@ -19,9 +19,10 @@ class NullLogger extends \SprayFire\Core\Util\CoreObject implements \SprayFire\L
 
     /**
      * @param $message The message to log
+     * @param $options This parameter is not used in this implementation
      * @return Always returns true
      */
-    public function log($message) {
+    public function log($message, $options = null) {
         return true;
     }
 

@@ -25,7 +25,7 @@ namespace SprayFire\Test\Cases\Core\Structure;
 class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
 
     public function testBasicObjectStorage() {
-        $ParentType = '\\SprayFire\\Test\\Helpers\\TestObject';
+        $ParentType = 'SprayFire.Test.Helpers.TestObject';
         $Storage = new \SprayFire\Structure\Map\RestrictedMap($ParentType);
 
         $expectedInitiationSize = 0;

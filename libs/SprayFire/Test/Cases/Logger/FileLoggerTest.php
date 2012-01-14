@@ -62,32 +62,14 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         $LogFile = new \SplFileInfo($file);
         $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
 
-        $Logger->log('test','something');
-        $Logger->log('something', 'else');
+        $Logger->log('something');
+        $firstTimestamp = \date('M-d-Y H:i:s');
+        $Logger->log('else');
+        $secondTimestamp = \date('M-d-Y H:i:s');
 
         $Log = $LogFile->openFile('r');
         $i = 0;
-        $expected = array('test := something', 'something := else', '');
-        while (!$Log->eof()) {
-            $line = $Log->fgets();
-            $this->assertSame(\trim($line), $expected[$i]);
-            $i++;
-        }
-    }
-
-    public function testEmptyLogTimestamp() {
-        $file = $this->noTimestampLog;
-        \touch($file);
-        \chmod($file, 0755);
-        $LogFile = new \SplFileInfo($file);
-        $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
-        $blankTimestamp = '';
-        $Logger->log($blankTimestamp,'something');
-        $Logger->log($blankTimestamp, 'else');
-
-        $Log = $LogFile->openFile('r');
-        $i = 0;
-        $expected = array('00-00-0000 00:00:00 := something', '00-00-0000 00:00:00 := else', '');
+        $expected = array($firstTimestamp . ' := something', $secondTimestamp . ' := else', '');
         while (!$Log->eof()) {
             $line = $Log->fgets();
             $this->assertSame(\trim($line), $expected[$i]);
@@ -102,12 +84,14 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         $LogFile = new \SplFileInfo($file);
         $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
         $blankMessage = '';
-        $Logger->log('12-24-2011 12:45:12', $blankMessage);
-        $Logger->log('12-25-2011 13:56:10', $blankMessage);
+        $Logger->log($blankMessage);
+        $firstTimestamp = \date('M-d-Y H:i:s');
+        $Logger->log($blankMessage);
+        $secondTimestamp = \date('M-d-Y H:i:s');
 
         $Log = $LogFile->openFile('r');
         $i = 0;
-        $expected = array('12-24-2011 12:45:12 := Blank message.', '12-25-2011 13:56:10 := Blank message.', '');
+        $expected = array($firstTimestamp . ' := Blank message.', $secondTimestamp . ' := Blank message.', '');
         while (!$Log->eof()) {
             $line = $Log->fgets();
             $this->assertSame(\trim($line), $expected[$i]);
