@@ -31,6 +31,15 @@ class LogDelegatorTest extends \PHPUnit_Framework_TestCase {
         $EmergencyLogProperty->setAccessible(true);
         $EmergencyLogger = $EmergencyLogProperty->getValue($LogDelegator);
         $this->assertTrue($EmergencyLogger instanceof \SprayFire\Test\Helpers\TestDelegatorLogger);
+        $emergencyLoggerVal = $EmergencyLogger->getOptions();
+        $this->assertSame('emergency', $emergencyLoggerVal);
+
+        $ErrorLogProperty = $ReflectedDelegator->getProperty('ErrorLogger');
+        $ErrorLogProperty->setAccessible(true);
+        $ErrorLogger = $ErrorLogProperty->getValue($LogDelegator);
+        $this->assertTrue($ErrorLogger instanceof \SprayFire\Test\Helpers\TestDelegatorLogger);
+        $errorLoggerVal = $ErrorLogger->getOptions();
+        $this->assertSame('', $errorLoggerVal);
     }
 
 
