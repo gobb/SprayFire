@@ -101,6 +101,9 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
     protected function populateConfigMap() {
         $configInfo = $this->Config;
         foreach ($configInfo as $info) {
+            if (!\is_array($info)) {
+                continue;
+            }
             try {
                 $data = $info['data'];
                 if (\is_array($data)) {
