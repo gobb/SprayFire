@@ -24,4 +24,8 @@ class TestBaseFactory extends \SprayFire\Factory\BaseFactory {
         return $this->replaceDotsWithBackSlashes($className);
     }
 
+    public function getObjectName() {
+        return 'WhateverYouWant';
+    }
+
 }
