@@ -14,12 +14,12 @@ class TestDelegatorLogger extends \SprayFire\Test\Helpers\DevelopmentLogger {
 
     protected $options;
 
-    public function __construct(array $options) {
+    public function __construct($options) {
         $this->options = $options;
     }
 
     public function getOptions() {
-        return $options;
+        return $this->options;
     }
 
 }
