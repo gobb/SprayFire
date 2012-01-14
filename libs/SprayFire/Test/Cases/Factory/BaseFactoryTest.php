@@ -135,5 +135,9 @@ class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($Object instanceof \stdClass);
     }
 
+    public function testGettingObjectName() {
+        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory('stdClass', 'stdClass');
+        $this->assertSame('WhateverYouWant', $Factory->getObjectName());
+    }
 
 }
