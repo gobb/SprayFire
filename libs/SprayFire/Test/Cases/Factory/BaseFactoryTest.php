@@ -136,8 +136,16 @@ class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGettingObjectName() {
-        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory('stdClass', 'stdClass');
-        $this->assertSame('WhateverYouWant', $Factory->getObjectName());
+        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory('SprayFire.Core.Object', 'SprayFire.Test.Helpers.TestFactoryObject');
+        $this->assertSame('\\SprayFire\\Core\\Object', $Factory->getObjectType());
+    }
+
+    public function testDeletingBlueprint() {
+        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory('SprayFire.Core.Util.CoreObject', new \SprayFire\Test\Helpers\TestObject());
+        $className = 'SprayFire.Test.Helpers.TestFactoryObject';
+        $defaultBlueprint = array('param1', 'param2');
+        $TestFactory->storeBlueprint($className, $defaultBlueprint);
+        $this->assertTrue($TestFactory->deleteBlueprint($className));
     }
 
 }
