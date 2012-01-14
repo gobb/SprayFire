@@ -28,6 +28,7 @@ class LogDelegatorTest extends \PHPUnit_Framework_TestCase {
 
         $ReflectedDelegator = new \ReflectionObject($LogDelegator);
         $EmergencyLogProperty = $ReflectedDelegator->getProperty('EmergencyLogger');
+        $EmergencyLogProperty->setAccessible(true);
         $EmergencyLogger = $EmergencyLogProperty->getValue($LogDelegator);
         $this->assertTrue($EmergencyLogger instanceof \SprayFire\Test\Helpers\TestDelegatorLogger);
     }
