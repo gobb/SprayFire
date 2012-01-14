@@ -75,6 +75,8 @@ $developmentIniSettings['error_reporting'] = -1;
 // be doing so in your app.
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+$configInterface = 'SprayFire.Config.Configuration';
+
 /**
  * @brief This file should be located in the \a $configPath
  *
@@ -190,7 +192,11 @@ $pluginsConfig = array();
 $pluginsConfig['file'] = $pluginsConfigFile;
 $pluginsConfig['object'] = $pluginsConfigObject;
 $pluginsConfig['map-key'] = $pluginsConfigMapKey;
-$configData = \compact('sprayFireConfig', 'routesConfig', 'pluginsConfig');
+$configData = array();
+$configData['interface'] = $configInterface;
+$configData['sprayFireConfig'] = $sprayFireConfig;
+$configData['routesConfig'] = $routesConfig;
+$configData['pluginsConfig'] = $pluginsConfig;
 
 $loggerData = array();
 $loggerData['emergency'] = array();
