@@ -31,7 +31,7 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
     public function testValidConfigBootstrap() {
         $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/Config/json/test-config.json';
         $configs = array(
-            'configInterface' => 'SprayFire.Config.Configuration',
+            'interface' => 'SprayFire.Config.Configuration',
             array(
                 'object' => 'SprayFire.Config.ArrayConfig',
                 'data' => array('sprayfire' => 'best', 'roll' => 'tide'),
@@ -67,8 +67,9 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
         $Log = new \SprayFire\Logging\Logifier\NullLogger();
         $timestamp = '';
         try {
-            $timestamp = \date('M-d-Y H:i:s');
-            $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, array(), '\\Some\\Nonexistent\\Interface');
+            $data = array('interface' => 'SprayFire.Some.NonExistent.Interface');
+            $Config = new \SprayFire\Config\ArrayConfig($data);
+            $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $Config);
             $Bootstrap->runBootstrap();
         } catch (\SprayFire\Exception\BootstrapFailedException $FatalRunExc) {
             $exceptionThrown = true;
@@ -81,20 +82,22 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
         $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/Config/json/no-exist.json';
 
         $configs = array(
+            'interface' => 'SprayFire.Config.Configuration',
             array(
-                'config-object' => '\\SprayFire\\Config\\ArrayConfig',
-                'config-data' => array('sprayfire' => 'best', 'roll' => 'tide'),
+                'object' => 'SprayFire.Config.ArrayConfig',
+                'data' => array('sprayfire' => 'best', 'roll' => 'tide'),
                 'map-key' => 'SprayFireRollTide'
             ),
             array(
-                'config-object' => '\\SprayFire\\Config\\JsonConfig',
-                'config-data' => $configPath,
+                'object' => 'SprayFire.Config.JsonConfig',
+                'data' => $configPath,
                 'map-key' => 'PrimaryConfig'
             )
         );
 
         $Log = new \SprayFire\Logging\Logifier\NullLogger();
-        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $configs);
+        $Config = new \SprayFire\Config\ArrayConfig($configs);
+        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $Config);
         $ConfigMap = $Bootstrap->runBootstrap();
         $this->assertTrue($ConfigMap->containsKey('SprayFireRollTide'));
         $this->assertFalse($ConfigMap->containsKey('PrimaryConfig'));
