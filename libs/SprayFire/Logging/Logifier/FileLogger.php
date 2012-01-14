@@ -12,6 +12,7 @@ namespace SprayFire\Logging\Logifier;
  * the end of an injected file.
  *
  * @uses SplFileInfo
+ * @uses SplFileObject
  * @uses InvalidArgumentException
  * @uses SprayFire.Logging.Logger
  * @uses SprayFire.Core.Util.CoreObject
