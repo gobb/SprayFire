@@ -41,10 +41,6 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
     protected $TypeValidator;
 
     /**
-     * @brief It should be noted that if the \a $nullPrototype is not an object and
-     * cannot be instantiated as an object with no parameters passed to its constructor
-     * a stdClass will be used as the NullObject for the given factory.
-     *
      * @param $returnTypeRestriction A string class or interface name that objects
      *        of this factory must implement.
      * @param $nullPrototype An object or classname to use as the NullObject returned
@@ -100,11 +96,11 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
      *
      * @details
      * Note that if you pass a key that already exists in the blueprint store you
-     * will override whatever default options were previously set there.  Due to
-     * the way that array_merge works it is *HIGHLY RECOMMENDED* that you use a
-     * string key, regardless of whether that string is really a number.  Using a
-     * numeric key for options WILL result in far too many and/or the incorrect
-     * parameters being passed to object constructors.
+     * will override whatever default options were previously set there. Please note
+     * that we are not using PHP's internal array merge but our own algorithm for
+     * merging a specific blueprint with the default blueprint so you do not need
+     * to worry about the type of keys used by the blueprint array, simply that the
+     * array elements are in the correct order for the constructor.
      *
      * @internal
      * Although you can pass either a Java-style or PHP-style namespaced class
