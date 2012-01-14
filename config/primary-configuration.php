@@ -75,6 +75,8 @@ $developmentIniSettings['error_reporting'] = -1;
 // be doing so in your app.
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+$configInterface = 'SprayFire.Config.Configuration';
+
 /**
  * @brief This file should be located in the \a $configPath
  *
@@ -179,18 +181,22 @@ $iniSettings['production'] = $productionIniSettings;
 $iniSettings['development'] = $developmentIniSettings;
 
 $sprayFireConfig = array();
-$sprayFireConfig['file'] = $sprayFireConfigFile;
+$sprayFireConfig['data'] = $sprayFireConfigFile;
 $sprayFireConfig['object'] = $sprayFireConfigObject;
 $sprayFireConfig['map-key'] = $sprayFireConfigMapKey;
 $routesConfig = array();
-$routesConfig['file'] = $routesConfigFile;
+$routesConfig['data'] = $routesConfigFile;
 $routesConfig['object'] = $routesConfigObject;
 $routesConfig['map-key'] = $routesConfigMapKey;
 $pluginsConfig = array();
-$pluginsConfig['file'] = $pluginsConfigFile;
+$pluginsConfig['data'] = $pluginsConfigFile;
 $pluginsConfig['object'] = $pluginsConfigObject;
 $pluginsConfig['map-key'] = $pluginsConfigMapKey;
-$configData = \compact('sprayFireConfig', 'routesConfig', 'pluginsConfig');
+$configData = array();
+$configData['interface'] = $configInterface;
+$configData['sprayFireConfig'] = $sprayFireConfig;
+$configData['routesConfig'] = $routesConfig;
+$configData['pluginsConfig'] = $pluginsConfig;
 
 $loggerData = array();
 $loggerData['emergency'] = array();
