@@ -19,21 +19,21 @@ interface LogOverseer {
     /**
      * @param $message Information about an emergency situation that occured
      */
-    public function logEmergency($message);
+    public function logEmergency($message, array $options = array());
 
     /**
      * @param $message Information about an error that PHP triggered
      */
-    public function logError($message);
+    public function logError($message, array $options = array());
 
     /**
      * @param $message Information used for debugging purposes
      */
-    public function logDebug($message);
+    public function logDebug($message, array $options = array());
 
     /**
      * @param $message Information used for informational/data mining purposes
      */
-    public function logInfo($message);
+    public function logInfo($message, array $options = array());
 
 }
