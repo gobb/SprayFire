@@ -63,18 +63,13 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testInvalidConfigBootstrapWithNonExistentInterface() {
-        $exceptionThrown = false;
+
         $Log = new \SprayFire\Logging\Logifier\NullLogger();
-        $timestamp = '';
-        try {
-            $data = array('interface' => 'SprayFire.Some.NonExistent.Interface');
-            $Config = new \SprayFire\Config\ArrayConfig($data);
-            $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $Config);
-            $Bootstrap->runBootstrap();
-        } catch (\SprayFire\Exception\BootstrapFailedException $FatalRunExc) {
-            $exceptionThrown = true;
-        }
-        $this->assertTrue($exceptionThrown);
+        $data = array('interface' => 'SprayFire.Some.NonExistent.Interface');
+        $Config = new \SprayFire\Config\ArrayConfig($data, false);
+        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $Config);
+        $GenericMap = $Bootstrap->runBootstrap();
+        $this->assertTrue($GenericMap instanceof \SprayFire\Structure\Map\GenericMap);
 
     }
 
@@ -96,7 +91,7 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
         );
 
         $Log = new \SprayFire\Logging\Logifier\NullLogger();
-        $Config = new \SprayFire\Config\ArrayConfig($configs);
+        $Config = new \SprayFire\Config\ArrayConfig($configs, false);
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $Config);
         $ConfigMap = $Bootstrap->runBootstrap();
         $this->assertTrue($ConfigMap->containsKey('SprayFireRollTide'));
