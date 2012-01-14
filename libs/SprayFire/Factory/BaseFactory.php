@@ -41,49 +41,62 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
     protected $TypeValidator;
 
     /**
+     * @property A PHP-namespaced class holding the object type that this factory
+     * should produce
+     */
+    protected $objectType;
+
+    /**
+     * @property A PHP-namespaced class holding the class to use for \a $NullObject
+     */
+    protected $nullObjectType;
+
+    /**
+     * @brief Note that the \a $returnTypeRestriction and \a $nullPrototype may be
+     * passed as either a Java or PHP-style namespaced class.
+     *
      * @param $returnTypeRestriction A string class or interface name that objects
      *        of this factory must implement.
      * @param $nullPrototype An object or classname to use as the NullObject returned
      *        if there was an error creating the requested object.
-     * @throws InvalidArgumentException
-     * @throws SprayFire.Exception.TypeNotFoundException
+     * @throws InvalidArgumentException Thrown if \a $nullPrototype does not implement
+     *         the \a $returnTypeRestriction
+     * @throws SprayFire.Exception.TypeNotFoundException Thrown if the \a $returnTypeRestriction
+     *         could not properly be loaded.
      */
     public function __construct($returnTypeRestriction, $nullPrototype) {
-        $this->TypeValidator = $this->createTypeValidator($returnTypeRestriction);
-        $this->NullObject = $this->createNullObjectPrototype($nullPrototype);
+        $this->objectType = $this->replaceDotsWithBackSlashes($returnTypeRestriction);
+        $this->nullObjectType = $this->replaceDotsWithBackSlashes($nullPrototype);
+        $this->TypeValidator = $this->createTypeValidator();
+        $this->NullObject = $this->createNullObjectPrototype();
     }
 
     /**
-     * @param $returnTypeRestriction The class or interface name that this factory
-     *        should return
      * @return SprayFire.Core.Util.ObjectTypeValidator
      * @throws SprayFire.Exception.TypeNotFoundException
      */
-    protected function createTypeValidator($returnTypeRestriction) {
+    protected function createTypeValidator() {
         try {
-            $className = $this->replaceDotsWithBackSlashes($returnTypeRestriction);
-            $ReflectedType = new \ReflectionClass($className);
+            $ReflectedType = new \ReflectionClass($this->objectType);
             $TypeValidator = new \SprayFire\Core\Util\ObjectTypeValidator($ReflectedType);
             return $TypeValidator;
         } catch (\ReflectionException $ReflectExc) {
-            throw new \SprayFire\Exception\TypeNotFoundException('The passed interface or class, ' . $returnTypeRestriction . ', could not be found.', null, $ReflectExc);
+            throw new \SprayFire\Exception\TypeNotFoundException('The injected interface or class, ' . $this->objectType . ', could not be found.', null, $ReflectExc);
         }
     }
 
     /**
-     * @param $nullPrototype The name or object to use for NullObject prototype
      * @return A class that implements the given interface or type
      * @throws InvalidArgumentException
      */
-    protected function createNullObjectPrototype($nullPrototype) {
-        $NullObject = $nullPrototype;
+    protected function createNullObjectPrototype() {
+        $NullObject = $this->nullObjectType;
         if (!\is_object($NullObject)) {
             try {
-                $nullPrototype = $this->replaceDotsWithBackSlashes($nullPrototype);
-                $ReflectedNullObject = new \ReflectionClass($nullPrototype);
+                $ReflectedNullObject = new \ReflectionClass($NullObject);
                 $NullObject = $ReflectedNullObject->newInstance();
             } catch (\ReflectionException $ReflectExc) {
-                throw new \InvalidArgumentException('The given, ' . $nullPrototype . ', could not be loaded.', null, $ReflectExc);
+                throw new \InvalidArgumentException('The given, ' . $this->nullObjectType . ', could not be loaded.', null, $ReflectExc);
             }
         }
         $this->TypeValidator->throwExceptionIfObjectNotParentType($NullObject);
@@ -128,6 +141,19 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
     }
 
     /**
+     * @param $className A Java-style or PHP-style namespaced class associated
+     *        with a blueprint
+     * @return True if the key no longer exists in the array or false on some error
+     */
+    public function deleteBlueprint($className) {
+        $bluePrintKey = $this->replaceDotsWithBackSlashes($className);
+        if (\array_key_exists($bluePrintKey, $this->blueprints)) {
+            unset($this->blueprints[$bluePrintKey]);
+        }
+        return (!isset($this->blueprints[$bluePrintKey])) ? true : false;
+    }
+
+    /**
      * @brief If there is a problem creating the given object a clone of the NullObject
      * prototype for this factory will be returned.
      *
@@ -169,6 +195,7 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
      * will be appended on the end, after all null elements are replaced with
      * their default values.
      *
+     * @internal
      * We are not using array_merge here for a reason.  We want users to be able
      * to use any kind of index they would like for their options arrays.  If we
      * used array_merge users would have to ensure that the keys for the blueprint
@@ -226,12 +253,23 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
      * @return A PHP-style namespaced class
      */
     protected function replaceDotsWithBackSlashes($className) {
+        if (!\is_string($className)) {
+            return $className;
+        }
+
         $backSlash = '\\';
         $dot = '.';
         if (\strpos($className, $dot) !== false) {
             $className = \str_replace($dot, $backSlash, $className);
         }
         return $backSlash . \trim($className, '\\ ');
+    }
+
+    /**
+     * @return The namespaced class
+     */
+    public function getObjectType() {
+        return $this->objectType;
     }
 
 }
