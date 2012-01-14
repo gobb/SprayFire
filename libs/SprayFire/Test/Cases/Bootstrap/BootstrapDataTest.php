@@ -53,6 +53,7 @@ class BootstrapDataTest extends \PHPUnit_Framework_TestCase {
         $actualIniBootstrapData = $BootstrapData->IniBootstrap;
 
         $expectedConfigBootstrapData = array();
+        $expectedConfigBootstrapData['interface'] = 'SprayFire.Config.Configuration';
         $expectedConfigBootstrapData['sprayFireConfig']['file'] = array('json', 'sprayfire-configuration.json');
         $expectedConfigBootstrapData['sprayFireConfig']['object'] = 'SprayFire.Config.JsonConfig';
         $expectedConfigBootstrapData['sprayFireConfig']['map-key'] = 'SprayFireConfig';
