@@ -18,6 +18,6 @@ interface Factory {
     /**
      *@return The complete, namespaced class that this factory will produce.
      */
-    public function getObjectName();
+    public function getObjectType();
 
 }
