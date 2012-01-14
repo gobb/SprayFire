@@ -29,34 +29,33 @@ namespace SprayFire\Test\Cases\Bootstrap;
 class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidConfigBootstrap() {
-
         $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/Config/json/test-config.json';
-
         $configs = array(
+            'configInterface' => 'SprayFire.Config.Configuration',
             array(
-                'config-object' => '\\SprayFire\\Config\\ArrayConfig',
-                'config-data' => array('sprayfire' => 'best', 'roll' => 'tide'),
+                'object' => 'SprayFire.Config.ArrayConfig',
+                'data' => array('sprayfire' => 'best', 'roll' => 'tide'),
                 'map-key' => 'SprayFireRollTide'
             ),
             array(
-                'config-object' => '\\SprayFire\\Config\\JsonConfig',
-                'config-data' => $configPath,
+                'object' => 'SprayFire.Config.JsonConfig',
+                'data' => $configPath,
                 'map-key' => 'PrimaryConfig'
             )
         );
 
         $Log = new \SprayFire\Logging\Logifier\NullLogger();
-        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $configs);
-        $Bootstrap->runBootstrap();
-        $ConfigMap = $Bootstrap->getConfigs();
+        $Config = new \SprayFire\Config\ArrayConfig($configs, false);
+        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $Config);
+        $ConfigMap = $Bootstrap->runBootstrap();
+
+        $this->assertTrue($ConfigMap instanceof \SprayFire\Structure\Map\RestrictedMap);
 
         $SprayFireRollTide = $ConfigMap->getObject('SprayFireRollTide');
         $PrimaryConfig = $ConfigMap->getObject('PrimaryConfig');
 
-        $this->assertTrue($ConfigMap instanceof \SprayFire\Structure\Map\RestrictedMap);
         $this->assertTrue($SprayFireRollTide instanceof \SprayFire\Config\ArrayConfig);
         $this->assertTrue($PrimaryConfig instanceof \SprayFire\Config\JsonConfig);
-
         $this->assertSame('best', $SprayFireRollTide->sprayfire);
         $this->assertSame('tide', $SprayFireRollTide->roll);
         $this->assertSame('Roll Tide!', $PrimaryConfig->app->{'deep-one'}->{'deep-two'}->{'deep-three'}->value);
@@ -96,10 +95,7 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
 
         $Log = new \SprayFire\Logging\Logifier\NullLogger();
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $configs);
-        $Bootstrap->runBootstrap();
-        $timestamp = \date('M-d-Y H:i:s');
-        $ConfigMap = $Bootstrap->getConfigs();
-
+        $ConfigMap = $Bootstrap->runBootstrap();
         $this->assertTrue($ConfigMap->containsKey('SprayFireRollTide'));
         $this->assertFalse($ConfigMap->containsKey('PrimaryConfig'));
     }
