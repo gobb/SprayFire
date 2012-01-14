@@ -54,34 +54,27 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
     protected $Logger;
 
     /**
-     * @brief An array, holding the configuration information, formatted according
-     * to the details of the class documentation.
+     * @brief A SprayFire.Config.Configuration object holding data needed by this
+     * bootstrap.
      *
-     * @property $configInfo
+     * @property $Config
      */
-    protected $configInfo;
-
-    /**
-     * @brief Complete namespace to the interface that Configuration objects created
-     * should implement.
-     *
-     * @property $configInterface
-     */
-    protected $configInterface;
+    protected $Config;
 
     /**
      * @param $Log SprayFire.Logger.Log To log various error messages that may occur
-     * @param $configInfo An array of configuration information to create objects
+     * @param $Config An object holding data needed by this bootstrap
      * @throws SprayFire.Exception.FatalRuntimeException
+     * @see /config/primary-configuration.php \a $configData
      */
-    public function __construct(\SprayFire\Logging\Logger $Logger, array $configInfo, $configInterface = '\\SprayFire\\Config\\Configuration') {
+    public function __construct(\SprayFire\Logging\Logger $Logger, \SprayFire\Config\Configuration $Config) {
         $this->Logger = $Logger;
-        $this->configInfo = $configInfo;
-        $this->configInterface = $configInterface;
+        $this->Config = $Config;
     }
 
     public function runBootstrap() {
         $this->populateConfigMap();
+        return $this->ConfigMap;
     }
 
     /**
@@ -99,11 +92,11 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
      * the proper interface.
      */
     protected function populateConfigMap() {
-        $configInfo = $this->configInfo;
+        $configInfo = $this->Config;
         $this->createConfigMap();
         foreach ($configInfo as $info) {
             try {
-                $data = $info['config-data'];
+                $data = $info['data'];
                 if (\is_array($data)) {
                     $argument = $data;
                 } else {
@@ -112,7 +105,7 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
                     }
                     $argument = new \SplFileInfo($data);
                 }
-                $object = $info['config-object'];
+                $object = $this->replaceDotsWithBackSlashes($info['object']);
                 $this->ConfigMap->setObject($info['map-key'], new $object($argument));
             } catch (\InvalidArgumentException $InvalArgExc) {
                 $this->Logger->log('Unable to instantiate the Configuration object, ' . $info['map-key'] . ', or it does not implement Object interface.');
@@ -122,18 +115,25 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
 
     protected function createConfigMap() {
         try {
-            $this->ConfigMap = new \SprayFire\Structure\Map\RestrictedMap($this->configInterface);
+            $configInterface = $this->replaceDotsWithBackSlashes($this->Config['interface']);
+            $this->ConfigMap = new \SprayFire\Structure\Map\RestrictedMap($configInterface);
         } catch (\SprayFire\Exception\TypeNotFoundException $InvalArgExc) {
             $this->Logger->log($InvalArgExc->getMessage());
-            throw new \SprayFire\Exception\BootstrapFailedException('The ConfigBootstrap failed due to the configuration interface being invalid.');
+            $this->ConfigMap = new \SprayFire\Structure\Map\GenericMap();
         }
     }
 
     /**
-     * @return SprayFire.Core.Structure.RestrictedMap Of SprayFire.Config.Configuration objects
+     * @param $className A Java-style namespaced class
+     * @return A PHP-style namespaced class
      */
-    public function getConfigs() {
-        return $this->ConfigMap;
+    protected function replaceDotsWithBackSlashes($className) {
+        $backSlash = '\\';
+        $dot = '.';
+        if (\strpos($className, $dot) !== false) {
+            $className = \str_replace($dot, $backSlash, $className);
+        }
+        return $backSlash . \trim($className, '\\ ');
     }
 
 }
