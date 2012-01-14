@@ -44,16 +44,30 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
 
-        $Log = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $everythingElseLog = 'SprayFire.Logging.Logifier.NullLogger';
+        $errorLog = 'SprayFire.Test.Helpers.DevelopmentLogger';
+        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
+        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
+        $LogDelegator->setDebugLogger($everythingElseLog);
+        $LogDelegator->setEmergencyLogger($everythingElseLog);
+        $LogDelegator->setInfoLogger($everythingElseLog);
+        $LogDelegator->setErrorLogger($errorLog);
+
         $Config = new \SprayFire\Config\ArrayConfig($configs, false);
-        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $Config);
+        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($LogDelegator, $Config);
         $ConfigMap = $Bootstrap->runBootstrap();
 
         $this->assertTrue($ConfigMap instanceof \SprayFire\Structure\Map\RestrictedMap);
 
+        $ReflectedDelegator = new \ReflectionObject($LogDelegator);
+        $ErrorLoggerProperty = $ReflectedDelegator->getProperty('ErrorLogger');
+        $ErrorLoggerProperty->setAccessible(true);
+        $ErrorLogger = $ErrorLoggerProperty->getValue($LogDelegator);
+
+
         $SprayFireRollTide = $ConfigMap->getObject('SprayFireRollTide');
         $PrimaryConfig = $ConfigMap->getObject('PrimaryConfig');
-        $loggedMessages = $Log->getLoggedMessages();
+        $loggedMessages = $ErrorLogger->getLoggedMessages();
 
         $this->assertTrue($SprayFireRollTide instanceof \SprayFire\Config\ArrayConfig);
         $this->assertTrue($PrimaryConfig instanceof \SprayFire\Config\JsonConfig);
@@ -66,16 +80,30 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
 
     public function testInvalidConfigBootstrapWithNonExistentInterface() {
 
-        $Log = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $everythingElseLog = 'SprayFire.Logging.Logifier.NullLogger';
+        $errorLog = 'SprayFire.Test.Helpers.DevelopmentLogger';
+        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
+        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
+        $LogDelegator->setDebugLogger($everythingElseLog);
+        $LogDelegator->setEmergencyLogger($everythingElseLog);
+        $LogDelegator->setInfoLogger($everythingElseLog);
+        $LogDelegator->setErrorLogger($errorLog);
+
         $data = array('interface' => 'SprayFire.Some.NonExistent.Interface');
         $Config = new \SprayFire\Config\ArrayConfig($data, false);
-        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $Config);
+        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($LogDelegator, $Config);
         $GenericMap = $Bootstrap->runBootstrap();
-        $loggedMessages = $Log->getLoggedMessages();
+
+        $ReflectedDelegator = new \ReflectionObject($LogDelegator);
+        $ErrorLoggerProperty = $ReflectedDelegator->getProperty('ErrorLogger');
+        $ErrorLoggerProperty->setAccessible(true);
+        $ErrorLogger = $ErrorLoggerProperty->getValue($LogDelegator);
+
+        $loggedMessages = $ErrorLogger->getLoggedMessages();
         $expectedLogMessages = array(
             array(
                 'message' => 'The type passed, \\SprayFire\\Some\\NonExistent\\Interface, could not be found or loaded.',
-                'options' => null
+                'options' => array()
             )
         );
         $this->assertTrue($GenericMap instanceof \SprayFire\Structure\Map\GenericMap);
@@ -100,15 +128,30 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
 
-        $Log = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $everythingElseLog = 'SprayFire.Logging.Logifier.NullLogger';
+        $errorLog = 'SprayFire.Test.Helpers.DevelopmentLogger';
+        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
+        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
+        $LogDelegator->setDebugLogger($everythingElseLog);
+        $LogDelegator->setEmergencyLogger($everythingElseLog);
+        $LogDelegator->setInfoLogger($everythingElseLog);
+        $LogDelegator->setErrorLogger($errorLog);
+
         $Config = new \SprayFire\Config\ArrayConfig($configs, false);
-        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $Config);
+        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($LogDelegator, $Config);
         $ConfigMap = $Bootstrap->runBootstrap();
-        $loggedMessages = $Log->getLoggedMessages();
+
+        $ReflectedDelegator = new \ReflectionObject($LogDelegator);
+        $ErrorLoggerProperty = $ReflectedDelegator->getProperty('ErrorLogger');
+        $ErrorLoggerProperty->setAccessible(true);
+        $ErrorLogger = $ErrorLoggerProperty->getValue($LogDelegator);
+
+        $loggedMessages = $ErrorLogger->getLoggedMessages();
+
         $expectedLogMessages = array(
             array(
                 'message' => 'Unable to instantiate the Configuration object, PrimaryConfig, or it does not implement Object interface.',
-                'options' => null
+                'options' => array()
             )
         );
         $this->assertTrue($ConfigMap->containsKey('SprayFireRollTide'));
@@ -131,18 +174,34 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
 
+        $everythingElseLog = 'SprayFire.Logging.Logifier.NullLogger';
+        $errorLog = 'SprayFire.Test.Helpers.DevelopmentLogger';
+        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
+        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
+        $LogDelegator->setDebugLogger($everythingElseLog);
+        $LogDelegator->setEmergencyLogger($everythingElseLog);
+        $LogDelegator->setInfoLogger($everythingElseLog);
+        $LogDelegator->setErrorLogger($errorLog);
+
         $Log = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $Config = new \SprayFire\Config\ArrayConfig($configs, false);
-        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $Config);
+        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($LogDelegator, $Config);
         $ConfigMap = $Bootstrap->runBootstrap();
-        $loggedMessage = $Log->getLoggedMessages();
+
+        $ReflectedDelegator = new \ReflectionObject($LogDelegator);
+        $ErrorLoggerProperty = $ReflectedDelegator->getProperty('ErrorLogger');
+        $ErrorLoggerProperty->setAccessible(true);
+        $ErrorLogger = $ErrorLoggerProperty->getValue($LogDelegator);
+
+        $loggedMessages = $ErrorLogger->getLoggedMessages();
+
         $expectedLogMessages = array(
             array(
                 'message' => 'The interface is not set properly in the configuration object.',
-                'options' => null
+                'options' => array()
             )
         );
-        $this->assertSame($expectedLogMessages, $loggedMessage);
+        $this->assertSame($expectedLogMessages, $loggedMessages);
     }
 
 }
