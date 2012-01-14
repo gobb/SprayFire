@@ -44,7 +44,7 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
 
-        $Log = new \SprayFire\Logging\Logifier\NullLogger();
+        $Log = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $Config = new \SprayFire\Config\ArrayConfig($configs, false);
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $Config);
         $ConfigMap = $Bootstrap->runBootstrap();
@@ -53,23 +53,33 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
 
         $SprayFireRollTide = $ConfigMap->getObject('SprayFireRollTide');
         $PrimaryConfig = $ConfigMap->getObject('PrimaryConfig');
+        $loggedMessages = $Log->getLoggedMessages();
 
         $this->assertTrue($SprayFireRollTide instanceof \SprayFire\Config\ArrayConfig);
         $this->assertTrue($PrimaryConfig instanceof \SprayFire\Config\JsonConfig);
         $this->assertSame('best', $SprayFireRollTide->sprayfire);
         $this->assertSame('tide', $SprayFireRollTide->roll);
         $this->assertSame('Roll Tide!', $PrimaryConfig->app->{'deep-one'}->{'deep-two'}->{'deep-three'}->value);
+        $this->assertSame(array(), $loggedMessages);
 
     }
 
     public function testInvalidConfigBootstrapWithNonExistentInterface() {
 
-        $Log = new \SprayFire\Logging\Logifier\NullLogger();
+        $Log = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $data = array('interface' => 'SprayFire.Some.NonExistent.Interface');
         $Config = new \SprayFire\Config\ArrayConfig($data, false);
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $Config);
         $GenericMap = $Bootstrap->runBootstrap();
+        $loggedMessages = $Log->getLoggedMessages();
+        $expectedLogMessages = array(
+            array(
+                'message' => 'The type passed, \\SprayFire\\Some\\NonExistent\\Interface, could not be found or loaded.',
+                'options' => null
+            )
+        );
         $this->assertTrue($GenericMap instanceof \SprayFire\Structure\Map\GenericMap);
+        $this->assertSame($expectedLogMessages, $loggedMessages);
 
     }
 
@@ -90,12 +100,49 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
 
-        $Log = new \SprayFire\Logging\Logifier\NullLogger();
+        $Log = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $Config = new \SprayFire\Config\ArrayConfig($configs, false);
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $Config);
         $ConfigMap = $Bootstrap->runBootstrap();
+        $loggedMessages = $Log->getLoggedMessages();
+        $expectedLogMessages = array(
+            array(
+                'message' => 'Unable to instantiate the Configuration object, PrimaryConfig, or it does not implement Object interface.',
+                'options' => null
+            )
+        );
         $this->assertTrue($ConfigMap->containsKey('SprayFireRollTide'));
         $this->assertFalse($ConfigMap->containsKey('PrimaryConfig'));
+        $this->assertSame($expectedLogMessages, $loggedMessages);
+    }
+
+    public function testNoInterfaceSetInConfig() {
+        $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/Config/json/test-config.json';
+        $configs = array(
+            array(
+                'object' => 'SprayFire.Config.ArrayConfig',
+                'data' => array('sprayfire' => 'best', 'roll' => 'tide'),
+                'map-key' => 'SprayFireRollTide'
+            ),
+            array(
+                'object' => 'SprayFire.Config.JsonConfig',
+                'data' => $configPath,
+                'map-key' => 'PrimaryConfig'
+            )
+        );
+
+        $Log = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $Config = new \SprayFire\Config\ArrayConfig($configs, false);
+        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($Log, $Config);
+        $ConfigMap = $Bootstrap->runBootstrap();
+        $loggedMessage = $Log->getLoggedMessages();
+        $expectedLogMessages = array(
+            array(
+                'message' => 'The interface is not set properly in the configuration object.',
+                'options' => null
+            )
+        );
+        $this->assertSame($expectedLogMessages, $loggedMessage);
     }
 
 }
