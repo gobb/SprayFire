@@ -39,8 +39,10 @@ namespace SprayFire\Bootstrap;
 class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
-     * @brief A SprayFire.Structure.Map.RestrictedMap, restricted to SprayFire.Config.Configuration
-     * objects, that will hold the objects created when the bootstrap is ran.
+     * @brief A SprayFire.Structure.Map.ObjectMap,that will hold the objects created
+     * when the bootstrap is ran.
+     *
+     * @details If the
      *
      * @property $ConfigMap
      */
@@ -72,7 +74,12 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
         $this->Config = $Config;
     }
 
+    /**
+     * @return SprayFire.Structure.Map.ObjectMap holding the config objects requested
+     * by the configuration passed
+     */
     public function runBootstrap() {
+        $this->createConfigMap();
         $this->populateConfigMap();
         return $this->ConfigMap;
     }
@@ -93,7 +100,6 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
      */
     protected function populateConfigMap() {
         $configInfo = $this->Config;
-        $this->createConfigMap();
         foreach ($configInfo as $info) {
             try {
                 $data = $info['data'];
@@ -113,11 +119,24 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
         }
     }
 
+    /**
+     * @brief Will attempt to create a SprayFire.Structure.Map.RestrictedMap based
+     * on `$this->Config['interface'] if it is set, if  it is not set or an invalid
+     * type is passed that could not be loaded a SprayFire.Structure.Map.GenericMap
+     * will be created instead.
+     */
     protected function createConfigMap() {
         try {
-            $configInterface = $this->replaceDotsWithBackSlashes($this->Config['interface']);
+            $configInterface = isset($this->Config['interface']) ? $this->Config['interface'] : null;
+            if (\is_null($configInterface)) {
+                throw new \InvalidArgumentException('The interface is not set properly in the configuration object.');
+            }
+            $configInterface = $this->replaceDotsWithBackSlashes($configInterface);
             $this->ConfigMap = new \SprayFire\Structure\Map\RestrictedMap($configInterface);
-        } catch (\SprayFire\Exception\TypeNotFoundException $InvalArgExc) {
+        } catch (\SprayFire\Exception\TypeNotFoundException $TypeNotFound) {
+            $this->Logger->log($TypeNotFound->getMessage());
+            $this->ConfigMap = new \SprayFire\Structure\Map\GenericMap();
+        } catch (\InvalidArgumentException $InvalArgExc) {
             $this->Logger->log($InvalArgExc->getMessage());
             $this->ConfigMap = new \SprayFire\Structure\Map\GenericMap();
         }
@@ -133,7 +152,7 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
         if (\strpos($className, $dot) !== false) {
             $className = \str_replace($dot, $backSlash, $className);
         }
-        return $backSlash . \trim($className, '\\ ');
+        return $backSlash . \trim($className, $backSlash . ' ');
     }
 
 }
