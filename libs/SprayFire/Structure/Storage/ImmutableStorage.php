@@ -25,76 +25,20 @@ namespace SprayFire\Structure\Storage;
 class ImmutableStorage extends \SprayFire\Structure\Storage\DataStorage {
 
     /**
-     * @brief Accepts an array of data to store and gives the calling code the option to
-     * convert all inner arrays into ImmutableStorage objects.
-     *
-     * @param $data array
-     * @param $convertDeep boolean
-     */
-    public function __construct(array $data, $convertDeep = true) {
-        if ((boolean) $convertDeep) {
-            $data = $this->convertDataDeep($data);
-        }
-        if (!\is_array($data)) {
-            throw new \UnexpectedValueException('The data returned from convertDataDeep must be an array.');
-        }
-        parent::__construct($data);
-    }
-
-    /**
      * @param $key string
      * @param $value mixed
      * @throws SprayFire.Exception.UnsupportedOperationException
      */
-    protected function set($key, $value) {
-        throw new \SprayFire\Exception\UnsupportedOperationException('Attempting to set the value of an immutable object.');
+    protected function offsetSet($key, $value) {
+        throw new \SprayFire\Exception\UnsupportedOperationException('Attempting to set the value of an immutable object.  ' . $key . ', was not set to ' . $value );
     }
 
     /**
      * @param $key string
      * @throws SprayFire.Exception.UnsupportedOperationException
      */
-    protected function removeKey($key) {
-        throw new \SprayFire\Exception\UnsupportedOperationException('Attempting to remove the value of an immutable object.');
-    }
-
-    /**
-     * @brief Converts all arrays in \a $data \a to ImmutableStorage objects,
-     * allowing for the chaining of properties in the created object.
-     *
-     * @details
-     * Note that if you extend ImmutableStorage and override this method an array
-     * value MUST be returned or a SprayFire.Exceptions.UnexpectedValueException
-     * will be thrown by the class constructor.  If self::__construct() is overridden
-     * as well and the data from convertDataDeep is not an array you will receive a
-     * type hint compile error when parent::__construct() is called.
-     *
-     * @param $data array
-     * @return array
-     */
-    protected function convertDataDeep(array $data) {
-        foreach ($data as $key => $value) {
-            if (\is_array($value)) {
-                $data[$key] = $this->convertArrayToImmutableObject($value);
-            }
-        }
-        return $data;
-    }
-
-    /**
-     * @brief Will convert the passed array, and all arrays within that array,
-     * to a SprayFire.Datastructs.ImmutableStorage object.
-     *
-     * @param $data array
-     * @return SprayFire.Core.Structures.ImmutableStorage
-     */
-    private function convertArrayToImmutableObject(array $data) {
-        foreach ($data as $key => $value) {
-            if (\is_array($value)) {
-                $data[$key] = $this->convertArrayToImmutableObject($value);
-            }
-        }
-        return new ImmutableStorage($data);
+    protected function offsetUnset($key) {
+        throw new \SprayFire\Exception\UnsupportedOperationException('Attempting to remove the value of an immutable object.  ' . $key . ' was not removed.');
     }
 
 }
