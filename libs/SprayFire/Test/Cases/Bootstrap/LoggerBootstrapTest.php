@@ -70,7 +70,7 @@ class LoggerBootstrapTest extends \PHPUnit_Framework_TestCase {
         $config = array(
             'emergency' => array(
                 'object' => 'SprayFire.Logging.Logifier.SysLogLogger',
-                'blueprint' => array()
+                'blueprint' => ''
             ),
             'info' => array(
                 'object' => 'SprayFire.Logging.Logifier.FileLogger',
