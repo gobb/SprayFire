@@ -65,22 +65,41 @@ $developmentIniSettings['display_startup_errors'] = 1;
 $developmentIniSettings['error_reporting'] = -1;
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// CONFIGURATION FILE PATHS DETAILS
-// The below variables hold the relative path to various configuration files used
-// by SprayFire.  Please see SprayFire.Core.Directory to see how these variables
-// are interpreted into the appropriate complete path.
+// CONFIGURATION BOOTSTRAP DETAILS
+// The below variables hold the information needed by the LoggerBootstrap to
+// properly create the appropriate configuration objects needed to get SprayFire
+// initialized.  It is important to note that these are only configuration files
+// needed by SprayFire, adding to these values will not influence the configuration
+// objects available to your app.  Configuration objects you would like in your
+// app should be returned by your app's own `Bootstrapper::runBootstrap()`.
 //
-// Please note that only configuration files used by SprayFire should be included
-// here. If you would like to create your own app specific configuration you should
-// be doing so in your app.
+// For more information about the
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+/**
+ * @brief A PHP or Java-style namespaced interface that configuration objects should
+ * implement.
+ *
+ * @details
+ * While this should generally be an interface an abstract or concrete class type
+ * may be set.  However setting to a more concrete implementation will ruin any kind
+ * of polymorphism that is possible with an interface.  Either way, do not change
+ * the name of this variable.
+ *
+ * @var $configInterface
+ * @see SprayFire.Bootstrap.ConfigBootstrap
+ */
 $configInterface = 'SprayFire.Config.Configuration';
 
 /**
  * @brief This file should be located in the \a $configPath
  *
- * @var $sprayfireConfigFile sub-directory and file name for the primary SprayFire configuration file
+ * @details
+ * See the linked wiki page for how this array is converted into a sub-directory
+ * structure by SprayFire.
+ *
+ * @var $sprayfireConfigFile
+ * @see http://github.com/cspray/SprayFire/wiki/Directory-Structure
  */
 $sprayFireConfigFile = array('json', 'sprayfire-configuration.json');
 
