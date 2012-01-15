@@ -9,8 +9,8 @@
 namespace SprayFire\Structure\Storage;
 
 /**
- * @brief Stores data in a property and allows access to that data array notation
- * ONLY.
+ * @brief Stores data in a property and allows access to that data via object
+ * or array notation.
  *
  * @details
  * This class provides a generic means to retrieve data based on a unique
@@ -18,19 +18,35 @@ namespace SprayFire\Structure\Storage;
  * with it.  Extending classes should provide the exact implementation details
  * for how that \a $key and \a $value should be added to the appropriate property.
  *
- * You should really be using this data structure as a type of array with finer
- * grained setting and getting rules.  Perhaps an implementation only allows certain
- * values to be set or no values to be set at all.  If you have methods to manipulate
- * the data structure, e.g., add(), as compared to manipulating it through array
- * notation you should really evaluate whether or not this data structure is the
- * best suited for your needs.
+ * To provide an easy way to provide both object and array notation access there
+ * are four protected methods that can be considered 'hooks', implementing or
+ * overriding the following methods will change the way this object works.
+ *
+ * <pre>
+ * Hook name           | Method's effected
+ * -------------------------------------------------------------------------
+ * set($key, $value)   | __set($key, $value), offsetSet($key, $value)
+ * -------------------------------------------------------------------------
+ * get($key)           | __get($key), offsetGet($key)
+ * -------------------------------------------------------------------------
+ * keyHasValue($key)   | __isset($key), offsetExists($key)
+ * -------------------------------------------------------------------------
+ * removeKey($key)     | __unset($key), offsetUnset($key)
+ * </pre>
+ *
+ * If you extend this class it should be expected that the object gets and
+ * sets data values via object or array notation.  If methods are also used
+ * to manipulate the data structure you should really evaluate whether or not
+ * this is the best option as you will still have to take into account the
+ * public methods that allow the object an array notation.
  *
  * @uses ArrayIterator
  * @uses Countable
  * @uses IteratorAggregate
+ * @uses SprayFire.Core.Structure.Overloadable
  * @uses SprayFire.Core.Util.CoreObject
  */
-abstract class DataStorage extends \SprayFire\Core\Util\CoreObject implements \ArrayAccess, \Countable, \IteratorAggregate {
+abstract class DataStorage extends \SprayFire\Core\Util\CoreObject implements \ArrayAccess, \Countable, \IteratorAggregate, \SprayFire\Structure\Overloadable {
 
     /**
      * An array holding the data being stored.
@@ -60,7 +76,30 @@ abstract class DataStorage extends \SprayFire\Core\Util\CoreObject implements \A
      * @param $key string
      * @return mixed
      */
+    public function __get($key) {
+        return $this->get($key);
+    }
+
+    /**
+     * @param $key string
+     * @return mixed
+     */
     public function offsetGet($key) {
+        return $this->get($key);
+    }
+
+    /**
+     * @brief 'hook' to retrieve the data associated with a given key.
+     *
+     * @details
+     * If your class needs to change the way object are retrieved from the data
+     * store simply override this function, ensuring that the proper value is
+     * returned.
+     *
+     * @param $key string
+     * @return mixed
+     */
+    protected function get($key) {
         if ($this->keyInData($key)) {
             return $this->data[$key];
         }
@@ -71,28 +110,30 @@ abstract class DataStorage extends \SprayFire\Core\Util\CoreObject implements \A
      * @param $key string
      * @return boolean
      */
+    public function __isset($key) {
+        return $this->keyHasValue($key);
+    }
+
+    /**
+     * @param $key string
+     * @return boolean
+     */
     public function offsetExists($key) {
+        return $this->keyHasValue($key);
+    }
+
+    /**
+     * @brief 'hook' to determine if a given \a $key exists and has a value
+     * associated with it.
+     *
+     * @param $key string
+     * @return boolean
+     */
+    protected function keyHasValue($key) {
         if ($this->keyInData($key)) {
             return isset($this->data[$key]);
         }
         return false;
-    }
-
-    /**
-     * @brief Required by the Countable interface, will return the number of data elements
-     * stored in $data; please note that this is not a recursive count.
-     *
-     * @return int
-     */
-    public function count() {
-        return \count($this->data);
-    }
-
-    /**
-     * @return ArrayIterator
-     */
-    public function getIterator() {
-        return new \ArrayIterator($this->data);
     }
 
     /**
@@ -116,7 +157,16 @@ abstract class DataStorage extends \SprayFire\Core\Util\CoreObject implements \A
      * @return mixed
      */
     public function __set($key, $value) {
-        throw new \SprayFire\Exception\UnsupportedOperationException('You may not access data in this way, please use array access notation.');
+        return $this->set($key, $value);
+    }
+
+    /**
+     * @param $key string
+     * @param $value mixed
+     * @return mixed
+     */
+    public function offsetSet($key, $value) {
+        return $this->set($key, $value);
     }
 
     /**
@@ -124,23 +174,50 @@ abstract class DataStorage extends \SprayFire\Core\Util\CoreObject implements \A
      * @return boolean
      */
     public function __unset($key) {
-        throw new \SprayFire\Exception\UnsupportedOperationException('You may not access data in this way, please use array access notation.');
+        return $this->removeKey($key);
     }
 
     /**
      * @param $key string
      * @return boolean
      */
-    public function __isset($key) {
-        throw new \SprayFire\Exception\UnsupportedOperationException('You may not access data in this way, please use array access notation.');
+    public function offsetUnset($key) {
+        return $this->removeKey($key);
     }
 
     /**
-     * @param $key string
-     * @return mixed
+     * Required by the Countable interface, will return the number of data elements
+     * stored in $data; please note that this is not a recursive count.
+     *
+     * @return int
      */
-    public function __get($key) {
-        throw new \SprayFire\Exception\UnsupportedOperationException('You may not access data in this way, please use array access notation.');
+    public function count() {
+        return \count($this->data);
     }
+
+    public function getIterator() {
+        return new \ArrayIterator($this->data);
+    }
+
+    /**
+     * @brief 'hook' to set the given \a $value for the associated \a $key.
+     *
+     * @details
+     * Please return the value set or false if there was an error.
+     *
+     * @param $key string
+     * @param $value mixed
+     * @return mixed
+     * @throws SprayFire.Exception.UnsupportedOperationException
+     */
+    abstract protected function set($key, $value);
+
+    /**
+     * @brief 'hook' to remove the given \a $key from the stored data.
+     *
+     * @param $key string
+     * @throws SprayFire.Exception.UnsupportedOperationException
+     */
+    abstract protected function removeKey($key);
 
 }
