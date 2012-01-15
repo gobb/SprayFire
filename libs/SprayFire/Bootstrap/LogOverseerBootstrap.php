@@ -15,7 +15,7 @@ namespace SprayFire\Bootstrap;
  * @uses SprayFire.Factory.Factory
  * @uses SprayFire.Logging.Logifier.LogDelegator
  */
-class LoggerBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
+class LogOverseerBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
      * @brief Should be an instance of SprayFire.Logging.Logifier.LoggerFactory
