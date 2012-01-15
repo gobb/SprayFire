@@ -43,6 +43,11 @@ class LoggerBootstrapTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertTrue($LogDelegator instanceof \SprayFire\Logging\Logifier\LogDelegator);
 
+        $ReflectedDelegator = new \ReflectionObject($LogDelegator);
+        $EmergencyLoggerProperty = $ReflectedDelegator->getProperty('EmergencyLogger');
+        $EmergencyLoggerProperty->setAccessible(true);
+        $this->assertTrue($EmergencyLoggerProperty->getValue($LogDelegator) instanceof \SprayFire\Logging\Logifier\SysLogLogger);
+
     }
 
 
