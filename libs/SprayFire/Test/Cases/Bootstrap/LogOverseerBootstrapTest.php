@@ -10,10 +10,9 @@ namespace SprayFire\Test\Cases\Bootstrap;
 /**
  * @brief
  */
-class LoggerBootstrapTest extends \PHPUnit_Framework_TestCase {
+class LogOverseerBootstrapTest extends \PHPUnit_Framework_TestCase {
 
     public function testLogOverseerCreationWithValidConfig() {
-
         $infoLogFile = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/logs/info.txt';
         \touch($infoLogFile);
         \chmod($infoLogFile, 0777);
@@ -38,7 +37,7 @@ class LoggerBootstrapTest extends \PHPUnit_Framework_TestCase {
         );
         $ConfigObject = new \SprayFire\Config\ArrayConfig($config);
         $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
-        $LoggerBootstrap = new \SprayFire\Bootstrap\LoggerBootstrap($ConfigObject, $LoggerFactory);
+        $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($ConfigObject, $LoggerFactory);
         $LogDelegator = $LoggerBootstrap->runBootstrap();
 
         $this->assertTrue($LogDelegator instanceof \SprayFire\Logging\Logifier\LogDelegator);
@@ -79,7 +78,7 @@ class LoggerBootstrapTest extends \PHPUnit_Framework_TestCase {
         );
         $ConfigObject = new \SprayFire\Config\ArrayConfig($config, false);
         $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
-        $LoggerBootstrap = new \SprayFire\Bootstrap\LoggerBootstrap($ConfigObject, $LoggerFactory);
+        $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($ConfigObject, $LoggerFactory);
         $LogDelegator = $LoggerBootstrap->runBootstrap();
 
         $this->assertTrue($LogDelegator instanceof \SprayFire\Logging\Logifier\LogDelegator);
@@ -118,7 +117,7 @@ class LoggerBootstrapTest extends \PHPUnit_Framework_TestCase {
         );
         $ConfigObject = new \SprayFire\Config\ArrayConfig($config, false);
         $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
-        $LoggerBootstrap = new \SprayFire\Bootstrap\LoggerBootstrap($ConfigObject, $LoggerFactory);
+        $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($ConfigObject, $LoggerFactory);
         $LogDelegator = $LoggerBootstrap->runBootstrap();
 
         $this->assertTrue($LogDelegator instanceof \SprayFire\Logging\Logifier\LogDelegator);
