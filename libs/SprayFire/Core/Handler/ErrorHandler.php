@@ -13,11 +13,16 @@ namespace SprayFire\Core\Handler;
  * messages and provides a means to get the error info for errors triggered in a
  * specific request.
  *
- * @uses SprayFire.Logging.Log
+ * @uses SprayFire.Logging.LogOverseer
  * @uses SprayFire.Core.Util.CoreObject
  */
 class ErrorHandler extends \SprayFire\Core\Util\CoreObject {
 
+    /**
+     * @brief A SprayFire.Logging.LogOverseer used to log messages.
+     *
+     * @property $Logger
+     */
     protected $Logger;
 
     /**
@@ -39,7 +44,7 @@ class ErrorHandler extends \SprayFire\Core\Util\CoreObject {
      * @param $Log \SprayFire\Logger\Log The log to use for this error handler
      * @param $developmentModeOn True or false on whether or not the environment is in development mode
      */
-    public function __construct(\SprayFire\Logging\Logger $Log, $developmentModeOn = false) {
+    public function __construct(\SprayFire\Logging\LogOverseer $Log, $developmentModeOn = false) {
         $this->Logger = $Log;
         $this->developmentModeOn = (boolean) $developmentModeOn;
     }
@@ -58,27 +63,21 @@ class ErrorHandler extends \SprayFire\Core\Util\CoreObject {
         if (\error_reporting() === 0) {
             return false;
         }
-
+        $this->Logger->logError($message);
         $intSeverity = $severity;
         $severity = $this->normalizeSeverity($severity);
-
-        $data = \compact('severity', 'message', 'file', 'line');
-        if ($this->developmentModeOn) {
-            $data['context'] = $context;
-            // We are using this method to log the info because we want more information
-            // about errors if we're in development mode.
-            $this->Logger->log($data);
-        } else {
-            $this->Logger->log($message);
-        }
-
-        $index = \count($this->trappedErrors);
-        $this->trappedErrors[$index] = $data;
-
         $nonHandledSeverity = array(E_RECOVERABLE_ERROR);
         if (\in_array($intSeverity, $nonHandledSeverity)) {
             return false;
         }
+
+        if ($this->developmentModeOn) {
+            $data = $severity . ';' . $message . ';' . $file . ';' . $line;
+            $this->Logger->logDebug($data);
+            $index = \count($this->trappedErrors);
+            $this->trappedErrors[$index] = \compact('severity', 'message', 'file', 'line', 'context');
+        }
+
     }
 
     /**
@@ -93,6 +92,7 @@ class ErrorHandler extends \SprayFire\Core\Util\CoreObject {
         $severityMap = array(
             E_WARNING => 'E_WARNING',
             E_NOTICE => 'E_NOTICE',
+            E_STRICT => 'E_STRICT',
             E_USER_ERROR => 'E_USER_ERROR',
             E_USER_WARNING => 'E_USER_WARNING',
             E_USER_NOTICE => 'E_USER_NOTICE',
@@ -107,7 +107,8 @@ class ErrorHandler extends \SprayFire\Core\Util\CoreObject {
     }
 
     /**
-     * @return An array of error info
+     * @return An array of error info, notice this will only return info if the
+     *         app is currently in development mode
      */
     public function getTrappedErrors() {
         return $this->trappedErrors;
