@@ -31,8 +31,8 @@ namespace SprayFire\Bootstrap;
  *
  * @uses ReflectionClass
  * @uses SprayFire.Config.Configuration
- * @uses SprayFire.Logging.Logger
  * @uses SprayFire.Bootstrap.Bootstrapper
+ * @uses SprayFire.Logging.LogOverseer
  * @uses SprayFire.Core.Util.CoreObject
  * @uses SprayFire.Structure.Map.RestrictedMap
  */
@@ -42,14 +42,17 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
      * @brief A SprayFire.Structure.Map.ObjectMap,that will hold the objects created
      * when the bootstrap is ran.
      *
-     * @details If the
+     * @details
+     * If the configuration interface passed could not then a SprayFire.Structure.Map.GenericMap
+     * will be created, otherwise a SprayFire.Structure.Map.RestrictedMap will be
+     * created.
      *
      * @property $ConfigMap
      */
     protected $ConfigMap;
 
     /**
-     * @brief A SprayFire.Logging.Logger used to store messages.
+     * @brief A SprayFire.Logging.LogOverseer used to store messages.
      *
      * @property $Logger
      */
@@ -64,12 +67,12 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
     protected $Config;
 
     /**
-     * @param $Log SprayFire.Logger.Log To log various error messages that may occur
+     * @param $Logger SprayFire.Logger.LogOverseer To log various error messages that may occur
      * @param $Config An object holding data needed by this bootstrap
      * @throws SprayFire.Exception.FatalRuntimeException
      * @see /config/primary-configuration.php \a $configData
      */
-    public function __construct(\SprayFire\Logging\Logger $Logger, \SprayFire\Config\Configuration $Config) {
+    public function __construct(\SprayFire\Logging\LogOverseer $Logger, \SprayFire\Config\Configuration $Config) {
         $this->Logger = $Logger;
         $this->Config = $Config;
     }
@@ -117,7 +120,7 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
                 $object = $this->replaceDotsWithBackSlashes($info['object']);
                 $this->ConfigMap->setObject($info['map-key'], new $object($argument));
             } catch (\InvalidArgumentException $InvalArgExc) {
-                $this->Logger->log('Unable to instantiate the Configuration object, ' . $info['map-key'] . ', or it does not implement Object interface.');
+                $this->Logger->logError('Unable to instantiate the Configuration object, ' . $info['map-key'] . ', or it does not implement Object interface.');
             }
         }
     }
@@ -137,10 +140,10 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
             $configInterface = $this->replaceDotsWithBackSlashes($configInterface);
             $this->ConfigMap = new \SprayFire\Structure\Map\RestrictedMap($configInterface);
         } catch (\SprayFire\Exception\TypeNotFoundException $TypeNotFound) {
-            $this->Logger->log($TypeNotFound->getMessage());
+            $this->Logger->logError($TypeNotFound->getMessage());
             $this->ConfigMap = new \SprayFire\Structure\Map\GenericMap();
         } catch (\InvalidArgumentException $InvalArgExc) {
-            $this->Logger->log($InvalArgExc->getMessage());
+            $this->Logger->logError($InvalArgExc->getMessage());
             $this->ConfigMap = new \SprayFire\Structure\Map\GenericMap();
         }
     }
