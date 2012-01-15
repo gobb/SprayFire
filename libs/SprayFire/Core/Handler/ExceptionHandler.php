@@ -22,6 +22,11 @@ namespace SprayFire\Core\Handler;
  */
 class ExceptionHandler extends \SprayFire\Core\Util\CoreObject {
 
+    /**
+     * @brief A SprayFire.Logging.LogOverseer used to log messages.
+     *
+     * @property $Logger
+     */
     protected $Logger;
 
     /**
@@ -44,12 +49,12 @@ class ExceptionHandler extends \SprayFire\Core\Util\CoreObject {
     protected $headers;
 
     /**
-     * @param $Log SprayFire.Loging.Logger to log information about the caught exception
+     * @param $Log SprayFire.Loging.LogOverseer to log information about the caught exception
      * @param $contentReplacementPath File path holding content to serve up after the info is logged
      * @param $headers an array of header information to be sent to the user
      */
-    public function __construct(\SprayFire\Logging\Logger $Log, $contentReplacementPath, array $headers = array()) {
-        $this->Logger = $Log;
+    public function __construct(\SprayFire\Logging\LogOverseer $LogOverseer, $contentReplacementPath, array $headers = array()) {
+        $this->Logger = $LogOverseer;
         $this->replacePath = $contentReplacementPath;
         $this->headers = $headers;
     }
@@ -75,7 +80,7 @@ class ExceptionHandler extends \SprayFire\Core\Util\CoreObject {
         $line = $Exception->getLine();
         $message = $Exception->getMessage();
         $logMessage = 'file:=' . $file . '|line:=' . $line . '|message:=' . $message;
-        $this->Logger->log($logMessage);
+        $this->Logger->logEmergency($logMessage, \LOG_EMERG);
     }
 
     /**
