@@ -18,8 +18,8 @@ namespace SprayFire\Bootstrap;
  * Each associative array in the passed argument should have the following keys:
  *
  * <pre>
- *  'config-object' = the fully namespaced class to create for the given configuration
- *  'config-data' = a string representing a complete path to the configuration file
+ *  'object' = the fully namespaced class to create for the given configuration
+ *  'data' = a string representing a complete path to the configuration file
  *  'map-key' = a string representing the key to use for the given
  * </pre>
  *
@@ -63,13 +63,13 @@ class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayF
      * bootstrap.
      *
      * @property $Config
+     * @see /config/primary-configuration.php
      */
     protected $Config;
 
     /**
      * @param $Logger SprayFire.Logger.LogOverseer To log various error messages that may occur
      * @param $Config An object holding data needed by this bootstrap
-     * @throws SprayFire.Exception.FatalRuntimeException
      * @see /config/primary-configuration.php \a $configData
      */
     public function __construct(\SprayFire\Logging\LogOverseer $Logger, \SprayFire\Config\Configuration $Config) {
