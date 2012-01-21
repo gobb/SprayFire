@@ -19,16 +19,20 @@
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 /**
- * @var $developmentMode Set to true to enable error display and other development
- *      ini settings
+ * @brief Set to true to enable error display and other development ini settings
+ *
+ * @var $developmentMode
  */
 $developmentMode = true;
 
 /**
- * @brief The key of the array should be the name of the ini configuration setting.
+ * @brief An array of ini configuration values to set regardless of the \a $developmentMode
+ * set.
  *
- * @var $globalIniSettings An array of ini configuration values to set regardless
- *      of the \a $developmentMode set.
+ * @details
+ * The key of the array should be the name of the ini configuration setting.
+ *
+ * @var $globalIniSettings
  */
 $globalIniSettings = array();
 $globalIniSettings['allow_url_fopen'] = 0;
@@ -43,10 +47,13 @@ $globalIniSettings['magic_quotes_runtime'] = 0;
 $globalIniSettings['expose_php'] = 0;
 
 /**
- * @brief The key of the array should be the name of the ini configuration setting.
+ * @brief An array of ini configuraiton values to set if the \a $developmentMode \
+ * is turned off.
  *
- * @var $productionIniSettings An array of ini configuraiton values to set if the
- *      \a $developmentMode is turned off.
+ * @details
+ * The key of the array should be the name of the ini configuration setting.
+ *
+ * @var $productionIniSettings
  */
 $productionIniSettings = array();
 $productionIniSettings['display_errors'] = 0;
@@ -54,10 +61,13 @@ $productionIniSettings['display_startup_errors'] = 0;
 $productionIniSettings['error_reporting'] = \E_ALL & ~\E_NOTICE;
 
 /**
- * @brief The key of the array should be the name of the ini configuration settings.
+ * @brief An array of ini configuration values to set if the \a $developmentMode
+ * is turned on.
  *
- * @var $developmentIniSettings An array of ini configuration values to set if the
- *      \a $developmentMode is turned on.
+ * @details
+ * The key of the array should be the name of the ini configuration settings.
+ *
+ * @var $developmentIniSettings
  */
 $developmentIniSettings = array();
 $developmentIniSettings['display_errors'] = 1;
@@ -104,25 +114,45 @@ $configInterface = 'SprayFire.Config.Configuration';
 $sprayFireConfigFile = array('json', 'sprayfire-configuration.json');
 
 /**
- * @var $sprayFireConfigObject PHP or Java-style class name
+ * @brief PHP or Java-style class name for the configuration object to be created
+ * hoding \a $sprayFireConfigFile
+ *
+ * @var $sprayFireConfigObject
  */
 $sprayFireConfigObject = 'SprayFire.Config.JsonConfig';
 
 /**
- * @var $sprayFireConfigMapKey The name of the key that this object will be stored
- *      in the container map.
+ * @brief The name of the key that will be used to store \a $sprayFireConfigObject
+ * in the SprayFire.Structure.ObjectMap returned by SprayFire.Bootstrap.ConfigBootstrap.
+ *
+ * @var $sprayFireConfigMapKey
  */
 $sprayFireConfigMapKey = 'SprayFireConfig';
 
 /**
- * @brief This file should be located in the \a $configPath
+ * @brief Sub-directory and file name for the SprayFire routes configuration file.
  *
- * @var $routesConfigFile sub-directory and file name for the SprayFire routes configuration file
+ * @details
+ * Should exist in \a $configPath
+ *
+ * @var $routesConfigFile
  */
-$routesConfigFile = array('json', 'routes.json');
+$routesConfigFile = array('json', 'sprayfire-routes.json');
 
+/**
+ * @brief A PHP or Java-style namespaced class used to hold the configuration data
+ * from \a $routesConfigFile
+ *
+ * @var $routesConfigObject
+ */
 $routesConfigObject = 'SprayFire.Config.JsonConfig';
 
+/**
+ * @brief The name of the key used to store \a $routesConfigObject in the SprayFire.Structure.ObjectMap
+ * returned by SprayFire.Bootstrap.ConfigBootstrap.
+ *
+ * @var $routesConfigMapKey
+ */
 $routesConfigMapKey = 'RoutesConfig';
 
 /**
@@ -132,8 +162,20 @@ $routesConfigMapKey = 'RoutesConfig';
  */
 $pluginsConfigFile = array('json', 'plugins.json');
 
+/**
+ * @brief A PHP or Java-style namespaced class to hold the configuration data
+ * from \a $pluginsConfigFile
+ *
+ * @var $pluginsConfigObject
+ */
 $pluginsConfigObject = 'SprayFire.Config.JsonConfig';
 
+/**
+ * @brief The name of the key used to store \a $pluginsConfigObject in the
+ * SprayFire.Structures.ObjectMap returned by SprayFire.Bootstrap.ConfigBootstrap.
+ *
+ * @var $pluginsConfigMapKey
+ */
 $pluginsConfigMapKey = 'PluginsConfig';
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -148,46 +190,62 @@ $pluginsConfigMapKey = 'PluginsConfig';
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 /**
- * @brief Note that you may pass the name of this class in either Java or PHP style.
+ * @brief PHP or Java-style namespaced class to log emergency level messages
  *
- * @var $emergencyLoggerObject The name of the class responsible for logging emergency
- *      level messages
+ * @var $emergencyLoggerObject
  */
 $emergencyLoggerObject = 'SprayFire.Logging.Logifier.SysLogLogger';
 
+/**
+ * @brief An array of arguments to pass to the constructor when the LoggerFactory
+ * produces an \a $emergencyLoggerObject
+ *
+ * @var $emergencyLoggerBlueprint
+ */
 $emergencyLoggerBlueprint = array('SprayFire', \LOG_NDELAY, \LOG_USER);
 
 /**
- * @brief Note that you may pass the name of this class in either Java or PHP style.
+ * @brief The PHP or Java-style namespaced class used to log error level messages
  *
- * @var $errorLoggerObject The name of the class responsible for logging error level
- *      messages
+ * @var $errorLoggerObject
  */
 $errorLoggerObject = 'SprayFire.Logging.Logifier.ErrorLogLogger';
 
+/**
+ * @brief An array of arguments to pass to the constructor when the LoggerFactory
+ * produces an \a $errorLoggerObject
+ *
+ * @var $errorLoggerBlueprint
+ */
 $errorLoggerBlueprint = array();
 
 /**
- * @brief Note that you may pass the name of this class in either Java or PHP style.
+ * @brief PHP or Java-style namespaced class used to log debug level messages
  *
- * @var $debugLoggerObject The name of the class responsible for logging debug level
- *      messages
+ * @var $debugLoggerObject
  */
-$debugLoggerObject = 'SprayFire.Logging.Logifier.DebugLogger';
+$debugLoggerObject = 'SprayFire.Logging.Logifier.FileLogger';
 
+/**
+ * @brief An array of constructor arguments passed to \a $debugLoggerObject when
+ * LoggerFactory produces it.
+ *
+ * @var $debugLoggerBlueprint
+ */
 $debugLoggerBlueprint = array('sprayfire-debug.txt');
 
 /**
- * @brief Note that you may pass the name of this class in either Java or PHP style.
+ * @brief PHP or Java-style namespaced class used to log info level messages
  *
- * @var $infoLoggerObject The name of the class responsible for logging info level
- *      messages
+ * @var $infoLoggerObject
  */
 $infoLoggerObject = 'SprayFire.Logging.Logifier.FileLogger';
 
 /**
- * @var $infoLogFile The sub-directory and file that \a $infoLoggerObject should
- *      store info in.
+ * @brief An array of constructor arguments passed to \a $infoLoggerObject when
+ * produced by LoggerFactory.
+ *
+ * @var $infoLogFile
  */
 $infoLoggerBlueprint = array('sprayfire-info.txt');
 
