@@ -23,6 +23,10 @@ namespace SprayFire\Structure;
  * the SprayFire.Datastructs.MutableStorage or SprayFire.Datastructs.ImmutableStorage
  * objects as they allow for the storing of any data type through the SprayFire.Datastructs.Overloadable
  * and ArrayAccess interfaces.
+ *
+ * @uses Traversable
+ * @uses Countable
+ * @uses SprayFire.Object
  */
 interface ObjectMap extends \Traversable, \Countable {
 
@@ -39,18 +43,18 @@ interface ObjectMap extends \Traversable, \Countable {
      * SprayFire.Exceptions.UnsupportedOperationException.
      *
      * @param $key string
-     * @param $Object SprayFire.Core.Object
+     * @param $Object SprayFire.Object
      * @return void
      * @throws SprayFire.Exceptions.UnsupportedOperationException
      * @throws InvalidArgumentException
      */
-    public function setObject($key, \SprayFire\Core\Object $Object);
+    public function setObject($key, \SprayFire\Object $Object);
 
     /**
      * @brief Return an Object if one exists for the given key or null.
      *
      * @param $key string
-     * @return SprayFire.Core.Object
+     * @return SprayFire.Object
      */
     public function getObject($key);
 
@@ -63,10 +67,10 @@ interface ObjectMap extends \Traversable, \Countable {
      * to a numeric index; ultimately however it will return whatever index
      * value was set for the \a $Object.
      *
-     * @param $Object SprayFire.Core.Object
+     * @param $Object SprayFire.Object
      * @return mixed
      */
-    public function getKey(\SprayFire\Core\Object $Object);
+    public function getKey(\SprayFire\Object $Object);
 
     /**
      * @brief Returns a boolean value indicating whether the \a $Object is
@@ -76,10 +80,10 @@ interface ObjectMap extends \Traversable, \Countable {
      * SprayFire.Core.Object::equals() method will be used to determine
      * if the passed \a $Object is contained within this storage.
      *
-     * @param $Object SprayFire.Core.Object
+     * @param $Object SprayFire.Object
      * @return boolean true if \a $Object is stored; false if it isn't
      */
-    public function containsObject(\SprayFire\Core\Object $Object);
+    public function containsObject(\SprayFire\Object $Object);
 
     /**
      * @brief Returns a boolean value indicating whether the \a $key exists and
