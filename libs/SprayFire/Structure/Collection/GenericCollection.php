@@ -52,10 +52,10 @@ class GenericCollection extends \SprayFire\Core\Util\CoreObject implements \Iter
     /**
      * @brief Adds an object to the collection, assigning the current index.
      *
-     * @param $Object \SprayFire\Core\Object An object to add to the collection
+     * @param $Object SprayFire.Object An object to add to the collection
      * @return The index of \a $Object or false if \a $Object was not added
      */
-    public function addObject(\SprayFire\Core\Object $Object) {
+    public function addObject(\SprayFire\Object $Object) {
         if ($this->index === $this->data->count()) {
             $this->doubleSizeOfCollection();
         }
@@ -71,10 +71,10 @@ class GenericCollection extends \SprayFire\Core\Util\CoreObject implements \Iter
     }
 
     /**
-     * @param $Object \SprayFire\Core\Object
+     * @param $Object SprayFire.Object
      * @return true if the \a $Object exists anywhere in the collection
      */
-    public function containsObject(\SprayFire\Core\Object $Object) {
+    public function containsObject(\SprayFire\Object $Object) {
         foreach ($this->data as $value) {
             if (isset($value)) {
                 if ($Object->equals($value)) {
@@ -89,9 +89,9 @@ class GenericCollection extends \SprayFire\Core\Util\CoreObject implements \Iter
      * @brief Will return the index of the first element in the collection equal
      * to \a $Object.
      *
-     * @param $Object SprayFire.Core.Object
+     * @param $Object SprayFire.Object
      */
-    public function getIndex(\SprayFire\Core\Object $Object) {
+    public function getIndex(\SprayFire\Object $Object) {
         foreach ($this->data as $key => $value) {
             if (isset($value)) {
                 if ($Object->equals($value)) {

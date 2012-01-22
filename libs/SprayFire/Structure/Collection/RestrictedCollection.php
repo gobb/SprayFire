@@ -13,7 +13,7 @@ namespace SprayFire\Structure\Collection;
  * stored.
  *
  * @uses ReflectionClass
- * @uses SprayFire.Core.Object
+ * @uses SprayFire.Object
  * @uses SprayFire.Structure.Collection.GenericCollection
  * @uses SprayFire.Core.Util.ObjectTypeValidator
  */
@@ -44,12 +44,12 @@ class RestrictedCollection extends \SprayFire\Structure\Collection\GenericCollec
     }
 
     /**
-     * @param $Object \SprayFire\Core\Object
+     * @param $Object SprayFire.Object
      * @return numeric index of \a $Object or false if error occurred
      * @throws InvalidArgumentException if the \a $Object is not the correct type
      *         for this collection
      */
-    public function addObject(\SprayFire\Core\Object $Object) {
+    public function addObject(\SprayFire\Object $Object) {
         $this->TypeValidator->throwExceptionIfObjectNotParentType($Object);
         return parent::addObject($Object);
     }

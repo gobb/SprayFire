@@ -47,11 +47,11 @@ class RestrictedSet extends \SprayFire\Structure\Collection\GenericSet {
     }
 
     /**
-     * @param $Object SprayFire.Core.Object
+     * @param $Object SprayFire.Object
      * @return The numeric index or false on failure
      * @throws InvalidArgumentException
      */
-    public function addObject(\SprayFire\Core\Object $Object) {
+    public function addObject(\SprayFire\Object $Object) {
         $this->TypeValidator->throwExceptionIfObjectNotParentType($Object);
         return parent::addObject($Object);
     }
