@@ -22,7 +22,7 @@
  * @copyright Copyright (c) 2011,2012 Charles Sprayberry
  */
 
-namespace SprayFire\Core;
+namespace SprayFire;
 
 /**
  * @brief An interface for basic framework objects.
@@ -41,10 +41,10 @@ interface Object {
     /**
      * @brief Compare two objects to see if they are equal to each other.
      *
-     * @param $Object SprayFire.Core.Object
+     * @param $Object SprayFire.Object
      * @return boolean
      */
-    public function equals(\SprayFire\Core\Object $Object);
+    public function equals(\SprayFire\Object $Object);
 
     /**
      * @return A unique identifier for the given object
