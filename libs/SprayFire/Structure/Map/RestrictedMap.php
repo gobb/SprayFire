@@ -15,7 +15,7 @@ namespace SprayFire\Structure\Map;
  * of that object using that key.  Also allows for the removal of an object
  * associated with a key and iterating over the stored objects.
  *
- * @uses SprayFire.Core.Object
+ * @uses SprayFire.Object
  * @uses SprayFire.Structure.Map.GenericMap
  * @uses SprayFire.Core.Util.ObjectTypeValidator
  */
@@ -57,11 +57,11 @@ class RestrictedMap extends \SprayFire\Structure\Map\GenericMap {
      * injected into the constructor
      *
      * @param $key A string or numeric index
-     * @param $Object Should implement SprayFire.Core.Object
-     * @return SprayFire.Core.Object
+     * @param $Object An object to assign to \a $key
+     * @return SprayFire.Object
      * @throws InvalidArgumentException
      */
-    public function setObject($key, \SprayFire\Core\Object $Object) {
+    public function setObject($key, \SprayFire\Object $Object) {
         $this->TypeValidator->throwExceptionIfObjectNotParentType($Object);
         parent::setObject($key, $Object);
     }

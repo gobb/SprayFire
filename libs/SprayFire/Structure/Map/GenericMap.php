@@ -14,7 +14,7 @@ namespace SprayFire\Structure\Map;
  *
  * @uses IteratorAggregate
  * @uses InvalidArgumentException
- * @uses SprayFire.Core.Object
+ * @uses SprayFire.Object
  * @uses SprayFire.Structure.ObjectMap
  * @uses SprayFire.Core.Util.CoreObject
  */
@@ -28,10 +28,10 @@ class GenericMap extends \SprayFire\Core\Util\CoreObject implements \IteratorAgg
     protected $data = array();
 
     /**
-     * @param $Object SprayFire.Core.Object to be stored in Map
+     * @param $Object SprayFire.Object to be stored in Map
      * @return True if Map stores \a $Object or false if it doesn't
      */
-    public function containsObject(\SprayFire\Core\Object $Object) {
+    public function containsObject(\SprayFire\Object $Object) {
         if ($this->getKey($Object) === false) {
             return false;
         }
@@ -71,10 +71,10 @@ class GenericMap extends \SprayFire\Core\Util\CoreObject implements \IteratorAgg
      * @brief Return the stringassociated with the given object or false if the
      * object is not stored.
      *
-     * @param $Object SprayFire.Core.Object
+     * @param $Object SprayFire.Object
      * @return mixed \a $key associated with \a $Object or false on failure
      */
-    public function getKey(\SprayFire\Core\Object $Object) {
+    public function getKey(\SprayFire\Object $Object) {
         $index = false;
         foreach ($this->data as $key => $StoredObject) {
             if ($Object->equals($StoredObject)) {
@@ -103,10 +103,10 @@ class GenericMap extends \SprayFire\Core\Util\CoreObject implements \IteratorAgg
 
     /**
      * @param $key string
-     * @param $Object SprayFire.Core.Object to store in the Map
+     * @param $Object SprayFire.Object to store in the Map
      * @throws InvalidArgumentException
      */
-    public function setObject($key, \SprayFire\Core\Object $Object) {
+    public function setObject($key, \SprayFire\Object $Object) {
         $this->throwExceptionIfKeyInvalid($key);
         $this->data[$key] = $Object;
     }
