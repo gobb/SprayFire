@@ -26,7 +26,7 @@ namespace SprayFire\Request;
  *
  * @uses SprayFire.Core.Structure.MutableStorage
  */
-abstract class HttpData extends \SprayFire\Core\Structure\MutableStorage {
+abstract class HttpData extends \SprayFire\Structure\MutableStorage {
 
     /**
      * @param $data An array passed by reference

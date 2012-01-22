@@ -44,9 +44,9 @@ namespace SprayFire\Structure\Storage;
  * @uses Countable
  * @uses IteratorAggregate
  * @uses SprayFire.Core.Structure.Overloadable
- * @uses SprayFire.Core.Util.CoreObject
+ * @uses SprayFire.Util.CoreObject
  */
-abstract class DataStorage extends \SprayFire\Core\Util\CoreObject implements \ArrayAccess, \Countable, \IteratorAggregate, \SprayFire\Structure\Overloadable {
+abstract class DataStorage extends \SprayFire\Util\CoreObject implements \ArrayAccess, \Countable, \IteratorAggregate, \SprayFire\Structure\Overloadable {
 
     /**
      * An array holding the data being stored.

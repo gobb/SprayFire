@@ -10,9 +10,9 @@ namespace SprayFire\Logging\Logifier;
 
 /**
  * @uses SprayFire.Logging.Logger
- * @uses SprayFire.Core.Util.CoreObject
+ * @uses SprayFire.Util.CoreObject
  */
-class ErrorLogLogger extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Logging\Logger {
+class ErrorLogLogger extends \SprayFire\Util\CoreObject implements \SprayFire\Logging\Logger {
 
     /**
      * @param $message The information to log in error_log

@@ -6,7 +6,7 @@
  * files used by the app and framework.
  */
 
-namespace SprayFire\Core\Util;
+namespace SprayFire\Util;
 
 /**
  * @brief A wrapper used as a utility class to easily create absolute paths for
@@ -18,10 +18,10 @@ namespace SprayFire\Core\Util;
  * residing inside installation path directories.  In addition, you can also
  * resolve the absolute paths for files this way.
  *
- * @uses SprayFire.Core.PathGenerator
- * @uses SprayFire.Core.CoreObject
+ * @uses SprayFire.PathGenerator
+ * @uses SprayFire.Util.CoreObject
  */
-class Directory extends \SprayFire\Core\Util\CoreObject implements \SprayFire\PathGenerator {
+class Directory extends \SprayFire\Util\CoreObject implements \SprayFire\PathGenerator {
 
     /**
      * @brief The root path holding the primary directories used by the app and

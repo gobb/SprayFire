@@ -19,6 +19,8 @@ namespace SprayFire\Util;
  * creating your own objects be sure they somehow trace back to this object
  * or an implementation of libs.sprayfire.core.Object or unexpected consequences
  * may occur.
+ *
+ * @uses SprayFire.Object
  */
 abstract class CoreObject implements \SprayFire\Object {
 

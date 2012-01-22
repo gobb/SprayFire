@@ -26,7 +26,7 @@ namespace SprayFire\Structure\Collection;
  * @uses SprayFire.Structure.ObjectCollection
  * @uses SprayFire.Core.Util.CoreObject
  */
-class GenericCollection extends \SprayFire\Core\Util\CoreObject implements \IteratorAggregate, \SprayFire\Structure\ObjectCollection {
+class GenericCollection extends \SprayFire\Util\CoreObject implements \IteratorAggregate, \SprayFire\Structure\ObjectCollection {
 
     /**
      * @brief An SplFixedArray used to store the elements of the collection

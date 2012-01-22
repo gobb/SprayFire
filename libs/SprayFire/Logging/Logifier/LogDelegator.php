@@ -11,9 +11,9 @@ namespace SprayFire\Logging\Logifier;
  * @uses SprayFire.Logging.LogOverseer
  * @uses SprayFire.Logging.Logger
  * @uses SprayFire.Factory.Factory
- * @uses SprayFire.Core.Util.CoreObject
+ * @uses SprayFire.Util.CoreObject
  */
-class LogDelegator extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Logging\LogOverseer {
+class LogDelegator extends \SprayFire\Util\CoreObject implements \SprayFire\Logging\LogOverseer {
 
     /**
      * @property $Factory A SprayFire.Factory.Factory object to make SprayFire.Logging.Logger

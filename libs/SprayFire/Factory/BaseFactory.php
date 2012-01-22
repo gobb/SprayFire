@@ -15,11 +15,11 @@ namespace SprayFire\Factory;
  * @uses ReflectionClass
  * @uses InvalidArgumentException
  * @uses SprayFire.Factory.Factory
- * @uses SprayFire.Core.Util.CoreObject
- * @uses SprayFire.Core.Util.ObjectTypeValidator
+ * @uses SprayFire.Util.CoreObject
+ * @uses SprayFire.Util.ObjectTypeValidator
  * @uses SprayFire.Exception.TypeNotFoundException
  */
-abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Factory\Factory {
+abstract class BaseFactory extends \SprayFire\Util\CoreObject implements \SprayFire\Factory\Factory {
 
     /**
      * @internal Keys stored in this array should be a PHP-style namespaced class.
@@ -78,7 +78,7 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
     protected function createTypeValidator() {
         try {
             $ReflectedType = new \ReflectionClass($this->objectType);
-            $TypeValidator = new \SprayFire\Core\Util\ObjectTypeValidator($ReflectedType);
+            $TypeValidator = new \SprayFire\Util\ObjectTypeValidator($ReflectedType);
             return $TypeValidator;
         } catch (\ReflectionException $ReflectExc) {
             throw new \SprayFire\Exception\TypeNotFoundException('The injected interface or class, ' . $this->objectType . ', could not be found.', null, $ReflectExc);
@@ -233,7 +233,7 @@ abstract class BaseFactory extends \SprayFire\Core\Util\CoreObject implements \S
 
         for ($i; $i < $blueprintCount; $i++) {
             $indexVal = $storedBlueprint[$i];
-            if (!is_null($options[$i])) {
+            if (!\is_null($options[$i])) {
                 $indexVal = $options[$i];
             }
             $finalBlueprint[] = $indexVal;

@@ -17,12 +17,12 @@ namespace SprayFire\Structure\Map;
  *
  * @uses SprayFire.Object
  * @uses SprayFire.Structure.Map.GenericMap
- * @uses SprayFire.Core.Util.ObjectTypeValidator
+ * @uses SprayFire.Util.ObjectTypeValidator
  */
 class RestrictedMap extends \SprayFire\Structure\Map\GenericMap {
 
     /**
-     * @brief A SprayFire.Core.Util.ObjectValidator used to ensure objects added to the
+     * @brief A SprayFire.Util.ObjectValidator used to ensure objects added to the
      * Map are of the correct type.
      *
      * @property $TypeValidator
@@ -39,7 +39,7 @@ class RestrictedMap extends \SprayFire\Structure\Map\GenericMap {
         try {
             $parentType = $this->replaceDotsWithBackSlashes($parentType);
             $ReflectedType = new \ReflectionClass($parentType);
-            $this->TypeValidator = new \SprayFire\Core\Util\ObjectTypeValidator($ReflectedType);
+            $this->TypeValidator = new \SprayFire\Util\ObjectTypeValidator($ReflectedType);
         } catch (\ReflectionException $ReflectExc) {
             throw new \SprayFire\Exception\TypeNotFoundException('The type passed, ' . $parentType . ', could not be found or loaded.', null, $ReflectExc);
         }

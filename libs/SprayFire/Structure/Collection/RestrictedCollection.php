@@ -15,12 +15,12 @@ namespace SprayFire\Structure\Collection;
  * @uses ReflectionClass
  * @uses SprayFire.Object
  * @uses SprayFire.Structure.Collection.GenericCollection
- * @uses SprayFire.Core.Util.ObjectTypeValidator
+ * @uses SprayFire.Util.ObjectTypeValidator
  */
 class RestrictedCollection extends \SprayFire\Structure\Collection\GenericCollection {
 
     /**
-     * @brief A SprayFire.Core.ObjectTypeValidator used to ensure that the passed
+     * @brief A SprayFire.Util.ObjectTypeValidator used to ensure that the passed
      * objects implement the correct interface or extends the correct class.
      *
      * @property $TypeValidator
@@ -37,7 +37,7 @@ class RestrictedCollection extends \SprayFire\Structure\Collection\GenericCollec
         try {
             $parentType = $this->replaceDotsWithBackSlashes($parentType);
             $ReflectedType = new \ReflectionClass($parentType);
-            $this->TypeValidator = new \SprayFire\Core\Util\ObjectTypeValidator($ReflectedType);
+            $this->TypeValidator = new \SprayFire\Util\ObjectTypeValidator($ReflectedType);
         } catch (\ReflectionException $ReflectExc) {
             throw new \SprayFire\Exception\TypeNotFoundException('The passed type, ' . $parentType . ', could not be loaded.', null, $ReflectExc);
         }

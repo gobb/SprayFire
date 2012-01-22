@@ -36,7 +36,7 @@ namespace SprayFire\Bootstrap;
  * @uses SprayFire.Core.Util.CoreObject
  * @uses SprayFire.Structure.Map.RestrictedMap
  */
-class ConfigBootstrap extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
+class ConfigBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
      * @brief A SprayFire.Structure.Map.ObjectMap,that will hold the objects created

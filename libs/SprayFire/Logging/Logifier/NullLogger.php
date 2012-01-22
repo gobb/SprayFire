@@ -15,7 +15,7 @@ namespace SprayFire\Logging\Logifier;
  * @uses SprayFire.Logging.Logger
  * @uses SprayFire.Core.Util.CoreObject
  */
-class NullLogger extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Logging\Logger {
+class NullLogger extends \SprayFire\Util\CoreObject implements \SprayFire\Logging\Logger {
 
     /**
      * @param $message The message to log

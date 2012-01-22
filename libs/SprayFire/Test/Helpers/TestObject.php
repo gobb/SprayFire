@@ -16,7 +16,7 @@ namespace SprayFire\Test\Helpers;
 /**
  *
  */
-class TestObject extends \SprayFire\Core\Util\CoreObject {
+class TestObject extends \SprayFire\Util\CoreObject {
 
 }
 

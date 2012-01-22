@@ -6,7 +6,7 @@
  * extends a specific type.
  */
 
-namespace SprayFire\Core\Util;
+namespace SprayFire\Util;
 
 /**
  * @brief An internally used object in Restricted structures to determine if the

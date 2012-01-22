@@ -39,7 +39,7 @@ class RestrictedSet extends \SprayFire\Structure\Collection\GenericSet {
         try {
             $parentType = $this->replaceDotsWithBackSlashes($parentType);
             $ReflectedType = new \ReflectionClass($parentType);
-            $this->TypeValidator = new \SprayFire\Core\Util\ObjectTypeValidator($ReflectedType);
+            $this->TypeValidator = new \SprayFire\Util\ObjectTypeValidator($ReflectedType);
         } catch (\ReflectionException $ReflectExc) {
             throw new \SprayFire\Exception\TypeNotFoundException('The parent type for this set, ' . $parentType . ', could not be loaded.', null, $ReflectExc);
         }

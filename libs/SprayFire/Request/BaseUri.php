@@ -15,7 +15,7 @@ namespace SprayFire\Request;
  * @uses SprayFire.Request.Uri
  * @uses SprayFire.Core.Util.CoreObject
  */
-class BaseUri extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Request\Uri {
+class BaseUri extends \SprayFire\Util\CoreObject implements \SprayFire\Request\Uri {
 
     /**
      * Holds the original, unaltered URI passed in the constructor.
@@ -219,7 +219,7 @@ class BaseUri extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Requ
     }
 
     /**
-     * @param $Object SprayFire.Core.Object to compare the calling object to
+     * @param $Object SprayFire.Object to compare the calling object to
      * @return true if the passed \a $Object is equal to the calling object false
      *         if not
      */
