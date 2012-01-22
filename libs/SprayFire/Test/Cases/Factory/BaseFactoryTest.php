@@ -93,7 +93,7 @@ class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testCreatingATestObjectWithDefaultBlueprintOnly() {
-        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory('SprayFire.Core.Util.CoreObject', new \SprayFire\Test\Helpers\TestObject());
+        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory('SprayFire.Util.CoreObject', new \SprayFire\Test\Helpers\TestObject());
         $className = 'SprayFire.Test.Helpers.TestFactoryObject';
         $defaultBlueprint = array('param1', 'param2');
         $TestFactory->storeBlueprint($className, $defaultBlueprint);
@@ -141,7 +141,7 @@ class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testDeletingBlueprint() {
-        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory('SprayFire.Core.Util.CoreObject', new \SprayFire\Test\Helpers\TestObject());
+        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory('SprayFire.Util.CoreObject', new \SprayFire\Test\Helpers\TestObject());
         $className = 'SprayFire.Test.Helpers.TestFactoryObject';
         $defaultBlueprint = array('param1', 'param2');
         $TestFactory->storeBlueprint($className, $defaultBlueprint);
