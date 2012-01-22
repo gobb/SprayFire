@@ -5,7 +5,7 @@
  * @brief A file storing the ExceptionHandler used as a callback for set_exception_handler()
  */
 
-namespace SprayFire\Core\Handler;
+namespace SprayFire\Error;
 
 /**
  * @brief A class that accepts a log, the absolute path to a content replacement

@@ -6,7 +6,7 @@
  * triggered.
  */
 
-namespace SprayFire\Core\Handler;
+namespace SprayFire\Error;
 
 /**
  * @brief A class that is responsible for trapping errors, logging appropriate
