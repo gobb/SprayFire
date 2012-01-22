@@ -22,7 +22,7 @@
  * @copyright Copyright (c) 2011,2012 Charles Sprayberry
  */
 
-namespace SprayFire\Core;
+namespace SprayFire;
 
 /**
  * @brief Responsible for including namespaced framework and application classes,
