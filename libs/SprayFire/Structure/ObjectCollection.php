@@ -50,7 +50,7 @@ interface ObjectCollection extends \Countable, \Traversable {
      *
      * @param $Object SprayFire.Object object to remove all copies of
      */
-    public function removeObject(\SprayFire\Core\Object $Object);
+    public function removeObject(\SprayFire\Object $Object);
 
     /**
      * @param $index An unsigned integer representing the object index to
