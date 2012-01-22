@@ -21,7 +21,7 @@
  * @copyright Copyright (c) 2011, Charles Sprayberry
  */
 
-namespace SprayFire\Test\Cases\Core\Structure;
+namespace SprayFire\Test\Cases\Structure;
 
 /**
  * @brief
