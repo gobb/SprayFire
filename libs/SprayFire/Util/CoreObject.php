@@ -5,7 +5,7 @@
  * @brief The framework's implementation of the libs.sprayfire.core.Object interface.
  */
 
-namespace SprayFire\Core\Util;
+namespace SprayFire\Util;
 
 /**
  * @brief SprayFire's implementation of the libs.sprayfire.core.Object interface,
