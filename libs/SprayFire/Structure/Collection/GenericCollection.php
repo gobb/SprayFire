@@ -131,9 +131,9 @@ class GenericCollection extends \SprayFire\Core\Util\CoreObject implements \Iter
     }
 
     /**
-     * @param $Object \SprayFire\Core\Object
+     * @param $Object SprayFire.Object
      */
-    public function removeObject(\SprayFire\Core\Object $Object) {
+    public function removeObject(\SprayFire\Object $Object) {
         $index = $this->getIndex($Object);
         if ($index !== false) {
             unset($this->data[$index]);
