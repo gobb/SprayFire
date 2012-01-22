@@ -127,7 +127,7 @@ $webPath = $installPath . '/web';
 
 include $libsPath . '/SprayFire/Core/ClassLoader.php';
 
-$ClassLoader = new \SprayFire\Core\ClassLoader();
+$ClassLoader = new \SprayFire\ClassLoader();
 $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 \spl_autoload_register(array($ClassLoader, 'load'));
 
