@@ -2,26 +2,11 @@
 
 /**
  * @file
- * @brief
- *
- * @details
- * SprayFire is a fully unit-tested, light-weight PHP framework for developers who
- * want to make simple, secure, dynamic website content.
- *
- * SprayFire repository: http://www.github.com/cspray/SprayFire/
- *
- * SprayFire wiki: http://www.github.com/cspray/SprayFire/wiki/
- *
- * SprayFire API Documentation: http://www.cspray.github.com/SprayFire/
- *
- * SprayFire is released under the Open-Source Initiative MIT license.
- * OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
- *
- * @author Charles Sprayberry cspray at gmail dot com
- * @copyright Copyright (c) 2011, Charles Sprayberry
+ * @brief Holds a class to test the ErrorHandler for proper error trapping and
+ * logging.
  */
 
-namespace SprayFire\Test\Cases\Core\Handler;
+namespace SprayFire\Test\Cases\Error;
 
 /**
  * @brief
@@ -33,7 +18,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
         $LogDelegator->setErrorLogger('SprayFire.Test.Helpers.DevelopmentLogger');
         $LogDelegator->setDebugLogger('SprayFire.Test.Helpers.DevelopmentLogger');
-        $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($LogDelegator);
+        $ErrorHandler = new \SprayFire\Error\ErrorHandler($LogDelegator);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
         \trigger_error('The first error message', E_USER_WARNING);
@@ -62,7 +47,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
         $LogDelegator->setErrorLogger('SprayFire.Logging.Logifier.NullLogger');
         $LogDelegator->setDebugLogger('SprayFire.Logging.Logifier.NullLogger');
-        $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($LogDelegator, true);
+        $ErrorHandler = new \SprayFire\Error\ErrorHandler($LogDelegator, true);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
         \trigger_error('Another error message', E_USER_NOTICE);
@@ -71,8 +56,8 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $expectedErrorData = array();
         $expectedErrorData[0]['severity'] = 'E_USER_NOTICE';
         $expectedErrorData[0]['message'] = 'Another error message';
-        $expectedErrorData[0]['file'] = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/Cases/Core/Handler/ErrorHandlerTest.php';
-        $expectedErrorData[0]['line'] = 68;
+        $expectedErrorData[0]['file'] = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/Cases/Error/ErrorHandlerTest.php';
+        $expectedErrorData[0]['line'] = 53;
         $expectedErrorData[0]['context'] = array('LoggerFactory' => $LoggerFactory, 'LogDelegator' => $LogDelegator, 'ErrorHandler' => $ErrorHandler);
 
         $this->assertSame($expectedErrorData, $ErrorHandler->getTrappedErrors());
@@ -96,7 +81,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
         $LogDelegator->setErrorLogger('SprayFire.Logging.Logifier.NullLogger');
         $LogDelegator->setDebugLogger('SprayFire.Logging.Logifier.NullLogger');
-        $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($LogDelegator, true);
+        $ErrorHandler = new \SprayFire\Error\ErrorHandler($LogDelegator, true);
         \set_error_handler(array($ErrorHandler, 'trap'));
         $trappedError = $ErrorHandler->trap(E_RECOVERABLE_ERROR, 'This is an error message', 'file.php', 100);
         $this->assertFalse($trappedError);
@@ -110,7 +95,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
         $LogDelegator->setErrorLogger('SprayFire.Logging.Logifier.NullLogger');
         $LogDelegator->setDebugLogger('SprayFire.Logging.Logifier.NullLogger');
-        $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($LogDelegator, true);
+        $ErrorHandler = new \SprayFire\Error\ErrorHandler($LogDelegator, true);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
         $ErrorHandler->trap(E_COMPILE_ERROR, 'This is an error message', 'file.php', 100);
@@ -129,7 +114,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
         $LogDelegator->setErrorLogger('SprayFire.Logging.Logifier.NullLogger');
         $LogDelegator->setDebugLogger('SprayFire.Logging.Logifier.NullLogger');
-        $ErrorHandler = new \SprayFire\Core\Handler\ErrorHandler($LogDelegator, true);
+        $ErrorHandler = new \SprayFire\Error\ErrorHandler($LogDelegator, true);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
         $originalErrorReporting = \error_reporting();
