@@ -82,7 +82,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testLoopingThroughObjectStore() {
-        $Type = '\\SprayFire\\Core\\Object';
+        $Type = 'SprayFire.Object';
         $Storage = new \SprayFire\Structure\Map\RestrictedMap($Type);
 
         $One = new \SprayFire\Test\Helpers\TestObject();
@@ -137,7 +137,7 @@ class RestrictedMapTest extends \PHPUnit_Framework_TestCase {
 
     public function testGettingNonexistentKey() {
         $key = 'noexist';
-        $Type = '\\SprayFire\\Core\\Object';
+        $Type = 'SprayFire.Object';
         $Storage = new \SprayFire\Structure\Map\RestrictedMap($Type);
 
         $Storage->setObject('i-do-exist', new \SprayFire\Test\Helpers\TestObject());
