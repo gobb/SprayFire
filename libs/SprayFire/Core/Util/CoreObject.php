@@ -20,7 +20,7 @@ namespace SprayFire\Core\Util;
  * or an implementation of libs.sprayfire.core.Object or unexpected consequences
  * may occur.
  */
-abstract class CoreObject implements \SprayFire\Core\Object {
+abstract class CoreObject implements \SprayFire\Object {
 
     /**
      * @return A unique identifying string based on the internal memory pointer
@@ -42,7 +42,7 @@ abstract class CoreObject implements \SprayFire\Core\Object {
      * @param $CompareObject A SprayFire.Core.Object to compare to this one for equality
      * @return True if the calling object and \a $CompareObject are equal, false if not
      */
-    public function equals(\SprayFire\Core\Object $CompareObject) {
+    public function equals(\SprayFire\Object $CompareObject) {
         $thisHash = $this->hashCode();
         $compareHash = $CompareObject->hashCode();
         return $thisHash === $compareHash;
