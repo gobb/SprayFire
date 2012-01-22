@@ -22,7 +22,7 @@
  * @copyright Copyright (c) 2011,2012 Charles Sprayberry
  */
 
-namespace SprayFire\Core;
+namespace SprayFire;
 
 /**
  * @brief An interface to be implemented by objects that are responsible for creating
