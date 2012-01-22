@@ -20,7 +20,7 @@
  * @copyright Copyright (c) 2011, Charles Sprayberry OSI MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
 
-namespace SprayFire\Test\Cases\Core\Util;
+namespace SprayFire\Test\Cases\Util;
 
 /**
  *
@@ -43,20 +43,20 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testInstallPath() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setInstallPath($this->paths['installPath']);
         $this->assertSame($this->paths['installPath'], $Directory->getInstallPath());
         $this->assertSame($this->paths['installPath'] . '/Test/App', $Directory->getInstallPath('Test', 'App'));
     }
 
     public function testLibsPath() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setLibsPath($this->paths['libsPath']);
         $this->assertSame($this->paths['libsPath'], $Directory->getLibsPath());
     }
 
     public function testLibsPathPassingListOfArguments() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setLibsPath($this->paths['libsPath']);
         $expected = $this->paths['libsPath'] . '/SprayFire/Controller/Components';
         $actual = $Directory->getLibsPath('SprayFire', 'Controller', 'Components');
@@ -64,7 +64,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testLibsPathPassingListOfArgumentsWithFileAtEnd() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setLibsPath($this->paths['libsPath']);
         $expected = $this->paths['libsPath'] . '/SprayFire/Config/json/configuration-test.json';
         $actual = $Directory->getLibsPath('SprayFire', 'Config', 'json', 'configuration-test.json');
@@ -72,7 +72,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testLibsPathPassingArrayOfArguments() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setLibsPath($this->paths['libsPath']);
         $expected = $this->paths['libsPath'] . '/SprayFire/Controller/Components';
         $subDir = array('SprayFire', 'Controller', 'Components');
@@ -81,7 +81,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testLibsPathPassingArrayOfArgumentsWithFileAtEnd() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setLibsPath($this->paths['libsPath']);
         $expected = $this->paths['libsPath'] . '/SprayFire/Config/json/configuration-test.json';
         $subDir = array('SprayFire', 'Config', 'json', 'configuration-test.json');
@@ -90,7 +90,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testLogsPath() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setLogsPath($this->paths['logsPath']);
         $expected = $this->paths['logsPath'];
         $actual = $Directory->getLogsPath();
@@ -98,7 +98,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testLogsPathPassingListOfArguments() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setLogsPath($this->paths['logsPath']);
         $expected = $this->paths['logsPath'] . '/error/database';
         $actual = $Directory->getLogsPath('error', 'database');
@@ -106,7 +106,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testLogsPathPassingListOfArgumentsWithFileAtEnd() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setLogsPath($this->paths['logsPath']);
         $expected = $this->paths['logsPath'] . '/error/database/sql-queries.txt';
         $actual = $Directory->getLogsPath('error', 'database', 'sql-queries.txt');
@@ -114,7 +114,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testLogsPathPassingArrayOfArguments() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setLogsPath($this->paths['logsPath']);
         $expected = $this->paths['logsPath'] . '/error/database';
         $subDir = array('error', 'database');
@@ -123,7 +123,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testLogsPathPassingArrayOfArgumentsWithFileAtEnd() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setLogsPath($this->paths['logsPath']);
         $expected = $this->paths['logsPath'] . '/error/database/sql-queries.txt';
         $subDir = array('error', 'database', 'sql-queries.txt');
@@ -132,7 +132,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testAppPathRootDirectory() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setAppPath($this->paths['appPath']);
         $expected = $this->paths['appPath'];
         $actual = $Directory->getAppPath();
@@ -140,7 +140,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testAppPathPassingListOfArguments() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setAppPath($this->paths['appPath']);
         $expected = $this->paths['appPath'] . '/Model/Behavior';
         $actual = $Directory->getAppPath('Model', 'Behavior');
@@ -148,7 +148,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testAppPathPassingListOfArgumentsWithFileAtEnd() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setAppPath($this->paths['appPath']);
         $expected = $this->paths['appPath'] . '/Config/xml/configuration-test.xml';
         $actual = $Directory->getAppPath('Config', 'xml', 'configuration-test.xml');
@@ -156,7 +156,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testAppPathPassingArrayOfArguments() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setAppPath($this->paths['appPath']);
         $expected = $this->paths['appPath'] . '/Model/Behavior';
         $subDir = array('Model', 'Behavior');
@@ -165,7 +165,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testAppPathPassingArrayOfArgumentsWithFileAtEnd() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setAppPath($this->paths['appPath']);
         $expected = $this->paths['appPath'] . '/config/xml/configuration-test.xml';
         $subDir = array('config', 'xml', 'configuration-test.xml');
@@ -176,7 +176,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
 
 
     public function testWebPathRootDirectory() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setWebPath($this->paths['webPath']);
         $expected = $this->paths['webPath'];
         $actual = $Directory->getWebPath();
@@ -184,7 +184,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testWebPathPassingListOfArguments() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setWebPath($this->paths['webPath']);
         $expected = $this->paths['webPath'] . '/css/head';
         $actual = $Directory->getWebPath('css', 'head');
@@ -192,7 +192,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testWebPathPassingListOfArgumentsWithFileAtEnd() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setWebPath($this->paths['webPath']);
         $expected = $this->paths['webPath'] . '/css/head/style.css';
         $actual = $Directory->getWebPath('css', 'head', 'style.css');
@@ -200,7 +200,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testWebPathPassingArrayOfArguments() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setWebPath($this->paths['webPath']);
         $expected = $this->paths['webPath'] . '/script/sprayfire_js';
         $subDir = array('script', 'sprayfire_js');
@@ -209,7 +209,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testWebPathPassingArrayOfArgumentsWithFileAtEnd() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setWebPath($this->paths['webPath']);
         $expected = $this->paths['webPath'] . '/script/sprayfire_js/core.js';
         $subDir = array('script', 'sprayfire_js', 'core.js');
@@ -218,7 +218,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testUrlPathRootDirectory() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setInstallPath($this->paths['installPath']);
         $Directory->setWebPath($this->paths['webPath']);
         $expected = '/mockframework/web';
@@ -227,7 +227,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testUrlPathPassingListOfArguments() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setInstallPath($this->paths['installPath']);
         $Directory->setWebPath($this->paths['webPath']);
         $expected = '/mockframework/web/css/head';
@@ -236,7 +236,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testUrlPathPassingListOfArgumentsWithFileAtEnd() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setInstallPath($this->paths['installPath']);
         $Directory->setWebPath($this->paths['webPath']);
         $expected = '/mockframework/web/css/head/style.css';
@@ -245,7 +245,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testUrlPathPassingArrayOfArguments() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setInstallPath($this->paths['installPath']);
         $Directory->setWebPath($this->paths['webPath']);
         $expected = '/mockframework/web/script/sprayfire_js';
@@ -255,7 +255,7 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testUrlPathPassingArrayOfArgumentsWithFileAtEnd() {
-        $Directory = new \SprayFire\Core\Util\Directory();
+        $Directory = new \SprayFire\Util\Directory();
         $Directory->setInstallPath($this->paths['installPath']);
         $Directory->setWebPath($this->paths['webPath']);
         $expected = '/mockframework/web/script/sprayfire_js/core.js';
