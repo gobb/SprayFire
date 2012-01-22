@@ -223,7 +223,7 @@ class BaseUri extends \SprayFire\Core\Util\CoreObject implements \SprayFire\Requ
      * @return true if the passed \a $Object is equal to the calling object false
      *         if not
      */
-    public function equals(\SprayFire\Core\Object $Object) {
+    public function equals(\SprayFire\Object $Object) {
         if (!($Object instanceof $this)) {
             return false;
         }
