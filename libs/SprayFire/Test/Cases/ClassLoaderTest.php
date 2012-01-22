@@ -21,7 +21,7 @@
  * @copyright Copyright (c) 2011, Charles Sprayberry
  */
 
-namespace SprayFire\Test\Cases\Core;
+namespace SprayFire\Test\Cases;
 
 /**
  * @brief
@@ -29,7 +29,7 @@ namespace SprayFire\Test\Cases\Core;
 class ClassLoaderTest extends \PHPUnit_Framework_TestCase {
 
     public function testNamespaceDirectoryLoad() {
-        $ClassLoader = new \SprayFire\Core\ClassLoader();
+        $ClassLoader = new \SprayFire\ClassLoader();
         $ClassLoader->registerNamespaceDirectory('TestApp', \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app');
         $this->assertTrue($ClassLoader->load('\\TestApp\\Controller\\TestController'));
         $Controller = new \TestApp\Controller\TestController();
@@ -37,23 +37,23 @@ class ClassLoaderTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testNoNamespaceLoad() {
-        $ClassLoader = new \SprayFire\Core\ClassLoader();
+        $ClassLoader = new \SprayFire\ClassLoader();
         $this->assertFalse($ClassLoader->load('NoNamespace'));
     }
 
     public function testNoClassLoad() {
-        $ClassLoader = new \SprayFire\Core\ClassLoader();
+        $ClassLoader = new \SprayFire\ClassLoader();
         $ClassLoader->registerNamespaceDirectory('SprayFire', \SPRAYFIRE_ROOT . '/libs');
         $this->assertFalse($ClassLoader->load('\\SprayFire\\Core\\NoExist'));
     }
 
     public function testNoNamespaceClassLoad() {
-        $ClassLoader = new \SprayFire\Core\ClassLoader();
+        $ClassLoader = new \SprayFire\ClassLoader();
         $this->assertFalse($ClassLoader->load('NoNamespaceClass'));
     }
 
     public function testGettingRegisteredNamespaces() {
-        $ClassLoader = new \SprayFire\Core\ClassLoader();
+        $ClassLoader = new \SprayFire\ClassLoader();
         $ClassLoader->registerNamespaceDirectory('SprayFire', \SPRAYFIRE_ROOT);
         $ClassLoader->registerNamespaceDirectory('SomethingElse', \SPRAYFIRE_ROOT . '/something_else');
         $ClassLoader->registerNamespaceDirectory('Again', \SPRAYFIRE_ROOT . '/again');
