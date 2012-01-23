@@ -111,7 +111,7 @@ $configInterface = 'SprayFire.Config.Configuration';
  * @var $sprayfireConfigFile
  * @see http://github.com/cspray/SprayFire/wiki/Directory-Structure
  */
-$sprayFireConfigFile = array('json', 'sprayfire-configuration.json');
+$sprayFireConfigFile = array('SprayFire', 'bootstrap-setup.json');
 
 /**
  * @brief PHP or Java-style class name for the configuration object to be created
@@ -137,7 +137,7 @@ $sprayFireConfigMapKey = 'SprayFireConfig';
  *
  * @var $routesConfigFile
  */
-$routesConfigFile = array('json', 'sprayfire-routes.json');
+$routesConfigFile = array('SprayFire', 'routes.json');
 
 /**
  * @brief A PHP or Java-style namespaced class used to hold the configuration data
