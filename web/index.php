@@ -132,7 +132,7 @@ $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 \spl_autoload_register(array($ClassLoader, 'load'));
 
 $directoryPaths = \compact('installPath', 'libsPath', 'configPath', 'appPath', 'logsPath', 'webPath');
-$primaryConfigPath = $configPath . '/primary-configuration.php';
+$primaryConfigPath = $configPath . '/SprayFire/primary-configuration.php';
 $BootstrapData = new \SprayFire\Bootstrap\BootstrapData($primaryConfigPath, $directoryPaths);
 
 
