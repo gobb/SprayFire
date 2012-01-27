@@ -19,7 +19,7 @@
         },
         "error-handler": {
             "bootstrap": "on",
-            "handler": "SprayFire.Core.Handler.ErrorHandler",
+            "handler": "SprayFire.Error.ErrorHandler",
             "method": "trap"
         }
     }
