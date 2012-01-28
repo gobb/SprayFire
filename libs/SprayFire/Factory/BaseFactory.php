@@ -19,7 +19,7 @@ namespace SprayFire\Factory;
  * @uses SprayFire.Util.ObjectTypeValidator
  * @uses SprayFire.Exception.TypeNotFoundException
  */
-abstract class BaseFactory extends \SprayFire\Util\CoreObject implements \SprayFire\Factory\Factory {
+abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayFire\Factory\Factory {
 
     /**
      * @internal Keys stored in this array should be a PHP-style namespaced class.
@@ -65,8 +65,8 @@ abstract class BaseFactory extends \SprayFire\Util\CoreObject implements \SprayF
      *         could not properly be loaded.
      */
     public function __construct($returnTypeRestriction, $nullPrototype) {
-        $this->objectType = $this->replaceDotsWithBackSlashes($returnTypeRestriction);
-        $this->nullObjectType = $this->replaceDotsWithBackSlashes($nullPrototype);
+        $this->objectType = $this->convertJavaClassToPhpClass($returnTypeRestriction);
+        $this->nullObjectType = $this->convertJavaClassToPhpClass($nullPrototype);
         $this->TypeValidator = $this->createTypeValidator();
         $this->NullObject = $this->createNullObjectPrototype();
     }
@@ -123,7 +123,7 @@ abstract class BaseFactory extends \SprayFire\Util\CoreObject implements \SprayF
      * @param $defaultOptions The default options for this class
      */
     public function storeBlueprint($className, array $defaultOptions) {
-        $blueprintKey = $this->replaceDotsWithBackSlashes($className);
+        $blueprintKey = $this->convertJavaClassToPhpClass($className);
         $this->blueprints[$blueprintKey] = $defaultOptions;
     }
 
@@ -133,7 +133,7 @@ abstract class BaseFactory extends \SprayFire\Util\CoreObject implements \SprayF
      *         empty array if no blueprint exists.
      */
     public function getBlueprint($className) {
-        $bluePrintKey = $this->replaceDotsWithBackSlashes($className);
+        $bluePrintKey = $this->convertJavaClassToPhpClass($className);
         if (\array_key_exists($bluePrintKey, $this->blueprints) && \is_array($this->blueprints[$bluePrintKey])) {
             return $this->blueprints[$bluePrintKey];
         }
@@ -146,7 +146,7 @@ abstract class BaseFactory extends \SprayFire\Util\CoreObject implements \SprayF
      * @return True if the key no longer exists in the array or false on some error
      */
     public function deleteBlueprint($className) {
-        $bluePrintKey = $this->replaceDotsWithBackSlashes($className);
+        $bluePrintKey = $this->convertJavaClassToPhpClass($className);
         if (\array_key_exists($bluePrintKey, $this->blueprints)) {
             unset($this->blueprints[$bluePrintKey]);
         }
@@ -162,7 +162,7 @@ abstract class BaseFactory extends \SprayFire\Util\CoreObject implements \SprayF
      */
     protected function createObject($className, array $options) {
         try {
-            $className = $this->replaceDotsWithBackSlashes($className);
+            $className = $this->convertJavaClassToPhpClass($className);
             $options = $this->getFinalBlueprint($className, $options);
             $ReflectedClass = new \ReflectionClass($className);
             $returnObject = $ReflectedClass->newInstanceArgs($options);
@@ -246,23 +246,6 @@ abstract class BaseFactory extends \SprayFire\Util\CoreObject implements \SprayF
         }
 
         return $finalBlueprint;
-    }
-
-    /**
-     * @param $className A Java-style namespaced class
-     * @return A PHP-style namespaced class
-     */
-    protected function replaceDotsWithBackSlashes($className) {
-        if (!\is_string($className)) {
-            return $className;
-        }
-
-        $backSlash = '\\';
-        $dot = '.';
-        if (\strpos($className, $dot) !== false) {
-            $className = \str_replace($dot, $backSlash, $className);
-        }
-        return $backSlash . \trim($className, '\\ ');
     }
 
     /**
