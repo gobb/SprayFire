@@ -12,14 +12,6 @@ namespace SprayFire\Test\Factory;
  */
 class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
 
-    public function testSwappingJavaStyleNamesToPHPStyleNames() {
-        $javaClass = 'SprayFire.Core.Util.CoreObject';
-        $phpClass = '\\SprayFire\\Core\\Util\\CoreObject';
-        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory('stdClass', new \stdClass());
-
-        $this->assertSame($phpClass, $Factory->testReplaceDotsWithSlashes($javaClass));
-    }
-
     public function testStoringAndGettingBlueprints() {
         $classOne = 'SprayFire.Class.One';
         $classTwo = 'SprayFire.Class.Two';
