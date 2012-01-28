@@ -20,8 +20,4 @@ class TestBaseFactory extends \SprayFire\Factory\BaseFactory {
         return $this->getFinalBlueprint($className, $options);
     }
 
-    public function testReplaceDotsWithSlashes($className) {
-        return $this->replaceDotsWithBackSlashes($className);
-    }
-
 }
