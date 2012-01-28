@@ -24,7 +24,7 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($ErrorHandler instanceof \SprayFire\Error\ErrorHandler);
     }
 
-    public function testErrorHandlerBootstrapWithInvalidData() {
+    public function testErrorHandlerBootstrapWithInvalidHandler() {
 
         $exceptionThrown = false;
         try {
@@ -35,7 +35,25 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
             $BootstrapConfig = new \SprayFire\Config\ArrayConfig($bootstrapData);
             $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($BootstrapConfig);
             $ErrorHandler = $ErrorHandlerBootstrap->runBootstrap();
-        } catch (\SprayFire\Exception\TypeNotFoundException $TypeNotFound) {
+        } catch (\InvalidArgumentException $InvalArgExc) {
+            $exceptionThrown = true;
+        }
+
+        $this->assertTrue($exceptionThrown);
+    }
+
+    public function testErrorHandlerBootstrapWithInvalidMethod() {
+
+        $exceptionThrown = false;
+        try {
+            $bootstrapData = array();
+            $bootstrapData['handler'] = 'SprayFire.Handler.ErrorHandler';
+            $bootstrapData['method'] = 'noExistentMethod';
+
+            $BootstrapConfig = new \SprayFire\Config\ArrayConfig($bootstrapData);
+            $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($BootstrapConfig);
+            $ErrorHandler = $ErrorHandlerBootstrap->runBootstrap();
+        } catch (\InvalidArgumentException $InvalArgExc) {
             $exceptionThrown = true;
         }
 
