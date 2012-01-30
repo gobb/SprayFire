@@ -47,7 +47,7 @@ class ErrorHandlerBootstrap extends \SprayFire\Util\UtilObject implements \Spray
      *
      * @var $trap
      */
-    protected $trap;
+    protected $method;
 
     /**
      * @brief The configuration object passed should hold at least 2 keys, the
@@ -57,7 +57,9 @@ class ErrorHandlerBootstrap extends \SprayFire\Util\UtilObject implements \Spray
      * @param $Config SprayFire.Config.Configuration
      */
     public function __construct(\SprayFire\Logging\LogOverseer $LogOverseer, \SprayFire\Config\Configuration $Config) {
-
+        $this->LogOverseer = $LogOverseer;
+        $this->handler = $this->convertJavaClassToPhpClass($Config->handler);
+        $this->method = $Config->method;
     }
 
     /**
@@ -74,7 +76,26 @@ class ErrorHandlerBootstrap extends \SprayFire\Util\UtilObject implements \Spray
      * @throws SprayFire.Exception.BootstrapFailedException
      */
     public function runBootstrap() {
+        $this->throwExceptionIfConfigurationInvalid();
+    }
 
+    /**
+     * @brief Will throw an exception if the configuration values are empty, the
+     * handler class could not be loaded or the method is not a method in handler.
+     *
+     * @throws SprayFire.Exception.BootstrapFailedException
+     */
+    protected function throwExceptionIfConfigurationInvalid() {
+        $this->throwExceptionIfHandlerOrMethodAreEmpty();
+    }
+
+    /**
+     * @throws SprayFire.Exception.BootstrapFailedException
+     */
+    protected function throwExceptionIfHandlerOrMethodAreEmpty() {
+        if (empty($this->handler) || empty($this->method)) {
+            throw new \SprayFire\Exception\BootstrapFailedException('The handler or method was not properly set in the configuration.');
+        }
     }
 
 }
