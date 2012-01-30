@@ -12,6 +12,15 @@ namespace SprayFire\Test\Cases\Bootstrap;
  */
 class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
 
+    protected $originalErrorHandler;
+
+    public function setUp() {
+        $this->originalErrorHandler = \set_error_handler(function() {
+            return false;
+        });
+        \set_error_handler($this->originalErrorHandler);
+    }
+
     public function testErrorHandlerBootstrap() {
         $bootstrapData = array();
         $bootstrapData['handler'] = 'SprayFire.Error.ErrorHandler';
@@ -26,7 +35,7 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
         });
 
         $this->assertSame(array('SprayFire\Error\ErrorHandler', 'trap'), $errorHandlerSetByBootstrap);
-
+        $this->assertTrue($ErrorHandler instanceof \SprayFire\Error\ErrorHandler);
     }
 
     public function testErrorHandlerBootstrapWithInvalidHandler() {
@@ -40,12 +49,12 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
             $BootstrapConfig = new \SprayFire\Config\ArrayConfig($bootstrapData);
             $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $BootstrapConfig);
             $ErrorHandler = $ErrorHandlerBootstrap->runBootstrap();
-        } catch (\InvalidArgumentException $InvalArgExc) {
-            $this->assertSame('The class, \\SprayFire\\NonExistent\\Object, could not be loaded.', $InvalArgExc->getMessage());
+        } catch (\SprayFire\Exception\BootstrapFailedException $BootstrapExc) {
+            $this->assertSame('The class, \\SprayFire\\NonExistent\\Object, could not be loaded.', $BootstrapExc->getMessage());
             $exceptionThrown = true;
         }
-
         $this->assertTrue($exceptionThrown);
+
     }
 
     public function testErrorHandlerBootstrapWithNoHandlerOrMethodSet() {
@@ -58,8 +67,8 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
             $BootstrapConfig = new \SprayFire\Config\ArrayConfig($bootstrapData);
             $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $BootstrapConfig);
             $ErrorHandler = $ErrorHandlerBootstrap->runBootstrap();
-        } catch (\InvalidArgumentException $InvalArgExc) {
-            $this->assertSame('The class, \\SprayFire\\NonExistent\\Object, could not be loaded.', $InvalArgExc->getMessage());
+        } catch (\SprayFire\Exception\BootstrapFailedException $BootstrapExc) {
+            $this->assertSame('The handler or method was not properly set in the configuration.', $BootstrapExc->getMessage());
             $exceptionThrown = true;
         }
 
@@ -77,12 +86,16 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
             $BootstrapConfig = new \SprayFire\Config\ArrayConfig($bootstrapData);
             $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $BootstrapConfig);
             $ErrorHandler = $ErrorHandlerBootstrap->runBootstrap();
-        } catch (\InvalidArgumentException $InvalArgExc) {
-            $this->assertSame('', $InvalArgExc->getMessage());
+        } catch (\SprayFire\Exception\BootstrapFailedException $BootstrapExc) {
+            $this->assertSame('The method, noExistentMethod, does not exist in, \\SprayFire\\Error\\ErrorHandler.', $BootstrapExc->getMessage());
             $exceptionThrown = true;
         }
 
         $this->assertTrue($exceptionThrown);
+    }
+
+    public function tearDown() {
+        \set_error_handler($this->originalErrorHandler);
     }
 
     protected function getLogOverseer() {
