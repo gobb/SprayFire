@@ -87,6 +87,8 @@ class ErrorHandlerBootstrap extends \SprayFire\Util\UtilObject implements \Spray
      */
     protected function throwExceptionIfConfigurationInvalid() {
         $this->throwExceptionIfHandlerOrMethodAreEmpty();
+        $this->throwExceptionIfHandlerDoesNotExist();
+
     }
 
     /**
@@ -95,6 +97,16 @@ class ErrorHandlerBootstrap extends \SprayFire\Util\UtilObject implements \Spray
     protected function throwExceptionIfHandlerOrMethodAreEmpty() {
         if (empty($this->handler) || empty($this->method)) {
             throw new \SprayFire\Exception\BootstrapFailedException('The handler or method was not properly set in the configuration.');
+        }
+    }
+
+    /**
+     * @throws SprayFire.Exception.BootstrapFailedException
+     */
+    protected function throwExceptionIfHandlerDoesNotExist() {
+        $doAutoload = true;
+        if (!\class_exists($this->handler, $doAutoload)) {
+            throw new \SprayFire\Exception\BootstrapFailedException('The class, ' . $this->handler . ', could not be loaded.');
         }
     }
 
