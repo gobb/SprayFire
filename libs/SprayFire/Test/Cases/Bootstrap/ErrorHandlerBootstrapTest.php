@@ -25,7 +25,7 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
             return false;
         });
 
-        $this->assertSame('SprayFire\Error\ErrorHandler::trap', $errorHandlerSetByBootstrap);
+        $this->assertSame(array('SprayFire\Error\ErrorHandler', 'trap'), $errorHandlerSetByBootstrap);
 
     }
 
@@ -41,6 +41,25 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
             $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $BootstrapConfig);
             $ErrorHandler = $ErrorHandlerBootstrap->runBootstrap();
         } catch (\InvalidArgumentException $InvalArgExc) {
+            $this->assertSame('The class, \\SprayFire\\NonExistent\\Object, could not be loaded.', $InvalArgExc->getMessage());
+            $exceptionThrown = true;
+        }
+
+        $this->assertTrue($exceptionThrown);
+    }
+
+    public function testErrorHandlerBootstrapWithNoHandlerOrMethodSet() {
+        $exceptionThrown = false;
+        try {
+            $bootstrapData = array();
+            $bootstrapData['handler'] = 'SprayFire.NonExistent.Object';
+            $bootstrapData['method'] = 'trap';
+
+            $BootstrapConfig = new \SprayFire\Config\ArrayConfig($bootstrapData);
+            $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $BootstrapConfig);
+            $ErrorHandler = $ErrorHandlerBootstrap->runBootstrap();
+        } catch (\InvalidArgumentException $InvalArgExc) {
+            $this->assertSame('The class, \\SprayFire\\NonExistent\\Object, could not be loaded.', $InvalArgExc->getMessage());
             $exceptionThrown = true;
         }
 
@@ -52,13 +71,14 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
         $exceptionThrown = false;
         try {
             $bootstrapData = array();
-            $bootstrapData['handler'] = 'SprayFire.Handler.ErrorHandler';
+            $bootstrapData['handler'] = 'SprayFire.Error.ErrorHandler';
             $bootstrapData['method'] = 'noExistentMethod';
 
             $BootstrapConfig = new \SprayFire\Config\ArrayConfig($bootstrapData);
             $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $BootstrapConfig);
             $ErrorHandler = $ErrorHandlerBootstrap->runBootstrap();
         } catch (\InvalidArgumentException $InvalArgExc) {
+            $this->assertSame('', $InvalArgExc->getMessage());
             $exceptionThrown = true;
         }
 
