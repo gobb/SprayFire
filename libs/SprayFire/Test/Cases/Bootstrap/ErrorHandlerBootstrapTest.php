@@ -52,8 +52,8 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
         $exceptionThrown = false;
         try {
             $bootstrapData = array();
-            $bootstrapData['handler'] = 'SprayFire.NonExistent.Object';
-            $bootstrapData['method'] = 'trap';
+            $bootstrapData['handler'] = '';
+            $bootstrapData['method'] = '';
 
             $BootstrapConfig = new \SprayFire\Config\ArrayConfig($bootstrapData);
             $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $BootstrapConfig);
