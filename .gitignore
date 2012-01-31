@@ -1,8 +1,7 @@
 .DS_Store
 .
 ..
-/nbproject
-
+*.swp
+nbproject
 logs/errors.txt
-
-libs/SprayFire/Test/configuration.xml
+libs/SprayFire/Test/*.xml
