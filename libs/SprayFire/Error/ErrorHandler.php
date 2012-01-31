@@ -26,21 +26,6 @@ class ErrorHandler extends \SprayFire\Util\CoreObject {
     protected $Logger;
 
     /**
-     * @brief An array holding the \a $severity , \a $message , \a $file and \a $line
-     * for each triggered error.
-     *
-     * @property $trappedErrors
-     */
-    protected $trappedErrors = array();
-
-    /**
-     * @brief True/false on whether or not the environment is in development mode.
-     *
-     * @property $developmentModeOn
-     */
-    protected $developmentModeOn;
-
-    /**
      * @param $Log \SprayFire\Logger\Log The log to use for this error handler
      * @param $developmentModeOn True or false on whether or not the environment is in development mode
      */
@@ -63,21 +48,15 @@ class ErrorHandler extends \SprayFire\Util\CoreObject {
         if (\error_reporting() === 0) {
             return false;
         }
+        $line = 'line:' . (int) $line;
+        $message = \implode(';', \compact('message', 'file', 'line'));
         $this->Logger->logError($message);
         $intSeverity = $severity;
         $severity = $this->normalizeSeverity($severity);
-        $nonHandledSeverity = array(E_RECOVERABLE_ERROR);
-        if (\in_array($intSeverity, $nonHandledSeverity)) {
+        $unHandledSeverity = array(E_RECOVERABLE_ERROR);
+        if (\in_array($intSeverity, $unHandledSeverity)) {
             return false;
         }
-
-        if ($this->developmentModeOn) {
-            $data = $severity . ';' . $message . ';' . $file . ';' . $line;
-            $this->Logger->logDebug($data);
-            $index = \count($this->trappedErrors);
-            $this->trappedErrors[$index] = \compact('severity', 'message', 'file', 'line', 'context');
-        }
-
     }
 
     /**
@@ -104,14 +83,6 @@ class ErrorHandler extends \SprayFire\Util\CoreObject {
             return $severityMap[$severity];
         }
         return 'E_UNKNOWN_SEVERITY';
-    }
-
-    /**
-     * @return An array of error info, notice this will only return info if the
-     *         app is currently in development mode
-     */
-    public function getTrappedErrors() {
-        return $this->trappedErrors;
     }
 
 }
