@@ -34,7 +34,7 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
             return false;
         });
 
-        $this->assertSame(array('SprayFire\Error\ErrorHandler', 'trap'), $errorHandlerSetByBootstrap);
+        $this->assertSame(array($ErrorHandler, 'trap'), $errorHandlerSetByBootstrap);
         $this->assertTrue($ErrorHandler instanceof \SprayFire\Error\ErrorHandler);
     }
 
