@@ -61,6 +61,8 @@ $exceptionCallback = function(\Exception $Exception) {
     // response HTML.
     \error_log($Exception->getMessage());
     \header('HTTP/1.1 500 Internal Server Error');
+    \header('Content-Type: text-html; charset=UTF-8');
+
     echo <<< HTML
 <!DOCTYPE html>
     <html>
@@ -134,7 +136,6 @@ $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 $directoryPaths = \compact('installPath', 'libsPath', 'configPath', 'appPath', 'logsPath', 'webPath');
 $primaryConfigPath = $configPath . '/SprayFire/primary-configuration.php';
 $BootstrapData = new \SprayFire\Bootstrap\BootstrapData($primaryConfigPath, $directoryPaths);
-
 
 /**
  * @todo The following markup eventually needs to be moved into the default
