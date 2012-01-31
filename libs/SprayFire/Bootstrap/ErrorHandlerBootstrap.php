@@ -10,7 +10,9 @@ namespace SprayFire\Bootstrap;
 
 /**
  * @brief This object is responsible for ensuring the configuration values passed
- * are valid to properly instantiate an object responsible for error handling.
+ * are valid to properly instantiate an object responsible for error handling, instantiating
+ * that object and setting the method associated with that handler as the callback
+ * function for set_error_handler
  *
  * @details
  * There are 2 keys that we are looking for in the configuration object passed.
@@ -21,6 +23,16 @@ namespace SprayFire\Bootstrap;
  *
  * If these two configuration values are properly set then the bootstrap will create,
  * set and return the appropriate error handler object.
+ *
+ * It is expected that the handler object set will be expecting a SprayFire.Logging.LogOverseer
+ * to be injected into the first parameter and the error handler to not need any
+ * other parameters injected.
+ *
+ * @uses ReflectionClass
+ * @uses SprayFire.Bootstrap.Bootstrapper
+ * @uses SprayFire.Util.UtilObject
+ * @uses SprayFire.Exception.BootstrapFailedException
+ *
  */
 class ErrorHandlerBootstrap extends \SprayFire\Util\UtilObject implements \SprayFire\Bootstrap\Bootstrapper {
 
@@ -50,6 +62,20 @@ class ErrorHandlerBootstrap extends \SprayFire\Util\UtilObject implements \Spray
     protected $method;
 
     /**
+     * @brief Holds a ReflectionClass of \a $this->handler to be used to determine
+     * if the
+     *
+     * @var $ReflectedHandler
+     */
+    protected $ReflectedHandler;
+
+    /**
+     *
+     * @var $callbackSet
+     */
+    protected $callbackSet;
+
+    /**
      * @brief The configuration object passed should hold at least 2 keys, the
      * 'handler' and the 'method' for the object assigned to trapping errors.
      *
@@ -76,19 +102,14 @@ class ErrorHandlerBootstrap extends \SprayFire\Util\UtilObject implements \Spray
      * @throws SprayFire.Exception.BootstrapFailedException
      */
     public function runBootstrap() {
-        $this->throwExceptionIfConfigurationInvalid();
-    }
-
-    /**
-     * @brief Will throw an exception if the configuration values are empty, the
-     * handler class could not be loaded or the method is not a method in handler.
-     *
-     * @throws SprayFire.Exception.BootstrapFailedException
-     */
-    protected function throwExceptionIfConfigurationInvalid() {
         $this->throwExceptionIfHandlerOrMethodAreEmpty();
-        $this->throwExceptionIfHandlerDoesNotExist();
-
+        $this->createReflectedHandler();
+        $this->throwExceptionIfHandlerCouldNotBeLoaded();
+        $this->throwExceptionIfHandlerDoesNotHaveMethod();
+        $Handler = $this->getHandlerInstance();
+        $this->setErrorHandlerCallback($Handler);
+        $this->throwExceptionIfCallbackNotSet();
+        return $Handler;
     }
 
     /**
@@ -101,12 +122,81 @@ class ErrorHandlerBootstrap extends \SprayFire\Util\UtilObject implements \Spray
     }
 
     /**
+     * @return ReflectionClass of \a $this->handler
      * @throws SprayFire.Exception.BootstrapFailedException
      */
-    protected function throwExceptionIfHandlerDoesNotExist() {
-        $doAutoload = true;
-        if (!\class_exists($this->handler, $doAutoload)) {
+    protected function createReflectedHandler() {
+        try {
+            $this->ReflectedHandler = new \ReflectionClass($this->handler);
+        } catch(\ReflectionException $ReflectExc) {
+            // we don't need to do anything with this, we take care of it later
+            // we're just setting this to null as extra insurance
+            $this->ReflectedHandler = null;
+        }
+    }
+
+    /**
+     * @throws SprayFire.Exception.BootstrapFailedException
+     */
+    protected function throwExceptionIfHandlerCouldNotBeLoaded() {
+        if (!$this->ReflectedHandler) {
             throw new \SprayFire\Exception\BootstrapFailedException('The class, ' . $this->handler . ', could not be loaded.');
+        }
+    }
+
+    /**
+     * @throws SprayFire.Exception.BootstrapFailedException
+     */
+    protected function throwExceptionIfHandlerDoesNotHaveMethod() {
+        if (!$this->ReflectedHandler->hasMethod($this->method)) {
+            throw new \SprayFire\Exception\BootstrapFailedException('The method, ' . $this->method . ', does not exist in, ' . $this->handler . '.');
+        }
+    }
+
+    /**
+     * @return An instance of \a $this->ReflectedHandler
+     * @throws SprayFire.Exception.BootstrapFailedException
+     */
+    protected function getHandlerInstance() {
+        try {
+            return $this->ReflectedHandler->newInstance($this->LogOverseer);
+        } catch(\ReflectionException $ReflectExc) {
+            throw new \SprayFire\Exception\BootstrapFailedException('There was an error instantiating the handler.', null, $ReflectExc);
+        }
+    }
+
+    /**
+     * @brief Note that we are expecting an error handler to already be set in this
+     * code, if an error handler has not been set then this method will erroneously
+     * throw an exception.
+     *
+     * @details
+     * Ultimately we're bound to this hacky reliance on knowing that an error handler
+     * has already been set because the set_error_handler method returns null on
+     * a failed callback AND if a callback is being set for the first time.  This
+     * is an internal "flaw" with PHP and has no reasonable workaround beside setting
+     * the error handler twice, once with a simple closure that does nothing, and
+     * then with the real handler to make sure it gets called.  We decided not to
+     * go with this approach because it would add too much complexity and adds an
+     * unncessary function call to every request.
+     *
+     * @param $Handler An instance of \a $this->ReflectedHandler
+     * @see http://www.php.net/manual/en/function.set-error-handler.php
+     */
+    protected function setErrorHandlerCallback($Handler) {
+        $this->callbackSet = false;
+        $prevHandler = \set_error_handler(array($Handler, $this->method));
+        if (!\is_null($prevHandler)) {
+            $this->callbackSet = true;
+        }
+    }
+
+    /**
+     * @throws SprayFire.Exception.BootstrapFailedException
+     */
+    protected function throwExceptionIfCallbackNotSet() {
+        if (!$this->callbackSet) {
+            throw new \SprayFire\Exception\BootstrapFailedException('The error handler was not set or may have been the first error handler set; please check your error handler configuration or the documentation for ' . __CLASS__);
         }
     }
 
