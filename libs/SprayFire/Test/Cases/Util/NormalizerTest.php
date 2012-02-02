@@ -28,13 +28,19 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $actual);
     }
 
-    public function testNormalizeCompoundController() {
+    public function testNormalizeCompoundControllerWithUnderscores() {
         $requested = 'blog_post';
         $expected = 'BlogPost';
         $actual = $this->Normalizer->normalizeController($requested);
         $this->assertSame($expected, $actual);
     }
 
+    public function testNormalizeCompoundControllerWithDashes() {
+        $requested = 'another-blog-post';
+        $expected = 'AnotherBlogPost';
+        $actual = $this->Normalizer->normalizeController($requested);
 
+        $this->assertSame($expected, $actual);
+    }
 
 }
