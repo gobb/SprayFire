@@ -15,6 +15,13 @@ namespace SprayFire\Routing;
 class Normalizer extends \SprayFire\Util\CoreObject {
 
     /**
+     * @brief A PCRE regex pattern used to remove all non-alphabetic/space characters
+     *
+     * @var $characterRegex string
+     */
+    protected $characterRegex = '/[^A-Za-z\s]/';
+
+    /**
      * @param $controller String representing controller fragment from URL
      * @return Normalized controller class name
      * @see http://www.github.com/cspray/SprayFire/wiki/Routing
@@ -23,6 +30,7 @@ class Normalizer extends \SprayFire\Util\CoreObject {
         $class = \strtolower($controller);
         $class = $this->replaceUnderscoresWithSpaces($class);
         $class = $this->replaceDashesWithSpaces($class);
+        $class = $this->removeInvalidCharacters($class);
         return $this->makePascalCased($class);
     }
 
@@ -64,6 +72,14 @@ class Normalizer extends \SprayFire\Util\CoreObject {
             return $string;
         }
         return \str_replace($character, $space, $string);
+    }
+
+    /**
+     * @param $string A string that should have all non-alphabetic/space characters removed
+     * @return A string with no invalid characters
+     */
+    protected function removeInvalidCharacters($string) {
+        return \preg_replace($this->characterRegex, '', $string);
     }
 
     /**
