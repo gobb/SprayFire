@@ -21,10 +21,9 @@ class Normalizer extends \SprayFire\Util\CoreObject {
      */
     public function normalizeController($controller) {
         $class = \strtolower($controller);
-        $class = \str_replace('_', ' ', $class);
-        $class = \ucwords($class);
-        $class = \str_replace(' ', '', $class);
-        return $class;
+        $class = $this->replaceUnderscoresWithSpaces($class);
+        $class = $this->replaceDashesWithSpaces($class);
+        return $this->makePascalCased($class);
     }
 
     /**
@@ -35,5 +34,48 @@ class Normalizer extends \SprayFire\Util\CoreObject {
     public function normalizeAction($action) {
 
     }
+
+    /**
+     * @param $string A string to replace all underscores in
+     * @return A string with underscores turned into spaces
+     */
+    protected function replaceUnderscoresWithSpaces($string) {
+        $underscore = '_';
+        return $this->replaceCharacterWithSpaces($string, $underscore);
+    }
+
+    /**
+     * @param $string A string to replace all dashes in
+     * @return A string with dashes turned into spaces
+     */
+    protected function replaceDashesWithSpaces($string) {
+        $dash = '-';
+        return $this->replaceCharacterWithSpaces($string, $dash);
+    }
+
+    /**
+     * @param $string The string to replace characters with spaces
+     * @param $character A string character to replace with spaces
+     * @return A string with all \a $character turned into spaces
+     */
+    protected function replaceCharacterWithSpaces($string, $character) {
+        $space = ' ';
+        if (\strpos($string, $character) === false) {
+            return $string;
+        }
+        return \str_replace($character, $space, $string);
+    }
+
+    /**
+     * @param $string A lowercase, space separated string
+     * @return A string with the appropriate PascalCase and all spaces removed
+     */
+    protected function makePascalCased($string) {
+        $class = \ucwords($string);
+        $class = \str_replace(' ', '', $class);
+        return $class;
+    }
+
+
 
 }
