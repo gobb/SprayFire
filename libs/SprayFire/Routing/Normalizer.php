@@ -14,11 +14,24 @@ namespace SprayFire\Routing;
  */
 class Normalizer extends \SprayFire\Util\CoreObject {
 
+    /**
+     * @param $controller String representing controller fragment from URL
+     * @return Normalized controller class name
+     * @see http://www.github.com/cspray/SprayFire/wiki/Routing
+     */
     public function normalizeController($controller) {
-
-
+        $class = \strtolower($controller);
+        $class = \str_replace('_', ' ', $class);
+        $class = \ucwords($class);
+        $class = \str_replace(' ', '', $class);
+        return $class;
     }
 
+    /**
+     * @param $action String representing the name of an action on a controller
+     * @return Normalized action name
+     * @see http://www.github.com/cspray/SprayFire/wiki/Routing
+     */
     public function normalizeAction($action) {
 
     }
