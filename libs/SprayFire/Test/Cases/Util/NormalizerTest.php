@@ -39,7 +39,13 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase {
         $requested = 'another-blog-post';
         $expected = 'AnotherBlogPost';
         $actual = $this->Normalizer->normalizeController($requested);
+        $this->assertSame($expected, $actual);
+    }
 
+    public function testNormalizeControllerWithInvalidCharacters() {
+        $requested = 'something*with#invalid_-characters%^';
+        $expected = 'SomethingwithinvalidCharacters';
+        $actual = $this->Normalizer->normalizeController($requested);
         $this->assertSame($expected, $actual);
     }
 
