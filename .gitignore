@@ -4,4 +4,4 @@
 *.swp
 nbproject
 logs/errors.txt
-libs/SprayFire/Test/*.xml
+libs/SprayFire/Test/configuration.xml
