@@ -49,4 +49,11 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $actual);
     }
 
+    public function testNormalizePlainJaneAction() {
+        $requested = 'action';
+        $expected = 'action';
+        $actual = $this->Normalizer->normalizeAction($requested);
+        $this->assertSame($expected, $actual);
+    }
+
 }
