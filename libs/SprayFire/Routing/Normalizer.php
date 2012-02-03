@@ -40,7 +40,9 @@ class Normalizer extends \SprayFire\Util\CoreObject {
      * @see http://www.github.com/cspray/SprayFire/wiki/Routing
      */
     public function normalizeAction($action) {
-
+        $action = \strtolower($action);
+        $action = $this->replaceUnderscoresWithSpaces($action);
+        return $this->makeCamelCased($action);
     }
 
     /**
@@ -90,6 +92,15 @@ class Normalizer extends \SprayFire\Util\CoreObject {
         $class = \ucwords($string);
         $class = \str_replace(' ', '', $class);
         return $class;
+    }
+
+    /**
+     * @param $string A lowercase, space separated string
+     * @return A string with the appropriate camelCase and all spaces removed
+     */
+    protected function makeCamelCased($string) {
+        $string = $this->makePascalCased($string);
+        return \lcfirst($string);
     }
 
 
