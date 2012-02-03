@@ -42,6 +42,8 @@ class Normalizer extends \SprayFire\Util\CoreObject {
     public function normalizeAction($action) {
         $action = \strtolower($action);
         $action = $this->replaceUnderscoresWithSpaces($action);
+        $action = $this->replaceDashesWithSpaces($action);
+        $action = $this->removeInvalidCharacters($action);
         return $this->makeCamelCased($action);
     }
 
