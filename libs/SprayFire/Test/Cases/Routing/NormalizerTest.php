@@ -63,4 +63,18 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $actual);
     }
 
+    public function testNormalizeActionWithDashes() {
+        $requested = 'the-action-requested-was-this-one';
+        $expected = 'theActionRequestedWasThisOne';
+        $actual = $this->Normalizer->normalizeAction($requested);
+        $this->assertSame($expected, $actual);
+    }
+
+    public function testNormalizeActionWithInvalidCharacters() {
+        $requested = 'this-action*hith#invalid_stuff            ----_%^';
+        $expected = 'thisActionhithinvalidStuff';
+        $actual = $this->Normalizer->normalizeAction($requested);
+        $this->assertSame($expected, $actual);
+    }
+
 }
