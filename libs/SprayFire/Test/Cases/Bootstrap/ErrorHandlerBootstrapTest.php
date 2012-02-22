@@ -12,13 +12,8 @@ namespace SprayFire\Test\Cases\Bootstrap;
  */
 class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
 
-    protected $originalErrorHandler;
-
     public function setUp() {
-        $this->originalErrorHandler = \set_error_handler(function() {
-            return false;
-        });
-        \set_error_handler($this->originalErrorHandler);
+        \set_error_handler(function() {return false;});
     }
 
     public function testErrorHandlerBootstrap() {
@@ -95,7 +90,7 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function tearDown() {
-        \set_error_handler($this->originalErrorHandler);
+        \set_error_handler(function() {return false;});
     }
 
     protected function getLogOverseer() {
