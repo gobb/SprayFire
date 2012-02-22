@@ -59,6 +59,7 @@ $exceptionCallback = function(\Exception $Exception) {
     // there's nothing really we can do here at this point besides error_log the
     // message.  We'll send a 500 http response and spit back some basic fubar
     // response HTML.
+    // TODO: Make this a prettier message?  Perhaps with some basic styling?
     \error_log($Exception->getMessage());
     \header('HTTP/1.1 500 Internal Server Error');
     \header('Content-Type: text-html; charset=UTF-8');
@@ -91,7 +92,9 @@ HTML;
 //
 // It is highly recommended that you do not change the libs directory or the
 // configs directory.  Changing these directory names would necessitate changing
-// this file, as well as `/web/index.php` and `/libs/SprayFire/Bootstrap/bootstap.php`
+// this file, as well as `/web/index.php` and {PUT_FILE_NAME_HERE}
+// TODO: Fill in the file names that would need to be adjusted if directory structure
+// is changed.
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 /**
@@ -138,8 +141,7 @@ $primaryConfigPath = $configPath . '/SprayFire/primary-configuration.php';
 $BootstrapData = new \SprayFire\Bootstrap\BootstrapData($primaryConfigPath, $directoryPaths);
 
 /**
- * @todo The following markup eventually needs to be moved into the default
- * template for HtmlResponder.
+ * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.
  */
 
 // NOTE: The below code is a temporary measure until the templating system is in place
