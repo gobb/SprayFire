@@ -52,7 +52,7 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
         $ConfigMap = $Bootstrap->runBootstrap();
 
         $this->assertInstanceOf("\\SprayFire\\Structure\\Map\\RestrictedMap", $ConfigMap);
-        
+
         $ErrorLogger = $this->getErrorLogger($LogDelegator);
         $loggedMessages = $ErrorLogger->getLoggedMessages();
 
@@ -68,26 +68,14 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testInvalidConfigBootstrapWithNonExistentInterface() {
-
-        $everythingElseLog = 'SprayFire.Logging.Logifier.NullLogger';
-        $errorLog = 'SprayFire.Test.Helpers.DevelopmentLogger';
-        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
-        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
-        $LogDelegator->setDebugLogger($everythingElseLog);
-        $LogDelegator->setEmergencyLogger($everythingElseLog);
-        $LogDelegator->setInfoLogger($everythingElseLog);
-        $LogDelegator->setErrorLogger($errorLog);
+        $LogDelegator = $this->getNewLogDelegator();
 
         $data = array('interface' => 'SprayFire.Some.NonExistent.Interface');
         $Config = new \SprayFire\Config\ArrayConfig($data, false);
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($LogDelegator, $Config);
         $GenericMap = $Bootstrap->runBootstrap();
 
-        $ReflectedDelegator = new \ReflectionObject($LogDelegator);
-        $ErrorLoggerProperty = $ReflectedDelegator->getProperty('ErrorLogger');
-        $ErrorLoggerProperty->setAccessible(true);
-        $ErrorLogger = $ErrorLoggerProperty->getValue($LogDelegator);
-
+        $ErrorLogger = $this->getErrorLogger($LogDelegator);
         $loggedMessages = $ErrorLogger->getLoggedMessages();
         $expectedLogMessages = array(
             array(
@@ -95,14 +83,12 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
                 'options' => array()
             )
         );
-        $this->assertTrue($GenericMap instanceof \SprayFire\Structure\Map\GenericMap);
+        $this->assertInstanceOf("\\SprayFire\\Structure\\Map\\GenericMap", $GenericMap);
         $this->assertSame($expectedLogMessages, $loggedMessages);
-
     }
 
     public function testInvalidConfigFilePassed() {
-        $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/Config/json/no-exist.json';
-
+        $invalidConfigPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/Config/json/no-exist.json';
         $configs = array(
             'interface' => 'SprayFire.Config.Configuration',
             array(
@@ -112,29 +98,18 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
             ),
             array(
                 'object' => 'SprayFire.Config.JsonConfig',
-                'data' => $configPath,
+                'data' => $invalidConfigPath,
                 'map-key' => 'PrimaryConfig'
             )
         );
 
-        $everythingElseLog = 'SprayFire.Logging.Logifier.NullLogger';
-        $errorLog = 'SprayFire.Test.Helpers.DevelopmentLogger';
-        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
-        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
-        $LogDelegator->setDebugLogger($everythingElseLog);
-        $LogDelegator->setEmergencyLogger($everythingElseLog);
-        $LogDelegator->setInfoLogger($everythingElseLog);
-        $LogDelegator->setErrorLogger($errorLog);
+        $LogDelegator = $this->getNewLogDelegator();
 
         $Config = new \SprayFire\Config\ArrayConfig($configs, false);
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($LogDelegator, $Config);
         $ConfigMap = $Bootstrap->runBootstrap();
 
-        $ReflectedDelegator = new \ReflectionObject($LogDelegator);
-        $ErrorLoggerProperty = $ReflectedDelegator->getProperty('ErrorLogger');
-        $ErrorLoggerProperty->setAccessible(true);
-        $ErrorLogger = $ErrorLoggerProperty->getValue($LogDelegator);
-
+        $ErrorLogger = $this->getErrorLogger($LogDelegator);
         $loggedMessages = $ErrorLogger->getLoggedMessages();
 
         $expectedLogMessages = array(
@@ -163,25 +138,15 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
 
-        $everythingElseLog = 'SprayFire.Logging.Logifier.NullLogger';
-        $errorLog = 'SprayFire.Test.Helpers.DevelopmentLogger';
-        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
-        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
-        $LogDelegator->setDebugLogger($everythingElseLog);
-        $LogDelegator->setEmergencyLogger($everythingElseLog);
-        $LogDelegator->setInfoLogger($everythingElseLog);
-        $LogDelegator->setErrorLogger($errorLog);
 
-        $Log = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $LogDelegator = $this->getNewLogDelegator();
+
         $Config = new \SprayFire\Config\ArrayConfig($configs, false);
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($LogDelegator, $Config);
         $ConfigMap = $Bootstrap->runBootstrap();
 
-        $ReflectedDelegator = new \ReflectionObject($LogDelegator);
-        $ErrorLoggerProperty = $ReflectedDelegator->getProperty('ErrorLogger');
-        $ErrorLoggerProperty->setAccessible(true);
-        $ErrorLogger = $ErrorLoggerProperty->getValue($LogDelegator);
 
+        $ErrorLogger = $this->getErrorLogger($LogDelegator);
         $loggedMessages = $ErrorLogger->getLoggedMessages();
 
         $expectedLogMessages = array(
