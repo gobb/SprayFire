@@ -28,6 +28,8 @@ namespace SprayFire\Test\Cases\Bootstrap;
  */
 class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
 
+
+
     public function testValidConfigBootstrap() {
         $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/Config/json/test-config.json';
         $configs = array(
@@ -44,38 +46,25 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
 
-        $everythingElseLog = 'SprayFire.Logging.Logifier.NullLogger';
-        $errorLog = 'SprayFire.Test.Helpers.DevelopmentLogger';
-        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
-        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
-        $LogDelegator->setDebugLogger($everythingElseLog);
-        $LogDelegator->setEmergencyLogger($everythingElseLog);
-        $LogDelegator->setInfoLogger($everythingElseLog);
-        $LogDelegator->setErrorLogger($errorLog);
-
+        $LogDelegator = $this->getNewLogDelegator();
         $Config = new \SprayFire\Config\ArrayConfig($configs, false);
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($LogDelegator, $Config);
         $ConfigMap = $Bootstrap->runBootstrap();
 
-        $this->assertTrue($ConfigMap instanceof \SprayFire\Structure\Map\RestrictedMap);
-
-        $ReflectedDelegator = new \ReflectionObject($LogDelegator);
-        $ErrorLoggerProperty = $ReflectedDelegator->getProperty('ErrorLogger');
-        $ErrorLoggerProperty->setAccessible(true);
-        $ErrorLogger = $ErrorLoggerProperty->getValue($LogDelegator);
-
+        $this->assertInstanceOf("\\SprayFire\\Structure\\Map\\RestrictedMap", $ConfigMap);
+        
+        $ErrorLogger = $this->getErrorLogger($LogDelegator);
+        $loggedMessages = $ErrorLogger->getLoggedMessages();
 
         $SprayFireRollTide = $ConfigMap->getObject('SprayFireRollTide');
         $PrimaryConfig = $ConfigMap->getObject('PrimaryConfig');
-        $loggedMessages = $ErrorLogger->getLoggedMessages();
 
-        $this->assertTrue($SprayFireRollTide instanceof \SprayFire\Config\ArrayConfig);
-        $this->assertTrue($PrimaryConfig instanceof \SprayFire\Config\JsonConfig);
+        $this->assertInstanceOf("\\SprayFire\\Config\\ArrayConfig", $SprayFireRollTide);
+        $this->assertInstanceOf("\\SprayFire\\Config\\JsonConfig", $PrimaryConfig);
         $this->assertSame('best', $SprayFireRollTide->sprayfire);
         $this->assertSame('tide', $SprayFireRollTide->roll);
         $this->assertSame('Roll Tide!', $PrimaryConfig->app->{'deep-one'}->{'deep-two'}->{'deep-three'}->value);
-        $this->assertSame(array(), $loggedMessages);
-
+        $this->assertEmpty($loggedMessages);
     }
 
     public function testInvalidConfigBootstrapWithNonExistentInterface() {
@@ -202,6 +191,26 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
         $this->assertSame($expectedLogMessages, $loggedMessages);
+    }
+
+    protected function getNewLogDelegator() {
+        $everythingElseLog = 'SprayFire.Logging.Logifier.NullLogger';
+        $errorLog = 'SprayFire.Test.Helpers.DevelopmentLogger';
+        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
+        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
+        $LogDelegator->setDebugLogger($everythingElseLog);
+        $LogDelegator->setEmergencyLogger($everythingElseLog);
+        $LogDelegator->setInfoLogger($everythingElseLog);
+        $LogDelegator->setErrorLogger($errorLog);
+        return $LogDelegator;
+    }
+
+    protected function getErrorLogger($Overseer) {
+        $ReflectedDelegator = new \ReflectionObject($Overseer);
+        $ErrorLoggerProperty = $ReflectedDelegator->getProperty('ErrorLogger');
+        $ErrorLoggerProperty->setAccessible(true);
+        $ErrorLogger = $ErrorLoggerProperty->getValue($Overseer);
+        return $ErrorLogger;
     }
 
 }
