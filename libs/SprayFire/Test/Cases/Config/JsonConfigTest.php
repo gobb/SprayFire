@@ -24,42 +24,18 @@ namespace SprayFire\Test\Cases\Config;
  */
 class JsonConfigTest extends \PHPUnit_Framework_TestCase {
 
-    public function testJsonConfigObject() {
+    public function testReadingBasicJsonConfigObject() {
         $filePath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/config/json/test-config.json';
         $File = new \SplFileInfo($filePath);
         $Config = new \SprayFire\Config\JsonConfig($File);
 
-        $expectedNoExist = null;
-        $actualNoExist = $Config->{'no-exist'};
-        $this->assertSame($expectedNoExist, $actualNoExist);
-
-        $noExistIsSet = isset($Config['no-exist']);
-        $this->assertFalse($noExistIsSet);
-
-        $doesExistIsSet = isset($Config->app->version);
-        $this->assertTrue($doesExistIsSet);
+        $this->assertNull($Config->{'no-exist'});
+        $this->assertFalse(isset($Config->{'no-exist'}));
+        $this->assertTrue(isset($Config->app->version));
 
         $expectedFrameworkVersion = '0.1.0-gold-rc';
         $actualFrameworkVersion = $Config->framework['version'];
         $this->assertSame($expectedFrameworkVersion, $actualFrameworkVersion);
-
-        $exceptionThrownWhenSet = false;
-        try {
-            $Config->app->version = 'some new version';
-        } catch (\SprayFire\Exception\UnsupportedOperationException $UnsupportedOp) {
-            $exceptionThrownWhenSet = true;
-        }
-
-        $this->assertTrue($exceptionThrownWhenSet);
-
-        $exceptionThrownWhenUnset = false;
-        try {
-            unset($Config->app->version);
-        } catch (\SprayFire\Exception\UnsupportedOperationException $UnsupportedOp) {
-            $exceptionThrownWhenUnset = true;
-        }
-
-        $this->assertTrue($exceptionThrownWhenUnset);
 
         $expectedAppVersion = '0.0.1-beta';
         $actualAppVersion = $Config->app->version;
@@ -70,31 +46,56 @@ class JsonConfigTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expectedToString, $actualToString);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testNonExistentFile() {
-        $File = new \SplFileInfo('this/file/path/does/not/exist/config.json');
-        $Config = new \SprayFire\Config\JsonConfig($File);
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testInvalidJsonFile() {
-        $filePath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/libs/SprayFire/Config/json/test-invalid-config.json';
+    public function testWritingToJsonConfigObject() {
+        $filePath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/config/json/test-config.json';
         $File = new \SplFileInfo($filePath);
         $Config = new \SprayFire\Config\JsonConfig($File);
+        $exceptionThrown = false;
+        try {
+            $Config->app->version = "something I choose...NOT";
+        } catch (\SprayFire\Exception\UnsupportedOperationException $Exception) {
+            $this->assertSame("Attempting to set the value of an immutable object.", $Exception->getMessage());
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     */
+    public function testNonExistentFile() {
+        $exceptionThrown = false;
+        try {
+            $File = new \SplFileInfo('this/file/path/does/not/exist/config.json');
+            $Config = new \SprayFire\Config\JsonConfig($File);
+        } catch (\InvalidArgumentException $Exception) {
+            $this->assertSame("There is an error with the path to the configuration file, it does not appear to be a valid file or symlink.", $Exception->getMessage());
+            $exceptionThrown = true;
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
+    public function testInvalidJsonFile() {
+        $exceptionThrown = false;
+        try {
+            $filePath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/libs/SprayFire/Config/json/test-invalid-config.json';
+            $File = new \SplFileInfo($filePath);
+            $Config = new \SprayFire\Config\JsonConfig($File);
+        } catch (\InvalidArgumentException $Exception) {
+            $exceptionThrown = true;
+            $this->assertSame("There was an error parsing the JSON configuration file passed.  JSON_error_code := 4", $Exception->getMessage());
+        }
+        $this->assertTrue($exceptionThrown);
+    }
+
     public function testCrappyExtension() {
-        $File = new \SplFileInfo(\SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/config/json/test-config.json');
-        $Config = new \SprayFire\Test\Helpers\CrappyJsonConfig($File);
+        $exceptionThrown = false;
+        try {
+            $File = new \SplFileInfo(\SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/config/json/test-config.json');
+            $Config = new \SprayFire\Test\Helpers\CrappyJsonConfig($File);
+        } catch (\UnexpectedValueException $Exception) {
+            $exceptionThrown = true;
+            $this->assertSame("The data returned from convertDataDeep must be an array.", $Exception->getMessage());
+        }
+        $this->assertTrue($exceptionThrown);
     }
 
 }
-
 // End JsonConfigTest
