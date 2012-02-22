@@ -40,25 +40,13 @@ class LogOverseerBootstrapTest extends \PHPUnit_Framework_TestCase {
         $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($ConfigObject, $LoggerFactory);
         $LogDelegator = $LoggerBootstrap->runBootstrap();
 
-        $this->assertTrue($LogDelegator instanceof \SprayFire\Logging\Logifier\LogDelegator);
+        $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\LogDelegator", $LogDelegator);
+        $loggers = $this->getLoggers($LogDelegator);
 
-        $ReflectedDelegator = new \ReflectionObject($LogDelegator);
-        $EmergencyLoggerProperty = $ReflectedDelegator->getProperty('EmergencyLogger');
-        $EmergencyLoggerProperty->setAccessible(true);
-        $this->assertTrue($EmergencyLoggerProperty->getValue($LogDelegator) instanceof \SprayFire\Logging\Logifier\SysLogLogger);
-
-        $ErrorLoggerProperty = $ReflectedDelegator->getProperty('ErrorLogger');
-        $ErrorLoggerProperty->setAccessible(true);
-        $this->assertTrue($ErrorLoggerProperty->getValue($LogDelegator) instanceof \SprayFire\Logging\Logifier\ErrorLogLogger);
-
-        $DebugLoggerProperty = $ReflectedDelegator->getProperty('DebugLogger');
-        $DebugLoggerProperty->setAccessible(true);
-        $this->assertTrue($DebugLoggerProperty->getValue($LogDelegator) instanceof \SprayFire\Test\Helpers\DevelopmentLogger);
-
-        $InfoLoggerProperty = $ReflectedDelegator->getProperty('InfoLogger');
-        $InfoLoggerProperty->setAccessible(true);
-        $this->assertTrue($InfoLoggerProperty->getValue($LogDelegator) instanceof \SprayFire\Logging\Logifier\FileLogger);
-
+        $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\SysLogLogger", $loggers->emergency);
+        $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\ErrorLogLogger", $loggers->error);
+        $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\FileLogger", $loggers->info);
+        $this->assertInstanceOf("\\SprayFire\\Test\\Helpers\\DevelopmentLogger", $loggers->debug);
     }
 
     public function testLogOverSeerCreationWithMissingErrorAndDebugValues() {
@@ -81,24 +69,13 @@ class LogOverseerBootstrapTest extends \PHPUnit_Framework_TestCase {
         $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($ConfigObject, $LoggerFactory);
         $LogDelegator = $LoggerBootstrap->runBootstrap();
 
-        $this->assertTrue($LogDelegator instanceof \SprayFire\Logging\Logifier\LogDelegator);
+        $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\LogDelegator", $LogDelegator);
+        $loggers = $this->getLoggers($LogDelegator);
 
-        $ReflectedDelegator = new \ReflectionObject($LogDelegator);
-        $EmergencyLoggerProperty = $ReflectedDelegator->getProperty('EmergencyLogger');
-        $EmergencyLoggerProperty->setAccessible(true);
-        $this->assertTrue($EmergencyLoggerProperty->getValue($LogDelegator) instanceof \SprayFire\Logging\Logifier\SysLogLogger);
-
-        $ErrorLoggerProperty = $ReflectedDelegator->getProperty('ErrorLogger');
-        $ErrorLoggerProperty->setAccessible(true);
-        $this->assertTrue($ErrorLoggerProperty->getValue($LogDelegator) instanceof \SprayFire\Logging\Logifier\NullLogger);
-
-        $DebugLoggerProperty = $ReflectedDelegator->getProperty('DebugLogger');
-        $DebugLoggerProperty->setAccessible(true);
-        $this->assertTrue($DebugLoggerProperty->getValue($LogDelegator) instanceof \SprayFire\Logging\Logifier\NullLogger);
-
-        $InfoLoggerProperty = $ReflectedDelegator->getProperty('InfoLogger');
-        $InfoLoggerProperty->setAccessible(true);
-        $this->assertTrue($InfoLoggerProperty->getValue($LogDelegator) instanceof \SprayFire\Logging\Logifier\FileLogger);
+        $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\SysLogLogger", $loggers->emergency);
+        $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\NullLogger", $loggers->error);
+        $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\FileLogger", $loggers->info);
+        $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\NullLogger", $loggers->debug);
     }
 
     public function testLogOverseerCreationWithMissingEmergAndInfoConfig() {
@@ -120,24 +97,13 @@ class LogOverseerBootstrapTest extends \PHPUnit_Framework_TestCase {
         $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($ConfigObject, $LoggerFactory);
         $LogDelegator = $LoggerBootstrap->runBootstrap();
 
-        $this->assertTrue($LogDelegator instanceof \SprayFire\Logging\Logifier\LogDelegator);
+        $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\LogDelegator", $LogDelegator);
+        $loggers = $this->getLoggers($LogDelegator);
 
-        $ReflectedDelegator = new \ReflectionObject($LogDelegator);
-        $EmergencyLoggerProperty = $ReflectedDelegator->getProperty('EmergencyLogger');
-        $EmergencyLoggerProperty->setAccessible(true);
-        $this->assertTrue($EmergencyLoggerProperty->getValue($LogDelegator) instanceof \SprayFire\Logging\Logifier\NullLogger);
-
-        $ErrorLoggerProperty = $ReflectedDelegator->getProperty('ErrorLogger');
-        $ErrorLoggerProperty->setAccessible(true);
-        $this->assertTrue($ErrorLoggerProperty->getValue($LogDelegator) instanceof \SprayFire\Logging\Logifier\ErrorLogLogger);
-
-        $DebugLoggerProperty = $ReflectedDelegator->getProperty('DebugLogger');
-        $DebugLoggerProperty->setAccessible(true);
-        $this->assertTrue($DebugLoggerProperty->getValue($LogDelegator) instanceof \SprayFire\Test\Helpers\DevelopmentLogger);
-
-        $InfoLoggerProperty = $ReflectedDelegator->getProperty('InfoLogger');
-        $InfoLoggerProperty->setAccessible(true);
-        $this->assertTrue($InfoLoggerProperty->getValue($LogDelegator) instanceof \SprayFire\Logging\Logifier\NullLogger);
+        $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\ErrorLogLogger", $loggers->error);
+        $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\NullLogger", $loggers->emergency);
+        $this->assertInstanceOf("\\SprayFire\\Test\\Helpers\\DevelopmentLogger", $loggers->debug);
+        $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\NullLogger", $loggers->info);
     }
 
     public function tearDown() {
@@ -145,5 +111,31 @@ class LogOverseerBootstrapTest extends \PHPUnit_Framework_TestCase {
         if (\file_exists($infoLogFile)) {
             \unlink($infoLogFile);
         }
+    }
+
+    protected function getLoggers($LogDelegator) {
+        $ReflectedDelegator = new \ReflectionObject($LogDelegator);
+        $EmergencyLoggerProperty = $ReflectedDelegator->getProperty('EmergencyLogger');
+        $EmergencyLoggerProperty->setAccessible(true);
+        $EmergencyLogger = $EmergencyLoggerProperty->getValue($LogDelegator);
+
+        $ErrorLoggerProperty = $ReflectedDelegator->getProperty('ErrorLogger');
+        $ErrorLoggerProperty->setAccessible(true);
+        $ErrorLogger = $ErrorLoggerProperty->getValue($LogDelegator);
+
+        $DebugLoggerProperty = $ReflectedDelegator->getProperty('DebugLogger');
+        $DebugLoggerProperty->setAccessible(true);
+        $DebugLogger = $DebugLoggerProperty->getValue($LogDelegator);
+
+        $InfoLoggerProperty = $ReflectedDelegator->getProperty('InfoLogger');
+        $InfoLoggerProperty->setAccessible(true);
+        $InfoLogger = $InfoLoggerProperty->getValue($LogDelegator);
+
+        $data = new \stdClass();
+        $data->emergency = $EmergencyLogger;
+        $data->error = $ErrorLogger;
+        $data->debug = $DebugLogger;
+        $data->info = $InfoLogger;
+        return $data;
     }
 }
