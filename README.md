@@ -41,7 +41,7 @@ Of particular note in the wiki are the [Conventions](http://www.github.com/cspra
 
 ### Issues and Milestones
 
-The [issues](https://github.com/cspray/SprayFire/issues) and [milestones](https://github.com/cspray/SprayFire/issues/milestones) are the pulse and future of the framework.  If you want to contribute to the project, after you've read through the wiki, then solving issues and completing milestones is the best place to start.
+The [issues](https://github.com/cspray/SprayFire/issues) and [milestones](https://github.com/cspray/SprayFire/issues/milestones) are the pulse and vision of the framework.  If you want to contribute to the project, after you've read through the wiki, then solving issues and completing milestones is the best place to start.
 
 ## Team
 
