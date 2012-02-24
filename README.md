@@ -18,6 +18,7 @@ The [framework wiki](http://www.github.com/cspray/SprayFire/wiki/) is a more rel
 - A version with Doctrine 2 to act as data source letting you roll-your-own Model.
 - Easy creation of plugins, or Embers, to provide functionality for your own apps and others.
 - A command-line utility to set up your basic app directory structure and files; note that this is *not* scaffolding but simply creating a default SprayFire installation.
+- Support for the [Composer](https://github.com/composer/composer) dependency manager tool
 
 ## Dependencies
 
