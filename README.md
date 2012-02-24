@@ -27,6 +27,7 @@ The [framework wiki](http://www.github.com/cspray/SprayFire/wiki/) is a more rel
 - SprayFire uses [SPL](http://www.php.net/manual/en/book.spl.php) exceptions and data structures so this extension will need to be enabled.
 - All of SprayFire provided configuration is done in [JSON](http://www.json.org/) and you will need the [appropriate PHP extension](http://www.php.net/manual/en/book.json.php).
 - Unit tests are written with [PHPUnit](https://github.com/sebastianbergmann/phpunit).
+- Class autoloading is taken care of by [ClassLoader](http://github.com/cspray/ClassLoader)
 
 ## github
 
