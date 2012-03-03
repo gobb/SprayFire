@@ -21,7 +21,9 @@ project.
 <?php
 
 $libsDir = '/whatever/path/to/dir/holding/libs';
-include $libsDir . '/ClassLoader/Loader.php';
+include $libsDir . '/ClassLoader/src/ClassLoader/Loader.php';
+// here we assume you to have the ClassLoader lib in a directory named ClassLoader
+// this could theoretically be whatever you want
 
 $Loader = new \ClassLoader\Loader();
 $Loader->registerNamespaceDirectory('SprayFire', $libsDir);
