@@ -130,11 +130,11 @@ $logsPath = $installPath . '/logs';
  */
 $webPath = $installPath . '/web';
 
-include $libsPath . '/ClassLoader/src/ClassLoader/Loader.php';
+include $libsPath . '/ClassLoader/Loader.php';
 
 $ClassLoader = new \ClassLoader\Loader();
 $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
-\spl_autoload_register(array($ClassLoader, 'load'));
+$ClassLoader->setAutoloader();
 
 $directoryPaths = \compact('installPath', 'libsPath', 'configPath', 'appPath', 'logsPath', 'webPath');
 $primaryConfigPath = $configPath . '/SprayFire/primary-configuration.php';
