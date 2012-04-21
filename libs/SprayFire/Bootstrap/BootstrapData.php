@@ -54,14 +54,20 @@ class BootstrapData {
      * @param $property string
      */
     public function __get($property) {
-
+        if ($this->__isset($property)) {
+            return $this->masterData[$property];
+        }
+        return null;
     }
 
     /**
      * @param $property string
      */
     public function __isset($property) {
-
+        if (!array_key_exists($property, $this->masterData)) {
+            return false;
+        }
+        return isset($this->masterData[$property]);
     }
 
     /**
