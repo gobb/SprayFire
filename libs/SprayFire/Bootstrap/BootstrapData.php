@@ -39,8 +39,8 @@ class BootstrapData extends \SprayFire\Config\ArrayConfig {
             $this->primaryConfig = include $primaryConfigPath;
         }
         $this->directoryPaths = $directoryPaths;
-        $doNotConvertDeep = false;
-        parent::__construct($this->gatherMasterData(), $doNotConvertDeep);
+        $convertDeep = false;
+        parent::__construct($this->gatherMasterData(), $convertDeep);
     }
 
     /**
