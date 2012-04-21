@@ -21,8 +21,7 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
         $bootstrapData['handler'] = 'SprayFire.Error.ErrorHandler';
         $bootstrapData['method'] = 'trap';
 
-        $BootstrapConfig = new \SprayFire\Config\ArrayConfig($bootstrapData);
-        $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $BootstrapConfig);
+        $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $bootstrapData);
         $ErrorHandler = $ErrorHandlerBootstrap->runBootstrap();
 
         $errorHandlerSetByBootstrap = \set_error_handler(function() {
@@ -41,8 +40,7 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
             $bootstrapData['handler'] = 'SprayFire.NonExistent.Object';
             $bootstrapData['method'] = 'trap';
 
-            $BootstrapConfig = new \SprayFire\Config\ArrayConfig($bootstrapData);
-            $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $BootstrapConfig);
+            $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $bootstrapData);
             $ErrorHandler = $ErrorHandlerBootstrap->runBootstrap();
         } catch (\SprayFire\Exception\BootstrapFailedException $BootstrapExc) {
             $this->assertSame('The class, \\SprayFire\\NonExistent\\Object, could not be loaded.', $BootstrapExc->getMessage());
@@ -59,8 +57,7 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
             $bootstrapData['handler'] = '';
             $bootstrapData['method'] = '';
 
-            $BootstrapConfig = new \SprayFire\Config\ArrayConfig($bootstrapData);
-            $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $BootstrapConfig);
+            $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $bootstrapData);
             $ErrorHandler = $ErrorHandlerBootstrap->runBootstrap();
         } catch (\SprayFire\Exception\BootstrapFailedException $BootstrapExc) {
             $this->assertSame('The handler or method was not properly set in the configuration.', $BootstrapExc->getMessage());
@@ -78,8 +75,7 @@ class ErrorHandlerBootstrapTest extends \PHPUnit_Framework_TestCase {
             $bootstrapData['handler'] = 'SprayFire.Error.ErrorHandler';
             $bootstrapData['method'] = 'noExistentMethod';
 
-            $BootstrapConfig = new \SprayFire\Config\ArrayConfig($bootstrapData);
-            $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $BootstrapConfig);
+            $ErrorHandlerBootstrap = new \SprayFire\Bootstrap\ErrorHandlerBootstrap($this->getLogOverseer(), $bootstrapData);
             $ErrorHandler = $ErrorHandlerBootstrap->runBootstrap();
         } catch (\SprayFire\Exception\BootstrapFailedException $BootstrapExc) {
             $this->assertSame('The method, noExistentMethod, does not exist in, \\SprayFire\\Error\\ErrorHandler.', $BootstrapExc->getMessage());
