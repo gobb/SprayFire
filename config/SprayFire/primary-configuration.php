@@ -35,15 +35,10 @@ $developmentMode = true;
  * @var $globalIniSettings
  */
 $globalIniSettings = array();
-$globalIniSettings['allow_url_fopen'] = 0;
-$globalIniSettings['allow_url_include'] = 0;
-$globalIniSettings['asp_tags'] = 0;
 $globalIniSettings['date.timezone'] = 'America/New_York';
 $globalIniSettings['default_charset'] = 'UTF-8';
 $globalIniSettings['default_mimetype'] = 'text/html';
 $globalIniSettings['assert.active'] = 0;
-$globalIniSettings['magic_quotes_gpc'] = 0;
-$globalIniSettings['magic_quotes_runtime'] = 0;
 $globalIniSettings['expose_php'] = 0;
 
 /**
