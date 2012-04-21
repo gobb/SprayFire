@@ -25,13 +25,12 @@ class LogOverseerBootstrap extends \SprayFire\Util\CoreObject implements \SprayF
     protected $Factory;
 
     /**
-     * @brief Should be a SprayFire.Config.Configuration holding four keys: emergency,
-     * error, debug and info with those keys holding two keys themselves: object and
-     * blueprint.
+     * @brief An array of data holding the information needed to create logger
+     * objects
      *
-     * @property $Config
+     * @property $config
      */
-    protected $Config;
+    protected $config;
 
     /**
      * @brief A SprayFire.Logging.Logifier.LogDelegator used to handle logging
@@ -46,23 +45,13 @@ class LogOverseerBootstrap extends \SprayFire\Util\CoreObject implements \SprayF
      * implementation and return an implementation when runBootstrap() is invoked.
      *
      * @details
-     * While it is possible to pass a chainable SprayFire.Config.Configuration object
-     * it should be noted that this implementation will not recursively convert the
-     * inner objects into arrays.  Meaning, it is guaranteed that if a chainable
-     * Configuration object is passed the outer object will be converted into an
-     * array so it may be passed to ReflectionClass::newInstanceArgs(), but not
-     * necessarily that the SprayFire.Structure.Storage.ImmutableStorage objects
-     * associated with keys of that Configuration have been converted into arrays.
-     * Right now this is considered status-by-design.  If this becomes a problem
-     * raise an issue with unit tests showing your proposed changes, do not pass
-     * a chainable configuration object and/or change your implementation to accept
-     * a DataStorage object instead of an array.
      *
-     * @param $LogOverseerConfig SprayFire.Config.Configuration
+     *
      * @param $LoggerFactory \SprayFire\Factory\Factory
+     * @param $config array
      */
-    public function __construct(\SprayFire\Config\Configuration $LogOverseerConfig, \SprayFire\Factory\Factory $LoggerFactory) {
-        $this->Config = $LogOverseerConfig;
+    public function __construct(\SprayFire\Factory\Factory $LoggerFactory, array $config) {
+        $this->config = $config;
         $this->Factory = $LoggerFactory;
     }
 
@@ -88,26 +77,30 @@ class LogOverseerBootstrap extends \SprayFire\Util\CoreObject implements \SprayF
     }
 
     protected function setEmergencyLogger() {
-        $object = $this->getObjectName($this->Config->emergency);
-        $blueprint = $this->getObjectBlueprint($this->Config->emergency);
+        $config = isset($this->config['emergency']) ? $this->config['emergency'] : array();
+        $object = $this->getObjectName($config);
+        $blueprint = $this->getObjectBlueprint($config);
         $this->LogDelegator->setEmergencyLogger($object, $blueprint);
     }
 
     protected function setErrorLogger() {
-        $object = $this->getObjectName($this->Config->error);
-        $blueprint = $this->getObjectBlueprint($this->Config->error);
+        $config = isset($this->config['error']) ? $this->config['error'] : array();
+        $object = $this->getObjectName($config);
+        $blueprint = $this->getObjectBlueprint($config);
         $this->LogDelegator->setErrorLogger($object, $blueprint);
     }
 
     protected function setDebugLogger() {
-        $object = $this->getObjectName($this->Config->debug);
-        $blueprint = $this->getObjectBlueprint($this->Config->debug);
+        $config = isset($this->config['debug']) ? $this->config['debug'] : array();
+        $object = $this->getObjectName($config);
+        $blueprint = $this->getObjectBlueprint($config);
         $this->LogDelegator->setDebugLogger($object, $blueprint);
     }
 
     protected function setInfoLogger() {
-        $object = $this->getObjectName($this->Config->info);
-        $blueprint = $this->getObjectBlueprint($this->Config->info);
+        $config = isset($this->config['info']) ? $this->config['info'] : array();
+        $object = $this->getObjectName($config);
+        $blueprint = $this->getObjectBlueprint($config);
         $this->LogDelegator->setInfoLogger($object, $blueprint);
     }
 
