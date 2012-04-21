@@ -29,11 +29,9 @@ namespace SprayFire\Test\Cases\Bootstrap;
 class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
 
 
-
     public function testValidConfigBootstrap() {
         $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/Config/json/test-config.json';
         $configs = array(
-            'interface' => 'SprayFire.Config.Configuration',
             array(
                 'object' => 'SprayFire.Config.ArrayConfig',
                 'data' => array('sprayfire' => 'best', 'roll' => 'tide'),
@@ -49,15 +47,15 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = $this->getNewLogDelegator();
         $Config = new \SprayFire\Config\ArrayConfig($configs, false);
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($LogDelegator, $Config);
-        $ConfigMap = $Bootstrap->runBootstrap();
+        $configObjects = $Bootstrap->runBootstrap();
 
-        $this->assertInstanceOf("\\SprayFire\\Structure\\Map\\RestrictedMap", $ConfigMap);
+        $this->assertInternalType('array', $configObjects, 'The return value from ConfigBootstrap is not an array');
 
         $ErrorLogger = $this->getErrorLogger($LogDelegator);
         $loggedMessages = $ErrorLogger->getLoggedMessages();
 
-        $SprayFireRollTide = $ConfigMap->getObject('SprayFireRollTide');
-        $PrimaryConfig = $ConfigMap->getObject('PrimaryConfig');
+        $SprayFireRollTide = $configObject['SprayFireRollTide'];
+        $PrimaryConfig = $configObject['PrimaryConfig'];
 
         $this->assertInstanceOf("\\SprayFire\\Config\\ArrayConfig", $SprayFireRollTide);
         $this->assertInstanceOf("\\SprayFire\\Config\\JsonConfig", $PrimaryConfig);
@@ -73,7 +71,7 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
         $data = array('interface' => 'SprayFire.Some.NonExistent.Interface');
         $Config = new \SprayFire\Config\ArrayConfig($data, false);
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($LogDelegator, $Config);
-        $GenericMap = $Bootstrap->runBootstrap();
+        $configObjects = $Bootstrap->runBootstrap();
 
         $ErrorLogger = $this->getErrorLogger($LogDelegator);
         $loggedMessages = $ErrorLogger->getLoggedMessages();
@@ -83,14 +81,13 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
                 'options' => array()
             )
         );
-        $this->assertInstanceOf("\\SprayFire\\Structure\\Map\\GenericMap", $GenericMap);
+        $this->assertInternalType('array', $configObjects, 'The return value from ConfigBootstrap is not an array');
         $this->assertSame($expectedLogMessages, $loggedMessages);
     }
 
     public function testInvalidConfigFilePassed() {
         $invalidConfigPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/Config/json/no-exist.json';
         $configs = array(
-            'interface' => 'SprayFire.Config.Configuration',
             array(
                 'object' => 'SprayFire.Config.ArrayConfig',
                 'data' => array('sprayfire' => 'best', 'roll' => 'tide'),
@@ -107,7 +104,7 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
 
         $Config = new \SprayFire\Config\ArrayConfig($configs, false);
         $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($LogDelegator, $Config);
-        $ConfigMap = $Bootstrap->runBootstrap();
+        $configObjects = $Bootstrap->runBootstrap();
 
         $ErrorLogger = $this->getErrorLogger($LogDelegator);
         $loggedMessages = $ErrorLogger->getLoggedMessages();
@@ -118,43 +115,8 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
                 'options' => array()
             )
         );
-        $this->assertTrue($ConfigMap->containsKey('SprayFireRollTide'));
-        $this->assertFalse($ConfigMap->containsKey('PrimaryConfig'));
-        $this->assertSame($expectedLogMessages, $loggedMessages);
-    }
-
-    public function testNoInterfaceSetInConfig() {
-        $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/Config/json/test-config.json';
-        $configs = array(
-            array(
-                'object' => 'SprayFire.Config.ArrayConfig',
-                'data' => array('sprayfire' => 'best', 'roll' => 'tide'),
-                'map-key' => 'SprayFireRollTide'
-            ),
-            array(
-                'object' => 'SprayFire.Config.JsonConfig',
-                'data' => $configPath,
-                'map-key' => 'PrimaryConfig'
-            )
-        );
-
-
-        $LogDelegator = $this->getNewLogDelegator();
-
-        $Config = new \SprayFire\Config\ArrayConfig($configs, false);
-        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($LogDelegator, $Config);
-        $ConfigMap = $Bootstrap->runBootstrap();
-
-
-        $ErrorLogger = $this->getErrorLogger($LogDelegator);
-        $loggedMessages = $ErrorLogger->getLoggedMessages();
-
-        $expectedLogMessages = array(
-            array(
-                'message' => 'The interface is not set properly in the configuration object.',
-                'options' => array()
-            )
-        );
+        $this->assertArrayHasKey('SprayFireRollTide', $configObjects);
+        $this->assertArrayNotHasKey('PrimaryConfig', $configObjects);
         $this->assertSame($expectedLogMessages, $loggedMessages);
     }
 
