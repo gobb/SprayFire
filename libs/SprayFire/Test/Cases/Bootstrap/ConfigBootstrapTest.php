@@ -31,16 +31,19 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidConfigBootstrap() {
         $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/Config/json/test-config.json';
+        $objectIndex = \SprayFire\Bootstrap\ConfigBootstrap::OBJECT_INDEX;
+        $dataIndex = \SprayFire\Bootstrap\ConfigBootstrap::DATA_INDEX;
+        $mapKeyIndex = \SprayFire\Bootstrap\ConfigBootstrap::MAP_KEY_INDEX;
         $configs = array(
             array(
-                'object' => 'SprayFire.Config.ArrayConfig',
-                'data' => array('sprayfire' => 'best', 'roll' => 'tide'),
-                'map-key' => 'SprayFireRollTide'
+                $objectIndex => 'SprayFire.Config.ArrayConfig',
+                $dataIndex => array('sprayfire' => 'best', 'roll' => 'tide'),
+                $mapKeyIndex => 'SprayFireRollTide'
             ),
             array(
-                'object' => 'SprayFire.Config.JsonConfig',
-                'data' => $configPath,
-                'map-key' => 'PrimaryConfig'
+                $objectIndex => 'SprayFire.Config.JsonConfig',
+                $dataIndex => $configPath,
+                $mapKeyIndex => 'PrimaryConfig'
             )
         );
 
@@ -67,16 +70,19 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
 
     public function testInvalidConfigFilePassed() {
         $invalidConfigPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/app/TestApp/Config/json/no-exist.json';
+        $objectIndex = \SprayFire\Bootstrap\ConfigBootstrap::OBJECT_INDEX;
+        $dataIndex = \SprayFire\Bootstrap\ConfigBootstrap::DATA_INDEX;
+        $mapKeyIndex = \SprayFire\Bootstrap\ConfigBootstrap::MAP_KEY_INDEX;
         $configs = array(
             array(
-                'object' => 'SprayFire.Config.ArrayConfig',
-                'data' => array('sprayfire' => 'best', 'roll' => 'tide'),
-                'map-key' => 'SprayFireRollTide'
+                $objectIndex => 'SprayFire.Config.ArrayConfig',
+                $dataIndex => array('sprayfire' => 'best', 'roll' => 'tide'),
+                $mapKeyIndex => 'SprayFireRollTide'
             ),
             array(
-                'object' => 'SprayFire.Config.JsonConfig',
-                'data' => $invalidConfigPath,
-                'map-key' => 'PrimaryConfig'
+                $objectIndex => 'SprayFire.Config.JsonConfig',
+                $dataIndex => $invalidConfigPath,
+                $mapKeyIndex => 'PrimaryConfig'
             )
         );
 
