@@ -1,6 +1,5 @@
 {
     "SprayFire": {
-        "version": "0.1.0-alpha",
         "session-handler": {
             "bootstrap": "on",
             "handler": "SprayFire.Session.SessionHandler",
