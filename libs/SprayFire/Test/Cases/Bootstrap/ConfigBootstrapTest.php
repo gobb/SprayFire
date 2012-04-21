@@ -54,8 +54,8 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
         $ErrorLogger = $this->getErrorLogger($LogDelegator);
         $loggedMessages = $ErrorLogger->getLoggedMessages();
 
-        $SprayFireRollTide = $configObject['SprayFireRollTide'];
-        $PrimaryConfig = $configObject['PrimaryConfig'];
+        $SprayFireRollTide = $configObjects['SprayFireRollTide'];
+        $PrimaryConfig = $configObjects['PrimaryConfig'];
 
         $this->assertInstanceOf("\\SprayFire\\Config\\ArrayConfig", $SprayFireRollTide);
         $this->assertInstanceOf("\\SprayFire\\Config\\JsonConfig", $PrimaryConfig);
@@ -63,26 +63,6 @@ class ConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('tide', $SprayFireRollTide->roll);
         $this->assertSame('Roll Tide!', $PrimaryConfig->app->{'deep-one'}->{'deep-two'}->{'deep-three'}->value);
         $this->assertEmpty($loggedMessages);
-    }
-
-    public function testInvalidConfigBootstrapWithNonExistentInterface() {
-        $LogDelegator = $this->getNewLogDelegator();
-
-        $data = array('interface' => 'SprayFire.Some.NonExistent.Interface');
-        $Config = new \SprayFire\Config\ArrayConfig($data, false);
-        $Bootstrap = new \SprayFire\Bootstrap\ConfigBootstrap($LogDelegator, $Config);
-        $configObjects = $Bootstrap->runBootstrap();
-
-        $ErrorLogger = $this->getErrorLogger($LogDelegator);
-        $loggedMessages = $ErrorLogger->getLoggedMessages();
-        $expectedLogMessages = array(
-            array(
-                'message' => 'The type passed, \\SprayFire\\Some\\NonExistent\\Interface, could not be found or loaded.',
-                'options' => array()
-            )
-        );
-        $this->assertInternalType('array', $configObjects, 'The return value from ConfigBootstrap is not an array');
-        $this->assertSame($expectedLogMessages, $loggedMessages);
     }
 
     public function testInvalidConfigFilePassed() {
