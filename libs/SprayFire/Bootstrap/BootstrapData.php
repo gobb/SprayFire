@@ -11,7 +11,7 @@ namespace SprayFire\Bootstrap;
 /**
  * @uses SprayFire.Config.ArrayConfig
  */
-class BootstrapData extends \SprayFire\Config\ArrayConfig {
+class BootstrapData {
 
     /**
      * @brief An associative array of directory paths to set in a PathGenerator
@@ -29,6 +29,14 @@ class BootstrapData extends \SprayFire\Config\ArrayConfig {
     protected $primaryConfig;
 
     /**
+     * @brief An array of configuration data to be used by the PrimaryBootstrap
+     * and the Bootstrapper objects it instantiates.
+     *
+     * @var $masterData
+     */
+    protected $masterData;
+
+    /**
      * @param $primaryConfigPath The complete path to the primary configuraiton file
      * @param $directoryPaths An array of complete paths to set in a SprayFire.Core.PathGenerator
      *        implementation
@@ -39,14 +47,40 @@ class BootstrapData extends \SprayFire\Config\ArrayConfig {
             $this->primaryConfig = include $primaryConfigPath;
         }
         $this->directoryPaths = $directoryPaths;
-        $convertDeep = false;
-        parent::__construct($this->gatherMasterData(), $convertDeep);
+        $this->setMasterData();
+    }
+
+    /**
+     * @param $property string
+     */
+    public function __get($property) {
+
+    }
+
+    /**
+     * @param $property string
+     */
+    public function __isset($property) {
+
+    }
+
+    /**
+     * @param $property string
+     * @param $value mixed
+     * @throws SprayFire.Exception.UnsupportedOperationException
+     */
+    public function __set($property, $value) {
+        throw new \SprayFire\Exception\UnsupportedOperationException('This method cannot be invoked on this object');
+    }
+
+    public function __unset($property) {
+        throw new \SprayFire\Exception\UnsupportedOperationException('This method cannot be invoked on this object');
     }
 
     /**
      * @return An array of data to be used by various bootstrap objects
      */
-    protected function gatherMasterData() {
+    protected function setMasterData() {
         $masterData = array();
         $masterData['PathGenBootstrap'] = $this->directoryPaths;
         if (!empty($this->primaryConfig)) {
@@ -58,7 +92,7 @@ class BootstrapData extends \SprayFire\Config\ArrayConfig {
             $masterData['IniBootstrap'] = array();
             $masterData['LoggingBootstrap'] = array();
         }
-        return $masterData;
+        $this->masterData = $masterData;
     }
 
 }
