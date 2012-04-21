@@ -35,17 +35,17 @@ class ConfigBootstrap extends \SprayFire\Util\UtilObject implements \SprayFire\B
     /**
      * @brief Used as a key in the configuration passed in constructor
      */
-    const OBJECT_INDEX = '';
+    const OBJECT_INDEX = 'object';
 
     /**
      * @brief Used as a key in the configuration passed in constructor
      */
-    const DATA_INDEX = '';
+    const DATA_INDEX = 'data';
 
     /**
      * @brief Used as a key in the configuration passed in constructor
      */
-    const MAP_KEY_INDEX = '';
+    const MAP_KEY_INDEX = 'mapKey';
 
     /**
      * @brief A SprayFire.Logging.LogOverseer used to store messages.
