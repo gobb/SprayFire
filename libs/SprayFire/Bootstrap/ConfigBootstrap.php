@@ -105,7 +105,7 @@ class ConfigBootstrap extends \SprayFire\Util\UtilObject implements \SprayFire\B
                 continue;
             }
             try {
-                $data = $info['data'];
+                $data = $info[self::DATA_INDEX];
                 if (\is_array($data)) {
                     $argument = $data;
                 } else {
@@ -114,10 +114,10 @@ class ConfigBootstrap extends \SprayFire\Util\UtilObject implements \SprayFire\B
                     }
                     $argument = new \SplFileInfo($data);
                 }
-                $object = $this->convertJavaClassToPhpClass($info['object']);
-                $this->configObjects[$info['map-key']] = new $object($argument);
+                $object = $this->convertJavaClassToPhpClass($info[self::OBJECT_INDEX]);
+                $this->configObjects[$info[self::MAP_KEY_INDEX]] = new $object($argument);
             } catch (\InvalidArgumentException $InvalArgExc) {
-                $this->Logger->logError('Unable to instantiate the Configuration object, ' . $info['map-key'] . ', or it does not implement Object interface.');
+                $this->Logger->logError('Unable to instantiate the Configuration object, ' . $info[self::MAP_KEY_INDEX] . ', or it does not implement Object interface.');
             }
         }
     }
