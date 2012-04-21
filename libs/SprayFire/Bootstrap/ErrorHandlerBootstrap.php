@@ -82,10 +82,10 @@ class ErrorHandlerBootstrap extends \SprayFire\Util\UtilObject implements \Spray
      * @param $LogOverseer SprayFire.Logging.LogOverseer
      * @param $Config SprayFire.Config.Configuration
      */
-    public function __construct(\SprayFire\Logging\LogOverseer $LogOverseer, \SprayFire\Config\Configuration $Config) {
+    public function __construct(\SprayFire\Logging\LogOverseer $LogOverseer, array $config) {
         $this->LogOverseer = $LogOverseer;
-        $this->handler = $this->convertJavaClassToPhpClass($Config->handler);
-        $this->method = $Config->method;
+        $this->handler = $this->convertJavaClassToPhpClass($config['handler']);
+        $this->method = $config['method'];
     }
 
     /**
