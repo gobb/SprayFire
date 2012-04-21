@@ -90,11 +90,11 @@ class BootstrapData {
         $masterData = array();
         $masterData['PathGenBootstrap'] = $this->directoryPaths;
         if (!empty($this->primaryConfig)) {
-            $masterData['ConfigBootstrap'] = $this->primaryConfig['configData'];
+            $masterData['ConfigData'] = $this->primaryConfig['configData'];
             $masterData['IniBootstrap'] = $this->primaryConfig['iniSettings'];
             $masterData['LoggingBootstrap'] = $this->primaryConfig['loggerData'];
         } else {
-            $masterData['ConfigBootstrap'] = array();
+            $masterData['ConfigData'] = array();
             $masterData['IniBootstrap'] = array();
             $masterData['LoggingBootstrap'] = array();
         }

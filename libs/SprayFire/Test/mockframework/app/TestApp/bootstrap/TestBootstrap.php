@@ -24,15 +24,6 @@ namespace tests\mockframework\app\bootstrap;
  */
 class TestBootstrap implements \libs\sprayfire\interfaces\Bootstrapper {
 
-    private $ConfigurationObject;
-
-    public function __construct(\libs\sprayfire\interfaces\Configuration $TestConfiguration) {
-        $this->ConfigurationObject = $TestConfiguration;
-    }
-
-    public function runBootstrap() {
-        $this->ConfigurationObject->write('TestBootstrap', true);
-    }
 
 }
 

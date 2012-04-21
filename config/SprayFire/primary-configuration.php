@@ -1,22 +1,25 @@
 <?php
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// The below variables can be changed to adjust the implementation details
-// of the framework's initialization process.
-//
-// Please note that changing the names of variables in this file will have horrible
-// awful consequences that probably entails some things failing horribly.  Please
-// do not modify any variable names, add any variables or otherwise modify this
-// code outside of the values of the variables you see below.
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/*
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   The below variables can be changed to adjust the implementation details
+   of the framework's initialization process.
 
+   Please note that changing the names of variables in this file will have horrible
+   awful consequences that probably entails some things failing horribly.  Please
+   do not modify any variable names, add any variables or otherwise modify this
+   code outside of the values of the variables you see below.
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// APP CONFIGURATION AND INI SETTINGS
-// This section allows you to set the development mode for your apps and will
-// determine the values for various ini configuration settings that SprayFire will
-// set during bootstrapping procedures.
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/*
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   APP CONFIGURATION AND INI SETTINGS
+   This section allows you to set the development mode for your apps and will
+   determine the values for various ini configuration settings that SprayFire will
+   set during bootstrapping procedures.
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/
 
 /**
  * @brief Set to true to enable error display and other development ini settings
@@ -69,32 +72,18 @@ $developmentIniSettings['display_errors'] = 1;
 $developmentIniSettings['display_startup_errors'] = 1;
 $developmentIniSettings['error_reporting'] = -1;
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// CONFIGURATION BOOTSTRAP DETAILS
-// The below variables hold the information needed by the LoggerBootstrap to
-// properly create the appropriate configuration objects needed to get SprayFire
-// initialized.  It is important to note that these are only configuration files
-// needed by SprayFire, adding to these values will not influence the configuration
-// objects available to your app.  Configuration objects you would like in your
-// app should be returned by your app's own `Bootstrapper::runBootstrap()`.
-//
-// For more information about the
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/*
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   CONFIGURATION FILE PATHS DETAILS
+   The below variables hold the relative path to various configuration files used
+   by SprayFire.  Please see SprayFire.Core.Directory to see how these variables
+   are interpreted into the appropriate complete path.
 
-/**
- * @brief A PHP or Java-style namespaced interface that configuration objects should
- * implement.
- *
- * @details
- * While this should generally be an interface an abstract or concrete class type
- * may be set.  However setting to a more concrete implementation will ruin any kind
- * of polymorphism that is possible with an interface.  Either way, do not change
- * the name of this variable.
- *
- * @var $configInterface
- * @see SprayFire.Bootstrap.ConfigBootstrap
- */
-$configInterface = 'SprayFire.Config.Configuration';
+   Please note that only configuration files used by SprayFire should be included
+   here. If you would like to create your own app specific configuration you should
+   be doing so in your app.
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/
 
 /**
  * @brief This file should be located in the \a $configPath
@@ -106,15 +95,7 @@ $configInterface = 'SprayFire.Config.Configuration';
  * @var $sprayfireConfigFile
  * @see http://github.com/cspray/SprayFire/wiki/Directory-Structure
  */
-$sprayFireConfigFile = array('SprayFire', 'bootstrap-setup.json');
-
-/**
- * @brief PHP or Java-style class name for the configuration object to be created
- * hoding \a $sprayFireConfigFile
- *
- * @var $sprayFireConfigObject
- */
-$sprayFireConfigObject = 'SprayFire.Config.JsonConfig';
+$sprayFireSettingsFile = array('SprayFire', 'settings.json');
 
 /**
  * @brief The name of the key that will be used to store \a $sprayFireConfigObject
@@ -122,7 +103,7 @@ $sprayFireConfigObject = 'SprayFire.Config.JsonConfig';
  *
  * @var $sprayFireConfigMapKey
  */
-$sprayFireConfigMapKey = 'SprayFireConfig';
+$sprayFireSettingsMapKey = 'SprayFireSettings';
 
 /**
  * @brief Sub-directory and file name for the SprayFire routes configuration file.
@@ -135,14 +116,6 @@ $sprayFireConfigMapKey = 'SprayFireConfig';
 $routesConfigFile = array('SprayFire', 'routes.json');
 
 /**
- * @brief A PHP or Java-style namespaced class used to hold the configuration data
- * from \a $routesConfigFile
- *
- * @var $routesConfigObject
- */
-$routesConfigObject = 'SprayFire.Config.JsonConfig';
-
-/**
  * @brief The name of the key used to store \a $routesConfigObject in the SprayFire.Structure.ObjectMap
  * returned by SprayFire.Bootstrap.ConfigBootstrap.
  *
@@ -150,39 +123,21 @@ $routesConfigObject = 'SprayFire.Config.JsonConfig';
  */
 $routesConfigMapKey = 'RoutesConfig';
 
-/**
- * @brief This file should be located in the \a $configPath
- *
- * @var $pluginsConfigFile sub-directory and file name for plugins loaded in this app
- */
-$pluginsConfigFile = array('json', 'plugins.json');
+/*
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   LOGGING BOOTSTRAP DETAILS
 
-/**
- * @brief A PHP or Java-style namespaced class to hold the configuration data
- * from \a $pluginsConfigFile
- *
- * @var $pluginsConfigObject
- */
-$pluginsConfigObject = 'SprayFire.Config.JsonConfig';
+   The below configuration values define the logging objects that should be used
+   for various levels of logging.
 
-/**
- * @brief The name of the key used to store \a $pluginsConfigObject in the
- * SprayFire.Structures.ObjectMap returned by SprayFire.Bootstrap.ConfigBootstrap.
- *
- * @var $pluginsConfigMapKey
- */
-$pluginsConfigMapKey = 'PluginsConfig';
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// CONFIGURATION FILE PATHS DETAILS
-// The below variables hold the relative path to various configuration files used
-// by SprayFire.  Please see SprayFire.Core.Directory to see how these variables
-// are interpreted into the appropriate complete path.
-//
-// Please note that only configuration files used by SprayFire should be included
-// here. If you would like to create your own app specific configuration you should
-// be doing so in your app.
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/
+
 
 /**
  * @brief PHP or Java-style namespaced class to log emergency level messages
@@ -253,22 +208,14 @@ $iniSettings['production'] = $productionIniSettings;
 $iniSettings['development'] = $developmentIniSettings;
 
 $sprayFireConfig = array();
-$sprayFireConfig['data'] = $sprayFireConfigFile;
-$sprayFireConfig['object'] = $sprayFireConfigObject;
-$sprayFireConfig['map-key'] = $sprayFireConfigMapKey;
+$sprayFireConfig['file'] = $sprayFireSettingsFile;
+$sprayFireConfig['map-key'] = $sprayFireSettingsMapKey;
 $routesConfig = array();
-$routesConfig['data'] = $routesConfigFile;
-$routesConfig['object'] = $routesConfigObject;
+$routesConfig['file'] = $routesConfigFile;
 $routesConfig['map-key'] = $routesConfigMapKey;
-$pluginsConfig = array();
-$pluginsConfig['data'] = $pluginsConfigFile;
-$pluginsConfig['object'] = $pluginsConfigObject;
-$pluginsConfig['map-key'] = $pluginsConfigMapKey;
 $configData = array();
-$configData['interface'] = $configInterface;
 $configData['sprayFireConfig'] = $sprayFireConfig;
 $configData['routesConfig'] = $routesConfig;
-$configData['pluginsConfig'] = $pluginsConfig;
 
 $loggerData = array();
 $loggerData['emergency'] = array();
