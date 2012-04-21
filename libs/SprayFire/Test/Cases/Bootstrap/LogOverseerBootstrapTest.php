@@ -35,9 +35,8 @@ class LogOverseerBootstrapTest extends \PHPUnit_Framework_TestCase {
                 'blueprint' => array()
             )
         );
-        $ConfigObject = new \SprayFire\Config\ArrayConfig($config);
         $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
-        $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($ConfigObject, $LoggerFactory);
+        $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($LoggerFactory, $config);
         $LogDelegator = $LoggerBootstrap->runBootstrap();
 
         $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\LogDelegator", $LogDelegator);
@@ -64,9 +63,8 @@ class LogOverseerBootstrapTest extends \PHPUnit_Framework_TestCase {
                 'blueprint' => array($InfoFileObject)
             )
         );
-        $ConfigObject = new \SprayFire\Config\ArrayConfig($config, false);
         $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
-        $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($ConfigObject, $LoggerFactory);
+        $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($LoggerFactory, $config);
         $LogDelegator = $LoggerBootstrap->runBootstrap();
 
         $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\LogDelegator", $LogDelegator);
@@ -92,9 +90,8 @@ class LogOverseerBootstrapTest extends \PHPUnit_Framework_TestCase {
                 'blueprint' => array()
             )
         );
-        $ConfigObject = new \SprayFire\Config\ArrayConfig($config, false);
         $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
-        $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($ConfigObject, $LoggerFactory);
+        $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($LoggerFactory, $config);
         $LogDelegator = $LoggerBootstrap->runBootstrap();
 
         $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\LogDelegator", $LogDelegator);
