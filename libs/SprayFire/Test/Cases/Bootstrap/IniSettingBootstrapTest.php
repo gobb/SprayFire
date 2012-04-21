@@ -38,7 +38,7 @@ class IniConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
         $arrayConfig['assert.active'] = 1;
         $arrayConfig['expose_php'] = 1;
 
-        $Bootstrap = new \SprayFire\Bootstrap\IniConfigBootstrap($arrayConfig);
+        $Bootstrap = new \SprayFire\Bootstrap\IniSettingBootstrap($arrayConfig);
         $Bootstrap->runBootstrap();
 
         $dateTimezone = \ini_get('date.timezone');
