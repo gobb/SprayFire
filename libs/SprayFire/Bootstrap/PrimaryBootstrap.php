@@ -31,7 +31,16 @@ class PrimaryBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\
     }
 
     public function runBootstrap() {
-        return new \SprayFire\Structure\Map\GenericMap();
+        $Container = new \SprayFire\Structure\Map\GenericMap();
+        $PathGenerator = $this->runPathGeneratorBootstrap();
+        $Container->setObject('PathGenerator', $PathGenerator);
+        return $Container;
+    }
+
+    protected function runPathGeneratorBootstrap() {
+        $data = $this->Data->PathGenBootstrap;
+        $Bootstrap = new \SprayFire\Bootstrap\PathGeneratorBootstrap($data);
+        return $Bootstrap->runBootstrap();
     }
 
 }
