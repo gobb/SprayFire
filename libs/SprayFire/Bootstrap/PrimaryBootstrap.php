@@ -23,6 +23,8 @@ class PrimaryBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\
 
     protected $PathGenerator;
 
+    protected $LogOverseer;
+
     /**
      * @brief
      *
@@ -52,7 +54,7 @@ class PrimaryBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\
         $data['info']['blueprint'] = array($this->getFileInfoObjectForInfoLogger($data));
         $Factory = new \SprayFire\Logging\Logifier\LoggerFactory();
         $Bootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($Factory, $data);
-        return $Bootstrap->runBootstrap();
+        $this->LogOverseer = $Bootstrap->runBootstrap();
     }
 
     protected function getFileInfoObjectForDebugLogger(array $data) {
