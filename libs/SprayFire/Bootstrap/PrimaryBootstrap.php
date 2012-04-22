@@ -31,7 +31,7 @@ class PrimaryBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\
     }
 
     public function runBootstrap() {
-        
+        return new \SprayFire\Structure\Map\GenericMap();
     }
 
 }
