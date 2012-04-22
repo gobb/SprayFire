@@ -19,6 +19,7 @@ class PrimaryBootstrapTest extends \PHPUnit_Framework_TestCase {
         $paths = \compact('installPath', 'libsPath', 'configPath', 'appPath', 'logsPath', 'webPath');
         $Data = new \SprayFire\Bootstrap\BootstrapData($configFile, $paths);
         $Bootstrap = new \SprayFire\Bootstrap\PrimaryBootstrap($Data);
+        $Bootstrap->runBootstrap();
     }
 
 
