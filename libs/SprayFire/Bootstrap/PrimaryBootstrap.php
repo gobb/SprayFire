@@ -21,8 +21,18 @@ class PrimaryBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\
      */
     protected $Data;
 
+    /**
+     * @brief SprayFire.PathGenerator implemenation created by the PathGeneratorBootstrap
+     *
+     * @var $PathGenerator
+     */
     protected $PathGenerator;
 
+    /**
+     * @brief SprayFire.Logging.LogOverseer implementation created by the LogOverseerBootstrap
+     *
+     * @var $LogOverseer
+     */
     protected $LogOverseer;
 
     /**
@@ -44,13 +54,13 @@ class PrimaryBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\
     }
 
     protected function runPathGeneratorBootstrap() {
-        $data = $this->Data->PathGenBootstrap;
+        $data = $this->Data->PathGeneratorBootstrap;
         $Bootstrap = new \SprayFire\Bootstrap\PathGeneratorBootstrap($data);
         $this->PathGenerator = $Bootstrap->runBootstrap();
     }
 
     protected function runLogOverseerBootstrap() {
-        $data = $this->Data->LoggingBootstrap;
+        $data = $this->Data->LogOverseerBootstrap;
         $data['debug']['blueprint'] = array($this->getFileInfoObjectForDebugLogger($data));
         $data['info']['blueprint'] = array($this->getFileInfoObjectForInfoLogger($data));
         $Factory = new \SprayFire\Logging\Logifier\LoggerFactory();

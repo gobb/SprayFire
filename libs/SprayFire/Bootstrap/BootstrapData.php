@@ -88,15 +88,15 @@ class BootstrapData {
      */
     protected function setMasterData() {
         $masterData = array();
-        $masterData['PathGenBootstrap'] = $this->directoryPaths;
+        $masterData['PathGeneratorBootstrap'] = $this->directoryPaths;
         if (!empty($this->primaryConfig)) {
-            $masterData['ConfigData'] = $this->primaryConfig['configData'];
-            $masterData['IniBootstrap'] = $this->primaryConfig['iniSettings'];
-            $masterData['LoggingBootstrap'] = $this->primaryConfig['loggerData'];
+            $masterData['configData'] = $this->primaryConfig['configData'];
+            $masterData['IniSettingsBootstrap'] = $this->primaryConfig['iniSettings'];
+            $masterData['LogOverseerBootstrap'] = $this->primaryConfig['loggerData'];
         } else {
-            $masterData['ConfigData'] = array();
-            $masterData['IniBootstrap'] = array();
-            $masterData['LoggingBootstrap'] = array();
+            $masterData['configData'] = array();
+            $masterData['IniSettingsBootstrap'] = array();
+            $masterData['LogOverseerBootstrap'] = array();
         }
         $this->masterData = $masterData;
     }
