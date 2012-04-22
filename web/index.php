@@ -139,6 +139,8 @@ $ClassLoader->setAutoloader();
 $directoryPaths = \compact('installPath', 'libsPath', 'configPath', 'appPath', 'logsPath', 'webPath');
 $primaryConfigPath = $configPath . '/SprayFire/primary-configuration.php';
 $BootstrapData = new \SprayFire\Bootstrap\BootstrapData($primaryConfigPath, $directoryPaths);
+$PrimaryBootstrap = new \SprayFire\Bootstrap\PrimaryBootstrap($BootstrapData);
+$SprayFireContainer = $PrimaryBootstrap->runBootstrap();
 
 /**
  * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.
@@ -146,11 +148,11 @@ $BootstrapData = new \SprayFire\Bootstrap\BootstrapData($primaryConfigPath, $dir
 
 // NOTE: The below code is a temporary measure until the templating system is in place
 
-//$PathGenerator = $SprayFireContainer->getObject('PathGenerator');
+$PathGenerator = $SprayFireContainer->getObject('PathGenerator');
 //$PrimaryConfig = $SprayFireContainer->getObject('PrimaryConfig');
 
-//$styleCss = $PathGenerator->getUrlPath('css','sprayfire.style.css');
-//$sprayFireLogo = $PathGenerator->getUrlPath('images', 'sprayfire-logo-bar-75.png');
+$styleCss = $PathGenerator->getUrlPath('css','sprayfire.style.css');
+$sprayFireLogo = $PathGenerator->getUrlPath('images', 'sprayfire-logo-bar-75.png');
 
 echo <<<HTML
 <!DOCTYPE html>
