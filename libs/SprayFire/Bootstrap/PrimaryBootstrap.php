@@ -11,7 +11,7 @@ namespace SprayFire\Bootstrap;
 /**
  * @brief
  */
-class PrimaryBootstrap extends \SprayFire\Util\CoreObject {
+class PrimaryBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
      * @brief SprayFire.Bootstrap.BootstrapData object passed from constructor
@@ -28,6 +28,10 @@ class PrimaryBootstrap extends \SprayFire\Util\CoreObject {
      */
     public function __construct(\SprayFire\Bootstrap\BootstrapData $Data) {
         $this->Data = $Data;
+    }
+
+    public function runBootstrap() {
+        
     }
 
 }
