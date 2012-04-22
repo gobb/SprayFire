@@ -25,6 +25,8 @@ class PrimaryBootstrapTest extends \PHPUnit_Framework_TestCase {
         $PathGenerator = $SprayFireContainer->getObject('PathGenerator');
         $this->assertInstanceOf('\\SprayFire\\Util\\Directory', $PathGenerator);
         $this->assertTrue($SprayFireContainer->containsKey('LogOverseer'), 'The SprayFireContainer does not contain a LogOverseer');
+        $LogOverseer = $SprayFireContainer->getObject('LogOverseer');
+        $this->assertInstanceOf('\\SprayFire\\Logging\\Logifier\\LogDelegator', $LogOverseer);
     }
 
 
