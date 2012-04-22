@@ -37,8 +37,9 @@ class PrimaryBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\
     public function runBootstrap() {
         $Container = new \SprayFire\Structure\Map\GenericMap();
         $this->runPathGeneratorBootstrap();
+        $this->runLogOverseerBootstrap();
         $Container->setObject('PathGenerator', $this->PathGenerator);
-        $Container->setObject('LogOverseer', $this->runLogOverseerBootstrap());
+        $Container->setObject('LogOverseer', $this->LogOverseer);
         return $Container;
     }
 
