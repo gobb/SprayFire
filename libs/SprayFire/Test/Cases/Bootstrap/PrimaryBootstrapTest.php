@@ -22,6 +22,9 @@ class PrimaryBootstrapTest extends \PHPUnit_Framework_TestCase {
         $SprayFireContainer = $Bootstrap->runBootstrap();
         $this->assertInstanceOf('\\SprayFire\\Structure\\Map\\GenericMap', $SprayFireContainer, 'The SprayFireContainer is not a GenericMap');
         $this->assertTrue($SprayFireContainer->containsKey('PathGenerator'), 'The SprayFireContainer does not contain a PathGenerator');
+        $PathGenerator = $SprayFireContainer->getObject('PathGenerator');
+        $this->assertInstanceOf('\\SprayFire\\Util\\Directory', $PathGenerator);
+        $this->assertTrue($SprayFireContainer->containsKey('LogOverseer'), 'The SprayFireContainer does not contain a LogOverseer');
     }
 
 
