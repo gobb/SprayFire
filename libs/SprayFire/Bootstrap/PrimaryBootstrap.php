@@ -21,6 +21,8 @@ class PrimaryBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\
      */
     protected $Data;
 
+    protected $PathGenerator;
+
     /**
      * @brief
      *
@@ -32,15 +34,37 @@ class PrimaryBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\
 
     public function runBootstrap() {
         $Container = new \SprayFire\Structure\Map\GenericMap();
-        $PathGenerator = $this->runPathGeneratorBootstrap();
-        $Container->setObject('PathGenerator', $PathGenerator);
+        $this->runPathGeneratorBootstrap();
+        $Container->setObject('PathGenerator', $this->PathGenerator);
+        $Container->setObject('LogOverseer', $this->runLogOverseerBootstrap());
         return $Container;
     }
 
     protected function runPathGeneratorBootstrap() {
         $data = $this->Data->PathGenBootstrap;
         $Bootstrap = new \SprayFire\Bootstrap\PathGeneratorBootstrap($data);
+        $this->PathGenerator = $Bootstrap->runBootstrap();
+    }
+
+    protected function runLogOverseerBootstrap() {
+        $data = $this->Data->LoggingBootstrap;
+        $data['debug']['blueprint'] = array($this->getFileInfoObjectForDebugLogger($data));
+        $data['info']['blueprint'] = array($this->getFileInfoObjectForInfoLogger($data));
+        $Factory = new \SprayFire\Logging\Logifier\LoggerFactory();
+        $Bootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($Factory, $data);
         return $Bootstrap->runBootstrap();
+    }
+
+    protected function getFileInfoObjectForDebugLogger(array $data) {
+        $fileName = $data['debug']['blueprint'];
+        $path = $this->PathGenerator->getLogsPath($fileName);
+        return new \SplFileInfo($path);
+    }
+
+    protected function getFileInfoObjectForInfoLogger(array $data) {
+        $fileName = $data['info']['blueprint'];
+        $path = $this->PathGenerator->getLogsPath($fileName);
+        return new \SplFileInfo($path);
     }
 
 }
