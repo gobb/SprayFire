@@ -2,7 +2,8 @@
 
 /**
  * @file
- * @brief
+ * @brief Will instantiate and run other bootstraps, creating a DI container
+ * for SprayFire components.
  */
 
 namespace SprayFire\Bootstrap;
