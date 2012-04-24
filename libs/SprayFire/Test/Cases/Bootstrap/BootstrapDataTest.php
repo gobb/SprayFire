@@ -26,7 +26,7 @@ class BootstrapDataTest extends \PHPUnit_Framework_TestCase {
         $BootstrapData = new \SprayFire\Bootstrap\BootstrapData($primaryConfig, $paths);
 
         $expectedDirectoryBootstrapData = $paths;
-        $actualDirectoryBootstrapData = $BootstrapData->PathGenBootstrap;
+        $actualDirectoryBootstrapData = $BootstrapData->PathGeneratorBootstrap;
 
         $expectedIniBootstrapData = array();
         $expectedIniBootstrapData['global'] = array();
@@ -45,14 +45,14 @@ class BootstrapDataTest extends \PHPUnit_Framework_TestCase {
         $expectedIniBootstrapData['development']['display_errors'] = 1;
         $expectedIniBootstrapData['development']['display_startup_errors'] = 1;
         $expectedIniBootstrapData['development']['error_reporting'] = -1;
-        $actualIniBootstrapData = $BootstrapData->IniBootstrap;
+        $actualIniBootstrapData = $BootstrapData->IniSettingsBootstrap;
 
         $expectedConfigBootstrapData = array();
         $expectedConfigBootstrapData['sprayFireConfig']['file'] = array('SprayFire', 'settings.json');
         $expectedConfigBootstrapData['sprayFireConfig']['map-key'] = 'SprayFireSettings';
         $expectedConfigBootstrapData['routesConfig']['file'] = array('SprayFire', 'routes.json');
         $expectedConfigBootstrapData['routesConfig']['map-key'] = 'RoutesConfig';
-        $actualConfigBootstrapData = $BootstrapData->ConfigData;
+        $actualConfigBootstrapData = $BootstrapData->configData;
 
         $expectedLoggingBootstrapData = array();
         $expectedLoggingBootstrapData['emergency'] = array();
@@ -66,7 +66,7 @@ class BootstrapDataTest extends \PHPUnit_Framework_TestCase {
         $expectedLoggingBootstrapData['debug']['blueprint'] = array('sprayfire-debug.txt');
         $expectedLoggingBootstrapData['info']['object'] = 'SprayFire.Logging.Logifier.FileLogger';
         $expectedLoggingBootstrapData['info']['blueprint'] = array('sprayfire-info.txt');
-        $actualLoggingBootstrapData = $BootstrapData->LoggingBootstrap;
+        $actualLoggingBootstrapData = $BootstrapData->LogOverseerBootstrap;
 
         $this->assertSame($expectedDirectoryBootstrapData, $actualDirectoryBootstrapData);
         $this->assertSame($expectedConfigBootstrapData, $actualConfigBootstrapData);
@@ -78,10 +78,10 @@ class BootstrapDataTest extends \PHPUnit_Framework_TestCase {
         $primaryConfig = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/config/primary-configuration-test-no-exist.php';
         $paths = array();
         $BootstrapData = new \SprayFire\Bootstrap\BootstrapData($primaryConfig, $paths);
-        $this->assertSame(array(), $BootstrapData->PathGenBootstrap);
-        $this->assertSame(array(), $BootstrapData->ConfigData);
-        $this->assertSame(array(), $BootstrapData->LoggingBootstrap);
-        $this->assertSame(array(), $BootstrapData->IniBootstrap);
+        $this->assertSame(array(), $BootstrapData->PathGeneratorBootstrap);
+        $this->assertSame(array(), $BootstrapData->configData);
+        $this->assertSame(array(), $BootstrapData->LogOverseerBootstrap);
+        $this->assertSame(array(), $BootstrapData->IniSettingsBootstrap);
     }
 
 
