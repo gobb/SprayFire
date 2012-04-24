@@ -79,6 +79,10 @@ class BootstrapData {
         throw new \SprayFire\Exception\UnsupportedOperationException('This method cannot be invoked on this object');
     }
 
+    /**
+     * @param $property string
+     * @throws SprayFire.Exception.UnsupportedOperationException
+     */
     public function __unset($property) {
         throw new \SprayFire\Exception\UnsupportedOperationException('This method cannot be invoked on this object');
     }
