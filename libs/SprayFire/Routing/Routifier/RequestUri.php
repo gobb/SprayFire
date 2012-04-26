@@ -82,7 +82,11 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
     protected function setFragments() {
         $parsedUri = $this->parsedUri;
         $controller = \array_shift($parsedUri);
-        
+        $this->controllerFragment = $controller;
+        $action = \array_shift($parsedUri);
+        $this->actionFragment = $action;
+        $parameters = $parsedUri;
+        $this->parameters = $parameters;
     }
 
     protected function removeLeadingForwardSlash($uri) {
@@ -101,14 +105,14 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
      * @return string
      */
     public function getControllerFragment() {
-
+        return $this->controllerFragment;
     }
 
     /**
      * @return string
      */
     public function getActionFragment() {
-
+        return $this->actionFragment;
     }
 
 
@@ -117,14 +121,14 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
      * @return string
      */
     public function getParameters() {
-
+        return $this->parameters;
     }
 
     /**
      * @return string
      */
     public function getRequestedUri() {
-
+        return $this->uri;
     }
 
 }
