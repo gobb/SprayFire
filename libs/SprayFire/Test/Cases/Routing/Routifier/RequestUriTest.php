@@ -58,6 +58,21 @@ class RequestUriTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($uri, $requestedUri);
     }
 
+    public function testOnlyParametersAllMarked() {
+        $uri = '/sprayfire/:something/:you/:should/:expect_in_default_controller';
+        $root = 'sprayfire';
+        $RequestUri = new \SprayFire\Routing\Routifier\RequestUri($uri, $root);
+        $controller = $RequestUri->getControllerFragment();
+        $action = $RequestUri->getActionFragment();
+        $parameters = $RequestUri->getParameters();
+        $requestedUri = $RequestUri->getRequestedUri();
+
+        $this->assertSame(\SprayFire\Routing\Uri::NO_CONTROLLER_REQUESTED, $controller);
+        $this->assertSame(\SprayFire\Routing\Uri::NO_ACTION_REQUESTED, $action);
+        $this->assertSame(array('something', 'you', 'should', 'expect_in_default_controller'), $parameters);
+        $this->assertSame($uri, $requestedUri);
+    }
+
     public function tearDown() {
 
     }
