@@ -88,9 +88,11 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
             $parameters = array();
         } else {
             $action = \array_shift($parsedUri);
+            if (empty($action)) {
+                $action = \SprayFire\Routing\Uri::NO_ACTION_REQUESTED;
+            }
             $parameters = $parsedUri;
         }
-
 
         $this->controllerFragment = $controller;
         $this->actionFragment = $action;
