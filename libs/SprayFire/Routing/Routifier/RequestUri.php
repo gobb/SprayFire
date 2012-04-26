@@ -82,10 +82,18 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
     protected function setFragments() {
         $parsedUri = $this->parsedUri;
         $controller = \array_shift($parsedUri);
+        if (empty($controller)) {
+            $controller = \SprayFire\Routing\Uri::NO_CONTROLLER_REQUESTED;
+            $action = \SprayFire\Routing\Uri::NO_ACTION_REQUESTED;
+            $parameters = array();
+        } else {
+            $action = \array_shift($parsedUri);
+            $parameters = $parsedUri;
+        }
+
+
         $this->controllerFragment = $controller;
-        $action = \array_shift($parsedUri);
         $this->actionFragment = $action;
-        $parameters = $parsedUri;
         $this->parameters = $parameters;
     }
 
