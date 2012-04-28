@@ -68,6 +68,18 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
         $this->parseUri();
     }
 
+    /**
+     * @brief Will set the properties needed to return the appropriate values in
+     * getter functions after the requested URI has been parsed.
+     *
+     * @details
+     * The URI parsed will be in the format:
+     *
+     * /controller/action/parameter/parameter/parameter
+     *
+     * Note that the install directory for the SprayFire framework driven application
+     * will be removed from the beginning of the URI as well.
+     */
     protected function parseUri() {
         $uri = $this->uri;
         $uri = $this->removeLeadingForwardSlash($uri);
@@ -79,6 +91,14 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
         $this->setFragments();
     }
 
+    /**
+     * @brief Will take the fragments in the parsed URI and set the appropriate
+     * properties to the appropriate values based on what fragments are present
+     * and the type of fragment.
+     *
+     * @details
+     * 
+     */
     protected function setFragments() {
         $parsedUri = $this->parsedUri;
         $controller = \trim(\array_shift($parsedUri));
