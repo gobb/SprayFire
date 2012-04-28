@@ -97,7 +97,7 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
      * and the type of fragment.
      *
      * @details
-     * 
+     *
      */
     protected function setFragments() {
         $parsedUri = $this->parsedUri;
@@ -116,8 +116,17 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
                 $action = \array_shift($parsedUri);
                 if (empty($action)) {
                     $action = \SprayFire\Routing\Uri::NO_ACTION_REQUESTED;
+                    $parameters = array();
+                } else {
+                    if ($this->isMarkedParameter($action)) {
+                        \array_unshift($parsedUri, $action);
+                        $action = \SprayFire\Routing\Uri::NO_ACTION_REQUESTED;
+                        $parameters = $this->parseMarkedParameters($parsedUri);
+                    } else {
+                        $parameters = $this->parseMarkedParameters($parsedUri);
+                    }
                 }
-                $parameters = $parsedUri;
+
             }
         }
 
@@ -148,9 +157,16 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
     protected function parseMarkedParameters(array $parameters) {
         $parsed = array();
         foreach ($parameters as $parameter) {
-            $explodedParameter = \explode(':', $parameter);
-            $key = $explodedParameter[0];
-            $value = $explodedParameter[1];
+
+            if (!$this->isMarkedParameter($parameter)) {
+                $key = null;
+                $value = $parameter;
+            } else {
+                $explodedParameter = \explode(':', $parameter);
+                $key = $explodedParameter[0];
+                $value = $explodedParameter[1];
+            }
+
             if (empty($key)) {
                 $parsed[] = $value;
             } else {
