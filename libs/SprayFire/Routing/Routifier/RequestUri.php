@@ -81,18 +81,26 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
 
     protected function setFragments() {
         $parsedUri = $this->parsedUri;
-        $controller = \array_shift($parsedUri);
+        $controller = \trim(\array_shift($parsedUri));
         if (empty($controller)) {
             $controller = \SprayFire\Routing\Uri::NO_CONTROLLER_REQUESTED;
             $action = \SprayFire\Routing\Uri::NO_ACTION_REQUESTED;
             $parameters = array();
         } else {
-            $action = \array_shift($parsedUri);
-            if (empty($action)) {
+            if ($this->isMarkedParameter($controller)) {
+                \array_unshift($parsedUri, $controller);
+                $controller = \SprayFire\Routing\Uri::NO_CONTROLLER_REQUESTED;
                 $action = \SprayFire\Routing\Uri::NO_ACTION_REQUESTED;
+                $parameters = $this->parseMarkedParameters($parsedUri);
+            } else {
+                $action = \array_shift($parsedUri);
+                if (empty($action)) {
+                    $action = \SprayFire\Routing\Uri::NO_ACTION_REQUESTED;
+                }
+                $parameters = $parsedUri;
             }
-            $parameters = $parsedUri;
         }
+
 
         $this->controllerFragment = $controller;
         $this->actionFragment = $action;
@@ -109,6 +117,28 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
         $regex = '/^' . $this->installDir . '/';
         $nothing = '';
         return preg_replace($regex, $nothing, $uri);
+    }
+
+    protected function isMarkedParameter($fragment) {
+        $marker = \SprayFire\Routing\Uri::PARAMETER_SEPARATOR;
+        $found = \preg_match('/' . $marker . '/', $fragment);
+        return ($found !== 0 && $found !== false);
+    }
+
+    protected function parseMarkedParameters(array $parameters) {
+        $parsed = array();
+        foreach ($parameters as $parameter) {
+            $explodedParameter = \explode(':', $parameter);
+            $key = $explodedParameter[0];
+            $value = $explodedParameter[1];
+            if (empty($key)) {
+                $parsed[] = $value;
+            } else {
+                $parsed[$key] = $value;
+            }
+
+        }
+        return $parsed;
     }
 
     /**
