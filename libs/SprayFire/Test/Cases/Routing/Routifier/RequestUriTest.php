@@ -88,6 +88,22 @@ class RequestUriTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($uri, $requestedUri);
     }
 
+    public function testControllerActionAndNamedParameters() {
+        $uri = '/news/article/category:something/title:something-else-like-this';
+        $root = 'install-dir';
+        $RequestUri = new \SprayFire\Routing\Routifier\RequestUri($uri, $root);
+        $controller = $RequestUri->getControllerFragment();
+        $action = $RequestUri->getActionFragment();
+        $parameters = $RequestUri->getParameters();
+        $requestedUri = $RequestUri->getRequestedUri();
+
+        $this->assertSame('news', $controller);
+        $this->assertSame('article', $action);
+        $this->assertSame(array('category' => 'something', 'title' => 'something-else-like-this'), $parameters);
+        $this->assertSame($uri, $requestedUri);
+
+    }
+
     public function tearDown() {
 
     }
