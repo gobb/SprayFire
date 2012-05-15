@@ -58,6 +58,34 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
     protected $parameters;
 
     /**
+     * The value set to controller fragment if there was no controller requested
+     *
+     * @var $noController
+     */
+    protected $noController = \SprayFire\Routing\Uri::NO_CONTROLLER_REQUESTED;
+
+    /**
+     * The value set to action fragment if there was no action requested
+     *
+     * @var $noAction
+     */
+    protected $noAction = \SprayFire\Routing\Uri::NO_ACTION_REQUESTED;
+
+    /**
+     * An empty array set to the parameters if there were no parameters requested
+     *
+     * @var $noParameters
+     */
+    protected $noParameters = array();
+
+    /**
+     * A string that represents the separator for parameter key/value pairs
+     *
+     * @var $parameterSeparator
+     */
+    protected $parameterSeparator = \SprayFire\Routing\Uri::PARAMETER_SEPARATOR;
+
+    /**
      * @param $uri string
      * @param $installDir string
      */
@@ -103,24 +131,24 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
         $parsedUri = $this->parsedUri;
         $controller = \trim(\array_shift($parsedUri));
         if (empty($controller)) {
-            $controller = \SprayFire\Routing\Uri::NO_CONTROLLER_REQUESTED;
-            $action = \SprayFire\Routing\Uri::NO_ACTION_REQUESTED;
-            $parameters = array();
+            $controller = $this->noController;
+            $action = $this->noAction;
+            $parameters = $this->noParameters;
         } else {
             if ($this->isMarkedParameter($controller)) {
                 \array_unshift($parsedUri, $controller);
-                $controller = \SprayFire\Routing\Uri::NO_CONTROLLER_REQUESTED;
-                $action = \SprayFire\Routing\Uri::NO_ACTION_REQUESTED;
+                $controller = $this->noController;
+                $action = $this->noAction;
                 $parameters = $this->parseMarkedParameters($parsedUri);
             } else {
                 $action = \array_shift($parsedUri);
                 if (empty($action)) {
-                    $action = \SprayFire\Routing\Uri::NO_ACTION_REQUESTED;
-                    $parameters = array();
+                    $action = $this->noAction;
+                    $parameters = $this->noParameters;
                 } else {
                     if ($this->isMarkedParameter($action)) {
                         \array_unshift($parsedUri, $action);
-                        $action = \SprayFire\Routing\Uri::NO_ACTION_REQUESTED;
+                        $action = $this->noAction;
                         $parameters = $this->parseMarkedParameters($parsedUri);
                     } else {
                         $parameters = $this->parseMarkedParameters($parsedUri);
@@ -129,7 +157,6 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
 
             }
         }
-
 
         $this->controllerFragment = $controller;
         $this->actionFragment = $action;
@@ -149,8 +176,7 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
     }
 
     protected function isMarkedParameter($fragment) {
-        $marker = \SprayFire\Routing\Uri::PARAMETER_SEPARATOR;
-        $found = \preg_match('/' . $marker . '/', $fragment);
+        $found = \preg_match('/' . $this->parameterSeparator . '/', $fragment);
         return ($found !== 0 && $found !== false);
     }
 
@@ -162,7 +188,7 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
                 $key = null;
                 $value = $parameter;
             } else {
-                $explodedParameter = \explode(':', $parameter);
+                $explodedParameter = \explode($this->parameterSeparator, $parameter);
                 $key = $explodedParameter[0];
                 $value = $explodedParameter[1];
             }
@@ -191,10 +217,8 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
         return $this->actionFragment;
     }
 
-
-
     /**
-     * @return string
+     * @return array
      */
     public function getParameters() {
         return $this->parameters;
