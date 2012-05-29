@@ -92,9 +92,7 @@ HTML;
 //
 // It is highly recommended that you do not change the libs directory or the
 // configs directory.  Changing these directory names would necessitate changing
-// this file, as well as `/web/index.php` and {PUT_FILE_NAME_HERE}
-// TODO: Fill in the file names that would need to be adjusted if directory structure
-// is changed.
+// this file.
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 /**
