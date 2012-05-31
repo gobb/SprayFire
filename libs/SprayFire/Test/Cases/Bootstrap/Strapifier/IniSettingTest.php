@@ -5,9 +5,9 @@
  * @brief Holds a PHPUnit test case to confirm the functionality of IniConfigBootstrapTest
  */
 
-namespace SprayFire\Test\Cases\Bootstrap;
+namespace SprayFire\Test\Cases\Bootstrap\Strapifier;
 
-class IniConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
+class IniConfigTest extends \PHPUnit_Framework_TestCase {
 
     protected $defaultGlobalIniSettings = array();
 
@@ -38,7 +38,7 @@ class IniConfigBootstrapTest extends \PHPUnit_Framework_TestCase {
         $arrayConfig['assert.active'] = 1;
         $arrayConfig['expose_php'] = 1;
 
-        $Bootstrap = new \SprayFire\Bootstrap\IniSettingBootstrap($arrayConfig);
+        $Bootstrap = new \SprayFire\Bootstrap\Strapifier\IniSetting($arrayConfig);
         $Bootstrap->runBootstrap();
 
         $dateTimezone = \ini_get('date.timezone');

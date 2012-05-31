@@ -5,13 +5,13 @@
  * @brief Holds a class to set the configuration values for php.ini
  */
 
-namespace SprayFire\Bootstrap;
+namespace SprayFire\Bootstrap\Strapifier;
 
 /**
  * @uses SprayFire.Bootstrap.Bootstrapper
  * @uses SprayFire.Util.CoreObject
  */
-class IniSettingBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
+class IniSetting extends \SprayFire\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
      * @brief An associative array holding the settings and values that should be
