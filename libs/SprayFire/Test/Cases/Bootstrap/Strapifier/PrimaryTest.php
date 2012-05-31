@@ -1,11 +1,11 @@
 <?php
 
-namespace SprayFire\Test\Cases\Bootstrap;
+namespace SprayFire\Test\Cases\Bootstrap\Strapifier;
 
 /**
  *
  */
-class PrimaryBootstrapTest extends \PHPUnit_Framework_TestCase {
+class PrimaryTest extends \PHPUnit_Framework_TestCase {
 
     public function testRunningBootstrap() {
         $configFile = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/config/primary-configuration-test.php';
@@ -17,8 +17,8 @@ class PrimaryBootstrapTest extends \PHPUnit_Framework_TestCase {
         $logsPath = $installPath . '/logs';
         $webPath = $installPath . '/web';
         $paths = \compact('installPath', 'libsPath', 'configPath', 'appPath', 'logsPath', 'webPath');
-        $Data = new \SprayFire\Bootstrap\BootstrapData($configFile, $paths);
-        $Bootstrap = new \SprayFire\Bootstrap\PrimaryBootstrap($Data);
+        $Data = new \SprayFire\Bootstrap\Strapifier\Configuration($configFile, $paths);
+        $Bootstrap = new \SprayFire\Bootstrap\Strapifier\Primary($Data);
         $SprayFireContainer = $Bootstrap->runBootstrap();
         $this->assertInstanceOf('\\SprayFire\\Structure\\Map\\GenericMap', $SprayFireContainer, 'The SprayFireContainer is not a GenericMap');
         $this->assertTrue($SprayFireContainer->containsKey('PathGenerator'), 'The SprayFireContainer does not contain a PathGenerator');

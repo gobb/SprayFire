@@ -6,15 +6,15 @@
  * for SprayFire components.
  */
 
-namespace SprayFire\Bootstrap;
+namespace SprayFire\Bootstrap\Strapifier;
 
 /**
  * @brief
  */
-class PrimaryBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
+class Primary extends \SprayFire\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
-     * @brief SprayFire.Bootstrap.BootstrapData object passed from constructor
+     * @brief SprayFire.Bootstrap.Strapifier.Configuration object passed from constructor
      * holding the information needed to run secondary bootstraps
      *
      * @var $Data
@@ -40,7 +40,7 @@ class PrimaryBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\
      *
      * @param $Data SprayFire.Bootstrap.BootstrapData
      */
-    public function __construct(\SprayFire\Bootstrap\BootstrapData $Data) {
+    public function __construct(\SprayFire\Bootstrap\Strapifier\Configuration $Data) {
         $this->Data = $Data;
     }
 
