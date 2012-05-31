@@ -21,12 +21,12 @@
  * @copyright Copyright (c) 2011, Charles Sprayberry
  */
 
-namespace SprayFire\Test\Cases\Bootstrap;
+namespace SprayFire\Test\Cases\Bootstrap\Strapifier;
 
 /**
  * @brief
  */
-class PathGeneratorBootstrapTest extends \PHPUnit_Framework_TestCase {
+class PathGeneratorTest extends \PHPUnit_Framework_TestCase {
 
     public function testPathGeneratorBootstrap() {
 
@@ -37,7 +37,7 @@ class PathGeneratorBootstrapTest extends \PHPUnit_Framework_TestCase {
         $configPath = $installPath . '/config';
         $webPath = $installPath . '/web';
         $paths = \compact('installPath', 'libsPath', 'appPath', 'logsPath', 'configPath', 'webPath');
-        $PathGen = new \SprayFire\Bootstrap\PathGeneratorBootstrap($paths);
+        $PathGen = new \SprayFire\Bootstrap\Strapifier\PathGenerator($paths);
         $Directory = $PathGen->runBootstrap();
         $this->assertSame($installPath, $Directory->getInstallPath());
         $this->assertSame($libsPath, $Directory->getLibsPath());
