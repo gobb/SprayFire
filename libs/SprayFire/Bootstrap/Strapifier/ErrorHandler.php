@@ -6,7 +6,7 @@
  * assigning the appropriate method to the error handler.
  */
 
-namespace SprayFire\Bootstrap;
+namespace SprayFire\Bootstrap\Strapifier;
 
 /**
  * @brief This object is responsible for ensuring the configuration values passed
@@ -34,7 +34,7 @@ namespace SprayFire\Bootstrap;
  * @uses SprayFire.Exception.BootstrapFailedException
  *
  */
-class ErrorHandlerBootstrap extends \SprayFire\Util\UtilObject implements \SprayFire\Bootstrap\Bootstrapper {
+class ErrorHandler extends \SprayFire\Util\UtilObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
      * @brief This object is both used to log error messages that may occur attempting
