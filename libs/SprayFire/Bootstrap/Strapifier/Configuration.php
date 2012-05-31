@@ -6,12 +6,12 @@
  * to properly startup the system.
  */
 
-namespace SprayFire\Bootstrap;
+namespace SprayFire\Bootstrap\Strapifier;
 
 /**
- * @uses SprayFire.Config.ArrayConfig
+ *
  */
-class BootstrapData {
+class Configuration {
 
     /**
      * @brief An associative array of directory paths to set in a PathGenerator

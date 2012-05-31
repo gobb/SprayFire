@@ -5,12 +5,12 @@
  * @brief
  */
 
-namespace SprayFire\Test\Cases\Bootstrap;
+namespace SprayFire\Test\Cases\Bootstrap\Strapifier;
 
 /**
  * @brief
  */
-class BootstrapDataTest extends \PHPUnit_Framework_TestCase {
+class ConfigurationTest extends \PHPUnit_Framework_TestCase {
 
     public function testValidBootstrapData() {
         $installPath = \SPRAYFIRE_ROOT;
@@ -23,7 +23,7 @@ class BootstrapDataTest extends \PHPUnit_Framework_TestCase {
 
         $primaryConfig = $libsPath . '/SprayFire/Test/mockframework/config/primary-configuration-test.php';
 
-        $BootstrapData = new \SprayFire\Bootstrap\BootstrapData($primaryConfig, $paths);
+        $BootstrapData = new \SprayFire\Bootstrap\Strapifier\Configuration($primaryConfig, $paths);
 
         $expectedDirectoryBootstrapData = $paths;
         $actualDirectoryBootstrapData = $BootstrapData->PathGeneratorBootstrap;
@@ -77,7 +77,7 @@ class BootstrapDataTest extends \PHPUnit_Framework_TestCase {
     public function testInvalidBootstrapData() {
         $primaryConfig = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/config/primary-configuration-test-no-exist.php';
         $paths = array();
-        $BootstrapData = new \SprayFire\Bootstrap\BootstrapData($primaryConfig, $paths);
+        $BootstrapData = new \SprayFire\Bootstrap\Strapifier\Configuration($primaryConfig, $paths);
         $this->assertSame(array(), $BootstrapData->PathGeneratorBootstrap);
         $this->assertSame(array(), $BootstrapData->configData);
         $this->assertSame(array(), $BootstrapData->LogOverseerBootstrap);
