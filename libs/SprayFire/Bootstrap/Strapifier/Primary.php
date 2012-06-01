@@ -11,7 +11,7 @@ namespace SprayFire\Bootstrap\Strapifier;
 /**
  * @brief
  */
-class Primary extends \SprayFire\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
+class Primary extends \SprayFire\Util\UtilObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
      * @brief
@@ -19,6 +19,10 @@ class Primary extends \SprayFire\Util\CoreObject implements \SprayFire\Bootstrap
      * @param $Data SprayFire.Bootstrap.BootstrapData
      */
     public function __construct($primaryConfigFilePath) {
+
+    }
+
+    public function runBootstrap() {
 
     }
 
