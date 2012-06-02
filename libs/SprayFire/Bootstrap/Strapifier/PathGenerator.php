@@ -6,7 +6,7 @@
  * implementation used to work with the directory structure.
  */
 
-namespace SprayFire\Bootstrap;
+namespace SprayFire\Bootstrap\Strapifier;
 
 /**
  * @brief Will take an associative array that has the absolute paths needed to
@@ -56,7 +56,7 @@ namespace SprayFire\Bootstrap;
  * @uses SprayFire.Util.CoreObject
  * @uses SprayFire.Util.Directory
  */
-class PathGeneratorBootstrap extends \SprayFire\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
+class PathGenerator extends \SprayFire\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
      * @brief Holds the associative array, as described in class details.

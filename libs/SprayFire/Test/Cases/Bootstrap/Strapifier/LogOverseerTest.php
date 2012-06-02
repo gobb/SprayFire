@@ -5,12 +5,12 @@
  * @brief
  */
 
-namespace SprayFire\Test\Cases\Bootstrap;
+namespace SprayFire\Test\Cases\Bootstrap\Strapifier;
 
 /**
  * @brief
  */
-class LogOverseerBootstrapTest extends \PHPUnit_Framework_TestCase {
+class LogOverseerTest extends \PHPUnit_Framework_TestCase {
 
     public function testLogOverseerCreationWithValidConfig() {
         $infoLogFile = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/logs/info.txt';
@@ -36,7 +36,7 @@ class LogOverseerBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
         $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
-        $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($LoggerFactory, $config);
+        $LoggerBootstrap = new \SprayFire\Bootstrap\Strapifier\LogOverseer($LoggerFactory, $config);
         $LogDelegator = $LoggerBootstrap->runBootstrap();
 
         $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\LogDelegator", $LogDelegator);
@@ -64,7 +64,7 @@ class LogOverseerBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
         $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
-        $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($LoggerFactory, $config);
+        $LoggerBootstrap = new \SprayFire\Bootstrap\Strapifier\LogOverseer($LoggerFactory, $config);
         $LogDelegator = $LoggerBootstrap->runBootstrap();
 
         $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\LogDelegator", $LogDelegator);
@@ -91,7 +91,7 @@ class LogOverseerBootstrapTest extends \PHPUnit_Framework_TestCase {
             )
         );
         $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
-        $LoggerBootstrap = new \SprayFire\Bootstrap\LogOverseerBootstrap($LoggerFactory, $config);
+        $LoggerBootstrap = new \SprayFire\Bootstrap\Strapifier\LogOverseer($LoggerFactory, $config);
         $LogDelegator = $LoggerBootstrap->runBootstrap();
 
         $this->assertInstanceOf("\\SprayFire\\Logging\\Logifier\\LogDelegator", $LogDelegator);
