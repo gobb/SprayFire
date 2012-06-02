@@ -107,8 +107,16 @@ $ClassLoader = new \ClassLoader\Loader();
 $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 $ClassLoader->setAutoloader();
 
-$directoryPaths = \compact('installPath', 'libsPath', 'configPath', 'appPath', 'logsPath', 'webPath');
-$primaryConfigPath = $configPath . '/SprayFire/primary-configuration.php';
+
+$PathGenerator = new \SprayFire\Util\Directory();
+$PathGenerator->setInstallPath($installPath);
+$PathGenerator->setLibsPath($libsPath);
+$PathGenerator->setAppPath($appPath);
+$PathGenerator->setLogsPath($logsPath);
+$PathGenerator->setConfigPath($configPath);
+$PathGenerator->setWebPath($webPath);
+
+$primaryConfigPath = $PathGenerator->getConfigPath(array('SprayFire', 'primary-configuration.php'));
 $PrimaryBootstrap = new \SprayFire\Bootstrap\Strapifier\Primary($primaryConfigPath);
 $SprayFireContainer = $PrimaryBootstrap->runBootstrap();
 
@@ -117,6 +125,9 @@ $SprayFireContainer = $PrimaryBootstrap->runBootstrap();
  */
 
 // NOTE: The below code is a temporary measure until the templating system is in place
+
+$styleCss = $PathGenerator->getUrlPath('css', 'sprayfire.style.css');
+$sprayFireLogo = $PathGenerator->getUrlPath('images', 'sprayfire-logo-bar-75.png');
 
 echo <<<HTML
 <!DOCTYPE html>
