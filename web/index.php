@@ -91,8 +91,8 @@ HTML;
 // 'app' and 'web' folders.
 //
 // It is highly recommended that you do not change the libs directory or the
-// configs directory.  Changing these directory names would necessitate changing
-// this file.
+// configs directory, critical aspects of SprayFire depend on files in these
+// directories
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 $installPath = \dirname(__DIR__);
