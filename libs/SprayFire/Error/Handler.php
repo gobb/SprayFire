@@ -16,7 +16,7 @@ namespace SprayFire\Error;
  * @uses SprayFire.Logging.LogOverseer
  * @uses SprayFire.Core.Util.CoreObject
  */
-class ErrorHandler extends \SprayFire\Util\CoreObject {
+class Handler extends \SprayFire\Util\CoreObject {
 
     /**
      * @brief A SprayFire.Logging.LogOverseer used to log messages.

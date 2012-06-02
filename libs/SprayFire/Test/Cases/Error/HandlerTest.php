@@ -18,7 +18,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
         $LogDelegator->setErrorLogger('SprayFire.Test.Helpers.DevelopmentLogger');
         $LogDelegator->setDebugLogger('SprayFire.Test.Helpers.DevelopmentLogger');
-        $ErrorHandler = new \SprayFire\Error\ErrorHandler($LogDelegator);
+        $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
         $originalHandler = \set_error_handler(array($ErrorHandler, 'trap'));
 
         \trigger_error('The first error message', E_USER_WARNING);
@@ -37,7 +37,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
         $LogDelegator->setErrorLogger('SprayFire.Test.Helpers.DevelopmentLogger');
-        $ErrorHandler = new \SprayFire\Error\ErrorHandler($LogDelegator);
+        $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
         $trappedError = $ErrorHandler->trap(E_RECOVERABLE_ERROR, 'This is an error message with unhandled severity.', 'file.php', 14);
         $this->assertFalse($trappedError);
 
@@ -55,7 +55,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
         $LogDelegator->setErrorLogger('SprayFire.Test.Helpers.DevelopmentLogger');
-        $ErrorHandler = new \SprayFire\Error\ErrorHandler($LogDelegator);
+        $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
         $ErrorHandler->trap(E_COMPILE_ERROR, 'This is an error message with unknown severity', 'file.php', 100);
 
         $ErrorLogger = $this->getErrorLogger($LogDelegator);
@@ -72,7 +72,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
         $LogDelegator->setErrorLogger('SprayFire.Test.Helpers.DevelopmentLogger');
-        $ErrorHandler = new \SprayFire\Error\ErrorHandler($LogDelegator);
+        $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
         $originalErrorReporting = \error_reporting();
