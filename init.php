@@ -105,8 +105,8 @@ $webPath = $installPath . '/web';
 include $libsPath . '/ClassLoader/Loader.php';
 $ClassLoader = new \ClassLoader\Loader();
 $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
+$ClassLoader->registerNamespaceDirectory('Artax', $libsPath . '/Artax/src');
 $ClassLoader->setAutoloader();
-
 
 $PathGenerator = new \SprayFire\Util\Directory();
 $PathGenerator->setInstallPath($installPath);
