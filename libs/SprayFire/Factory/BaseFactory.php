@@ -228,10 +228,9 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
             }
         }
 
-        $i = 0;
         $finalBlueprint = array();
 
-        for ($i; $i < $blueprintCount; $i++) {
+        for ($i = 0; $i < $blueprintCount; $i++) {
             $indexVal = $storedBlueprint[$i];
             if (!\is_null($options[$i])) {
                 $indexVal = $options[$i];
