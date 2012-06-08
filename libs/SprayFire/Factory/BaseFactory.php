@@ -29,6 +29,14 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
     protected $blueprints = array();
 
     /**
+     * @internal A Reflection cacher to help prevent unneeded ReflectionClasses
+     * from being created.
+     *
+     * @property $ReflectionCache An Artax\ReflCacher object
+     */
+    protected $ReflectionCache;
+
+    /**
      * @property $NullObject The name of the class to use for NullObject on this factory
      */
     protected $NullObject;
@@ -55,20 +63,22 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
      * @brief Note that the \a $returnTypeRestriction and \a $nullPrototype may be
      * passed as either a Java or PHP-style namespaced class.
      *
+     * @param $ReflectionCache
      * @param $returnTypeRestriction A string class or interface name that objects
      *        of this factory must implement.
-     * @param $nullPrototype An object or classname to use as the NullObject returned
+     * @param $nullObject An object or classname to use as the NullObject returned
      *        if there was an error creating the requested object.
      * @throws InvalidArgumentException Thrown if \a $nullPrototype does not implement
      *         the \a $returnTypeRestriction
      * @throws SprayFire.Exception.TypeNotFoundException Thrown if the \a $returnTypeRestriction
      *         could not properly be loaded.
      */
-    public function __construct($returnTypeRestriction, $nullPrototype) {
+    public function __construct(\Artax\ReflectionCacher $ReflectionCache, $returnTypeRestriction, $nullObject) {
+        $this->ReflectionCache = $ReflectionCache;
         $this->objectType = $this->convertJavaClassToPhpClass($returnTypeRestriction);
-        $this->nullObjectType = $this->convertJavaClassToPhpClass($nullPrototype);
+        $this->nullObjectType = $this->convertJavaClassToPhpClass($nullObject);
         $this->TypeValidator = $this->createTypeValidator();
-        $this->NullObject = $this->createNullObjectPrototype();
+        $this->NullObject = $this->createNullObject();
     }
 
     /**
@@ -77,7 +87,7 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
      */
     protected function createTypeValidator() {
         try {
-            $ReflectedType = new \ReflectionClass($this->objectType);
+            $ReflectedType = $this->ReflectionCache->getClass($this->objectType);
             $TypeValidator = new \SprayFire\Util\ObjectTypeValidator($ReflectedType);
             return $TypeValidator;
         } catch (\ReflectionException $ReflectExc) {
@@ -89,11 +99,11 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
      * @return A class that implements the given interface or type
      * @throws InvalidArgumentException
      */
-    protected function createNullObjectPrototype() {
+    protected function createNullObject() {
         $NullObject = $this->nullObjectType;
         if (!\is_object($NullObject)) {
             try {
-                $ReflectedNullObject = new \ReflectionClass($NullObject);
+                $ReflectedNullObject = $this->ReflectionCache->getClass($NullObject);
                 $NullObject = $ReflectedNullObject->newInstance();
             } catch (\ReflectionException $ReflectExc) {
                 throw new \InvalidArgumentException('The given, ' . $this->nullObjectType . ', could not be loaded.', null, $ReflectExc);
@@ -160,11 +170,11 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
      * @param $className A Java-stye or PHP-style namespaced class
      * @param $options An array of options to be used when creating this object.
      */
-    protected function createObject($className, array $options) {
+    public function makeObject($className, array $options = array()) {
         try {
             $className = $this->convertJavaClassToPhpClass($className);
             $options = $this->getFinalBlueprint($className, $options);
-            $ReflectedClass = new \ReflectionClass($className);
+            $ReflectedClass = $this->ReflectionCache->getClass($className);
             $returnObject = $ReflectedClass->newInstanceArgs($options);
             $this->TypeValidator->throwExceptionIfObjectNotParentType($returnObject);
         } catch (\ReflectionException $ReflectExc) {
@@ -228,10 +238,9 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
             }
         }
 
-        $i = 0;
         $finalBlueprint = array();
 
-        for ($i; $i < $blueprintCount; $i++) {
+        for ($i = 0; $i < $blueprintCount; $i++) {
             $indexVal = $storedBlueprint[$i];
             if (!\is_null($options[$i])) {
                 $indexVal = $options[$i];
