@@ -22,10 +22,10 @@ The [framework wiki](http://www.github.com/cspray/SprayFire/wiki/) is a more rel
 
 ## Dependencies
 
-- PHP 5.3+ and up.  Note that the bulk of development and testing has been on 5.3.8 and 5.3.9.
+- PHP 5.3+ and up.  Note that the bulk of development and testing has been on 5.3.8, 5.3.9 and 5.3.10.
 - Out-of-the-box support for clean URLs using [Apache](http://httpd.apache.org/) [mod_rewrite](http://httpd.apache.org/docs/current/mod/mod_rewrite.html).  If this is not available to you then you will need to implement your own system of pretty URLs.
 - SprayFire uses [SPL](http://www.php.net/manual/en/book.spl.php) exceptions and data structures so this extension will need to be enabled.
-- All of SprayFire provided configuration is done in [JSON](http://www.json.org/) and you will need the [appropriate PHP extension](http://www.php.net/manual/en/book.json.php).
+- Some of SprayFire required  configuration is done in [JSON](http://www.json.org/) and you will need the [appropriate PHP extension](http://www.php.net/manual/en/book.json.php).
 - Unit tests are written with [PHPUnit](https://github.com/sebastianbergmann/phpunit).
 - Class autoloading is taken care of by [ClassLoader](http://github.com/cspray/ClassLoader)
 - Reflection caching is handled by an [Artax](https://github.com/rdlowrey/Artax) component written by [rdlowery](https://github.com/rdlowrey), though the entire Artax framework is provided as well.
