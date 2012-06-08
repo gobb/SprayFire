@@ -20,17 +20,8 @@ class LoggerFactory extends \SprayFire\Factory\BaseFactory {
      * @throws InvalidArgumentException
      * @throws SprayFire.Exception.TypeNotFoundException
      */
-    public function __construct($returnType = 'SprayFire.Logging.Logger', $nullPrototype = 'SprayFire.Logging.Logifier.NullLogger') {
-        parent::__construct($returnType, $nullPrototype);
-    }
-
-    /**
-     * @param $className A Java or PHP style namespaced class
-     * @param $options An array of arguments to pass to constructor of \a $className
-     * @return SprayFire.Logging.Logger object
-     */
-    public function makeObject($className, array $options = array()) {
-        return $this->createObject($className, $options);
+    public function __construct(\Artax\ReflCacher $ReflectionCache, $returnType = 'SprayFire.Logging.Logger', $nullPrototype = 'SprayFire.Logging.Logifier.NullLogger') {
+        parent::__construct($ReflectionCache, $returnType, $nullPrototype);
     }
 
 }

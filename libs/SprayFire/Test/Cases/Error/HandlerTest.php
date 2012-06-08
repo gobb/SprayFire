@@ -14,7 +14,8 @@ namespace SprayFire\Test\Cases\Error;
 class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
 
     public function testErrorHandlerFunctionNotInDevelopmentMode() {
-        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
+        $ReflectionCache = new \Artax\ReflectionCache();
+        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionCache);
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
         $LogDelegator->setErrorLogger('SprayFire.Test.Helpers.DevelopmentLogger');
         $LogDelegator->setDebugLogger('SprayFire.Test.Helpers.DevelopmentLogger');
@@ -26,7 +27,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $ErrorLogger = $this->getErrorLogger($LogDelegator);
         $actualErrorData = $ErrorLogger->getLoggedMessages();
         $expectedErrorData = array();
-        $expectedErrorData[0]['message'] = 'The first error message;' . __FILE__ . ';line:24';
+        $expectedErrorData[0]['message'] = 'The first error message;' . __FILE__ . ';line:25';
         $expectedErrorData[0]['options'] = array();
         $this->assertSame($expectedErrorData, $actualErrorData);
 
@@ -34,7 +35,8 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testErrorHandlerFunctionUnhandledSeverity() {
-        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
+        $ReflectionCache = new \Artax\ReflectionCache();
+        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionCache);
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
         $LogDelegator->setErrorLogger('SprayFire.Test.Helpers.DevelopmentLogger');
         $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
@@ -52,7 +54,8 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testErrorHandlerFunctionUnknownSeverity() {
-        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
+        $ReflectionCache = new \Artax\ReflectionCache();
+        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionCache);
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
         $LogDelegator->setErrorLogger('SprayFire.Test.Helpers.DevelopmentLogger');
         $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
@@ -69,7 +72,8 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testErrorHandlerFunctionWithErrorReportingTurnedOff() {
-        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory();
+        $ReflectionCache = new \Artax\ReflectionCache();
+        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionCache);
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
         $LogDelegator->setErrorLogger('SprayFire.Test.Helpers.DevelopmentLogger');
         $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
