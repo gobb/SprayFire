@@ -73,7 +73,7 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
      * @throws SprayFire.Exception.TypeNotFoundException Thrown if the \a $returnTypeRestriction
      *         could not properly be loaded.
      */
-    public function __construct(\Artax\ReflCacher $ReflectionCache, $returnTypeRestriction, $nullObject) {
+    public function __construct(\Artax\ReflectionCacher $ReflectionCache, $returnTypeRestriction, $nullObject) {
         $this->ReflectionCache = $ReflectionCache;
         $this->objectType = $this->convertJavaClassToPhpClass($returnTypeRestriction);
         $this->nullObjectType = $this->convertJavaClassToPhpClass($nullObject);

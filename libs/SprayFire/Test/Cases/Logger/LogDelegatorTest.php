@@ -21,8 +21,8 @@ class LogDelegatorTest extends \PHPUnit_Framework_TestCase {
         $debugOptions = array('debug');
         $infoOptions = array('info');
 
-        $ReflectionCache = new \Artax\ReflectionCache();
-        $Factory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionCache);
+        $ReflectionPool = new \Artax\ReflectionPool();
+        $Factory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionPool);
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($Factory);
         $LogDelegator->setEmergencyLogger($LogObject, $emergencyOptions);
         $LogDelegator->setErrorLogger($LogObject, $errorOptions);

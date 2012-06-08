@@ -21,8 +21,8 @@ class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
         $blueprintThree = array('one', 'two', 'three');
 
 
-        $ReflectionCache = new \Artax\ReflectionCache();
-        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, 'stdClass', new \stdClass);
+        $ReflectionPool = new \Artax\ReflectionPool();
+        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionPool, 'stdClass', new \stdClass);
         $TestFactory->storeBlueprint($classOne, $blueprintOne);
         $TestFactory->storeBlueprint($classTwo, $blueprintTwo);
         $TestFactory->storeBlueprint($classThree, $blueprintThree);
@@ -33,14 +33,14 @@ class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGettingEmptyBlueprint() {
-        $ReflectionCache = new \Artax\ReflectionCache();
-        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, 'stdClass', new \stdClass);
+        $ReflectionPool = new \Artax\ReflectionPool();
+        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionPool, 'stdClass', new \stdClass);
         $this->assertSame(array(), $TestFactory->getBlueprint('SprayFire.NonExistent.Class'));
     }
 
     public function testGettingFinalBlueprintWithNoOptions() {
-        $ReflectionCache = new \Artax\ReflectionCache();
-        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, 'stdClass', new \stdClass);
+        $ReflectionPool = new \Artax\ReflectionPool();
+        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionPool, 'stdClass', new \stdClass);
 
         $className = 'SprayFire.Test.Class';
         $defaultBlueprint = array('arg1', 'arg2');
@@ -53,8 +53,8 @@ class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGettingFinalBlueprintReplacingAllDefaultOptions() {
-        $ReflectionCache = new \Artax\ReflectionCache();
-        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, 'stdClass', new \stdClass);
+        $ReflectionPool = new \Artax\ReflectionPool();
+        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionPool, 'stdClass', new \stdClass);
 
         $className = 'SprayFire.Test.Class';
         $defaultBlueprint = array('arg1', 'arg2');
@@ -66,16 +66,16 @@ class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGettingFinalBlueprintWithNoStoredBlueprint() {
-        $ReflectionCache = new \Artax\ReflectionCache();
-        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, 'stdClass', new \stdClass);
+        $ReflectionPool = new \Artax\ReflectionPool();
+        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionPool, 'stdClass', new \stdClass);
         $className = 'SprayFire.Test.Class';
         $specificOptions = array('arg1', 'arg2');
         $this->assertSame($specificOptions, $TestFactory->testGetFinalBlueprint($className, $specificOptions));
     }
 
     public function testGettingFinalBlueprintWithMoreOptionsThenDefaultBlueprint() {
-        $ReflectionCache = new \Artax\ReflectionCache();
-        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, 'stdClass', new \stdClass);
+        $ReflectionPool = new \Artax\ReflectionPool();
+        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionPool, 'stdClass', new \stdClass);
         $className = 'SprayFire.Test.Class';
         $TestFactory->storeBlueprint($className, array(1, 2));
         $specificOptions = array(null, null, 3, 4, 5);
@@ -85,16 +85,16 @@ class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testCreatingATestObject() {
-        $ReflectionCache = new \Artax\ReflectionCache();
-        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, 'SprayFire.Test.Helpers.TestObject', new \SprayFire\Test\Helpers\TestObject());
+        $ReflectionPool = new \Artax\ReflectionPool();
+        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionPool, 'SprayFire.Test.Helpers.TestObject', new \SprayFire\Test\Helpers\TestObject());
         $className = 'SprayFire.Test.Helpers.TestObject';
         $Object = $TestFactory->makeObject($className);
         $this->assertTrue($Object instanceof \SprayFire\Test\Helpers\TestObject);
     }
 
     public function testCreatingATestObjectWithDefaultBlueprintOnly() {
-        $ReflectionCache = new \Artax\ReflectionCache();
-        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, 'SprayFire.Util.CoreObject', new \SprayFire\Test\Helpers\TestObject());
+        $ReflectionPool = new \Artax\ReflectionPool();
+        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionPool, 'SprayFire.Util.CoreObject', new \SprayFire\Test\Helpers\TestObject());
         $className = 'SprayFire.Test.Helpers.TestFactoryObject';
         $defaultBlueprint = array('param1', 'param2');
         $TestFactory->storeBlueprint($className, $defaultBlueprint);
@@ -104,8 +104,8 @@ class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGettingANullObjectOnErrorPassingStringNameAsNullPrototype() {
-        $ReflectionCache = new \Artax\ReflectionCache();
-        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, 'stdClass', 'stdClass');
+        $ReflectionPool = new \Artax\ReflectionPool();
+        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionPool, 'stdClass', 'stdClass');
         $className = 'SprayFire.Test.Class';
         $Object = $TestFactory->makeObject($className);
         $this->assertTrue($Object instanceof \stdClass);
@@ -114,8 +114,8 @@ class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
     public function testPassingInvalidNullPrototype() {
         $exceptionThrown = false;
         try {
-            $ReflectionCache = new \Artax\ReflectionCache();
-            $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, 'stdClass', 'SprayFire.NonExistent');
+            $ReflectionPool = new \Artax\ReflectionPool();
+            $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionPool, 'stdClass', 'SprayFire.NonExistent');
         } catch (\InvalidArgumentException $InvalArgExc) {
             $exceptionThrown = true;
         }
@@ -125,8 +125,8 @@ class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
     public function testPassingInvalidReturnType() {
         $exceptionThrown = false;
         try {
-            $ReflectionCache = new \Artax\ReflectionCache();
-            $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, 'SprayFire.NonExistent', 'stdClass');
+            $ReflectionPool = new \Artax\ReflectionPool();
+            $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionPool, 'SprayFire.NonExistent', 'stdClass');
         } catch (\SprayFire\Exception\TypeNotFoundException $InvalArgExc) {
             $exceptionThrown = true;
         }
@@ -134,21 +134,21 @@ class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testCreatingObjectNotProperReturnType() {
-        $ReflectionCache = new \Artax\ReflectionCache();
-        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, 'stdClass', 'stdClass');
+        $ReflectionPool = new \Artax\ReflectionPool();
+        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionPool, 'stdClass', 'stdClass');
         $Object = $Factory->makeObject('SprayFire.Test.Helpers.TestObject');
         $this->assertTrue($Object instanceof \stdClass);
     }
 
     public function testGettingObjectName() {
-        $ReflectionCache = new \Artax\ReflectionCache();
-        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestFactoryObject');
+        $ReflectionPool = new \Artax\ReflectionPool();
+        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionPool, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestFactoryObject');
         $this->assertSame('\\SprayFire\\Object', $Factory->getObjectType());
     }
 
     public function testDeletingBlueprint() {
-        $ReflectionCache = new \Artax\ReflectionCache();
-        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, 'SprayFire.Util.CoreObject', new \SprayFire\Test\Helpers\TestObject());
+        $ReflectionPool = new \Artax\ReflectionPool();
+        $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionPool, 'SprayFire.Util.CoreObject', new \SprayFire\Test\Helpers\TestObject());
         $className = 'SprayFire.Test.Helpers.TestFactoryObject';
         $defaultBlueprint = array('param1', 'param2');
         $TestFactory->storeBlueprint($className, $defaultBlueprint);
