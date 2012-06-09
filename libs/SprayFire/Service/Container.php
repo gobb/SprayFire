@@ -31,10 +31,11 @@ interface Container {
      * the means to define what parameters should be used for that service.
      *
      * @param $serviceName A Java or PHP style class name representing the service
-     * @param $parameters An array of constructor dependencies for the class
+     * @param $parameters An anonymous function returning an array of constructor dependecies for $servciceName
      * @returns True if added, false if not
+     * @throws InvalidArgumentException if \a $callableParameters is not callable
      */
-    public function addService($serviceName, array $parameters = array());
+    public function addService($serviceName, $callableParameters = null);
 
     /**
      * @param $serviceName A Java or PHP style class name representing the service
