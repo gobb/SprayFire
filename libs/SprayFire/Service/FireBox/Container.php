@@ -17,14 +17,16 @@ class Container extends \SprayFire\Util\UtilObject implements \SprayFire\Service
     protected $addedServices = array();
 
     public function addService($serviceName, $callableParameters = null) {
+        $serviceName = $this->convertJavaClassToPhpClass($serviceName);
+        $this->addedServices[$serviceName] = $callableParameters;
     }
 
     public function doesServiceExist($serviceName) {
+        $serviceName = $this->convertJavaClassToPhpClass($serviceName);
         return \array_key_exists($serviceName, $this->addedServices);
     }
 
     public function getService($serviceName) {
-
     }
 
     public function setServiceFactory($serviceType, \SprayFire\Factory\Factory $Factory) {
