@@ -23,7 +23,7 @@ class LoggerFactory extends \SprayFire\Factory\BaseFactory {
      * @throws SprayFire.Exception.TypeNotFoundException
      */
     public function __construct(\Artax\ReflectionCacher $ReflectionCache, $returnType = 'SprayFire.Logging.Logger', $nullObject = 'SprayFire.Logging.Logifier.NullLogger') {
-        parent::__construct($ReflectionCache, $returnType, $nullPrototype);
+        parent::__construct($ReflectionCache, $returnType, $nullObject);
     }
 
 }
