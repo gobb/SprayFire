@@ -1,15 +1,13 @@
 <?php
 
 /**
- * @file
- * @brief
+ * A Null bootstrap to be returned from a Bootstrap Factory
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Bootstrap;
 
-/**
- * @brief
- */
 class NullObject extends \SprayFire\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     public function runBootstrap() {

@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @file
- * @brief Holds an abstract class that provides some common functionality and
+ * An abstract class that provides some common functionality and
  * groundwork for concrete factory implementations.
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Factory;
@@ -18,6 +19,7 @@ namespace SprayFire\Factory;
  * @uses SprayFire.Util.CoreObject
  * @uses SprayFire.Util.ObjectTypeValidator
  * @uses SprayFire.Exception.TypeNotFoundException
+ * @uses Artax.ReflectionCacher
  */
 abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayFire\Factory\Factory {
 
@@ -29,41 +31,41 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
     protected $blueprints = array();
 
     /**
-     * @internal A Reflection cacher to help prevent unneeded ReflectionClasses
-     * from being created.
+     * Cache to help prevent unneeded ReflectionClasses from being created.
      *
-     * @property $ReflectionCache An Artax\ReflCacher object
+     * @property Artax\ReflectionCacher
      */
     protected $ReflectionCache;
 
     /**
-     * @property $NullObject The name of the class to use for NullObject on this factory
+     * @property Object
      */
     protected $NullObject;
 
     /**
-     * @property $TypeValidator A SprayFire.Core.Util.ObjectTypeValidator used to
-     * ensure a created object implements the correct interface or extends the
-     * correct class
+     * @property SprayFire.Core.Util.ObjectTypeValidator
      */
     protected $TypeValidator;
 
     /**
-     * @property A PHP-namespaced class holding the object type that this factory
-     * should produce
+     * Should be a properly PHP namespaced class
+     *
+     * @property string
      */
     protected $objectType;
 
     /**
-     * @property A PHP-namespaced class holding the class to use for \a $NullObject
+     * Should be a properly PHP namespaced class
+     *
+     * @property string
      */
     protected $nullObjectType;
 
     /**
-     * @brief Note that the \a $returnTypeRestriction and \a $nullPrototype may be
-     * passed as either a Java or PHP-style namespaced class.
+     * The \a $returnTypeRestriction and \a $nullObject may be passed as either a
+     * Java or PHP-style namespaced class.
      *
-     * @param $ReflectionCache
+     * @param $ReflectionCache Artax.ReflectionCacher implementation
      * @param $returnTypeRestriction A string class or interface name that objects
      *        of this factory must implement.
      * @param $nullObject An object or classname to use as the NullObject returned
@@ -96,7 +98,7 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
     }
 
     /**
-     * @return A class that implements the given interface or type
+     * @return Object instanceof $this->nullObjectType
      * @throws InvalidArgumentException
      */
     protected function createNullObject() {
@@ -114,10 +116,9 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
     }
 
     /**
-     * @brief Note \a $defaultOptions MUST be passed; if your class does not have
+     * \a $defaultOptions MUST be passed; if your class does not have
      * or need any default options there is no need to store a blueprint.
      *
-     * @details
      * Note that if you pass a key that already exists in the blueprint store you
      * will override whatever default options were previously set there. Please note
      * that we are not using PHP's internal array merge but our own algorithm for
@@ -125,22 +126,21 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
      * to worry about the type of keys used by the blueprint array, simply that the
      * array elements are in the correct order for the constructor.
      *
-     * @internal
      * Although you can pass either a Java-style or PHP-style namespaced class
      * the key should be stored and retrieved as a PHP-style class string.
      *
-     * @param $className A Java-style or PHP-style namespaced class
-     * @param $defaultOptions The default options for this class
+     * @param $className string Java-style or PHP-style namespaced class
+     * @param $defaultParameters array Default options for this class
      */
-    public function storeBlueprint($className, array $defaultOptions) {
+    public function storeBlueprint($className, array $defaultParameters) {
         $blueprintKey = $this->convertJavaClassToPhpClass($className);
-        $this->blueprints[$blueprintKey] = $defaultOptions;
+        $this->blueprints[$blueprintKey] = $defaultParameters;
     }
 
     /**
-     * @param $className A Java-style or PHP-style namespaced class
-     * @return An array storing a blueprint if the key has one associated or an
-     *         empty array if no blueprint exists.
+     * @param $className string A Java-style or PHP-style namespaced class
+     * @return array Blueprint if the key has one associated or an empty array
+     * if no blueprint exists.
      */
     public function getBlueprint($className) {
         $bluePrintKey = $this->convertJavaClassToPhpClass($className);
@@ -151,7 +151,7 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
     }
 
     /**
-     * @param $className A Java-style or PHP-style namespaced class associated
+     * @param $className string Java-style or PHP-style namespaced class associated
      *        with a blueprint
      * @return True if the key no longer exists in the array or false on some error
      */
@@ -164,18 +164,18 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
     }
 
     /**
-     * @brief If there is a problem creating the given object a clone of the NullObject
+     * If there is a problem creating the given object a clone of the NullObject
      * prototype for this factory will be returned.
      *
-     * @param $className A Java-stye or PHP-style namespaced class
-     * @param $options An array of options to be used when creating this object.
+     * @param $className string A Java-stye or PHP-style namespaced class
+     * @param $parameters array Parameters to be used for constructor of object
      */
-    public function makeObject($className, array $options = array()) {
+    public function makeObject($className, array $parameters = array()) {
         try {
             $className = $this->convertJavaClassToPhpClass($className);
-            $options = $this->getFinalBlueprint($className, $options);
+            $parameters = $this->getFinalBlueprint($className, $parameters);
             $ReflectedClass = $this->ReflectionCache->getClass($className);
-            $returnObject = $ReflectedClass->newInstanceArgs($options);
+            $returnObject = $ReflectedClass->newInstanceArgs($parameters);
             $this->TypeValidator->throwExceptionIfObjectNotParentType($returnObject);
         } catch (\ReflectionException $ReflectExc) {
             $returnObject = clone $this->NullObject;
@@ -186,11 +186,10 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
     }
 
     /**
-     * @brief This method will take an array of options for a specific object,
-     * replace any NULL values with those values stored in \a $blueprints, given
-     * that the \a $className has a blueprint associated with it.
+     * Take an array of options for a specific object, replace any NULL values
+     * with those values stored in \a $blueprints, given that the \a $className
+     * has a blueprint associated with it.
      *
-     * @details
      * The final blueprint is a combination of the default blueprint, if one is
      * stored for a given class, and the \a $options passed when creating the
      * object.  The options passed should be whatever parameters are needed for
@@ -215,8 +214,8 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
      * feel that this algorithm can be approved upon please raise an issue at
      * {@link http://www.github.com/cspray/issues/}
      *
-     * @param $className The PHP-style namespaced class
-     * @param $options An array of constructor arguments
+     * @param $className string The PHP-style namespaced class
+     * @param $options array An array of constructor arguments
      * @return An array with null elements in \a $options replaced with default
      *         blueprint values if they exist.
      */

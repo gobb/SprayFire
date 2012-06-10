@@ -1,16 +1,14 @@
 <?php
 
 /**
- * @file
- * @brief Holds a class that allows messages to be logged to a file on disk.
+ * A logger that allows messages to be logged to a file on disk.
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Logging\Logifier;
 
 /**
- * @brief A framework implemented class that adds a timestamp log message to
- * the end of an injected file.
- *
  * @uses SplFileInfo
  * @uses SplFileObject
  * @uses InvalidArgumentException
@@ -20,15 +18,15 @@ namespace SprayFire\Logging\Logifier;
 class FileLogger extends \SprayFire\Util\CoreObject implements \SprayFire\Logging\Logger  {
 
     /**
-     * @brief A SplFileObject that should be used to write log messages to.
+     * Holds the file we write messages to
      *
-     * @property $LogFile
+     * @property SplFileObject
      */
     protected $LogFile;
 
     /**
      * @param $LogFile SplFileObject that should have log messages written to
-     * @param $openMode String for the mode to open the file
+     * @param $openMode string The mode in which we should open the file
      * @throws InvalidArgumentException thrown if a writable \a $LogFile wasn't passed
      * @see http://www.php.net/manual/en/function.fopen.php
      */
@@ -41,10 +39,9 @@ class FileLogger extends \SprayFire\Util\CoreObject implements \SprayFire\Loggin
     }
 
     /**
-     * @brief Will log a message to the \a $LogFile for this object; this method
-     * will lock the file before writing and unlock the file afterwards.
+     * Log a message to the \a $LogFile; will lock the file before writing and
+     * unlock the file afterwards.
      *
-     * @details
      * This logger accepts options in the form of an associative array with the
      * following keys
      *
@@ -58,8 +55,8 @@ class FileLogger extends \SprayFire\Util\CoreObject implements \SprayFire\Loggin
      * -------------------------------------------------------------------------
      * </pre>
      *
-     * @param $message The message string to log
-     * @param $options This parameter is not used in this implementation
+     * @param $message string The message string to log
+     * @param $options array This parameter is not used in this implementation
      * @return int The number of bytes written or null on error
      */
     public function log($message, $options = array()) {
@@ -73,9 +70,9 @@ class FileLogger extends \SprayFire\Util\CoreObject implements \SprayFire\Loggin
     }
 
     /**
-     * @param $message The message to prepend a timestamp to
-     * @param $timestampFormat The format for the prepended timestamp
-     * @return A message with the current timestamp prepended to it
+     * @param $message string The message to prepend a timestamp to
+     * @param $timestampFormat string The format for the prepended timestamp
+     * @return string A message with the current timestamp prepended to it
      */
     protected function getTimestampedMessage($message, $timestampFormat) {
         if (!isset($message) || empty($message)) {
@@ -88,9 +85,9 @@ class FileLogger extends \SprayFire\Util\CoreObject implements \SprayFire\Loggin
     }
 
     /**
-     * @param $message The message to determine the write length for
-     * @param $options An array of options that may or may not have a length key
-     * @return Number of bytes in \a $options['length'] or length of \a $message
+     * @param $message string The message to determine the write length for
+     * @param $options array An array of options that may or may not have a length key
+     * @return int Number of bytes in \a $options['length'] or length of \a $message
      */
     protected function getWriteLength($message, array $options) {
         if (isset($options['length']) && \is_int($options['length'])) {
@@ -102,8 +99,8 @@ class FileLogger extends \SprayFire\Util\CoreObject implements \SprayFire\Loggin
     }
 
     /**
-     * @param $options An array of options that may or may not have a timestampFormat key
-     * @return The format in \a $options['timestampFormat'] or a default value
+     * @param $options array An array of options that may or may not have a timestampFormat key
+     * @return string The format in \a $options['timestampFormat'] or a default value
      */
     protected function getTimestampFormat(array $options) {
         if (isset($options['timestampFormat']) && \is_string($options['timestampFormat'])) {

@@ -1,87 +1,87 @@
 <?php
 
 /**
- * @file
- * @brief Stores a class that is used to parse a requested URI into segments that
- * can be used for completing the request.
+ * Used to parse a requested URI into segments that can be used for completing the
+ * request.
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Routing\Routifier;
 
 /**
- * @brief
+ * @uses SprayFire.Routing.Uri
+ * @uses SprayFire.Util.CoreObject
  */
 class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routing\Uri {
 
     /**
-     * @brief The string that represents the directory the SprayFire framework
-     * is installed in
+     * The directory that SprayFire is installed i
      *
-     * @var $installDir
+     * @property string
      */
     protected $installDir;
 
     /**
-     * @brief The string that represents the complete URI that was requested
+     * The actual URI that was requested
      *
-     * @var $uri
+     * @property string
      */
     protected $uri;
 
     /**
-     * @brief An array of URI fragments
+     * An array of URI fragments
      *
-     * @var $parsedUri
+     * @property array
      */
     protected $parsedUri;
 
     /**
-     * @brief A string representing the controller requested
+     * The controller fragment requested in the URI
      *
-     * @var $controllerFragment
+     * @property string
      */
     protected $controllerFragment;
 
     /**
-     * @brief A string representing the action requested
+     * The action requested in the URI
      *
-     * @var $actionFragment
+     * @property string
      */
     protected $actionFragment;
 
     /**
-     * @brief An array of strings representing the parameters for the action
-     * requested
+     * Array of strings representing the parameters for the action requested
      *
-     * @var $parameters
+     * @property array
      */
     protected $parameters;
 
     /**
      * The value set to controller fragment if there was no controller requested
      *
-     * @var $noController
+     * @property string
      */
     protected $noController = \SprayFire\Routing\Uri::NO_CONTROLLER_REQUESTED;
 
     /**
      * The value set to action fragment if there was no action requested
      *
-     * @var $noAction
+     * @property string
      */
     protected $noAction = \SprayFire\Routing\Uri::NO_ACTION_REQUESTED;
 
     /**
      * An empty array set to the parameters if there were no parameters requested
      *
-     * @var $noParameters
+     * @property array
      */
     protected $noParameters = array();
 
     /**
-     * A string that represents the separator for parameter key/value pairs
+     * Represents the separator for parameter key/value pairs
      *
-     * @var $parameterSeparator
+     * @property string
      */
     protected $parameterSeparator = \SprayFire\Routing\Uri::PARAMETER_SEPARATOR;
 
@@ -97,16 +97,17 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
     }
 
     /**
-     * @brief Will set the properties needed to return the appropriate values in
+     * Will set the properties needed to return the appropriate values in
      * getter functions after the requested URI has been parsed.
      *
-     * @details
      * The URI parsed will be in the format:
      *
      * /controller/action/parameter/parameter/parameter
      *
      * Note that the install directory for the SprayFire framework driven application
      * will be removed from the beginning of the URI as well.
+     *
+     * @return void
      */
     protected function parseUri() {
         $uri = $this->uri;
@@ -120,12 +121,11 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
     }
 
     /**
-     * @brief Will take the fragments in the parsed URI and set the appropriate
+     * Will take the fragments in the parsed URI and set the appropriate
      * properties to the appropriate values based on what fragments are present
      * and the type of fragment.
      *
-     * @details
-     *
+     * @return void
      */
     protected function setFragments() {
         $parsedUri = $this->parsedUri;
@@ -163,23 +163,44 @@ class RequestUri extends \SprayFire\Util\CoreObject implements \SprayFire\Routin
         $this->parameters = $parameters;
     }
 
+    /**
+     * @param $uri string
+     * @return string
+     */
     protected function removeLeadingForwardSlash($uri) {
         $regex = '/^\//';
         $nothing = '';
         return preg_replace($regex, $nothing, $uri);
     }
 
+    /**
+     * @param $uri string
+     * @return string
+     */
     protected function removeInstallDirectory($uri) {
         $regex = '/^' . $this->installDir . '/';
         $nothing = '';
         return preg_replace($regex, $nothing, $uri);
     }
 
+    /**
+     * Retruns true if the parameter separator is anywhere in the parameter
+     * \a $fragment
+     *
+     * @param $fragment string
+     * @return boolean
+     */
     protected function isMarkedParameter($fragment) {
         $found = \preg_match('/' . $this->parameterSeparator . '/', $fragment);
         return ($found !== 0 && $found !== false);
     }
 
+    /**
+     * Takes an array of parameters and properly parses them for name:value pairs
+     *
+     * @param $parameters array
+     * @return array
+     */
     protected function parseMarkedParameters(array $parameters) {
         $parsed = array();
         foreach ($parameters as $parameter) {

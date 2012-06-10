@@ -1,21 +1,20 @@
 <?php
 
 /**
- * @file
- * @brief A file storing the ExceptionHandler used as a callback for set_exception_handler()
+ * Holds the ExceptionHandler used as a callback for set_exception_handler()
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Error;
 
 /**
- * @brief A class that accepts a log, the absolute path to a content replacement
- * file, and headers that should be sent with the request.
+ * Accepts a log, the absolute path to a content replacement file, and headers
+ * that should be sent with the request.
  *
- * @details
- * This class will log the appropriate exception information and then include the
- * file set by the \a $contentReplacementPath injected into the constructor.  In
- * addition, a 500 HTTP status will be returned to the user.  For the interim, it
- * is expected that the content returned is HTML.
+ * Will log the appropriate exception information and then include the file set
+ * by \a $contentReplacementPath.  In addition, a 500 HTTP status will be returned
+ * to the user.  For the interim, it is expected that the content returned is HTML.
  *
  * @uses SprayFire.Logging.Logger
  * @uses SprayFire.Core.Util.CoreObject
@@ -23,28 +22,23 @@ namespace SprayFire\Error;
 class ExceptionHandler extends \SprayFire\Util\CoreObject {
 
     /**
-     * @brief A SprayFire.Logging.LogOverseer used to log messages.
-     *
-     * @property $Logger
+     * @property SprayFire.Logging.LogOverseer
      */
     protected $Logger;
 
     /**
-     * @brief A complete path to a page that should handle 500 requests
+     * Complete path to a page that is shown on requests generating 500 HTTP response
      *
-     * @details
-     * The content of this file, if the file exists, will be included as the content
-     * to be shown instead of the normal content for a request.
-     *
-     * @property $urlPath
+     * @property string
      */
     protected $replacePath;
 
     /**
-     * @brief An array holding strings to be set with header() before the response
-     * is sent.
+     * Holds strings to be set with header() before the response is sent.
      *
-     * @property $headers
+     * These are set in the order they are given in the constructor
+     *
+     * @property array
      */
     protected $headers;
 
@@ -60,9 +54,9 @@ class ExceptionHandler extends \SprayFire\Util\CoreObject {
     }
 
     /**
-     * @brief It should be known that after the Exception information is logged
-     * the request will have a 500 HTTP status error returned and the passed
-     * content will be sent to the user.
+     * It should be known that after the Exception information is logged the request
+     * will have a 500 HTTP status error returned and the passed content will be
+     * sent to the user.
      *
      * @param $Exception Exception thrown and not caught
      */
@@ -84,8 +78,8 @@ class ExceptionHandler extends \SprayFire\Util\CoreObject {
     }
 
     /**
-     * @brief Will loop through the headers injected into the constructor, sending
-     * each one to the user.
+     * Loops through the headers injected into the constructor, sending each one
+     * to the user.
      *
      * @see http://www.php.net/manual/en/function.header.php
      */
@@ -96,7 +90,7 @@ class ExceptionHandler extends \SprayFire\Util\CoreObject {
     }
 
     /**
-     * @brief If the content file injected into the constructor could not be found
+     * If the content file injected into the constructor could not be found
      * getDefaultMarkup() will be used in its place.
      */
     protected function sendContentAndExit() {
@@ -109,10 +103,10 @@ class ExceptionHandler extends \SprayFire\Util\CoreObject {
     }
 
     /**
-     * @brief This returns the content to be sent to the user if the content path
-     * injected could not properly be included.
+     * Returns the content to be sent to the user if the content path injected
+     * could not properly be included.
      *
-     * @return HTML markup
+     * @return HTML
      */
     protected function getDefaultMarkup() {
         return <<<HTML

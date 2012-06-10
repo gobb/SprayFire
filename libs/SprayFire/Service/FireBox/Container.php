@@ -1,25 +1,26 @@
 <?php
 
 /**
- * @file
- * @brief
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Service\FireBox;
 
-/**
- * @brief
- */
-class Container extends \SprayFire\Util\CoreObject implements \SprayFire\Service\Container {
+class Container extends \SprayFire\Util\UtilObject implements \SprayFire\Service\Container {
 
-
+    /**
+     * Services and dependency callbacks added to the container
+     *
+     * @property array
+     */
+    protected $addedServices = array();
 
     public function addService($serviceName, $callableParameters = null) {
-
     }
 
     public function doesServiceExist($serviceName) {
-
+        return \array_key_exists($serviceName, $this->addedServices);
     }
 
     public function getService($serviceName) {
@@ -29,5 +30,5 @@ class Container extends \SprayFire\Util\CoreObject implements \SprayFire\Service
     public function setServiceFactory($serviceType, \SprayFire\Factory\Factory $Factory) {
 
     }
-    
+
 }
