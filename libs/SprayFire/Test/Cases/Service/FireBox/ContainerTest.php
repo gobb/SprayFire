@@ -21,7 +21,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
 
     public function testResourceDoesExist() {
         $Container = new \SprayFire\Service\FireBox\Container();
-        $Container->addService('SprayFire.Util.Directory');
+        $Container->addService('SprayFire.Util.Directory', function() {});
         $directoryExist = $Container->doesServiceExist('SprayFire.Util.Directory');
         $this->assertTrue($directoryExist);
     }
