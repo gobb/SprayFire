@@ -1,90 +1,83 @@
 <?php
 
 /**
- * @file
- * @brief Holds an interface used to get absolute and relative paths to directories
- * and files used by the framework and/or app.
+ * An interface used to get absolute and relative paths to directories and files
+ * used by the framework and/or app.
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire;
 
-/**
- * @brief An interface to be implemented by objects that are responsible for creating
- * absolute paths to directories and files on the target file system.
- */
 interface PathGenerator {
 
     /**
-     * @brief Should return the root path that the app and framework is installed
-     * in; should also accept either an array or a variable number of arguments
-     * to be interpreted as the sub directories and/or files to append to the install
-     * path.
-     *
-     * @param $subDir
-     */
-    public function getInstallPath($subDir = array());
-
-    /**
-     * @brief Should return the libs path that SprayFire and third-party libs are
-     * installed in; should also accept either an array or a variable number of
-     * arguments to be interpreted as the sub directories and/or files to append
-     * to the libs path.
-     *
-     * @param $subDir
-     */
-    public function getLibsPath($subDir = array());
-
-    /**
-     * @brief Should return the app path that the app is installed in should also
-     * accept either an array or a variable number of arguments to be interpreted
-     * as the sub directories and/or files to append to the app path.
-     *
-     * @param $subDir
-     */
-    public function getAppPath($subDir = array());
-
-    /**
-     * @brief Should return the logs path that error and stats logs should be stored
-     * in; should also accept either an array or a variable number of arguments
-     * to be interpreted as the sub directories and/or files to append to the logs
-     * path.
-     *
-     * @param $subDir
-     */
-    public function getLogsPath($subDir = array());
-
-    /**
-     * @brief Should return the config path that the configuration JSON and XML
-     * files are stored in; should also accept either an array or a variable number
-     * of arguments to be interpreted as the sub directories and/or files to append
-     * to the config path.
-     *
-     * @param $subDir
-     */
-    public function getConfigPath($subDir = array());
-
-    /**
-     * @brief Should return the web path that the web accessible files are stored
-     * in; should also accept either an array or a variable number of arguments
-     * to be interpreted as the sub directories and/or files to append to the web
-     * path.
-     *
-     * @param $subDir
-     */
-    public function getWebPath($subDir = array());
-
-    /**
-     * @brief Should return a relative path suitable for use in HTML templates;
+     * Should return the root path that the app and framework is installed in;
      * should also accept either an array or a variable number of arguments to be
-     * interpreted as the sub directories and/or files to append to the web $path.
+     * interpreted as the sub directories and/or files to append to the install
+     * path.
      *
-     * @details
+     * @return string
+     */
+    public function getInstallPath();
+
+    /**
+     * Should return the libs path that SprayFire and third-party libs are installed
+     * in; should also accept either an array or a variable number of arguments
+     * to be interpreted as the sub directories and/or files to append to the libs
+     * path.
+     *
+     * @return string
+     */
+    public function getLibsPath();
+
+    /**
+     * Should return the app path that the app is installed in should also accept
+     * either an array or a variable number of arguments to be interpreted as the
+     * sub directories and/or files to append to the app path.
+     *
+     * @return string
+     */
+    public function getAppPath();
+
+    /**
+     * Should return the logs path that error and stats logs should be stored in;
+     * should also accept either an array or a variable number of arguments to be
+     * interpreted as the sub directories and/or files to append to the logs path.
+     *
+     * @return string
+     */
+    public function getLogsPath();
+
+    /**
+     * Should return the config path that the configuration files are stored in;
+     * should also accept either an array or a variable number of arguments to be
+     * interpreted as the sub directories and/or files to append to the config path.
+     *
+     * @return string
+     */
+    public function getConfigPath();
+
+    /**
+     * Should return the web path that the web accessible files are stored in;
+     * should also accept either an array or a variable number of arguments to be
+     * interpreted as the sub directories and/or files to append to the web path.
+     *
+     * @return string
+     */
+    public function getWebPath();
+
+    /**
+     * Should return a relative path suitable for use in HTML templates; should
+     * also accept either an array or a variable number of arguments to be interpreted
+     * as the sub directories and/or files to append to the web $path.
+     *
      * Ultimatley this means that this function will need to return the basename
      * of the install path appended to the web path without the root directory
      * attached.
      *
-     * @param $subDir
+     * @return string
      */
-    public function getUrlPath($subDir = array());
+    public function getUrlPath();
 
 }
