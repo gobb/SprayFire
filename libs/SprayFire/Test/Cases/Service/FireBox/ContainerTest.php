@@ -64,6 +64,14 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($DirectoryOne, $DirectoryTwo);
     }
 
+    public function testAddingObjectAsServiceAndRetrievingRightObject() {
+        $ReflectionCache = new \Artax\ReflectionPool();
+        $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
+        $Container->addService($ReflectionCache, function() {return array();});
+        $Cache = $Container->getService('Artax.ReflectionPool');
+        $this->assertSame($ReflectionCache, $Cache);
+    }
+
     public function tearDown() {
 
     }
