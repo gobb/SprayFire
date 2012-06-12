@@ -17,6 +17,9 @@ class Container extends \SprayFire\Util\UtilObject implements \SprayFire\Service
      */
     protected $addedServices = array();
 
+    /**
+     * @property Artax.ReflectionCacher
+     */
     protected $ReflectionCache;
 
     /**
@@ -63,14 +66,6 @@ class Container extends \SprayFire\Util\UtilObject implements \SprayFire\Service
             throw new \SprayFire\Service\NotFoundException('A service, ' . $serviceName . ', was not properly added to the container.');
         }
         return $ReflectedService->newInstanceArgs($parameterCallback());
-    }
-
-    /**
-     * @param $serviceType string Namespaced name of the class representing the service
-     * @param $Factory SprayFire.Factory.Factory
-     */
-    public function setServiceFactory($serviceType, \SprayFire\Factory\Factory $Factory) {
-
     }
 
 }
