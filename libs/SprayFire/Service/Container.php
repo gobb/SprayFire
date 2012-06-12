@@ -43,11 +43,4 @@ interface Container {
      */
     public function doesServiceExist($serviceName);
 
-    /**
-     * @param $serviceType string A Java or PHP style type, meaning class or interface
-     * @param $Factory SprayFire.Factory.Factory Rresponsible for creating any service that is a \a $serviceType
-     * @return void
-     */
-    public function setServiceFactory($serviceType, \SprayFire\Factory\Factory $Factory);
-
 }
