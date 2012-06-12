@@ -26,6 +26,12 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($directoryExist);
     }
 
+    public function testAddingNotCallableParameters() {
+        $Container = new \SprayFire\Service\FireBox\Container();
+        $this->setExpectedException('\\SprayFire\\Service\\NotFoundException');
+        $Container->addService('SprayFire.Util.Directory', array());
+    }
+
     public function tearDown() {
 
     }
