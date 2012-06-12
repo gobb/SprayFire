@@ -38,16 +38,23 @@ class Container extends \SprayFire\Util\UtilObject implements \SprayFire\Service
 
     /**
      *
-     * @param $serviceName string Namespaced name of the class representing the service
+     * @param $serviceName mixed The class name or the object representing the service
      * @param $callableParameters callable An anonymous function returning array of service dependencies
      * @throws InvalidArgumentException
      */
-    public function addService($serviceName, $callableParameters = null) {
+    public function addService($serviceName, $callableParameters) {
         if (!\is_callable($callableParameters)) {
             throw new \InvalidArgumentException('Attempt to pass a non-callable type to a callable require parameter.');
         }
-        $serviceName = $this->convertJavaClassToPhpClass($serviceName);
-        $this->addedServices[$serviceName] = $callableParameters;
+        if (\is_object($serviceName)) {
+            $service = $serviceName;
+            $serviceName = '\\' . \get_class($service);
+            $this->storedServices[$serviceName] = $service;
+        } else {
+            $serviceName = $this->convertJavaClassToPhpClass($serviceName);
+            $this->addedServices[$serviceName] = $callableParameters;
+        }
+
     }
 
     /**
