@@ -31,7 +31,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     public function testAddingNotCallableParameters() {
         $ReflectionCache = new \Artax\ReflectionPool();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
-        $this->setExpectedException('\\SprayFire\\Service\\NotFoundException');
+        $this->setExpectedException('\\InvalidArgumentException');
         $Container->addService('SprayFire.Util.Directory', array());
     }
 
