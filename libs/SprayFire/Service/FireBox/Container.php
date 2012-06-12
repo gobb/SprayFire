@@ -37,7 +37,7 @@ class Container extends \SprayFire\Util\UtilObject implements \SprayFire\Service
      */
     public function addService($serviceName, $callableParameters = null) {
         if (!\is_callable($callableParameters)) {
-            throw new \SprayFire\Service\NotFoundException('Attempt to pass a non-callable type to a callable require parameter.');
+            throw new \InvalidArgumentException('Attempt to pass a non-callable type to a callable require parameter.');
         }
         $serviceName = $this->convertJavaClassToPhpClass($serviceName);
         $this->addedServices[$serviceName] = $callableParameters;
