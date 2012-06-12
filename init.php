@@ -126,6 +126,7 @@ $Container->addService('SprayFire.Util.Directory', function() use($installPath,
     $arg['web'] = $webPath;
     return array($arg);
 });
+$Container->addService($ReflectionCache, function() {});
 
 /**
  * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.
