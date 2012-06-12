@@ -49,6 +49,21 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('\\SprayFire\\Util\\Directory', $Directory);
     }
 
+    public function testCachingServices() {
+        $serviceName = 'SprayFire.Util.Directory';
+        $parameters = function() {
+            $install = \SPRAYFIRE_ROOT . '/tests/mockframework';
+            $arg1 = \compact('install');
+            return array($arg1);
+        };
+        $ReflectionCache = new \Artax\ReflectionPool();
+        $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
+        $Container->addService($serviceName, $parameters);
+        $DirectoryOne = $Container->getService($serviceName);
+        $DirectoryTwo = $Container->getService($serviceName);
+        $this->assertSame($DirectoryOne, $DirectoryTwo);
+    }
+
     public function tearDown() {
 
     }
