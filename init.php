@@ -105,20 +105,27 @@ $webPath = $installPath . '/web';
 include $libsPath . '/ClassLoader/Loader.php';
 $ClassLoader = new \ClassLoader\Loader();
 $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
+$ClassLoader->registerNamespaceDirectory('Artax', $libsPath . '/Artax/src');
 $ClassLoader->setAutoloader();
 
+$ReflectionCache = new \Artax\ReflectionPool();
+$Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 
-$PathGenerator = new \SprayFire\Util\Directory();
-$PathGenerator->setInstallPath($installPath);
-$PathGenerator->setLibsPath($libsPath);
-$PathGenerator->setAppPath($appPath);
-$PathGenerator->setLogsPath($logsPath);
-$PathGenerator->setConfigPath($configPath);
-$PathGenerator->setWebPath($webPath);
-
-$primaryConfigPath = $PathGenerator->getConfigPath(array('SprayFire', 'primary-configuration.php'));
-$PrimaryBootstrap = new \SprayFire\Bootstrap\Strapifier\Primary($primaryConfigPath);
-$SprayFireContainer = $PrimaryBootstrap->runBootstrap();
+$Container->addService('SprayFire.Util.Directory', function() use($installPath,
+                                                                  $libsPath,
+                                                                  $configPath,
+                                                                  $appPath,
+                                                                  $logsPath,
+                                                                  $webPath) {
+    $arg = array();
+    $arg['install'] = $installPath;
+    $arg['lib'] = $libsPath;
+    $arg['config'] = $configPath;
+    $arg['app'] = $appPath;
+    $arg['logs'] = $logsPath;
+    $arg['web'] = $webPath;
+    return array($arg);
+});
 
 /**
  * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.
@@ -126,8 +133,8 @@ $SprayFireContainer = $PrimaryBootstrap->runBootstrap();
 
 // NOTE: The below code is a temporary measure until the templating system is in place
 
-$styleCss = $PathGenerator->getUrlPath('css', 'sprayfire.style.css');
-$sprayFireLogo = $PathGenerator->getUrlPath('images', 'sprayfire-logo-bar-75.png');
+$styleCss = $Container->getService('SprayFire.Util.Directory')->getUrlPath('css', 'sprayfire.style.css');
+$sprayFireLogo = $Container->getService('SprayFire.Util.Directory')->getUrlPath('images', 'sprayfire-logo-bar-75.png');
 
 echo <<<HTML
 <!DOCTYPE html>
