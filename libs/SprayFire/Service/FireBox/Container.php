@@ -17,6 +17,15 @@ class Container extends \SprayFire\Util\UtilObject implements \SprayFire\Service
      */
     protected $addedServices = array();
 
+    protected $ReflectionCache;
+
+    /**
+     * @param $ReflectionCache Artax.ReflectionCacher
+     */
+    public function __construct(\Artax\ReflectionCacher $ReflectionCache) {
+        $this->ReflectionCache = $ReflectionCache;
+    }
+
     /**
      *
      * @param $serviceName string Namespaced name of the class representing the service
@@ -46,7 +55,14 @@ class Container extends \SprayFire\Util\UtilObject implements \SprayFire\Service
      * @throws SprayFire.Service.NotFoundException
      */
     public function getService($serviceName) {
-
+        $serviceName = $this->convertJavaClassToPhpClass($serviceName);
+        $parameterCallback = $this->addedServices[$serviceName];
+        try {
+            $ReflectedService = $this->ReflectionCache->getClass($serviceName);
+        } catch(\ReflectionException $NotFoundExc) {
+            throw new \SprayFire\Service\NotFoundException('A service, ' . $serviceName . ', was not properly added to the container.');
+        }
+        return $ReflectedService->newInstanceArgs($parameterCallback());
     }
 
     /**
