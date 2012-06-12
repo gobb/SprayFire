@@ -46,6 +46,7 @@ class Container extends \SprayFire\Util\UtilObject implements \SprayFire\Service
         if (!\is_callable($callableParameters)) {
             throw new \InvalidArgumentException('Attempt to pass a non-callable type to a callable require parameter.');
         }
+        
         if (\is_object($serviceName)) {
             $service = $serviceName;
             $serviceName = '\\' . \get_class($service);
