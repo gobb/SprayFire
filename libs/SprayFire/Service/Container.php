@@ -35,7 +35,7 @@ interface Container {
      * @returns boolean True if added, false if not
      * @throws InvalidArgumentException if \a $callableParameters is not callable
      */
-    public function addService($serviceName, $callableParameters = null);
+    public function addService($serviceName, $callableParameters);
 
     /**
      * @param $serviceName string A Java or PHP style class name representing the service
