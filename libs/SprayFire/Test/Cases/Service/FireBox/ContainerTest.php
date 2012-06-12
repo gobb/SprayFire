@@ -72,6 +72,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($ReflectionCache, $Cache);
     }
 
+    public function testAddingObjectAsServiceAndCheckingServiceExists() {
+        $ReflectionCache = new \Artax\ReflectionPool();
+        $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
+        $Container->addService($ReflectionCache, function() {return array();});
+        $this->assertTrue($Container->doesServiceExist('Artax.ReflectionPool'));
+    }
+
     public function tearDown() {
 
     }
