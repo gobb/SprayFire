@@ -46,7 +46,7 @@ class Container extends \SprayFire\Util\UtilObject implements \SprayFire\Service
         if (!\is_callable($callableParameters)) {
             throw new \InvalidArgumentException('Attempt to pass a non-callable type to a callable require parameter.');
         }
-        
+
         if (\is_object($serviceName)) {
             $service = $serviceName;
             $serviceName = '\\' . \get_class($service);
@@ -64,7 +64,7 @@ class Container extends \SprayFire\Util\UtilObject implements \SprayFire\Service
      */
     public function doesServiceExist($serviceName) {
         $serviceName = $this->convertJavaClassToPhpClass($serviceName);
-        return \array_key_exists($serviceName, $this->addedServices);
+        return (\array_key_exists($serviceName, $this->addedServices) || \array_key_exists($serviceName, $this->storedServices));
     }
 
     /**
