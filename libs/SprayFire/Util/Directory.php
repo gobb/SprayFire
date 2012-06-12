@@ -1,22 +1,21 @@
 <?php
 
 /**
- * @file
- * @brief Holds a class to ease the creation of absolute paths for directories and
- * files used by the app and framework.
+ * Holds a class to ease the creation of absolute paths for directories and files
+ * used by the app and framework.
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Util;
 
 /**
- * @brief A wrapper used as a utility class to easily create absolute paths for
- * various directories in the app and framework.
+ * Used as a utility class to easily create absolute paths for various directories
+ * in the app and framework.
  *
- * @details
- * This class does much more than simply encapsulate a couple of global constants.
- * This is absolutely the preferred method to retrieve paths to directories
- * residing inside installation path directories.  In addition, you can also
- * resolve the absolute paths for files this way.
+ * All of the getter methods in this class allow a variable number of parameters
+ * passed to it.  You can either pass these directly as parameters to the function
+ * or an array of strings.
  *
  * @uses SprayFire.PathGenerator
  * @uses SprayFire.Util.CoreObject
@@ -24,141 +23,107 @@ namespace SprayFire\Util;
 class Directory extends \SprayFire\Util\CoreObject implements \SprayFire\PathGenerator {
 
     /**
-     * @brief The root path holding the primary directories used by the app and
-     * fraework.
+     * Path holding the primary directories used by the app and framework.
      *
-     * @property $installPath
+     * @property string
      */
     protected $installPath;
 
     /**
-     * @brief The root path holding framework and third-party classes used by the
-     * app and framework.
+     * Path holding framework and third-party classes used by the app and framework.
      *
-     * @property $libsPath
+     * @property string
      */
     protected $libsPath;
 
     /**
-     * @brief The root path holding app classes
+     * Path holding app classes
      *
-     * @property $appPath
+     * @property string
      */
     protected $appPath;
 
     /**
-     * @brief The root path holding configuration files
+     * Path holding configuration files
      *
-     * @property $configPath
+     * @property string
      */
     protected $configPath;
 
     /**
-     * @brief The root path holding log files that are written to by the framework
-     * or app
+     * Path holding log files that are written to by the framework or app
      *
-     * @property $logsPath
+     * @property string
      */
     protected $logsPath;
 
     /**
-     * @brief The root path holding files that are accessible via the web
+     * Path holding files that are accessible via the web
      *
-     * @property $webPath
+     * @property string
      */
     protected $webPath;
 
     /**
-     * @param $path The path that the app and framework are installed in
+     * Accepts an array of paths that will be used to generate absolute paths.
+     *
+     * @param $paths array
      */
-    public function setInstallPath($path) {
-        $this->installPath = $path;
+    public function __construct(array $paths) {
+        $this->installPath = isset($paths['install']) ? $paths['install'] : '';
+        $this->libsPath = isset($paths['libs']) ? $paths['libs'] : '';
+        $this->appPath = isset($paths['app']) ? $paths['app'] : '';
+        $this->configPath = isset($paths['config']) ? $paths['config'] : '';
+        $this->logsPath = isset($paths['logs']) ? $paths['logs'] : '';
+        $this->webPath = isset($paths['web']) ? $paths['web'] : '';
     }
 
     /**
-     * @param $path The path holding framework and third-party libs
+     * @return string Path holding the app and framework directories
      */
-    public function setLibsPath($path) {
-        $this->libsPath = $path;
-    }
-
-    /**
-     * @param $path The path holding app classes and libs
-     */
-    public function setAppPath($path) {
-        $this->appPath = $path;
-    }
-
-    public function setConfigPath($path) {
-        $this->configPath = $path;
-    }
-
-    /**
-     * @param $path The path holding log files written to by the framework and app
-     */
-    public function setLogsPath($path) {
-        $this->logsPath = $path;
-    }
-
-    /**
-     * @param $path the path holding web accessible files
-     */
-    public function setWebPath($path) {
-        $this->webPath = $path;
-    }
-
-    /**
-     * @return The path holding the path the app and framework are installed in
-     */
-    public function getInstallPath($subDir = array()) {
+    public function getInstallPath() {
         return $this->generateFullPath('installPath', \func_get_args());
     }
 
     /**
-     * @return Absolute path to libs dir, with sub-directories appended if applicable,
-     *         and no trailing separator
+     * @return string Path holding the framework and 3rd party libraries
      */
-    public function getLibsPath($subDir = array()) {
+    public function getLibsPath() {
         return $this->generateFullPath('libsPath', \func_get_args());
     }
 
     /**
-     * @return Absolute path to app dir, with sub-directories appended if applicable,
-     *         and no trailing separator
+     * @return string Path holding the apps driven by the framework
      */
-    public function getAppPath($subDir = array()) {
+    public function getAppPath() {
         return $this->generateFullPath('appPath', \func_get_args());
     }
 
     /**
-     * @param $subDir An array of variables
-     * @return A path to the configuration file
+     * @return string Absolute path to the configuration file
      */
-    public function getConfigPath($subDir = array()) {
+    public function getConfigPath() {
         return $this->generateFullPath('configPath', \func_get_args());
     }
 
     /**
-     * @return Absolute path to logs dir, with sub-directories appended if applicable,
-     *         and no trailing separator
+     * @return string Absolute path to directories where logs should be kept
      */
-    public function getLogsPath($subDir = array()) {
+    public function getLogsPath() {
         return $this->generateFullPath('logsPath', \func_get_args());
     }
 
     /**
-     * @return Absolute path to web dir, with sub-directories appended if applicable,
-     *         and no trailing whitespace
+     * @return string Absolute path, for backend code, to web accessible files
      */
-    public function getWebPath($subDir = array()) {
+    public function getWebPath() {
         return $this->generateFullPath('webPath', \func_get_args());
     }
 
     /**
-     * @return A relative path to the framework web-root or a subdirectory suitable
-     *         for use as image, stylesheet and script links
+     * @return string A relative path, suitable for HTML, to web accessible files
      */
-    public function getUrlPath($subDir = array()) {
+    public function getUrlPath() {
         $webRoot = \basename($this->getWebPath());
         $installRoot = \basename($this->getInstallPath());
         $urlPath = '/' . $installRoot . '/' . $webRoot;
@@ -170,9 +135,9 @@ class Directory extends \SprayFire\Util\CoreObject implements \SprayFire\PathGen
     }
 
     /**
-     * @param $property The class property to use for the primary path
-     * @param $subDir A list of possible sub directories to add to primary path
-     * @return Absolute path for the given class \a $property and \a $subDir
+     * @param $property string The class property to use for the primary path
+     * @param $subDir array A list of possible sub directories to add to primary path
+     * @return string Absolute path for the given class \a $property and \a $subDir
      */
     protected function generateFullPath($property, array $subDir) {
         if (\count($subDir) === 0) {
@@ -182,8 +147,8 @@ class Directory extends \SprayFire\Util\CoreObject implements \SprayFire\PathGen
     }
 
     /**
-     * @param $subDir
-     * @return A sub directory path, with n otrailing separator
+     * @param $subDir array A list of possible sub directories
+     * @return string A sub directory path, with n otrailing separator
      */
     protected function generateSubDirectoryPath(array $subDir) {
         $subDirPath = '';
