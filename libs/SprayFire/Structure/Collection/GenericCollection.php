@@ -1,18 +1,17 @@
 <?php
 
 /**
- * @file
- * @brief An implementation of SprayFire.Core.Structure.ObjectCollection that allows
+ * Implementation of SprayFire.Core.Structure.ObjectCollection that allows
  * for any SprayFire.Core.Object to be stored inside.
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Structure\Collection;
 
 /**
- * @brief A data structure that allows for the storage of a series of SprayFire.Core.Object
- * instances.
+ * Allows for the storage of a series of SprayFire.Core.Object instances.
  *
- * @details
  * Allows the storing and retrieval of a series of SprayFire.Core.Object instances.
  * These objects are stored with a numeric indexed.  In addition this collection guarantees
  * that the object stored for a given index will always remain the same or that index
@@ -29,31 +28,29 @@ namespace SprayFire\Structure\Collection;
 class GenericCollection extends \SprayFire\Util\CoreObject implements \IteratorAggregate, \SprayFire\Structure\ObjectCollection {
 
     /**
-     * @brief An SplFixedArray used to store the elements of the collection
-     *
-     * @property $data
+     * @property SplFixedArray
      */
     protected $data;
 
     /**
-     * @brief An integer representing the next index to use when addObject() is called
+     * Next index to use when addObject() is called
      *
-     * @property $index
+     * @property integer
      */
     protected $index = 0;
 
     /**
-     * @param $initialSize The number of buckets to originally have in collection
+     * @param $initialSize integer Number of buckets to originally have in collection
      */
     public function __construct($initialSize = 32) {
         $this->data = new \SplFixedArray($initialSize);
     }
 
     /**
-     * @brief Adds an object to the collection, assigning the current index.
+     * Adds an object to the collection, assigning the current index.
      *
      * @param $Object SprayFire.Object An object to add to the collection
-     * @return The index of \a $Object or false if \a $Object was not added
+     * @return boolean The index of \a $Object or false if \a $Object was not added
      */
     public function addObject(\SprayFire\Object $Object) {
         if ($this->index === $this->data->count()) {
@@ -72,7 +69,7 @@ class GenericCollection extends \SprayFire\Util\CoreObject implements \IteratorA
 
     /**
      * @param $Object SprayFire.Object
-     * @return true if the \a $Object exists anywhere in the collection
+     * @return boolean true if the \a $Object exists anywhere in the collection
      */
     public function containsObject(\SprayFire\Object $Object) {
         foreach ($this->data as $value) {
@@ -86,10 +83,10 @@ class GenericCollection extends \SprayFire\Util\CoreObject implements \IteratorA
     }
 
     /**
-     * @brief Will return the index of the first element in the collection equal
-     * to \a $Object.
+     * Return the index of the first element in the collection equal to \a $Object.
      *
      * @param $Object SprayFire.Object
+     * @return mixed integer if \a $Object is found, false if it is not found
      */
     public function getIndex(\SprayFire\Object $Object) {
         foreach ($this->data as $key => $value) {
@@ -112,7 +109,8 @@ class GenericCollection extends \SprayFire\Util\CoreObject implements \IteratorA
     }
 
     /**
-     * @param type $index A numeric integer representing a valid index to remove
+     * @param $index integer Representing a valid index to remove
+     * @return void
      * @throws InvalidArgumentException
      */
     public function removeIndex($index) {
@@ -121,7 +119,8 @@ class GenericCollection extends \SprayFire\Util\CoreObject implements \IteratorA
     }
 
     /**
-     * @param $index Numeric index to check validity of
+     * @param $index integer Index to check validity of
+     * @return void
      * @throws InvalidArgumentException
      */
     protected function throwExceptionIfIndexInvalid($index) {
@@ -132,6 +131,7 @@ class GenericCollection extends \SprayFire\Util\CoreObject implements \IteratorA
 
     /**
      * @param $Object SprayFire.Object
+     * @return void
      */
     public function removeObject(\SprayFire\Object $Object) {
         $index = $this->getIndex($Object);
@@ -151,7 +151,7 @@ class GenericCollection extends \SprayFire\Util\CoreObject implements \IteratorA
     }
 
     /**
-     * @return The actual number of SprayFire.Core.Object stored in the collection
+     * @return integer Actual number of objects stored
      */
     public function count() {
         $count = 0;
@@ -164,14 +164,14 @@ class GenericCollection extends \SprayFire\Util\CoreObject implements \IteratorA
     }
 
     /**
-     * @return The number of total buckets for this collection.
+     * @return integer
      */
     public function getNumberOfBuckets() {
         return $this->data->count();
     }
 
     /**
-     * @return true if the collection has no members and false if it does
+     * @return boolean
      */
     public function isEmpty() {
         return \count($this) === 0;

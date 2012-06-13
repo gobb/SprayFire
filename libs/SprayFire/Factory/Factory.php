@@ -1,8 +1,9 @@
 <?php
 
 /**
- * @file
- * @brief Holds an interface to allow a common API for all factory objects.
+ * An interface to allow a common API for all factory objects.
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Factory;
@@ -10,13 +11,13 @@ namespace SprayFire\Factory;
 interface Factory {
 
     /**
-     * @param $objectName namespaced class to create from the factory
-     * @return An object representing the one requested or a NullObject of the given type
+     * @param $objectName string Namespaced class to create
+     * @return Object Should be of the type for this Factory
      */
     public function makeObject($objectName, array $options = array());
 
     /**
-     *@return The complete, namespaced class that this factory will produce.
+     *@return string The complete, namespaced class that this factory will produce.
      */
     public function getObjectType();
 

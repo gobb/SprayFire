@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @file
- * @brief An exception thrown if a SprayFire.Bootstrap.Bootstrapper could not
- * successfully complete its bootstrapping procedures.
+ * Thrown if a SprayFire.Bootstrap.Bootstrapper could not successfully complete
+ * its bootstrapping procedures.
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Exception;

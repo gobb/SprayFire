@@ -1,15 +1,16 @@
 <?php
 
 /**
- * @file
- * @brief An interface that is responsible for delegating the appropriate error
- * messages to the appropriate SprayFire.Logging.Logger.
+ * Responsible for delegating the appropriate error messages to the appropriate
+ * SprayFire.Logging.Logger.
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Logging;
 
 /**
- * @brief Implementations are ultimately acting as a facade to allow the logging
+ * Implementations are ultimately acting as a facade to allow the logging
  * of information pertinent to the system to a variety of different places.
  *
  * @see http://www.github.com/cspray/SprayFire/wiki/Logging

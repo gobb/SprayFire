@@ -1,17 +1,16 @@
 <?php
 
 /**
- * @file
- * @brief A file holding classes reponsible for logging and keeping track of errors
- * triggered.
+ * File holding class reponsible for logging and keeping track of errors triggered.
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Error;
 
 /**
- * @brief A class that is responsible for trapping errors, logging appropriate
- * messages and provides a means to get the error info for errors triggered in a
- * specific request.
+ * Responsible for trapping errors, logging appropriate messages and provides a
+ * means to get the error info for errors triggered in a specific request.
  *
  * @uses SprayFire.Logging.LogOverseer
  * @uses SprayFire.Core.Util.CoreObject
@@ -19,14 +18,12 @@ namespace SprayFire\Error;
 class Handler extends \SprayFire\Util\CoreObject {
 
     /**
-     * @brief A SprayFire.Logging.LogOverseer used to log messages.
-     *
-     * @property $Logger
+     * @property SprayFire.Logging.LogOverseer
      */
     protected $Logger;
 
     /**
-     * @param $Log \SprayFire\Logger\Log The log to use for this error handler
+     * @param $Log SprayFire.Logging.LogOverseer The log to use for this error handler
      * @param $developmentModeOn True or false on whether or not the environment is in development mode
      */
     public function __construct(\SprayFire\Logging\LogOverseer $Log, $developmentModeOn = false) {
@@ -35,7 +32,7 @@ class Handler extends \SprayFire\Util\CoreObject {
     }
 
     /**
-     * @brief Used as the error handling callback.
+     * Used as the error handling callback.
      *
      * @param $severity int representing an error level constant
      * @param $message string representing an error message
@@ -60,8 +57,8 @@ class Handler extends \SprayFire\Util\CoreObject {
     }
 
     /**
-     * @brief Converts a numeric severity into the textual representation of the
-     * error level constant represnting it; if it the severity is not known or not
+     * Converts a numeric severity into the textual representation of the
+     * error level constant representing it; if it the severity is not known or not
      * one expected to be trapped by the handler it will return 'E_UNKNOWN_SEVERITY'
      *
      * @param $severity An integer

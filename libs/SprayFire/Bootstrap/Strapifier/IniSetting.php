@@ -1,23 +1,27 @@
 <?php
 
 /**
- * @file
- * @brief Holds a class to set the configuration values for php.ini
+ * A class to set php.ini settings based on an array passed in constructor
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Bootstrap\Strapifier;
 
 /**
+ * The array should be an associative array that stores the key as the ini setting
+ * and the value of that key as the value it should be set to.
+ *
  * @uses SprayFire.Bootstrap.Bootstrapper
  * @uses SprayFire.Util.CoreObject
  */
 class IniSetting extends \SprayFire\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
-     * @brief An associative array holding the settings and values that should be
-     * used in the ini_set() call
+     * Associative array holding the settings and values that should be used in
+     * the ini_set() call
      *
-     * @var $config
+     * @property array
      */
     protected $config;
 
@@ -29,7 +33,7 @@ class IniSetting extends \SprayFire\Util\CoreObject implements \SprayFire\Bootst
     }
 
     /**
-     * @brief Will set the global ini configuration settings and either the development
+     * Will set the global ini configuration settings and either the development
      * or production ini configuration.
      *
      * @return void

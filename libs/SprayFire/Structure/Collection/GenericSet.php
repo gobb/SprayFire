@@ -1,15 +1,16 @@
 <?php
 
 /**
- * @file
- * @brief Holds a class designed to store a unique set of generic SprayFire.Core.Object
+ * Class designed to store a unique set of generic SprayFire.Core.Object
  * objects.
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Structure\Collection;
 
 /**
- * @brief Ensures that the collection of objects do not have duplicate values.
+ * Ensures that the collection of objects do not have duplicate values.
  *
  * @uses SprayFire.Object
  * @uses SprayFire.Structure.Collection.GenericCollection
@@ -17,8 +18,8 @@ namespace SprayFire\Structure\Collection;
 class GenericSet extends \SprayFire\Structure\Collection\GenericCollection {
 
     /**
-     * @param $Object \SprayFire\Object
-     * @return The index for \a $Object or false if it exists in the Set
+     * @param $Object SprayFire.Object
+     * @return mixed The index for \a $Object or false if it does not exist in the Set
      */
     public function addObject(\SprayFire\Object $Object) {
         if ($this->containsObject($Object)) {

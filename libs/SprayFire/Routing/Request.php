@@ -1,16 +1,12 @@
 <?php
 
 /**
- * @file
- * @brief Interface for classes that answer when the Dispatch layer asks for info
- * needed to complete a request.
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Routing;
 
-/**
- * @brief
- */
 interface Request {
 
     /**

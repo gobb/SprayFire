@@ -1,16 +1,12 @@
 <?php
 
 /**
- * @file
- * @brief An interface for converting a Uri instance into a SprayFire.Routing.Request
- * instance
+ *
+ * @author Charles Sprayberry
  */
 
 namespace SprayFire\Routing;
 
-/**
- * @brief
- */
 interface Router {
 
     /**

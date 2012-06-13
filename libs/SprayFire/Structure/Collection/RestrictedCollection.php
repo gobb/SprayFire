@@ -1,16 +1,14 @@
 <?php
 
 /**
- * @file
- * @brief An extension of SprayFire.Core.Structure.GenericCollection that allows
- * only a restricted type of object to be stored.
+ * Extension of SprayFire.Core.Structure.GenericCollection that allows only a
+ * restricted type of object to be stored.
  */
 
 namespace SprayFire\Structure\Collection;
 
 /**
- * @brief A collection that allows any number of a restricted type of object to be
- * stored.
+ * Allows any number of a restricted type of object to be stored.
  *
  * @uses ReflectionClass
  * @uses SprayFire.Object
