@@ -18,13 +18,6 @@ namespace SprayFire\Logging\Logifier;
 class LogDelegator extends \SprayFire\Util\CoreObject implements \SprayFire\Logging\LogOverseer {
 
     /**
-     * Used to create the Logger objects
-     *
-     * @property SprayFire.Factory.Factory
-     */
-    protected $Factory;
-
-    /**
      * @property SprayFire.Logging.Logger
      */
     protected $EmergencyLogger;
@@ -47,8 +40,11 @@ class LogDelegator extends \SprayFire\Util\CoreObject implements \SprayFire\Logg
     /**
      * @param $LoggerFactory SprayFire.Factory.Factory that produces SprayFire.Logging.Logger
      */
-    public function __construct(\SprayFire\Factory\Factory $LoggerFactory) {
-        $this->Factory = $LoggerFactory;
+    public function __construct(\SprayFire\Logging\Logger $Emergency, \SprayFire\Logging\Logger $Error, \SprayFire\Logging\Logger $Debug, \SprayFire\Logging\Logger $Info) {
+        $this->EmergencyLogger = $Emergency;
+        $this->ErrorLogger = $Error;
+        $this->DebugLogger = $Debug;
+        $this->InfoLogger = $Info;
     }
 
     /**
@@ -85,38 +81,6 @@ class LogDelegator extends \SprayFire\Util\CoreObject implements \SprayFire\Logg
      */
     public function logInfo($message, array $options = array()) {
         return $this->InfoLogger->log($message, $options);
-    }
-
-    /**
-     * @param $loggerName string The name of the object to produce by \a $Factory
-     * @param $loggerBlueprint array The blueprint for this particular object
-     */
-    public function setEmergencyLogger($loggerName, array $loggerBlueprint = array()) {
-        $this->EmergencyLogger = $this->Factory->makeObject($loggerName, $loggerBlueprint);
-    }
-
-    /**
-     * @param $loggerName string The name of the object to produce by \a $Factory
-     * @param $loggerBlueprint array The blueprint for this particular object
-     */
-    public function setErrorLogger($loggerName, array $loggerBlueprint = array()) {
-        $this->ErrorLogger = $this->Factory->makeObject($loggerName, $loggerBlueprint);
-    }
-
-    /**
-     * @param $loggerName string The name of the object to produce by \a $Factory
-     * @param $loggerBlueprint array The blueprint for this particular object
-     */
-    public function setDebugLogger($loggerName, array $loggerBlueprint = array()) {
-        $this->DebugLogger = $this->Factory->makeObject($loggerName, $loggerBlueprint);
-    }
-
-    /**
-     * @param $loggerName string The name of the object to produce by \a $Factory
-     * @param $loggerBlueprint array The blueprint for this particular object
-     */
-    public function setInfoLogger($loggerName, array $loggerBlueprint = array()) {
-        $this->InfoLogger = $this->Factory->makeObject($loggerName, $loggerBlueprint);
     }
 
 }

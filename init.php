@@ -102,6 +102,9 @@ $appPath = $installPath . '/app';
 $logsPath = $installPath . '/logs';
 $webPath = $installPath . '/web';
 
+$debugFilePath = $logsPath . '/sprayfire-debug.txt';
+$infoFilePath = $logsPath .'/sprayfire-info.txt';
+
 include $libsPath . '/ClassLoader/Loader.php';
 $ClassLoader = new \ClassLoader\Loader();
 $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
@@ -127,6 +130,16 @@ $Container->addService('SprayFire.Util.Directory', function() use($installPath,
     return array($arg);
 });
 $Container->addService($ReflectionCache, function() {});
+$Container->addService('SprayFire.Logging.Logifier.LogDelegator', function() use ($debugFilePath,
+                                                                                  $infoFilePath) {
+    $DebugFile = new \SplFileInfo($debugFilePath);
+    $InfoFile = new \SplFileInfo($infoFilePath);
+    $Emergency = new \SprayFire\Logging\Logifier\SysLogLogger();
+    $Error = new \SprayFire\Logging\Logifier\ErrorLogLogger();
+    $Debug = new \SprayFire\Logging\Logifier\FileLogger($DebugFile);
+    $Info = new \SprayFire\Logging\Logifier\FileLogger($InfoFile);
+    return array($Emergency, $Error, $Debug, $Info);
+});
 
 /**
  * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.
