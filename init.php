@@ -140,6 +140,7 @@ $Container->addService('SprayFire.Logging.Logifier.LogDelegator', function() use
     $Info = new \SprayFire\Logging\Logifier\FileLogger($InfoFile);
     return array($Emergency, $Error, $Debug, $Info);
 });
+$Container->addService('SprayFire.Routing.Normalizer', function() {});
 
 /**
  * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.
