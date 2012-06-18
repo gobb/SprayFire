@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * An interface to provide information about the page/resource requested
  *
  * @author Charles Sprayberry
  */
@@ -10,32 +11,31 @@ namespace SprayFire\Routing;
 interface Request {
 
     /**
-     * @brief Return the Uri instance that was created to determine this request
+     * The URI that was requested to generate this request
      *
-     * @return SprayFire.Routing.Uri
+     * @return string
      */
     public function getUri();
 
     /**
-     * @brief Return an array of strings that represent the top-level namespace
-     * for the apps that should be
-     *
-     * @return array<string>
-     */
-    public function getApps();
-
-    /**
-     * @brief Return the name of the controller to instantiate for the request
+     * Return the controller portion of the URI requested
      *
      * @return string
      */
-    public function getNormalizedController();
+    public function getController();
 
     /**
-     * @brief Return the method that should be invoked on the instantiated controller.
+     * Return the action portion of the URI requested
      *
      * @return string
      */
-    public function getNormalizedAction();
+    public function getAction();
+
+    /**
+     * Return the parameters, including any marked, from the requested URI
+     *
+     * @return array
+     */
+    public function getParameters();
 
 }
