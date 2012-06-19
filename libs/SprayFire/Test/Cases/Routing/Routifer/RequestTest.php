@@ -23,4 +23,79 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($uri, $requestedUri);
     }
 
+    public function testEmptyRequestedUri() {
+        $uri = '';
+        $root = 'sprayfire';
+        $RequestUri = new \SprayFire\Routing\Routifier\Request($uri, $root);
+        $controller = $RequestUri->getController();
+        $action = $RequestUri->getAction();
+        $parameters = $RequestUri->getParameters();
+        $requestedUri = $RequestUri->getUri();
+
+        $this->assertSame('page', $controller);
+        $this->assertSame('index', $action);
+        $this->assertSame(array(), $parameters);
+        $this->assertSame($uri, $requestedUri);
+    }
+
+    public function testControllerOnlyInUri() {
+        $uri = '/roll_tide/';
+        $root = '';
+        $RequestUri = new \SprayFire\Routing\Routifier\Request($uri, $root);
+        $controller = $RequestUri->getController();
+        $action = $RequestUri->getAction();
+        $parameters = $RequestUri->getParameters();
+        $requestedUri = $RequestUri->getUri();
+
+        $this->assertSame('roll_tide', $controller);
+        $this->assertSame('index', $action);
+        $this->assertSame(array(), $parameters);
+        $this->assertSame($uri, $requestedUri);
+    }
+
+    public function testOnlyParametersAllMarked() {
+        $uri = '/sprayfire/:something/:you/:should/:expect_in_default_controller';
+        $root = 'sprayfire';
+        $RequestUri = new \SprayFire\Routing\Routifier\Request($uri, $root);
+        $controller = $RequestUri->getController();
+        $action = $RequestUri->getAction();
+        $parameters = $RequestUri->getParameters();
+        $requestedUri = $RequestUri->getUri();
+
+        $this->assertSame('page', $controller);
+        $this->assertSame('index', $action);
+        $this->assertSame(array('something', 'you', 'should', 'expect_in_default_controller'), $parameters);
+        $this->assertSame($uri, $requestedUri);
+    }
+
+    public function testControllerAndParametersWithOneMarked() {
+        $uri = '/something-else/blog/:jan/27/2012';
+        $root = 'something-else';
+        $RequestUri = new \SprayFire\Routing\Routifier\Request($uri, $root);
+        $controller = $RequestUri->getController();
+        $action = $RequestUri->getAction();
+        $parameters = $RequestUri->getParameters();
+        $requestedUri = $RequestUri->getUri();
+
+        $this->assertSame('blog', $controller);
+        $this->assertSame('index', $action);
+        $this->assertSame(array('jan', '27', '2012'), $parameters);
+        $this->assertSame($uri, $requestedUri);
+    }
+
+    public function testControllerActionAndNamedParameters() {
+        $uri = '/news/article/category:something/title:something-else-like-this';
+        $root = 'install-dir';
+        $RequestUri = new \SprayFire\Routing\Routifier\Request($uri, $root);
+        $controller = $RequestUri->getController();
+        $action = $RequestUri->getAction();
+        $parameters = $RequestUri->getParameters();
+        $requestedUri = $RequestUri->getUri();
+
+        $this->assertSame('news', $controller);
+        $this->assertSame('article', $action);
+        $this->assertSame(array('category' => 'something', 'title' => 'something-else-like-this'), $parameters);
+        $this->assertSame($uri, $requestedUri);
+    }
+
 }
