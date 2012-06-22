@@ -9,7 +9,7 @@
 
 namespace SprayFire\Controller;
 
-class Base extends \SprayFire\Util\CoreObject implements \SprayFire\Controller\Controller {
+abstract class Base extends \SprayFire\Util\CoreObject implements \SprayFire\Controller\Controller {
 
     /**
      * An array of data that would need to be sanitized by the Responder before
@@ -27,32 +27,32 @@ class Base extends \SprayFire\Util\CoreObject implements \SprayFire\Controller\C
      */
     protected $cleanData = array();
 
-    public function __construct() {
-
-    }
-
+    /**
+     * @return array
+     */
     public function getCleanData() {
         return $this->cleanData;
     }
 
+    /**
+     * @return array
+     */
     public function getDirtyData() {
         return $this->dirtyData;
     }
 
+    /**
+     * @param $data array
+     */
     public function giveCleanData(array $data) {
         $this->cleanData = \array_merge($this->cleanData, $data);
     }
 
+    /**
+     * @param $data array
+     */
     public function giveDirtyData(array $data) {
         $this->dirtyData = \array_merge($this->dirtyData, $data);
-    }
-
-    public function getModels() {
-
-    }
-
-    public function getResponderName() {
-
     }
 
 }
