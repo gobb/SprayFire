@@ -34,4 +34,22 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($data, $actual);
     }
 
+    public function testGivingMultipleDataSets() {
+        $nameOne = 'SprayFire';
+        $titleOne = 'MRC Framework';
+        $descriptionOne = 'A unit-tested PHP 5.3+ framework';
+        $dataOne = \compact('nameOne', 'titleOne', 'descriptionOne');
+        $nameTwo = 'Charles';
+        $titleTwo = 'Benevolent Dictator for Life';
+        $descriptionTwo = 'A nerd playing video games or coding.';
+        $dataTwo = \compact('nameTwo', 'titleTwo', 'descriptionTwo');
+        $data = \compact('nameOne', 'titleOne', 'descriptionOne', 'nameTwo', 'titleTwo', 'descriptionTwo');
+
+        $Controller = new \SprayFire\Controller\Base();
+        $Controller->giveDirtyData($dataOne);
+        $Controller->giveDirtyData($dataTwo);
+        $actual = $Controller->getDirtyData();
+        $this->assertSame($data, $actual);
+    }
+
 }
