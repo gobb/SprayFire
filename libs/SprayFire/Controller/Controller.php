@@ -21,14 +21,6 @@ interface Controller {
     public function getResponderName();
 
     /**
-     * Provides an array of strings representing the namespaced name of the Models
-     * that should be available to this controller.
-     *
-     * @return array
-     */
-    public function getModels();
-
-    /**
      * Should provide a means to give a Responder data that is to be considered
      * unsanitized.
      *
