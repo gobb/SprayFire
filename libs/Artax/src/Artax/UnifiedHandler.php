@@ -3,13 +3,11 @@
 /**
  * UnifiedHandler File
  *
- * PHP version 5.3
- *
  * @category   Artax
  * @package    Core
  * @author     Daniel Lowrey <rdlowrey@gmail.com>
  * @copyright  ${copyright.msg}
- * @license    All code subject to the ${license.name}
+ * @license    ${license.txt}
  * @version    ${project.version}
  */
 
@@ -23,8 +21,13 @@ use Exception;
  * @package    Core
  * @author     Daniel Lowrey <rdlowrey@gmail.com>
  */
-interface UnifiedHandler
-{
+interface UnifiedHandler {
+    
+    /**
+     * Register the custom error, exception and shutdown handler functions
+     */
+    function register();
+    
     /**
      * Method to handle raised PHP errors
      * 
@@ -33,24 +36,20 @@ interface UnifiedHandler
      * @param string $errFile The file where the PHP error originated
      * @param int    $errLine The line in which the error occurred
      */
-    public function error($errNo, $errStr, $errFile, $errLine);
+    function error($errNo, $errStr, $errFile, $errLine);
     
     /**
      * The last chance handler for uncaught exceptions
      *
      * @param Exception $e Exception object
      */
-    public function exception(Exception $e);
-    
-    /**
-     * Register the custom error, exception and shutdown handlers
-     */
-    public function register();
+    function exception(Exception $e);
 
     /**
      * Handle unexpected fatal errors
      *
      * @return void
      */
-    public function shutdown();
+    function shutdown();
+    
 }

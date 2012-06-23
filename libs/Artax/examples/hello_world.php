@@ -7,7 +7,7 @@
  * --------------------------------------------------------------------
  */
 
-define('AX_DEBUG', 1);
+define('ATREYU_DEBUG_LEVEL', 1);
 require dirname(__DIR__) . '/Artax.php'; // hard path to bootstrap file
 
 /*
@@ -16,5 +16,5 @@ require dirname(__DIR__) . '/Artax.php'; // hard path to bootstrap file
  * --------------------------------------------------------------------
  */
 
-$mediator->push('hello', function(){ echo "Hello, world." . PHP_EOL; });
-$mediator->notify('hello');
+$notifier->push('hello', function(){ echo "Hello, world." . PHP_EOL; });
+$notifier->notify('hello');

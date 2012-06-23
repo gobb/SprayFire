@@ -3,43 +3,40 @@
 /**
  * Artax InjectionContainer Interface File
  * 
- * PHP version 5.3
- * 
  * @category   Artax
  * @package    Core
  * @author     Daniel Lowrey <rdlowrey@gmail.com>
  * @copyright  ${copyright.msg}
- * @license    All code subject to the ${license.name}
+ * @license    ${license.txt}
  * @version    ${project.version}
  */
 
 namespace Artax;
   
 /**
- * Specifies a front-facing interface for dependency providers.
+ * Specifies a front-facing interface for dependency injection providers
  * 
  * @category   Artax
  * @package    Core
  * @author     Daniel Lowrey <rdlowrey@gmail.com>
  */
-interface InjectionContainer
-{
+interface InjectionContainer {
+    
     /**
-     * Factory method for auto-injecting dependencies upon instantiation
+     * Auto-injects dependencies for managed class instantiation
      * 
-     * @param string $class  Class name
-     * @param mixed  $custom An optional array specifying custom instantiation
-     *                       parameters for this construction
+     * @param string $class
+     * @param array  $customDefinition
      */
-    public function make($class, array $custom);
+    function make($className, array $customDefinition);
     
     /**
      * Defines custom instantiation parameters for the specified class
      * 
-     * @param string $class      Class name
-     * @param array  $definition An array specifying custom instantiation params
+     * @param string $class
+     * @param array  $definition
      */
-    public function define($class, array $definition);
+    function define($className, array $definition);
     
     /**
      * Defines multiple custom instantiation parameters at once
@@ -47,38 +44,90 @@ interface InjectionContainer
      * @param mixed $iterable The variable to iterate over: an array, StdClass
      *                        or ArrayAccess instance
      */
-    public function defineAll($iterable);
-    
-    /**
-     * Clear the injection definition for the specified class
-     * 
-     * @param string $class Class name
-     */
-    public function remove($class);
-    
-    /**
-     * Clear all injection definitions from the container
-     */
-    public function removeAll();
-    
-    /**
-     * Forces re-instantiation of a shared class the next time it is requested
-     * 
-     * @param string $class Class name
-     */
-    public function refresh($class);
-    
-    /**
-     * Determines if a shared instance of the specified class is stored
-     * 
-     * @param string $class Class name
-     */
-    public function isShared($class);
+    function defineAll($iterable);
     
     /**
      * Determines if an injection definition exists for the specified class
      * 
-     * @param string $class Class name
+     * @param string $className
+     * @return bool
      */
-    public function isDefined($class);
+    function isDefined($className);
+    
+    /**
+     * Defines an implementation class for all occurrences of a given interface or abstract
+     * 
+     * @param string $nonConcreteType
+     * @param string $className
+     */
+    function setImplementation($nonConcreteType, $className);
+    
+    /**
+     * Retrieves the assigned implementation for the non-concrete type
+     * 
+     * @param string $nonConcreteType
+     * 
+     * @return string Returns the assigned concrete implementation class
+     */
+    function getImplementation($nonConcreteType);
+    
+    /**
+     * Determines if an implementation definition exists for the non-concrete type
+     * 
+     * @param string $nonConcreteType
+     * 
+     * @return bool
+     */
+    function hasImplementation($nonConcreteType);
+    
+    /**
+     * Clears an existing implementation class for the specified non-concrete type
+     * 
+     * @param string $nonConcreteType
+     */
+    function clearImplementation($nonConcreteType);
+    
+    /**
+     * Clears a previously-defined injection definition
+     * 
+     * @param string $className
+     */
+    function remove($className);
+    
+    /**
+     * Clears all injection definitions from the container
+     */
+    function removeAll();
+    
+    /**
+     * Shares an instance of the specified class
+     * 
+     * @param string $className
+     * @param mixed  $instance
+     */
+    function share($className, $instance);
+    
+    /**
+     * Unshares the specified class
+     * 
+     * @param string $className
+     */
+    function unshare($className);
+    
+    /**
+     * Determines if a given class name is marked as shared
+     * 
+     * @param string $className
+     * 
+     * @return bool
+     */
+    function isShared($className);
+    
+    /**
+     * Forces re-instantiation of a shared class the next time it is requested
+     * 
+     * @param string $className
+     */
+    function refresh($className);
+    
 }
