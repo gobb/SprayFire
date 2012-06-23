@@ -21,7 +21,7 @@ namespace SprayFire\Factory;
  * @uses SprayFire.Exception.TypeNotFoundException
  * @uses Artax.ReflectionCacher
  */
-abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayFire\Factory\Factory {
+abstract class BaseFactory extends \SprayFire\JavaNamespaceConverter implements \SprayFire\Factory\Factory {
 
     /**
      * @internal Keys stored in this array should be a PHP-style namespaced class.

@@ -8,7 +8,7 @@
 
 namespace SprayFire\Service\FireBox;
 
-class Container extends \SprayFire\Util\UtilObject implements \SprayFire\Service\Container {
+class Container extends \SprayFire\JavaNamespaceConverter implements \SprayFire\Service\Container {
 
     /**
      * Services and dependency callbacks added to the container
