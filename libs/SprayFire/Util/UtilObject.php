@@ -18,7 +18,7 @@ namespace SprayFire\Util;
  * be generic enough that it would be considered reasonable for any object to have
  * access to it.
  */
-class UtilObject extends \SprayFire\Util\CoreObject {
+class UtilObject extends \SprayFire\CoreObject {
 
     /**
      * @param $className A Java-style namespaced class

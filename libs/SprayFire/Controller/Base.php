@@ -9,7 +9,7 @@
 
 namespace SprayFire\Controller;
 
-abstract class Base extends \SprayFire\Util\CoreObject implements \SprayFire\Controller\Controller {
+abstract class Base extends \SprayFire\CoreObject implements \SprayFire\Controller\Controller {
 
     /**
      * An array of data that would need to be sanitized by the Responder before

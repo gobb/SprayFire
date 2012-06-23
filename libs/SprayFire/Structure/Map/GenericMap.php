@@ -18,7 +18,7 @@ namespace SprayFire\Structure\Map;
  * @uses SprayFire.Structure.ObjectMap
  * @uses SprayFire.Core.Util.CoreObject
  */
-class GenericMap extends \SprayFire\Util\CoreObject implements \IteratorAggregate, \SprayFire\Structure\ObjectMap {
+class GenericMap extends \SprayFire\CoreObject implements \IteratorAggregate, \SprayFire\Structure\ObjectMap {
 
     /**
      * @brief Holds the objects being stored in this data structure

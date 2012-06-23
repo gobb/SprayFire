@@ -15,7 +15,7 @@ namespace SprayFire\Logging\Logifier;
  * @uses SprayFire.Logging.Logger
  * @uses SprayFire.Util.CoreObject
  */
-class FileLogger extends \SprayFire\Util\CoreObject implements \SprayFire\Logging\Logger  {
+class FileLogger extends \SprayFire\CoreObject implements \SprayFire\Logging\Logger  {
 
     /**
      * Holds the file we write messages to

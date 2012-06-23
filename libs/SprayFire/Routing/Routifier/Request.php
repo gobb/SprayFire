@@ -9,7 +9,7 @@
 
 namespace SprayFire\Routing\Routifier;
 
-class Request extends \SprayFire\Util\CoreObject implements \SprayFire\Routing\Request {
+class Request extends \SprayFire\CoreObject implements \SprayFire\Routing\Request {
 
     /**
      * The URI requested by the user

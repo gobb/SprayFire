@@ -19,7 +19,7 @@ namespace SprayFire\Error;
  * @uses SprayFire.Logging.Logger
  * @uses SprayFire.Core.Util.CoreObject
  */
-class ExceptionHandler extends \SprayFire\Util\CoreObject {
+class ExceptionHandler extends \SprayFire\CoreObject {
 
     /**
      * @property SprayFire.Logging.LogOverseer

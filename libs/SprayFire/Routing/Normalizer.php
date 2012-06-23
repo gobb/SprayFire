@@ -12,7 +12,7 @@ namespace SprayFire\Routing;
  * Will take a controller or action URI fragment and return a string that is formatted
  * to follow the rules defined at http://www.github.com/cspray/SprayFire/wiki/Routing.
  */
-class Normalizer extends \SprayFire\Util\CoreObject {
+class Normalizer extends \SprayFire\CoreObject {
 
     /**
      * PCRE regex pattern used to remove all non-alphabetic/space characters

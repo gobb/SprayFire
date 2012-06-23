@@ -13,7 +13,7 @@ namespace SprayFire\Logging\Logifier;
  * @uses SprayFire.Logging.Logger
  * @uses SprayFire.Util.CoreObject
  */
-class ErrorLogLogger extends \SprayFire\Util\CoreObject implements \SprayFire\Logging\Logger {
+class ErrorLogLogger extends \SprayFire\CoreObject implements \SprayFire\Logging\Logger {
 
     /**
      * @param $message string The information to log in error_log

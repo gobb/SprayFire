@@ -15,7 +15,7 @@ namespace SprayFire\Bootstrap\Strapifier;
  * @uses SprayFire.Bootstrap.Bootstrapper
  * @uses SprayFire.Util.CoreObject
  */
-class IniSetting extends \SprayFire\Util\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
+class IniSetting extends \SprayFire\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     /**
      * Associative array holding the settings and values that should be used in

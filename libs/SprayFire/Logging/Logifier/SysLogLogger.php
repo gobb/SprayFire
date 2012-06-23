@@ -13,7 +13,7 @@ namespace SprayFire\Logging\Logifier;
  * @uses SprayFire.Logging.Logger
  * @uses SprayFire.Core.Util.CoreObject
  */
-class SysLogLogger extends \SprayFire\Util\CoreObject implements \SprayFire\Logging\Logger {
+class SysLogLogger extends \SprayFire\CoreObject implements \SprayFire\Logging\Logger {
 
     /**
      * @param $ident string A prefix to append to all messages put into syslog
