@@ -39,7 +39,7 @@ class RestrictedMap extends \SprayFire\Structure\Map\GenericMap {
         try {
             $parentType = $this->replaceDotsWithBackSlashes($parentType);
             $ReflectedType = new \ReflectionClass($parentType);
-            $this->TypeValidator = new \SprayFire\Util\ObjectTypeValidator($ReflectedType);
+            $this->TypeValidator = new \SprayFire\ObjectTypeValidator($ReflectedType);
         } catch (\ReflectionException $ReflectExc) {
             throw new \SprayFire\Exception\TypeNotFoundException('The type passed, ' . $parentType . ', could not be found or loaded.', null, $ReflectExc);
         }

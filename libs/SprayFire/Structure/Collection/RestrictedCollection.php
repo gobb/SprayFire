@@ -35,7 +35,7 @@ class RestrictedCollection extends \SprayFire\Structure\Collection\GenericCollec
         try {
             $parentType = $this->replaceDotsWithBackSlashes($parentType);
             $ReflectedType = new \ReflectionClass($parentType);
-            $this->TypeValidator = new \SprayFire\Util\ObjectTypeValidator($ReflectedType);
+            $this->TypeValidator = new \SprayFire\ObjectTypeValidator($ReflectedType);
         } catch (\ReflectionException $ReflectExc) {
             throw new \SprayFire\Exception\TypeNotFoundException('The passed type, ' . $parentType . ', could not be loaded.', null, $ReflectExc);
         }

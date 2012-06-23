@@ -90,7 +90,7 @@ abstract class BaseFactory extends \SprayFire\Util\UtilObject implements \SprayF
     protected function createTypeValidator() {
         try {
             $ReflectedType = $this->ReflectionCache->getClass($this->objectType);
-            $TypeValidator = new \SprayFire\Util\ObjectTypeValidator($ReflectedType);
+            $TypeValidator = new \SprayFire\ObjectTypeValidator($ReflectedType);
             return $TypeValidator;
         } catch (\ReflectionException $ReflectExc) {
             throw new \SprayFire\Exception\TypeNotFoundException('The injected interface or class, ' . $this->objectType . ', could not be found.', null, $ReflectExc);
