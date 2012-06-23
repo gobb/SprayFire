@@ -7,7 +7,7 @@
  * @author Charles Sprayberry
  */
 
-namespace SprayFire;
+namespace SprayFire\FileSys;
 
 interface PathGenerator {
 
