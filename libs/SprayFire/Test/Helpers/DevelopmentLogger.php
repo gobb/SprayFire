@@ -10,7 +10,7 @@ namespace SprayFire\Test\Helpers;
 /**
  * @brief
  */
-class DevelopmentLogger extends \SprayFire\Util\CoreObject implements \SprayFire\Logging\Logger {
+class DevelopmentLogger extends \SprayFire\CoreObject implements \SprayFire\Logging\Logger {
 
     protected $loggedMessages = array();
 
