@@ -60,7 +60,8 @@ $exceptionCallback = function(\Exception $Exception) {
     // message.  We'll send a 500 http response and spit back some basic fubar
     // response HTML.
     // TODO: Make this a prettier message?  Perhaps with some basic styling?
-    \error_log($Exception->getMessage());
+    //\error_log($Exception->getMessage());
+    \var_dump($Exception);
     \header('HTTP/1.1 500 Internal Server Error');
     \header('Content-Type: text-html; charset=UTF-8');
 
@@ -114,7 +115,7 @@ $ClassLoader->setAutoloader();
 $ReflectionCache = new \Artax\ReflectionPool();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 
-$Container->addService('SprayFire.Util.Directory', function() use($installPath,
+$Container->addService('SprayFire.FileSys.Paths', function() use($installPath,
                                                                   $libsPath,
                                                                   $configPath,
                                                                   $appPath,
@@ -148,8 +149,8 @@ $Container->addService('SprayFire.Routing.Normalizer', function() {});
 
 // NOTE: The below code is a temporary measure until the templating system is in place
 
-$styleCss = $Container->getService('SprayFire.Util.Directory')->getUrlPath('css', 'sprayfire.style.css');
-$sprayFireLogo = $Container->getService('SprayFire.Util.Directory')->getUrlPath('images', 'sprayfire-logo-bar-75.png');
+$styleCss = $Container->getService('SprayFire.FileSys.Paths')->getUrlPath('css', 'sprayfire.style.css');
+$sprayFireLogo = $Container->getService('SprayFire.FileSys.Paths')->getUrlPath('images', 'sprayfire-logo-bar-75.png');
 
 echo <<<HTML
 <!DOCTYPE html>
