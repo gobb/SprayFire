@@ -7,7 +7,7 @@
  * @author Charles Sprayberry
  */
 
-namespace SprayFire\Util;
+namespace SprayFire\FileSys;
 
 /**
  * Used as a utility class to easily create absolute paths for various directories
@@ -20,7 +20,7 @@ namespace SprayFire\Util;
  * @uses SprayFire.PathGenerator
  * @uses SprayFire.Util.CoreObject
  */
-class Directory extends \SprayFire\CoreObject implements \SprayFire\PathGenerator {
+class Paths extends \SprayFire\CoreObject implements \SprayFire\FileSys\PathGenerator {
 
     /**
      * Path holding the primary directories used by the app and framework.
