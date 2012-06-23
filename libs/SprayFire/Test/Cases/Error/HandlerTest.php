@@ -14,11 +14,8 @@ namespace SprayFire\Test\Cases\Error;
 class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
 
     public function testErrorHandlerFunctionNotInDevelopmentMode() {
-        $ReflectionPool = new \Artax\ReflectionPool();
-        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionPool);
-        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
-        $LogDelegator->setErrorLogger('SprayFire.Test.Helpers.DevelopmentLogger');
-        $LogDelegator->setDebugLogger('SprayFire.Test.Helpers.DevelopmentLogger');
+        $TestLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
         $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
         $originalHandler = \set_error_handler(array($ErrorHandler, 'trap'));
 
@@ -27,7 +24,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
         $ErrorLogger = $this->getErrorLogger($LogDelegator);
         $actualErrorData = $ErrorLogger->getLoggedMessages();
         $expectedErrorData = array();
-        $expectedErrorData[0]['message'] = 'The first error message;' . __FILE__ . ';line:25';
+        $expectedErrorData[0]['message'] = 'The first error message;' . __FILE__ . ';line:22';
         $expectedErrorData[0]['options'] = array();
         $this->assertSame($expectedErrorData, $actualErrorData);
 
@@ -35,10 +32,8 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testErrorHandlerFunctionUnhandledSeverity() {
-        $ReflectionPool = new \Artax\ReflectionPool();
-        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionPool);
-        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
-        $LogDelegator->setErrorLogger('SprayFire.Test.Helpers.DevelopmentLogger');
+        $TestLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
         $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
         $trappedError = $ErrorHandler->trap(E_RECOVERABLE_ERROR, 'This is an error message with unhandled severity.', 'file.php', 14);
         $this->assertFalse($trappedError);
@@ -54,10 +49,8 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testErrorHandlerFunctionUnknownSeverity() {
-        $ReflectionPool = new \Artax\ReflectionPool();
-        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionPool);
-        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
-        $LogDelegator->setErrorLogger('SprayFire.Test.Helpers.DevelopmentLogger');
+        $TestLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
         $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
         $ErrorHandler->trap(E_COMPILE_ERROR, 'This is an error message with unknown severity', 'file.php', 100);
 
@@ -72,10 +65,8 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testErrorHandlerFunctionWithErrorReportingTurnedOff() {
-        $ReflectionPool = new \Artax\ReflectionPool();
-        $LoggerFactory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionPool);
-        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($LoggerFactory);
-        $LogDelegator->setErrorLogger('SprayFire.Test.Helpers.DevelopmentLogger');
+        $TestLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
         $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
         \set_error_handler(array($ErrorHandler, 'trap'));
 
