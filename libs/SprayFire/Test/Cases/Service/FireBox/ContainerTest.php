@@ -16,15 +16,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     public function testResourceDoesNotExist() {
         $ReflectionCache = new \Artax\ReflectionPool();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
-        $directoryExist = $Container->doesServiceExist('SprayFire.Util.Directory');
+        $directoryExist = $Container->doesServiceExist('SprayFire.FileSys.Paths');
         $this->assertFalse($directoryExist);
     }
 
     public function testResourceDoesExist() {
         $ReflectionCache = new \Artax\ReflectionPool();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
-        $Container->addService('SprayFire.Util.Directory', function() {});
-        $directoryExist = $Container->doesServiceExist('SprayFire.Util.Directory');
+        $Container->addService('SprayFire.FileSys.Paths', function() {});
+        $directoryExist = $Container->doesServiceExist('SprayFire.FileSys.Paths');
         $this->assertTrue($directoryExist);
     }
 
@@ -32,11 +32,11 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $ReflectionCache = new \Artax\ReflectionPool();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
         $this->setExpectedException('\\InvalidArgumentException');
-        $Container->addService('SprayFire.Util.Directory', array());
+        $Container->addService('SprayFire.FileSys.Paths', array());
     }
 
-    public function testGettingDirectoryService() {
-        $serviceName = 'SprayFire.Util.Directory';
+    public function testGettingPathsService() {
+        $serviceName = 'SprayFire.FileSys.Paths';
         $parameters = function() {
             $install = \SPRAYFIRE_ROOT . '/tests/mockframework';
             $arg1 = \compact('install');
@@ -46,11 +46,11 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
         $Container->addService($serviceName, $parameters);
         $Directory = $Container->getService($serviceName);
-        $this->assertInstanceOf('\\SprayFire\\Util\\Directory', $Directory);
+        $this->assertInstanceOf('\\SprayFire\\FileSys\\Paths', $Directory);
     }
 
     public function testCachingServices() {
-        $serviceName = 'SprayFire.Util.Directory';
+        $serviceName = 'SprayFire.FileSys.Paths';
         $parameters = function() {
             $install = \SPRAYFIRE_ROOT . '/tests/mockframework';
             $arg1 = \compact('install');
