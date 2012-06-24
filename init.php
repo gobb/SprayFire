@@ -111,6 +111,18 @@ $webPath = $installPath . '/web';
 $debugFilePath = $logsPath . '/sprayfire-debug.txt';
 $infoFilePath = $logsPath .'/sprayfire-info.txt';
 
+$PathGenerator = 'SprayFire.FileSys.Paths';
+$pathsCallback = function() use($installPath, $libsPath, $configPath, $appPath, $logsPath, $webPath) {
+    $arg = array();
+    $arg['install'] = $installPath;
+    $arg['lib'] = $libsPath;
+    $arg['config'] = $configPath;
+    $arg['app'] = $appPath;
+    $arg['logs'] = $logsPath;
+    $arg['web'] = $webPath;
+    return array($arg);
+};
+
 include $libsPath . '/ClassLoader/Loader.php';
 $ClassLoader = new \ClassLoader\Loader();
 $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
@@ -120,21 +132,7 @@ $ClassLoader->setAutoloader();
 $ReflectionCache = new \Artax\ReflectionCacher();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 
-$Container->addService('SprayFire.FileSys.Paths', function() use($installPath,
-                                                                  $libsPath,
-                                                                  $configPath,
-                                                                  $appPath,
-                                                                  $logsPath,
-                                                                  $webPath) {
-    $arg = array();
-    $arg['install'] = $installPath;
-    $arg['lib'] = $libsPath;
-    $arg['config'] = $configPath;
-    $arg['app'] = $appPath;
-    $arg['logs'] = $logsPath;
-    $arg['web'] = $webPath;
-    return array($arg);
-});
+$Container->addService($PathGenerator, $pathsCallback);
 $Container->addService($ReflectionCache, function() {});
 $Container->addService('SprayFire.Logging.Logifier.LogDelegator', function() use ($debugFilePath,
                                                                                   $infoFilePath) {
