@@ -7,6 +7,8 @@
 
 $requestStartTime = \microtime(true);
 
+$developmentMode = true;
+
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // PREBOOTSTRAP ERROR & EXCEPTION HANDLING
 // This is just a basic error handler that stores error information in an array.
@@ -55,13 +57,16 @@ $errorCallback = function($severity, $message, $file = null, $line = null, $cont
 };
 \set_error_handler($errorCallback);
 
-$exceptionCallback = function(\Exception $Exception) {
+$exceptionCallback = function(\Exception $Exception) use ($developmentMode) {
     // there's nothing really we can do here at this point besides error_log the
     // message.  We'll send a 500 http response and spit back some basic fubar
     // response HTML.
     // TODO: Make this a prettier message?  Perhaps with some basic styling?
-    //\error_log($Exception->getMessage());
-    \var_dump($Exception);
+    if ($developmentMode) {
+        \error_log($Exception->getMessage());
+    } else {
+        \var_dump($Exception);
+    }
     \header('HTTP/1.1 500 Internal Server Error');
     \header('Content-Type: text-html; charset=UTF-8');
 
