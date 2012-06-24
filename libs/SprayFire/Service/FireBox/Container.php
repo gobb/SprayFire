@@ -30,19 +30,36 @@ class Container extends \SprayFire\JavaNamespaceConverter implements \SprayFire\
     protected $ReflectionCache;
 
     /**
+     * We are storing the empty callback for null parameters as a class property
+     * so that we do not create unnecessary Closures for multiple calls with
+     * null parameters.
+     *
+     * @property Closure
+     */
+    protected $emptyCallback;
+
+    /**
      * @param $ReflectionCache Artax.ReflectionCacher
      */
     public function __construct(\Artax\ReflectionCacher $ReflectionCache) {
         $this->ReflectionCache = $ReflectionCache;
+        $this->emptyCallback = function() {};
     }
 
     /**
+     * Will throw an exception if the $callableParameters is a non-callable
+     * type; note that null may be passed to this parameter if there are no parameters
+     * needed for the service.
      *
      * @param $serviceName mixed The class name or the object representing the service
      * @param $callableParameters callable An anonymous function returning array of service dependencies
      * @throws InvalidArgumentException
      */
     public function addService($serviceName, $callableParameters) {
+        if (\is_null($callableParameters)) {
+            $callableParameters = $this->emptyCallback;
+        }
+
         if (!\is_callable($callableParameters)) {
             throw new \InvalidArgumentException('Attempt to pass a non-callable type to a callable require parameter.');
         }
