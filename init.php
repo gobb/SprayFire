@@ -117,7 +117,7 @@ $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 $ClassLoader->registerNamespaceDirectory('Artax', $libsPath . '/Artax/src');
 $ClassLoader->setAutoloader();
 
-$ReflectionCache = new \Artax\ReflectionPool();
+$ReflectionCache = new \Artax\ReflectionCacher();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 
 $Container->addService('SprayFire.FileSys.Paths', function() use($installPath,
@@ -156,6 +156,7 @@ $Container->addService('SprayFire.Routing.Normalizer', function() {});
 
 $styleCss = $Container->getService('SprayFire.FileSys.Paths')->getUrlPath('css', 'sprayfire.style.css');
 $sprayFireLogo = $Container->getService('SprayFire.FileSys.Paths')->getUrlPath('images', 'sprayfire-logo-bar-75.png');
+$serverData = '<pre>' . print_r($_SERVER, true) . '</pre>';
 
 echo <<<HTML
 <!DOCTYPE html>
@@ -179,6 +180,7 @@ echo <<<HTML
 
                 <div id="body">
                     <div id="main-content">
+                    {$serverData}
                     </div>
                 </div>
 
