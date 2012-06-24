@@ -14,14 +14,14 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testResourceDoesNotExist() {
-        $ReflectionCache = new \Artax\ReflectionPool();
+        $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
         $directoryExist = $Container->doesServiceExist('SprayFire.FileSys.Paths');
         $this->assertFalse($directoryExist);
     }
 
     public function testResourceDoesExist() {
-        $ReflectionCache = new \Artax\ReflectionPool();
+        $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
         $Container->addService('SprayFire.FileSys.Paths', function() {});
         $directoryExist = $Container->doesServiceExist('SprayFire.FileSys.Paths');
@@ -29,7 +29,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testAddingNotCallableParameters() {
-        $ReflectionCache = new \Artax\ReflectionPool();
+        $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
         $this->setExpectedException('\\InvalidArgumentException');
         $Container->addService('SprayFire.FileSys.Paths', array());
@@ -42,7 +42,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
             $arg1 = \compact('install');
             return array($arg1);
         };
-        $ReflectionCache = new \Artax\ReflectionPool();
+        $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
         $Container->addService($serviceName, $parameters);
         $Directory = $Container->getService($serviceName);
@@ -56,7 +56,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
             $arg1 = \compact('install');
             return array($arg1);
         };
-        $ReflectionCache = new \Artax\ReflectionPool();
+        $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
         $Container->addService($serviceName, $parameters);
         $DirectoryOne = $Container->getService($serviceName);
@@ -65,22 +65,22 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testAddingObjectAsServiceAndRetrievingRightObject() {
-        $ReflectionCache = new \Artax\ReflectionPool();
+        $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
         $Container->addService($ReflectionCache, function() {return array();});
-        $Cache = $Container->getService('Artax.ReflectionPool');
+        $Cache = $Container->getService('Artax.ReflectionCacher');
         $this->assertSame($ReflectionCache, $Cache);
     }
 
     public function testAddingObjectAsServiceAndCheckingServiceExists() {
-        $ReflectionCache = new \Artax\ReflectionPool();
+        $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
         $Container->addService($ReflectionCache, function() {return array();});
-        $this->assertTrue($Container->doesServiceExist('Artax.ReflectionPool'));
+        $this->assertTrue($Container->doesServiceExist('Artax.ReflectionCacher'));
     }
 
     public function testGettingServiceThatDoesNotExist() {
-        $ReflectionCache = new \Artax\ReflectionPool();
+        $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
         $this->setExpectedException('\\SprayFire\\Service\\NotFoundException');
         $Container->getService('SprayFire.NonExistent.Service');

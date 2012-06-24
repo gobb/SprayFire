@@ -18,8 +18,8 @@ class LoggerFactoryTest extends \PHPUnit_Framework_TestCase {
         \chmod($logPath, 0777);
         $Param = new \SplFileInfo($logPath);
         $options = array($Param);
-        $ReflectionPool = new \Artax\ReflectionPool();
-        $Factory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionPool);
+        $ReflectionCache = new \Artax\ReflectionCacher();
+        $Factory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionCache);
         $Object = $Factory->makeObject('SprayFire.Logging.Logifier.FileLogger', $options);
         $this->assertTrue($Object instanceof \SprayFire\Logging\Logifier\FileLogger);
         if (\file_exists($logPath)) {
@@ -28,8 +28,8 @@ class LoggerFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGettingInvalidLogger() {
-        $ReflectionPool = new \Artax\ReflectionPool();
-        $Factory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionPool);
+        $ReflectionCache = new \Artax\ReflectionCacher();
+        $Factory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionCache);
         $Object = $Factory->makeObject('SprayFire.Logging.InvalidLogger');
         $this->assertTrue($Object instanceof \SprayFire\Logging\Logifier\NullLogger);
     }

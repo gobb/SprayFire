@@ -15,14 +15,14 @@ namespace SprayFire\Logging\Logifier;
 class LoggerFactory extends \SprayFire\Factory\BaseFactory {
 
     /**
-     * @param $ReflectionCache Artax.ReflectionCacher
+     * @param $ReflectionCache Artax.ReflectionPool
      * @param $returnType string Logger interface, defaults to SprayFire.Logging.Logger
      * @param $nullObject string A NullObject to return if errors occur, defaults
      *        to SprayFire.Logging.Logifier.NullLogger
      * @throws InvalidArgumentException
      * @throws SprayFire.Exception.TypeNotFoundException
      */
-    public function __construct(\Artax\ReflectionCacher $ReflectionCache, $returnType = 'SprayFire.Logging.Logger', $nullObject = 'SprayFire.Logging.Logifier.NullLogger') {
+    public function __construct(\Artax\ReflectionPool $ReflectionCache, $returnType = 'SprayFire.Logging.Logger', $nullObject = 'SprayFire.Logging.Logifier.NullLogger') {
         parent::__construct($ReflectionCache, $returnType, $nullObject);
     }
 
