@@ -35,6 +35,12 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $Container->addService('SprayFire.FileSys.Paths', array());
     }
 
+    public function testAddingNullParametersDefaultToEmptyCallback() {
+        $ReflectionCache = new \Artax\ReflectionCacher();
+        $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
+        $Container->addService('SprayFire.FileSys.Paths', null);
+    }
+
     public function testGettingPathsService() {
         $serviceName = 'SprayFire.FileSys.Paths';
         $parameters = function() {
