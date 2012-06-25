@@ -30,7 +30,7 @@ class ValueObjectTest extends \PHPUnit_Framework_TestCase {
         $data['notAccessible'] = 'something else';
 
         $Data = new \SprayFire\Test\Helpers\TestValueObject($data);
-        $expected = '';
+        $expected = \md5('SprayFire');
         $actual = $this->getNotAccessiblePropertyValue($Data);
         $this->assertSame($expected, $actual);
     }
