@@ -72,6 +72,12 @@ class ValueObjectTest extends \PHPUnit_Framework_TestCase {
         $Data->name = 'Charles';
     }
 
+    public function testBasicValueObjectDestroyingProperty() {
+        $Data = new \SprayFire\Test\Helpers\TestValueObject(array());
+        $this->setExpectedException('\\SprayFire\\Exception\\UnsupportedOperationException');
+        unset($Data->name);
+    }
+
     protected function getNotAccessiblePropertyValue(\SprayFire\Test\Helpers\TestValueObject $Object) {
         $Reflection = new \ReflectionObject($Object);
         $Property = $Reflection->getProperty('notAccessible');
