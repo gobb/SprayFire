@@ -29,6 +29,10 @@ class TestValueObject extends \SprayFire\ValueObject {
         $this->notAccessible = \md5('SprayFire');
     }
 
+    public function toArray() {
+        
+    }
+
     protected function getAccessibleProperties() {
         $properties = array();
         $properties['name'] = 'string';
