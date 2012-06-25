@@ -37,9 +37,9 @@ class ValueObjectTest extends \PHPUnit_Framework_TestCase {
 
     public function testBasicValueObjectCastingDataTypes() {
         $data = array();
-        $data['name'] = 'Charles Sprayberry';
+        $data['name'] = new \SprayFire\Test\Cases\Name('Charles Sprayberry');
         $data['age'] = '28';
-        $data['isAlive'] = '0';
+        $data['isAlive'] = '1';
         $data['gender'] = 'Male';
         $data['weight'] = '125.0';
 
@@ -58,4 +58,18 @@ class ValueObjectTest extends \PHPUnit_Framework_TestCase {
         return $Property->getValue($Object);
     }
 
+}
+
+
+class Name {
+
+    protected $name;
+
+    public function __construct($name) {
+        $this->name = $name;
+    }
+
+    public function __toString() {
+        return $this->name;
+    }
 }
