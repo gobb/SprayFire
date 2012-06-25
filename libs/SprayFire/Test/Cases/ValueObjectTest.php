@@ -35,6 +35,22 @@ class ValueObjectTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $actual);
     }
 
+    public function testBasicValueObjectCastingDataTypes() {
+        $data = array();
+        $data['name'] = 'Charles Sprayberry';
+        $data['age'] = '28';
+        $data['isAlive'] = '0';
+        $data['gender'] = 'Male';
+        $data['weight'] = '125.0';
+
+        $Charles = new \SprayFire\Test\Helpers\TestValueObject($data);
+        $this->assertSame('Charles Sprayberry', $Charles->name);
+        $this->assertSame(28, $Charles->age);
+        $this->assertSame(true, $Charles->isAlive);
+        $this->assertSame('Male', $Charles->gender);
+        $this->assertSame(125.0, $Charles->weight);
+    }
+
     protected function getNotAccessiblePropertyValue(\SprayFire\Test\Helpers\TestValueObject $Object) {
         $Reflection = new \ReflectionObject($Object);
         $Property = $Reflection->getProperty('notAccessible');
