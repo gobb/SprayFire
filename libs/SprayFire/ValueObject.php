@@ -53,7 +53,10 @@ abstract class ValueObject extends \SprayFire\CoreObject {
      * @return boolean
      */
     public function __isset($property) {
-
+        if (\array_key_exists($property, $this->accessibleProperties)) {
+            return isset($this->$property);
+        }
+        return false;
     }
 
     /**
