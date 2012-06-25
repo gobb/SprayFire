@@ -65,7 +65,7 @@ abstract class ValueObject extends \SprayFire\CoreObject {
      * @throws SprayFire.Exception.UnsupportedOperationException
      */
     public final function __set($property, $value) {
-
+        throw new \SprayFire\Exception\UnsupportedOperationException('You may not change the value of this object, it is immutable.');
     }
 
     /**
@@ -73,7 +73,7 @@ abstract class ValueObject extends \SprayFire\CoreObject {
      * @throws SprayFire.Exception.UnsupportedOperationException
      */
     public final function __unset($property) {
-
+        throw new \SprayFire\Exception\UnsupportedOperationException('You may not change the value of this object, it is immutable.');
     }
 
     /**
