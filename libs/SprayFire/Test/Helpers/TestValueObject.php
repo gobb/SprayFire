@@ -16,7 +16,7 @@ class TestValueObject extends \SprayFire\ValueObject {
 
     protected $age = 0;
 
-    protected $gender = 'Male';
+    protected $gender = null;
 
     protected $isAlive = true;
 
