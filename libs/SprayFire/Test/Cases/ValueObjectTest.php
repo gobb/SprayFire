@@ -51,6 +51,11 @@ class ValueObjectTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(125.0, $Charles->weight);
     }
 
+    public function testBasicValueObjectGettingNotAccessibleProperty() {
+        $Data = new \SprayFire\Test\Helpers\TestValueObject(array());
+        $this->assertSame(null, $Data->notAccessible);
+    }
+
     protected function getNotAccessiblePropertyValue(\SprayFire\Test\Helpers\TestValueObject $Object) {
         $Reflection = new \ReflectionObject($Object);
         $Property = $Reflection->getProperty('notAccessible');
