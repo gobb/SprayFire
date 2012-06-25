@@ -29,6 +29,7 @@ abstract class ValueObject extends \SprayFire\CoreObject {
         foreach ($this->accessibleProperties as $property => $type) {
             if (\array_key_exists($property, $data)) {
                 $this->$property = $data[$property];
+                \settype($this->$property, $type);
             }
         }
     }
@@ -54,7 +55,6 @@ abstract class ValueObject extends \SprayFire\CoreObject {
     public function __isset($property) {
 
     }
-
 
     /**
      * @param $property string
