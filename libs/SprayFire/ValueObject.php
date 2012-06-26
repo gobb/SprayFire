@@ -77,6 +77,22 @@ abstract class ValueObject extends \SprayFire\CoreObject {
     }
 
     /**
+     * Overridden to ensure that ValueObject equality is based on the values stored
+     * by each object.
+     *
+     * @param $Object SprayFire.Object
+     * @return boolean
+     */
+    public function equals(\SprayFire\Object $Object) {
+        foreach ($this->accessibleProperties as $property => $type) {
+            if ($this->$property !== $Object->$property) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Return an array representation of the Value Object
      *
      * @return array
