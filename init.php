@@ -90,6 +90,8 @@ HTML;
 $installPath = __DIR__;
 $libsPath = $installPath . '/libs';
 
+$requestUri = $_SERVER['REQUEST_URI'];
+
 $PathGenerator = 'SprayFire.FileSys.Paths';
 $pathsCallback = function() use($installPath, $libsPath) {
     $RootPaths = new \SprayFire\FileSys\RootPaths($installPath, $libsPath);
@@ -108,6 +110,8 @@ $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 $Container->addService($PathGenerator, $pathsCallback);
 $Container->addService($ReflectionCache, null);
 $Container->addService('SprayFire.Routing.Normalizer', null);
+
+$UriData = new \SprayFire\Routing\Routifier\UriData($requestUri, $installPath);
 
 /**
  * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.
