@@ -73,12 +73,12 @@ class Request extends \SprayFire\CoreObject implements \SprayFire\Routing\Reques
      * @param $defaultController string
      * @param $defaultAction string
      */
-    public function __construct($uri, $installDir, $defaultController = 'page', $defaultAction = 'index') {
-        $this->uri = (string) $uri;
-        $this->installDir = (string) $installDir;
-        $this->defaultController = (string) $defaultController;
-        $this->defaultAction = (string) $defaultAction;
-        $this->defaultParameters = array();
+    public function __construct(\SprayFire\Routing\Routifier\UriData $UriData) {
+        $this->uri = $UriData->uri;
+        $this->installDir = $UriData->installDir;
+        $this->defaultController = $UriData->defaultController;
+        $this->defaultAction = $UriData->defaultAction;
+        $this->defaultParameters = $UriData->defaultParameters;
         $this->setUriFragments();
     }
 

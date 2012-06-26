@@ -11,7 +11,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
     public function testSimpleRequestedUri() {
         $uri = '/sprayfire/controller/action/1/2/3';
         $root = 'sprayfire';
-        $RequestUri = new \SprayFire\Routing\Routifier\Request($uri, $root);
+        $UriData = new \SprayFire\Routing\Routifier\UriData($uri, $root);
+        $RequestUri = new \SprayFire\Routing\Routifier\Request($UriData);
         $controller = $RequestUri->getController();
         $action = $RequestUri->getAction();
         $parameters = $RequestUri->getParameters();
@@ -26,7 +27,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
     public function testEmptyRequestedUri() {
         $uri = '';
         $root = 'sprayfire';
-        $RequestUri = new \SprayFire\Routing\Routifier\Request($uri, $root);
+        $UriData = new \SprayFire\Routing\Routifier\UriData($uri, $root);
+        $RequestUri = new \SprayFire\Routing\Routifier\Request($UriData);
         $controller = $RequestUri->getController();
         $action = $RequestUri->getAction();
         $parameters = $RequestUri->getParameters();
@@ -41,7 +43,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
     public function testControllerOnlyInUri() {
         $uri = '/roll_tide/';
         $root = '';
-        $RequestUri = new \SprayFire\Routing\Routifier\Request($uri, $root);
+        $UriData = new \SprayFire\Routing\Routifier\UriData($uri, $root);
+        $RequestUri = new \SprayFire\Routing\Routifier\Request($UriData);
         $controller = $RequestUri->getController();
         $action = $RequestUri->getAction();
         $parameters = $RequestUri->getParameters();
@@ -56,7 +59,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
     public function testOnlyParametersAllMarked() {
         $uri = '/sprayfire/:something/:you/:should/:expect_in_default_controller';
         $root = 'sprayfire';
-        $RequestUri = new \SprayFire\Routing\Routifier\Request($uri, $root);
+        $UriData = new \SprayFire\Routing\Routifier\UriData($uri, $root);
+        $RequestUri = new \SprayFire\Routing\Routifier\Request($UriData);
         $controller = $RequestUri->getController();
         $action = $RequestUri->getAction();
         $parameters = $RequestUri->getParameters();
@@ -71,7 +75,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
     public function testControllerAndParametersWithOneMarked() {
         $uri = '/something-else/blog/:jan/27/2012';
         $root = 'something-else';
-        $RequestUri = new \SprayFire\Routing\Routifier\Request($uri, $root);
+        $UriData = new \SprayFire\Routing\Routifier\UriData($uri, $root);
+        $RequestUri = new \SprayFire\Routing\Routifier\Request($UriData);
         $controller = $RequestUri->getController();
         $action = $RequestUri->getAction();
         $parameters = $RequestUri->getParameters();
@@ -86,7 +91,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
     public function testControllerActionAndNamedParameters() {
         $uri = '/news/article/category:something/title:something-else-like-this';
         $root = 'install-dir';
-        $RequestUri = new \SprayFire\Routing\Routifier\Request($uri, $root);
+        $UriData = new \SprayFire\Routing\Routifier\UriData($uri, $root);
+        $RequestUri = new \SprayFire\Routing\Routifier\Request($UriData);
         $controller = $RequestUri->getController();
         $action = $RequestUri->getAction();
         $parameters = $RequestUri->getParameters();
