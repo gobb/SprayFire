@@ -87,40 +87,13 @@ HTML;
 };
 \set_exception_handler($exceptionCallback);
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// DIRECTORY PATH CONFIGURATION DETAILS
-//
-// NO TRAILING SLASHES ON DIRECTORIES! NO TRAILING SLASHES ON DIRECTORIES!
-//
-// $installPath is defined in /web/index.php as the complete path to the app
-// install directory.  The install directory should hold, at minimum, the 'libs',
-// 'app' and 'web' folders.
-//
-// It is highly recommended that you do not change the libs directory or the
-// configs directory, critical aspects of SprayFire depend on files in these
-// directories
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 $installPath = __DIR__;
 $libsPath = $installPath . '/libs';
-$configPath = $installPath . '/config';
-$appPath = $installPath . '/app';
-$logsPath = $installPath . '/logs';
-$webPath = $installPath . '/web';
-
-$debugFilePath = $logsPath . '/sprayfire-debug.txt';
-$infoFilePath = $logsPath .'/sprayfire-info.txt';
 
 $PathGenerator = 'SprayFire.FileSys.Paths';
-$pathsCallback = function() use($installPath, $libsPath, $configPath, $appPath, $logsPath, $webPath) {
-    $arg = array();
-    $arg['install'] = $installPath;
-    $arg['lib'] = $libsPath;
-    $arg['config'] = $configPath;
-    $arg['app'] = $appPath;
-    $arg['logs'] = $logsPath;
-    $arg['web'] = $webPath;
-    return array($arg);
+$pathsCallback = function() use($installPath, $libsPath) {
+    $RootPaths = new \SprayFire\FileSys\RootPaths($installPath, $libsPath);
+    return array($RootPaths);
 };
 
 include $libsPath . '/ClassLoader/Loader.php';
@@ -133,18 +106,8 @@ $ReflectionCache = new \Artax\ReflectionCacher();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 
 $Container->addService($PathGenerator, $pathsCallback);
-$Container->addService($ReflectionCache, function() {});
-$Container->addService('SprayFire.Logging.Logifier.LogDelegator', function() use ($debugFilePath,
-                                                                                  $infoFilePath) {
-    $DebugFile = new \SplFileInfo($debugFilePath);
-    $InfoFile = new \SplFileInfo($infoFilePath);
-    $Emergency = new \SprayFire\Logging\Logifier\SysLogLogger();
-    $Error = new \SprayFire\Logging\Logifier\ErrorLogLogger();
-    $Debug = new \SprayFire\Logging\Logifier\FileLogger($DebugFile);
-    $Info = new \SprayFire\Logging\Logifier\FileLogger($InfoFile);
-    return array($Emergency, $Error, $Debug, $Info);
-});
-$Container->addService('SprayFire.Routing.Normalizer', function() {});
+$Container->addService($ReflectionCache, null);
+$Container->addService('SprayFire.Routing.Normalizer', null);
 
 /**
  * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.

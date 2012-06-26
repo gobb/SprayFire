@@ -45,8 +45,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $serviceName = 'SprayFire.FileSys.Paths';
         $parameters = function() {
             $install = \SPRAYFIRE_ROOT . '/tests/mockframework';
-            $arg1 = \compact('install');
-            return array($arg1);
+            $RootPaths = new \SprayFire\FileSys\RootPaths($install);
+            return array($RootPaths);
         };
         $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
@@ -59,8 +59,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $serviceName = 'SprayFire.FileSys.Paths';
         $parameters = function() {
             $install = \SPRAYFIRE_ROOT . '/tests/mockframework';
-            $arg1 = \compact('install');
-            return array($arg1);
+            $RootPaths = new \SprayFire\FileSys\RootPaths($install);
+            return array($RootPaths);
         };
         $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);

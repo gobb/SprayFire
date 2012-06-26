@@ -69,13 +69,13 @@ class Paths extends \SprayFire\CoreObject implements \SprayFire\FileSys\PathGene
      *
      * @param $paths array
      */
-    public function __construct(array $paths) {
-        $this->installPath = isset($paths['install']) ? $paths['install'] : '';
-        $this->libsPath = isset($paths['libs']) ? $paths['libs'] : '';
-        $this->appPath = isset($paths['app']) ? $paths['app'] : '';
-        $this->configPath = isset($paths['config']) ? $paths['config'] : '';
-        $this->logsPath = isset($paths['logs']) ? $paths['logs'] : '';
-        $this->webPath = isset($paths['web']) ? $paths['web'] : '';
+    public function __construct(\SprayFire\FileSys\RootPaths $RootPaths) {
+        $this->installPath = $RootPaths->install;
+        $this->libsPath = $RootPaths->libs;
+        $this->appPath = $RootPaths->app;
+        $this->configPath = $RootPaths->config;
+        $this->logsPath = $RootPaths->logs;
+        $this->webPath = $RootPaths->web;
     }
 
     /**
