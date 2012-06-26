@@ -78,6 +78,20 @@ class ValueObjectTest extends \PHPUnit_Framework_TestCase {
         unset($Data->name);
     }
 
+    public function testValueObjectsBeingEqual() {
+        $data = array();
+        $data['name'] = 'Charles Sprayberry';
+        $data['age'] = 28;
+        $data['isAlive'] = true;
+        $data['gender'] = 'Male';
+        $data['weight'] = 125.0;
+
+        $CharlesOne = new \SprayFire\Test\Helpers\TestValueObject($data);
+        $CharlesTwo = new \SprayFire\Test\Helpers\TestValueObject($data);
+
+        $this->assertTrue($CharlesOne->equals($CharlesTwo));
+    }
+
     protected function getNotAccessiblePropertyValue(\SprayFire\Test\Helpers\TestValueObject $Object) {
         $Reflection = new \ReflectionObject($Object);
         $Property = $Reflection->getProperty('notAccessible');
