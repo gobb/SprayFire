@@ -125,4 +125,12 @@ class ResourceIdentifier extends \SprayFire\CoreObject implements \SprayFire\Htt
         return $this->scheme . '://' . $this->authority . $this->path . $this->query;
     }
 
+    public function equals(\SprayFire\Object $Object) {
+        if (!($Object instanceof $this)) {
+            return false;
+        }
+
+        return ((string) $this === (string) $Object);
+    }
+
 }
