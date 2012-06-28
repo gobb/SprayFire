@@ -32,5 +32,17 @@ class ResourceIdentifierTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($ResourceOne->equals($ResourceTwo));
     }
 
+    public function testTwoHttpUriObjectsNotEqual() {
+        $_server1 = array();
+        $_server1['HTTP_HOST'] = 'sprayfire-framework.local';
+        $_server1['REMOTE_PORT'] = 800;
+
+        $_server2 = array();
+        $_server2['HTTP_HOST'] = 'www.example.com';
+        $ResourceOne = new \SprayFire\Http\ResourceIdentifier($_server1);
+        $ResourceTwo = new \SprayFire\Http\ResourceIdentifier($_server2);
+        $this->assertFalse($ResourceOne->equals($ResourceTwo));
+    }
+
 
 }
