@@ -125,6 +125,10 @@ class ResourceIdentifier extends \SprayFire\CoreObject implements \SprayFire\Htt
         return $this->scheme . '://' . $this->authority . $this->path . $this->query;
     }
 
+    /**
+     * @param SprayFire.Object $Object
+     * @return boolean
+     */
     public function equals(\SprayFire\Object $Object) {
         if (!($Object instanceof \SprayFire\Http\Uri)) {
             return false;
