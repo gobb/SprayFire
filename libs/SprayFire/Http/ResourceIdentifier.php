@@ -126,7 +126,7 @@ class ResourceIdentifier extends \SprayFire\CoreObject implements \SprayFire\Htt
     }
 
     public function equals(\SprayFire\Object $Object) {
-        if (!($Object instanceof $this)) {
+        if (!($Object instanceof \SprayFire\Http\Uri)) {
             return false;
         }
 
