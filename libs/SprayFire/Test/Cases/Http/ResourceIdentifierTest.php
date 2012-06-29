@@ -9,17 +9,26 @@ namespace SprayFire\Test\Cases\Http;
 
 class ResourceIdentifierTest extends \PHPUnit_Framework_TestCase {
 
-    public function testBasicHttpUriWithNoPathOrQuery() {
+    public function testHttpUriWithNoPathOrQueryNoWww() {
         $_server = array();
         $_server['HTTP_HOST'] = 'sprayfire-framework.local';
         $_server['REMOTE_PORT'] = 800;
-        $ResourceIdentifer = new \SprayFire\Http\ResourceIdentifier($_server);
+        $ResourceIdentifier = new \SprayFire\Http\ResourceIdentifier($_server);
 
-        $this->assertSame('http://sprayfire-framework.local:800', (string) $ResourceIdentifer);
-        $this->assertSame('http', $ResourceIdentifer->getScheme());
-        $this->assertSame('sprayfire-framework.local:800', $ResourceIdentifer->getAuthority());
-        $this->assertSame('', $ResourceIdentifer->getPath());
-        $this->assertSame('', $ResourceIdentifer->getQuery());
+        $this->assertSame('http://sprayfire-framework.local:800', (string) $ResourceIdentifier);
+        $this->assertSame('http', $ResourceIdentifier->getScheme());
+        $this->assertSame('sprayfire-framework.local:800', $ResourceIdentifier->getAuthority());
+        $this->assertSame('', $ResourceIdentifier->getPath());
+        $this->assertSame('', $ResourceIdentifier->getQuery());
+    }
+
+    public function testHttpUriWithPathAndQueryWithWww() {
+        $_server = array();
+        $_server['HTTP_HOST'] = 'www.example.com';
+        $_server['QUERY_STRING'] = 'foo=bar&bar=baz';
+        $_server['REQUEST_URI'] = '/path/to/your/resource/';
+        $Resource = new \SprayFire\Http\ResourceIdentifier($_server);
+        $this->assertSame('http://www.example.com:80/path/to/your/resource/?foo=bar&bar=baz', (string) $Resource);
     }
 
     public function testTwoHttpUriObjectsEqual() {
