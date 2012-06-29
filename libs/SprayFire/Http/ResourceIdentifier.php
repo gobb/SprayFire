@@ -122,7 +122,11 @@ class ResourceIdentifier extends \SprayFire\CoreObject implements \SprayFire\Htt
      * @return string
      */
     public function __toString() {
-        return $this->scheme . '://' . $this->authority . $this->path . $this->query;
+        $uri = $this->scheme . '://' . $this->authority . $this->path;
+        if (!empty($this->query)) {
+            $uri .= '?' . $this->query;
+        }
+        return $uri;
     }
 
     /**
