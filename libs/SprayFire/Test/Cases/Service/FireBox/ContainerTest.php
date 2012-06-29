@@ -38,7 +38,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     public function testAddingNullParametersDefaultToEmptyCallback() {
         $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
-        $Container->addService('SprayFire.FileSys.Paths', null);
+        $Container->addService('SprayFire.Test.Cases.Service.FireBox.Value', null);
+        $Service = $Container->getService('SprayFire.Test.Cases.Service.FireBox.Value');
+        $this->assertInstanceOf('\\SprayFire\\Test\\Cases\\Service\\FireBox\\Value', $Service);
     }
 
     public function testGettingPathsService() {
@@ -97,3 +99,5 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     }
 
 }
+
+class Value {}

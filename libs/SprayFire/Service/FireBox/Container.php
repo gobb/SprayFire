@@ -43,7 +43,7 @@ class Container extends \SprayFire\JavaNamespaceConverter implements \SprayFire\
      */
     public function __construct(\Artax\ReflectionCacher $ReflectionCache) {
         $this->ReflectionCache = $ReflectionCache;
-        $this->emptyCallback = function() {};
+        $this->emptyCallback = function() { return array(); };
     }
 
     /**
