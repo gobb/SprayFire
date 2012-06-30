@@ -119,7 +119,17 @@ $Container->addService('SprayFire.Routing.Normalizer', null);
 
 $styleCss = $Container->getService('SprayFire.FileSys.Paths')->getUrlPath('css', 'sprayfire.style.css');
 $sprayFireLogo = $Container->getService('SprayFire.FileSys.Paths')->getUrlPath('images', 'sprayfire-logo-bar-75.png');
+$headersData = '<pre>' . print_r(getallheaders(), true) . '</pre>';
 $serverData = '<pre>' . print_r($_SERVER, true) . '</pre>';
+$sessionId = \session_id();
+if (empty($sessionId)) {
+    $sessionData = '<pre>' . print_r(array('session_status' => 'Not started'), true) . '</pre>';
+} else {
+    $sessionData = '<pre>' . print_r($_SESSION, true) . '</pre>';
+}
+
+$postData = '<pre>' . print_r($_POST, true) . '</pre>';
+$getData = '<pre>' . print_r($_GET, true) . '</pre>';
 
 echo <<<HTML
 <!DOCTYPE html>
@@ -143,7 +153,16 @@ echo <<<HTML
 
                 <div id="body">
                     <div id="main-content">
-                    {$serverData}
+                        <h2>Request Headers</h2>
+                        {$headersData}
+                        <h2>Server Data</h2>
+                        {$serverData}
+                        <h2>Session Data</h2>
+                        {$sessionData}
+                        <h2>POST Data</h2>
+                        {$postData}
+                        <h2>GET Data</h2>
+                        {$getData}
                     </div>
                 </div>
 
