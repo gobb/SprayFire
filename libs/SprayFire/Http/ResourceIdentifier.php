@@ -10,7 +10,8 @@
 
 namespace SprayFire\Http;
 
-use \SprayFire\Http\Uri as Uri,
+use \SprayFire\Object as Object,
+    \SprayFire\Http\Uri as Uri,
     \SprayFire\CoreObject as CoreObject;
 
 class ResourceIdentifier extends CoreObject implements Uri {
@@ -138,8 +139,8 @@ class ResourceIdentifier extends CoreObject implements Uri {
      * @param SprayFire.Object $Object
      * @return boolean
      */
-    public function equals(\SprayFire\Object $Object) {
-        if (!($Object instanceof \SprayFire\Http\Uri)) {
+    public function equals(Object $Object) {
+        if (!($Object instanceof Uri)) {
             return false;
         }
 
