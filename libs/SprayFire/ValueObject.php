@@ -4,6 +4,8 @@
  * A base abstract class implementing basic functionality for a Value Object
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire;
@@ -60,8 +62,8 @@ abstract class ValueObject extends \SprayFire\CoreObject {
     }
 
     /**
-     * @param $property string
-     * @param $value mixed
+     * @param string $property
+     * @param mixed $value
      * @throws SprayFire.Exception.UnsupportedOperationException
      */
     public final function __set($property, $value) {
@@ -69,7 +71,7 @@ abstract class ValueObject extends \SprayFire\CoreObject {
     }
 
     /**
-     * @param $property string
+     * @param string $property
      * @throws SprayFire.Exception.UnsupportedOperationException
      */
     public final function __unset($property) {
@@ -80,7 +82,7 @@ abstract class ValueObject extends \SprayFire\CoreObject {
      * Overridden to ensure that ValueObject equality is based on the values stored
      * by each object.
      *
-     * @param $Object SprayFire.Object
+     * @param SprayFire.Object $Object
      * @return boolean
      */
     public function equals(\SprayFire\Object $Object) {
