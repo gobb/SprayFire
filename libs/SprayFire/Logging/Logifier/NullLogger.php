@@ -4,18 +4,16 @@
  * SprayFire.Logger.Logger implementation that acts as a Null logger
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Logging\Logifier;
 
-/**
- * This SprayFire.Logger.Logger will not actually log messages to any medium;
- * logged messages are simply ignored.
- *
- * @uses SprayFire.Logging.Logger
- * @uses SprayFire.Core.Util.CoreObject
- */
-class NullLogger extends \SprayFire\CoreObject implements \SprayFire\Logging\Logger {
+use \SprayFire\Logging\Logger as Logger,
+    \SprayFire\CoreObject as CoreObject;
+
+class NullLogger extends CoreObject implements Logger {
 
     /**
      * @param $message string The message to log

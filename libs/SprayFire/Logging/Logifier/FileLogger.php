@@ -4,18 +4,16 @@
  * A logger that allows messages to be logged to a file on disk.
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Logging\Logifier;
 
-/**
- * @uses SplFileInfo
- * @uses SplFileObject
- * @uses InvalidArgumentException
- * @uses SprayFire.Logging.Logger
- * @uses SprayFire.Util.CoreObject
- */
-class FileLogger extends \SprayFire\CoreObject implements \SprayFire\Logging\Logger  {
+use \SprayFire\Logging\Logger as Logger,
+    \SprayFire\CoreObject as CoreObject;
+
+class FileLogger extends CoreObject implements Logger  {
 
     /**
      * Holds the file we write messages to
@@ -25,10 +23,8 @@ class FileLogger extends \SprayFire\CoreObject implements \SprayFire\Logging\Log
     protected $LogFile;
 
     /**
-     * @param $LogFile SplFileObject that should have log messages written to
-     * @param $openMode string The mode in which we should open the file
-     * @throws InvalidArgumentException thrown if a writable \a $LogFile wasn't passed
-     * @see http://www.php.net/manual/en/function.fopen.php
+     * @param SplFileInfo $LogFile
+     * @param string $openMode
      */
     public function __construct(\SplFileInfo $LogFile, $openMode = 'a') {
         try {

@@ -5,21 +5,22 @@
  * in `php.ini`
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Logging\Logifier;
 
-/**
- * @uses SprayFire.Logging.Logger
- * @uses SprayFire.Util.CoreObject
- */
-class ErrorLogLogger extends \SprayFire\CoreObject implements \SprayFire\Logging\Logger {
+use \SprayFire\Logging\Logger as Logger,
+    \SprayFire\CoreObject as CoreObject;
+
+
+class ErrorLogLogger extends CoreObject implements Logger {
 
     /**
-     * @param $message string The information to log in error_log
-     * @param $options array This parameter is not used in this implementation
-     * @return boolean true on success, false on failure
-     * @see http://php.net/manual/en/function.error-log.php
+     * @param string $message
+     * @param null $options
+     * @return bool|mixed
      */
     public function log($message, $options = null) {
         return \error_log($message);

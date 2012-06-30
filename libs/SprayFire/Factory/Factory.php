@@ -4,6 +4,8 @@
  * An interface to allow a common API for all factory objects.
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Factory;
@@ -11,13 +13,14 @@ namespace SprayFire\Factory;
 interface Factory {
 
     /**
-     * @param $objectName string Namespaced class to create
-     * @return Object Should be of the type for this Factory
+     * @param string $objectName
+     * @param array $options
+     * @return object
      */
     public function makeObject($objectName, array $options = array());
 
     /**
-     *@return string The complete, namespaced class that this factory will produce.
+     *@return string
      */
     public function getObjectType();
 

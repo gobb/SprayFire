@@ -4,11 +4,16 @@
  * A class that holds a container responsible for creating and storing services.
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Service\FireBox;
 
-class Container extends \SprayFire\JavaNamespaceConverter implements \SprayFire\Service\Container {
+use \SprayFire\Service\Container as ServiceContainer,
+    \SprayFire\JavaNamespaceConverter as JavaNameConverter;
+
+class Container extends JavaNameConverter implements ServiceContainer {
 
     /**
      * Services and dependency callbacks added to the container
@@ -25,7 +30,7 @@ class Container extends \SprayFire\JavaNamespaceConverter implements \SprayFire\
     protected $storedServices = array();
 
     /**
-     * @property Artax.ReflectionCacher
+     * @property Artax.ReflectionPool
      */
     protected $ReflectionCache;
 
@@ -39,20 +44,19 @@ class Container extends \SprayFire\JavaNamespaceConverter implements \SprayFire\
     protected $emptyCallback;
 
     /**
-     * @param $ReflectionCache Artax.ReflectionCacher
+     * @param Artax.ReflectionPool $ReflectionCache
      */
-    public function __construct(\Artax\ReflectionCacher $ReflectionCache) {
+    public function __construct(\Artax\ReflectionPool $ReflectionCache) {
         $this->ReflectionCache = $ReflectionCache;
         $this->emptyCallback = function() { return array(); };
     }
 
     /**
-     * Will throw an exception if the $callableParameters is a non-callable
-     * type; note that null may be passed to this parameter if there are no parameters
-     * needed for the service.
+     * If a non-null parameter is passed it must be callable or an
+     * InvalidArgumentException will be thrown
      *
-     * @param $serviceName mixed The class name or the object representing the service
-     * @param $callableParameters callable An anonymous function returning array of service dependencies
+     * @param string $serviceName
+     * @param callable|null $callableParameters
      * @throws InvalidArgumentException
      */
     public function addService($serviceName, $callableParameters) {
@@ -76,8 +80,8 @@ class Container extends \SprayFire\JavaNamespaceConverter implements \SprayFire\
     }
 
     /**
-     * @param $serviceName string Namespaced name of the class representing the service
-     * @return boolean
+     * @param string $serviceName
+     * @return bool
      */
     public function doesServiceExist($serviceName) {
         $serviceName = $this->convertJavaClassToPhpClass($serviceName);
@@ -85,8 +89,8 @@ class Container extends \SprayFire\JavaNamespaceConverter implements \SprayFire\
     }
 
     /**
-     * @param $serviceName string Namespaced name of the class representing the service
-     * @return Object Of type \a $serviceName
+     * @param string $serviceName
+     * @return object
      * @throws SprayFire.Service.NotFoundException
      */
     public function getService($serviceName) {

@@ -5,11 +5,16 @@
  * and is a prime choice for the parent controller in your app controllers.
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Controller;
 
-abstract class Base extends \SprayFire\CoreObject implements \SprayFire\Controller\Controller {
+use \SprayFire\Controller\Controller as Controller,
+    \SprayFire\CoreObject as CoreObject;
+
+abstract class Base extends CoreObject implements Controller {
 
     /**
      * An array of data that would need to be sanitized by the Responder before
@@ -42,14 +47,16 @@ abstract class Base extends \SprayFire\CoreObject implements \SprayFire\Controll
     }
 
     /**
-     * @param $data array
+     * @param array $data
+     * @return void
      */
     public function giveCleanData(array $data) {
         $this->cleanData = \array_merge($this->cleanData, $data);
     }
 
     /**
-     * @param $data array
+     * @param array $data
+     * @return void
      */
     public function giveDirtyData(array $data) {
         $this->dirtyData = \array_merge($this->dirtyData, $data);

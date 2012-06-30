@@ -4,6 +4,8 @@
  * Thrown in situations that should stop execution of SprayFire.
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Exception;
