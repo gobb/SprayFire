@@ -4,6 +4,8 @@
  * An interface that represents an HTTP request sent to the app
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Http;

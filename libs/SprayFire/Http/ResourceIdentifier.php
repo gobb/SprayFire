@@ -4,6 +4,8 @@
  * The framework's base implementation of the SprayFire.Http.Uri interface.
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Http;
