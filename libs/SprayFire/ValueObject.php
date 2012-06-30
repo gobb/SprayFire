@@ -4,11 +4,16 @@
  * A base abstract class implementing basic functionality for a Value Object
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire;
 
-abstract class ValueObject extends \SprayFire\CoreObject {
+use \SprayFire\Object as Object,
+    \SprayFire\CoreObject as CoreObject;
+
+abstract class ValueObject extends CoreObject {
 
     /**
      * An associative array holding the property as the key and the data type for
@@ -22,7 +27,7 @@ abstract class ValueObject extends \SprayFire\CoreObject {
      * Accepts an associative array with the property as the key and the value for
      * that property as the value.
      *
-     * @param $data array
+     * @param array $data
      */
     public function __construct(array $data) {
         $this->accessibleProperties = $this->getAccessibleProperties();
@@ -38,7 +43,7 @@ abstract class ValueObject extends \SprayFire\CoreObject {
      * If the requested $property is accessible the value for that property will
      * be returned, otherwise null will be returned.
      *
-     * @param $property string
+     * @param string $property
      * @return mixed
      */
     public function __get($property) {
@@ -49,7 +54,7 @@ abstract class ValueObject extends \SprayFire\CoreObject {
     }
 
     /**
-     * @param $property string
+     * @param string $property
      * @return boolean
      */
     public function __isset($property) {
@@ -60,8 +65,8 @@ abstract class ValueObject extends \SprayFire\CoreObject {
     }
 
     /**
-     * @param $property string
-     * @param $value mixed
+     * @param string $property
+     * @param mixed $value
      * @throws SprayFire.Exception.UnsupportedOperationException
      */
     public final function __set($property, $value) {
@@ -69,7 +74,7 @@ abstract class ValueObject extends \SprayFire\CoreObject {
     }
 
     /**
-     * @param $property string
+     * @param string $property
      * @throws SprayFire.Exception.UnsupportedOperationException
      */
     public final function __unset($property) {
@@ -80,10 +85,10 @@ abstract class ValueObject extends \SprayFire\CoreObject {
      * Overridden to ensure that ValueObject equality is based on the values stored
      * by each object.
      *
-     * @param $Object SprayFire.Object
+     * @param SprayFire.Object $Object
      * @return boolean
      */
-    public function equals(\SprayFire\Object $Object) {
+    public function equals(Object $Object) {
         foreach ($this->accessibleProperties as $property => $type) {
             if ($this->$property !== $Object->$property) {
                 return false;

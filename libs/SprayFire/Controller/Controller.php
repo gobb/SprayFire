@@ -24,7 +24,8 @@ interface Controller {
      * Should provide a means to give a Responder data that is to be considered
      * unsanitized.
      *
-     * @param $data array
+     * @param array $data
+     * @return mixed
      */
     public function giveDirtyData(array $data);
 
@@ -32,7 +33,8 @@ interface Controller {
      * Provide a means to give a Responder data that is to be considered safe
      * and should not go through sanitization.
      *
-     * @param $data array
+     * @param array $data
+     * @return mixed
      */
     public function giveCleanData(array $data);
 

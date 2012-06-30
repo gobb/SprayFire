@@ -1,26 +1,27 @@
 <?php
 
 /**
- * An interface for implementing objects that are responsible for framework or app
- * bootstrap functions.
+ * An interface for implementing objects that are responsible for framework or
+ * app bootstrap functions.
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Bootstrap;
 
 /**
- * This interface should be implemented by all framework and app bootstrapping
- * objects.
+ * All framework and application bootstraps should implement this interface, an
+ * app bootstrap that does not implement this interface is not guaranteed to
+ * be ran.
  */
 interface Bootstrapper {
 
     /**
-     * A method that should do whatever bootstrapping features are needed for that
-     * particular bootstrap.
+     * Should perform whatever actions are necessary for the given bootstrap.
      *
-     * @return mixed Values returned from bootstraps should be dependent on the type
-     * of bootstrap being ran
+     * @return mixed
      */
     public function runBootstrap();
 

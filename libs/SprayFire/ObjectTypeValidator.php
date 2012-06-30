@@ -1,17 +1,15 @@
 <?php
 
 /**
- * @file
- * @brief Holds a class used to determine if a SprayFire.Core.Object implements or
- * extends a specific type.
+ * Class used to validate object types to be the same as a constructor injection.
+ *
+ * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire;
 
-/**
- * @brief An internally used object in Restricted structures to determine if the
- * passed objects implement the correct type.
- */
 class ObjectTypeValidator {
 
     /**

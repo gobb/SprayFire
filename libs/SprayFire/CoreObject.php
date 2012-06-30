@@ -1,28 +1,18 @@
 <?php
 
 /**
- * @file
- * @brief The framework's implementation of the libs.sprayfire.core.Object interface.
+ * An implementation of the base SprayFire.Object interface
+ *
+ * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire;
 
-/**
- * @brief SprayFire's implementation of the libs.sprayfire.core.Object interface,
- * allowing easy access to some of the functionality required by this interface
- * simply by extending CoreObject.
- *
- * @details
- * Virtually all of the framework objects used by your application will extend
- * this class.  So, if you use the framework as its intended to be used this
- * functionality should be provided to you "out-of-the-box".  When you start
- * creating your own objects be sure they somehow trace back to this object
- * or an implementation of libs.sprayfire.core.Object or unexpected consequences
- * may occur.
- *
- * @uses SprayFire.Object
- */
-abstract class CoreObject implements \SprayFire\Object {
+use \SprayFire\Object as Object;
+
+abstract class CoreObject implements Object {
 
     /**
      * @return A unique identifying string based on the internal memory pointer
@@ -44,7 +34,7 @@ abstract class CoreObject implements \SprayFire\Object {
      * @param $CompareObject A SprayFire.Core.Object to compare to this one for equality
      * @return True if the calling object and \a $CompareObject are equal, false if not
      */
-    public function equals(\SprayFire\Object $CompareObject) {
+    public function equals(Object $CompareObject) {
         $thisHash = $this->hashCode();
         $compareHash = $CompareObject->hashCode();
         return $thisHash === $compareHash;

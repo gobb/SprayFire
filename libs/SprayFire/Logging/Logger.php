@@ -4,6 +4,8 @@
  * Implemented by objects responsible for logging messages and data.
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Logging;
@@ -11,10 +13,9 @@ namespace SprayFire\Logging;
 interface Logger {
 
     /**
-     * @param $message string Message that should be logged
-     * @param $options array Data that might need to be used as an option or flag for
-     *        the underlying implementation of a logger.
-     * @return boolean true if the message was logged, false if it didn't
+     * @param string $message
+     * @param mixed $options
+     * @return mixed
      */
     public function log($message, $options = null);
 

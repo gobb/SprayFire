@@ -4,6 +4,8 @@
  * Interface for classes acting as a Service container.
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Service;
@@ -15,31 +17,20 @@ namespace SprayFire\Service;
 interface Container {
 
     /**
-     * Should only return a service explicitly added to the Container
-     *
-     * Ideally this method should be what actually instantiates the service, this
-     * way we ensure that each service is only created as needed.
-     *
-     * @param $serviceName string Java or PHP style class name representing the service
-     * @return Object An object representing \a $serviceName
-     * @throws SprayFire.Service.NotFoundException
+     * @param string $serviceName
+     * @return object
      */
     public function getService($serviceName);
 
     /**
-     * Should add the service to those allowed to be retrieved and allows the means
-     * to define what parameters should be used for that service.
-     *
-     * @param $serviceName string A Java or PHP style class name representing the service
-     * @param $parameters callable An anonymous function returning an array of constructor dependecies for $servciceName
-     * @returns boolean True if added, false if not
-     * @throws InvalidArgumentException if \a $callableParameters is not callable
+     * @param string $serviceName
+     * @param callable|null $callableParameters
      */
     public function addService($serviceName, $callableParameters);
 
     /**
-     * @param $serviceName string A Java or PHP style class name representing the service
-     * @return boolean True if the service has been added, false if it hasn't
+     * @param string $serviceName
+     * @return bool
      */
     public function doesServiceExist($serviceName);
 
