@@ -111,8 +111,6 @@ $Container->addService($PathGenerator, $pathsCallback);
 $Container->addService($ReflectionCache, null);
 $Container->addService('SprayFire.Routing.Normalizer', null);
 
-$UriData = new \SprayFire\Routing\Routifier\UriData($requestUri, $installPath);
-
 /**
  * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.
  */
