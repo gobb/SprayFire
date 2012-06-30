@@ -8,7 +8,10 @@
 
 namespace SprayFire\Http;
 
-class ResourceIdentifier extends \SprayFire\CoreObject implements \SprayFire\Http\Uri {
+use \SprayFire\Http\Uri as Uri,
+    \SprayFire\CoreObject as CoreObject;
+
+class ResourceIdentifier extends CoreObject implements Uri {
 
     /**
      * @property string
