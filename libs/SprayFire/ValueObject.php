@@ -10,7 +10,10 @@
 
 namespace SprayFire;
 
-abstract class ValueObject extends \SprayFire\CoreObject {
+use \SprayFire\Object as Object,
+    \SprayFire\CoreObject as CoreObject;
+
+abstract class ValueObject extends CoreObject {
 
     /**
      * An associative array holding the property as the key and the data type for
@@ -24,7 +27,7 @@ abstract class ValueObject extends \SprayFire\CoreObject {
      * Accepts an associative array with the property as the key and the value for
      * that property as the value.
      *
-     * @param $data array
+     * @param array $data
      */
     public function __construct(array $data) {
         $this->accessibleProperties = $this->getAccessibleProperties();
@@ -40,7 +43,7 @@ abstract class ValueObject extends \SprayFire\CoreObject {
      * If the requested $property is accessible the value for that property will
      * be returned, otherwise null will be returned.
      *
-     * @param $property string
+     * @param string $property
      * @return mixed
      */
     public function __get($property) {
@@ -51,7 +54,7 @@ abstract class ValueObject extends \SprayFire\CoreObject {
     }
 
     /**
-     * @param $property string
+     * @param string $property
      * @return boolean
      */
     public function __isset($property) {
@@ -85,7 +88,7 @@ abstract class ValueObject extends \SprayFire\CoreObject {
      * @param SprayFire.Object $Object
      * @return boolean
      */
-    public function equals(\SprayFire\Object $Object) {
+    public function equals(Object $Object) {
         foreach ($this->accessibleProperties as $property => $type) {
             if ($this->$property !== $Object->$property) {
                 return false;
