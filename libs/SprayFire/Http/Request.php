@@ -18,14 +18,14 @@ interface Request {
     public function getUri();
 
     /**
+     * @return SprayFire.Http.RequestHeaders
+     */
+    public function getHeaders();
+
+    /**
      * @return string
      */
     public function getMethod();
-
-    /**
-     * @return array
-     */
-    public function getHeaders();
 
     /**
      * @return float
