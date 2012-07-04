@@ -18,7 +18,7 @@ class JavaNamespaceConverter extends CoreObject {
      * @param $className A Java-style namespaced class
      * @return A PHP-style namespaced class
      */
-    protected function convertJavaClassToPhpClass($className) {
+    public function convertJavaClassToPhpClass($className) {
         if (!\is_string($className)) {
             return $className;
         }
