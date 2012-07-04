@@ -177,12 +177,14 @@ HTML;
     $errors = 'Errors: ' . \print_r($preBootstrapErrors, true);
     $memUsage = 'Memory usage: ' . \memory_get_peak_usage() / (1000*1024) . ' mb';
     $runTime = 'Execution time: ' . (\microtime(true) - $requestStartTime) . ' seconds';
+    $numIncludedFiles = 'Number of included files: ' . \count(get_included_files());
     $debugInfo = <<<HTML
             <div id="debug-info" style="margin-top:1em;border:2px solid black;padding:5px;font-family:monospace;">
                 <ul>
                     <li><pre>$errors</pre></li>
                     <li>$memUsage</li>
                     <li>$runTime</li>
+                    <li>$numIncludedFiles</li>
                 </ul>
             </div>
 HTML;
