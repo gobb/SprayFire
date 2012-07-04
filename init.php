@@ -121,7 +121,9 @@ $routesConfig = $Container->getService($pathGenerator)->getConfigPath('SprayFire
 $installDir = \basename($installPath);
 $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $routesConfig, $installDir);
 
-\var_dump($Router);
+$RoutedRequest = $Router->getRoutedRequest($Request);
+
+\var_dump($RoutedRequest);
 
 /**
  * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.
@@ -131,16 +133,16 @@ $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $routesConfig,
 
 $styleCss = $Container->getService($pathGenerator)->getUrlPath('css', 'sprayfire.style.css');
 $sprayFireLogo = $Container->getService($pathGenerator)->getUrlPath('images', 'sprayfire-logo-bar-75.png');
-$serverData = '<pre>' . print_r($_SERVER, true) . '</pre>';
+$serverData = '<pre>' . \print_r($_SERVER, true) . '</pre>';
 $sessionId = \session_id();
 if (empty($sessionId)) {
-    $sessionData = '<pre>' . print_r(array('session_status' => 'Not started'), true) . '</pre>';
+    $sessionData = '<pre>' . \print_r(array('session_status' => 'Not started'), true) . '</pre>';
 } else {
-    $sessionData = '<pre>' . print_r($_SESSION, true) . '</pre>';
+    $sessionData = '<pre>' . \print_r($_SESSION, true) . '</pre>';
 }
 
-$postData = '<pre>' . print_r($_POST, true) . '</pre>';
-$getData = '<pre>' . print_r($_GET, true) . '</pre>';
+$postData = '<pre>' . \print_r($_POST, true) . '</pre>';
+$getData = '<pre>' . \print_r($_GET, true) . '</pre>';
 
 echo <<<HTML
 <!DOCTYPE html>
@@ -186,7 +188,7 @@ HTML;
     $memUsage = 'Memory usage: ' . \memory_get_peak_usage() / (1000*1024) . ' mb';
     $runTime = 'Execution time: ' . (\microtime(true) - $requestStartTime) . ' seconds';
     $numIncludedFiles = 'Number of included files: ' . \count(get_included_files());
-    $var = new stdClass();
+    $var = new \stdClass();
     \var_dump($var);
     $debugInfo = <<<HTML
             <div id="debug-info" style="margin-top:1em;border:2px solid black;padding:5px;font-family:monospace;">
