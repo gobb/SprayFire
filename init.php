@@ -92,7 +92,7 @@ $libsPath = $installPath . '/libs';
 
 $requestUri = $_SERVER['REQUEST_URI'];
 
-$PathGenerator = 'SprayFire.FileSys.Paths';
+$pathGenerator = 'SprayFire.FileSys.Paths';
 $pathsCallback = function() use($installPath, $libsPath) {
     $RootPaths = new \SprayFire\FileSys\RootPaths($installPath, $libsPath);
     return array($RootPaths);
@@ -107,13 +107,21 @@ $ClassLoader->setAutoloader();
 $ReflectionCache = new \Artax\ReflectionCacher();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 
-$Container->addService($PathGenerator, $pathsCallback);
+$Container->addService($pathGenerator, $pathsCallback);
 $Container->addService($ReflectionCache, null);
-$Container->addService('SprayFire.Routing.Normalizer', null);
+$Container->addService($ClassLoader, null);
+$Container->addService('SprayFire.JavaNamespaceConverter', null);
 
 $Uri = new \SprayFire\Http\ResourceIdentifier();
 $RequestHeaders = new \SprayFire\Http\StandardRequestHeaders();
 $Request = new \SprayFire\Http\StandardRequest($Uri, $RequestHeaders);
+
+$Normalizer = new \SprayFire\Http\Routing\Normalizer();
+$routesConfig = $Container->getService($pathGenerator)->getConfigPath('SprayFire', 'routes.json');
+$installDir = \basename($installPath);
+$Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $routesConfig, $installDir);
+
+\var_dump($Router);
 
 /**
  * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.
@@ -121,8 +129,8 @@ $Request = new \SprayFire\Http\StandardRequest($Uri, $RequestHeaders);
 
 // NOTE: The below code is a temporary measure until the templating system is in place
 
-$styleCss = $Container->getService('SprayFire.FileSys.Paths')->getUrlPath('css', 'sprayfire.style.css');
-$sprayFireLogo = $Container->getService('SprayFire.FileSys.Paths')->getUrlPath('images', 'sprayfire-logo-bar-75.png');
+$styleCss = $Container->getService($pathGenerator)->getUrlPath('css', 'sprayfire.style.css');
+$sprayFireLogo = $Container->getService($pathGenerator)->getUrlPath('images', 'sprayfire-logo-bar-75.png');
 $serverData = '<pre>' . print_r($_SERVER, true) . '</pre>';
 $sessionId = \session_id();
 if (empty($sessionId)) {
@@ -178,6 +186,8 @@ HTML;
     $memUsage = 'Memory usage: ' . \memory_get_peak_usage() / (1000*1024) . ' mb';
     $runTime = 'Execution time: ' . (\microtime(true) - $requestStartTime) . ' seconds';
     $numIncludedFiles = 'Number of included files: ' . \count(get_included_files());
+    $var = new stdClass();
+    \var_dump($var);
     $debugInfo = <<<HTML
             <div id="debug-info" style="margin-top:1em;border:2px solid black;padding:5px;font-family:monospace;">
                 <ul>
