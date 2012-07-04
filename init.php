@@ -111,6 +111,10 @@ $Container->addService($PathGenerator, $pathsCallback);
 $Container->addService($ReflectionCache, null);
 $Container->addService('SprayFire.Routing.Normalizer', null);
 
+$Uri = new \SprayFire\Http\ResourceIdentifier();
+$RequestHeaders = new \SprayFire\Http\StandardRequestHeaders();
+$Request = new \SprayFire\Http\StandardRequest($Uri, $RequestHeaders);
+
 /**
  * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.
  */
@@ -119,7 +123,6 @@ $Container->addService('SprayFire.Routing.Normalizer', null);
 
 $styleCss = $Container->getService('SprayFire.FileSys.Paths')->getUrlPath('css', 'sprayfire.style.css');
 $sprayFireLogo = $Container->getService('SprayFire.FileSys.Paths')->getUrlPath('images', 'sprayfire-logo-bar-75.png');
-$headersData = '<pre>' . print_r(getallheaders(), true) . '</pre>';
 $serverData = '<pre>' . print_r($_SERVER, true) . '</pre>';
 $sessionId = \session_id();
 if (empty($sessionId)) {
@@ -153,8 +156,6 @@ echo <<<HTML
 
                 <div id="body">
                     <div id="main-content">
-                        <h2>Request Headers</h2>
-                        {$headersData}
                         <h2>Server Data</h2>
                         {$serverData}
                         <h2>Session Data</h2>
