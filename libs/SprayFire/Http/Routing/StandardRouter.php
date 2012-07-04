@@ -240,9 +240,20 @@ class StandardRouter extends CoreObject implements Router {
         $action = \strtolower($action);
         $key = $this->getRouteKey($controller, $action);
         if ($key !== false) {
-            $namespace = $this->config['routes'][$key]['namespace'];
-            $action = \strtolower($this->config['routes'][$key]['action']);
-            $controller = \strtolower($this->config['routes'][$key]['controller']);
+            if (isset($this->config['routes'][$key]['namespace'])) {
+                $namespace = $this->config['routes'][$key]['namespace'];
+            } else {
+                $namespace = $this->config['defaults']['namespace'];
+            }
+
+            if (isset($this->config['routes'][$key]['controller'])) {
+                $controller = $this->config['routes'][$key]['controller'];
+            }
+
+            if (isset($this->config['routes'][$key]['action'])) {
+                $action = $this->config['routes'][$key]['action'];
+            }
+
         } else {
             $namespace = $this->config['defaults']['namespace'];
         }
