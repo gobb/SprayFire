@@ -24,6 +24,9 @@ class StandardRouter extends CoreObject implements Router {
      * @return SprayFire.Http.Routing.RoutedRequest
      */
     public function getRoutedRequest(Request $Request) {
-
+        $controller = '';
+        $action = '';
+        $parameters = array();
+        return new \SprayFire\Http\Routing\StandardRoutedRequest($controller, $action, $parameters);
     }
 }
