@@ -35,6 +35,21 @@ class StandardRouter extends CoreObject implements Router {
     protected $installDir;
 
     /**
+     * @property string
+     */
+    protected $defaultController;
+
+    /**
+     * @property string
+     */
+    protected $defaultAction;
+
+    /**
+     * @property array
+     */
+    protected $defaultParameters;
+
+    /**
      * @param SprayFire.Http.Routing.Normalizer $Normalizer
      * @param string $configPath
      * @param string $installDir
@@ -44,6 +59,10 @@ class StandardRouter extends CoreObject implements Router {
         $this->Normalizer = $Normalizer;
         $this->config = $this->generateConfig($configPath);
         $this->installDir = (string) $installDir;
+        $this->defaultController = (string) $this->config['defaults']['controller'];
+        $this->defaultAction = (string) $this->config['defaults']['action'];
+        $this->defaultParameters = (array) $this->config['defaults']['parameters'];
+
     }
 
     /**
@@ -88,6 +107,7 @@ class StandardRouter extends CoreObject implements Router {
         $path = $this->removeLeadingForwardSlash($path);
         $path = $this->removeInstallDirectory($path);
         $path = $this->removeLeadingForwardSlash($path);
+        $path = $this->removeTrailingForwardSlash($path);
 
         return $path;
     }
@@ -103,24 +123,24 @@ class StandardRouter extends CoreObject implements Router {
         $parsedUri = \explode('/', $cleanPath);
         $controller = \trim(\array_shift($parsedUri));
         if (empty($controller)) {
-            $controller = '';
-            $action = '';
-            $parameters = array();
+            $controller = $this->defaultController;
+            $action = $this->defaultAction;
+            $parameters = $this->defaultParameters;
         } else {
             if ($this->isMarkedParameter($controller)) {
                 \array_unshift($parsedUri, $controller);
-                $controller = '';
-                $action = '';
+                $controller = $this->defaultController;
+                $action = $this->defaultAction;
                 $parameters = $this->parseMarkedParameters($parsedUri);
             } else {
                 $action = \array_shift($parsedUri);
                 if (empty($action)) {
-                    $action = '';
+                    $action = $this->defaultAction;
                     $parameters = array();
                 } else {
                     if ($this->isMarkedParameter($action)) {
                         \array_unshift($parsedUri, $action);
-                        $action = '';
+                        $action = $this->defaultAction;
                         $parameters = $this->parseMarkedParameters($parsedUri);
                     } else {
                         $parameters = $this->parseMarkedParameters($parsedUri);
@@ -139,6 +159,16 @@ class StandardRouter extends CoreObject implements Router {
      */
     protected function removeLeadingForwardSlash($uri) {
         $regex = '/^\//';
+        $nothing = '';
+        return \preg_replace($regex, $nothing, $uri);
+    }
+
+    /**
+     * @param string $uri
+     * @return string
+     */
+    protected function removeTrailingForwardSlash($uri) {
+        $regex = '/\/$/';
         $nothing = '';
         return \preg_replace($regex, $nothing, $uri);
     }
