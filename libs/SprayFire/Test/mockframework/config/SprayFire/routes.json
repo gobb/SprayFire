@@ -15,6 +15,9 @@
             "namespace": "FourteenChamps.Controller",
             "controller": "nick_saban",
             "action": "win"
+        },
+        "charles/drinks": {
+            "namespace": "FavoriteBrew.Controller"
         }
     }
 }
