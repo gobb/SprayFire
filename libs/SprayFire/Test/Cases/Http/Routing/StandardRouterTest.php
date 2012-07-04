@@ -81,4 +81,22 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(array('alabama'), $RoutedRequest->getParameters());
     }
 
+    public function testStandardRouterWithOnlyNamespaceRouted() {
+        $_server = array();
+        $_server['REQUEST_URI'] = '/brewmaster/charles/drinks/sam_adams';
+        $Uri = new \SprayFire\Http\ResourceIdentifier($_server);
+        $Headers = new \SprayFire\Http\StandardRequestHeaders($_server);
+        $Request = new \SprayFire\Http\StandardRequest($Uri, $Headers);
+
+        $Normalizer = new \SprayFire\Http\Routing\Normalizer();
+        $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/config/SprayFire/routes.json';
+        $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $configPath, 'brewmaster');
+
+        $RoutedRequest = $Router->getRoutedRequest($Request);
+        $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
+        $this->assertSame('FavoriteBrew.Controller.Charles', $RoutedRequest->getController());
+        $this->assertSame('drinks', $RoutedRequest->getAction());
+        $this->assertSame(array('sam_adams'), $RoutedRequest->getParameters());
+    }
+
 }
