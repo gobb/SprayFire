@@ -1,10 +1,15 @@
 {
     "defaults": {
-        "controller": "pages",
-        "action": "index",
+        "controller": "test_pages",
+        "action": "index-yo-dog",
+        "parameters": ["yo", "dog"],
         "namespace": "SprayTest.Controller"
     },
     "routes": {
-
+        "charles": {
+            "namespace": "YoDog.Controller",
+            "controller": "roll_tide",
+            "action": "roll"
+        }
     }
 }
