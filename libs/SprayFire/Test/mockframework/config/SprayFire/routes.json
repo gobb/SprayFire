@@ -1,0 +1,10 @@
+{
+    "defaults": {
+        "controller": "pages",
+        "action": "index",
+        "namespace": "SprayTest.Controller"
+    },
+    "routes": {
+
+    }
+}
