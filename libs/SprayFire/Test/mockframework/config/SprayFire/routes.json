@@ -10,6 +10,11 @@
             "namespace": "YoDog.Controller",
             "controller": "roll_tide",
             "action": "roll"
+        },
+        "charles/roots_for": {
+            "namespace": "FourteenChamps.Controller",
+            "controller": "nick_saban",
+            "action": "win"
         }
     }
 }
