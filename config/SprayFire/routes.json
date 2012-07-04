@@ -1,25 +1,10 @@
 {
-    "sprayfire-docs": "Please see http://www.github.com/cspray/SprayFire/wiki/Routing",
     "defaults": {
         "controller": "pages",
         "action": "index",
-        "namespace": "YourApp.Controller",
-        "apps": {
-
-        }
+        "namespace": "YourApp.Controller"
     },
     "routes": {
-        "DC-DA-*": {
-            "controller": "%default_controller%",
-            "action": "%default_action%",
-            "namespace": "%default_namespace%",
-            "apps": {
-                "0": "YourApp"
-            }
-        },
-        "pages-DA-*": {
-            "controller": "pages",
-            "action": "view"
-        }
+
     }
 }
