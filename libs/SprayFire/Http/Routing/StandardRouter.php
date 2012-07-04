@@ -90,8 +90,9 @@ class StandardRouter extends CoreObject implements Router {
         $path = $Uri->getPath();
         $cleanPath = $this->cleanPath($path);
         $fragments = $this->parseFragments($cleanPath);
-        $controller = $this->generateFullControllerName($fragments['controller']);
-        $action = $this->generateActionName($fragments['action']);
+        $controllerAndAction = $this->generateControllerAndActionName($fragments['controller'], $fragments['action']);
+        $controller = $controllerAndAction['controller'];
+        $action = $controllerAndAction['action'];
         $parameters = $fragments['parameters'];
         return new \SprayFire\Http\Routing\StandardRoutedRequest($controller, $action, $parameters);
     }
@@ -225,25 +226,49 @@ class StandardRouter extends CoreObject implements Router {
     }
 
     /**
-     * Appends the namespace to the normalized controlleras defined by the routes
-     * configuration.
+     * Generates a normalized controller and action name determined by the routing
+     * set forth in the configuration.
+     *
+     * The array returned will have two keys 'controller' and 'action'.
      *
      * @param string $controller
-     * @return string
+     * @param string $action
+     * @return array
      */
-    protected function generateFullControllerName($controller) {
-        $namespace = $this->config['defaults']['namespace'];
-        return $namespace . '.' . $this->Normalizer->normalizeController($controller);
+    protected function generateControllerAndActionName($controller, $action) {
+        $controller = \strtolower($controller);
+        $action = \strtolower($action);
+        $key = $this->getRouteKey($controller, $action);
+        if ($key !== false) {
+            $namespace = $this->config['routes'][$key]['namespace'];
+            $action = \strtolower($this->config['routes'][$key]['action']);
+            $controller = \strtolower($this->config['routes'][$key]['controller']);
+        } else {
+            $namespace = $this->config['defaults']['namespace'];
+        }
+        $controller = $namespace . '.' . $this->Normalizer->normalizeController($controller);
+        $action = $this->Normalizer->normalizeAction($action);
+
+        return \compact('controller', 'action');
     }
 
     /**
-     * Generates the normalized action as defined by the routes configuration.
+     * Returns the key of the route in the configuration or false if no key exists
      *
+     * @param string $controller
      * @param string $action
-     * @return string
+     * @return mixed
      */
-    protected function generateActionName($action) {
-        return $this->Normalizer->normalizeAction($action);
+    protected function getRouteKey($controller, $action) {
+        $key = $controller . '/' . $action;
+        if (\array_key_exists($key, $this->config['routes'])) {
+            return $key;
+        } else {
+            if (\array_key_exists($controller, $this->config['routes'])) {
+                return $controller;
+            }
+        }
+        return false;
     }
 
 }
