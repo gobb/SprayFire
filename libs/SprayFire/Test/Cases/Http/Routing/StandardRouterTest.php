@@ -58,9 +58,27 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
 
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
-        $this->assertSame('SprayTest.Controller.TestPages', $RoutedRequest->getController());
-        $this->assertSame('indexYoDog', $RoutedRequest->getAction());
-        $this->assertSame(array('yo', 'dog'), $RoutedRequest->getParameters());
+        $this->assertSame('YoDog.Controller.RollTide', $RoutedRequest->getController());
+        $this->assertSame('roll', $RoutedRequest->getAction());
+        $this->assertSame(array('dyana'), $RoutedRequest->getParameters());
+    }
+
+    public function testStandardRouterWithRoutedbyControllerAndAction() {
+        $_server = array();
+        $_server['REQUEST_URI'] = '/college.football/charles/roots_for/alabama';
+        $Uri = new \SprayFire\Http\ResourceIdentifier($_server);
+        $Headers = new \SprayFire\Http\StandardRequestHeaders($_server);
+        $Request = new \SprayFire\Http\StandardRequest($Uri, $Headers);
+
+        $Normalizer = new \SprayFire\Http\Routing\Normalizer();
+        $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/config/SprayFire/routes.json';
+        $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $configPath, 'college.football');
+
+        $RoutedRequest = $Router->getRoutedRequest($Request);
+        $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
+        $this->assertSame('FourteenChamps.Controller.NickSaban', $RoutedRequest->getController());
+        $this->assertSame('win', $RoutedRequest->getAction());
+        $this->assertSame(array('alabama'), $RoutedRequest->getParameters());
     }
 
 }
