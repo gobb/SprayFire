@@ -2,6 +2,7 @@
     "defaults": {
         "controller": "pages",
         "action": "index",
+        "parameters": [],
         "namespace": "YourApp.Controller"
     },
     "routes": {
