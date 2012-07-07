@@ -89,12 +89,14 @@ HTML;
 
 $installPath = __DIR__;
 $libsPath = $installPath . '/libs';
-
-$requestUri = $_SERVER['REQUEST_URI'];
+$appPath = $installPath . '/app';
+$webPath = $installPath . '/web';
+$configPath = $installPath . '/config';
+$logsPath = $installPath . '/logs';
 
 $pathGenerator = 'SprayFire.FileSys.Paths';
-$pathsCallback = function() use($installPath, $libsPath) {
-    $RootPaths = new \SprayFire\FileSys\RootPaths($installPath, $libsPath);
+$pathsCallback = function() use($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath) {
+    $RootPaths = new \SprayFire\FileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
     return array($RootPaths);
 };
 
@@ -104,6 +106,15 @@ $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 $ClassLoader->registerNamespaceDirectory('Artax', $libsPath . '/Artax/src');
 $ClassLoader->setAutoloader();
 
+$Uri = new \SprayFire\Http\ResourceIdentifier();
+$RequestHeaders = new \SprayFire\Http\StandardRequestHeaders();
+$Request = new \SprayFire\Http\StandardRequest($Uri, $RequestHeaders);
+
+$Normalizer = new \SprayFire\Http\Routing\Normalizer();
+$routesConfig = $configPath . '/SprayFire/routes.json';
+$installDir = \basename($installPath);
+$Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $routesConfig, $installDir);
+
 $ReflectionCache = new \Artax\ReflectionCacher();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 
@@ -111,19 +122,13 @@ $Container->addService($pathGenerator, $pathsCallback);
 $Container->addService($ReflectionCache, null);
 $Container->addService($ClassLoader, null);
 $Container->addService('SprayFire.JavaNamespaceConverter', null);
+$Container->addService($Request, null);
+$Container->addService('SprayFire.Controller.Factory', function() use($ReflectionCache, $Container) {
+    return array($ReflectionCache, $Container);
+});
 
-$Uri = new \SprayFire\Http\ResourceIdentifier();
-$RequestHeaders = new \SprayFire\Http\StandardRequestHeaders();
-$Request = new \SprayFire\Http\StandardRequest($Uri, $RequestHeaders);
 
-$Normalizer = new \SprayFire\Http\Routing\Normalizer();
-$routesConfig = $Container->getService($pathGenerator)->getConfigPath('SprayFire', 'routes.json');
-$installDir = \basename($installPath);
-$Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $routesConfig, $installDir);
-
-$RoutedRequest = $Router->getRoutedRequest($Request);
-
-\var_dump($RoutedRequest);
+var_dump($Container->getService('SprayFire.Controller.Factory'));
 
 /**
  * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.
