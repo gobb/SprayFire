@@ -17,8 +17,4 @@ class NullObject extends \SprayFire\Controller\Base {
 
     }
 
-    public function __call($name, $arguments) {
-
-    }
-
 }
