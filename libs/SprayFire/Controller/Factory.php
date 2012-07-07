@@ -11,7 +11,10 @@
 namespace SprayFire\Controller;
 
 use \SprayFire\Service\Container as Container,
+    \SprayFire\Controller\Controller as Controller,
     \SprayFire\Factory\BaseFactory as BaseFactory,
+    \SprayFire\Service\NotFoundException as ServiceNotFoundException,
+    \SprayFire\Exception\FatalRuntimeException as FatalException,
     \Artax\ReflectionPool as ReflectionPool;
 
 class Factory extends BaseFactory {
@@ -59,7 +62,7 @@ class Factory extends BaseFactory {
      * @param SprayFire.Controller.Controller $Controller
      * @throws SprayFire.Exception.FatalRuntimeException
      */
-    protected function addServices(\SprayFire\Controller\Controller $Controller) {
+    protected function addServices(Controller $Controller) {
 
         try {
             $services = $Controller->getServices();
@@ -68,8 +71,8 @@ class Factory extends BaseFactory {
                     $Controller->$property = $this->Container->getService($service);
                 }
             }
-        } catch(\SprayFire\Service\NotFoundException $NotFoundExc) {
-            throw new \SprayFire\Exception\FatalRuntimeException('The service, ' . $service . ',  for a Controller was not found.', null, $NotFoundExc);
+        } catch(ServiceNotFoundException $NotFoundExc) {
+            throw new FatalException('The service, ' . $service . ',  for a Controller was not found.', null, $NotFoundExc);
         }
 
     }
