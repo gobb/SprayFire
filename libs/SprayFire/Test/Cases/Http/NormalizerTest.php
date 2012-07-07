@@ -5,7 +5,7 @@
  * @brief
  */
 
-namespace SprayFire\Test\Cases\Routing;
+namespace SprayFire\Test\Cases\Http;
 
 /**
  * @brief
@@ -15,9 +15,7 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase {
     protected $Normalizer;
 
     public function setUp() {
-        if (!$this->Normalizer) {
-            $this->Normalizer = new \SprayFire\Routing\Normalizer();
-        }
+        $this->Normalizer = new \SprayFire\Http\Routing\Normalizer();
     }
 
     public function testNormalizingPlainJaneController() {

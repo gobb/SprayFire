@@ -9,16 +9,20 @@ SprayFire is currently in development stage.  The API and implementations provid
 
 The [framework wiki](http://www.github.com/cspray/SprayFire/wiki/) is a more reliable, stable source for information on the current state of the framework and the future of SprayFire.
 
-## Features
+## Initial Features
 
+- System built upon routing an HTTP request to a Controller and action.  That action gathers data for a Responder that generates and sends the response.
 - Simple, easy-to-learn templating using built-in PHP functionality.
 - HTML templating system ensuring that XSS attacks are not possible by escaping all output.
 - Support for a wide-variety of PHP 5.3+ capable libraries.
-- Support for multiple apps running from same SprayFire library.
-- A version with Doctrine 2 to act as data source letting you roll-your-own Model.
-- Easy creation of plugins, or Embers, to provide functionality for your own apps and others.
+- A version with a variety of popular ORMs to act as data source while you still roll-your-own Model.
 - A command-line utility to set up your basic app directory structure and files; note that this is *not* scaffolding but simply creating a default SprayFire installation.
 - Support for the [Composer](https://github.com/composer/composer) dependency manager tool
+
+## Features to Come
+
+- SprayFire DataAccess layer as an additional data abstraction system.
+- A base Model class 
 
 ## Dependencies
 

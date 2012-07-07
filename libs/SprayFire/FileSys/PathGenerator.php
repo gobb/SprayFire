@@ -5,6 +5,8 @@
  * used by the framework and/or app.
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\FileSys;
@@ -72,7 +74,7 @@ interface PathGenerator {
      * also accept either an array or a variable number of arguments to be interpreted
      * as the sub directories and/or files to append to the web $path.
      *
-     * Ultimatley this means that this function will need to return the basename
+     * Ultimately this means that this function will need to return the basename
      * of the install path appended to the web path without the root directory
      * attached.
      *

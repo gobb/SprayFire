@@ -5,17 +5,17 @@
  * of specific log messages.
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Logging\Logifier;
 
-/**
- * @uses SprayFire.Logging.LogOverseer
- * @uses SprayFire.Logging.Logger
- * @uses SprayFire.Factory.Factory
- * @uses SprayFire.Util.CoreObject
- */
-class LogDelegator extends \SprayFire\CoreObject implements \SprayFire\Logging\LogOverseer {
+use \SprayFire\Logging\LogOverseer as LogOverseer,
+    \SprayFire\Logging\Logger as Logger,
+    \SprayFire\CoreObject as CoreObject;
+
+class LogDelegator extends CoreObject implements LogOverseer {
 
     /**
      * @property SprayFire.Logging.Logger
@@ -38,9 +38,12 @@ class LogDelegator extends \SprayFire\CoreObject implements \SprayFire\Logging\L
     protected $InfoLogger;
 
     /**
-     * @param $LoggerFactory SprayFire.Factory.Factory that produces SprayFire.Logging.Logger
+     * @param SprayFire.Logging.Logger $Emergency
+     * @param SprayFire.Logging.Logger $Error
+     * @param SprayFire.Logging.Logger $Debug
+     * @param SprayFire.Logging.Logger $Info
      */
-    public function __construct(\SprayFire\Logging\Logger $Emergency, \SprayFire\Logging\Logger $Error, \SprayFire\Logging\Logger $Debug, \SprayFire\Logging\Logger $Info) {
+    public function __construct(Logger $Emergency, Logger $Error, Logger $Debug, Logger $Info) {
         $this->EmergencyLogger = $Emergency;
         $this->ErrorLogger = $Error;
         $this->DebugLogger = $Debug;
@@ -48,36 +51,36 @@ class LogDelegator extends \SprayFire\CoreObject implements \SprayFire\Logging\L
     }
 
     /**
-     * @param $message string
-     * @param $options array Options to pass to \a $DebugLogger->log($message, $options)
-     * @return mixed Value from \a $DebugLogger->log()
+     * @param string $message
+     * @param array $options
+     * @return mixed
      */
     public function logDebug($message, array $options = array()) {
         return $this->DebugLogger->log($message, $options);
     }
 
     /**
-     * @param $message string
-     * @param $options array Options to pass to \a $EmergencyLogger->log($message, $options)
-     * @return mixed Value from \a $EmergencyLogger->log()
+     * @param string $message
+     * @param array $options
+     * @return mixed
      */
     public function logEmergency($message, array $options = array()) {
         return $this->EmergencyLogger->log($message, $options);
     }
 
     /**
-     * @param $message string
-     * @param $options array Options to pass to \a $ErrorLogger->log($message, $options)
-     * @return mixed Value from \a $ErrorLogger->log()
+     * @param string $message
+     * @param array $options
+     * @return mixed
      */
     public function logError($message, array $options = array()) {
         return $this->ErrorLogger->log($message, $options);
     }
 
     /**
-     * @param $message string
-     * @param $options array Options to pass to \a $InfoLogger->log($message, $options)
-     * @return mixed Value from \a $InfoLogger->log()
+     * @param string $message
+     * @param array $options
+     * @return mixed
      */
     public function logInfo($message, array $options = array()) {
         return $this->InfoLogger->log($message, $options);

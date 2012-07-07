@@ -1,11 +1,10 @@
 .DS_Store
 .
 ..
+.idea
 *.swp
 nbproject
 logs/errors.txt
 libs/SprayFire/Test/configuration.xml
-
 logs/sprayfire-debug.txt
-
 logs/sprayfire-info.txt

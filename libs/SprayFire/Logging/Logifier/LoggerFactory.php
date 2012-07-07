@@ -5,22 +5,20 @@
  * makeObject().
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Logging\Logifier;
 
-/**
- * @uses SprayFire.Factory.BaseFactory
- */
-class LoggerFactory extends \SprayFire\Factory\BaseFactory {
+use \SprayFire\Factory\BaseFactory as BaseFactory;
+
+class LoggerFactory extends BaseFactory {
 
     /**
-     * @param $ReflectionCache Artax.ReflectionPool
-     * @param $returnType string Logger interface, defaults to SprayFire.Logging.Logger
-     * @param $nullObject string A NullObject to return if errors occur, defaults
-     *        to SprayFire.Logging.Logifier.NullLogger
-     * @throws InvalidArgumentException
-     * @throws SprayFire.Exception.TypeNotFoundException
+     * @param Artax.ReflectionPool $ReflectionCache
+     * @param string $returnType
+     * @param string $nullObject
      */
     public function __construct(\Artax\ReflectionPool $ReflectionCache, $returnType = 'SprayFire.Logging.Logger', $nullObject = 'SprayFire.Logging.Logifier.NullLogger') {
         parent::__construct($ReflectionCache, $returnType, $nullObject);

@@ -4,22 +4,16 @@
  * Holds the ExceptionHandler used as a callback for set_exception_handler()
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Error;
 
-/**
- * Accepts a log, the absolute path to a content replacement file, and headers
- * that should be sent with the request.
- *
- * Will log the appropriate exception information and then include the file set
- * by \a $contentReplacementPath.  In addition, a 500 HTTP status will be returned
- * to the user.  For the interim, it is expected that the content returned is HTML.
- *
- * @uses SprayFire.Logging.Logger
- * @uses SprayFire.Core.Util.CoreObject
- */
-class ExceptionHandler extends \SprayFire\CoreObject {
+use \SprayFire\Logging\LogOverseer as LogOverseer,
+    \SprayFire\CoreObject as CoreObject;
+
+class ExceptionHandler extends CoreObject {
 
     /**
      * @property SprayFire.Logging.LogOverseer
@@ -43,11 +37,12 @@ class ExceptionHandler extends \SprayFire\CoreObject {
     protected $headers;
 
     /**
-     * @param $Log SprayFire.Loging.LogOverseer to log information about the caught exception
+     * @param $Log SprayFire.Logging.LogOverseer to log information about the
+     * caught exception
      * @param $contentReplacementPath File path holding content to serve up after the info is logged
      * @param $headers an array of header information to be sent to the user
      */
-    public function __construct(\SprayFire\Logging\LogOverseer $LogOverseer, $contentReplacementPath, array $headers = array()) {
+    public function __construct(LogOverseer $LogOverseer, $contentReplacementPath, array $headers = array()) {
         $this->Logger = $LogOverseer;
         $this->replacePath = $contentReplacementPath;
         $this->headers = $headers;
@@ -58,7 +53,7 @@ class ExceptionHandler extends \SprayFire\CoreObject {
      * will have a 500 HTTP status error returned and the passed content will be
      * sent to the user.
      *
-     * @param $Exception Exception thrown and not caught
+     * @param Exception $Exception
      */
     public function trap($Exception) {
         $this->logExceptionInfo($Exception);
@@ -67,7 +62,7 @@ class ExceptionHandler extends \SprayFire\CoreObject {
     }
 
     /**
-     * @param $Exception An exception to log the info of.
+     * @param Exception $Exception
      */
     protected function logExceptionInfo(\Exception $Exception) {
         $file = $Exception->getFile();
@@ -106,7 +101,7 @@ class ExceptionHandler extends \SprayFire\CoreObject {
      * Returns the content to be sent to the user if the content path injected
      * could not properly be included.
      *
-     * @return HTML
+     * @return string
      */
     protected function getDefaultMarkup() {
         return <<<HTML

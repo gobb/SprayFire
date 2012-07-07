@@ -89,12 +89,14 @@ HTML;
 
 $installPath = __DIR__;
 $libsPath = $installPath . '/libs';
+$appPath = $installPath . '/app';
+$webPath = $installPath . '/web';
+$configPath = $installPath . '/config';
+$logsPath = $installPath . '/logs';
 
-$requestUri = $_SERVER['REQUEST_URI'];
-
-$PathGenerator = 'SprayFire.FileSys.Paths';
-$pathsCallback = function() use($installPath, $libsPath) {
-    $RootPaths = new \SprayFire\FileSys\RootPaths($installPath, $libsPath);
+$pathGenerator = 'SprayFire.FileSys.Paths';
+$pathsCallback = function() use($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath) {
+    $RootPaths = new \SprayFire\FileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
     return array($RootPaths);
 };
 
@@ -104,14 +106,29 @@ $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 $ClassLoader->registerNamespaceDirectory('Artax', $libsPath . '/Artax/src');
 $ClassLoader->setAutoloader();
 
+$Uri = new \SprayFire\Http\ResourceIdentifier();
+$RequestHeaders = new \SprayFire\Http\StandardRequestHeaders();
+$Request = new \SprayFire\Http\StandardRequest($Uri, $RequestHeaders);
+
+$Normalizer = new \SprayFire\Http\Routing\Normalizer();
+$routesConfig = $configPath . '/SprayFire/routes.json';
+$installDir = \basename($installPath);
+$Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $routesConfig, $installDir);
+
 $ReflectionCache = new \Artax\ReflectionCacher();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 
-$Container->addService($PathGenerator, $pathsCallback);
+$Container->addService($pathGenerator, $pathsCallback);
 $Container->addService($ReflectionCache, null);
-$Container->addService('SprayFire.Routing.Normalizer', null);
+$Container->addService($ClassLoader, null);
+$Container->addService('SprayFire.JavaNamespaceConverter', null);
+$Container->addService($Request, null);
+$Container->addService('SprayFire.Controller.Factory', function() use($ReflectionCache, $Container) {
+    return array($ReflectionCache, $Container);
+});
 
-$UriData = new \SprayFire\Routing\Routifier\UriData($requestUri, $installPath);
+
+var_dump($Container->getService('SprayFire.Controller.Factory'));
 
 /**
  * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.
@@ -119,9 +136,18 @@ $UriData = new \SprayFire\Routing\Routifier\UriData($requestUri, $installPath);
 
 // NOTE: The below code is a temporary measure until the templating system is in place
 
-$styleCss = $Container->getService('SprayFire.FileSys.Paths')->getUrlPath('css', 'sprayfire.style.css');
-$sprayFireLogo = $Container->getService('SprayFire.FileSys.Paths')->getUrlPath('images', 'sprayfire-logo-bar-75.png');
-$serverData = '<pre>' . print_r($_SERVER, true) . '</pre>';
+$styleCss = $Container->getService($pathGenerator)->getUrlPath('css', 'sprayfire.style.css');
+$sprayFireLogo = $Container->getService($pathGenerator)->getUrlPath('images', 'sprayfire-logo-bar-75.png');
+$serverData = '<pre>' . \print_r($_SERVER, true) . '</pre>';
+$sessionId = \session_id();
+if (empty($sessionId)) {
+    $sessionData = '<pre>' . \print_r(array('session_status' => 'Not started'), true) . '</pre>';
+} else {
+    $sessionData = '<pre>' . \print_r($_SESSION, true) . '</pre>';
+}
+
+$postData = '<pre>' . \print_r($_POST, true) . '</pre>';
+$getData = '<pre>' . \print_r($_GET, true) . '</pre>';
 
 echo <<<HTML
 <!DOCTYPE html>
@@ -145,7 +171,14 @@ echo <<<HTML
 
                 <div id="body">
                     <div id="main-content">
-                    {$serverData}
+                        <h2>Server Data</h2>
+                        {$serverData}
+                        <h2>Session Data</h2>
+                        {$sessionData}
+                        <h2>POST Data</h2>
+                        {$postData}
+                        <h2>GET Data</h2>
+                        {$getData}
                     </div>
                 </div>
 
@@ -159,12 +192,16 @@ HTML;
     $errors = 'Errors: ' . \print_r($preBootstrapErrors, true);
     $memUsage = 'Memory usage: ' . \memory_get_peak_usage() / (1000*1024) . ' mb';
     $runTime = 'Execution time: ' . (\microtime(true) - $requestStartTime) . ' seconds';
+    $numIncludedFiles = 'Number of included files: ' . \count(get_included_files());
+    $var = new \stdClass();
+    \var_dump($var);
     $debugInfo = <<<HTML
             <div id="debug-info" style="margin-top:1em;border:2px solid black;padding:5px;font-family:monospace;">
                 <ul>
                     <li><pre>$errors</pre></li>
                     <li>$memUsage</li>
                     <li>$runTime</li>
+                    <li>$numIncludedFiles</li>
                 </ul>
             </div>
 HTML;

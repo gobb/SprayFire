@@ -18,26 +18,26 @@ namespace SprayFire\Logging;
 interface LogOverseer {
 
     /**
-     * @param $message string Information about an emergency situation that occured
-     * @param $options array An array of options to pass to the emergency logger
+     * @param string $message
+     * @param array $options
      */
     public function logEmergency($message, array $options = array());
 
     /**
-     * @param $message string Information about an error that PHP triggered
-     * @param $options array An array of options to pass to the error logger
+     * @param string $message
+     * @param array $options
      */
     public function logError($message, array $options = array());
 
     /**
-     * @param $message string Information used for debugging purposes
-     * @param $options array An array of options to pass to the debug logger
+     * @param string $message
+     * @param array $options
      */
     public function logDebug($message, array $options = array());
 
     /**
-     * @param $message string Information used for informational/data mining purposes
-     * @param $options array An array of options to pass to the info logger
+     * @param string $message
+     * @param array $options
      */
     public function logInfo($message, array $options = array());
 

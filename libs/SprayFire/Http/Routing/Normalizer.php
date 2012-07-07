@@ -4,9 +4,11 @@
  * Will normalize controller and action names for routing purposes.
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
-namespace SprayFire\Routing;
+namespace SprayFire\Http\Routing;
 
 /**
  * Will take a controller or action URI fragment and return a string that is formatted
@@ -22,9 +24,8 @@ class Normalizer extends \SprayFire\CoreObject {
     protected $characterRegex = '/[^A-Za-z\s]/';
 
     /**
-     * @param $controller string Controller fragment from URL
-     * @return string Normalized controller class name
-     * @see http://www.github.com/cspray/SprayFire/wiki/Routing
+     * @param string $controller
+     * @return string
      */
     public function normalizeController($controller) {
         $class = \strtolower($controller);
@@ -35,9 +36,8 @@ class Normalizer extends \SprayFire\CoreObject {
     }
 
     /**
-     * @param $action string Name of an action on a controller
-     * @return string Normalized action name
-     * @see http://www.github.com/cspray/SprayFire/wiki/Routing
+     * @param strubg $action
+     * @return string
      */
     public function normalizeAction($action) {
         $action = \strtolower($action);
@@ -48,8 +48,8 @@ class Normalizer extends \SprayFire\CoreObject {
     }
 
     /**
-     * @param $string string To replace all underscores
-     * @return string A string with underscores turned into spaces
+     * @param string $string
+     * @return string
      */
     protected function replaceUnderscoresWithSpaces($string) {
         $underscore = '_';
@@ -57,8 +57,8 @@ class Normalizer extends \SprayFire\CoreObject {
     }
 
     /**
-     * @param $string string To replace all dashes
-     * @return string A string with dashes turned into spaces
+     * @param string $string
+     * @return string
      */
     protected function replaceDashesWithSpaces($string) {
         $dash = '-';
@@ -66,39 +66,39 @@ class Normalizer extends \SprayFire\CoreObject {
     }
 
     /**
-     * @param $string string The string to replace characters with spaces
-     * @param $character string Character to replace with spaces
-     * @return string A string with all \a $character turned into spaces
+     * @param strubg $string
+     * @param string $character
+     * @return string
      */
     protected function replaceCharacterWithSpaces($string, $character) {
         $space = ' ';
         if (\strpos($string, $character) === false) {
             return $string;
         }
-        return \str_replace($character, $space, $string);
+        return (string) \str_replace($character, $space, $string);
     }
 
     /**
-     * @param $string string A string that should have all non-alphabetic/space characters removed
-     * @return string A string with no invalid characters
+     * @param string $string
+     * @return string
      */
     protected function removeInvalidCharacters($string) {
-        return \preg_replace($this->characterRegex, '', $string);
+        return (string) \preg_replace($this->characterRegex, '', $string);
     }
 
     /**
-     * @param $string string A lowercase, space separated string
-     * @return string A string with the appropriate PascalCase and all spaces removed
+     * @param string $string
+     * @return string
      */
     protected function makePascalCased($string) {
         $class = \ucwords($string);
         $class = \str_replace(' ', '', $class);
-        return $class;
+        return (string) $class;
     }
 
     /**
-     * @param $string string A lowercase, space separated string
-     * @return string A string with the appropriate camelCase and all spaces removed
+     * @param string $string
+     * @return string
      */
     protected function makeCamelCased($string) {
         $string = $this->makePascalCased($string);

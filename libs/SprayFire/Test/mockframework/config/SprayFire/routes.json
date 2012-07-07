@@ -1,0 +1,23 @@
+{
+    "defaults": {
+        "controller": "test_pages",
+        "action": "index-yo-dog",
+        "parameters": ["yo", "dog"],
+        "namespace": "SprayTest.Controller"
+    },
+    "routes": {
+        "charles": {
+            "namespace": "YoDog.Controller",
+            "controller": "roll_tide",
+            "action": "roll"
+        },
+        "charles/roots_for": {
+            "namespace": "FourteenChamps.Controller",
+            "controller": "nick_saban",
+            "action": "win"
+        },
+        "charles/drinks": {
+            "namespace": "FavoriteBrew.Controller"
+        }
+    }
+}

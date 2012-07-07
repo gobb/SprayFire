@@ -1,20 +1,18 @@
 <?php
 
 /**
- * File holding class reponsible for logging and keeping track of errors triggered.
+ * Class responsible for logging and keeping track of errors triggered.
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Error;
 
-/**
- * Responsible for trapping errors, logging appropriate messages and provides a
- * means to get the error info for errors triggered in a specific request.
- *
- * @uses SprayFire.Logging.LogOverseer
- * @uses SprayFire.Core.Util.CoreObject
- */
+use \SprayFire\Logging\LogOverseer,
+    \SprayFire\CoreObject as CoreObject;
+
 class Handler extends \SprayFire\CoreObject {
 
     /**
@@ -23,23 +21,22 @@ class Handler extends \SprayFire\CoreObject {
     protected $Logger;
 
     /**
-     * @param $Log SprayFire.Logging.LogOverseer The log to use for this error handler
-     * @param $developmentModeOn True or false on whether or not the environment is in development mode
+     * @param SprayFire.Logging.LogOverseer $Log
+     * @param boolean $developmentModeOn
      */
-    public function __construct(\SprayFire\Logging\LogOverseer $Log, $developmentModeOn = false) {
+    public function __construct(LogOverseer $Log, $developmentModeOn = false) {
         $this->Logger = $Log;
         $this->developmentModeOn = (boolean) $developmentModeOn;
     }
 
     /**
-     * Used as the error handling callback.
-     *
-     * @param $severity int representing an error level constant
-     * @param $message string representing an error message
-     * @param $file string representing the file the error occurred in
-     * @param $line int the line that triggered the error in \a $file
-     * @param type $context an array of variables available at time of error
-     * @return false if non-user implemented error handling should be invoked
+     * @param int $severity int representing an error level constant
+     * @param string $message string representing an error message
+     * @param string $file string representing the file the error occurred in
+     * @param int $line int the line that triggered the error in \a $file
+     * @param array $context an array of variables available at time of
+     * error
+     * @return boolean
      */
     public function trap($severity, $message, $file = null, $line = null, $context = null) {
         if (\error_reporting() === 0) {
@@ -54,6 +51,8 @@ class Handler extends \SprayFire\CoreObject {
         if (\in_array($intSeverity, $unHandledSeverity)) {
             return false;
         }
+
+        return true;
     }
 
     /**
@@ -61,8 +60,8 @@ class Handler extends \SprayFire\CoreObject {
      * error level constant representing it; if it the severity is not known or not
      * one expected to be trapped by the handler it will return 'E_UNKNOWN_SEVERITY'
      *
-     * @param $severity An integer
-     * @return string representing the name of the constant equal to \a $severity
+     * @param int $severity
+     * @return string
      */
     protected function normalizeSeverity($severity) {
         $severityMap = array(

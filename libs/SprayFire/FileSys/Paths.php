@@ -1,75 +1,68 @@
 <?php
 
 /**
- * Holds a class to ease the creation of absolute paths for directories and files
- * used by the app and framework.
+ * Class to ease the creation of absolute paths for directories and files used by
+ * apps and the framework.
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\FileSys;
 
+use \SprayFire\FileSys\PathGenerator as PathGenerator,
+    \SprayFire\CoreObject as CoreObject,
+    \SprayFire\FileSys\RootPaths as RootPaths;
+
 /**
- * Used as a utility class to easily create absolute paths for various directories
- * in the app and framework.
- *
  * All of the getter methods in this class allow a variable number of parameters
- * passed to it.  You can either pass these directly as parameters to the function
- * or an array of strings.
+ * passed to it.
  *
- * @uses SprayFire.PathGenerator
- * @uses SprayFire.Util.CoreObject
+ * Method 1 - parameters
+ * -----------------------------------------------------------------------------
+ * Paths::getInstallPath('path', 'to', 'your', 'file');
+ *
+ * Method 2 - array
+ * -----------------------------------------------------------------------------
+ * Paths::getInstallPath(array('path', 'to', 'your', 'file'));
  */
-class Paths extends \SprayFire\CoreObject implements \SprayFire\FileSys\PathGenerator {
+class Paths extends CoreObject implements PathGenerator {
 
     /**
-     * Path holding the primary directories used by the app and framework.
-     *
      * @property string
      */
     protected $installPath;
 
     /**
-     * Path holding framework and third-party classes used by the app and framework.
-     *
      * @property string
      */
     protected $libsPath;
 
     /**
-     * Path holding app classes
-     *
      * @property string
      */
     protected $appPath;
 
     /**
-     * Path holding configuration files
-     *
      * @property string
      */
     protected $configPath;
 
     /**
-     * Path holding log files that are written to by the framework or app
-     *
      * @property string
      */
     protected $logsPath;
 
     /**
-     * Path holding files that are accessible via the web
-     *
      * @property string
      */
     protected $webPath;
 
     /**
-     * Accepts an array of paths that will be used to generate absolute paths.
-     *
-     * @param $paths array
+     * @param SprayFire.FileSys.RootPaths
      */
-    public function __construct(\SprayFire\FileSys\RootPaths $RootPaths) {
+    public function __construct(RootPaths $RootPaths) {
         $this->installPath = $RootPaths->install;
         $this->libsPath = $RootPaths->libs;
         $this->appPath = $RootPaths->app;
@@ -79,49 +72,53 @@ class Paths extends \SprayFire\CoreObject implements \SprayFire\FileSys\PathGene
     }
 
     /**
-     * @return string Path holding the app and framework directories
+     * @return string
      */
     public function getInstallPath() {
         return $this->generateFullPath('installPath', \func_get_args());
     }
 
     /**
-     * @return string Path holding the framework and 3rd party libraries
+     * @return string
      */
     public function getLibsPath() {
         return $this->generateFullPath('libsPath', \func_get_args());
     }
 
     /**
-     * @return string Path holding the apps driven by the framework
+     * @return string
      */
     public function getAppPath() {
         return $this->generateFullPath('appPath', \func_get_args());
     }
 
     /**
-     * @return string Absolute path to the configuration file
+     * @return string
      */
     public function getConfigPath() {
         return $this->generateFullPath('configPath', \func_get_args());
     }
 
     /**
-     * @return string Absolute path to directories where logs should be kept
+     * @return string
      */
     public function getLogsPath() {
         return $this->generateFullPath('logsPath', \func_get_args());
     }
 
     /**
-     * @return string Absolute path, for backend code, to web accessible files
+     * Path suitable for back-end file system access to the web directory
+     *
+     * @return string
      */
     public function getWebPath() {
         return $this->generateFullPath('webPath', \func_get_args());
     }
 
     /**
-     * @return string A relative path, suitable for HTML, to web accessible files
+     * Path suitable for front-end HTML linking to files in the web directory
+     *
+     * @return string
      */
     public function getUrlPath() {
         $webRoot = \basename($this->getWebPath());
@@ -135,9 +132,9 @@ class Paths extends \SprayFire\CoreObject implements \SprayFire\FileSys\PathGene
     }
 
     /**
-     * @param $property string The class property to use for the primary path
-     * @param $subDir array A list of possible sub directories to add to primary path
-     * @return string Absolute path for the given class \a $property and \a $subDir
+     * @param string $property
+     * @param array $subDir
+     * @return string
      */
     protected function generateFullPath($property, array $subDir) {
         if (\count($subDir) === 0) {
@@ -147,8 +144,8 @@ class Paths extends \SprayFire\CoreObject implements \SprayFire\FileSys\PathGene
     }
 
     /**
-     * @param $subDir array A list of possible sub directories
-     * @return string A sub directory path, with n otrailing separator
+     * @param array $subDir
+     * @return string
      */
     protected function generateSubDirectoryPath(array $subDir) {
         $subDirPath = '';

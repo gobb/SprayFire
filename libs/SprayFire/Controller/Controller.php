@@ -21,10 +21,33 @@ interface Controller {
     public function getResponderName();
 
     /**
+     * Return the full path to the template file, including file extension
+     *
+     * @return string
+     */
+    public function getTemplatePath();
+
+    /**
+     * Return the full path to the layout for this template, include file extension
+     *
+     * @return string
+     */
+    public function getLayoutPath();
+
+    /**
+     * Return an associative array with the class property as the key and the
+     * name of the service as the value.
+     *
+     * @return array
+     */
+    public function getServices();
+
+    /**
      * Should provide a means to give a Responder data that is to be considered
      * unsanitized.
      *
-     * @param $data array
+     * @param array $data
+     * @return mixed
      */
     public function giveDirtyData(array $data);
 
@@ -32,7 +55,8 @@ interface Controller {
      * Provide a means to give a Responder data that is to be considered safe
      * and should not go through sanitization.
      *
-     * @param $data array
+     * @param array $data
+     * @return mixed
      */
     public function giveCleanData(array $data);
 
