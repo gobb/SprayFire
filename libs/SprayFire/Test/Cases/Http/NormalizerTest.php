@@ -5,7 +5,7 @@
  * @brief
  */
 
-namespace SprayFire\Test\Cases\Http\Routing;
+namespace SprayFire\Test\Cases\Http;
 
 /**
  * @brief

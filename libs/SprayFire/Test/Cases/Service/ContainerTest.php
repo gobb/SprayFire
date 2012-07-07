@@ -5,13 +5,9 @@
  * @brief Holds a PHPUnit test case to confirm the functionality of Container
  */
 
-namespace SprayFire\Test\Cases\Service\FireBox;
+namespace SprayFire\Test\Cases\Service;
 
 class ContainerTest extends \PHPUnit_Framework_TestCase {
-
-    public function setUp() {
-
-    }
 
     public function testResourceDoesNotExist() {
         $ReflectionCache = new \Artax\ReflectionCacher();
@@ -38,9 +34,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     public function testAddingNullParametersDefaultToEmptyCallback() {
         $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
-        $Container->addService('SprayFire.Test.Cases.Service.FireBox.Value', null);
-        $Service = $Container->getService('SprayFire.Test.Cases.Service.FireBox.Value');
-        $this->assertInstanceOf('\\SprayFire\\Test\\Cases\\Service\\FireBox\\Value', $Service);
+        $Container->addService('SprayFire.Test.Cases.Service.Value', null);
+        $Service = $Container->getService('SprayFire.Test.Cases.Service.Value');
+        $this->assertInstanceOf('\\SprayFire\\Test\\Cases\\Service\\Value', $Service);
     }
 
     public function testGettingPathsService() {
@@ -92,10 +88,6 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
         $this->setExpectedException('\\SprayFire\\Service\\NotFoundException');
         $Container->getService('SprayFire.NonExistent.Service');
-    }
-
-    public function tearDown() {
-
     }
 
 }

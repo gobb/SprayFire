@@ -5,7 +5,7 @@
  * @brief Holds a PHPUnit test case to confirm the functionality of StandardRouterTest
  */
 
-namespace SprayFire\Test\Cases\Http\Routing;
+namespace SprayFire\Test\Cases\Http;
 
 class StandardRouterTest extends \PHPUnit_Framework_TestCase {
 

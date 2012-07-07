@@ -98,11 +98,14 @@ class Container extends JavaNameConverter implements ServiceContainer {
         if (\array_key_exists($serviceName, $this->storedServices)) {
             return $this->storedServices[$serviceName];
         }
+        if (!\array_key_exists($serviceName, $this->addedServices)) {
+            throw new \SprayFire\Service\NotFoundException('A service, ' . $serviceName . ', was not properly added to the container.');
+        }
         $parameterCallback = $this->addedServices[$serviceName];
         try {
             $ReflectedService = $this->ReflectionCache->getClass($serviceName);
         } catch(\ReflectionException $NotFoundExc) {
-            throw new \SprayFire\Service\NotFoundException('A service, ' . $serviceName . ', was not properly added to the container.');
+            throw new \SprayFire\Service\NotFoundException($NotFoundExc->getMessage());
         }
         $Service = $ReflectedService->newInstanceArgs($parameterCallback());
         $this->storedServices[$serviceName] = $Service;
