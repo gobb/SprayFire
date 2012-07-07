@@ -14,14 +14,11 @@ namespace SprayFire\Test\Helpers\Controller;
 class NullObject extends \SprayFire\Controller\Base {
 
     public function __construct() {
-        $this->services = array(
-            'Paths' => 'SprayFire.FileSys.Paths'
-        );
-        $this->responderName = 'SprayFire.Responder.HtmlResponder';
+
     }
 
     public function __call($name, $arguments) {
-        
+
     }
 
 }
