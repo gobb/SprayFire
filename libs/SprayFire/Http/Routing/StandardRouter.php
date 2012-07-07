@@ -50,6 +50,11 @@ class StandardRouter extends CoreObject implements Router {
     protected $defaultParameters;
 
     /**
+     * @property string
+     */
+    protected $defaultNamespace;
+
+    /**
      * @param SprayFire.Http.Routing.Normalizer $Normalizer
      * @param string $configPath
      * @param string $installDir
@@ -62,6 +67,7 @@ class StandardRouter extends CoreObject implements Router {
         $this->defaultController = (string) $this->config['defaults']['controller'];
         $this->defaultAction = (string) $this->config['defaults']['action'];
         $this->defaultParameters = (array) $this->config['defaults']['parameters'];
+        $this->defaultNamespace = (string) $this->config['defaults']['namespace'];
 
     }
 
@@ -243,7 +249,7 @@ class StandardRouter extends CoreObject implements Router {
             if (isset($this->config['routes'][$key]['namespace'])) {
                 $namespace = $this->config['routes'][$key]['namespace'];
             } else {
-                $namespace = $this->config['defaults']['namespace'];
+                $namespace = $this->defaultNamespace;
             }
 
             if (isset($this->config['routes'][$key]['controller'])) {
@@ -255,7 +261,7 @@ class StandardRouter extends CoreObject implements Router {
             }
 
         } else {
-            $namespace = $this->config['defaults']['namespace'];
+            $namespace = $this->defaultNamespace;
         }
         $controller = $namespace . '.' . $this->Normalizer->normalizeController($controller);
         $action = $this->Normalizer->normalizeAction($action);
