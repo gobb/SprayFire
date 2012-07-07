@@ -5,7 +5,7 @@
  * @brief Holds a PHPUnit test case to confirm the functionality of Container
  */
 
-namespace SprayFire\Test\Cases\Service\FireBox;
+namespace SprayFire\Test\Cases\Service;
 
 class ContainerTest extends \PHPUnit_Framework_TestCase {
 

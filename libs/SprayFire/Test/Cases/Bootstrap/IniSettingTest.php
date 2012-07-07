@@ -5,7 +5,7 @@
  * @brief Holds a PHPUnit test case to confirm the functionality of IniConfigBootstrapTest
  */
 
-namespace SprayFire\Test\Cases\Bootstrap\Strapifier;
+namespace SprayFire\Test\Cases\Bootstrap;
 
 class IniConfigTest extends \PHPUnit_Framework_TestCase {
 
