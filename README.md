@@ -22,7 +22,8 @@ The [framework wiki](http://www.github.com/cspray/SprayFire/wiki/) is a more rel
 ## Features to Come
 
 - SprayFire DataAccess layer as an additional data abstraction system.
-- A base Model class 
+- A base Model class to allow for generic functionality.  Note, this is different than the Model layer as a whole.  For more info, please read [this blog post about the subject](http://cspray.github.com/2012/07/07/the-model-layer-and-class.html).
+-
 
 ## Dependencies
 
