@@ -128,87 +128,19 @@ $Container->addService('SprayFire.Controller.Factory', function() use($Reflectio
 });
 
 
-var_dump($Container->getService('SprayFire.Controller.Factory'));
+$Factory = $Container->getService('SprayFire.Controller.Factory');
+$RoutedRequest = $Router->getRoutedRequest($Request);
+$controllerName = $RoutedRequest->getController();
+$action = $RoutedRequest->getAction();
+$parameters = $RoutedRequest->getParameters();
+$Controller = $Factory->makeObject($controllerName);
+$Controller->$action($parameters);
 
-/**
- * @todo The following markup eventually needs to be moved into the default template for HtmlResponder.
- */
+$Responder = new \SprayFire\Responder\HtmlResponder();
+$response = $Responder->generateResponse($Controller);
+$Responder->sendHeaders(array());
+echo $response;
 
-// NOTE: The below code is a temporary measure until the templating system is in place
-
-$styleCss = $Container->getService($pathGenerator)->getUrlPath('css', 'sprayfire.style.css');
-$sprayFireLogo = $Container->getService($pathGenerator)->getUrlPath('images', 'sprayfire-logo-bar-75.png');
-$serverData = '<pre>' . \print_r($_SERVER, true) . '</pre>';
-$sessionId = \session_id();
-if (empty($sessionId)) {
-    $sessionData = '<pre>' . \print_r(array('session_status' => 'Not started'), true) . '</pre>';
-} else {
-    $sessionData = '<pre>' . \print_r($_SESSION, true) . '</pre>';
-}
-
-$postData = '<pre>' . \print_r($_POST, true) . '</pre>';
-$getData = '<pre>' . \print_r($_GET, true) . '</pre>';
-
-echo <<<HTML
-<!DOCTYPE html>
-    <html>
-        <head>
-            <title>Welcome to SprayFire!</title>
-            <link href="{$styleCss}" rel="stylesheet" type="text/css" />
-        </head>
-        <body>
-            <div id="content">
-                <div id="header">
-                    <h1><img src="{$sprayFireLogo}" id="sprayfire-logo" alt="SprayFire logo" width="200" height="75" /></h1>
-                    <ul>
-                        <li>ver: {''}</li>
-                        <li>repo: <a href="http://www.github.com/cspray/SprayFire">http://www.github.com/cspray/SprayFire/</a></li>
-                        <li>wiki: <a href="http://www.github.com/cspray/SprayFire/wiki/">http://www.github.com/cspray/SprayFire/wiki/</a></li>
-                        <li>api docs: coming soon!</li>
-
-                    </ul>
-                </div>
-
-                <div id="body">
-                    <div id="main-content">
-                        <h2>Server Data</h2>
-                        {$serverData}
-                        <h2>Session Data</h2>
-                        {$sessionData}
-                        <h2>POST Data</h2>
-                        {$postData}
-                        <h2>GET Data</h2>
-                        {$getData}
-                    </div>
-                </div>
-
-                <div id="footer">
-                    <p style="text-align:center;"><span class="sprayfire-orange">Spray</span><span class="sprayfire-red">Fire</span> &copy; Charles Sprayberry 2011</p>
-                </div>
-            </div>
-HTML;
-
-
-    $errors = 'Errors: ' . \print_r($preBootstrapErrors, true);
-    $memUsage = 'Memory usage: ' . \memory_get_peak_usage() / (1000*1024) . ' mb';
-    $runTime = 'Execution time: ' . (\microtime(true) - $requestStartTime) . ' seconds';
-    $numIncludedFiles = 'Number of included files: ' . \count(get_included_files());
-    $var = new \stdClass();
-    \var_dump($var);
-    $debugInfo = <<<HTML
-            <div id="debug-info" style="margin-top:1em;border:2px solid black;padding:5px;font-family:monospace;">
-                <ul>
-                    <li><pre>$errors</pre></li>
-                    <li>$memUsage</li>
-                    <li>$runTime</li>
-                    <li>$numIncludedFiles</li>
-                </ul>
-            </div>
-HTML;
-
-echo <<<HTML
-    {$debugInfo}
-    </body>
-</html>
-HTML;
+echo '<pre>', \print_r($preBootstrapErrors, true), '</pre>';
+var_dump(memory_get_peak_usage());
 
