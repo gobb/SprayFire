@@ -19,14 +19,6 @@ interface Responder {
     public function sanitizeData(array $data);
 
     /**
-     * Should send the appropriate HTTP headers as listed in the $headers argument
-     *
-     * @param $headers array
-     * @return void
-     */
-    public function sendHeaders(array $headers);
-
-    /**
      * Should sanitize the appropriate data and generate a response based on the
      * $Controller data provided.
      *
