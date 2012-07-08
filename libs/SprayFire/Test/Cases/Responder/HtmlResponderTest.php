@@ -17,16 +17,50 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
         $Responder = new \SprayFire\Responder\HtmlResponder();
         $dirtyData = array(
             'var1' => '<script>alert(\'Yo dog, I stole your focus.\');</script>',
-            'var2' => 'Some seemingly \'innocent\' text <b>but</b> still has HTML & an &quot;ampersand&quot; in it',
+            'var2' => 'Some seemingly \'innocent\' text <b>but</b> still has HTML & an "ampersand" in it',
             'var3' => 'Testing that &lt; and &gt; do not get encoded'
         );
         $cleanData = $Responder->sanitizeData($dirtyData);
         $expected = array(
             'var1' => '&lt;script&gt;alert(\'Yo dog, I stole your focus.\');&lt;/script&gt;',
-            'var2' => 'Some seemingly innocent text &lt;b&gt;but&lt;/b&gt; still has HTML &amp; an ampersand in it',
+            'var2' => 'Some seemingly \'innocent\' text &lt;b&gt;but&lt;/b&gt; still has HTML &amp; an &quot;ampersand&quot; in it',
             'var3' => 'Testing that &lt; and &gt; do not get encoded'
         );
         $this->assertSame($expected, $cleanData);
     }
 
+    public function testGeneratingValidResponseWithoutData() {
+        $install = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework';
+        $RootPaths = new \SprayFire\FileSys\RootPaths($install);
+        $Paths = new \SprayFire\FileSys\Paths($RootPaths);
+
+        $Cache = new \Artax\ReflectionCacher();
+        $Container = new \SprayFire\Service\FireBox\Container($Cache);
+        $Container->addService($Paths, null);
+
+        $ControllerFactory = new \SprayFire\Controller\Factory($Cache, $Container);
+        $Controller = $ControllerFactory->makeObject('SprayFire.Test.Cases.Responder.NoDataController');
+
+        $this->assertInstanceOf('\\SprayFire\\Test\\Cases\\Responder\\NoDataController', $Controller);
+        $Controller->index();
+
+        $Responder = new \SprayFire\Responder\HtmlResponder();
+        $response = $Responder->generateResponse($Controller);
+        $this->assertSame('<div>SprayFire</div>', $response);
+    }
+
+}
+
+class NoDataController extends \SprayFire\Controller\Base {
+
+    public function __construct() {
+        $this->services = array(
+            'Paths' => 'SprayFire.FileSys.Paths'
+        );
+    }
+
+    public function index() {
+        $this->layoutPath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'just-templatecontents-around-div.php');
+        $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'just-sprayfire.php');
+    }
 }
