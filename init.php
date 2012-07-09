@@ -138,7 +138,6 @@ $Controller->$action($parameters);
 
 $Responder = new \SprayFire\Responder\HtmlResponder();
 $response = $Responder->generateResponse($Controller);
-$Responder->sendHeaders(array());
 echo $response;
 
 echo '<pre>', \print_r($preBootstrapErrors, true), '</pre>';
