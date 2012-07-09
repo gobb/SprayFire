@@ -14,6 +14,14 @@ namespace SprayFire\Http\Routing;
 interface RoutedRequest {
 
     /**
+     * Should return the top level namespace for controller that the request was
+     * routed to.
+     *
+     * @return string
+     */
+    public function getAppNamespace();
+
+    /**
      * The full namespaced name of the class to use; can be Java or PHP style
      * syntax.
      *
