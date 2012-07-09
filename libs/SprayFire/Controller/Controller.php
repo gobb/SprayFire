@@ -10,7 +10,9 @@
 
 namespace SprayFire\Controller;
 
-interface Controller {
+use \SprayFire\Service\Consumer as ServiceConsumer;
+
+interface Controller extends ServiceConsumer {
 
     /**
      * Provides the fully namespaced name of the class to use as the Responder
@@ -33,14 +35,6 @@ interface Controller {
      * @return string
      */
     public function getLayoutPath();
-
-    /**
-     * Return an associative array with the class property as the key and the
-     * name of the service as the value.
-     *
-     * @return array
-     */
-    public function getServices();
 
     /**
      * Should provide a means to give a Responder data that is to be considered
