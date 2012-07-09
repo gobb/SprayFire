@@ -12,9 +12,9 @@
 namespace SprayFire\Controller;
 
 use \SprayFire\Controller\Controller as Controller,
-    \SprayFire\CoreObject as CoreObject;
+    \SprayFire\Service\Firebox\Consumer as ServiceConsumer;
 
-abstract class Base extends CoreObject implements Controller {
+abstract class Base extends ServiceConsumer implements Controller {
 
     /**
      * @property string
@@ -30,11 +30,6 @@ abstract class Base extends CoreObject implements Controller {
      * @property string
      */
     protected $responderName = '';
-
-    /**
-     * @property array
-     */
-    protected $services = array();
 
     /**
      * An array of data that would need to be sanitized by the Responder before
@@ -92,13 +87,6 @@ abstract class Base extends CoreObject implements Controller {
     /**
      * @return array
      */
-    public function getServices() {
-        return $this->services;
-    }
-
-    /**
-     * @return array
-     */
     public function getCleanData() {
         return $this->cleanData;
     }
@@ -124,44 +112,6 @@ abstract class Base extends CoreObject implements Controller {
      */
     public function giveDirtyData(array $data) {
         $this->dirtyData = \array_merge($this->dirtyData, $data);
-    }
-
-    /**
-     * @param string $property
-     * @return mixed
-     */
-    public function __get($property) {
-        if (\array_key_exists($property, $this->attachedServices)) {
-            return $this->attachedServices[$property];
-        }
-    }
-
-    /**
-     * Will only add the $value to the Controller if it is an object, otherwise
-     * no property will be set.
-     *
-     * @param string $property
-     * @param mixed $value
-     */
-    public function __set($property, $value) {
-        if (\is_object($value)) {
-            $this->attachedServices[$property] = $value;
-        }
-    }
-
-    /**
-     * @param string $property
-     */
-    public function __unset($property) {
-        unset($this->attachedServices[$property]);
-    }
-
-    /**
-     * @param string $property
-     * @return boolean
-     */
-    public function __isset($property) {
-        return isset($this->attachedServices[$property]);
     }
 
 }
