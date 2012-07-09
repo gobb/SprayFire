@@ -65,10 +65,10 @@ class Factory extends BaseFactory {
     protected function addServices(Controller $Controller) {
 
         try {
-            $services = $Controller->getServices();
+            $services = $Controller->getRequestedServices();
             if ($this->isTraversable($services)) {
                 foreach ($services as $property => $service) {
-                    $Controller->$property = $this->Container->getService($service);
+                    $Controller->giveService($property, $this->Container->getService($service));
                 }
             }
         } catch(ServiceNotFoundException $NotFoundExc) {
