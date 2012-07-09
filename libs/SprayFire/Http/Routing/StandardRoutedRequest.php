@@ -19,6 +19,11 @@ class StandardRoutedRequest extends CoreObject implements RoutedRequest {
     /**
      * @property string
      */
+    protected $appNamespace = '';
+
+    /**
+     * @property string
+     */
     protected $controller = '';
 
     /**
@@ -31,10 +36,44 @@ class StandardRoutedRequest extends CoreObject implements RoutedRequest {
      */
     protected $parameters = array();
 
+    /**
+     * @param string $controller
+     * @param string $action
+     * @param array $parameters
+     */
     public function __construct($controller, $action, array $parameters) {
+        $this->appNamespace = $this->getTopLevelNamespace($controller);
         $this->controller = (string) $controller;
         $this->action = (string) $action;
         $this->parameters = $parameters;
+    }
+
+    /**
+     * Will return the top level namespace for a controller, whether that namespace
+     * is separated by dots or back slashes
+     *
+     * @param string $controller
+     * @return string
+     */
+    protected function getTopLevelNamespace($controller) {
+        if (\strpos($controller, '.') !== false) {
+            $delimiter = '.';
+        } else {
+            $delimiter = '\\';
+        }
+
+        $namespaces = \explode($delimiter, $controller);
+        if (isset($namespaces[0]) && !empty($namespaces[0])) {
+            return $namespaces[0];
+        }
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getAppNamespace() {
+        return $this->appNamespace;
     }
 
     /**
