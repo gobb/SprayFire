@@ -62,7 +62,7 @@ $exceptionCallback = function(\Exception $Exception) use ($developmentMode) {
     // message.  We'll send a 500 http response and spit back some basic fubar
     // response HTML.
     // TODO: Make this a prettier message?  Perhaps with some basic styling?
-    if ($developmentMode) {
+    if (!$developmentMode) {
         \error_log($Exception->getMessage());
     } else {
         \var_dump($Exception);
