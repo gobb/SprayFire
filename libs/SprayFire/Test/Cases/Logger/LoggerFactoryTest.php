@@ -19,7 +19,9 @@ class LoggerFactoryTest extends \PHPUnit_Framework_TestCase {
         $Param = new \SplFileInfo($logPath);
         $options = array($Param);
         $ReflectionCache = new \Artax\ReflectionCacher();
-        $Factory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionCache);
+        $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+        $Factory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionCache, $LogDelegator);
         $Object = $Factory->makeObject('SprayFire.Logging.Logifier.FileLogger', $options);
         $this->assertTrue($Object instanceof \SprayFire\Logging\Logifier\FileLogger);
         if (\file_exists($logPath)) {
@@ -28,10 +30,22 @@ class LoggerFactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGettingInvalidLogger() {
+        $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $ReflectionCache = new \Artax\ReflectionCacher();
-        $Factory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionCache);
+        $Factory = new \SprayFire\Logging\Logifier\LoggerFactory($ReflectionCache, $LogDelegator);
         $Object = $Factory->makeObject('SprayFire.Logging.InvalidLogger');
         $this->assertTrue($Object instanceof \SprayFire\Logging\Logifier\NullLogger);
+        $expected = array(
+            array(
+                'message' => 'There was an error creating the requested object, \\SprayFire\\Logging\\InvalidLogger.  It likely does not exist.',
+                'options' => array()
+            )
+
+        );
+        $actual = $ErrorLogger->getLoggedMessages();
+        $this->assertSame($expected, $actual);
+
     }
 
 
