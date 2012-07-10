@@ -36,9 +36,12 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
 
         $Cache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($Cache);
+        $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\Logifier\NullLogger();
+        $ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $Container->addService($Paths, null);
 
-        $ControllerFactory = new \SprayFire\Controller\Factory($Cache, $Container);
+        $ControllerFactory = new \SprayFire\Controller\Factory($Cache, $Container, $LogDelegator);
         $Controller = $ControllerFactory->makeObject('SprayFire.Test.Cases.Responder.NoDataController');
 
         $this->assertInstanceOf('\\SprayFire\\Test\\Cases\\Responder\\NoDataController', $Controller);
@@ -60,7 +63,7 @@ class NoDataController extends \SprayFire\Controller\Base {
     }
 
     public function index() {
-        $this->layoutPath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'just-templatecontents-around-div.php');
-        $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'just-sprayfire.php');
+        $this->layoutPath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'just-templatecontents-around-div.php');
+        $this->templatePath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'just-sprayfire.php');
     }
 }
