@@ -11,9 +11,9 @@
 namespace SprayFire\Responder;
 
 use \SprayFire\Responder\Responder as Responder,
-    \SprayFire\CoreObject as CoreObject;
+    \SprayFire\Service\FireBox\Consumer as ServiceConsumer;
 
-class HtmlResponder extends CoreObject implements Responder {
+class HtmlResponder extends ServiceConsumer implements Responder {
 
     /**
      *
