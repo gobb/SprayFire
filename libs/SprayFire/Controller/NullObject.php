@@ -24,12 +24,12 @@ class NullObject extends BaseController {
      * @param array $arguments
      */
     public function __call($name, $arguments) {
-        $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'debug-content.php');
-        $this->layoutPath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
+        $this->templatePath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'debug-content.php');
+        $this->layoutPath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
 
         $message = 'The requested resource could not be found.';
-        $styleCss = $this->Paths->getUrlPath('css', 'sprayfire.style.css');
-        $sprayFireLogo = $this->Paths->getUrlPath('images', 'sprayfire-logo-bar-75.png');
+        $styleCss = $this->service('Paths')->getUrlPath('css', 'sprayfire.style.css');
+        $sprayFireLogo = $this->service('Paths')->getUrlPath('images', 'sprayfire-logo-bar-75.png');
         $serverData = \print_r($_SERVER, true);
         $sessionData = \print_r($_SESSION, true);
         $postData = \print_r($_POST, true);
