@@ -132,8 +132,8 @@ $Container->addService($ReflectionCache, null);
 $Container->addService($ClassLoader, null);
 $Container->addService('SprayFire.JavaNamespaceConverter', null);
 $Container->addService($Request, null);
-$Container->addService('SprayFire.Controller.Factory', function() use($ReflectionCache, $Container) {
-    return array($ReflectionCache, $Container);
+$Container->addService('SprayFire.Controller.Factory', function() use($ReflectionCache, $Container, $LogDelegator) {
+    return array($ReflectionCache, $Container, $LogDelegator);
 });
 
 
