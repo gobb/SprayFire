@@ -12,69 +12,15 @@ namespace SprayFire\Controller;
 
 use \SprayFire\Service\Container as Container,
     \SprayFire\Controller\Controller as Controller,
-    \SprayFire\Factory\BaseFactory as BaseFactory,
+    \SprayFire\Logging\LogOverseer as LogOverseer,
+    \SprayFire\Service\ConsumerFactory as ConsumerFactory,
     \SprayFire\Service\NotFoundException as ServiceNotFoundException,
-    \SprayFire\Exception\FatalRuntimeException as FatalException,
     \Artax\ReflectionPool as ReflectionPool;
 
-class Factory extends BaseFactory {
+class Factory extends ConsumerFactory {
 
-    /**
-     * @property SprayFire.Service.Container
-     */
-    protected $Container;
-
-    /**
-     * @param Artax.ReflectionPool $ReflectionCache
-     * @param SprayFire.Service.FireBox.Container $Container
-     * @param string $type
-     * @param string $null
-     */
-    public function __construct(ReflectionPool $ReflectionCache, Container $Container, $type = 'SprayFire.Controller.Controller', $null = 'SprayFire.Controller.NullObject') {
-        parent::__construct($ReflectionCache, $type, $null);
-        $this->Container = $Container;
-    }
-
-    /**
-     * @param string $className
-     * @param array $parameters
-     * @return SprayFire.Controller.Controller
-     * @throws SprayFire.Exception.FatalRuntimeException
-     */
-    public function makeObject($className, array $parameters = array()) {
-        $Controller = parent::makeObject($className);
-        $this->addServices($Controller);
-        return $Controller;
-    }
-
-    /**
-     * @param mixed $type
-     * @return boolean
-     */
-    protected function isTraversable($type) {
-        if (\is_array($type) || $type instanceof \Traversable || $type instanceof \stdClass) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @param SprayFire.Controller.Controller $Controller
-     * @throws SprayFire.Exception.FatalRuntimeException
-     */
-    protected function addServices(Controller $Controller) {
-
-        try {
-            $services = $Controller->getRequestedServices();
-            if ($this->isTraversable($services)) {
-                foreach ($services as $property => $service) {
-                    $Controller->giveService($property, $this->Container->getService($service));
-                }
-            }
-        } catch(ServiceNotFoundException $NotFoundExc) {
-            throw new FatalException('The service, ' . $service . ',  for a Controller was not found.', null, $NotFoundExc);
-        }
-
+    public function __construct(ReflectionPool $Cache, Container $Container, LogOverseer $LogOverseer, $type = 'SprayFire.Controller.Controller', $nullType = 'SprayFire.Controller.NullObject') {
+        parent::__construct($Cache, $Container, $LogOverseer, $type, $nullType);
     }
 
 }
