@@ -11,7 +11,9 @@
 
 namespace SprayFire\Responder;
 
-interface Responder {
+use \SprayFire\Service\Consumer as ServiceConsumer;
+
+interface Responder extends ServiceConsumer {
 
     /**
      * Should return an array of snitized data based on the type of responder
