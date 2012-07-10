@@ -22,6 +22,7 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
 
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
+        $this->assertSame('SprayTest', $RoutedRequest->getAppNamespace());
         $this->assertSame('SprayTest.Controller.Controller', $RoutedRequest->getController());
         $this->assertSame('action', $RoutedRequest->getAction());
         $this->assertSame(array('param1', 'param2', 'param3'), $RoutedRequest->getParameters());
@@ -40,6 +41,7 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
 
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
+        $this->assertSame('SprayTest', $RoutedRequest->getAppNamespace());
         $this->assertSame('SprayTest.Controller.TestPages', $RoutedRequest->getController());
         $this->assertSame('indexYoDog', $RoutedRequest->getAction());
         $this->assertSame(array('yo', 'dog'), $RoutedRequest->getParameters());
@@ -58,6 +60,7 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
 
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
+        $this->assertSame('YoDog', $RoutedRequest->getAppNamespace());
         $this->assertSame('YoDog.Controller.RollTide', $RoutedRequest->getController());
         $this->assertSame('roll', $RoutedRequest->getAction());
         $this->assertSame(array('dyana'), $RoutedRequest->getParameters());
@@ -76,6 +79,7 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
 
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
+        $this->assertSame('FourteenChamps', $RoutedRequest->getAppNamespace());
         $this->assertSame('FourteenChamps.Controller.NickSaban', $RoutedRequest->getController());
         $this->assertSame('win', $RoutedRequest->getAction());
         $this->assertSame(array('alabama'), $RoutedRequest->getParameters());
@@ -94,6 +98,7 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
 
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
+        $this->assertSame('FavoriteBrew', $RoutedRequest->getAppNamespace());
         $this->assertSame('FavoriteBrew.Controller.Charles', $RoutedRequest->getController());
         $this->assertSame('drinks', $RoutedRequest->getAction());
         $this->assertSame(array('sam_adams'), $RoutedRequest->getParameters());

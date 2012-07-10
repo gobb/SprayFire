@@ -5,6 +5,8 @@
  * @brief The primary intialization script for SprayFire
  */
 
+\session_start();
+
 $requestStartTime = \microtime(true);
 
 $developmentMode = true;
@@ -106,6 +108,12 @@ $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 $ClassLoader->registerNamespaceDirectory('Artax', $libsPath . '/Artax/src');
 $ClassLoader->setAutoloader();
 
+$EmergencyLogger = new \SprayFire\Logging\Logifier\SysLogLogger();
+$ErrorLogger = new \SprayFire\Logging\Logifier\ErrorLogLogger();
+$DebugLogger = new \SprayFire\Logging\Logifier\NullLogger();
+$InfoLogger = new \SprayFire\Logging\Logifier\NullLogger();
+$LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+
 $Uri = new \SprayFire\Http\ResourceIdentifier();
 $RequestHeaders = new \SprayFire\Http\StandardRequestHeaders();
 $Request = new \SprayFire\Http\StandardRequest($Uri, $RequestHeaders);
@@ -118,6 +126,7 @@ $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $routesConfig,
 $ReflectionCache = new \Artax\ReflectionCacher();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 
+$Container->addService($LogDelegator, null);
 $Container->addService($pathGenerator, $pathsCallback);
 $Container->addService($ReflectionCache, null);
 $Container->addService($ClassLoader, null);
@@ -141,5 +150,6 @@ $response = $Responder->generateResponse($Controller);
 echo $response;
 
 echo '<pre>', \print_r($preBootstrapErrors, true), '</pre>';
-var_dump(memory_get_peak_usage());
-
+\var_dump(memory_get_peak_usage());
+$class = new \stdClass();
+\var_dump($class);
