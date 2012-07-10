@@ -49,44 +49,11 @@ abstract class Consumer extends CoreObject implements ServiceConsumer {
         $this->storedServices[$key] = $Service;
     }
 
-    /**
-     * @param string $property
-     * @return object
-     * @throws SprayFire.Service.NotFoundException
-     */
-    public function __get($property) {
-        if (!$this->__isset($property)) {
-            throw new \SprayFire\Service\NotFoundException('');
+    public function service($serviceName) {
+        if (\array_key_exists($serviceName, $this->storedServices)) {
+            return $this->storedServices[$serviceName];
         }
-        return $this->storedServices[$property];
-    }
-
-    /**
-     * @param string $property
-     * @return boolean
-     */
-    public function __isset($property) {
-        if (!isset($this->storedServices[$property]) || !\is_object($this->storedServices[$property])) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * @param string $property
-     * @param mixed $value
-     * @throws SprayFire.Exception.UnsupportedOperationException
-     */
-    public function __set($property, $value) {
-        throw new \SprayFire\Exception\UnsupportedOperationException('Please use giveService() to provide access to a Service');
-    }
-
-    /**
-     * @param string $property
-     * @throws SprayFireException.UnsupportedOperationException
-     */
-    public function __unset($property) {
-        throw new \SprayFire\Exception\UnsupportedOperationException('No method exists to remove a service at this time.');
+        return false;
     }
 
 }
