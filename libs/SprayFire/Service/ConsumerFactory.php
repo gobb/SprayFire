@@ -26,11 +26,6 @@ abstract class ConsumerFactory extends BaseFactory {
     protected $Container;
 
     /**
-     * @property SprayFire.Logging.LogOverseer
-     */
-    protected $LogOverseer;
-
-    /**
      * @param Artax.ReflectionPool $Cache
      * @param SprayFire.Service.Container $Container
      * @param SprayFire.Logging.LogOverseer $LogOverseer
@@ -38,7 +33,7 @@ abstract class ConsumerFactory extends BaseFactory {
      * @param string $nullObject
      */
     public function __construct(ReflectionCache $Cache, Container $Container, LogOverseer $LogOverseer, $type, $nullObject) {
-        parent::__construct($Cache, $type, $nullObject);
+        parent::__construct($Cache, $LogOverseer, $type, $nullObject);
         $this->Container = $Container;
         $this->LogOverseer = $LogOverseer;
     }
@@ -50,9 +45,6 @@ abstract class ConsumerFactory extends BaseFactory {
      */
     public function makeObject($className, array $parameters = array()) {
         $Object = parent::makeObject($className, $parameters);
-        if ($Object instanceof $this->nullObjectType) {
-            $this->LogOverseer->logError('The requested controller, ' . $className . ', could not be found.');
-        }
         $this->addServices($Object);
         return $Object;
     }
