@@ -68,7 +68,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 
         $expected = array(
             array(
-                'message' => 'The requested controller, SprayFire.Controller.NoGo, could not be found.',
+                'message' => 'There was an error creating the requested object, \\SprayFire\\Controller\\NoGo.  It likely does not exist.',
                 'options' => array()
             )
         );
@@ -79,7 +79,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
     public function testFactoryGettingNullObjectWithInvalidServices() {
         $ReflectionCache = new ReflectionCacher();
         $Container = new Container($ReflectionCache);
-$EmergencyLogger = $DebugLogger = $InfoLogger = $ErrorLogger = new \SprayFire\Logging\Logifier\NullLogger();
+        $EmergencyLogger = $DebugLogger = $InfoLogger = $ErrorLogger = new \SprayFire\Logging\Logifier\NullLogger();
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $type = 'SprayFire.Controller.Controller';
         $nullType = 'SprayFire.Test.Helpers.Controller.NullObjectInvalidServices';
