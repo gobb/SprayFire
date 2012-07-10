@@ -12,6 +12,7 @@
 namespace SprayFire\Factory;
 
 use \SprayFire\Factory\Factory as Factory,
+    \SprayFire\Logging\LogOverseer as LogOverseer,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \SprayFire\ObjectTypeValidator as TypeValidator,
     \SprayFire\Exception\TypeNotFoundException as TypeNotFoundException;
@@ -35,6 +36,12 @@ abstract class BaseFactory extends JavaNameConverter implements Factory {
      * @property Artax.ReflectionPool
      */
     protected $ReflectionCache;
+
+    /**
+     *
+     * @property SprayFire.Logging.LogOverseer
+     */
+    protected $LogOverseer;
 
     /**
      * @property Object
@@ -61,20 +68,15 @@ abstract class BaseFactory extends JavaNameConverter implements Factory {
     protected $nullObjectType;
 
     /**
-     * The \a $returnTypeRestriction and \a $nullObject may be passed as either a
-     * Java or PHP-style namespaced class.
      *
      * @param Artax.ReflectionPool $ReflectionCache
-     * @param string $returnTypeRestriction Name of type to restrict to
-     * @param mixed $nullObject String or object to return if error; must
-     * adhere to $returnTypeRestriction
-     * @throws InvalidArgumentException Thrown if $nullPrototype does not
-     * implement the $returnTypeRestriction
-     * @throws SprayFire.Exception.TypeNotFoundException Thrown if the
-     * $returnTypeRestriction could not properly be loaded.
+     * @param SprayFire.Logging.LogOveseer $LogOverseer
+     * @param string $returnTypeRestriction
+     * @param string $nullObject
      */
-    public function __construct(\Artax\ReflectionPool $ReflectionCache, $returnTypeRestriction, $nullObject) {
+    public function __construct(\Artax\ReflectionPool $ReflectionCache, LogOverseer $LogOverseer, $returnTypeRestriction, $nullObject) {
         $this->ReflectionCache = $ReflectionCache;
+        $this->LogOverseer = $LogOverseer;
         $this->objectType = $this->convertJavaClassToPhpClass($returnTypeRestriction);
         $this->nullObjectType = $this->convertJavaClassToPhpClass($nullObject);
         $this->TypeValidator = $this->createTypeValidator();
@@ -177,8 +179,11 @@ abstract class BaseFactory extends JavaNameConverter implements Factory {
             $this->TypeValidator->throwExceptionIfObjectNotParentType($returnObject);
         } catch (\ReflectionException $ReflectExc) {
             $returnObject = clone $this->NullObject;
+            $this->LogOverseer->logError('There was an error creating the requested object, ' . $className . '.  It likely does not exist.');
+
         } catch (\InvalidArgumentException $InvalArgExc) {
             $returnObject = clone $this->NullObject;
+            $this->LogOverseer->logError('The requested object, ' . $className . ', does not properly implement the appropriate type, ' . $this->objectType . ', for this factory.');
         }
         return $returnObject;
     }
