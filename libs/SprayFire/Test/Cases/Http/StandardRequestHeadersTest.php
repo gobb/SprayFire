@@ -1,15 +1,18 @@
 <?php
 
 /**
- * @file
- * @brief Holds a PHPUnit test case to confirm the functionality of StandardRequestHeadersTest
+ * Testing that appropriate headers can be parsed from a $_server array
+ *
+ * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Test\Cases\Http;
 
 class StandardRequestHeadersTest extends \PHPUnit_Framework_TestCase {
 
-    public function testParsingServerArrayForHeaders() {
+    public function testParsingServerArrayForCommonHeaders() {
         $headers = array();
         $headers['HTTP_HOST'] = 'www.example.com';
         $headers['HTTP_CONNECTION'] = 'keep-alive';

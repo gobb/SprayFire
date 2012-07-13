@@ -1,11 +1,17 @@
 <?php
 
 /**
+ * Ensures that the ResourceIdentifier can properly parse the $_server array
+ * passed to it
  *
  * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Test\Cases\Http;
+
+use \SprayFire\Http\ResourceIdentifier as ResourceId;
 
 class ResourceIdentifierTest extends \PHPUnit_Framework_TestCase {
 
@@ -13,7 +19,7 @@ class ResourceIdentifierTest extends \PHPUnit_Framework_TestCase {
         $_server = array();
         $_server['HTTP_HOST'] = 'sprayfire-framework.local';
         $_server['REMOTE_PORT'] = 800;
-        $ResourceIdentifier = new \SprayFire\Http\ResourceIdentifier($_server);
+        $ResourceIdentifier = new ResourceId($_server);
 
         $this->assertSame('http://sprayfire-framework.local:800', (string) $ResourceIdentifier);
         $this->assertSame('http', $ResourceIdentifier->getScheme());
@@ -27,7 +33,7 @@ class ResourceIdentifierTest extends \PHPUnit_Framework_TestCase {
         $_server['HTTP_HOST'] = 'www.example.com';
         $_server['QUERY_STRING'] = 'foo=bar&bar=baz';
         $_server['REQUEST_URI'] = '/path/to/your/resource/';
-        $Resource = new \SprayFire\Http\ResourceIdentifier($_server);
+        $Resource = new ResourceId($_server);
         $this->assertSame('http://www.example.com:80/path/to/your/resource/?foo=bar&bar=baz', (string) $Resource);
     }
 
@@ -35,8 +41,8 @@ class ResourceIdentifierTest extends \PHPUnit_Framework_TestCase {
         $_server = array();
         $_server['HTTP_HOST'] = 'sprayfire-framework.local';
         $_server['REMOTE_PORT'] = 800;
-        $ResourceOne = new \SprayFire\Http\ResourceIdentifier($_server);
-        $ResourceTwo = new \SprayFire\Http\ResourceIdentifier($_server);
+        $ResourceOne = new ResourceId($_server);
+        $ResourceTwo = new ResourceId($_server);
 
         $this->assertTrue($ResourceOne->equals($ResourceTwo));
     }
@@ -48,8 +54,8 @@ class ResourceIdentifierTest extends \PHPUnit_Framework_TestCase {
 
         $_server2 = array();
         $_server2['HTTP_HOST'] = 'www.example.com';
-        $ResourceOne = new \SprayFire\Http\ResourceIdentifier($_server1);
-        $ResourceTwo = new \SprayFire\Http\ResourceIdentifier($_server2);
+        $ResourceOne = new ResourceId($_server1);
+        $ResourceTwo = new ResourceId($_server2);
         $this->assertFalse($ResourceOne->equals($ResourceTwo));
     }
 
