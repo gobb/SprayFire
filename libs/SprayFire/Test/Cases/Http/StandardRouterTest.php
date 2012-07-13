@@ -1,25 +1,42 @@
 <?php
 
 /**
- * @file
- * @brief Holds a PHPUnit test case to confirm the functionality of StandardRouterTest
+ * A test of the StandardRouter implementation to ensure it routes as expected
+ *
+ * @author Charles Sprayberry
+ * @license Governed by the LICENSE file found in the root directory of this source
+ * code
  */
 
 namespace SprayFire\Test\Cases\Http;
 
 class StandardRouterTest extends \PHPUnit_Framework_TestCase {
 
-    public function testStandardRouterWithGivenControllerActionAndParams() {
-        $_server = array();
-        $_server['REQUEST_URI'] = '/SprayFire/controller/action/param1/param2/param3/';
-        $Uri = new \SprayFire\Http\ResourceIdentifier($_server);
-        $Headers = new \SprayFire\Http\StandardRequestHeaders($_server);
-        $Request = new \SprayFire\Http\StandardRequest($Uri, $Headers);
+    /**
+     * Holds a single copy of the Normalizer object to prevent unnecessary object
+     * instances from being created.
+     *
+     * @property SprayFire.Http.Routing.Normalizer
+     */
+    protected static $Normalizer;
 
-        $Normalizer = new \SprayFire\Http\Routing\Normalizer();
-        $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/config/SprayFire/routes.json';
-        $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $configPath, 'SprayFire');
+    /**
+     * Ensures that the Normalizer instance has been created for creating a Router
+     * object
+     */
+    public function setUp() {
+        if (self::$Normalizer === null) {
+            self::$Normalizer = new \SprayFire\Http\Routing\Normalizer();
+        }
+    }
 
+    /**
+     * Assures that the Router will properly use the controller, action and parameters
+     * given by the request if there is no routing available.
+     */
+    public function testStandardRouterWithGivenControllerActionAndParamsNotRouted() {
+        $Request = $this->getRequest('/SprayFire/controller/action/param1/param2/param3/');
+        $Router = $this->getRouter('SprayFire');
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
         $this->assertSame('SprayTest', $RoutedRequest->getAppNamespace());
@@ -28,17 +45,13 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(array('param1', 'param2', 'param3'), $RoutedRequest->getParameters());
     }
 
-    public function testStandardRouterWithNoControllerActionOrParams() {
-        $_server = array();
-        $_server['REQUEST_URI'] = '/SprayFire/';
-        $Uri = new \SprayFire\Http\ResourceIdentifier($_server);
-        $Headers = new \SprayFire\Http\StandardRequestHeaders($_server);
-        $Request = new \SprayFire\Http\StandardRequest($Uri, $Headers);
-
-        $Normalizer = new \SprayFire\Http\Routing\Normalizer();
-        $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/config/SprayFire/routes.json';
-        $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $configPath, 'SprayFire');
-
+    /**
+     * Assures that the Router will properly use default values in configuration
+     * if there are none present in the request.
+     */
+    public function testStandardRouterWithNoControllerActionOrParamsNotRouted() {
+        $Request = $this->getRequest('/SprayFire/');
+        $Router = $this->getRouter('SprayFire');
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
         $this->assertSame('SprayTest', $RoutedRequest->getAppNamespace());
@@ -47,17 +60,13 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(array('yo', 'dog'), $RoutedRequest->getParameters());
     }
 
-    public function testStandardRouterWithRoutedbyControllerOnly() {
-        $_server = array();
-        $_server['REQUEST_URI'] = '/love.game/charles/loves/dyana';
-        $Uri = new \SprayFire\Http\ResourceIdentifier($_server);
-        $Headers = new \SprayFire\Http\StandardRequestHeaders($_server);
-        $Request = new \SprayFire\Http\StandardRequest($Uri, $Headers);
-
-        $Normalizer = new \SprayFire\Http\Routing\Normalizer();
-        $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/config/SprayFire/routes.json';
-        $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $configPath, 'love.game');
-
+    /**
+     * Assures that the Router can route a request when only the controller name
+     * determines the routing
+     */
+    public function testStandardRouterWithRoutedByControllerOnly() {
+        $Request = $this->getRequest('/love.game/charles/loves/dyana');
+        $Router = $this->getRouter('love.game');
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
         $this->assertSame('YoDog', $RoutedRequest->getAppNamespace());
@@ -66,17 +75,13 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(array('dyana'), $RoutedRequest->getParameters());
     }
 
+    /**
+     * Assures that the router will route a request when both a controller name
+     * and action are determining the routing.
+     */
     public function testStandardRouterWithRoutedbyControllerAndAction() {
-        $_server = array();
-        $_server['REQUEST_URI'] = '/college.football/charles/roots_for/alabama';
-        $Uri = new \SprayFire\Http\ResourceIdentifier($_server);
-        $Headers = new \SprayFire\Http\StandardRequestHeaders($_server);
-        $Request = new \SprayFire\Http\StandardRequest($Uri, $Headers);
-
-        $Normalizer = new \SprayFire\Http\Routing\Normalizer();
-        $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/config/SprayFire/routes.json';
-        $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $configPath, 'college.football');
-
+        $Request = $this->getRequest('/college.football/charles/roots_for/alabama');
+        $Router = $this->getRouter('college.football');
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
         $this->assertSame('FourteenChamps', $RoutedRequest->getAppNamespace());
@@ -85,23 +90,41 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(array('alabama'), $RoutedRequest->getParameters());
     }
 
+    /**
+     * Ensuring that a request will use values provided but the appropriate namespace
+     * is used if routed.
+     */
     public function testStandardRouterWithOnlyNamespaceRouted() {
-        $_server = array();
-        $_server['REQUEST_URI'] = '/brewmaster/charles/drinks/sam_adams';
-        $Uri = new \SprayFire\Http\ResourceIdentifier($_server);
-        $Headers = new \SprayFire\Http\StandardRequestHeaders($_server);
-        $Request = new \SprayFire\Http\StandardRequest($Uri, $Headers);
-
-        $Normalizer = new \SprayFire\Http\Routing\Normalizer();
-        $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/config/SprayFire/routes.json';
-        $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $configPath, 'brewmaster');
-
+        $Request = $this->getRequest('/brewmaster/charles/drinks/sam_adams');
+        $Router = $this->getRouter('brewmaster');
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
         $this->assertSame('FavoriteBrew', $RoutedRequest->getAppNamespace());
         $this->assertSame('FavoriteBrew.Controller.Charles', $RoutedRequest->getController());
         $this->assertSame('drinks', $RoutedRequest->getAction());
         $this->assertSame(array('sam_adams'), $RoutedRequest->getParameters());
+    }
+
+    /**
+     * @param string $requestUri
+     * @return SprayFire.Http.StandardRequest
+     */
+    protected function getRequest($requestUri) {
+        $_server = array();
+        $_server['REQUEST_URI'] = $requestUri;
+        $Uri = new \SprayFire\Http\ResourceIdentifier($_server);
+        $Headers = new \SprayFire\Http\StandardRequestHeaders($_server);
+        return new \SprayFire\Http\StandardRequest($Uri, $Headers);
+    }
+
+    /**
+     *
+     * @param string $installDir
+     * @return SprayFire.Http.Routing.StandardRouter
+     */
+    protected function getRouter($installDir) {
+        $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/config/SprayFire/routes.json';
+        return new \SprayFire\Http\Routing\StandardRouter(self::$Normalizer, $configPath, $installDir);
     }
 
 }
