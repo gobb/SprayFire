@@ -141,6 +141,16 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($RoutedRequestOne, $RoutedRequestTwo);
     }
 
+    public function testGettingSameStaticFilesFromSameRoutedRequest() {
+        $Request = $this->getRequest('/static/page');
+        $Router = $this->getRouter('');
+        $RoutedRequestOne = $Router->getRoutedRequest($Request);
+        $RoutedRequestTwo = $Router->getRoutedRequest($Request);
+        $routeOneFiles = $Router->getStaticFilePaths($RoutedRequestOne);
+        $routeTwoFiles = $Router->getStaticFilePaths($RoutedRequestTwo);
+        $this->assertSame($routeOneFiles, $routeTwoFiles);
+    }
+
     /**
      * @param string $requestUri
      * @return SprayFire.Http.StandardRequest
