@@ -133,6 +133,14 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expectedTemplate, $actualTemplate);
     }
 
+    public function testGettingSameRoutedRequestFromSameRequest() {
+        $Request = $this->getRequest('');
+        $Router = $this->getRouter('');
+        $RoutedRequestOne = $Router->getRoutedRequest($Request);
+        $RoutedRequestTwo = $Router->getRoutedRequest($Request);
+        $this->assertSame($RoutedRequestOne, $RoutedRequestTwo);
+    }
+
     /**
      * @param string $requestUri
      * @return SprayFire.Http.StandardRequest
