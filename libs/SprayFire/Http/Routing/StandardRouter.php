@@ -13,6 +13,7 @@ namespace SprayFire\Http\Routing;
 
 use \SprayFire\Http\Routing\Router as Router,
     \SprayFire\Http\Request as Request,
+    \SprayFire\Http\Routing\RoutedRequest as RoutedRequest,
     \SprayFire\CoreObject as CoreObject,
     \SprayFire\Http\Routing\Normalizer as Normalizer,
     \SprayFire\Exception\FatalRuntimeException as FatalRunTimeException;
@@ -85,6 +86,10 @@ class StandardRouter extends CoreObject implements Router {
         return \json_decode($contents, true);
     }
 
+    public function getStaticFilePaths(RoutedRequest $RoutedRequest) {
+
+    }
+
     /**
      * Will create a RoutedRequest appropriate to the passed Request object
      *
@@ -96,11 +101,12 @@ class StandardRouter extends CoreObject implements Router {
         $path = $Uri->getPath();
         $cleanPath = $this->cleanPath($path);
         $fragments = $this->parseFragments($cleanPath);
-        $controllerAndAction = $this->generateControllerAndActionName($fragments['controller'], $fragments['action']);
-        $controller = $controllerAndAction['controller'];
-        $action = $controllerAndAction['action'];
-        $parameters = $fragments['parameters'];
-        return new \SprayFire\Http\Routing\StandardRoutedRequest($controller, $action, $parameters);
+        $route = $this->routeRequestedFragments($fragments);
+        $controller = $route['controller'];
+        $action = $route['action'];
+        $parameters = $route['parameters'];
+        $isStatic = $route['isStatic'];
+        return new \SprayFire\Http\Routing\StandardRoutedRequest($controller, $action, $parameters, $isStatic);
     }
 
     /**
@@ -237,36 +243,24 @@ class StandardRouter extends CoreObject implements Router {
      *
      * The array returned will have two keys 'controller' and 'action'.
      *
-     * @param string $controller
-     * @param string $action
+     * @param array $fragments
      * @return array
      */
-    protected function generateControllerAndActionName($controller, $action) {
-        $controller = \strtolower($controller);
-        $action = \strtolower($action);
+    protected function routeRequestedFragments(array $fragments) {
+        $controller = \strtolower($fragments['controller']);
+        $action = \strtolower($fragments['action']);
+        $parameters = $fragments['parameters'];
         $key = $this->getRouteKey($controller, $action);
-        if ($key !== false) {
-            if (isset($this->config['routes'][$key]['namespace'])) {
-                $namespace = $this->config['routes'][$key]['namespace'];
-            } else {
-                $namespace = $this->defaultNamespace;
-            }
+        $namespace = $this->getRoutedOrDefaultValue($key, 'namespace');
+        $controller = $this->getRoutedOrDefaultValue($key, 'controller', $controller);
+        $action = $this->getRoutedOrDefaultValue($key, 'action', $action);
 
-            if (isset($this->config['routes'][$key]['controller'])) {
-                $controller = $this->config['routes'][$key]['controller'];
-            }
-
-            if (isset($this->config['routes'][$key]['action'])) {
-                $action = $this->config['routes'][$key]['action'];
-            }
-
-        } else {
-            $namespace = $this->defaultNamespace;
-        }
         $controller = $namespace . '.' . $this->Normalizer->normalizeController($controller);
         $action = $this->Normalizer->normalizeAction($action);
+        $parameters = $this->getRoutedOrDefaultValue($key, 'parameters', $parameters);
+        $isStatic = $this->checkRequestIsStatic($key);
 
-        return \compact('controller', 'action');
+        return \compact('controller', 'action', 'parameters', 'isStatic');
     }
 
     /**
@@ -284,6 +278,30 @@ class StandardRouter extends CoreObject implements Router {
             if (\array_key_exists($controller, $this->config['routes'])) {
                 return $controller;
             }
+        }
+        return false;
+    }
+
+    /**
+     * @param mixed $routeKey
+     * @param string $valueKey
+     * @param string $givenValue
+     * @return type
+     */
+    protected function getRoutedOrDefaultValue($routeKey, $valueKey, $givenValue = null) {
+        if ($routeKey !== false && isset($this->config['routes'][$routeKey][$valueKey])) {
+            return $this->config['routes'][$routeKey][$valueKey];
+        } else {
+            if (empty($givenValue)) {
+                return $this->config['defaults'][$valueKey];
+            }
+        }
+        return $givenValue;
+    }
+
+    protected function checkRequestIsStatic($routeKey) {
+        if ($routeKey !== false && isset($this->config['routes'][$routeKey]['static'])) {
+            return true;
         }
         return false;
     }
