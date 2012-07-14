@@ -18,16 +18,17 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
      *
      * @property SprayFire.Http.Routing.Normalizer
      */
-    protected static $Normalizer;
+    protected $Normalizer;
+
+    protected $mockFrameworkPath;
 
     /**
      * Ensures that the Normalizer instance has been created for creating a Router
      * object
      */
     public function setUp() {
-        if (self::$Normalizer === null) {
-            self::$Normalizer = new \SprayFire\Http\Routing\Normalizer();
-        }
+        $this->Normalizer = new \SprayFire\Http\Routing\Normalizer();
+        $this->mockFrameworkPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework';
     }
 
     /**
@@ -119,7 +120,18 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($RoutedRequest->isStatic());
     }
 
-
+    public function testGettingStaticRoutedRequestFilePaths() {
+        $Request = $this->getRequest('/static/page');
+        $Router = $this->getRouter('');
+        $RoutedRequest = $Router->getRoutedRequest($Request);
+        $paths = $Router->getStaticFilePaths($RoutedRequest);
+        $expectedLayout = $this->mockFrameworkPath . '/libs/SprayFire/Responder/html/default.php';
+        $expectedTemplate = $this->mockFrameworkPath . '/libs/SprayFire/Responder/html/template/static.php';
+        $actualLayout = $paths['layout'];
+        $actualTemplate = $paths['template'];
+        $this->assertSame($expectedLayout, $actualLayout);
+        $this->assertSame($expectedTemplate, $actualTemplate);
+    }
 
     /**
      * @param string $requestUri
@@ -139,8 +151,10 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
      * @return SprayFire.Http.Routing.StandardRouter
      */
     protected function getRouter($installDir) {
-        $configPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/config/SprayFire/routes.json';
-        return new \SprayFire\Http\Routing\StandardRouter(self::$Normalizer, $configPath, $installDir);
+        $RootPaths = new \SprayFire\FileSys\RootPaths($this->mockFrameworkPath);
+        $Paths = new \SprayFire\FileSys\Paths($RootPaths);
+        $configPath = $this->mockFrameworkPath . '/config/SprayFire/routes.json';
+        return new \SprayFire\Http\Routing\StandardRouter($this->Normalizer, $Paths, $configPath, $installDir);
     }
 
 }
