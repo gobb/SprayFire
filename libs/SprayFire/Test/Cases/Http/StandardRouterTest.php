@@ -105,6 +105,22 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(array('sam_adams'), $RoutedRequest->getParameters());
     }
 
+    public function testUsingDefaultParametersIfNoneGiven() {
+        $Request = $this->getRequest('/parameters/none');
+        $Router = $this->getRouter('');
+        $RoutedRequest = $Router->getRoutedRequest($Request);
+        $this->assertSame(array("one", "two", "three"), $RoutedRequest->getParameters());
+    }
+
+    public function testGettingStaticRoutedRequest() {
+        $Request = $this->getRequest('/static/page');
+        $Router = $this->getRouter('');
+        $RoutedRequest = $Router->getRoutedRequest($Request);
+        $this->assertTrue($RoutedRequest->isStatic());
+    }
+
+
+
     /**
      * @param string $requestUri
      * @return SprayFire.Http.StandardRequest
