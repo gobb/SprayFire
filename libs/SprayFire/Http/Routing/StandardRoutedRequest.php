@@ -37,15 +37,21 @@ class StandardRoutedRequest extends CoreObject implements RoutedRequest {
     protected $parameters = array();
 
     /**
+     * @property boolean
+     */
+    protected $isStatic;
+
+    /**
      * @param string $controller
      * @param string $action
      * @param array $parameters
      */
-    public function __construct($controller, $action, array $parameters) {
+    public function __construct($controller, $action, array $parameters, $isStatic = false) {
         $this->appNamespace = $this->getTopLevelNamespace($controller);
         $this->controller = (string) $controller;
         $this->action = (string) $action;
         $this->parameters = $parameters;
+        $this->isStatic = $isStatic;
     }
 
     /**
@@ -95,5 +101,12 @@ class StandardRoutedRequest extends CoreObject implements RoutedRequest {
      */
     public function getParameters() {
         return $this->parameters;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isStatic() {
+        return $this->isStatic;
     }
 }
