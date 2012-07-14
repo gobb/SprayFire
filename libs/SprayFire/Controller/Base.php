@@ -58,7 +58,8 @@ abstract class Base extends ServiceConsumer implements Controller {
     public function __construct() {
         $this->services = array(
             'Paths' => 'SprayFire.FileSys.Paths',
-            'Request' => 'SprayFire.Http.StandardRequest'
+            'Request' => 'SprayFire.Http.StandardRequest',
+            'Logging' => 'SprayFire.Logging.Logifier.LogDelegator'
         );
         $this->responderName = 'SprayFire.Responder.HtmlResponder';
     }
