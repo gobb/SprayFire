@@ -11,7 +11,8 @@
 
 namespace SprayFire\Http\Routing;
 
-use \SprayFire\Http\Request as Request;
+use \SprayFire\Http\Request as Request,
+    \SprayFire\Http\Routing\RoutedRequest as RoutedRequest;
 
 interface Router {
 
@@ -20,5 +21,11 @@ interface Router {
      * @return SprayFire.Http.Routing.RoutedRequest
      */
     public function getRoutedRequest(Request $Request);
+
+    /**
+     * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
+     * @return array
+     */
+    public function getStaticFilePaths(RoutedRequest $RoutedRequest);
 
 }
