@@ -13,24 +13,6 @@ namespace SprayFire\Test\Cases\Error;
  */
 class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
 
-    public function testErrorHandlerFunctionNotInDevelopmentMode() {
-        $TestLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
-        $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
-        $originalHandler = \set_error_handler(array($ErrorHandler, 'trap'));
-
-        \trigger_error('The first error message', E_USER_WARNING);
-
-        $ErrorLogger = $this->getErrorLogger($LogDelegator);
-        $actualErrorData = $ErrorLogger->getLoggedMessages();
-        $expectedErrorData = array();
-        $expectedErrorData[0]['message'] = 'The first error message;' . __FILE__ . ';line:22';
-        $expectedErrorData[0]['options'] = array();
-        $this->assertSame($expectedErrorData, $actualErrorData);
-
-        \set_error_handler($originalHandler);
-    }
-
     public function testErrorHandlerFunctionUnhandledSeverity() {
         $TestLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
