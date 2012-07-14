@@ -18,6 +18,15 @@
         },
         "charles/drinks": {
             "namespace": "FavoriteBrew.Controller"
+        },
+        "static/page": {
+            "static": {
+                "layoutPath": ["libs", "SprayFire", "Responder", "html", "default.php"],
+                "templatePath": ["libs", "SprayFire", "Responder", "html", "template", "static.php"]
+            }
+        },
+        "parameters/none": {
+            "parameters": ["one", "two", "three"]
         }
     }
 }
