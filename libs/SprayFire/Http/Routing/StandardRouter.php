@@ -32,10 +32,14 @@ class StandardRouter extends CoreObject implements Router {
     protected $Paths;
 
     /**
-     *
      * @property SplObjectStorage
      */
     protected $StaticFilesStorage;
+
+    /**
+     * @property SplObjectStorage
+     */
+    protected $RoutedRequestCache;
 
     /**
      * @property array
@@ -77,6 +81,7 @@ class StandardRouter extends CoreObject implements Router {
         $this->Normalizer = $Normalizer;
         $this->Paths = $Paths;
         $this->StaticFilesStorage = new \SplObjectStorage();
+        $this->RoutedRequestCache = new \SplObjectStorage();
         $this->config = $this->generateConfig($configPath);
         $this->installDir = (string) $installDir;
         $this->defaultController = (string) $this->config['defaults']['controller'];
@@ -114,6 +119,9 @@ class StandardRouter extends CoreObject implements Router {
      * @return SprayFire.Http.Routing.RoutedRequest
      */
     public function getRoutedRequest(Request $Request) {
+        if (isset($this->RoutedRequestCache[$Request])) {
+            return $this->RoutedRequestCache[$Request];
+        }
         $Uri = $Request->getUri();
         $path = $Uri->getPath();
         $cleanPath = $this->cleanPath($path);
@@ -127,6 +135,7 @@ class StandardRouter extends CoreObject implements Router {
         if ($isStatic) {
             $this->storeStaticFilePaths($RoutedRequest, $route['key']);
         }
+        $this->RoutedRequestCache[$Request] = $RoutedRequest;
         return $RoutedRequest;
 
     }
