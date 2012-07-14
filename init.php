@@ -123,12 +123,12 @@ $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $Paths, $route
 $ReflectionCache = new \Artax\ReflectionCacher();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 
-$Container->addService($LogDelegator, null);
-$Container->addService($Paths, null);
-$Container->addService($ReflectionCache, null);
-$Container->addService($ClassLoader, null);
-$Container->addService('SprayFire.JavaNamespaceConverter', null);
-$Container->addService($Request, null);
+$Container->addService($LogDelegator);
+$Container->addService($Paths);
+$Container->addService($ReflectionCache);
+$Container->addService($ClassLoader);
+$Container->addService($Request);
+$Container->addService('SprayFire.JavaNamespaceConverter');
 $Container->addService('SprayFire.Controller.Factory', function() use($ReflectionCache, $Container, $LogDelegator) {
     return array($ReflectionCache, $Container, $LogDelegator);
 });
