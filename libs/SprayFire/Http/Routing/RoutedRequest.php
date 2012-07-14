@@ -43,4 +43,12 @@ interface RoutedRequest {
      */
     public function getParameters();
 
+    /**
+     * Returns if the request is not dynamic and should skip the normal Controller
+     * processing logic.
+     *
+     * @return boolean
+     */
+    public function isStatic();
+
 }
