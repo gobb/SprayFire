@@ -16,7 +16,7 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase {
     /**
      * @property SprayFire.Http.Routing.Normalizer
      */
-    protected static $Normalizer;
+    protected $Normalizer;
 
     /**
      * Ensures that only one Normalizer instance is created for all the tests,
@@ -24,15 +24,13 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase {
      * any inherent state.
      */
     public function setUp() {
-        if (\is_null(self::$Normalizer)) {
-            self::$Normalizer = new \SprayFire\Http\Routing\Normalizer();
-        }
+        $this->Normalizer = new \SprayFire\Http\Routing\Normalizer();
     }
 
     public function testNormalizingPlainJaneController() {
         $requested = 'blog';
         $expected = 'Blog';
-        $actual = self::$Normalizer->normalizeController($requested);
+        $actual = $this->Normalizer->normalizeController($requested);
 
         $this->assertSame($expected, $actual);
     }
@@ -40,49 +38,49 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase {
     public function testNormalizeCompoundControllerWithUnderscores() {
         $requested = 'blog_post';
         $expected = 'BlogPost';
-        $actual = self::$Normalizer->normalizeController($requested);
+        $actual = $this->Normalizer->normalizeController($requested);
         $this->assertSame($expected, $actual);
     }
 
     public function testNormalizeCompoundControllerWithDashes() {
         $requested = 'another-blog-post';
         $expected = 'AnotherBlogPost';
-        $actual = self::$Normalizer->normalizeController($requested);
+        $actual = $this->Normalizer->normalizeController($requested);
         $this->assertSame($expected, $actual);
     }
 
     public function testNormalizeControllerWithInvalidCharacters() {
         $requested = 'something*with#invalid_-characters%^';
         $expected = 'SomethingwithinvalidCharacters';
-        $actual = self::$Normalizer->normalizeController($requested);
+        $actual = $this->Normalizer->normalizeController($requested);
         $this->assertSame($expected, $actual);
     }
 
     public function testNormalizePlainJaneAction() {
         $requested = 'action';
         $expected = 'action';
-        $actual = self::$Normalizer->normalizeAction($requested);
+        $actual = $this->Normalizer->normalizeAction($requested);
         $this->assertSame($expected, $actual);
     }
 
     public function testNormalizeActionWithUnderscores() {
         $requested = 'action_perform';
         $expected = 'actionPerform';
-        $actual = self::$Normalizer->normalizeAction($requested);
+        $actual = $this->Normalizer->normalizeAction($requested);
         $this->assertSame($expected, $actual);
     }
 
     public function testNormalizeActionWithDashes() {
         $requested = 'the-action-requested-was-this-one';
         $expected = 'theActionRequestedWasThisOne';
-        $actual = self::$Normalizer->normalizeAction($requested);
+        $actual = $this->Normalizer->normalizeAction($requested);
         $this->assertSame($expected, $actual);
     }
 
     public function testNormalizeActionWithInvalidCharacters() {
         $requested = 'this-action*hith#invalid_stuff            ----_%^';
         $expected = 'thisActionhithinvalidStuff';
-        $actual = self::$Normalizer->normalizeAction($requested);
+        $actual = $this->Normalizer->normalizeAction($requested);
         $this->assertSame($expected, $actual);
     }
 
