@@ -26,7 +26,7 @@ interface Container {
      * @param string $serviceName
      * @param callable|null $callableParameters
      */
-    public function addService($serviceName, $callableParameters);
+    public function addService($serviceName, $callableParameters = null);
 
     /**
      * @param string $serviceName

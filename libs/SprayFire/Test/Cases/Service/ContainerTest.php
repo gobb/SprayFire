@@ -19,7 +19,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     public function testResourceDoesExist() {
         $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
-        $Container->addService('SprayFire.FileSys.Paths', function() {});
+        $Container->addService('SprayFire.FileSys.Paths');
         $directoryExist = $Container->doesServiceExist('SprayFire.FileSys.Paths');
         $this->assertTrue($directoryExist);
     }

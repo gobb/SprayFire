@@ -59,24 +59,23 @@ class Container extends JavaNameConverter implements ServiceContainer {
      * @param callable|null $callableParameters
      * @throws InvalidArgumentException
      */
-    public function addService($serviceName, $callableParameters) {
-        if (\is_null($callableParameters)) {
-            $callableParameters = $this->emptyCallback;
-        }
-
-        if (!\is_callable($callableParameters)) {
-            throw new \InvalidArgumentException('Attempt to pass a non-callable type to a callable require parameter.');
-        }
-
+    public function addService($serviceName, $callableParameters = null) {
         if (\is_object($serviceName)) {
             $service = $serviceName;
             $serviceName = '\\' . \get_class($service);
             $this->storedServices[$serviceName] = $service;
         } else {
+            if (\is_null($callableParameters)) {
+                $callableParameters = $this->emptyCallback;
+            }
+
+            if (!\is_callable($callableParameters)) {
+                throw new \InvalidArgumentException('Attempting to pass a non-callable type to a callable required parameter.');
+            }
+
             $serviceName = $this->convertJavaClassToPhpClass($serviceName);
             $this->addedServices[$serviceName] = $callableParameters;
         }
-
     }
 
     /**
