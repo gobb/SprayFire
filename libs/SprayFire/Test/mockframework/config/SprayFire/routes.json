@@ -21,8 +21,8 @@
         },
         "static/page": {
             "static": {
-                "layoutPath": ["libs", "SprayFire", "Responder", "html", "default.php"],
-                "templatePath": ["libs", "SprayFire", "Responder", "html", "template", "static.php"]
+                "layoutPath": ["libsPath", "SprayFire", "Responder", "html", "default.php"],
+                "templatePath": ["libsPath", "SprayFire", "Responder", "html", "template", "static.php"]
             }
         },
         "parameters/none": {
