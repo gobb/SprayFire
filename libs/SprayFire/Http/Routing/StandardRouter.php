@@ -14,6 +14,7 @@ namespace SprayFire\Http\Routing;
 use \SprayFire\Http\Routing\Router as Router,
     \SprayFire\Http\Request as Request,
     \SprayFire\Http\Routing\RoutedRequest as RoutedRequest,
+    \SprayFire\FileSys\PathGenerator as PathGenerator,
     \SprayFire\CoreObject as CoreObject,
     \SprayFire\Http\Routing\Normalizer as Normalizer,
     \SprayFire\Exception\FatalRuntimeException as FatalRunTimeException;
@@ -24,6 +25,17 @@ class StandardRouter extends CoreObject implements Router {
      * @property SprayFire.Http.Routing.Normalizer
      */
     protected $Normalizer;
+
+    /**
+     * @property SprayFire.FileSys.PathGenerator
+     */
+    protected $Paths;
+
+    /**
+     *
+     * @property SplObjectStorage
+     */
+    protected $StaticFilesStorage;
 
     /**
      * @property array
@@ -61,8 +73,10 @@ class StandardRouter extends CoreObject implements Router {
      * @param string $installDir
      * @throws SprayFire.Exception.FatalRuntimeException
      */
-    public function __construct(Normalizer $Normalizer, $configPath, $installDir = '') {
+    public function __construct(Normalizer $Normalizer, PathGenerator $Paths, $configPath, $installDir = '') {
         $this->Normalizer = $Normalizer;
+        $this->Paths = $Paths;
+        $this->StaticFilesStorage = new \SplObjectStorage();
         $this->config = $this->generateConfig($configPath);
         $this->installDir = (string) $installDir;
         $this->defaultController = (string) $this->config['defaults']['controller'];
@@ -87,7 +101,10 @@ class StandardRouter extends CoreObject implements Router {
     }
 
     public function getStaticFilePaths(RoutedRequest $RoutedRequest) {
-
+        if (isset($this->StaticFilesStorage[$RoutedRequest])) {
+            return $this->StaticFilesStorage[$RoutedRequest];
+        }
+        return array('layout' => '', 'template' => '');
     }
 
     /**
@@ -106,7 +123,12 @@ class StandardRouter extends CoreObject implements Router {
         $action = $route['action'];
         $parameters = $route['parameters'];
         $isStatic = $route['isStatic'];
-        return new \SprayFire\Http\Routing\StandardRoutedRequest($controller, $action, $parameters, $isStatic);
+        $RoutedRequest = new \SprayFire\Http\Routing\StandardRoutedRequest($controller, $action, $parameters, $isStatic);
+        if ($isStatic) {
+            $this->storeStaticFilePaths($RoutedRequest, $route['key']);
+        }
+        return $RoutedRequest;
+
     }
 
     /**
@@ -260,7 +282,7 @@ class StandardRouter extends CoreObject implements Router {
         $parameters = $this->getRoutedOrDefaultValue($key, 'parameters', $parameters);
         $isStatic = $this->checkRequestIsStatic($key);
 
-        return \compact('controller', 'action', 'parameters', 'isStatic');
+        return \compact('controller', 'action', 'parameters', 'isStatic', 'key');
     }
 
     /**
@@ -299,11 +321,49 @@ class StandardRouter extends CoreObject implements Router {
         return $givenValue;
     }
 
+    /**
+     * @param string $routeKey
+     * @return boolean
+     */
     protected function checkRequestIsStatic($routeKey) {
         if ($routeKey !== false && isset($this->config['routes'][$routeKey]['static'])) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
+     * @param string $routeKey
+     */
+    protected function storeStaticFilePaths(RoutedRequest $RoutedRequest, $routeKey) {
+        $layoutPath = $this->config['routes'][$routeKey]['static']['layoutPath'];
+        $templatePath = $this->config['routes'][$routeKey]['static']['templatePath'];
+        if ($layoutPath[0] === 'libsPath') {
+            \array_shift($layoutPath);
+            $layoutPath = $this->Paths->getLibsPath($layoutPath);
+        } else {
+            if ($layoutPath[0] === 'appPath') {
+                \array_shift($layoutPath);
+            }
+            $layoutPath = $this->Paths->getAppPath($layoutPath);
+        }
+
+        if ($templatePath[0] === 'libsPath') {
+            \array_shift($templatePath);
+            $templatePath = $this->Paths->getLibsPath($templatePath);
+        } else {
+            if ($templatePath[0] === 'appPath') {
+                \array_shift($templatePath);
+            }
+            $templatePath = $this->Paths->getAppPath($templatePath);
+        }
+
+        $data = array(
+            'layout' => $layoutPath,
+            'template' => $templatePath
+        );
+        $this->StaticFilesStorage->attach($RoutedRequest, $data);
     }
 
 }
