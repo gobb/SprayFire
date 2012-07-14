@@ -14,29 +14,35 @@ use \SprayFire\Controller\Base as BaseController;
 class Pages extends BaseController {
 
     public function index() {
-        $this->templatePath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'debug-content.php');
+        $this->templatePath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'blank.php');
         $this->layoutPath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
 
-        $message = 'The requested resource could not be found.';
+//        $message = 'The requested resource could not be found.';
         $styleCss = $this->service('Paths')->getUrlPath('css', 'sprayfire.style.css');
         $sprayFireLogo = $this->service('Paths')->getUrlPath('images', 'sprayfire-logo-bar-75.png');
-        $serverData = \print_r($_SERVER, true);
-        $sessionData = \print_r($_SESSION, true);
-        $postData = \print_r($_POST, true);
-        $getData = \print_r($_GET, true);
-        $controller = \get_class();
+//        $serverData = \print_r($_SERVER, true);
+//        $sessionData = \print_r($_SESSION, true);
+//        $postData = \print_r($_POST, true);
+//        $getData = \print_r($_GET, true);
+//        $controller = \get_class();
+//
+//        $data = \compact(
+//                    'message',
+//                    'styleCss',
+//                    'sprayFireLogo',
+//                    'serverData',
+//                    'sessionData',
+//                    'postData',
+//                    'getData',
+//                    'controller'
+//                );
+//        $this->giveDirtyData($data);
 
         $data = \compact(
-                    'message',
                     'styleCss',
-                    'sprayFireLogo',
-                    'serverData',
-                    'sessionData',
-                    'postData',
-                    'getData',
-                    'controller'
+                    'sprayFireLogo'
                 );
-        $this->giveDirtyData($data);
+        $this->giveCleanData($data);
     }
 
 }
