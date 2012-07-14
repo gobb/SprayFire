@@ -96,17 +96,14 @@ $webPath = $installPath . '/web';
 $configPath = $installPath . '/config';
 $logsPath = $installPath . '/logs';
 
-$pathGenerator = 'SprayFire.FileSys.Paths';
-$pathsCallback = function() use($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath) {
-    $RootPaths = new \SprayFire\FileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
-    return array($RootPaths);
-};
-
 include $libsPath . '/ClassLoader/Loader.php';
 $ClassLoader = new \ClassLoader\Loader();
 $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 $ClassLoader->registerNamespaceDirectory('Artax', $libsPath . '/Artax/src');
 $ClassLoader->setAutoloader();
+
+$RootPaths = new \SprayFire\FileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
+$Paths = new \SprayFire\FileSys\Paths($RootPaths);
 
 $EmergencyLogger = new \SprayFire\Logging\Logifier\SysLogLogger();
 $ErrorLogger = new \SprayFire\Logging\Logifier\ErrorLogLogger();
@@ -121,13 +118,13 @@ $Request = new \SprayFire\Http\StandardRequest($Uri, $RequestHeaders);
 $Normalizer = new \SprayFire\Http\Routing\Normalizer();
 $routesConfig = $configPath . '/SprayFire/routes.json';
 $installDir = \basename($installPath);
-$Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $routesConfig, $installDir);
+$Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $Paths, $routesConfig, $installDir);
 
 $ReflectionCache = new \Artax\ReflectionCacher();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 
 $Container->addService($LogDelegator, null);
-$Container->addService($pathGenerator, $pathsCallback);
+$Container->addService($Paths, null);
 $Container->addService($ReflectionCache, null);
 $Container->addService($ClassLoader, null);
 $Container->addService('SprayFire.JavaNamespaceConverter', null);
