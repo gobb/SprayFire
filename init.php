@@ -123,16 +123,18 @@ $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $Paths, $route
 $ReflectionCache = new \Artax\ReflectionCacher();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 
+$controllerFactoryName = 'SprayFire.Controller.Factory';
+$controllerFactoryCallback = function() use ($ReflectionCache, $Container, $LogDelegator) {
+    return array($ReflectionCache, $Container, $LogDelegator);
+};
+
 $Container->addService($LogDelegator);
 $Container->addService($Paths);
 $Container->addService($ReflectionCache);
 $Container->addService($ClassLoader);
 $Container->addService($Request);
+$Container->addService($controllerFactoryName, $controllerFactoryCallback);
 $Container->addService('SprayFire.JavaNamespaceConverter');
-$Container->addService('SprayFire.Controller.Factory', function() use($ReflectionCache, $Container, $LogDelegator) {
-    return array($ReflectionCache, $Container, $LogDelegator);
-});
-
 
 $Factory = $Container->getService('SprayFire.Controller.Factory');
 $RoutedRequest = $Router->getRoutedRequest($Request);
@@ -140,10 +142,11 @@ $controllerName = $RoutedRequest->getController();
 $action = $RoutedRequest->getAction();
 $parameters = $RoutedRequest->getParameters();
 $Controller = $Factory->makeObject($controllerName);
+$Controller->giveDirtyData(array('action' => $action));
 $Controller->$action($parameters);
 
 $Responder = new \SprayFire\Responder\HtmlResponder();
-$response = $Responder->generateResponse($Controller);
+$response = $Responder->generateDynamicResponse($Controller);
 echo $response;
 
 echo '<pre>', \print_r($preBootstrapErrors, true), '</pre>';
