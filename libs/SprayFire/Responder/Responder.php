@@ -11,7 +11,8 @@
 
 namespace SprayFire\Responder;
 
-use \SprayFire\Service\Consumer as ServiceConsumer;
+use \SprayFire\Service\Consumer as ServiceConsumer,
+    \SprayFire\Controller\Controller as Controller;
 
 interface Responder extends ServiceConsumer {
 
@@ -31,6 +32,12 @@ interface Responder extends ServiceConsumer {
      * @param SprayFire.Controller.Controller $Controller
      * @return string
      */
-    public function generateResponse(\SprayFire\Controller\Controller $Controller);
+    public function generateDynamicResponse(Controller $Controller);
 
+    /**
+     * @param string $layoutPath
+     * @param string $templatePath
+     * @return string
+     */
+    public function generateStaticResponse($layoutPath, $templatePath);
 }
