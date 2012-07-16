@@ -265,4 +265,8 @@ abstract class BaseFactory extends JavaNameConverter implements Factory {
         return $this->objectType;
     }
 
+    public function getNullObjectType() {
+        return $this->nullObjectType;
+    }
+
 }
