@@ -24,4 +24,9 @@ interface Factory {
      */
     public function getObjectType();
 
+    /**
+     * @return string
+     */
+    public function getNullObjectType();
+
 }
