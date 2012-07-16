@@ -128,24 +128,32 @@ $controllerFactoryCallback = function() use ($ReflectionCache, $Container, $LogD
     return array($ReflectionCache, $Container, $LogDelegator);
 };
 
+$responderFactoryName = 'SprayFire.Responder.Factory';
+$responderFactoryCallback = function() use ($ReflectionCache, $Container, $LogDelegator) {
+    return array($ReflectionCache, $Container, $LogDelegator);
+};
+
 $Container->addService($LogDelegator);
 $Container->addService($Paths);
 $Container->addService($ReflectionCache);
 $Container->addService($ClassLoader);
 $Container->addService($Request);
 $Container->addService($controllerFactoryName, $controllerFactoryCallback);
+$Container->addService($responderFactoryName, $responderFactoryCallback);
 $Container->addService('SprayFire.JavaNamespaceConverter');
 
-$Factory = $Container->getService('SprayFire.Controller.Factory');
+$ControllerFactory = $Container->getService('SprayFire.Controller.Factory');
 $RoutedRequest = $Router->getRoutedRequest($Request);
 $controllerName = $RoutedRequest->getController();
 $action = $RoutedRequest->getAction();
 $parameters = $RoutedRequest->getParameters();
-$Controller = $Factory->makeObject($controllerName);
+$Controller = $ControllerFactory->makeObject($controllerName);
 $Controller->giveDirtyData(array('action' => $action));
 $Controller->$action($parameters);
 
-$Responder = new \SprayFire\Responder\HtmlResponder();
+$ResponderFactory = $Container->getService('SprayFire.Responder.Factory');
+
+$Responder = $ResponderFactory->makeObject($Controller->getResponderName());
 $response = $Responder->generateDynamicResponse($Controller);
 echo $response;
 
