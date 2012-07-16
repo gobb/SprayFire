@@ -11,18 +11,12 @@
 namespace SprayFire\Responder;
 
 use \SprayFire\Responder\Responder as Responder,
+    \SprayFire\Controller\Controller as Controller,
     \SprayFire\Service\FireBox\Consumer as ServiceConsumer;
 
 class HtmlResponder extends ServiceConsumer implements Responder {
 
     /**
-     *
-     * @property SprayFire.Controller.Controller
-     */
-    protected $Controller;
-
-    /**
-     *
      * @property string
      */
     protected $response = '';
@@ -38,14 +32,24 @@ class HtmlResponder extends ServiceConsumer implements Responder {
      * @param SprayFire.Controller.Controller $Controller
      * @return string
      */
-    public function generateResponse(\SprayFire\Controller\Controller $Controller) {
-        $this->Controller = $Controller;
-        $data = $this->getSafeData();
-        $templatePath = $this->Controller->getTemplatePath();
+    public function generateDynamicResponse(Controller $Controller) {
+        $data = $this->getSafeData($Controller);
+        $templatePath = $Controller->getTemplatePath();
         $templateContent = $this->render($templatePath, $data);
         $data['templateContent'] = $templateContent;
-        $layoutPath = $this->Controller->getLayoutPath();
+        $layoutPath = $Controller->getLayoutPath();
         $this->response = $this->render($layoutPath, $data);
+        return $this->response;
+    }
+
+    /**
+     * @param string $layoutPath
+     * @param string $templatePath
+     * @return string
+     */
+    public function generateStaticResponse($layoutPath, $templatePath) {
+        $templateContent = $this->render($templatePath, array());
+        $this->response = $this->render($layoutPath, array('templateContent' => $templateContent));
         return $this->response;
     }
 
@@ -55,9 +59,9 @@ class HtmlResponder extends ServiceConsumer implements Responder {
      *
      * @return array
      */
-    protected function getSafeData() {
-        $cleanData = $this->Controller->getCleanData();
-        $dirtyData = $this->Controller->getDirtyData();
+    protected function getSafeData(Controller $Controller) {
+        $cleanData = $Controller->getCleanData();
+        $dirtyData = $Controller->getDirtyData();
         $sanitizedData = $this->sanitizeData($dirtyData);
         return \array_merge(array(), $cleanData, $sanitizedData);
     }
