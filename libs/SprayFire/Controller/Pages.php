@@ -25,12 +25,14 @@ class Pages extends BaseController {
         $postData = \print_r($_POST, true);
         $getData = \print_r($_GET, true);
         $controller = \get_class();
+        $parameters = \print_r(\func_get_args(), true);
 
         $cleanData = \compact(
                     'styleCss',
                     'sprayFireLogo',
                     'message',
-                    'controller'
+                    'controller',
+                    'parameters'
                 );
         $dirtyData = \compact(
                     'getData',
