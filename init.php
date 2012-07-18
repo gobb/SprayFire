@@ -123,41 +123,21 @@ $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $Paths, $route
 $ReflectionCache = new \Artax\ReflectionCacher();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 
-$controllerFactoryName = 'SprayFire.Controller.Factory';
-$controllerFactoryCallback = function() use ($ReflectionCache, $Container, $LogDelegator) {
-    return array($ReflectionCache, $Container, $LogDelegator);
-};
-
-$responderFactoryName = 'SprayFire.Responder.Factory';
-$responderFactoryCallback = function() use ($ReflectionCache, $Container, $LogDelegator) {
-    return array($ReflectionCache, $Container, $LogDelegator);
-};
+$ControllerFactory = new \SprayFire\Controller\Factory($ReflectionCache, $Container, $LogDelegator);
+$ResponderFactory = new \SprayFire\Responder\Factory($ReflectionCache, $Container, $LogDelegator);
 
 $Container->addService($LogDelegator);
 $Container->addService($Paths);
 $Container->addService($ReflectionCache);
 $Container->addService($ClassLoader);
 $Container->addService($Request);
-$Container->addService($controllerFactoryName, $controllerFactoryCallback);
-$Container->addService($responderFactoryName, $responderFactoryCallback);
 $Container->addService('SprayFire.JavaNamespaceConverter');
 
-$ControllerFactory = $Container->getService('SprayFire.Controller.Factory');
-$RoutedRequest = $Router->getRoutedRequest($Request);
-$controllerName = $RoutedRequest->getController();
-$action = $RoutedRequest->getAction();
-$parameters = $RoutedRequest->getParameters();
-$Controller = $ControllerFactory->makeObject($controllerName);
-$Controller->giveDirtyData(array('action' => $action));
-$Controller->$action($parameters);
+$Dispatcher = new \SprayFire\Dispatcher\FireDispatcher($Router, $ControllerFactory, $ResponderFactory);
+$Dispatcher->dispatchResponse($Request);
 
-$ResponderFactory = $Container->getService('SprayFire.Responder.Factory');
-
-$Responder = $ResponderFactory->makeObject($Controller->getResponderName());
-$response = $Responder->generateDynamicResponse($Controller);
-echo $response;
-
-echo '<pre>', \print_r($preBootstrapErrors, true), '</pre>';
-\var_dump(memory_get_peak_usage());
-$class = new \stdClass();
-\var_dump($class);
+echo (microtime(true) - $requestStartTime);
+\var_dump(memory_get_peak_usage(true));
+\var_dump($preBootstrapErrors);
+$stdClass = new \stdClass();
+\var_dump($stdClass);
