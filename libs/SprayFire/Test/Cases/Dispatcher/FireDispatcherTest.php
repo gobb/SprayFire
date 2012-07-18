@@ -71,7 +71,7 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
     }
 
     protected function getControllerFactory() {
-        return new \SprayFire\Controller\Factory($this->Cache, $this->Container, $this->Logger);
+        return new \SprayFire\Controller\Factory($this->Cache, $this->Container, $this->Logger, 'SprayFire.Controller.Controller', 'SprayFire.Test.Helpers.Controller.NullObject');
     }
 
     protected function getResponderFactory() {
