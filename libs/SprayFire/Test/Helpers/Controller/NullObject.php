@@ -14,6 +14,10 @@ namespace SprayFire\Test\Helpers\Controller;
 class NullObject extends \SprayFire\Controller\Base {
 
     public function __construct() {
+        $this->services = array();
+    }
+
+    public function __call($name, $arguments) {
 
     }
 
