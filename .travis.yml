@@ -2,4 +2,5 @@
 ---
 language: php
 php:
-  -5.3
+  - 5.3
+script: phpunit --configuration Test/configuration.xml --bootstrap Test/test_bootstrap.php
