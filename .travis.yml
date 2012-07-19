@@ -3,4 +3,4 @@
 language: php
 php:
   - 5.3
-script: phpunit --configuration libs/SprayFire/Test/configuration.xml --bootstrap libs/SprayFire/Test/test_bootstrap.php
+script: phpunit --bootstrap ./libs/SprayFire/Test/test_bootstrap.php
