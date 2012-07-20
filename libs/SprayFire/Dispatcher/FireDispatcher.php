@@ -13,7 +13,9 @@ namespace SprayFire\Dispatcher;
 use \SprayFire\Dispatcher\Dispatcher as Dispatcher,
     \SprayFire\Http\Request as Request,
     \SprayFire\Http\Routing\Router as Router,
+    \SprayFire\Http\Routing\RoutedRequest as RoutedRequest,
     \SprayFire\Factory\Factory as Factory,
+    \SprayFire\Logging\LogOverseer as LogOverseer,
     \SprayFire\CoreObject as CoreObject;
 
 class FireDispatcher extends CoreObject implements Dispatcher {
@@ -22,6 +24,11 @@ class FireDispatcher extends CoreObject implements Dispatcher {
      * @property SprayFire.Http.Routing.Router
      */
     protected $Router;
+
+    /**
+     * @property SprayFire.Logging.LogOverseer
+     */
+    protected $LogOverseer;
 
     /**
      * This should be a SprayFire.Controller.Factory object
@@ -43,8 +50,9 @@ class FireDispatcher extends CoreObject implements Dispatcher {
      * @param SprayFire.Factory.Factory $ControllerFactory
      * @param SprayFire.Factory.Factory $ResponderFactory
      */
-    public function __construct(Router $Router, Factory $ControllerFactory, Factory $ResponderFactory) {
+    public function __construct(Router $Router, LogOverseer $LogOverseer, Factory $ControllerFactory, Factory $ResponderFactory) {
         $this->Router = $Router;
+        $this->LogOverseer = $LogOverseer;
         $this->ControllerFactory = $ControllerFactory;
         $this->ResponderFactory = $ResponderFactory;
     }
@@ -54,12 +62,30 @@ class FireDispatcher extends CoreObject implements Dispatcher {
      */
     public function dispatchResponse(Request $Request) {
         $RoutedRequest = $this->Router->getRoutedRequest($Request);
+        $Controller = $this->invokeController($RoutedRequest);
+        $Responder = $this->ResponderFactory->makeObject($Controller->getResponderName());
+        echo $Responder->generateDynamicResponse($Controller);
+    }
+
+    /**
+     * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
+     * @return SprayFire.Controller.Controller
+     */
+    protected function invokeController(RoutedRequest $RoutedRequest) {
         $controllerName = $RoutedRequest->getController();
         $Controller = $this->ControllerFactory->makeObject($controllerName);
         $action = $RoutedRequest->getAction();
-        $Controller->$action();
-        $Responder = $this->ResponderFactory->makeObject($Controller->getResponderName());
-        echo $Responder->generateDynamicResponse($Controller);
+        if (\method_exists($Controller, $action)) {
+            $Controller->$action();
+        } else {
+            $nullController = $this->ControllerFactory->getNullObjectType();
+            $Controller = $this->ControllerFactory->makeObject($nullController);
+            $errorMessage = 'The action, ' . $action . ', was not found in, ' . $controllerName . '.';
+            $this->LogOverseer->logError($errorMessage);
+            $Controller->giveDirtyData(\compact('errorMessage'));
+            $Controller->$action();
+        }
+        return $Controller;
     }
 
 }
