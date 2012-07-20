@@ -40,8 +40,8 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         $Router = $this->getRouter('SprayFire');
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
-        $this->assertSame('SprayTest', $RoutedRequest->getAppNamespace());
-        $this->assertSame('SprayTest.Controller.Controller', $RoutedRequest->getController());
+        $this->assertSame('SprayFire', $RoutedRequest->getAppNamespace());
+        $this->assertSame('SprayFire.Test.Helpers.Controller.Controller', $RoutedRequest->getController());
         $this->assertSame('action', $RoutedRequest->getAction());
         $this->assertSame(array('param1', 'param2', 'param3'), $RoutedRequest->getParameters());
     }
@@ -55,8 +55,8 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         $Router = $this->getRouter('SprayFire');
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
-        $this->assertSame('SprayTest', $RoutedRequest->getAppNamespace());
-        $this->assertSame('SprayTest.Controller.TestPages', $RoutedRequest->getController());
+        $this->assertSame('SprayFire', $RoutedRequest->getAppNamespace());
+        $this->assertSame('SprayFire.Test.Helpers.Controller.TestPages', $RoutedRequest->getController());
         $this->assertSame('indexYoDog', $RoutedRequest->getAction());
         $this->assertSame(array('yo', 'dog'), $RoutedRequest->getParameters());
     }

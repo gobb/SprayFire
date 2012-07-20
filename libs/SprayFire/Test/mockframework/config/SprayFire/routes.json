@@ -3,7 +3,7 @@
         "controller": "test_pages",
         "action": "index-yo-dog",
         "parameters": ["yo", "dog"],
-        "namespace": "SprayTest.Controller"
+        "namespace": "SprayFire.Test.Helpers.Controller"
     },
     "routes": {
         "charles": {
