@@ -13,14 +13,15 @@ namespace SprayFire\Controller;
 use \SprayFire\Service\Container as Container,
     \SprayFire\Controller\Controller as Controller,
     \SprayFire\Logging\LogOverseer as LogOverseer,
+    \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \SprayFire\Service\ConsumerFactory as ConsumerFactory,
     \SprayFire\Service\NotFoundException as ServiceNotFoundException,
     \Artax\ReflectionPool as ReflectionPool;
 
 class Factory extends ConsumerFactory {
 
-    public function __construct(ReflectionPool $Cache, Container $Container, LogOverseer $LogOverseer, $type = 'SprayFire.Controller.Controller', $nullType = 'SprayFire.Controller.NullObject') {
-        parent::__construct($Cache, $Container, $LogOverseer, $type, $nullType);
+    public function __construct(ReflectionPool $Cache, Container $Container, LogOverseer $LogOverseer, JavaNameConverter $JavaNameConverter, $type = 'SprayFire.Controller.Controller', $nullType = 'SprayFire.Controller.NullObject') {
+        parent::__construct($Cache, $Container, $LogOverseer, $JavaNameConverter, $type, $nullType);
     }
 
 }

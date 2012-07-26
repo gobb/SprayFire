@@ -13,6 +13,12 @@ namespace SprayFire\Test\Cases\Responder;
 
 class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
 
+    protected $JavaNameConverter;
+
+    public function setUp() {
+        $this->JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+    }
+
     public function testSanitizingHtmlData() {
         $Responder = new \SprayFire\Responder\HtmlResponder();
         $dirtyData = array(
@@ -41,7 +47,7 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $Container->addService($Paths, null);
 
-        $ControllerFactory = new \SprayFire\Controller\Factory($Cache, $Container, $LogDelegator);
+        $ControllerFactory = new \SprayFire\Controller\Factory($Cache, $Container, $LogDelegator, $this->JavaNameConverter);
         $Controller = $ControllerFactory->makeObject('SprayFire.Test.Cases.Responder.NoDataController');
 
         $this->assertInstanceOf('\\SprayFire\\Test\\Cases\\Responder\\NoDataController', $Controller);

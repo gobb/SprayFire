@@ -15,13 +15,15 @@ use \SprayFire\Factory\Factory as Factory,
     \SprayFire\Logging\LogOverseer as LogOverseer,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \SprayFire\ObjectTypeValidator as TypeValidator,
-    \SprayFire\Exception\TypeNotFoundException as TypeNotFoundException;
+    \SprayFire\CoreObject as CoreObject,
+    \SprayFire\Exception\TypeNotFoundException as TypeNotFoundException,
+    \Artax\ReflectionPool as ReflectionPool;
 
 /**
  * All class names passed to this Factory can be passed using PHP or Java
  * style formatting.
  */
-abstract class BaseFactory extends JavaNameConverter implements Factory {
+abstract class BaseFactory extends CoreObject implements Factory {
 
     /**
      * Keys stored in this array should be a PHP-style namespaced class.
@@ -38,10 +40,11 @@ abstract class BaseFactory extends JavaNameConverter implements Factory {
     protected $ReflectionCache;
 
     /**
-     *
      * @property SprayFire.Logging.LogOverseer
      */
     protected $LogOverseer;
+
+    protected $JavaNameConverter;
 
     /**
      * @property Object
@@ -74,11 +77,12 @@ abstract class BaseFactory extends JavaNameConverter implements Factory {
      * @param string $returnTypeRestriction
      * @param string $nullObject
      */
-    public function __construct(\Artax\ReflectionPool $ReflectionCache, LogOverseer $LogOverseer, $returnTypeRestriction, $nullObject) {
-        $this->ReflectionCache = $ReflectionCache;
+    public function __construct(ReflectionPool $ReflectionPool, LogOverseer $LogOverseer, JavaNameConverter $JavaNameConverter, $returnTypeRestriction, $nullObject) {
+        $this->ReflectionCache = $ReflectionPool;
         $this->LogOverseer = $LogOverseer;
-        $this->objectType = $this->convertJavaClassToPhpClass($returnTypeRestriction);
-        $this->nullObjectType = $this->convertJavaClassToPhpClass($nullObject);
+        $this->JavaNameConverter = $JavaNameConverter;
+        $this->objectType = $JavaNameConverter->convertJavaClassToPhpClass($returnTypeRestriction);
+        $this->nullObjectType = $JavaNameConverter->convertJavaClassToPhpClass($nullObject);
         $this->TypeValidator = $this->createTypeValidator();
         $this->NullObject = $this->createNullObject();
     }
@@ -133,7 +137,7 @@ abstract class BaseFactory extends JavaNameConverter implements Factory {
      * @param array $defaultParameters
      */
     public function storeBlueprint($className, array $defaultParameters) {
-        $blueprintKey = $this->convertJavaClassToPhpClass($className);
+        $blueprintKey = $this->JavaNameConverter->convertJavaClassToPhpClass($className);
         $this->blueprints[$blueprintKey] = $defaultParameters;
     }
 
@@ -144,7 +148,7 @@ abstract class BaseFactory extends JavaNameConverter implements Factory {
      * @return array
      */
     public function getBlueprint($className) {
-        $bluePrintKey = $this->convertJavaClassToPhpClass($className);
+        $bluePrintKey = $this->JavaNameConverter->convertJavaClassToPhpClass($className);
         if (\array_key_exists($bluePrintKey, $this->blueprints) && \is_array($this->blueprints[$bluePrintKey])) {
             return $this->blueprints[$bluePrintKey];
         }
@@ -156,7 +160,7 @@ abstract class BaseFactory extends JavaNameConverter implements Factory {
      * @return boolean
      */
     public function deleteBlueprint($className) {
-        $bluePrintKey = $this->convertJavaClassToPhpClass($className);
+        $bluePrintKey = $this->JavaNameConverter->convertJavaClassToPhpClass($className);
         if (\array_key_exists($bluePrintKey, $this->blueprints)) {
             unset($this->blueprints[$bluePrintKey]);
         }
@@ -172,7 +176,7 @@ abstract class BaseFactory extends JavaNameConverter implements Factory {
      */
     public function makeObject($className, array $parameters = array()) {
         try {
-            $className = $this->convertJavaClassToPhpClass($className);
+            $className = $this->JavaNameConverter->convertJavaClassToPhpClass($className);
             $parameters = $this->getFinalBlueprint($className, $parameters);
             $ReflectedClass = $this->ReflectionCache->getClass($className);
             $returnObject = $ReflectedClass->newInstanceArgs($parameters);

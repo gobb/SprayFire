@@ -107,8 +107,7 @@ $Paths = new \SprayFire\FileSys\Paths($RootPaths);
 
 $EmergencyLogger = new \SprayFire\Logging\Logifier\SysLogLogger();
 $ErrorLogger = new \SprayFire\Logging\Logifier\ErrorLogLogger();
-$DebugLogger = new \SprayFire\Logging\Logifier\NullLogger();
-$InfoLogger = new \SprayFire\Logging\Logifier\NullLogger();
+$DebugLogger = $InfoLogger = new \SprayFire\Logging\Logifier\NullLogger();
 $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
 
 $Uri = new \SprayFire\Http\ResourceIdentifier();
@@ -122,9 +121,10 @@ $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $Paths, $route
 
 $ReflectionCache = new \Artax\ReflectionCacher();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
+$JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
 
-$ControllerFactory = new \SprayFire\Controller\Factory($ReflectionCache, $Container, $LogDelegator);
-$ResponderFactory = new \SprayFire\Responder\Factory($ReflectionCache, $Container, $LogDelegator);
+$ControllerFactory = new \SprayFire\Controller\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
+$ResponderFactory = new \SprayFire\Responder\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
 
 $Container->addService($LogDelegator);
 $Container->addService($Paths);
@@ -133,7 +133,7 @@ $Container->addService($ClassLoader);
 $Container->addService($Request);
 $Container->addService('SprayFire.JavaNamespaceConverter');
 
-$Dispatcher = new \SprayFire\Dispatcher\FireDispatcher($Router, $ControllerFactory, $ResponderFactory);
+$Dispatcher = new \SprayFire\Dispatcher\FireDispatcher($Router, $LogDelegator, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
 
 echo (microtime(true) - $requestStartTime);

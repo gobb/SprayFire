@@ -14,6 +14,7 @@ namespace SprayFire\Responder;
 use \SprayFire\Service\Container as Container,
     \SprayFire\Logging\LogOverseer as LogOverseer,
     \SprayFire\Service\ConsumerFactory as ConsumerFactory,
+    \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \Artax\ReflectionPool as ReflectionPool;
 
 class Factory extends ConsumerFactory {
@@ -25,8 +26,8 @@ class Factory extends ConsumerFactory {
      * @param string $type
      * @param string $nullType
      */
-    public function __construct(ReflectionPool $Cache, Container $Container, LogOverseer $LogOverseer, $type = 'SprayFire.Responder.Responder', $nullType = 'SprayFire.Responder.HtmlResponder') {
-        parent::__construct($Cache, $Container, $LogOverseer, $type, $nullType);
+    public function __construct(ReflectionPool $Cache, Container $Container, LogOverseer $LogOverseer, JavaNameConverter $JavaConverter, $type = 'SprayFire.Responder.Responder', $nullType = 'SprayFire.Responder.HtmlResponder') {
+        parent::__construct($Cache, $Container, $LogOverseer, $JavaConverter, $type, $nullType);
     }
 
 }

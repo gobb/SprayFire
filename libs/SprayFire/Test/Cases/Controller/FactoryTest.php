@@ -22,7 +22,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
         $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\Logifier\NullLogger();
         $ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $Factory = new Factory($ReflectionCache, $Container, $LogDelegator);
+        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $Factory = new Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
 
         $Container->addService('SprayFire.Test.Helpers.Controller.ServiceOne', null);
         $Container->addService('SprayFire.Test.Helpers.Controller.ServiceTwo', null);
@@ -43,7 +44,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $type = 'SprayFire.Controller.Controller';
         $nullType = 'SprayFire.Test.Helpers.Controller.NullObject';
-        $Factory = new Factory($ReflectionCache, $Container, $LogDelegator, $type, $nullType);
+        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $Factory = new Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter, $type, $nullType);
 
         $Controller = $Factory->makeObject('SprayFire.Controller.NoGo');
         $this->assertInstanceOf('\\SprayFire\\Test\\Helpers\\Controller\\NullObject', $Controller);
@@ -57,7 +59,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $type = 'SprayFire.Controller.Controller';
         $nullType = 'SprayFire.Test.Helpers.Controller.NullObjectWithServices';
-        $Factory = new Factory($ReflectionCache, $Container, $LogDelegator, $type, $nullType);
+        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $Factory = new Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter, $type, $nullType);
 
         $Container->addService('SprayFire.Test.Helpers.Controller.NullServiceOne', null);
         $Container->addService('SprayFire.Test.Helpers.Controller.NullServiceTwo', null);
@@ -83,7 +86,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $type = 'SprayFire.Controller.Controller';
         $nullType = 'SprayFire.Test.Helpers.Controller.NullObjectInvalidServices';
-        $Factory = new Factory($ReflectionCache, $Container, $LogDelegator, $type, $nullType);
+        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $Factory = new Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter, $type, $nullType);
 
         $this->setExpectedException('\\SprayFire\\Exception\\FatalRuntimeException');
         $Controller = $Factory->makeObject('SprayFire.Controller.NoGo');

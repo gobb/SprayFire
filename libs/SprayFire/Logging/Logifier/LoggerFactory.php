@@ -12,18 +12,20 @@
 namespace SprayFire\Logging\Logifier;
 
 use \SprayFire\Logging\LogOverseer as LogOverseer,
-    \SprayFire\Factory\BaseFactory as BaseFactory;
+    \SprayFire\Factory\BaseFactory as BaseFactory,
+    \SprayFire\JavaNamespaceConverter as JavaNameConverter;
 
 class LoggerFactory extends BaseFactory {
 
     /**
      * @param Artax.ReflectionPool $ReflectionCache
      * @param SprayFire.Logging.LogOverseer $LogOverseer
+     * @param SprayFire.JavaNamespaceConverter $JavaConverter
      * @param string $returnType
      * @param string $nullObject
      */
-    public function __construct(\Artax\ReflectionPool $ReflectionCache, LogOverseer $LogOverseer, $returnType = 'SprayFire.Logging.Logger', $nullObject = 'SprayFire.Logging.Logifier.NullLogger') {
-        parent::__construct($ReflectionCache, $LogOverseer, $returnType, $nullObject);
+    public function __construct(\Artax\ReflectionPool $ReflectionCache, LogOverseer $LogOverseer, JavaNameConverter $JavaConverter, $returnType = 'SprayFire.Logging.Logger', $nullObject = 'SprayFire.Logging.Logifier.NullLogger') {
+        parent::__construct($ReflectionCache, $LogOverseer, $JavaConverter, $returnType, $nullObject);
     }
 
 }

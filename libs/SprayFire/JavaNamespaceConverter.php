@@ -10,9 +10,7 @@
 
 namespace SprayFire;
 
-use \SprayFire\CoreObject as CoreObject;
-
-class JavaNamespaceConverter extends CoreObject {
+class JavaNamespaceConverter {
 
     /**
      * @param $className A Java-style namespaced class

@@ -17,6 +17,8 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
 
     protected $Logger;
 
+    protected $JavaNameConverter;
+
     /**
      * @property SprayFire.Test.Helpers.DevelopmentLogger
      */
@@ -32,6 +34,7 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
         $Emergency = $Debug = $Info = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $this->ErrorLog = $Error = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $this->Logger = new \SprayFire\Logging\Logifier\LogDelegator($Emergency, $Error, $Debug, $Info);
+        $this->JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
     }
 
     public function testFireDispatcherTest() {
@@ -87,11 +90,11 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
     }
 
     protected function getControllerFactory() {
-        return new \SprayFire\Controller\Factory($this->Cache, $this->Container, $this->Logger, 'SprayFire.Controller.Controller', 'SprayFire.Test.Helpers.Controller.DispatchNullObject');
+        return new \SprayFire\Controller\Factory($this->Cache, $this->Container, $this->Logger, $this->JavaNameConverter, 'SprayFire.Controller.Controller', 'SprayFire.Test.Helpers.Controller.DispatchNullObject');
     }
 
     protected function getResponderFactory() {
-        return new \SprayFire\Responder\Factory($this->Cache, $this->Container, $this->Logger);
+        return new \SprayFire\Responder\Factory($this->Cache, $this->Container, $this->Logger, $this->JavaNameConverter);
     }
 
 }
