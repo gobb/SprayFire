@@ -8,7 +8,7 @@
  * code
  */
 
-namespace SprayFire\FileSys;
+namespace SprayFire\FileSys\FireFileSys;
 
 use \SprayFire\ValueObject as ValueObject;
 

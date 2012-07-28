@@ -9,11 +9,11 @@
  * code
  */
 
-namespace SprayFire\FileSys;
+namespace SprayFire\FileSys\FireFileSys;
 
 use \SprayFire\FileSys\PathGenerator as PathGenerator,
     \SprayFire\CoreObject as CoreObject,
-    \SprayFire\FileSys\RootPaths as RootPaths;
+    \SprayFire\FileSys\FireFileSys\RootPaths as RootPaths;
 
 /**
  * All of the getter methods in this class allow a variable number of parameters
