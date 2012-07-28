@@ -13,6 +13,7 @@ namespace SprayFire\Service;
 
 use \SprayFire\Service\Container as Container,
     \SprayFire\Logging\LogOverseer as LogOverseer,
+    \SprayFire\Service\Consumer as ServiceConsumer,
     \SprayFire\Factory\FireFactory\Base as BaseFactory,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \SprayFire\Exception\FatalRuntimeException as FatalException,
@@ -62,19 +63,13 @@ abstract class ConsumerFactory extends BaseFactory {
 
     /**
      * @param Object $Object
-     * @throws SprayFire.Exception.FatalRuntimeException
+     * @throws SprayFire.Service.NotFoundException
      */
-    protected function addServices($Object) {
-        if ($Object instanceof \SprayFire\Service\Consumer) {
-            try {
-                $services = $Object->getRequestedServices();
-                if ($this->isTraversable($services)) {
-                    foreach ($services as $property => $service) {
-                        $Object->giveService($property, $this->Container->getService($service));
-                    }
-                }
-            } catch(ServiceNotFoundException $NotFoundExc) {
-                throw new FatalException('The service, ' . $service . ',  for a Controller was not found.', null, $NotFoundExc);
+    protected function addServices(ServiceConsumer $Object) {
+        $services = $Object->getRequestedServices();
+        if ($this->isTraversable($services)) {
+            foreach ($services as $property => $service) {
+                $Object->giveService($property, $this->Container->getService($service));
             }
         }
     }
