@@ -8,7 +8,7 @@
  * code
  */
 
-namespace SprayFire\Bootstrap\Strapifier;
+namespace SprayFire\Bootstrap\FireBootstrap;
 
 use \SprayFire\Bootstrap\Bootstrapper as Bootstrapper,
     \SprayFire\CoreObject as CoreObject;
