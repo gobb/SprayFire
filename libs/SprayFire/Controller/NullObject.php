@@ -37,15 +37,15 @@ class NullObject extends CoreObject implements Controller {
     }
 
     public function getLayoutPath() {
-
+        return \dirname(__DIR__) . '/Responder/html/layout/default.php';
     }
 
     public function getResponderName() {
-
+        return '';
     }
 
     public function getTemplatePath() {
-
+        return \dirname(__DIR__) . '/Responder/html/blank.php';
     }
 
     public function giveCleanData(array $data) {
