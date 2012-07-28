@@ -29,7 +29,7 @@ abstract class Base extends ServiceConsumer implements Controller {
     /**
      * @property string
      */
-    protected $responderName = '';
+    protected $responderName = 'SprayFire.Responder.HtmlResponder';
 
     /**
      * An array of data that would need to be sanitized by the Responder before
@@ -55,14 +55,12 @@ abstract class Base extends ServiceConsumer implements Controller {
      */
     protected $attachedServices = array();
 
-    public function __construct() {
-        $this->services = array(
-            'Paths' => 'SprayFire.FileSys.Paths',
-            'Request' => 'SprayFire.Http.StandardRequest',
-            'Logging' => 'SprayFire.Logging.Logifier.LogDelegator'
-        );
-        $this->responderName = 'SprayFire.Responder.HtmlResponder';
-    }
+    protected $services = array(
+        'Paths' => 'SprayFire.FileSys.FireFileSys.Paths',
+        'Request' => 'SprayFire.Http.StandardRequest',
+        'RoutedRequest' => 'SprayFire.Http.Routing.StandardRoutedRequest',
+        'Logging' => 'SprayFire.Logging.Logifier.LogDelegator'
+    );
 
     /**
      * @return string
