@@ -29,11 +29,11 @@ class NullObject extends CoreObject implements Controller {
     }
 
     public function getCleanData() {
-
+        return array();
     }
 
     public function getDirtyData() {
-
+        return array();
     }
 
     public function getLayoutPath() {
