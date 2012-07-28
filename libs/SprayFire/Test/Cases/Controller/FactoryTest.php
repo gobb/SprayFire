@@ -89,7 +89,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
         $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
         $Factory = new Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter, $type, $nullType);
 
-        $this->setExpectedException('\\SprayFire\\Exception\\FatalRuntimeException');
+        $this->setExpectedException('\\SprayFire\\Service\\NotFoundException');
         $Controller = $Factory->makeObject('SprayFire.Controller.NoGo');
     }
 
