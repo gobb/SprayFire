@@ -16,8 +16,7 @@ class Pages extends BaseController {
     public function index() {
         $this->templatePath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'debug-content.php');
         $this->layoutPath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
-
-        $message = 'The requested resource could not be found.';
+        
         $styleCss = $this->service('Paths')->getUrlPath('css', 'sprayfire.style.css');
         $sprayFireLogo = $this->service('Paths')->getUrlPath('images', 'sprayfire-logo-bar-75.png');
         $serverData = \print_r($_SERVER, true);
@@ -25,6 +24,7 @@ class Pages extends BaseController {
         $postData = \print_r($_POST, true);
         $getData = \print_r($_GET, true);
         $controller = \get_class();
+        $action = $this->service('RoutedRequest')->getAction();
         $parameters = \print_r(\func_get_args(), true);
 
         $cleanData = \compact(
@@ -38,7 +38,8 @@ class Pages extends BaseController {
                     'getData',
                     'postData',
                     'sessionData',
-                    'serverData'
+                    'serverData',
+                    'action'
                 );
         $this->giveCleanData($cleanData);
         $this->giveDirtyData($dirtyData);
