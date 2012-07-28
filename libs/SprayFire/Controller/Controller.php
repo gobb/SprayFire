@@ -10,9 +10,10 @@
 
 namespace SprayFire\Controller;
 
-use \SprayFire\Service\Consumer as ServiceConsumer;
+use \SprayFire\Object as Object,
+    \SprayFire\Service\Consumer as ServiceConsumer;
 
-interface Controller extends ServiceConsumer {
+interface Controller extends Object, ServiceConsumer {
 
     /**
      * Provides the fully namespaced name of the class to use as the Responder
