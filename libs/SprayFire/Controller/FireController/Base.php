@@ -9,7 +9,7 @@
  * code
  */
 
-namespace SprayFire\Controller;
+namespace SprayFire\Controller\FireController;
 
 use \SprayFire\Controller\Controller as Controller,
     \SprayFire\Service\Firebox\Consumer as ServiceConsumer;

@@ -7,9 +7,9 @@
  * code
  */
 
-namespace SprayFire\Controller;
+namespace SprayFire\Controller\FireController;
 
-use \SprayFire\Controller\Base as BaseController;
+use \SprayFire\Controller\FireController\Base as BaseController;
 
 class Pages extends BaseController {
 

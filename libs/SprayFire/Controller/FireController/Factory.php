@@ -8,7 +8,7 @@
  * code
  */
 
-namespace SprayFire\Controller;
+namespace SprayFire\Controller\FireController;
 
 use \SprayFire\Service\Container as Container,
     \SprayFire\Controller\Controller as Controller,
