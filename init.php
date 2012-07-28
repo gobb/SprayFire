@@ -123,7 +123,7 @@ $ReflectionCache = new \Artax\ReflectionCacher();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
 
-$ControllerFactory = new \SprayFire\Controller\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
+$ControllerFactory = new \SprayFire\Controller\FireController\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
 $ResponderFactory = new \SprayFire\Responder\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
 
 $Container->addService($LogDelegator);
@@ -131,7 +131,7 @@ $Container->addService($Paths);
 $Container->addService($ReflectionCache);
 $Container->addService($ClassLoader);
 $Container->addService($Request);
-$Container->addService('SprayFire.JavaNamespaceConverter');
+$Container->addService($JavaNameConverter);
 
 $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher($Router, $LogDelegator, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
