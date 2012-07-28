@@ -13,7 +13,7 @@ namespace SprayFire\Service;
 
 use \SprayFire\Service\Container as Container,
     \SprayFire\Logging\LogOverseer as LogOverseer,
-    \SprayFire\Factory\BaseFactory as BaseFactory,
+    \SprayFire\Factory\FireFactory\Base as BaseFactory,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \SprayFire\Exception\FatalRuntimeException as FatalException,
     \SprayFire\Service\NotFoundException as ServiceNotFoundException,

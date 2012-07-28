@@ -12,7 +12,7 @@
 namespace SprayFire\Logging\Logifier;
 
 use \SprayFire\Logging\LogOverseer as LogOverseer,
-    \SprayFire\Factory\BaseFactory as BaseFactory,
+    \SprayFire\Factory\FireFactory\Base as BaseFactory,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter;
 
 class LoggerFactory extends BaseFactory {
