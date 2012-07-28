@@ -11,12 +11,14 @@
 
 namespace SprayFire\Bootstrap;
 
+use \SprayFire\Object as Object;
+
 /**
  * All framework and application bootstraps should implement this interface, an
  * app bootstrap that does not implement this interface is not guaranteed to
  * be ran.
  */
-interface Bootstrapper {
+interface Bootstrapper extends Object {
 
     /**
      * Should perform whatever actions are necessary for the given bootstrap.
