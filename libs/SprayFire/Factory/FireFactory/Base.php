@@ -9,7 +9,7 @@
  * code
  */
 
-namespace SprayFire\Factory;
+namespace SprayFire\Factory\FireFactory;
 
 use \SprayFire\Factory\Factory as Factory,
     \SprayFire\Logging\LogOverseer as LogOverseer,
@@ -23,7 +23,7 @@ use \SprayFire\Factory\Factory as Factory,
  * All class names passed to this Factory can be passed using PHP or Java
  * style formatting.
  */
-abstract class BaseFactory extends CoreObject implements Factory {
+abstract class Base extends CoreObject implements Factory {
 
     /**
      * Keys stored in this array should be a PHP-style namespaced class.
