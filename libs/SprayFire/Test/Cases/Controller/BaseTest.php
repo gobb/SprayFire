@@ -54,7 +54,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
 
 }
 
-class Base extends \SprayFire\Controller\Base {
+class Base extends \SprayFire\Controller\FireController\Base {
 
     public function getResponderName() {
 

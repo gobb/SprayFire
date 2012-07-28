@@ -9,7 +9,7 @@
 
 namespace SprayFire\Test\Helpers\Controller;
 
-class NullObjectWithServices extends \SprayFire\Controller\Base {
+class NullObjectWithServices extends \SprayFire\Controller\FireController\Base {
 
     public function __construct() {
         $this->services = array(

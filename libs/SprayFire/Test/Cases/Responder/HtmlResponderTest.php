@@ -47,7 +47,7 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $Container->addService($Paths, null);
 
-        $ControllerFactory = new \SprayFire\Controller\Factory($Cache, $Container, $LogDelegator, $this->JavaNameConverter);
+        $ControllerFactory = new \SprayFire\Controller\FireController\Factory($Cache, $Container, $LogDelegator, $this->JavaNameConverter);
         $Controller = $ControllerFactory->makeObject('SprayFire.Test.Cases.Responder.NoDataController');
 
         $this->assertInstanceOf('\\SprayFire\\Test\\Cases\\Responder\\NoDataController', $Controller);
@@ -68,7 +68,7 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
 
 }
 
-class NoDataController extends \SprayFire\Controller\Base {
+class NoDataController extends \SprayFire\Controller\FireController\Base {
 
     public function __construct() {
         $this->services = array(

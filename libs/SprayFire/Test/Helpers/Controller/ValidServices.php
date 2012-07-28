@@ -10,7 +10,7 @@
 
 namespace SprayFire\Test\Helpers\Controller;
 
-class ValidServices extends \SprayFire\Controller\Base {
+class ValidServices extends \SprayFire\Controller\FireController\Base {
 
     public function __construct() {
         $this->services = array(

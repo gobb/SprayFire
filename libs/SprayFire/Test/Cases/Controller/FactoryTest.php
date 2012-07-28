@@ -11,7 +11,7 @@
 namespace SprayFire\Test\Cases\Controller;
 
 use \SprayFire\Service\FireBox\Container as Container,
-    \SprayFire\Controller\Factory as Factory,
+    \SprayFire\Controller\FireController\Factory as Factory,
     \Artax\ReflectionCacher as ReflectionCacher;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase {
