@@ -3,7 +3,7 @@
         "controller": "pages",
         "action": "index",
         "parameters": [],
-        "namespace": "SprayFire.Controller"
+        "namespace": "SprayFire.Controller.FireController"
     },
     "routes": {
 
