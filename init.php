@@ -110,9 +110,9 @@ $ErrorLogger = new \SprayFire\Logging\Logifier\ErrorLogLogger();
 $DebugLogger = $InfoLogger = new \SprayFire\Logging\Logifier\NullLogger();
 $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
 
-$Uri = new \SprayFire\Http\ResourceIdentifier();
-$RequestHeaders = new \SprayFire\Http\StandardRequestHeaders();
-$Request = new \SprayFire\Http\StandardRequest($Uri, $RequestHeaders);
+$Uri = new \SprayFire\Http\FireHttp\ResourceIdentifier();
+$RequestHeaders = new \SprayFire\Http\FireHttp\RequestHeaders();
+$Request = new \SprayFire\Http\FireHttp\Request($Uri, $RequestHeaders);
 
 $Normalizer = new \SprayFire\Http\Routing\Normalizer();
 $routesConfig = $configPath . '/SprayFire/routes.json';

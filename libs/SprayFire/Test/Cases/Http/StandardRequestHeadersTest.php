@@ -25,7 +25,7 @@ class StandardRequestHeadersTest extends \PHPUnit_Framework_TestCase {
         $headers['HTTP_REFERER'] = 'http://www.example.com';
         $headers['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-        $RequestHeaders = new \SprayFire\Http\StandardRequestHeaders($headers);
+        $RequestHeaders = new \SprayFire\Http\FireHttp\RequestHeaders($headers);
         $this->assertSame('www.example.com', $RequestHeaders->getHost());
         $this->assertSame('keep-alive', $RequestHeaders->getConnectionType());
         $this->assertSame('max-age=0', $RequestHeaders->getCacheControl());
@@ -40,7 +40,7 @@ class StandardRequestHeadersTest extends \PHPUnit_Framework_TestCase {
 
     public function testThatRequestIsNotAjax() {
         $_server = array();
-        $RequestHeaders = new \SprayFire\Http\StandardRequestHeaders($_server);
+        $RequestHeaders = new \SprayFire\Http\FireHttp\RequestHeaders($_server);
         $this->assertFalse($RequestHeaders->isAjaxRequest());
     }
 

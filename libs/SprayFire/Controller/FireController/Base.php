@@ -62,7 +62,7 @@ abstract class Base extends ServiceConsumer implements Controller {
      */
     protected $services = array(
         'Paths' => 'SprayFire.FileSys.FireFileSys.Paths',
-        'Request' => 'SprayFire.Http.StandardRequest',
+        'Request' => 'SprayFire.Http.FireHttp.Request',
         'RoutedRequest' => 'SprayFire.Http.Routing.StandardRoutedRequest',
         'Logging' => 'SprayFire.Logging.Logifier.LogDelegator'
     );

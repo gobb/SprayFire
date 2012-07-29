@@ -11,7 +11,7 @@
 
 namespace SprayFire\Test\Cases\Http;
 
-use \SprayFire\Http\ResourceIdentifier as ResourceId;
+use \SprayFire\Http\FireHttp\ResourceIdentifier as ResourceId;
 
 class ResourceIdentifierTest extends \PHPUnit_Framework_TestCase {
 
