@@ -14,7 +14,7 @@ use \SprayFire\Service\Container as Container,
     \SprayFire\Controller\Controller as Controller,
     \SprayFire\Logging\LogOverseer as LogOverseer,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter,
-    \SprayFire\Service\ConsumerFactory as ConsumerFactory,
+    \SprayFire\Service\FireService\ConsumerFactory as ConsumerFactory,
     \SprayFire\Service\NotFoundException as ServiceNotFoundException,
     \Artax\ReflectionPool as ReflectionPool;
 

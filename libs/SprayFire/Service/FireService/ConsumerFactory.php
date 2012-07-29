@@ -9,11 +9,11 @@
  * code
  */
 
-namespace SprayFire\Service;
+namespace SprayFire\Service\FireService;
 
-use \SprayFire\Service\Container as Container,
-    \SprayFire\Logging\LogOverseer as LogOverseer,
+use \SprayFire\Service\Container as ServiceContainer,
     \SprayFire\Service\Consumer as ServiceConsumer,
+    \SprayFire\Logging\LogOverseer as LogOverseer,
     \SprayFire\Factory\FireFactory\Base as BaseFactory,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \SprayFire\Exception\FatalRuntimeException as FatalException,
@@ -34,7 +34,7 @@ abstract class ConsumerFactory extends BaseFactory {
      * @param string $type
      * @param string $nullObject
      */
-    public function __construct(ReflectionCache $Cache, Container $Container, LogOverseer $LogOverseer, JavaNameConverter $JavaNameConverter, $type, $nullObject) {
+    public function __construct(ReflectionCache $Cache, ServiceContainer $Container, LogOverseer $LogOverseer, JavaNameConverter $JavaNameConverter, $type, $nullObject) {
         parent::__construct($Cache, $LogOverseer, $JavaNameConverter, $type, $nullObject);
         $this->Container = $Container;
     }

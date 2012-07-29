@@ -13,7 +13,7 @@ namespace SprayFire\Responder;
 
 use \SprayFire\Service\Container as Container,
     \SprayFire\Logging\LogOverseer as LogOverseer,
-    \SprayFire\Service\ConsumerFactory as ConsumerFactory,
+    \SprayFire\Service\FireService\ConsumerFactory as ConsumerFactory,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \Artax\ReflectionPool as ReflectionPool;
 
