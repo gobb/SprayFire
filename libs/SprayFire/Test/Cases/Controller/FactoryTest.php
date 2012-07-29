@@ -18,7 +18,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testFactoryWithValidServicesInController() {
         $ReflectionCache = new ReflectionCacher();
-        $Container = new Container($ReflectionCache);
+        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $Container = new Container($ReflectionCache, $JavaNameConverter);
         $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
         $ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
@@ -38,7 +39,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testFactoryGettingControllerDoesNotExist() {
         $ReflectionCache = new ReflectionCacher();
-        $Container = new Container($ReflectionCache);
+        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $Container = new Container($ReflectionCache, $JavaNameConverter);
         $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
         $ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
@@ -53,7 +55,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testFactoryGettingNullObjectWithValidServices() {
         $ReflectionCache = new ReflectionCacher();
-        $Container = new Container($ReflectionCache);
+        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $Container = new Container($ReflectionCache, $JavaNameConverter);
         $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
         $ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
@@ -81,7 +84,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 
     public function testFactoryGettingNullObjectWithInvalidServices() {
         $ReflectionCache = new ReflectionCacher();
-        $Container = new Container($ReflectionCache);
+        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $Container = new Container($ReflectionCache, $JavaNameConverter);
         $EmergencyLogger = $DebugLogger = $InfoLogger = $ErrorLogger = new \SprayFire\Logging\NullLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $type = 'SprayFire.Controller.Controller';

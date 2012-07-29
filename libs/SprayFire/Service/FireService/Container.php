@@ -11,9 +11,21 @@
 namespace SprayFire\Service\FireService;
 
 use \SprayFire\Service\Container as ServiceContainer,
-    \SprayFire\JavaNamespaceConverter as JavaNameConverter;
+    \SprayFire\CoreObject as CoreObject,
+    \SprayFire\JavaNamespaceConverter as JavaNameConverter,
+    \Artax\ReflectionPool as ReflectionPool;
 
-class Container extends JavaNameConverter implements ServiceContainer {
+class Container extends CoreObject implements ServiceContainer {
+
+    /**
+     * @property Artax.ReflectionPool
+     */
+    protected $ReflectionCache;
+
+    /**
+     * @property SprayFire.JavaNamespaceConverter
+     */
+    protected $JavaNameConverter;
 
     /**
      * Services and dependency callbacks added to the container
@@ -30,11 +42,6 @@ class Container extends JavaNameConverter implements ServiceContainer {
     protected $storedServices = array();
 
     /**
-     * @property Artax.ReflectionPool
-     */
-    protected $ReflectionCache;
-
-    /**
      * We are storing the empty callback for null parameters as a class property
      * so that we do not create unnecessary Closures for multiple calls with
      * null parameters.
@@ -46,8 +53,9 @@ class Container extends JavaNameConverter implements ServiceContainer {
     /**
      * @param Artax.ReflectionPool $ReflectionCache
      */
-    public function __construct(\Artax\ReflectionPool $ReflectionCache) {
+    public function __construct(ReflectionPool $ReflectionCache, JavaNameConverter $JavaNameConverter) {
         $this->ReflectionCache = $ReflectionCache;
+        $this->JavaNameConverter = $JavaNameConverter;
         $this->emptyCallback = function() { return array(); };
     }
 
@@ -73,7 +81,7 @@ class Container extends JavaNameConverter implements ServiceContainer {
                 throw new \InvalidArgumentException('Attempting to pass a non-callable type to a callable required parameter.');
             }
 
-            $serviceName = $this->convertJavaClassToPhpClass($serviceName);
+            $serviceName = $this->JavaNameConverter->convertJavaClassToPhpClass($serviceName);
             $this->addedServices[$serviceName] = $callableParameters;
         }
     }
@@ -83,7 +91,7 @@ class Container extends JavaNameConverter implements ServiceContainer {
      * @return bool
      */
     public function doesServiceExist($serviceName) {
-        $serviceName = $this->convertJavaClassToPhpClass($serviceName);
+        $serviceName = $this->JavaNameConverter->convertJavaClassToPhpClass($serviceName);
         return (\array_key_exists($serviceName, $this->addedServices) || \array_key_exists($serviceName, $this->storedServices));
     }
 
@@ -93,7 +101,7 @@ class Container extends JavaNameConverter implements ServiceContainer {
      * @throws SprayFire.Service.NotFoundException
      */
     public function getService($serviceName) {
-        $serviceName = $this->convertJavaClassToPhpClass($serviceName);
+        $serviceName = $this->JavaNameConverter->convertJavaClassToPhpClass($serviceName);
         if (\array_key_exists($serviceName, $this->storedServices)) {
             return $this->storedServices[$serviceName];
         }
