@@ -14,7 +14,7 @@ use \SprayFire\Object as Object,
     \SprayFire\Http\Uri as HttpUri,
     \SprayFire\CoreObject as CoreObject;
 
-class ResourceIdentifier extends CoreObject implements HttpUri {
+class Uri extends CoreObject implements HttpUri {
 
     /**
      * @property string
