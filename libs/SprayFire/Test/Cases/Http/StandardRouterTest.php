@@ -169,8 +169,8 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
      * @return SprayFire.Http.Routing.StandardRouter
      */
     protected function getRouter($installDir) {
-        $RootPaths = new \SprayFire\FileSys\RootPaths($this->mockFrameworkPath);
-        $Paths = new \SprayFire\FileSys\Paths($RootPaths);
+        $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($this->mockFrameworkPath);
+        $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
         $configPath = $this->mockFrameworkPath . '/config/SprayFire/routes.json';
         return new \SprayFire\Http\Routing\StandardRouter($this->Normalizer, $Paths, $configPath, $installDir);
     }

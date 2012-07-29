@@ -37,8 +37,8 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
 
     public function testGeneratingValidResponseWithoutData() {
         $install = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework';
-        $RootPaths = new \SprayFire\FileSys\RootPaths($install);
-        $Paths = new \SprayFire\FileSys\Paths($RootPaths);
+        $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($install);
+        $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
 
         $Cache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($Cache);
@@ -72,7 +72,7 @@ class NoDataController extends \SprayFire\Controller\FireController\Base {
 
     public function __construct() {
         $this->services = array(
-            'Paths' => 'SprayFire.FileSys.Paths'
+            'Paths' => 'SprayFire.FileSys.FireFileSys.Paths'
         );
     }
 

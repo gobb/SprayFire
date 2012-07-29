@@ -13,7 +13,7 @@ class DispatchNullObject extends \SprayFire\Controller\FireController\Base {
 
     public function __construct() {
         $this->services = array(
-            'Paths' => 'SprayFire.FileSys.Paths'
+            'Paths' => 'SprayFire.FileSys.FireFileSys.Paths'
         );
         $this->responderName = 'SprayFire.Responder.HtmlResponder';
     }

@@ -12,15 +12,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     public function testResourceDoesNotExist() {
         $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
-        $directoryExist = $Container->doesServiceExist('SprayFire.FileSys.Paths');
+        $directoryExist = $Container->doesServiceExist('SprayFire.FileSys.FireFileSys.Paths');
         $this->assertFalse($directoryExist);
     }
 
     public function testResourceDoesExist() {
         $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
-        $Container->addService('SprayFire.FileSys.Paths');
-        $directoryExist = $Container->doesServiceExist('SprayFire.FileSys.Paths');
+        $Container->addService('SprayFire.FileSys.FireFileSys.Paths');
+        $directoryExist = $Container->doesServiceExist('SprayFire.FileSys.FireFileSys.Paths');
         $this->assertTrue($directoryExist);
     }
 
@@ -28,7 +28,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
         $this->setExpectedException('\\InvalidArgumentException');
-        $Container->addService('SprayFire.FileSys.Paths', array());
+        $Container->addService('SprayFire.FileSys.FireFileSys.Paths', array());
     }
 
     public function testAddingNullParametersDefaultToEmptyCallback() {
@@ -40,24 +40,24 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGettingPathsService() {
-        $serviceName = 'SprayFire.FileSys.Paths';
+        $serviceName = 'SprayFire.FileSys.FireFileSys.Paths';
         $parameters = function() {
             $install = \SPRAYFIRE_ROOT . '/tests/mockframework';
-            $RootPaths = new \SprayFire\FileSys\RootPaths($install);
+            $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($install);
             return array($RootPaths);
         };
         $ReflectionCache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
         $Container->addService($serviceName, $parameters);
         $Directory = $Container->getService($serviceName);
-        $this->assertInstanceOf('\\SprayFire\\FileSys\\Paths', $Directory);
+        $this->assertInstanceOf('\\SprayFire\\FileSys\\FireFileSys\\Paths', $Directory);
     }
 
     public function testCachingServices() {
-        $serviceName = 'SprayFire.FileSys.Paths';
+        $serviceName = 'SprayFire.FileSys.FireFileSys.Paths';
         $parameters = function() {
             $install = \SPRAYFIRE_ROOT . '/tests/mockframework';
-            $RootPaths = new \SprayFire\FileSys\RootPaths($install);
+            $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($install);
             return array($RootPaths);
         };
         $ReflectionCache = new \Artax\ReflectionCacher();

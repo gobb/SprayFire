@@ -55,6 +55,11 @@ abstract class Base extends ServiceConsumer implements Controller {
      */
     protected $attachedServices = array();
 
+    /**
+     * Array of services available to controller extending this object
+     *
+     * @property array
+     */
     protected $services = array(
         'Paths' => 'SprayFire.FileSys.FireFileSys.Paths',
         'Request' => 'SprayFire.Http.StandardRequest',

@@ -27,8 +27,8 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
     public function setUp() {
         $this->Cache = new \Artax\ReflectionCacher();
         $this->Container = new \SprayFire\Service\FireBox\Container($this->Cache);
-        $this->Container->addService('SprayFire.FileSys.Paths', function () {
-            $RootPaths = new \SprayFire\FileSys\RootPaths(\SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework');
+        $this->Container->addService('SprayFire.FileSys.FireFileSys.Paths', function () {
+            $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths(\SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework');
             return array($RootPaths);
         });
         $Emergency = $Debug = $Info = new \SprayFire\Test\Helpers\DevelopmentLogger();
@@ -83,8 +83,8 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
 
     protected function getRouter($installDir) {
         $Normalizer = new \SprayFire\Http\Routing\Normalizer();
-        $RootPaths = new \SprayFire\FileSys\RootPaths(\SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework');
-        $Paths = new \SprayFire\FileSys\Paths($RootPaths);
+        $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths(\SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework');
+        $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
         $configPath = $Paths->getConfigPath('SprayFire', 'routes.json');
         return new \SprayFire\Http\Routing\StandardRouter($Normalizer, $Paths, $configPath, $installDir);
     }
