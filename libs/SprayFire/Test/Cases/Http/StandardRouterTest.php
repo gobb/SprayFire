@@ -158,7 +158,7 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
     protected function getRequest($requestUri) {
         $_server = array();
         $_server['REQUEST_URI'] = $requestUri;
-        $Uri = new \SprayFire\Http\FireHttp\ResourceIdentifier($_server);
+        $Uri = new \SprayFire\Http\FireHttp\Uri($_server);
         $Headers = new \SprayFire\Http\FireHttp\RequestHeaders($_server);
         return new \SprayFire\Http\FireHttp\Request($Uri, $Headers);
     }

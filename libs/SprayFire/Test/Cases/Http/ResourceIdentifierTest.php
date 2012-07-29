@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Ensures that the ResourceIdentifier can properly parse the $_server array
+ * Ensures that the Uri can properly parse the $_server array
  * passed to it
  *
  * @author Charles Sprayberry
@@ -11,21 +11,21 @@
 
 namespace SprayFire\Test\Cases\Http;
 
-use \SprayFire\Http\FireHttp\ResourceIdentifier as ResourceId;
+use \SprayFire\Http\FireHttp\Uri as ResourceId;
 
-class ResourceIdentifierTest extends \PHPUnit_Framework_TestCase {
+class UriTest extends \PHPUnit_Framework_TestCase {
 
     public function testHttpUriWithNoPathOrQueryNoWww() {
         $_server = array();
         $_server['HTTP_HOST'] = 'sprayfire-framework.local';
         $_server['REMOTE_PORT'] = 800;
-        $ResourceIdentifier = new ResourceId($_server);
+        $Uri = new ResourceId($_server);
 
-        $this->assertSame('http://sprayfire-framework.local:800', (string) $ResourceIdentifier);
-        $this->assertSame('http', $ResourceIdentifier->getScheme());
-        $this->assertSame('sprayfire-framework.local:800', $ResourceIdentifier->getAuthority());
-        $this->assertSame('', $ResourceIdentifier->getPath());
-        $this->assertSame('', $ResourceIdentifier->getQuery());
+        $this->assertSame('http://sprayfire-framework.local:800', (string) $Uri);
+        $this->assertSame('http', $Uri->getScheme());
+        $this->assertSame('sprayfire-framework.local:800', $Uri->getAuthority());
+        $this->assertSame('', $Uri->getPath());
+        $this->assertSame('', $Uri->getQuery());
     }
 
     public function testHttpUriWithPathAndQueryWithWww() {

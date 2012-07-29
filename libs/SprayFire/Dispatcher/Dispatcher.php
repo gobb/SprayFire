@@ -11,9 +11,10 @@
 
 namespace SprayFire\Dispatcher;
 
-use \SprayFire\Http\Request as Request;
+use \SprayFire\Object as Object,
+    \SprayFire\Http\Request as Request;
 
-interface Dispatcher {
+interface Dispatcher extends Object {
 
     /**
      * @param SprayFire.Http.Request

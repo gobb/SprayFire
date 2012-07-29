@@ -10,11 +10,13 @@
 
 namespace SprayFire\Service;
 
+use \SprayFire\Object as Object;
+
 /**
  * Service containers should be responsible for creating and storing services
  * used by SprayFire or, possibly, a SprayFire driven app.
  */
-interface Container {
+interface Container extends Object {
 
     /**
      * @param string $serviceName

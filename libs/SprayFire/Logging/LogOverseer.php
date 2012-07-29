@@ -9,13 +9,15 @@
 
 namespace SprayFire\Logging;
 
+use \SprayFire\Object as Object;
+
 /**
  * Implementations are ultimately acting as a facade to allow the logging
  * of information pertinent to the system to a variety of different places.
  *
  * @see http://www.github.com/cspray/SprayFire/wiki/Logging
  */
-interface LogOverseer {
+interface LogOverseer extends Object {
 
     /**
      * @param string $message

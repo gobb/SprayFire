@@ -11,7 +11,9 @@
 
 namespace SprayFire\FileSys;
 
-interface PathGenerator {
+use \SprayFire\Object as Object;
+
+interface PathGenerator extends Object {
 
     /**
      * Should return the root path that the app and framework is installed in;

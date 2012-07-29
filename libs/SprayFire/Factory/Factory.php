@@ -10,7 +10,9 @@
 
 namespace SprayFire\Factory;
 
-interface Factory {
+use \SprayFire\Object as Object;
+
+interface Factory extends Object {
 
     /**
      * @param string $objectName

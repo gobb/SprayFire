@@ -11,10 +11,11 @@
 
 namespace SprayFire\Responder;
 
-use \SprayFire\Service\Consumer as ServiceConsumer,
+use \SprayFire\Object as Object,
+    \SprayFire\Service\Consumer as ServiceConsumer,
     \SprayFire\Controller\Controller as Controller;
 
-interface Responder extends ServiceConsumer {
+interface Responder extends Object, ServiceConsumer {
 
     /**
      * Should return an array of snitized data based on the type of responder

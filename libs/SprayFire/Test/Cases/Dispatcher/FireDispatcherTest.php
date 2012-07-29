@@ -76,9 +76,9 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
     protected function getRequest($uri) {
         $_server = array();
         $_server['REQUEST_URI'] = $uri;
-        $ResourceIdentifier = new \SprayFire\Http\FireHttp\ResourceIdentifier($_server);
+        $Uri = new \SprayFire\Http\FireHttp\Uri($_server);
         $Headers = new \SprayFire\Http\FireHttp\RequestHeaders();
-        return new \SprayFire\Http\FireHttp\Request($ResourceIdentifier, $Headers);
+        return new \SprayFire\Http\FireHttp\Request($Uri, $Headers);
     }
 
     protected function getRouter($installDir) {

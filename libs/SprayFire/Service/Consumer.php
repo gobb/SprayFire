@@ -10,7 +10,9 @@
 
 namespace SprayFire\Service;
 
-interface Consumer {
+use \SprayFire\Object as Object;
+
+interface Consumer extends Object {
 
     /**
      * An associative array with $key => $nameOfService; the $key should be passed

@@ -110,7 +110,7 @@ $ErrorLogger = new \SprayFire\Logging\FireLogging\ErrorLogLogger();
 $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
 $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
 
-$Uri = new \SprayFire\Http\FireHttp\ResourceIdentifier();
+$Uri = new \SprayFire\Http\FireHttp\Uri();
 $RequestHeaders = new \SprayFire\Http\FireHttp\RequestHeaders();
 $Request = new \SprayFire\Http\FireHttp\Request($Uri, $RequestHeaders);
 
