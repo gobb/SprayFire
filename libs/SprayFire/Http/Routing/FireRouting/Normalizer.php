@@ -8,7 +8,7 @@
  * code
  */
 
-namespace SprayFire\Http\Routing;
+namespace SprayFire\Http\Routing\FireRouting;
 
 /**
  * Will take a controller or action URI fragment and return a string that is formatted

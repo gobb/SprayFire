@@ -9,12 +9,12 @@
  * code
  */
 
-namespace SprayFire\Http\Routing;
+namespace SprayFire\Http\Routing\FireRouting;
 
-use \SprayFire\Http\Routing\RoutedRequest as RoutedRequest,
+use \SprayFire\Http\Routing\RoutedRequest as HttpRoutingRoutedRequest,
     \SprayFire\CoreObject as CoreObject;
 
-class StandardRoutedRequest extends CoreObject implements RoutedRequest {
+class RoutedRequest extends CoreObject implements HttpRoutingRoutedRequest {
 
     /**
      * @property string

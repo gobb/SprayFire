@@ -9,17 +9,17 @@
  * code
  */
 
-namespace SprayFire\Http\Routing;
+namespace SprayFire\Http\Routing\FireRouting;
 
-use \SprayFire\Http\Routing\Router as Router,
-    \SprayFire\Http\Request as Request,
-    \SprayFire\Http\Routing\RoutedRequest as RoutedRequest,
+use \SprayFire\Http\Routing\Router as HttpRoutingRouter,
+    \SprayFire\Http\Routing\RoutedRequest as HttpRoutingRoutedRequest,
+    \SprayFire\Http\Request as HttpRequest,
     \SprayFire\FileSys\PathGenerator as PathGenerator,
     \SprayFire\CoreObject as CoreObject,
-    \SprayFire\Http\Routing\Normalizer as Normalizer,
+    \SprayFire\Http\Routing\FireRouting\Normalizer as Normalizer,
     \SprayFire\Exception\FatalRuntimeException as FatalRunTimeException;
 
-class StandardRouter extends CoreObject implements Router {
+class Router extends CoreObject implements HttpRoutingRouter {
 
     /**
      * @property SprayFire.Http.Routing.Normalizer
@@ -105,7 +105,12 @@ class StandardRouter extends CoreObject implements Router {
         return \json_decode($contents, true);
     }
 
-    public function getStaticFilePaths(RoutedRequest $RoutedRequest) {
+    /**
+     *
+     * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
+     * @return type
+     */
+    public function getStaticFilePaths(HttpRoutingRoutedRequest $RoutedRequest) {
         if (isset($this->StaticFilesStorage[$RoutedRequest])) {
             return $this->StaticFilesStorage[$RoutedRequest];
         }
@@ -118,7 +123,7 @@ class StandardRouter extends CoreObject implements Router {
      * @param SprayFire.Http.Request $Request
      * @return SprayFire.Http.Routing.RoutedRequest
      */
-    public function getRoutedRequest(Request $Request) {
+    public function getRoutedRequest(HttpRequest $Request) {
         if (isset($this->RoutedRequestCache[$Request])) {
             return $this->RoutedRequestCache[$Request];
         }
@@ -131,7 +136,7 @@ class StandardRouter extends CoreObject implements Router {
         $action = $route['action'];
         $parameters = $route['parameters'];
         $isStatic = $route['isStatic'];
-        $RoutedRequest = new \SprayFire\Http\Routing\StandardRoutedRequest($controller, $action, $parameters, $isStatic);
+        $RoutedRequest = new \SprayFire\Http\Routing\FireRouting\RoutedRequest($controller, $action, $parameters, $isStatic);
         if ($isStatic) {
             $this->storeStaticFilePaths($RoutedRequest, $route['key']);
         }
