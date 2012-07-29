@@ -24,7 +24,7 @@ class NormalizerTest extends \PHPUnit_Framework_TestCase {
      * any inherent state.
      */
     public function setUp() {
-        $this->Normalizer = new \SprayFire\Http\Routing\Normalizer();
+        $this->Normalizer = new \SprayFire\Http\Routing\FireRouting\Normalizer();
     }
 
     public function testNormalizingPlainJaneController() {

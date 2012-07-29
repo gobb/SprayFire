@@ -82,11 +82,11 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
     }
 
     protected function getRouter($installDir) {
-        $Normalizer = new \SprayFire\Http\Routing\Normalizer();
+        $Normalizer = new \SprayFire\Http\Routing\FireRouting\Normalizer();
         $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths(\SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework');
         $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
         $configPath = $Paths->getConfigPath('SprayFire', 'routes.json');
-        return new \SprayFire\Http\Routing\StandardRouter($Normalizer, $Paths, $configPath, $installDir);
+        return new \SprayFire\Http\Routing\FireRouting\Router($Normalizer, $Paths, $configPath, $installDir);
     }
 
     protected function getControllerFactory() {

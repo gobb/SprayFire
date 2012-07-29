@@ -27,7 +27,7 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
      * object
      */
     public function setUp() {
-        $this->Normalizer = new \SprayFire\Http\Routing\Normalizer();
+        $this->Normalizer = new \SprayFire\Http\Routing\FireRouting\Normalizer();
         $this->mockFrameworkPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework';
     }
 
@@ -172,7 +172,7 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($this->mockFrameworkPath);
         $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
         $configPath = $this->mockFrameworkPath . '/config/SprayFire/routes.json';
-        return new \SprayFire\Http\Routing\StandardRouter($this->Normalizer, $Paths, $configPath, $installDir);
+        return new \SprayFire\Http\Routing\FireRouting\Router($this->Normalizer, $Paths, $configPath, $installDir);
     }
 
 }
