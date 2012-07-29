@@ -8,7 +8,7 @@
  * code
  */
 
-namespace SprayFire\Service\FireBox;
+namespace SprayFire\Service\FireService;
 
 use \SprayFire\Service\Container as ServiceContainer,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter;

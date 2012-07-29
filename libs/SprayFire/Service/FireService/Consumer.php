@@ -8,7 +8,7 @@
  * code
  */
 
-namespace SprayFire\Service\Firebox;
+namespace SprayFire\Service\FireService;
 
 use \SprayFire\Service\Consumer as ServiceConsumer,
     \SprayFire\CoreObject as CoreObject;

@@ -10,7 +10,7 @@
 
 namespace SprayFire\Test\Cases\Controller;
 
-use \SprayFire\Service\FireBox\Container as Container,
+use \SprayFire\Service\FireService\Container as Container,
     \SprayFire\Controller\FireController\Factory as Factory,
     \Artax\ReflectionCacher as ReflectionCacher;
 

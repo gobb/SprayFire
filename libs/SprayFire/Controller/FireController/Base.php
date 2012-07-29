@@ -12,7 +12,7 @@
 namespace SprayFire\Controller\FireController;
 
 use \SprayFire\Controller\Controller as Controller,
-    \SprayFire\Service\Firebox\Consumer as ServiceConsumer;
+    \SprayFire\Service\FireService\Consumer as ServiceConsumer;
 
 abstract class Base extends ServiceConsumer implements Controller {
 

@@ -122,7 +122,7 @@ $Router = new \SprayFire\Http\Routing\FireRouting\Router($Normalizer, $Paths, $r
 $RoutedRequest = $Router->getRoutedRequest($Request);
 
 $ReflectionCache = new \Artax\ReflectionCacher();
-$Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
+$Container = new \SprayFire\Service\FireService\Container($ReflectionCache);
 $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
 
 $ControllerFactory = new \SprayFire\Controller\FireController\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);

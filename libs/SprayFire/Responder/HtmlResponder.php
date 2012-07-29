@@ -12,7 +12,7 @@ namespace SprayFire\Responder;
 
 use \SprayFire\Responder\Responder as Responder,
     \SprayFire\Controller\Controller as Controller,
-    \SprayFire\Service\FireBox\Consumer as ServiceConsumer;
+    \SprayFire\Service\FireService\Consumer as ServiceConsumer;
 
 class HtmlResponder extends ServiceConsumer implements Responder {
 

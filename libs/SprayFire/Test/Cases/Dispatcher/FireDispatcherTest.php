@@ -26,7 +26,7 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp() {
         $this->Cache = new \Artax\ReflectionCacher();
-        $this->Container = new \SprayFire\Service\FireBox\Container($this->Cache);
+        $this->Container = new \SprayFire\Service\FireService\Container($this->Cache);
         $this->Container->addService('SprayFire.FileSys.FireFileSys.Paths', function () {
             $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths(\SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework');
             return array($RootPaths);
