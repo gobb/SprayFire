@@ -102,8 +102,8 @@ $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 $ClassLoader->registerNamespaceDirectory('Artax', $libsPath . '/Artax/src');
 $ClassLoader->setAutoloader();
 
-$RootPaths = new \SprayFire\FileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
-$Paths = new \SprayFire\FileSys\Paths($RootPaths);
+$RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
+$Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
 
 $EmergencyLogger = new \SprayFire\Logging\Logifier\SysLogLogger();
 $ErrorLogger = new \SprayFire\Logging\Logifier\ErrorLogLogger();
@@ -119,6 +119,8 @@ $routesConfig = $configPath . '/SprayFire/routes.json';
 $installDir = \basename($installPath);
 $Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $Paths, $routesConfig, $installDir);
 
+$RoutedRequest = $Router->getRoutedRequest($Request);
+
 $ReflectionCache = new \Artax\ReflectionCacher();
 $Container = new \SprayFire\Service\FireBox\Container($ReflectionCache);
 $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
@@ -132,6 +134,7 @@ $Container->addService($ReflectionCache);
 $Container->addService($ClassLoader);
 $Container->addService($Request);
 $Container->addService($JavaNameConverter);
+$Container->addService($RoutedRequest);
 
 $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher($Router, $LogDelegator, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
