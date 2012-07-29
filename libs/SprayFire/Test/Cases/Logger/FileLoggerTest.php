@@ -2,7 +2,7 @@
 
 /**
  * @file
- * @brief Will test the various functionality of SprayFire.Logging.Logifier.FileLogger
+ * @brief Will test the various functionality of SprayFire.Logging.FireLogging.FileLogger
  */
 
 namespace SprayFire\Test\Cases\Logger;
@@ -27,7 +27,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         \touch($file);
         \chmod($file, 0444);
         $LogFile = new \SplFileInfo($file);
-        $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\FireLogging\FileLogger($LogFile);
     }
 
     public function testBasicFileLogging() {
@@ -35,7 +35,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         \touch($file);
         \chmod($file, 0755);
         $LogFile = new \SplFileInfo($file);
-        $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\FireLogging\FileLogger($LogFile);
 
         $Logger->log('something');
         $firstTimestamp = \date('[M-d-Y H:i:s]');
@@ -57,7 +57,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         \touch($file);
         \chmod($file, 0755);
         $LogFile = new \SplFileInfo($file);
-        $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\FireLogging\FileLogger($LogFile);
         $blankMessage = '';
         $Logger->log($blankMessage);
         $firstTimestamp = \date('[M-d-Y H:i:s]');
@@ -79,7 +79,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         \touch($file);
         \chmod($file, 0755);
         $LogFile = new \SplFileInfo($file);
-        $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\FireLogging\FileLogger($LogFile);
 
         $options = array();
         $noTimestampMessage = 'This is a message long enough to be long.';
@@ -106,7 +106,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         \touch($file);
         \chmod($file, 0755);
         $LogFile = new \SplFileInfo($file);
-        $Logger = new \SprayFire\Logging\Logifier\FileLogger($LogFile);
+        $Logger = new \SprayFire\Logging\FireLogging\FileLogger($LogFile);
 
         $options = array();
         $timestamp = 'M-d-Y';

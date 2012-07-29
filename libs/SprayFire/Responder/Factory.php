@@ -22,7 +22,7 @@ class Factory extends ConsumerFactory {
     /**
      * @param Artax.ReflectionPool $Cache
      * @param SprayFire.Service.Container $Container
-     * @param SprayFire.Logging.Logifier.LogOverseer $LogOverseer
+     * @param SprayFire.Logging.FireLogging.LogOverseer $LogOverseer
      * @param string $type
      * @param string $nullType
      */

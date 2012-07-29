@@ -8,7 +8,7 @@
  * code
  */
 
-namespace SprayFire\Logging\Logifier;
+namespace SprayFire\Logging;
 
 use \SprayFire\Logging\Logger as Logger,
     \SprayFire\CoreObject as CoreObject;

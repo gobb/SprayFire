@@ -15,7 +15,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
 
     public function testErrorHandlerFunctionUnhandledSeverity() {
         $TestLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
         $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
         $trappedError = $ErrorHandler->trap(E_RECOVERABLE_ERROR, 'This is an error message with unhandled severity.', 'file.php', 14);
         $this->assertFalse($trappedError);
@@ -32,7 +32,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
 
     public function testErrorHandlerFunctionUnknownSeverity() {
         $TestLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
         $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
         $ErrorHandler->trap(E_COMPILE_ERROR, 'This is an error message with unknown severity', 'file.php', 100);
 
@@ -48,7 +48,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
 
     public function testErrorHandlerFunctionWithErrorReportingTurnedOff() {
         $TestLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
         $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
         \set_error_handler(array($ErrorHandler, 'trap'));
 

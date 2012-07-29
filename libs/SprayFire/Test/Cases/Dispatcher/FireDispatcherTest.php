@@ -33,7 +33,7 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
         });
         $Emergency = $Debug = $Info = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $this->ErrorLog = $Error = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $this->Logger = new \SprayFire\Logging\Logifier\LogDelegator($Emergency, $Error, $Debug, $Info);
+        $this->Logger = new \SprayFire\Logging\FireLogging\LogDelegator($Emergency, $Error, $Debug, $Info);
         $this->JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
     }
 

@@ -105,19 +105,19 @@ $ClassLoader->setAutoloader();
 $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
 $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
 
-$EmergencyLogger = new \SprayFire\Logging\Logifier\SysLogLogger();
-$ErrorLogger = new \SprayFire\Logging\Logifier\ErrorLogLogger();
-$DebugLogger = $InfoLogger = new \SprayFire\Logging\Logifier\NullLogger();
-$LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+$EmergencyLogger = new \SprayFire\Logging\FireLogging\SysLogLogger();
+$ErrorLogger = new \SprayFire\Logging\FireLogging\ErrorLogLogger();
+$DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
+$LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
 
 $Uri = new \SprayFire\Http\FireHttp\ResourceIdentifier();
 $RequestHeaders = new \SprayFire\Http\FireHttp\RequestHeaders();
 $Request = new \SprayFire\Http\FireHttp\Request($Uri, $RequestHeaders);
 
-$Normalizer = new \SprayFire\Http\Routing\Normalizer();
+$Normalizer = new \SprayFire\Http\Routing\FireRouting\Normalizer();
 $routesConfig = $configPath . '/SprayFire/routes.json';
 $installDir = \basename($installPath);
-$Router = new \SprayFire\Http\Routing\StandardRouter($Normalizer, $Paths, $routesConfig, $installDir);
+$Router = new \SprayFire\Http\Routing\FireRouting\Router($Normalizer, $Paths, $routesConfig, $installDir);
 
 $RoutedRequest = $Router->getRoutedRequest($Request);
 

@@ -10,7 +10,9 @@
 
 namespace SprayFire\Logging;
 
-interface Logger {
+use \SprayFire\Object as Object;
+
+interface Logger extends Object {
 
     /**
      * @param string $message

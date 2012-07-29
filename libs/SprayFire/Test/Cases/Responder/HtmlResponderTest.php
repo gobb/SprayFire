@@ -42,9 +42,9 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
 
         $Cache = new \Artax\ReflectionCacher();
         $Container = new \SprayFire\Service\FireBox\Container($Cache);
-        $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\Logifier\NullLogger();
+        $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
         $ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\Logifier\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $Container->addService($Paths, null);
 
         $ControllerFactory = new \SprayFire\Controller\FireController\Factory($Cache, $Container, $LogDelegator, $this->JavaNameConverter);

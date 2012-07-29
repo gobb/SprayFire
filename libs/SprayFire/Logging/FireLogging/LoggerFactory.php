@@ -9,7 +9,7 @@
  * code
  */
 
-namespace SprayFire\Logging\Logifier;
+namespace SprayFire\Logging\FireLogging;
 
 use \SprayFire\Logging\LogOverseer as LogOverseer,
     \SprayFire\Factory\FireFactory\Base as BaseFactory,
