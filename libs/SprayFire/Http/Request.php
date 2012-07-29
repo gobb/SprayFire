@@ -10,7 +10,9 @@
 
 namespace SprayFire\Http;
 
-interface Request {
+use \SprayFire\Object as Object;
+
+interface Request extends Object {
 
     /**
      * @return SprayFire.Http.Uri

@@ -10,7 +10,9 @@
 
 namespace SprayFire\Http;
 
-interface RequestHeaders {
+use SprayFire\Object as Object;
+
+interface RequestHeaders extends Object {
 
     /**
      *

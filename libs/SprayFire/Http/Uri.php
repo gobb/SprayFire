@@ -11,7 +11,9 @@
 
 namespace SprayFire\Http;
 
-interface Uri {
+use \SprayFire\Object as Object;
+
+interface Uri extends Object {
 
     /**
      * Will return the HTTP protocol for the given request
