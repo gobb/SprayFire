@@ -8,12 +8,12 @@
  * code
  */
 
-namespace SprayFire\Http;
+namespace SprayFire\Http\FireHttp;
 
-use \SprayFire\Http\RequestHeaders as RequestHeaders,
+use \SprayFire\Http\RequestHeaders as HttpRequestHeaders,
     \SprayFire\CoreObject as CoreObject;
 
-class StandardRequestHeaders extends CoreObject implements RequestHeaders {
+class RequestHeaders extends CoreObject implements HttpRequestHeaders {
 
     /**
      * @property string

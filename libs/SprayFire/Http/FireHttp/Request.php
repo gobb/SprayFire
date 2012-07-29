@@ -9,15 +9,15 @@
  * code
  */
 
-namespace SprayFire\Http;
+namespace SprayFire\Http\FireHttp;
 
-use \SprayFire\Http\Request as Request,
-    \SprayFire\Http\Uri as Uri,
-    \SprayFire\Http\RequestHeaders as RequestHeaders,
+use \SprayFire\Http\Request as HttpRequest,
+    \SprayFire\Http\Uri as HttpUri,
+    \SprayFire\Http\RequestHeaders as HttpRequestHeaders,
     \SprayFire\CoreObject as CoreObject;
 
 
-class StandardRequest extends CoreObject implements Request {
+class Request extends CoreObject implements HttpRequest {
 
     /**
      * @property SprayFire.Http.Uri
@@ -44,7 +44,7 @@ class StandardRequest extends CoreObject implements Request {
      * @param SprayFire.HttpRequestHeaders $Headers
      * @param array $_server
      */
-    public function __construct(Uri $Uri, RequestHeaders $Headers, array $_server = null) {
+    public function __construct(HttpUri $Uri, HttpRequestHeaders $Headers, array $_server = null) {
         $this->Uri = $Uri;
         $this->Headers = $Headers;
         if (\is_null($_server)) {
