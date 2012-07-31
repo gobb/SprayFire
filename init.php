@@ -105,6 +105,11 @@ $ClassLoader->setAutoloader();
 $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
 $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
 
+$EnvironmentConfig = new \SprayFire\Config\FireConfig\Environment();
+$RoutesConfig = new \SprayFire\Config\FireConfig\Routes();
+
+include $Paths->getConfigPath('SprayFire', 'config.php');
+
 $EmergencyLogger = new \SprayFire\Logging\FireLogging\SysLogLogger();
 $ErrorLogger = new \SprayFire\Logging\FireLogging\ErrorLogLogger();
 $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
@@ -115,16 +120,15 @@ $RequestHeaders = new \SprayFire\Http\FireHttp\RequestHeaders();
 $Request = new \SprayFire\Http\FireHttp\Request($Uri, $RequestHeaders);
 
 $Normalizer = new \SprayFire\Http\Routing\FireRouting\Normalizer();
-$routesConfig = $configPath . '/SprayFire/routes.json';
+$routesConfigPath = $configPath . '/SprayFire/routes.json';
 $installDir = \basename($installPath);
-$Router = new \SprayFire\Http\Routing\FireRouting\Router($Normalizer, $Paths, $routesConfig, $installDir);
+$Router = new \SprayFire\Http\Routing\FireRouting\Router($Normalizer, $Paths, $routesConfigPath, $installDir);
 
 $RoutedRequest = $Router->getRoutedRequest($Request);
 
 $ReflectionCache = new \Artax\ReflectionCacher();
 $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
 $Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $JavaNameConverter);
-
 
 $ControllerFactory = new \SprayFire\Controller\FireController\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
 $ResponderFactory = new \SprayFire\Responder\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
@@ -140,8 +144,11 @@ $Container->addService($RoutedRequest);
 $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher($Router, $LogDelegator, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
 
-echo (microtime(true) - $requestStartTime);
-\var_dump(memory_get_peak_usage(true));
+\var_dump($EnvironmentConfig);
+\var_dump($RoutesConfig);
+\var_dump($RoutesConfig->getRoute('defaults'));
 \var_dump($preBootstrapErrors);
 $stdClass = new \stdClass();
 \var_dump($stdClass);
+\var_dump(memory_get_peak_usage(true));
+echo 'Request time ' . (microtime(true) - $requestStartTime);
