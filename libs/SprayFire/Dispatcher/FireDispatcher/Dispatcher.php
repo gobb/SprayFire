@@ -8,9 +8,9 @@
  * code
  */
 
-namespace SprayFire\Dispatcher;
+namespace SprayFire\Dispatcher\FireDispatcher;
 
-use \SprayFire\Dispatcher\Dispatcher as Dispatcher,
+use \SprayFire\Dispatcher\Dispatcher as DispatcherDispatcher,
     \SprayFire\Http\Request as Request,
     \SprayFire\Http\Routing\Router as Router,
     \SprayFire\Http\Routing\RoutedRequest as RoutedRequest,
@@ -18,7 +18,7 @@ use \SprayFire\Dispatcher\Dispatcher as Dispatcher,
     \SprayFire\Logging\LogOverseer as LogOverseer,
     \SprayFire\CoreObject as CoreObject;
 
-class FireDispatcher extends CoreObject implements Dispatcher {
+class Dispatcher extends CoreObject implements DispatcherDispatcher {
 
     /**
      * @property SprayFire.Http.Routing.Router
