@@ -39,22 +39,10 @@ $routesConfig['routes']['/blog/article/[\d]'] = array(
     'action' => 'view'
 );
 
-$routesConfig['routes']['/about/sprayfire/'] = array(
+$routesConfig['routes']['/about/'] = array(
     'namespace' => 'SprayFire.Controller.FireController',
     'controller' => 'About',
     'action' => 'sprayFire'
 );
-
-$routesConfig['routes']['/about/dyana/'] = array(
-    'controller' => 'About',
-    'action' => 'greatestWomanEver'
-);
-
-$routesConfig['routes']['/about/(charles|cspray)/'] = array(
-    'controller' => 'About',
-    'action' => 'charles'
-);
-
-
 
 return $routesConfig;
