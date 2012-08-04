@@ -62,9 +62,16 @@ class FireDispatcher extends CoreObject implements Dispatcher {
      */
     public function dispatchResponse(Request $Request) {
         $RoutedRequest = $this->Router->getRoutedRequest($Request);
-        $Controller = $this->invokeController($RoutedRequest);
-        $Responder = $this->ResponderFactory->makeObject($Controller->getResponderName());
-        echo $Responder->generateDynamicResponse($Controller);
+        if ($RoutedRequest->isStatic()) {
+            $staticFiles = $this->Router->getStaticFilePaths($RoutedRequest);
+            $Responder = $this->ResponderFactory->makeObject($staticFiles['responderName']);
+            echo $Responder->generateStaticResponse($staticFiles['layoutPath'], $staticFiles['templatePath']);
+        } else {
+            $Controller = $this->invokeController($RoutedRequest);
+            $Responder = $this->ResponderFactory->makeObject($Controller->getResponderName());
+            echo $Responder->generateDynamicResponse($Controller);
+        }
+
     }
 
     /**

@@ -15,8 +15,10 @@ use \SprayFire\Http\Routing\Router as HttpRoutingRouter,
     \SprayFire\Http\Routing\RoutedRequest as HttpRoutingRoutedRequest,
     \SprayFire\Http\Request as HttpRequest,
     \SprayFire\FileSys\PathGenerator as PathGenerator,
+    \SprayFire\Config\Routes as RoutesConfig,
     \SprayFire\CoreObject as CoreObject,
     \SprayFire\Http\Routing\FireRouting\Normalizer as Normalizer,
+    \SprayFire\Http\Routing\ConfigFallbacks as ConfigFallbacks,
     \SprayFire\Exception\FatalRuntimeException as FatalRunTimeException;
 
 class Router extends CoreObject implements HttpRoutingRouter {
@@ -25,11 +27,6 @@ class Router extends CoreObject implements HttpRoutingRouter {
      * @property SprayFire.Http.Routing.Normalizer
      */
     protected $Normalizer;
-
-    /**
-     * @property SprayFire.FileSys.PathGenerator
-     */
-    protected $Paths;
 
     /**
      * @property SplObjectStorage
@@ -42,67 +39,90 @@ class Router extends CoreObject implements HttpRoutingRouter {
     protected $RoutedRequestCache;
 
     /**
-     * @property array
-     */
-    protected $config;
-
-    /**
      * @property string
      */
     protected $installDir;
 
     /**
-     * @property string
+     * @property array
      */
-    protected $defaultController;
-
-    /**
-     * @property string
-     */
-    protected $defaultAction;
+    protected $routes;
 
     /**
      * @property array
      */
-    protected $defaultParameters;
+    protected $defaultsFallbackMap;
 
     /**
-     * @property string
+     * @property array
      */
-    protected $defaultNamespace;
+    protected $defaults;
 
     /**
-     * @param SprayFire.Http.Routing.Normalizer $Normalizer
+     * @property array
+     */
+    protected $staticDefaults;
+
+    /**
+     * @property array
+     */
+    protected $noResource;
+
+    /**
+     * @param SprayFire.Config.Routes $Config
+     * @param SprayFire.Http.Routing.FireRouting.Normalizer $Normalizer
+     * @param SprayFire.FileSys.PathGenerator
      * @param string $configPath
      * @param string $installDir
      * @throws SprayFire.Exception.FatalRuntimeException
      */
-    public function __construct(Normalizer $Normalizer, PathGenerator $Paths, $configPath, $installDir = '') {
+    public function __construct(Normalizer $Normalizer, array $config, $installDir = '') {
         $this->Normalizer = $Normalizer;
-        $this->Paths = $Paths;
+        $this->config = $config;
         $this->StaticFilesStorage = new \SplObjectStorage();
         $this->RoutedRequestCache = new \SplObjectStorage();
-        $this->config = $this->generateConfig($configPath);
         $this->installDir = (string) $installDir;
-        $this->defaultController = (string) $this->config['defaults']['controller'];
-        $this->defaultAction = (string) $this->config['defaults']['action'];
-        $this->defaultParameters = (array) $this->config['defaults']['parameters'];
-        $this->defaultNamespace = (string) $this->config['defaults']['namespace'];
-
+        $this->defaultsFallbackMap = $this->createDefaultsFallbackMap();
+        $this->defaults = $this->getDefaultConfig($config, 'defaults');
+        $this->staticDefaults = $this->getDefaultConfig($config, 'staticDefaults');
+        $this->noResource = $this->getDefaultConfig($config, '404');
+        $this->routes = $this->getDefaultConfig($config, 'routes');
     }
 
-    /**
-     * @param string $configPath
-     * @return array
-     * @throws SprayFire.Exception.FatalRuntimeException
-     */
-    protected function generateConfig($configPath) {
-        $configPath = (string) $configPath;
-        $contents = \file_get_contents($configPath);
-        if ($contents === false) {
-            throw new FatalRuntimeException('The configuration for HTTP routing could not be found.');
+    protected function createDefaultsFallbackMap() {
+        $defaultsFallbackMap = array();
+        $defaultsFallbackMap['defaults'] = array(
+            'namespace' => ConfigFallbacks::DEFAULT_NAMESPACE,
+            'controller' => ConfigFallbacks::DEFAULT_CONTROLLER,
+            'action' => ConfigFallbacks::DEFAULT_ACTION,
+            'parameters' => array(),
+            'method' => ConfigFallbacks::DEFAULT_METHOD
+        );
+        $defaultsFallbackMap['staticDefaults'] = array(
+            'static' => ConfigFallbacks::DEFAULT_STATIC,
+            'responderName' => ConfigFallbacks::DEFAULT_STATIC_RESPONDER_NAME,
+            'layoutPath' => ConfigFallbacks::DEFAULT_STATIC_LAYOUT_PATH,
+            'templatePath' => ConfigFallbacks::DEFAULT_STATIC_TEMPLATE_PATH
+        );
+        $defaultsFallbackMap['404'] = array();
+        $defaultsFallbackMap['500'] = array();
+        $defaultsFallbackMap['routes'] = array();
+        return $defaultsFallbackMap;
+    }
+
+    protected function getDefaultConfig(array $config, $property) {
+        $defaults = array();
+        if (isset($config[$property]) && \is_array($config[$property])) {
+            $defaults = $config[$property];
         }
-        return \json_decode($contents, true);
+
+        $defaultsFallback = $this->defaultsFallbackMap[$property];
+        foreach ($defaultsFallback as $key => $value) {
+            if (!isset($defaults[$key])) {
+                $defaults[$key] = $value;
+            }
+        }
+        return $defaults;
     }
 
     /**
@@ -114,7 +134,7 @@ class Router extends CoreObject implements HttpRoutingRouter {
         if (isset($this->StaticFilesStorage[$RoutedRequest])) {
             return $this->StaticFilesStorage[$RoutedRequest];
         }
-        return array('layout' => '', 'template' => '');
+        return array('responderName' => '', 'layoutPath' => '', 'templatePath' => '');
     }
 
     /**
@@ -127,22 +147,79 @@ class Router extends CoreObject implements HttpRoutingRouter {
         if (isset($this->RoutedRequestCache[$Request])) {
             return $this->RoutedRequestCache[$Request];
         }
-        $Uri = $Request->getUri();
-        $path = $Uri->getPath();
-        $cleanPath = $this->cleanPath($path);
-        $fragments = $this->parseFragments($cleanPath);
-        $route = $this->routeRequestedFragments($fragments);
-        $controller = $route['controller'];
-        $action = $route['action'];
-        $parameters = $route['parameters'];
-        $isStatic = $route['isStatic'];
-        $RoutedRequest = new \SprayFire\Http\Routing\FireRouting\RoutedRequest($controller, $action, $parameters, $isStatic);
-        if ($isStatic) {
-            $this->storeStaticFilePaths($RoutedRequest, $route['key']);
-        }
-        $this->RoutedRequestCache[$Request] = $RoutedRequest;
-        return $RoutedRequest;
 
+        $resourcePath = $this->cleanPath($Request->getUri()->getPath());
+        $route = $this->noResource;
+
+        foreach ($this->routes as $routePattern => $routeConfig) {
+            $routePattern = '#^' . $routePattern . '$#';
+            if (\preg_match($routePattern, $resourcePath, $match)) {
+                $route = $routeConfig;
+                if (!isset($route['parameters'])) {
+                    foreach ($match as $key => $val) {
+                        if ($key === (int) $key) {
+                            unset($match[$key]);
+                        }
+                    }
+                    $route['parameters'] = $match;
+                }
+                break;
+            }
+        }
+
+        if (isset($route['static']) && $route['static'] === true) {
+            $this->setStaticDefaults($route);
+            $controller = '';
+            $action = '';
+            $parameters = array();
+            $isStatic = true;
+        } else {
+            $this->setDefaults($route);
+            $controller = $route['namespace'] . '.' . $this->normalizeController($route['controller']);
+            $action = $this->normalizeAction($route['action']);
+            $parameters = $route['parameters'];
+            $isStatic = false;
+        }
+
+        $RoutedRequest = new RoutedRequest($controller, $action, $parameters, $isStatic);
+        $this->RoutedRequestCache[$Request] = $RoutedRequest;
+        if ($isStatic) {
+            $this->StaticFilesStorage[$RoutedRequest] = $route;
+        }
+
+        return $RoutedRequest;
+    }
+
+    protected function setStaticDefaults(array &$route) {
+        foreach ($this->staticDefaults as $key => $defaultValue) {
+            if (!isset($route[$key]) || empty($route[$key])) {
+                $route[$key] = $defaultValue;
+            }
+        }
+    }
+
+    protected function setDefaults(array &$route) {
+        foreach ($this->defaults as $key => $defaultValue) {
+            if (!isset($route[$key]) || empty($route[$key])) {
+                $route[$key] = $defaultValue;
+            }
+        }
+    }
+
+    protected function normalizeController($controller) {
+        if (\preg_match('/[^A-Za-z0-9]/', $controller)) {
+            return $this->Normalizer->normalizeController($controller);
+        } else {
+            return $controller;
+        }
+    }
+
+    protected function normalizeAction($action) {
+        if (\preg_match('/[^A-Za-z0-9]/', $action)) {
+            return $this->Normalizer->normalizeAction($action);
+        } else {
+            return $action;
+        }
     }
 
     /**
@@ -157,49 +234,11 @@ class Router extends CoreObject implements HttpRoutingRouter {
         $path = $this->removeInstallDirectory($path);
         $path = $this->removeLeadingForwardSlash($path);
         $path = $this->removeTrailingForwardSlash($path);
-
-        return $path;
-    }
-
-    /**
-     * Creates an associative array with the keys 'controller', 'action' and 'parameters'
-     * as parsed from the path.
-     *
-     * @param string $cleanPath
-     * @return array
-     */
-    protected function parseFragments($cleanPath) {
-        $parsedUri = \explode('/', $cleanPath);
-        $controller = \trim(\array_shift($parsedUri));
-        if (empty($controller)) {
-            $controller = $this->defaultController;
-            $action = $this->defaultAction;
-            $parameters = $this->defaultParameters;
-        } else {
-            if ($this->isMarkedParameter($controller)) {
-                \array_unshift($parsedUri, $controller);
-                $controller = $this->defaultController;
-                $action = $this->defaultAction;
-                $parameters = $this->parseMarkedParameters($parsedUri);
-            } else {
-                $action = \array_shift($parsedUri);
-                if (empty($action)) {
-                    $action = $this->defaultAction;
-                    $parameters = array();
-                } else {
-                    if ($this->isMarkedParameter($action)) {
-                        \array_unshift($parsedUri, $action);
-                        $action = $this->defaultAction;
-                        $parameters = $this->parseMarkedParameters($parsedUri);
-                    } else {
-                        $parameters = $this->parseMarkedParameters($parsedUri);
-                    }
-                }
-
-            }
+        $path = \strtolower($path);
+        if (empty($path)) {
+            return '/';
         }
-
-        return \compact('controller', 'action', 'parameters');
+        return '/' . $path . '/';
     }
 
     /**
@@ -233,109 +272,6 @@ class Router extends CoreObject implements HttpRoutingRouter {
     }
 
     /**
-     * Retruns true if the parameter separator is anywhere in the parameter
-     * $fragment
-     *
-     * @param string $fragment
-     * @return boolean
-     */
-    protected function isMarkedParameter($fragment) {
-        $found = \preg_match('/:/', $fragment);
-        return ($found !== 0 && $found !== false);
-    }
-
-    /**
-     * Takes an array of parameters and properly parses them for name:value pairs
-     *
-     * @param array $parameters
-     * @return array
-     */
-    protected function parseMarkedParameters(array $parameters) {
-        $parsed = array();
-        foreach ($parameters as $parameter) {
-
-            if (!$this->isMarkedParameter($parameter)) {
-                $key = null;
-                $value = $parameter;
-            } else {
-                $explodedParameter = \explode(':', $parameter);
-                $key = $explodedParameter[0];
-                $value = $explodedParameter[1];
-            }
-
-            if (empty($key)) {
-                $parsed[] = $value;
-            } else {
-                $parsed[$key] = $value;
-            }
-
-        }
-        return $parsed;
-    }
-
-    /**
-     * Generates a normalized controller and action name determined by the routing
-     * set forth in the configuration.
-     *
-     * The array returned will have two keys 'controller' and 'action'.
-     *
-     * @param array $fragments
-     * @return array
-     */
-    protected function routeRequestedFragments(array $fragments) {
-        $controller = \strtolower($fragments['controller']);
-        $action = \strtolower($fragments['action']);
-        $parameters = $fragments['parameters'];
-        $key = $this->getRouteKey($controller, $action);
-        $namespace = $this->getRoutedOrDefaultValue($key, 'namespace');
-        $controller = $this->getRoutedOrDefaultValue($key, 'controller', $controller);
-        $action = $this->getRoutedOrDefaultValue($key, 'action', $action);
-
-        $controller = $namespace . '.' . $this->Normalizer->normalizeController($controller);
-        $action = $this->Normalizer->normalizeAction($action);
-        $parameters = $this->getRoutedOrDefaultValue($key, 'parameters', $parameters);
-        $isStatic = $this->checkRequestIsStatic($key);
-
-        return \compact('controller', 'action', 'parameters', 'isStatic', 'key');
-    }
-
-    /**
-     * Returns the key of the route in the configuration or false if no key exists
-     *
-     * @param string $controller
-     * @param string $action
-     * @return mixed
-     */
-    protected function getRouteKey($controller, $action) {
-        $key = $controller . '/' . $action;
-        if (\array_key_exists($key, $this->config['routes'])) {
-            return $key;
-        } else {
-            if (\array_key_exists($controller, $this->config['routes'])) {
-                return $controller;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @param mixed $routeKey
-     * @param string $valueKey
-     * @param string $givenValue
-     * @return type
-     */
-    protected function getRoutedOrDefaultValue($routeKey, $valueKey, $givenValue = null) {
-        if ($routeKey !== false && isset($this->config['routes'][$routeKey][$valueKey])) {
-            return $this->config['routes'][$routeKey][$valueKey];
-        } else {
-            if (empty($givenValue)) {
-                return $this->config['defaults'][$valueKey];
-            }
-        }
-        return $givenValue;
-    }
-
-    /**
      * @param string $routeKey
      * @return boolean
      */
@@ -353,25 +289,6 @@ class Router extends CoreObject implements HttpRoutingRouter {
     protected function storeStaticFilePaths(RoutedRequest $RoutedRequest, $routeKey) {
         $layoutPath = $this->config['routes'][$routeKey]['static']['layoutPath'];
         $templatePath = $this->config['routes'][$routeKey]['static']['templatePath'];
-        if ($layoutPath[0] === 'libsPath') {
-            \array_shift($layoutPath);
-            $layoutPath = $this->Paths->getLibsPath($layoutPath);
-        } else {
-            if ($layoutPath[0] === 'appPath') {
-                \array_shift($layoutPath);
-            }
-            $layoutPath = $this->Paths->getAppPath($layoutPath);
-        }
-
-        if ($templatePath[0] === 'libsPath') {
-            \array_shift($templatePath);
-            $templatePath = $this->Paths->getLibsPath($templatePath);
-        } else {
-            if ($templatePath[0] === 'appPath') {
-                \array_shift($templatePath);
-            }
-            $templatePath = $this->Paths->getAppPath($templatePath);
-        }
 
         $data = array(
             'layout' => $layoutPath,

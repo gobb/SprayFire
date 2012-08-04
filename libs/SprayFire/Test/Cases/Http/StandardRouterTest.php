@@ -20,6 +20,14 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
      */
     protected $Normalizer;
 
+    /**
+     * @property array
+     */
+    protected $routesConfig;
+
+    /**
+     * @property string
+     */
     protected $mockFrameworkPath;
 
     /**
@@ -28,29 +36,66 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
      */
     public function setUp() {
         $this->Normalizer = new \SprayFire\Http\Routing\FireRouting\Normalizer();
+        $this->routesConfig = array();
         $this->mockFrameworkPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework';
+        $this->setUpRoutesConfig();
+    }
+
+    protected function setUpRoutesConfig() {
+        $this->routesConfig['404'] = array(
+            'static' => true,
+            'layoutPath' => 'layout',
+            'templatePath' => 'template'
+        );
+
+        $this->routesConfig['routes'] = array(
+            '/' => array(
+                'namespace' => 'SprayFire.Test.Helpers.Controller',
+                'controller' => 'TestPages',
+                'action' => 'indexYoDog',
+                'parameters' => array(
+                    'yo',
+                    'dog'
+                )
+            ),
+            '/charles/roots_for/(?P<item>[A-Za-z]+)/' => array(
+                'namespace' => 'FourteenChamps.Controller',
+                'controller' => 'NickSaban',
+                'action' => 'win'
+            ),
+            '/charles/drinks/(?P<brewer>[A-Za-z_]+)/(?P<beer>[A-Za-z_]+)/' => array(
+                'namespace' => 'FavoriteBrew.Controller',
+                'controller' => 'Charles',
+                'action' => 'drinks'
+            ),
+            '/static/page/' => array(
+                'static' => true,
+                'layoutPath' => $this->mockFrameworkPath . '/libs/SprayFire/Responder/html/default.php',
+                'templatePath' => $this->mockFrameworkPath . '/libs/SprayFire/Responder/html/template/static.php'
+            )
+        );
     }
 
     /**
      * Assures that the Router will properly use the controller, action and parameters
      * given by the request if there is no routing available.
      */
-    public function testStandardRouterWithGivenControllerActionAndParamsNotRouted() {
+    public function testStandardRouterWithUnroutedUrl() {
         $Request = $this->getRequest('/SprayFire/controller/action/param1/param2/param3/');
         $Router = $this->getRouter('SprayFire');
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
-        $this->assertSame('SprayFire', $RoutedRequest->getAppNamespace());
-        $this->assertSame('SprayFire.Test.Helpers.Controller.Controller', $RoutedRequest->getController());
-        $this->assertSame('action', $RoutedRequest->getAction());
-        $this->assertSame(array('param1', 'param2', 'param3'), $RoutedRequest->getParameters());
+        $this->assertTrue($RoutedRequest->isStatic(), 'A RoutedRequest is not static, though it should be.');
+        $staticFiles = $Router->getStaticFilePaths($RoutedRequest);
+        $this->assertSame('layout', $staticFiles['layoutPath']);
+        $this->assertSame('template', $staticFiles['templatePath']);
     }
 
     /**
      * Assures that the Router will properly use default values in configuration
      * if there are none present in the request.
      */
-    public function testStandardRouterWithNoControllerActionOrParamsNotRouted() {
+    public function testStandardRouterGoingToRootPath() {
         $Request = $this->getRequest('/SprayFire/');
         $Router = $this->getRouter('SprayFire');
         $RoutedRequest = $Router->getRoutedRequest($Request);
@@ -62,25 +107,10 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Assures that the Router can route a request when only the controller name
-     * determines the routing
-     */
-    public function testStandardRouterWithRoutedByControllerOnly() {
-        $Request = $this->getRequest('/love.game/charles/loves/dyana');
-        $Router = $this->getRouter('love.game');
-        $RoutedRequest = $Router->getRoutedRequest($Request);
-        $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
-        $this->assertSame('YoDog', $RoutedRequest->getAppNamespace());
-        $this->assertSame('YoDog.Controller.RollTide', $RoutedRequest->getController());
-        $this->assertSame('roll', $RoutedRequest->getAction());
-        $this->assertSame(array('dyana'), $RoutedRequest->getParameters());
-    }
-
-    /**
      * Assures that the router will route a request when both a controller name
      * and action are determining the routing.
      */
-    public function testStandardRouterWithRoutedbyControllerAndAction() {
+    public function testStandardRouterGoingToControllerActionWithParam() {
         $Request = $this->getRequest('/college.football/charles/roots_for/alabama');
         $Router = $this->getRouter('college.football');
         $RoutedRequest = $Router->getRoutedRequest($Request);
@@ -88,29 +118,22 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('FourteenChamps', $RoutedRequest->getAppNamespace());
         $this->assertSame('FourteenChamps.Controller.NickSaban', $RoutedRequest->getController());
         $this->assertSame('win', $RoutedRequest->getAction());
-        $this->assertSame(array('alabama'), $RoutedRequest->getParameters());
+        $this->assertSame(array('item' => 'alabama'), $RoutedRequest->getParameters());
     }
 
     /**
      * Ensuring that a request will use values provided but the appropriate namespace
      * is used if routed.
      */
-    public function testStandardRouterWithOnlyNamespaceRouted() {
-        $Request = $this->getRequest('/brewmaster/charles/drinks/sam_adams');
+    public function testStandardRouterWithTwoParams() {
+        $Request = $this->getRequest('/brewmaster/charles/drinks/sam_adams/boston_lager');
         $Router = $this->getRouter('brewmaster');
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
         $this->assertSame('FavoriteBrew', $RoutedRequest->getAppNamespace());
         $this->assertSame('FavoriteBrew.Controller.Charles', $RoutedRequest->getController());
         $this->assertSame('drinks', $RoutedRequest->getAction());
-        $this->assertSame(array('sam_adams'), $RoutedRequest->getParameters());
-    }
-
-    public function testUsingDefaultParametersIfNoneGiven() {
-        $Request = $this->getRequest('/parameters/none');
-        $Router = $this->getRouter('');
-        $RoutedRequest = $Router->getRoutedRequest($Request);
-        $this->assertSame(array("one", "two", "three"), $RoutedRequest->getParameters());
+        $this->assertSame(array('brewer' => 'sam_adams', 'beer' => 'boston_lager'), $RoutedRequest->getParameters());
     }
 
     public function testGettingStaticRoutedRequest() {
@@ -127,8 +150,8 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
         $paths = $Router->getStaticFilePaths($RoutedRequest);
         $expectedLayout = $this->mockFrameworkPath . '/libs/SprayFire/Responder/html/default.php';
         $expectedTemplate = $this->mockFrameworkPath . '/libs/SprayFire/Responder/html/template/static.php';
-        $actualLayout = $paths['layout'];
-        $actualTemplate = $paths['template'];
+        $actualLayout = $paths['layoutPath'];
+        $actualTemplate = $paths['templatePath'];
         $this->assertSame($expectedLayout, $actualLayout);
         $this->assertSame($expectedTemplate, $actualTemplate);
     }
@@ -169,10 +192,7 @@ class StandardRouterTest extends \PHPUnit_Framework_TestCase {
      * @return SprayFire.Http.Routing.StandardRouter
      */
     protected function getRouter($installDir) {
-        $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($this->mockFrameworkPath);
-        $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
-        $configPath = $this->mockFrameworkPath . '/config/SprayFire/routes.json';
-        return new \SprayFire\Http\Routing\FireRouting\Router($this->Normalizer, $Paths, $configPath, $installDir);
+        return new \SprayFire\Http\Routing\FireRouting\Router($this->Normalizer, $this->routesConfig, $installDir);
     }
 
 }

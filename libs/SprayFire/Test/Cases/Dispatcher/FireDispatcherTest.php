@@ -26,26 +26,30 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp() {
         $this->Cache = new \Artax\ReflectionCacher();
+        $Emergency = $Debug = $Info = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $this->ErrorLog = $Error = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $this->Logger = new \SprayFire\Logging\FireLogging\LogDelegator($Emergency, $Error, $Debug, $Info);
         $this->JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
         $this->Container = new \SprayFire\Service\FireService\Container($this->Cache, $this->JavaNameConverter);
         $this->Container->addService('SprayFire.FileSys.FireFileSys.Paths', function () {
             $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths(\SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework');
             return array($RootPaths);
         });
-        $Emergency = $Debug = $Info = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $this->ErrorLog = $Error = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $this->Logger = new \SprayFire\Logging\FireLogging\LogDelegator($Emergency, $Error, $Debug, $Info);
-        $this->JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $this->Container->addService($this->Logger);
     }
 
     public function testFireDispatcherTest() {
+        $Request = $this->getRequest('');
         $Router = $this->getRouter('');
+        $RoutedRequest = $Router->getRoutedRequest($Request);
+        $this->Container->addService($Request);
+        $this->Container->addService($RoutedRequest);
         $Logger = $this->Logger;
         $ControllerFactory = $this->getControllerFactory();
         $ResponderFactory = $this->getResponderFactory();
         $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher($Router, $Logger, $ControllerFactory, $ResponderFactory);
         \ob_start();
-        $Dispatcher->dispatchResponse($this->getRequest(''));
+        $Dispatcher->dispatchResponse($Request);
         $response = \ob_get_contents();
         \ob_end_clean();
         $expected = '<div>SprayFire</div>';
@@ -53,13 +57,17 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testFireDispatcherWithInvalidAction() {
+        $Request = $this->getRequest('/test-pages/non-existent');
         $Router = $this->getRouter('');
+        $RoutedRequest = $Router->getRoutedRequest($Request);
         $Logger = $this->Logger;
+        $this->Container->addService($Request);
+        $this->Container->addService($RoutedRequest);
         $ControllerFactory = $this->getControllerFactory();
         $ResponderFactory = $this->getResponderFactory();
         $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher($Router, $Logger, $ControllerFactory, $ResponderFactory);
         \ob_start();
-        $Dispatcher->dispatchResponse($this->getRequest('/test-pages/non-existent'));
+        $Dispatcher->dispatchResponse($Request);
         $response = \ob_get_contents();
         \ob_end_clean();
         $expected = '<div>The action, nonExistent, was not found in, SprayFire.Test.Helpers.Controller.TestPages.</div>';
@@ -84,10 +92,25 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
 
     protected function getRouter($installDir) {
         $Normalizer = new \SprayFire\Http\Routing\FireRouting\Normalizer();
-        $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths(\SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework');
-        $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
-        $configPath = $Paths->getConfigPath('SprayFire', 'routes.json');
-        return new \SprayFire\Http\Routing\FireRouting\Router($Normalizer, $Paths, $configPath, $installDir);
+        $config = array(
+            'routes' => array(
+                '/' => array(
+                    'namespace' => 'SprayFire.Test.Helpers.Controller',
+                    'controller' => 'TestPages',
+                    'action' => 'index-yo-dog',
+                    'parameters' => array(
+                        'yo',
+                        'dog'
+                    )
+                ),
+                '/test-pages/non-existent/' => array(
+                    'namespace' => 'SprayFire.Test.Helpers.Controller',
+                    'controller' => 'TestPages',
+                    'action' => 'non-existent'
+                )
+            )
+        );
+        return new \SprayFire\Http\Routing\FireRouting\Router($Normalizer, $config, $installDir);
     }
 
     protected function getControllerFactory() {
