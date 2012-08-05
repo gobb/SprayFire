@@ -128,9 +128,6 @@ $ReflectionCache = new \Artax\ReflectionCacher();
 $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
 $Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $JavaNameConverter);
 
-$ControllerFactory = new \SprayFire\Controller\FireController\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
-$ResponderFactory = new \SprayFire\Responder\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
-
 $Container->addService($LogDelegator);
 $Container->addService($Paths);
 $Container->addService($ReflectionCache);
@@ -139,7 +136,10 @@ $Container->addService($Request);
 $Container->addService($JavaNameConverter);
 $Container->addService($RoutedRequest);
 
-$Dispatcher = new \SprayFire\Dispatcher\FireDispatcher($Router, $LogDelegator, $ControllerFactory, $ResponderFactory);
+$ControllerFactory = new \SprayFire\Controller\FireController\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
+$ResponderFactory = new \SprayFire\Responder\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
+
+$Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $LogDelegator, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
 
 $stdClass = new \stdClass();
