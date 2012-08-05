@@ -3,28 +3,34 @@
         <head>
             <title>Welcome to SprayFire!</title>
             <link href="<?php echo $styleCss; ?>" rel="stylesheet" type="text/css" />
+            <link href="<?php echo $fontAwesomeCss; ?>" rel="stylesheet" type="text/css" />
+            <link href="<?php echo $twitterBootstrapCss; ?>" rel="stylesheet" type="text/css" />
         </head>
         <body>
             <div id="content">
                 <div id="header">
-                    <h1><img src="<?php echo $sprayFireLogo; ?>" id="sprayfire-logo" alt="SprayFire logo" width="200" height="75" /></h1>
-                    <ul>
-                        <li>ver: {''}</li>
-                        <li>repo: <a href="http://www.github.com/cspray/SprayFire">http://www.github.com/cspray/SprayFire/</a></li>
-                        <li>wiki: <a href="http://www.github.com/cspray/SprayFire/wiki/">http://www.github.com/cspray/SprayFire/wiki/</a></li>
-                        <li>api docs: coming soon!</li>
-
-                    </ul>
+                    <div id="main-header">
+                        <h1><a href="/SprayFire"><img src="<?php echo $sprayFireLogo; ?>" id="sprayfire-logo" alt="SprayFire logo" width="200" height="75" /></a> A PHP 5.3+ Framework</h1>
+                    </div>
                 </div>
 
                 <div id="body">
                     <div id="main-content">
                         <?php echo $templateContent; ?>
                     </div>
+
+                    <div id="sidebar">
+                        <?php
+                            if (isset($sidebarContent) && \is_array($sidebarData)) {
+                                echo $this->render($sidebarContent, $sidebarData);
+                            }
+                        ?>
+                    </div>
                 </div>
 
                 <div id="footer">
-                    <p style="text-align:center;"><span class="sprayfire-orange">Spray</span><span class="sprayfire-red">Fire</span> &copy; Charles Sprayberry 2011</p>
+                    <p style="text-align:center;"><span class="sprayfire-orange">Spray</span><span class="sprayfire-red">Fire</span> &copy; Charles Sprayberry 2012</p>
+                    <p style="text-align: center;">Icons are provided by Font Awesome - http://fortawesome.github.com/Font-Awesome</p>
                 </div>
             </div>
         </body>
