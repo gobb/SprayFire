@@ -15,7 +15,6 @@ use \SprayFire\Http\Routing\Router as HttpRoutingRouter,
     \SprayFire\Http\Routing\RoutedRequest as HttpRoutingRoutedRequest,
     \SprayFire\Http\Request as HttpRequest,
     \SprayFire\FileSys\PathGenerator as PathGenerator,
-    \SprayFire\Config\Routes as RoutesConfig,
     \SprayFire\CoreObject as CoreObject,
     \SprayFire\Http\Routing\FireRouting\Normalizer as Normalizer,
     \SprayFire\Http\Routing\ConfigFallbacks as ConfigFallbacks,
@@ -89,6 +88,12 @@ class Router extends CoreObject implements HttpRoutingRouter {
         $this->routes = $this->getDefaultConfig($config, 'routes');
     }
 
+    /**
+     * Creates an array of default configuration values used if the configuration
+     * passed does not have the appropriate configuration set.
+     *
+     * @return array
+     */
     protected function createDefaultsFallbackMap() {
         $defaultsFallbackMap = array();
         $defaultsFallbackMap['defaults'] = array(
@@ -102,7 +107,8 @@ class Router extends CoreObject implements HttpRoutingRouter {
             'static' => ConfigFallbacks::DEFAULT_STATIC,
             'responderName' => ConfigFallbacks::DEFAULT_STATIC_RESPONDER_NAME,
             'layoutPath' => ConfigFallbacks::DEFAULT_STATIC_LAYOUT_PATH,
-            'templatePath' => ConfigFallbacks::DEFAULT_STATIC_TEMPLATE_PATH
+            'templatePath' => ConfigFallbacks::DEFAULT_STATIC_TEMPLATE_PATH,
+            'method' => ConfigFallbacks::DEFAULT_METHOD
         );
         $defaultsFallbackMap['404'] = array();
         $defaultsFallbackMap['500'] = array();
@@ -149,12 +155,19 @@ class Router extends CoreObject implements HttpRoutingRouter {
         }
 
         $resourcePath = $this->cleanPath($Request->getUri()->getPath());
+        $requestMethod = \strtolower($Request->getMethod());
         $route = $this->noResource;
 
         foreach ($this->routes as $routePattern => $routeConfig) {
             $routePattern = '#^' . $routePattern . '$#';
             if (\preg_match($routePattern, $resourcePath, $match)) {
                 $route = $routeConfig;
+                $routeMethod = $this->getRouteMethod($route);
+                if ($requestMethod !== $routeMethod) {
+                    $route = $this->noResource;
+                    break;
+                }
+
                 if (!isset($route['parameters'])) {
                     foreach ($match as $key => $val) {
                         if ($key === (int) $key) {
@@ -190,6 +203,26 @@ class Router extends CoreObject implements HttpRoutingRouter {
         return $RoutedRequest;
     }
 
+    /**
+     * Will return the method for the given route, or the default method if none
+     * was provided.
+     *
+     * @param array $route
+     * @return string
+     */
+    protected function getRouteMethod(array $route) {
+        if (isset($route['method'])) {
+            return \strtolower($route['method']);
+        }
+        return \strtolower($this->defaults['method']);
+    }
+
+    /**
+     * Replace any values that are not set properly in the route with the route
+     * static defaults.
+     *
+     * @param array &$route
+     */
     protected function setStaticDefaults(array &$route) {
         foreach ($this->staticDefaults as $key => $defaultValue) {
             if (!isset($route[$key]) || empty($route[$key])) {
@@ -198,6 +231,12 @@ class Router extends CoreObject implements HttpRoutingRouter {
         }
     }
 
+    /**
+     * Replace any values that are not set properly in the route with the route
+     * defaults.
+     *
+     * @param array &$route
+     */
     protected function setDefaults(array &$route) {
         foreach ($this->defaults as $key => $defaultValue) {
             if (!isset($route[$key]) || empty($route[$key])) {
@@ -206,6 +245,12 @@ class Router extends CoreObject implements HttpRoutingRouter {
         }
     }
 
+    /**
+     * Will normalize the controller if any non-alphanumeric characters are found
+     *
+     * @param string $controller
+     * @return string
+     */
     protected function normalizeController($controller) {
         if (\preg_match('/[^A-Za-z0-9]/', $controller)) {
             return $this->Normalizer->normalizeController($controller);
@@ -214,6 +259,12 @@ class Router extends CoreObject implements HttpRoutingRouter {
         }
     }
 
+    /**
+     * Will normalize the action if any non-alphanumeric characters are found
+     *
+     * @param string $action
+     * @return string
+     */
     protected function normalizeAction($action) {
         if (\preg_match('/[^A-Za-z0-9]/', $action)) {
             return $this->Normalizer->normalizeAction($action);
@@ -262,7 +313,7 @@ class Router extends CoreObject implements HttpRoutingRouter {
     }
 
     /**
-     * @param $uri string
+     * @param string $uri
      * @return string
      */
     protected function removeInstallDirectory($uri) {
