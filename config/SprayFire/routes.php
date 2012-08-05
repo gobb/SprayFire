@@ -34,9 +34,8 @@ $routesConfig['routes']['/'] = array(
     // Set the appropriate keys here to change the homepage
 );
 
-$routesConfig['routes']['/blog/article/[\d]'] = array(
-    'controller' => 'Article',
-    'action' => 'view'
+$routesConfig['routes']['/debug/'] = array(
+    'action' => 'debug'
 );
 
 $routesConfig['routes']['/about/'] = array(
