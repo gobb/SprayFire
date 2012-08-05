@@ -5,12 +5,12 @@
  * @brief
  */
 
-namespace SprayFire\Test\Factory;
+namespace SprayFire\Test\Factory\FireFactory;
 
 /**
  * @brief
  */
-class BaseFactoryTest extends \PHPUnit_Framework_TestCase {
+class BaseTest extends \PHPUnit_Framework_TestCase {
 
     public function testStoringAndGettingBlueprints() {
         $classOne = 'SprayFire.Class.One';

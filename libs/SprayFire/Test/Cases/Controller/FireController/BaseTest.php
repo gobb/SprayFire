@@ -6,7 +6,7 @@
  * @author Charles Sprayberry
  */
 
-namespace SprayFire\Test\Cases\Controller;
+namespace SprayFire\Test\Cases\Controller\FireController;
 
 class BaseTest extends \PHPUnit_Framework_TestCase {
 
@@ -16,7 +16,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $description = 'A unit-tested PHP 5.3+ framework';
         $data = \compact('name', 'title', 'description');
 
-        $Controller = new \SprayFire\Test\Cases\Controller\Base();
+        $Controller = $this->getController();
         $Controller->giveDirtyData($data);
         $actual = $Controller->getDirtyData();
         $this->assertSame($data, $actual);
@@ -28,7 +28,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $description = 'A nerd playing video games or coding.';
         $data = \compact('name', 'title', 'description');
 
-        $Controller = new \SprayFire\Test\Cases\Controller\Base();
+        $Controller = $this->getController();
         $Controller->giveCleanData($data);
         $actual = $Controller->getCleanData();
         $this->assertSame($data, $actual);
@@ -45,11 +45,15 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $dataTwo = \compact('nameTwo', 'titleTwo', 'descriptionTwo');
         $data = \compact('nameOne', 'titleOne', 'descriptionOne', 'nameTwo', 'titleTwo', 'descriptionTwo');
 
-        $Controller = new \SprayFire\Test\Cases\Controller\Base();
+        $Controller = $this->getController();
         $Controller->giveDirtyData($dataOne);
         $Controller->giveDirtyData($dataTwo);
         $actual = $Controller->getDirtyData();
         $this->assertSame($data, $actual);
+    }
+
+    protected function getController() {
+        return new \SprayFire\Test\Cases\Controller\FireController\Base();
     }
 
 }

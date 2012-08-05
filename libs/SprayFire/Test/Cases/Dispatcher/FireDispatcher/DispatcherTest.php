@@ -5,11 +5,9 @@
  * @brief Holds a PHPUnit test case to confirm the functionality of FireDispatcherTest
  */
 
-namespace SprayFire\Test\Cases\Dispatcher;
+namespace SprayFire\Test\Cases\Dispatcher\FireDispatcher;
 
-use \SprayFire\Dispatcher\FireDispatcher as FireDispatcher;
-
-class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
+class DispatcherTest extends \PHPUnit_Framework_TestCase {
 
     protected $Cache;
 

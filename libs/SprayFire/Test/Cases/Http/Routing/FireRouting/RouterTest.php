@@ -8,9 +8,9 @@
  * code
  */
 
-namespace SprayFire\Test\Cases\Http;
+namespace SprayFire\Test\Cases\Http\Routing\FireRouting;
 
-class StandardRouterTest extends \PHPUnit_Framework_TestCase {
+class RouterTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * Holds a single copy of the Normalizer object to prevent unnecessary object

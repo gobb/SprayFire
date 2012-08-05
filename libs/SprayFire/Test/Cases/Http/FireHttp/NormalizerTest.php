@@ -9,7 +9,7 @@
  * code
  */
 
-namespace SprayFire\Test\Cases\Http;
+namespace SprayFire\Test\Cases\Http\FireHttp;
 
 class NormalizerTest extends \PHPUnit_Framework_TestCase {
 

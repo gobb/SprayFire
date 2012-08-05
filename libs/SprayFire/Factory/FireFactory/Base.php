@@ -74,8 +74,10 @@ abstract class Base extends CoreObject implements Factory {
      *
      * @param Artax.ReflectionPool $ReflectionCache
      * @param SprayFire.Logging.LogOveseer $LogOverseer
+     * @param SprayFire.JavaNamespaceConverter $JavaNameConverter
      * @param string $returnTypeRestriction
      * @param string $nullObject
+     * @throws SprayFire.Exception.TypeNotFoundException
      */
     public function __construct(ReflectionPool $ReflectionPool, LogOverseer $LogOverseer, JavaNameConverter $JavaNameConverter, $returnTypeRestriction, $nullObject) {
         $this->ReflectionCache = $ReflectionPool;
@@ -97,7 +99,7 @@ abstract class Base extends CoreObject implements Factory {
             $TypeValidator = new TypeValidator($ReflectedType);
             return $TypeValidator;
         } catch (\ReflectionException $ReflectExc) {
-            throw new TypeNotFoundException('The injected interface or class, ' . $this->objectType . ', could not be found.', null, $ReflectExc);
+            throw new TypeNotFoundException('The injected interface or class, ' . $this->objectType . ', passed to ' . \get_class($this) . ' could not be loaded.', null, $ReflectExc);
         }
     }
 

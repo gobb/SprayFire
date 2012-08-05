@@ -8,9 +8,9 @@
  * code
  */
 
-namespace SprayFire\Test\Cases\Http;
+namespace SprayFire\Test\Cases\Http\FireHttp;
 
-class StandardRequestHeadersTest extends \PHPUnit_Framework_TestCase {
+class RequestHeadersTest extends \PHPUnit_Framework_TestCase {
 
     public function testParsingServerArrayForCommonHeaders() {
         $headers = array();

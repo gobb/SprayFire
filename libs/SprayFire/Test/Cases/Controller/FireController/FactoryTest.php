@@ -8,7 +8,7 @@
  * @license Governed by the LICENSE file found in the root directory of this code
  */
 
-namespace SprayFire\Test\Cases\Controller;
+namespace SprayFire\Test\Cases\Controller\FireController;
 
 use \SprayFire\Service\FireService\Container as Container,
     \SprayFire\Controller\FireController\Factory as Factory,

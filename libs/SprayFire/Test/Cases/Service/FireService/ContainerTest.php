@@ -5,7 +5,7 @@
  * @brief Holds a PHPUnit test case to confirm the functionality of Container
  */
 
-namespace SprayFire\Test\Cases\Service;
+namespace SprayFire\Test\Cases\Service\FireService;
 
 class ContainerTest extends \PHPUnit_Framework_TestCase {
 
@@ -38,9 +38,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $ReflectionCache = new \Artax\ReflectionCacher();
         $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
         $Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $JavaNameConverter);
-        $Container->addService('SprayFire.Test.Cases.Service.Value', null);
-        $Service = $Container->getService('SprayFire.Test.Cases.Service.Value');
-        $this->assertInstanceOf('\\SprayFire\\Test\\Cases\\Service\\Value', $Service);
+        $Container->addService('SprayFire.Test.Cases.Service.FireService.Value', null);
+        $Service = $Container->getService('SprayFire.Test.Cases.Service.FireService.Value');
+        $this->assertInstanceOf('\\SprayFire\\Test\\Cases\\Service\\FireService\\Value', $Service);
     }
 
     public function testGettingPathsService() {

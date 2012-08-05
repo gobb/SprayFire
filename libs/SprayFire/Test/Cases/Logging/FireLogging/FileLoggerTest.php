@@ -5,7 +5,7 @@
  * @brief Will test the various functionality of SprayFire.Logging.FireLogging.FileLogger
  */
 
-namespace SprayFire\Test\Cases\Logger;
+namespace SprayFire\Test\Cases\Logging\FireLogging;
 
 class FileLoggerTest extends \PHPUnit_Framework_TestCase {
 
@@ -17,17 +17,6 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         $logPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/logs';
         $this->readOnlyLog = $logPath . '/readonly-log.txt';
         $this->writableLog = $logPath . 'writable-log.txt';
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testReadOnlyFileObjectFailure() {
-        $file = $this->readOnlyLog;
-        \touch($file);
-        \chmod($file, 0444);
-        $LogFile = new \SplFileInfo($file);
-        $Logger = new \SprayFire\Logging\FireLogging\FileLogger($LogFile);
     }
 
     public function testBasicFileLogging() {

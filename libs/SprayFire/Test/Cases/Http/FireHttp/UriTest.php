@@ -9,7 +9,7 @@
  * code
  */
 
-namespace SprayFire\Test\Cases\Http;
+namespace SprayFire\Test\Cases\Http\FireHttp;
 
 use \SprayFire\Http\FireHttp\Uri as ResourceId;
 

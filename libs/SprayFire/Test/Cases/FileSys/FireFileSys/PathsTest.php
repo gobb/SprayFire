@@ -1,6 +1,6 @@
 <?php
 
-namespace SprayFire\Test\Cases\Util;
+namespace SprayFire\Test\Cases\FileSys\FireFileSys;
 
 use \SprayFire\FileSys\FireFileSys\Paths as Paths,
     \SprayFire\FileSys\FireFileSys\RootPaths as RootPaths;
