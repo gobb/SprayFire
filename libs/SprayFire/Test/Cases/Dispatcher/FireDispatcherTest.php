@@ -47,7 +47,7 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
         $Logger = $this->Logger;
         $ControllerFactory = $this->getControllerFactory();
         $ResponderFactory = $this->getResponderFactory();
-        $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher($Router, $Logger, $ControllerFactory, $ResponderFactory);
+        $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $Logger, $ControllerFactory, $ResponderFactory);
         \ob_start();
         $Dispatcher->dispatchResponse($Request);
         $response = \ob_get_contents();
@@ -65,7 +65,7 @@ class FireDispatcherTest extends \PHPUnit_Framework_TestCase {
         $this->Container->addService($RoutedRequest);
         $ControllerFactory = $this->getControllerFactory();
         $ResponderFactory = $this->getResponderFactory();
-        $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher($Router, $Logger, $ControllerFactory, $ResponderFactory);
+        $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $Logger, $ControllerFactory, $ResponderFactory);
         \ob_start();
         $Dispatcher->dispatchResponse($Request);
         $response = \ob_get_contents();
