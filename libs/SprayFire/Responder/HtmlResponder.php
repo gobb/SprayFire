@@ -95,8 +95,12 @@ class HtmlResponder extends ServiceConsumer implements Responder {
     public function sanitizeData(array $data) {
         $cleanData = array();
         foreach ($data as $key => $dirtyValue) {
-            $cleanValue = \htmlspecialchars($dirtyValue, \ENT_COMPAT, 'UTF-8', false);
-            $cleanData[$key] = $cleanValue;
+            if (\is_array($dirtyValue)) {
+                $cleanData[$key] = $this->sanitizeData($dirtyValue);
+            } else {
+                $cleanValue = \htmlspecialchars($dirtyValue, \ENT_COMPAT, 'UTF-8', false);
+                $cleanData[$key] = $cleanValue;
+            }
         }
         return $cleanData;
     }
