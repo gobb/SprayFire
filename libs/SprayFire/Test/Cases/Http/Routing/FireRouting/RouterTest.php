@@ -72,6 +72,11 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
                 'static' => true,
                 'layoutPath' => $this->mockFrameworkPath . '/libs/SprayFire/Responder/html/default.php',
                 'templatePath' => $this->mockFrameworkPath . '/libs/SprayFire/Responder/html/template/static.php'
+            ),
+            '/should/be/post/' => array(
+                'method' => 'POST',
+                'controller' => 'post-method',
+                'action' => 'createSomething'
             )
         );
     }
@@ -174,16 +179,28 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($routeOneFiles, $routeTwoFiles);
     }
 
+    public function testValidRouteWithImproperMethod() {
+        $Request = $this->getRequest('/should/be/post', 'POST');
+        $Router = $this->getRouter('');
+        $RoutedRequest = $Router->getRoutedRequest($Request);
+        $expectedController = 'SprayFire.Controller.FireController.PostMethod';
+        $expectedAction = 'createSomething';
+        $this->assertFalse($RoutedRequest->isStatic(), 'The RoutedRequest is static, although it should not be');
+        $this->assertSame($expectedController, $RoutedRequest->getController());
+        $this->assertSame($expectedAction, $RoutedRequest->getAction());
+    }
+
     /**
      * @param string $requestUri
      * @return SprayFire.Http.StandardRequest
      */
-    protected function getRequest($requestUri) {
+    protected function getRequest($requestUri, $method = 'GET') {
         $_server = array();
         $_server['REQUEST_URI'] = $requestUri;
+        $_server['REQUEST_METHOD'] = $method;
         $Uri = new \SprayFire\Http\FireHttp\Uri($_server);
         $Headers = new \SprayFire\Http\FireHttp\RequestHeaders($_server);
-        return new \SprayFire\Http\FireHttp\Request($Uri, $Headers);
+        return new \SprayFire\Http\FireHttp\Request($Uri, $Headers, $_server);
     }
 
     /**
