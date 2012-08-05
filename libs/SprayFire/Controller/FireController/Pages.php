@@ -13,12 +13,61 @@ use \SprayFire\Controller\FireController\Base as BaseController;
 
 class Pages extends BaseController {
 
+    /**
+     * @property SprayFire.FileSys.FireFileSys.Paths
+     */
+    protected $Paths;
+
+    public function setServices() {
+        $this->Paths = $this->service('Paths');
+    }
+
     public function index() {
-        $this->templatePath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'debug-content.php');
-        $this->layoutPath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
-        
-        $styleCss = $this->service('Paths')->getUrlPath('css', 'sprayfire.style.css');
-        $sprayFireLogo = $this->service('Paths')->getUrlPath('images', 'sprayfire-logo-bar-75.png');
+        $this->setServices();
+
+        $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'index.php');
+        $this->layoutPath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
+        $styleCss = $this->Paths->getUrlPath('css', 'sprayfire.style.css');
+        $fontAwesomeCss = $this->Paths->getUrlPath('css', 'font-awesome.css');
+        $twitterBootstrapCss = $this->Paths->getUrlPath('css', 'bootstrap.min.css');
+        $twitterBootstrapJs = $this->Paths->getUrlPath('js', 'bootstrap.min.js');
+        $csprayGravatarHash = \md5('cspray@gmail.com');
+        $dyanaGravatarHash = \md5('dystewart249@gmail.com');
+        $sidebarContent = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'sidebar.php');
+        $sidebarData = \compact(
+            'csprayGravatarHash',
+            'dyanaGravatarHash'
+        );
+        $sprayFireLogo = $this->Paths->getUrlPath('images', 'sprayfire-logo-bar-75.png');
+
+        $cleanData = \compact(
+                    'styleCss',
+                    'fontAwesomeCss',
+                    'twitterBootstrapCss',
+                    'sprayFireLogo',
+                    'sidebarContent',
+                    'message',
+                    'controller',
+                    'parameters'
+                );
+        $dirtyData = \compact(
+                    'sidebarData'
+                );
+        $this->giveCleanData($cleanData);
+        $this->giveDirtyData($dirtyData);
+    }
+
+    public function debug() {
+        $this->setServices();
+
+        $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'debug-content.php');
+        $this->layoutPath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
+        $styleCss = $this->Paths->getUrlPath('css', 'sprayfire.style.css');
+        $fontAwesomeCss = $this->Paths->getUrlPath('css', 'font-awesome.css');
+        $twitterBootstrapCss = $this->Paths->getUrlPath('css', 'bootstrap.min.css');
+        $twitterBootstrapJs = $this->Paths->getUrlPath('js', 'bootstrap.min.js');
+
+        $sprayFireLogo = $this->Paths->getUrlPath('images', 'sprayfire-logo-bar-75.png');
         $serverData = \print_r($_SERVER, true);
         $sessionData = \print_r($_SESSION, true);
         $postData = \print_r($_POST, true);
@@ -29,6 +78,8 @@ class Pages extends BaseController {
 
         $cleanData = \compact(
                     'styleCss',
+                    'fontAwesomeCss',
+                    'twitterBootstrapCss',
                     'sprayFireLogo',
                     'message',
                     'controller',
