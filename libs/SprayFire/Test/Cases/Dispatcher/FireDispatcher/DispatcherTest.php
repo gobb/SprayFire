@@ -41,11 +41,10 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $Router = $this->getRouter('');
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->Container->addService($Request);
-        $this->Container->addService($RoutedRequest);
         $Logger = $this->Logger;
         $ControllerFactory = $this->getControllerFactory();
         $ResponderFactory = $this->getResponderFactory();
-        $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $Logger, $ControllerFactory, $ResponderFactory);
+        $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $this->Container, $Logger, $ControllerFactory, $ResponderFactory);
         \ob_start();
         $Dispatcher->dispatchResponse($Request);
         $response = \ob_get_contents();
@@ -60,10 +59,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $Logger = $this->Logger;
         $this->Container->addService($Request);
-        $this->Container->addService($RoutedRequest);
         $ControllerFactory = $this->getControllerFactory();
         $ResponderFactory = $this->getResponderFactory();
-        $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $Logger, $ControllerFactory, $ResponderFactory);
+        $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $this->Container, $Logger, $ControllerFactory, $ResponderFactory);
         \ob_start();
         $Dispatcher->dispatchResponse($Request);
         $response = \ob_get_contents();

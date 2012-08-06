@@ -11,10 +11,11 @@
 namespace SprayFire\Dispatcher\FireDispatcher;
 
 use \SprayFire\Dispatcher\Dispatcher as DispatcherDispatcher,
-    \SprayFire\Http\Request as Request,
     \SprayFire\Http\Routing\Router as Router,
-    \SprayFire\Http\Routing\RoutedRequest as RoutedRequest,
+    \SprayFire\Service\Container as ServiceContainer,
     \SprayFire\Factory\Factory as Factory,
+    \SprayFire\Http\Request as Request,
+    \SprayFire\Http\Routing\RoutedRequest as RoutedRequest,
     \SprayFire\Logging\LogOverseer as LogOverseer,
     \SprayFire\CoreObject as CoreObject;
 
@@ -24,6 +25,8 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
      * @property SprayFire.Http.Routing.Router
      */
     protected $Router;
+
+    protected $Container;
 
     /**
      * @property SprayFire.Logging.LogOverseer
@@ -47,11 +50,14 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
     /**
      *
      * @param SprayFire.Http.Routing.Router $Router
+     * @param SprayFire.Service.Container $ServiceContainer
+     * @param SprayFire.Logging.LogOverseer $LogOverseer
      * @param SprayFire.Factory.Factory $ControllerFactory
      * @param SprayFire.Factory.Factory $ResponderFactory
      */
-    public function __construct(Router $Router, LogOverseer $LogOverseer, Factory $ControllerFactory, Factory $ResponderFactory) {
+    public function __construct(Router $Router, ServiceContainer $Container, LogOverseer $LogOverseer, Factory $ControllerFactory, Factory $ResponderFactory) {
         $this->Router = $Router;
+        $this->Container = $Container;
         $this->LogOverseer = $LogOverseer;
         $this->ControllerFactory = $ControllerFactory;
         $this->ResponderFactory = $ResponderFactory;
@@ -62,6 +68,7 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
      */
     public function dispatchResponse(Request $Request) {
         $RoutedRequest = $this->Router->getRoutedRequest($Request);
+        $this->Container->addService($RoutedRequest);
         if ($RoutedRequest->isStatic()) {
             $staticFiles = $this->Router->getStaticFilePaths($RoutedRequest);
             $Responder = $this->ResponderFactory->makeObject($staticFiles['responderName']);
