@@ -122,8 +122,6 @@ $Normalizer = new \SprayFire\Http\Routing\FireRouting\Normalizer();
 $installDir = \basename($installPath);
 $Router = new \SprayFire\Http\Routing\FireRouting\Router($Normalizer, $getRoutesConfig(), $installDir);
 
-$RoutedRequest = $Router->getRoutedRequest($Request);
-
 $ReflectionCache = new \Artax\ReflectionCacher();
 $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
 $Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $JavaNameConverter);
