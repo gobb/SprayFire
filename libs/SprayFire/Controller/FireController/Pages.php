@@ -27,9 +27,11 @@ class Pages extends BaseController {
 
         $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'index.php');
         $this->layoutPath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
-        $styleCss = $this->Paths->getUrlPath('css', 'sprayfire.style.css');
-        $fontAwesomeCss = $this->Paths->getUrlPath('css', 'font-awesome.css');
-        $twitterBootstrapCss = $this->Paths->getUrlPath('css', 'bootstrap.min.css');
+        $css = array(
+            $this->Paths->getUrlPath('css', 'sprayfire.style.css'),
+            $this->Paths->getUrlPath('css', 'font-awesome.css'),
+            $this->Paths->getUrlPath('css', 'bootstrap.min.css')
+        );
         $twitterBootstrapJs = $this->Paths->getUrlPath('js', 'bootstrap.min.js');
         $csprayGravatarHash = \md5('cspray@gmail.com');
         $dyanaGravatarHash = \md5('dystewart249@gmail.com');
@@ -40,19 +42,22 @@ class Pages extends BaseController {
         );
         $sprayFireLogo = $this->Paths->getUrlPath('images', 'sprayfire-logo-bar-75.png');
 
-        $cleanData = \compact(
-                    'styleCss',
-                    'fontAwesomeCss',
-                    'twitterBootstrapCss',
-                    'sprayFireLogo',
-                    'sidebarContent',
-                    'message',
-                    'controller',
-                    'parameters'
-                );
-        $dirtyData = \compact(
-                    'sidebarData'
-                );
+        $cleanData = array(
+            'css' => $css,
+            'sprayFireLogo' => $sprayFireLogo,
+            'twitterBootstrapJs' => $twitterBootstrapJs,
+            'csprayGravatarHash' => $csprayGravatarHash,
+            'dayanaGravatarHash' => $dyanaGravatarHash,
+            'sidebarContent' => $sidebarContent,
+            'message' => '',
+            'controller' => $controller,
+        );
+
+        $dirtyData = array(
+            'sidebarData' => $sidebarData,
+            'parameters' => $parameters
+        );
+
         $this->giveCleanData($cleanData);
         $this->giveDirtyData($dirtyData);
     }
