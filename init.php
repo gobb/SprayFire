@@ -105,22 +105,9 @@ $ClassLoader->setAutoloader();
 $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
 $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
 
-$getRoutesConfig = function() use ($Paths) {
-    return include $Paths->getConfigPath('SprayFire', 'routes.php');
+$getEnvironmentConfig = function() use ($Paths) {
+    return include $Paths->getConfigPath('SprayFire', 'environment.php');
 };
-
-$EmergencyLogger = new \SprayFire\Logging\FireLogging\SysLogLogger();
-$ErrorLogger = new \SprayFire\Logging\FireLogging\ErrorLogLogger();
-$DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
-$LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-
-$Uri = new \SprayFire\Http\FireHttp\Uri();
-$RequestHeaders = new \SprayFire\Http\FireHttp\RequestHeaders();
-$Request = new \SprayFire\Http\FireHttp\Request($Uri, $RequestHeaders);
-
-$Normalizer = new \SprayFire\Http\Routing\FireRouting\Normalizer();
-$installDir = \basename($installPath);
-$Router = new \SprayFire\Http\Routing\FireRouting\Router($Normalizer, $getRoutesConfig(), $installDir);
 
 $ReflectionCache = new \Artax\ReflectionCacher();
 $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
@@ -128,10 +115,17 @@ $Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $Jav
 
 $Container->addService($ClassLoader);
 $Container->addService($Paths);
-$Container->addService($LogDelegator);
-$Container->addService($ReflectionCache);
-$Container->addService($Request);
 $Container->addService($JavaNameConverter);
+
+$environmentConfig = $getEnvironmentConfig();
+
+foreach ($environmentConfig['services'] as $service) {
+    $Container->addService($service['name'], $service['parameterCallback']);
+}
+
+$LogDelegator = $Container->getService($environmentConfig['services']['Logging']['name']);
+$Router = $Container->getService($environmentConfig['services']['HttpRouter']['name']);
+$Request = $Container->getService($environmentConfig['services']['HttpRequest']['name']);
 
 $ControllerFactory = new \SprayFire\Controller\FireController\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
 $ResponderFactory = new \SprayFire\Responder\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
@@ -139,7 +133,5 @@ $ResponderFactory = new \SprayFire\Responder\Factory($ReflectionCache, $Containe
 $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $Container, $LogDelegator, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
 
-$stdClass = new \stdClass();
-\var_dump($stdClass);
 \var_dump(memory_get_peak_usage(true));
-echo 'Request time ' . (microtime(true) - $requestStartTime);
+echo '<pre>Request time ' . (microtime(true) - $requestStartTime) . '</pre>';
