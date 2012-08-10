@@ -2,9 +2,9 @@
     <html>
         <head>
             <title>Welcome to SprayFire!</title>
-            <link href="<?php echo $styleCss; ?>" rel="stylesheet" type="text/css" />
-            <link href="<?php echo $fontAwesomeCss; ?>" rel="stylesheet" type="text/css" />
-            <link href="<?php echo $twitterBootstrapCss; ?>" rel="stylesheet" type="text/css" />
+            <?php foreach($css as $path): ?>
+            <link href="<?php echo $path; ?>" rel="stylesheet" type="text/css" />
+            <?php endforeach; ?>
         </head>
         <body>
             <div id="content">
@@ -30,7 +30,7 @@
 
                 <div id="footer">
                     <p style="text-align:center;"><span class="sprayfire-orange">Spray</span><span class="sprayfire-red">Fire</span> &copy; Charles Sprayberry 2012</p>
-                    <p style="text-align: center;">Icons are provided by Font Awesome - http://fortawesome.github.com/Font-Awesome</p>
+                    <p style="text-align: center;">Icons are provided by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a></p>
                 </div>
             </div>
         </body>
