@@ -40,8 +40,8 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
         $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($install);
         $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
 
-        $Cache = new \Artax\ReflectionCacher();
         $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $Cache = new \SprayFire\ReflectionCache($JavaNameConverter);
         $Container = new \SprayFire\Service\FireService\Container($Cache, $JavaNameConverter);
         $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
         $ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();

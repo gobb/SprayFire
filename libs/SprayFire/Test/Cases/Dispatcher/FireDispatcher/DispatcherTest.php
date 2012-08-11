@@ -23,11 +23,12 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
     protected $ErrorLog;
 
     public function setUp() {
-        $this->Cache = new \Artax\ReflectionCacher();
+        $this->JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $this->Cache = new \SprayFire\ReflectionCache($this->JavaNameConverter);
         $Emergency = $Debug = $Info = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $this->ErrorLog = $Error = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $this->Logger = new \SprayFire\Logging\FireLogging\LogDelegator($Emergency, $Error, $Debug, $Info);
-        $this->JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+
         $this->Container = new \SprayFire\Service\FireService\Container($this->Cache, $this->JavaNameConverter);
         $this->Container->addService('SprayFire.FileSys.FireFileSys.Paths', function () {
             $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths(\SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework');

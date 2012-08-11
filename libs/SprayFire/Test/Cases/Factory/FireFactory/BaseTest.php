@@ -22,8 +22,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
 
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $ReflectionCache = new \Artax\ReflectionCacher();
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, $JavaConverter, 'stdClass', new \stdClass);
         $TestFactory->storeBlueprint($classOne, $blueprintOne);
         $TestFactory->storeBlueprint($classTwo, $blueprintTwo);
@@ -37,8 +37,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
     public function testGettingEmptyBlueprint() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $ReflectionCache = new \Artax\ReflectionCacher();
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, $JavaConverter, 'stdClass', new \stdClass);
         $this->assertSame(array(), $TestFactory->getBlueprint('SprayFire.NonExistent.Class'));
     }
@@ -46,8 +46,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
     public function testGettingFinalBlueprintWithNoOptions() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $ReflectionCache = new \Artax\ReflectionCacher();
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, $JavaConverter, 'stdClass', new \stdClass);
 
         $className = 'SprayFire.Test.Class';
@@ -63,8 +63,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
     public function testGettingFinalBlueprintReplacingAllDefaultOptions() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $ReflectionCache = new \Artax\ReflectionCacher();
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, $JavaConverter, 'stdClass', new \stdClass);
 
         $className = 'SprayFire.Test.Class';
@@ -79,8 +79,9 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
     public function testGettingFinalBlueprintWithNoStoredBlueprint() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $ReflectionCache = new \Artax\ReflectionCacher();
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
+
         $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, $JavaConverter, 'stdClass', new \stdClass);
         $className = 'SprayFire.Test.Class';
         $specificOptions = array('arg1', 'arg2');
@@ -90,8 +91,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
     public function testGettingFinalBlueprintWithMoreOptionsThenDefaultBlueprint() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $ReflectionCache = new \Artax\ReflectionCacher();
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, $JavaConverter, 'stdClass', new \stdClass);
         $className = 'SprayFire.Test.Class';
         $TestFactory->storeBlueprint($className, array(1, 2));
@@ -104,8 +105,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
     public function testCreatingATestObject() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $ReflectionCache = new \Artax\ReflectionCacher();
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, $JavaConverter, 'SprayFire.Test.Helpers.TestObject', new \SprayFire\Test\Helpers\TestObject());
         $className = 'SprayFire.Test.Helpers.TestObject';
         $Object = $TestFactory->makeObject($className);
@@ -115,8 +116,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
     public function testCreatingATestObjectWithDefaultBlueprintOnly() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $ReflectionCache = new \Artax\ReflectionCacher();
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, $JavaConverter, 'SprayFire.CoreObject', new \SprayFire\Test\Helpers\TestObject());
         $className = 'SprayFire.Test.Helpers.TestFactoryObject';
         $defaultBlueprint = array('param1', 'param2');
@@ -131,8 +132,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         try {
             $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
             $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-            $ReflectionCache = new \Artax\ReflectionCacher();
             $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+            $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
             $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, $JavaConverter, 'stdClass', 'SprayFire.NonExistent');
         } catch (\InvalidArgumentException $InvalArgExc) {
             $exceptionThrown = true;
@@ -143,8 +144,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
     public function testPassingInvalidReturnType() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $ReflectionCache = new \Artax\ReflectionCacher();
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $this->setExpectedException('\\SprayFire\\Exception\\TypeNotFoundException');
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, $JavaConverter, 'SprayFire.NonExistent', 'stdClass');
     }
@@ -152,8 +153,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
     public function testCreatingObjectNotProperReturnType() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $ReflectionCache = new \Artax\ReflectionCacher();
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, $JavaConverter, 'stdClass', 'stdClass');
         $Object = $Factory->makeObject('SprayFire.Test.Helpers.TestObject');
         $this->assertTrue($Object instanceof \stdClass);
@@ -170,8 +171,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
     public function testCreatingObjectNotFound() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $ReflectionCache = new \Artax\ReflectionCacher();
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, $JavaConverter, 'stdClass', 'stdClass');
         $Object = $Factory->makeObject('SprayFire.NonExistent');
         $this->assertTrue($Object instanceof \stdClass);
@@ -188,8 +189,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
     public function testGettingObjectName() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $ReflectionCache = new \Artax\ReflectionCacher();
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, $JavaConverter, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestFactoryObject');
         $this->assertSame('\\SprayFire\\Object', $Factory->getObjectType());
     }
@@ -197,8 +198,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
     public function testDeletingBlueprint() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $ReflectionCache = new \Artax\ReflectionCacher();
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, $JavaConverter, 'SprayFire.CoreObject', new \SprayFire\Test\Helpers\TestObject());
         $className = 'SprayFire.Test.Helpers.TestFactoryObject';
         $defaultBlueprint = array('param1', 'param2');

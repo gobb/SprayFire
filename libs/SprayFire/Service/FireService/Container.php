@@ -13,7 +13,7 @@ namespace SprayFire\Service\FireService;
 use \SprayFire\Service\Container as ServiceContainer,
     \SprayFire\CoreObject as CoreObject,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter,
-    \Artax\ReflectionPool as ReflectionPool;
+    \SprayFire\ReflectionCache as ReflectionCache;
 
 class Container extends CoreObject implements ServiceContainer {
 
@@ -53,7 +53,7 @@ class Container extends CoreObject implements ServiceContainer {
     /**
      * @param Artax.ReflectionPool $ReflectionCache
      */
-    public function __construct(ReflectionPool $ReflectionCache, JavaNameConverter $JavaNameConverter) {
+    public function __construct(ReflectionCache $ReflectionCache, JavaNameConverter $JavaNameConverter) {
         $this->ReflectionCache = $ReflectionCache;
         $this->JavaNameConverter = $JavaNameConverter;
         $this->emptyCallback = function() { return array(); };

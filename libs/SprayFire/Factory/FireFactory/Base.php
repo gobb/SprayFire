@@ -17,7 +17,7 @@ use \SprayFire\Factory\Factory as Factory,
     \SprayFire\ObjectTypeValidator as TypeValidator,
     \SprayFire\CoreObject as CoreObject,
     \SprayFire\Exception\TypeNotFoundException as TypeNotFoundException,
-    \Artax\ReflectionPool as ReflectionPool;
+    \SprayFire\ReflectionCache as ReflectionCache;
 
 /**
  * All class names passed to this Factory can be passed using PHP or Java
@@ -79,8 +79,8 @@ abstract class Base extends CoreObject implements Factory {
      * @param string $nullObject
      * @throws SprayFire.Exception.TypeNotFoundException
      */
-    public function __construct(ReflectionPool $ReflectionPool, LogOverseer $LogOverseer, JavaNameConverter $JavaNameConverter, $returnTypeRestriction, $nullObject) {
-        $this->ReflectionCache = $ReflectionPool;
+    public function __construct(ReflectionCache $ReflectionCache, LogOverseer $LogOverseer, JavaNameConverter $JavaNameConverter, $returnTypeRestriction, $nullObject) {
+        $this->ReflectionCache = $ReflectionCache;
         $this->LogOverseer = $LogOverseer;
         $this->JavaNameConverter = $JavaNameConverter;
         $this->objectType = $JavaNameConverter->convertJavaClassToPhpClass($returnTypeRestriction);

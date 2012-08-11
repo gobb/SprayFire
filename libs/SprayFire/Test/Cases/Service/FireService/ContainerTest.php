@@ -9,35 +9,29 @@ namespace SprayFire\Test\Cases\Service\FireService;
 
 class ContainerTest extends \PHPUnit_Framework_TestCase {
 
+    protected $ReflectionCache;
+
     public function testResourceDoesNotExist() {
-        $ReflectionCache = new \Artax\ReflectionCacher();
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $JavaNameConverter);
+        $Container = $this->getContainer();
         $directoryExist = $Container->doesServiceExist('SprayFire.FileSys.FireFileSys.Paths');
         $this->assertFalse($directoryExist);
     }
 
     public function testResourceDoesExist() {
-        $ReflectionCache = new \Artax\ReflectionCacher();
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $JavaNameConverter);
+        $Container = $this->getContainer();
         $Container->addService('SprayFire.FileSys.FireFileSys.Paths');
         $directoryExist = $Container->doesServiceExist('SprayFire.FileSys.FireFileSys.Paths');
         $this->assertTrue($directoryExist);
     }
 
     public function testAddingNotCallableParameters() {
-        $ReflectionCache = new \Artax\ReflectionCacher();
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $JavaNameConverter);
+        $Container = $this->getContainer();
         $this->setExpectedException('\\InvalidArgumentException');
         $Container->addService('SprayFire.FileSys.FireFileSys.Paths', array());
     }
 
     public function testAddingNullParametersDefaultToEmptyCallback() {
-        $ReflectionCache = new \Artax\ReflectionCacher();
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $JavaNameConverter);
+        $Container = $this->getContainer();
         $Container->addService('SprayFire.Test.Cases.Service.FireService.Value', null);
         $Service = $Container->getService('SprayFire.Test.Cases.Service.FireService.Value');
         $this->assertInstanceOf('\\SprayFire\\Test\\Cases\\Service\\FireService\\Value', $Service);
@@ -50,9 +44,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
             $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($install);
             return array($RootPaths);
         };
-        $ReflectionCache = new \Artax\ReflectionCacher();
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $JavaNameConverter);
+        $Container = $this->getContainer();
         $Container->addService($serviceName, $parameters);
         $Directory = $Container->getService($serviceName);
         $this->assertInstanceOf('\\SprayFire\\FileSys\\FireFileSys\\Paths', $Directory);
@@ -65,9 +57,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
             $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($install);
             return array($RootPaths);
         };
-        $ReflectionCache = new \Artax\ReflectionCacher();
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $JavaNameConverter);
+        $Container = $this->getContainer();
         $Container->addService($serviceName, $parameters);
         $DirectoryOne = $Container->getService($serviceName);
         $DirectoryTwo = $Container->getService($serviceName);
@@ -75,28 +65,28 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testAddingObjectAsServiceAndRetrievingRightObject() {
-        $ReflectionCache = new \Artax\ReflectionCacher();
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $JavaNameConverter);
-        $Container->addService($ReflectionCache, function() {return array();});
-        $Cache = $Container->getService('Artax.ReflectionCacher');
-        $this->assertSame($ReflectionCache, $Cache);
+        $Container = $this->getContainer();
+        $Container->addService($this->ReflectionCache, function() {return array();});
+        $Cache = $Container->getService('SprayFire.ReflectionCache');
+        $this->assertSame($this->ReflectionCache, $Cache);
     }
 
     public function testAddingObjectAsServiceAndCheckingServiceExists() {
-        $ReflectionCache = new \Artax\ReflectionCacher();
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $JavaNameConverter);
-        $Container->addService($ReflectionCache, function() {return array();});
-        $this->assertTrue($Container->doesServiceExist('Artax.ReflectionCacher'));
+        $Container = $this->getContainer();
+        $Container->addService($this->ReflectionCache, function() {return array();});
+        $this->assertTrue($Container->doesServiceExist('SprayFire.ReflectionCache'));
     }
 
     public function testGettingServiceThatDoesNotExist() {
-        $ReflectionCache = new \Artax\ReflectionCacher();
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $JavaNameConverter);
+        $Container = $this->getContainer();
         $this->setExpectedException('\\SprayFire\\Service\\NotFoundException');
         $Container->getService('SprayFire.NonExistent.Service');
+    }
+
+    protected function getContainer() {
+        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $this->ReflectionCache = new \SprayFire\ReflectionCache($JavaNameConverter);
+        return new \SprayFire\Service\FireService\Container($this->ReflectionCache, $JavaNameConverter);
     }
 
 }

@@ -11,23 +11,32 @@
 namespace SprayFire\Test\Cases\Controller\FireController;
 
 use \SprayFire\Service\FireService\Container as Container,
+    \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \SprayFire\Controller\FireController\Factory as Factory,
-    \Artax\ReflectionCacher as ReflectionCacher;
+    \SprayFire\ReflectionCache as ReflectionCache;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase {
 
-    public function testFactoryWithValidServicesInController() {
-        $ReflectionCache = new ReflectionCacher();
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Container = new Container($ReflectionCache, $JavaNameConverter);
-        $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
-        $ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Factory = new Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
+    protected $ReflectionCache;
 
-        $Container->addService('SprayFire.Test.Helpers.Controller.ServiceOne', null);
-        $Container->addService('SprayFire.Test.Helpers.Controller.ServiceTwo', null);
+    protected $Container;
+
+    protected $JavaNameConverter;
+
+    protected $ErrorLogger;
+
+    public function setUp() {
+        $this->JavaNameConverter = new JavaNameConverter();
+        $this->ReflectionCache = new ReflectionCache($this->JavaNameConverter);
+        $this->Container = new Container($this->ReflectionCache, $this->JavaNameConverter);
+        $this->ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
+    }
+
+
+    public function testFactoryWithValidServicesInController() {
+        $this->Container->addService('SprayFire.Test.Helpers.Controller.ServiceOne', null);
+        $this->Container->addService('SprayFire.Test.Helpers.Controller.ServiceTwo', null);
+        $Factory = $this->getFactory();
 
         $Controller = $Factory->makeObject('SprayFire.Test.Helpers.Controller.ValidServices');
         $this->assertInstanceOf('\\SprayFire\\Controller\\Controller', $Controller);
@@ -38,35 +47,21 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testFactoryGettingControllerDoesNotExist() {
-        $ReflectionCache = new ReflectionCacher();
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Container = new Container($ReflectionCache, $JavaNameConverter);
-        $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
-        $ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $type = 'SprayFire.Controller.Controller';
         $nullType = 'SprayFire.Test.Helpers.Controller.NullObject';
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Factory = new Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter, $type, $nullType);
+        $Factory = $this->getFactory($type, $nullType);
 
         $Controller = $Factory->makeObject('SprayFire.Controller.NoGo');
         $this->assertInstanceOf('\\SprayFire\\Test\\Helpers\\Controller\\NullObject', $Controller);
     }
 
     public function testFactoryGettingNullObjectWithValidServices() {
-        $ReflectionCache = new ReflectionCacher();
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Container = new Container($ReflectionCache, $JavaNameConverter);
-        $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
-        $ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $type = 'SprayFire.Controller.Controller';
         $nullType = 'SprayFire.Test.Helpers.Controller.NullObjectWithServices';
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Factory = new Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter, $type, $nullType);
+        $Factory = $this->getFactory($type, $nullType);
 
-        $Container->addService('SprayFire.Test.Helpers.Controller.NullServiceOne', null);
-        $Container->addService('SprayFire.Test.Helpers.Controller.NullServiceTwo', null);
+        $this->Container->addService('SprayFire.Test.Helpers.Controller.NullServiceOne', null);
+        $this->Container->addService('SprayFire.Test.Helpers.Controller.NullServiceTwo', null);
 
         $Controller = $Factory->makeObject('SprayFire.Controller.NoGo');
         $this->assertInstanceOf('\\SprayFire\\Test\\Helpers\\Controller\\NullObjectWithServices', $Controller);
@@ -78,23 +73,23 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
                 'options' => array()
             )
         );
-        $actual = $ErrorLogger->getLoggedMessages();
+        $actual = $this->ErrorLogger->getLoggedMessages();
         $this->assertSame($expected, $actual);
     }
 
     public function testFactoryGettingNullObjectWithInvalidServices() {
-        $ReflectionCache = new ReflectionCacher();
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Container = new Container($ReflectionCache, $JavaNameConverter);
-        $EmergencyLogger = $DebugLogger = $InfoLogger = $ErrorLogger = new \SprayFire\Logging\NullLogger();
-        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $type = 'SprayFire.Controller.Controller';
         $nullType = 'SprayFire.Test.Helpers.Controller.NullObjectInvalidServices';
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Factory = new Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter, $type, $nullType);
+        $Factory = $this->getFactory($type, $nullType);
 
         $this->setExpectedException('\\SprayFire\\Service\\NotFoundException');
         $Controller = $Factory->makeObject('SprayFire.Controller.NoGo');
+    }
+
+    protected function getFactory($type = 'SprayFire.Controller.Controller', $nullType = 'SprayFire.Controller.NullObject') {
+        $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $this->ErrorLogger, $DebugLogger, $InfoLogger);
+        return new Factory($this->ReflectionCache, $this->Container, $LogDelegator, $this->JavaNameConverter, $type, $nullType);
     }
 
 }

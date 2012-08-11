@@ -16,11 +16,11 @@ use \SprayFire\Service\Container as Container,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \SprayFire\Service\FireService\ConsumerFactory as ConsumerFactory,
     \SprayFire\Service\NotFoundException as ServiceNotFoundException,
-    \Artax\ReflectionPool as ReflectionPool;
+    \SprayFire\ReflectionCache as ReflectionCache;
 
 class Factory extends ConsumerFactory {
 
-    public function __construct(ReflectionPool $Cache, Container $Container, LogOverseer $LogOverseer, JavaNameConverter $JavaNameConverter, $type = 'SprayFire.Controller.Controller', $nullType = 'SprayFire.Controller.NullObject') {
+    public function __construct(ReflectionCache $Cache, Container $Container, LogOverseer $LogOverseer, JavaNameConverter $JavaNameConverter, $type = 'SprayFire.Controller.Controller', $nullType = 'SprayFire.Controller.NullObject') {
         parent::__construct($Cache, $Container, $LogOverseer, $JavaNameConverter, $type, $nullType);
     }
 

@@ -18,7 +18,7 @@ use \SprayFire\Service\Container as ServiceContainer,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \SprayFire\Exception\FatalRuntimeException as FatalException,
     \SprayFire\Service\NotFoundException as ServiceNotFoundException,
-    \Artax\ReflectionPool as ReflectionCache;
+    \SprayFire\ReflectionCache as ReflectionCache;
 
 abstract class ConsumerFactory extends BaseFactory {
 
