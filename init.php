@@ -127,8 +127,8 @@ $LogDelegator = $Container->getService($environmentConfig['services']['Logging']
 $Router = $Container->getService($environmentConfig['services']['HttpRouter']['name']);
 $Request = $Container->getService($environmentConfig['services']['HttpRequest']['name']);
 
-$ControllerFactory = new \SprayFire\Controller\FireController\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
-$ResponderFactory = new \SprayFire\Responder\Factory($ReflectionCache, $Container, $LogDelegator, $JavaNameConverter);
+$ControllerFactory = new \SprayFire\Controller\FireController\Factory($ReflectionCache, $Container, $LogDelegator);
+$ResponderFactory = new \SprayFire\Responder\Factory($ReflectionCache, $Container, $LogDelegator);
 
 $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $Container, $LogDelegator, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
