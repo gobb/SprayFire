@@ -20,8 +20,8 @@ use \SprayFire\Service\Container as Container,
 
 class Factory extends ConsumerFactory {
 
-    public function __construct(ReflectionCache $Cache, Container $Container, LogOverseer $LogOverseer, JavaNameConverter $JavaNameConverter, $type = 'SprayFire.Controller.Controller', $nullType = 'SprayFire.Controller.NullObject') {
-        parent::__construct($Cache, $Container, $LogOverseer, $JavaNameConverter, $type, $nullType);
+    public function __construct(ReflectionCache $Cache, Container $Container, LogOverseer $LogOverseer, $type = 'SprayFire.Controller.Controller', $nullType = 'SprayFire.Controller.NullObject') {
+        parent::__construct($Cache, $Container, $LogOverseer, $type, $nullType);
     }
 
 }

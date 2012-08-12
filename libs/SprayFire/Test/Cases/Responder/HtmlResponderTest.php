@@ -39,16 +39,14 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
         $install = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework';
         $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($install);
         $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
-
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $Cache = new \SprayFire\ReflectionCache($JavaNameConverter);
-        $Container = new \SprayFire\Service\FireService\Container($Cache, $JavaNameConverter);
+        $Cache = new \SprayFire\ReflectionCache($this->JavaNameConverter);
+        $Container = new \SprayFire\Service\FireService\Container($Cache);
         $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
         $ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $Container->addService($Paths, null);
 
-        $ControllerFactory = new \SprayFire\Controller\FireController\Factory($Cache, $Container, $LogDelegator, $this->JavaNameConverter);
+        $ControllerFactory = new \SprayFire\Controller\FireController\Factory($Cache, $Container, $LogDelegator);
         $Controller = $ControllerFactory->makeObject('SprayFire.Test.Cases.Responder.NoDataController');
 
         $this->assertInstanceOf('\\SprayFire\\Test\\Cases\\Responder\\NoDataController', $Controller);

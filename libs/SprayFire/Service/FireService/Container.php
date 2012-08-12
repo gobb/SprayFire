@@ -23,11 +23,6 @@ class Container extends CoreObject implements ServiceContainer {
     protected $ReflectionCache;
 
     /**
-     * @property SprayFire.JavaNamespaceConverter
-     */
-    protected $JavaNameConverter;
-
-    /**
      * Services and dependency callbacks added to the container
      *
      * @property array
@@ -53,9 +48,8 @@ class Container extends CoreObject implements ServiceContainer {
     /**
      * @param Artax.ReflectionPool $ReflectionCache
      */
-    public function __construct(ReflectionCache $ReflectionCache, JavaNameConverter $JavaNameConverter) {
+    public function __construct(ReflectionCache $ReflectionCache) {
         $this->ReflectionCache = $ReflectionCache;
-        $this->JavaNameConverter = $JavaNameConverter;
         $this->emptyCallback = function() { return array(); };
     }
 
@@ -71,7 +65,8 @@ class Container extends CoreObject implements ServiceContainer {
         if (\is_object($serviceName)) {
             $service = $serviceName;
             $serviceName = '\\' . \get_class($service);
-            $this->storedServices[$serviceName] = $service;
+            $serviceKey = $this->getServiceKey($serviceName);
+            $this->storedServices[$serviceKey] = $service;
         } else {
             if (\is_null($callableParameters)) {
                 $callableParameters = $this->emptyCallback;
@@ -80,9 +75,9 @@ class Container extends CoreObject implements ServiceContainer {
             if (!\is_callable($callableParameters)) {
                 throw new \InvalidArgumentException('Attempting to pass a non-callable type to a callable required parameter.');
             }
+            $serviceKey = $this->getServiceKey($serviceName);
 
-            $serviceName = $this->JavaNameConverter->convertJavaClassToPhpClass($serviceName);
-            $this->addedServices[$serviceName] = $callableParameters;
+            $this->addedServices[$serviceKey] = $callableParameters;
         }
     }
 
@@ -91,8 +86,8 @@ class Container extends CoreObject implements ServiceContainer {
      * @return bool
      */
     public function doesServiceExist($serviceName) {
-        $serviceName = $this->JavaNameConverter->convertJavaClassToPhpClass($serviceName);
-        return (\array_key_exists($serviceName, $this->addedServices) || \array_key_exists($serviceName, $this->storedServices));
+        $serviceKey = $this->getServiceKey($serviceName);
+        return (\array_key_exists($serviceKey, $this->addedServices) || \array_key_exists($serviceKey, $this->storedServices));
     }
 
     /**
@@ -101,22 +96,26 @@ class Container extends CoreObject implements ServiceContainer {
      * @throws SprayFire.Service.NotFoundException
      */
     public function getService($serviceName) {
-        $serviceName = $this->JavaNameConverter->convertJavaClassToPhpClass($serviceName);
-        if (\array_key_exists($serviceName, $this->storedServices)) {
-            return $this->storedServices[$serviceName];
+        $serviceKey = $this->getServiceKey($serviceName);
+        if (\array_key_exists($serviceKey, $this->storedServices)) {
+            return $this->storedServices[$serviceKey];
         }
-        if (!\array_key_exists($serviceName, $this->addedServices)) {
+        if (!\array_key_exists($serviceKey, $this->addedServices)) {
             throw new \SprayFire\Service\NotFoundException('A service, ' . $serviceName . ', was not properly added to the container.');
         }
-        $parameterCallback = $this->addedServices[$serviceName];
+        $parameterCallback = $this->addedServices[$serviceKey];
         try {
             $ReflectedService = $this->ReflectionCache->getClass($serviceName);
         } catch(\ReflectionException $NotFoundExc) {
             throw new \SprayFire\Service\NotFoundException($NotFoundExc->getMessage());
         }
         $Service = $ReflectedService->newInstanceArgs($parameterCallback());
-        $this->storedServices[$serviceName] = $Service;
+        $this->storedServices[$serviceKey] = $Service;
         return $Service;
+    }
+
+    public function getServiceKey($serviceName) {
+        return \strtolower(\preg_replace('/[^A-Za-z0-9]/', '', $serviceName));
     }
 
 }

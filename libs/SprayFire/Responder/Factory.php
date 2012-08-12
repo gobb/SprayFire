@@ -26,8 +26,8 @@ class Factory extends ConsumerFactory {
      * @param string $type
      * @param string $nullType
      */
-    public function __construct(ReflectionCache $Cache, Container $Container, LogOverseer $LogOverseer, JavaNameConverter $JavaConverter, $type = 'SprayFire.Responder.Responder', $nullType = 'SprayFire.Responder.HtmlResponder') {
-        parent::__construct($Cache, $Container, $LogOverseer, $JavaConverter, $type, $nullType);
+    public function __construct(ReflectionCache $Cache, Container $Container, LogOverseer $LogOverseer, $type = 'SprayFire.Responder.Responder', $nullType = 'SprayFire.Responder.HtmlResponder') {
+        parent::__construct($Cache, $Container, $LogOverseer, $type, $nullType);
     }
 
 }

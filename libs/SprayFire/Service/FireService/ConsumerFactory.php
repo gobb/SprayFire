@@ -34,8 +34,8 @@ abstract class ConsumerFactory extends BaseFactory {
      * @param string $type
      * @param string $nullObject
      */
-    public function __construct(ReflectionCache $Cache, ServiceContainer $Container, LogOverseer $LogOverseer, JavaNameConverter $JavaNameConverter, $type, $nullObject) {
-        parent::__construct($Cache, $LogOverseer, $JavaNameConverter, $type, $nullObject);
+    public function __construct(ReflectionCache $Cache, ServiceContainer $Container, LogOverseer $LogOverseer, $type, $nullObject) {
+        parent::__construct($Cache, $LogOverseer, $type, $nullObject);
         $this->Container = $Container;
     }
 

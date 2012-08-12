@@ -86,7 +86,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     protected function getContainer() {
         $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
         $this->ReflectionCache = new \SprayFire\ReflectionCache($JavaNameConverter);
-        return new \SprayFire\Service\FireService\Container($this->ReflectionCache, $JavaNameConverter);
+        return new \SprayFire\Service\FireService\Container($this->ReflectionCache);
     }
 
 }

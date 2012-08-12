@@ -28,7 +28,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
     public function setUp() {
         $this->JavaNameConverter = new JavaNameConverter();
         $this->ReflectionCache = new ReflectionCache($this->JavaNameConverter);
-        $this->Container = new Container($this->ReflectionCache, $this->JavaNameConverter);
+        $this->Container = new Container($this->ReflectionCache);
         $this->ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
     }
 
@@ -69,7 +69,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 
         $expected = array(
             array(
-                'message' => 'There was an error creating the requested object, \\SprayFire\\Controller\\NoGo.  It likely does not exist.',
+                'message' => 'There was an error creating the requested object, SprayFire.Controller.NoGo.  It likely does not exist.',
                 'options' => array()
             )
         );
@@ -89,7 +89,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
     protected function getFactory($type = 'SprayFire.Controller.Controller', $nullType = 'SprayFire.Controller.NullObject') {
         $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $this->ErrorLogger, $DebugLogger, $InfoLogger);
-        return new Factory($this->ReflectionCache, $this->Container, $LogDelegator, $this->JavaNameConverter, $type, $nullType);
+        return new Factory($this->ReflectionCache, $this->Container, $LogDelegator, $type, $nullType);
     }
 
 }

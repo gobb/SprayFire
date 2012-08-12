@@ -109,10 +109,9 @@ $getEnvironmentConfig = function() use ($Paths) {
     return include $Paths->getConfigPath('SprayFire', 'environment.php');
 };
 
-
 $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
 $ReflectionCache = new \SprayFire\ReflectionCache($JavaNameConverter);
-$Container = new \SprayFire\Service\FireService\Container($ReflectionCache, $JavaNameConverter);
+$Container = new \SprayFire\Service\FireService\Container($ReflectionCache);
 
 $Container->addService($ClassLoader);
 $Container->addService($Paths);

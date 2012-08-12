@@ -37,4 +37,8 @@ class ObjectTypeValidator {
         }
     }
 
+    public function getType() {
+        return $this->ReflectedParentType->getName();
+    }
+
 }
