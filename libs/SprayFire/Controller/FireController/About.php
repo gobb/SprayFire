@@ -13,9 +13,12 @@ use \SprayFire\Controller\FireController\Base as BaseController;
 
 class About extends BaseController implements \SprayFire\Controller\Controller {
 
+    protected $Paths;
+
     public function setUp() {
-        $this->layoutPath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
-        $this->templatePath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'about.php');
+        $this->Paths = $this->service('Paths');
+        $this->layoutPath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
+        $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'about.php');
     }
 
     public function sprayFire() {
@@ -26,9 +29,15 @@ class About extends BaseController implements \SprayFire\Controller\Controller {
             'Graphic Design by Dyana Stewart'
         );
 
+        $css = array(
+            $this->Paths->getUrlPath('css', 'sprayfire.style.css'),
+            $this->Paths->getUrlPath('css', 'font-awesome.css'),
+            $this->Paths->getUrlPath('css', 'bootstrap.min.css')
+        );
+
         $this->giveCleanData(array(
-            'styleCss' => $this->service('Paths')->getUrlPath('css', 'sprayfire.style.css'),
-            'sprayFireLogo' => $this->service('Paths')->getUrlPath('images', 'sprayfire-logo-bar-75.png'),
+            'css' => $css,
+            'sprayFireLogo' => $this->Paths->getUrlPath('images', 'sprayfire-logo-bar-75.png'),
             'messages' => $messages
         ));
     }
