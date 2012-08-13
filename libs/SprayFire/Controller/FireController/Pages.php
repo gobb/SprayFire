@@ -49,13 +49,11 @@ class Pages extends BaseController {
             'csprayGravatarHash' => $csprayGravatarHash,
             'dayanaGravatarHash' => $dyanaGravatarHash,
             'sidebarContent' => $sidebarContent,
-            'message' => '',
-            'controller' => $controller,
+            'message' => ''
         );
 
         $dirtyData = array(
             'sidebarData' => $sidebarData,
-            'parameters' => $parameters
         );
 
         $this->giveCleanData($cleanData);
