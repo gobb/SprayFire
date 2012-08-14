@@ -190,6 +190,12 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expectedAction, $RoutedRequest->getAction());
     }
 
+    public function testGettingRouter404RoutedRequest() {
+        $Router = $this->getRouter('');
+        $Routed404Request = $Router->get404RoutedRequest();
+        $this->assertTrue($Routed404Request->isStatic(), '404 RoutedRequest is not static but should be');
+    }
+
     /**
      * @param string $requestUri
      * @return SprayFire.Http.StandardRequest
