@@ -11,7 +11,6 @@
 namespace SprayFire\Dispatcher\FireDispatcher;
 
 use \SprayFire\Dispatcher\Dispatcher as DispatcherDispatcher,
-    \SprayFire\Http\Routing\Router as Router,
     \SprayFire\Service\Container as ServiceContainer,
     \SprayFire\Factory\Factory as Factory,
     \SprayFire\Http\Request as Request,
@@ -22,11 +21,16 @@ use \SprayFire\Dispatcher\Dispatcher as DispatcherDispatcher,
 class Dispatcher extends CoreObject implements DispatcherDispatcher {
 
     /**
+     *
+     * @property SprayFire.Service.Container
+     */
+    protected $Container;
+
+    /**
+     *
      * @property SprayFire.Http.Routing.Router
      */
     protected $Router;
-
-    protected $Container;
 
     /**
      * @property SprayFire.Logging.LogOverseer
@@ -34,33 +38,35 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
     protected $LogOverseer;
 
     /**
-     * This should be a SprayFire.Controller.Factory object
-     *
-     * @protected SprayFire.Factory.Factory
+     * @property SprayFire.Factory.Factory
      */
     protected $ControllerFactory;
 
     /**
-     * This should be a SprayFire.Responder.Factory object
-     *
-     * @protected SprayFire.Factory.Factory
+     * @property SprayFire.Factory.Factory
      */
     protected $ResponderFactory;
 
     /**
-     *
-     * @param SprayFire.Http.Routing.Router $Router
-     * @param SprayFire.Service.Container $ServiceContainer
-     * @param SprayFire.Logging.LogOverseer $LogOverseer
-     * @param SprayFire.Factory.Factory $ControllerFactory
-     * @param SprayFire.Factory.Factory $ResponderFactory
+     * @property array
      */
-    public function __construct(Router $Router, ServiceContainer $Container, LogOverseer $LogOverseer, Factory $ControllerFactory, Factory $ResponderFactory) {
-        $this->Router = $Router;
+    protected $environmentConfig;
+
+    /**
+     * @param SprayFire.Service.Container $ServiceContainer
+     * @param array $environmentConfig
+     */
+    public function __construct(ServiceContainer $Container, array $environmentConfig) {
         $this->Container = $Container;
-        $this->LogOverseer = $LogOverseer;
-        $this->ControllerFactory = $ControllerFactory;
-        $this->ResponderFactory = $ResponderFactory;
+        $this->environmentConfig = $environmentConfig;
+        $this->setContainerDependencies();
+    }
+
+    protected function setContainerDependencies() {
+        $this->Router = $this->Container->getService($this->environmentConfig['services']['HttpRouter']['name']);
+        $this->LogOverseer = $this->Container->getService($this->environmentConfig['services']['Logging']['name']);
+        $this->ControllerFactory = $this->Container->getService($this->environmentConfig['services']['ControllerFactory']['name']);
+        $this->ResponderFactory = $this->Container->getService($this->environmentConfig['services']['ResponderFactory']['name']);
     }
 
     /**
