@@ -14,7 +14,6 @@ namespace SprayFire\Http\Routing\FireRouting;
 use \SprayFire\Http\Routing\Router as HttpRoutingRouter,
     \SprayFire\Http\Routing\RoutedRequest as HttpRoutingRoutedRequest,
     \SprayFire\Http\Request as HttpRequest,
-    \SprayFire\FileSys\PathGenerator as PathGenerator,
     \SprayFire\CoreObject as CoreObject,
     \SprayFire\Http\Routing\FireRouting\Normalizer as Normalizer,
     \SprayFire\Http\Routing\ConfigFallbacks as ConfigFallbacks,
@@ -201,6 +200,10 @@ class Router extends CoreObject implements HttpRoutingRouter {
         }
 
         return $RoutedRequest;
+    }
+
+    public function get404RoutedRequest() {
+        return new RoutedRequest('', '', array());
     }
 
     /**
