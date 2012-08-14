@@ -28,8 +28,23 @@ $environment = array(
                 $getRoutesConfig = function() use ($Paths) {
                     return include $Paths->getConfigPath('SprayFire', 'routes.php');
                 };
-                $installDir = $Paths->getInstallPath();
+                $installDir = \basename($Paths->getInstallPath());
                 return array($Normalizer, $getRoutesConfig(), $installDir);
+            }
+        ),
+        'ControllerFactory' => array(
+            'name' => 'SprayFire.Controller.FireController.Factory',
+            'parameterCallback' => function() use ($ReflectionCache, $Container) {
+                $LogDelegator = $Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
+                return array($ReflectionCache, $Container, $LogDelegator);
+
+            }
+        ),
+        'ResponderFactory' => array(
+            'name' => 'SprayFire.Responder.Factory',
+            'parameterCallback' => function() use($ReflectionCache, $Container) {
+                $LogDelegator = $Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
+                return array($ReflectionCache, $Container, $LogDelegator);
             }
         )
     )
