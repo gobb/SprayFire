@@ -23,6 +23,11 @@ interface Router {
     public function getRoutedRequest(Request $Request);
 
     /**
+     * @return SprayFire.Http.Routing.RoutedRequest
+     */
+    public function get404RoutedRequest();
+
+    /**
      * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
      * @return array
      */
