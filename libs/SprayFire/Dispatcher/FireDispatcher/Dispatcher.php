@@ -12,6 +12,7 @@ namespace SprayFire\Dispatcher\FireDispatcher;
 
 use \SprayFire\Dispatcher\Dispatcher as DispatcherDispatcher,
     \SprayFire\Service\Container as ServiceContainer,
+    \SprayFire\Http\Routing\Router as HttpRouter,
     \SprayFire\Factory\Factory as Factory,
     \SprayFire\Http\Request as Request,
     \SprayFire\Http\Routing\RoutedRequest as RoutedRequest,
@@ -21,13 +22,11 @@ use \SprayFire\Dispatcher\Dispatcher as DispatcherDispatcher,
 class Dispatcher extends CoreObject implements DispatcherDispatcher {
 
     /**
-     *
      * @property SprayFire.Service.Container
      */
     protected $Container;
 
     /**
-     *
      * @property SprayFire.Http.Routing.Router
      */
     protected $Router;
@@ -56,14 +55,14 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
      * @param SprayFire.Service.Container $ServiceContainer
      * @param array $environmentConfig
      */
-    public function __construct(ServiceContainer $Container, array $environmentConfig) {
+    public function __construct(ServiceContainer $Container, HttpRouter $Router, array $environmentConfig) {
         $this->Container = $Container;
+        $this->Router = $Router;
         $this->environmentConfig = $environmentConfig;
         $this->setContainerDependencies();
     }
 
     protected function setContainerDependencies() {
-        $this->Router = $this->Container->getService($this->environmentConfig['services']['HttpRouter']['name']);
         $this->LogOverseer = $this->Container->getService($this->environmentConfig['services']['Logging']['name']);
         $this->ControllerFactory = $this->Container->getService($this->environmentConfig['services']['ControllerFactory']['name']);
         $this->ResponderFactory = $this->Container->getService($this->environmentConfig['services']['ResponderFactory']['name']);
