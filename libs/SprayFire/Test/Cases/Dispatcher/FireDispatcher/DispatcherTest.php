@@ -37,6 +37,12 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
                     'parameterCallback' => function() use ($Paths) {
                         $Normalizer = new \SprayFire\Http\Routing\FireRouting\Normalizer();
                         $config = array(
+                            '404' => array(
+                                'static' => true,
+                                'layoutPath' => $Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'just-templatecontents-around-div.php'),
+                                'templatePath' => $Paths->getLibsPath('SprayFire', 'Responder', 'html', '404.php'),
+                                'responderName' => 'SprayFire.Responder.HtmlResponder'
+                            ),
                             'routes' => array(
                                 '/' => array(
                                     'namespace' => 'SprayFire.Test.Helpers.Controller',
@@ -90,16 +96,23 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $this->environmentConfig = $environmentConfig;
     }
 
-    public function testFireDispatcherTest() {
-        $Router = $this->Container->getService($this->environmentConfig['services']['HttpRouter']['name']);
-        $ControllerFactory = $this->Container->getService($this->environmentConfig['services']['ControllerFactory']['name']);
-        $ResponderFactory = $this->Container->getService($this->environmentConfig['services']['ResponderFactory']['name']);
-        $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $ControllerFactory, $ResponderFactory);
+    public function testFireDispatcherWithValidRoute() {
+        $Dispatcher = $this->getDispatcher();
         \ob_start();
         $Dispatcher->dispatchResponse($this->getRequest(''));
         $response = \ob_get_contents();
         \ob_end_clean();
         $expected = '<div>SprayFire</div>';
+        $this->assertSame($expected, $response);
+    }
+
+    public function testFireDispatcherWithNonExistentRoute() {
+        $Dispatcher = $this->getDispatcher();
+        \ob_start();
+        $Dispatcher->dispatchResponse($this->getRequest('/nonexistent/route'));
+        $response = \ob_get_contents();
+        \ob_end_clean();
+        $expected = '<div><p>404 Not Found</p></div>';
         $this->assertSame($expected, $response);
     }
 
@@ -109,6 +122,13 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $Uri = new \SprayFire\Http\FireHttp\Uri($_server);
         $Headers = new \SprayFire\Http\FireHttp\RequestHeaders();
         return new \SprayFire\Http\FireHttp\Request($Uri, $Headers);
+    }
+
+    protected function getDispatcher() {
+        $Router = $this->Container->getService($this->environmentConfig['services']['HttpRouter']['name']);
+        $ControllerFactory = $this->Container->getService($this->environmentConfig['services']['ControllerFactory']['name']);
+        $ResponderFactory = $this->Container->getService($this->environmentConfig['services']['ResponderFactory']['name']);
+        return new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $ControllerFactory, $ResponderFactory);
     }
 
 }
