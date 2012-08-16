@@ -194,6 +194,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
         $Router = $this->getRouter('');
         $Routed404Request = $Router->get404RoutedRequest();
         $this->assertTrue($Routed404Request->isStatic(), '404 RoutedRequest is not static but should be');
+        $staticFiles = $Router->getStaticFilePaths($Routed404Request);
+        $this->assertSame('layout', $staticFiles['layoutPath']);
+        $this->assertSame('template', $staticFiles['templatePath']);
     }
 
     /**
