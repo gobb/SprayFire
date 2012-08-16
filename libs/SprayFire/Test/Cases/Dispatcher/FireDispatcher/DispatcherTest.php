@@ -91,10 +91,12 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testFireDispatcherTest() {
-        $Request = $this->getRequest('');
-        $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($this->Container, $this->environmentConfig);
+        $Router = $this->Container->getService($this->environmentConfig['services']['HttpRouter']['name']);
+        $ControllerFactory = $this->Container->getService($this->environmentConfig['services']['ControllerFactory']['name']);
+        $ResponderFactory = $this->Container->getService($this->environmentConfig['services']['ResponderFactory']['name']);
+        $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $ControllerFactory, $ResponderFactory);
         \ob_start();
-        $Dispatcher->dispatchResponse($Request);
+        $Dispatcher->dispatchResponse($this->getRequest(''));
         $response = \ob_get_contents();
         \ob_end_clean();
         $expected = '<div>SprayFire</div>';

@@ -12,6 +12,7 @@ namespace SprayFire\Dispatcher\FireDispatcher;
 
 use \SprayFire\Dispatcher\Dispatcher as DispatcherDispatcher,
     \SprayFire\Service\Container as ServiceContainer,
+    \SprayFire\Http\Routing\Router as HttpRouter,
     \SprayFire\Factory\Factory as Factory,
     \SprayFire\Http\Request as Request,
     \SprayFire\Http\Routing\RoutedRequest as RoutedRequest,
@@ -21,13 +22,11 @@ use \SprayFire\Dispatcher\Dispatcher as DispatcherDispatcher,
 class Dispatcher extends CoreObject implements DispatcherDispatcher {
 
     /**
-     *
      * @property SprayFire.Service.Container
      */
     protected $Container;
 
     /**
-     *
      * @property SprayFire.Http.Routing.Router
      */
     protected $Router;
@@ -56,17 +55,10 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
      * @param SprayFire.Service.Container $ServiceContainer
      * @param array $environmentConfig
      */
-    public function __construct(ServiceContainer $Container, array $environmentConfig) {
-        $this->Container = $Container;
-        $this->environmentConfig = $environmentConfig;
-        $this->setContainerDependencies();
-    }
-
-    protected function setContainerDependencies() {
-        $this->Router = $this->Container->getService($this->environmentConfig['services']['HttpRouter']['name']);
-        $this->LogOverseer = $this->Container->getService($this->environmentConfig['services']['Logging']['name']);
-        $this->ControllerFactory = $this->Container->getService($this->environmentConfig['services']['ControllerFactory']['name']);
-        $this->ResponderFactory = $this->Container->getService($this->environmentConfig['services']['ResponderFactory']['name']);
+    public function __construct(HttpRouter $Router, Factory $ControllerFactory, Factory $ResponderFactory) {
+        $this->Router = $Router;
+        $this->ControllerFactory = $ControllerFactory;
+        $this->ResponderFactory = $ResponderFactory;
     }
 
     /**
@@ -74,7 +66,6 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
      */
     public function dispatchResponse(Request $Request) {
         $RoutedRequest = $this->Router->getRoutedRequest($Request);
-        $this->Container->addService($RoutedRequest);
         if ($RoutedRequest->isStatic()) {
             $staticFiles = $this->Router->getStaticFilePaths($RoutedRequest);
             $Responder = $this->ResponderFactory->makeObject($staticFiles['responderName']);
@@ -101,7 +92,6 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
             $nullController = $this->ControllerFactory->getNullObjectType();
             $Controller = $this->ControllerFactory->makeObject($nullController);
             $errorMessage = 'The action, ' . $action . ', was not found in, ' . $controllerName . '.';
-            $this->LogOverseer->logError($errorMessage);
             $Controller->giveDirtyData(\compact('errorMessage'));
             $Controller->$action();
         }
