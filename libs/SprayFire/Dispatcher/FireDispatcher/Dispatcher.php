@@ -55,17 +55,10 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
      * @param SprayFire.Service.Container $ServiceContainer
      * @param array $environmentConfig
      */
-    public function __construct(ServiceContainer $Container, HttpRouter $Router, array $environmentConfig) {
-        $this->Container = $Container;
+    public function __construct(HttpRouter $Router, Factory $ControllerFactory, Factory $ResponderFactory) {
         $this->Router = $Router;
-        $this->environmentConfig = $environmentConfig;
-        $this->setContainerDependencies();
-    }
-
-    protected function setContainerDependencies() {
-        $this->LogOverseer = $this->Container->getService($this->environmentConfig['services']['Logging']['name']);
-        $this->ControllerFactory = $this->Container->getService($this->environmentConfig['services']['ControllerFactory']['name']);
-        $this->ResponderFactory = $this->Container->getService($this->environmentConfig['services']['ResponderFactory']['name']);
+        $this->ControllerFactory = $ControllerFactory;
+        $this->ResponderFactory = $ResponderFactory;
     }
 
     /**
@@ -73,7 +66,6 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
      */
     public function dispatchResponse(Request $Request) {
         $RoutedRequest = $this->Router->getRoutedRequest($Request);
-        $this->Container->addService($RoutedRequest);
         if ($RoutedRequest->isStatic()) {
             $staticFiles = $this->Router->getStaticFilePaths($RoutedRequest);
             $Responder = $this->ResponderFactory->makeObject($staticFiles['responderName']);
@@ -100,7 +92,6 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
             $nullController = $this->ControllerFactory->getNullObjectType();
             $Controller = $this->ControllerFactory->makeObject($nullController);
             $errorMessage = 'The action, ' . $action . ', was not found in, ' . $controllerName . '.';
-            $this->LogOverseer->logError($errorMessage);
             $Controller->giveDirtyData(\compact('errorMessage'));
             $Controller->$action();
         }
