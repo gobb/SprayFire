@@ -124,8 +124,13 @@ foreach ($environmentConfig['services'] as $service) {
 }
 
 $Request = $Container->getService($environmentConfig['services']['HttpRequest']['name']);
+$Router = $Container->getService($environmentConfig['services']['HttpRouter']['name']);
+$ControllerFactory = $Container->getService($environmentConfig['services']['ControllerFactory']['name']);
+$ResponderFactory = $Container->getService($environmentConfig['services']['ResponderFactory']['name']);
 
-$Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Container, $environmentConfig);
+$Container->addService($Router->getRoutedRequest($Request));
+
+$Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
 
 echo '<pre>Request time ' . (microtime(true) - $requestStartTime) . '</pre>';
