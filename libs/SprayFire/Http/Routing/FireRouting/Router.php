@@ -203,7 +203,27 @@ class Router extends CoreObject implements HttpRoutingRouter {
     }
 
     public function get404RoutedRequest() {
-        return new RoutedRequest('', '', array());
+        $route = $this->noResource;
+        if (isset($route['static']) && $route['static'] === true) {
+            $this->setStaticDefaults($route);
+            $controller = '';
+            $action = '';
+            $parameters = array();
+            $isStatic = true;
+        } else {
+            $this->setDefaults($route);
+            $controller = $route['namespace'] . '.' . $this->normalizeController($route['controller']);
+            $action = $this->normalizeAction($route['action']);
+            $parameters = $route['parameters'];
+            $isStatic = false;
+        }
+
+        $RoutedRequest = new RoutedRequest($controller, $action, $parameters, $isStatic);
+
+        if ($isStatic) {
+            $this->StaticFilesStorage[$RoutedRequest] = $route;
+        }
+        return $RoutedRequest;
     }
 
     /**
