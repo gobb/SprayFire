@@ -57,6 +57,10 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
                                     'namespace' => 'SprayFire.Test.Helpers.Controller',
                                     'controller' => 'TestPages',
                                     'action' => 'non-existent'
+                                ),
+                                '/nocontroller/' => array(
+                                    'namespace' => 'SprayFire.Test.Helpers.Controller',
+                                    'controller' => 'NoExist'
                                 )
                             )
                         );
@@ -110,6 +114,16 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $Dispatcher = $this->getDispatcher();
         \ob_start();
         $Dispatcher->dispatchResponse($this->getRequest('/nonexistent/route'));
+        $response = \ob_get_contents();
+        \ob_end_clean();
+        $expected = '<div><p>404 Not Found</p></div>';
+        $this->assertSame($expected, $response);
+    }
+
+    public function testFireDispatcherWithNotFoundController() {
+        $Dispatcher = $this->getDispatcher();
+        \ob_start();
+        $Dispatcher->dispatchResponse($this->getRequest('/nocontroller'));
         $response = \ob_get_contents();
         \ob_end_clean();
         $expected = '<div><p>404 Not Found</p></div>';
