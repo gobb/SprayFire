@@ -33,7 +33,8 @@ class ObjectTypeValidator {
      */
     public function throwExceptionIfObjectNotParentType($Object) {
         if (!\is_a($Object, $this->ReflectedParentType->getName())) {
-            throw new \InvalidArgumentException('The value being set does not properly implement the parent type for this store.');
+            $message = 'The object, ' . \get_class($Object) . ', does not properly implement ' . $this->getType();
+            throw new \InvalidArgumentException($message);
         }
     }
 

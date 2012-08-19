@@ -20,7 +20,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Test.Helpers.TestObject', new \SprayFire\Test\Helpers\TestObject());
         $className = 'SprayFire.Test.Helpers.TestObject';
         $Object = $TestFactory->makeObject($className);
-        $this->assertTrue($Object instanceof \SprayFire\Test\Helpers\TestObject);
+        $this->assertTrue($Object instanceof \SprayFire\Test\Helpers\TestObject, 'The object is ' . \get_class($Object) . ' and not a SprayFire.Test.Helpers.TestObject');
     }
 
     public function testPassingInvalidNullPrototype() {
@@ -42,7 +42,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
-        $this->setExpectedException('\\SprayFire\\Exception\\TypeNotFoundException');
+        $this->setExpectedException('\\SprayFire\\Factory\\Exception\\TypeNotFound');
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.NonExistent', 'stdClass');
     }
 
@@ -64,14 +64,15 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $actual);
     }
 
-    public function testCreatingObjectNotFound() {
+    public function testReturningNullObjectIfResourceNotFound() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
-        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'stdClass', 'stdClass');
+        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestObject');
+        $Factory->setErrorHandlingMethod(\SprayFire\Factory\FireFactory\Base::RETURN_NULL_OBJECT); // this is done by default, testing setting option explicitly
         $Object = $Factory->makeObject('SprayFire.NonExistent');
-        $this->assertTrue($Object instanceof \stdClass);
+        $this->assertTrue($Object instanceof \SprayFire\Test\Helpers\TestObject, 'The object returns is not the appropriate NullObject');
         $expected = array(
             array(
                 'message' => 'There was an error creating the requested object, SprayFire.NonExistent.  It likely does not exist.',
@@ -80,6 +81,17 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         );
         $actual = $ErrorLogger->getLoggedMessages();
         $this->assertSame($expected, $actual);
+    }
+
+    public function testThrowingExceptionIfResourceNotFound() {
+        $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+        $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
+        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestObject');
+        $Factory->setErrorHandlingMethod(\SprayFire\Factory\FireFactory\Base::THROW_EXCEPTION);
+        $this->setExpectedException('\\SprayFire\\Factory\\Exception\\TypeNotFound');
+        $Factory->makeObject('SprayFire.NonExistent');
     }
 
     public function testGettingObjectName() {

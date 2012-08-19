@@ -16,7 +16,7 @@ use \SprayFire\Factory\Factory as Factory,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \SprayFire\ObjectTypeValidator as TypeValidator,
     \SprayFire\CoreObject as CoreObject,
-    \SprayFire\Exception\TypeNotFoundException as TypeNotFoundException,
+    \SprayFire\Factory\Exception\TypeNotFound as TypeNotFoundException,
     \SprayFire\ReflectionCache as ReflectionCache;
 
 /**
@@ -24,6 +24,10 @@ use \SprayFire\Factory\Factory as Factory,
  * style formatting.
  */
 abstract class Base extends CoreObject implements Factory {
+
+    const RETURN_NULL_OBJECT = 1;
+    const THROW_EXCEPTION = 2;
+
 
     /**
      * Cache to help prevent unneeded ReflectionClasses from being created.
@@ -48,19 +52,25 @@ abstract class Base extends CoreObject implements Factory {
     protected $TypeValidator;
 
     /**
+     * @property int
+     */
+    protected $configuredErrorHandling;
+
+    /**
      *
      * @param Artax.ReflectionPool $ReflectionCache
      * @param SprayFire.Logging.LogOveseer $LogOverseer
      * @param SprayFire.JavaNamespaceConverter $JavaNameConverter
      * @param string $returnTypeRestriction
      * @param string $nullObject
-     * @throws SprayFire.Exception.TypeNotFoundException
+     * @throws SprayFire.Factory.Exception.TypeNotFound
      */
     public function __construct(ReflectionCache $ReflectionCache, LogOverseer $LogOverseer, $returnTypeRestriction, $nullObject) {
         $this->ReflectionCache = $ReflectionCache;
         $this->LogOverseer = $LogOverseer;
         $this->TypeValidator = $this->createTypeValidator($returnTypeRestriction);
         $this->NullObject = $this->createNullObject($nullObject);
+        $this->configuredErrorHandling = self::RETURN_NULL_OBJECT;
     }
 
     /**
@@ -100,21 +110,53 @@ abstract class Base extends CoreObject implements Factory {
      *
      * @param string $className
      * @param array $parameters
+     * @return Ojbect Type will be the type of the TypeValidator for the return type
+     * @throws SprayFire.Factory.Exception.TypeNotFound Only thrown if configured
      */
     public function makeObject($className, array $parameters = array()) {
         try {
             $ReflectedClass = $this->ReflectionCache->getClass($className);
             $returnObject = $ReflectedClass->newInstanceArgs($parameters);
             $this->TypeValidator->throwExceptionIfObjectNotParentType($returnObject);
+            return $returnObject;
         } catch (\ReflectionException $ReflectExc) {
-            $returnObject = clone $this->NullObject;
-            $this->LogOverseer->logError('There was an error creating the requested object, ' . $className . '.  It likely does not exist.');
+            $message = 'There was an error creating the requested object, ' . $className . '.  It likely does not exist.';
+            $this->LogOverseer->logError($message);
 
+            if ($this->configuredErrorHandling === self::RETURN_NULL_OBJECT) {
+                return clone $this->NullObject;
+            }
+
+            if ($this->configuredErrorHandling === self::THROW_EXCEPTION) {
+                throw new TypeNotFoundException($message, 0, $ReflectExc);
+            }
         } catch (\InvalidArgumentException $InvalArgExc) {
-            $returnObject = clone $this->NullObject;
             $this->LogOverseer->logError('The requested object, ' . $className . ', does not properly implement the appropriate type, ' . $this->TypeValidator->getType() . ', for this factory.');
+            if ($this->configuredErrorHandling === self::RETURN_NULL_OBJECT) {
+                return clone $this->NullObject;
+            }
+
+            if ($this->configuredErrorHandling === self::THROW_EXCEPTION) {
+                throw new TypeNotFoundException($message, 0, $InvalArgExc);
+            }
         }
-        return $returnObject;
+    }
+
+    /**
+     * If the $methodType is an appropriate method the factory is configured to
+     * handle it will alter the behavior of the factory when an error is encountered
+     * resulting in an object not able to be created.
+     *
+     * @param int $methodType
+     */
+    public function setErrorHandlingMethod($methodType) {
+        $whiteListedMethods = array(
+            self::RETURN_NULL_OBJECT,
+            self::THROW_EXCEPTION
+        );
+        if (\in_array($methodType, $whiteListedMethods, true)) {
+            $this->configuredErrorHandling = $methodType;
+        }
     }
 
     /**
@@ -124,6 +166,9 @@ abstract class Base extends CoreObject implements Factory {
         return '\\' . $this->TypeValidator->getType();
     }
 
+    /**
+     * @return string
+     */
     public function getNullObjectType() {
         return '\\' . \get_class($this->NullObject);
     }
