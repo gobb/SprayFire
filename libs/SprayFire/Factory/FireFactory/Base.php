@@ -16,7 +16,7 @@ use \SprayFire\Factory\Factory as Factory,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \SprayFire\ObjectTypeValidator as TypeValidator,
     \SprayFire\CoreObject as CoreObject,
-    \SprayFire\Exception\TypeNotFoundException as TypeNotFoundException,
+    \SprayFire\Factory\Exception\TypeNotFound as TypeNotFoundException,
     \SprayFire\ReflectionCache as ReflectionCache;
 
 /**
@@ -24,6 +24,10 @@ use \SprayFire\Factory\Factory as Factory,
  * style formatting.
  */
 abstract class Base extends CoreObject implements Factory {
+
+    const RETURN_NULL_OBJECT = 1;
+    const THROW_EXCEPTION = 2;
+
 
     /**
      * Cache to help prevent unneeded ReflectionClasses from being created.
@@ -115,6 +119,10 @@ abstract class Base extends CoreObject implements Factory {
             $this->LogOverseer->logError('The requested object, ' . $className . ', does not properly implement the appropriate type, ' . $this->TypeValidator->getType() . ', for this factory.');
         }
         return $returnObject;
+    }
+
+    public function setErrorHandlingMethod($methodType) {
+
     }
 
     /**
