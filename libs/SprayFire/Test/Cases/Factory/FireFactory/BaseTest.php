@@ -64,14 +64,14 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $actual);
     }
 
-    public function testCreatingObjectNotFound() {
+    public function testReturningNullObjectIfResourceNotFound() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
-        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'stdClass', 'stdClass');
+        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestObject');
         $Object = $Factory->makeObject('SprayFire.NonExistent');
-        $this->assertTrue($Object instanceof \stdClass);
+        $this->assertTrue($Object instanceof \SprayFire\Test\Helpers\TestObject, 'The object returns is not the appropriate NullObject');
         $expected = array(
             array(
                 'message' => 'There was an error creating the requested object, SprayFire.NonExistent.  It likely does not exist.',
@@ -80,6 +80,14 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         );
         $actual = $ErrorLogger->getLoggedMessages();
         $this->assertSame($expected, $actual);
+    }
+
+    public function testThrowingExceptionIfResourceNotFound() {
+        $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+        $JavaConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
+        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'stdClass', 'stdClass');
     }
 
     public function testGettingObjectName() {
