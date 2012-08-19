@@ -20,7 +20,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Test.Helpers.TestObject', new \SprayFire\Test\Helpers\TestObject());
         $className = 'SprayFire.Test.Helpers.TestObject';
         $Object = $TestFactory->makeObject($className);
-        $this->assertTrue($Object instanceof \SprayFire\Test\Helpers\TestObject);
+        $this->assertTrue($Object instanceof \SprayFire\Test\Helpers\TestObject, 'The object is ' . \get_class($Object) . ' and not a SprayFire.Test.Helpers.TestObject');
     }
 
     public function testPassingInvalidNullPrototype() {
@@ -90,7 +90,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestObject');
         $Factory->setErrorHandlingMethod(\SprayFire\Factory\FireFactory\Base::THROW_EXCEPTION);
-        $this->setExpectedException('\\SprayFire\\Exception\\TypeNotFoundException');
+        $this->setExpectedException('\\SprayFire\\Factory\\Exception\\TypeNotFound');
         $Factory->makeObject('SprayFire.NonExistent');
     }
 
