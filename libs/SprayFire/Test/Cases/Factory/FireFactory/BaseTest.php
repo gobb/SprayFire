@@ -70,6 +70,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestObject');
+        $Factory->setErrorHandlingMethod(\SprayFire\Factory\FireFactory\Base::RETURN_NULL_OBJECT); // this is done by default, testing setting option explicitly
         $Object = $Factory->makeObject('SprayFire.NonExistent');
         $this->assertTrue($Object instanceof \SprayFire\Test\Helpers\TestObject, 'The object returns is not the appropriate NullObject');
         $expected = array(
@@ -87,7 +88,8 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
-        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'stdClass', 'stdClass');
+        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestObject');
+        $Factory->setErrorHandlingMethod(\SprayFire\Factory\FireFactory\Base::THROW_EXCEPTION);
     }
 
     public function testGettingObjectName() {
