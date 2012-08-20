@@ -148,6 +148,7 @@ abstract class Base extends CoreObject implements Factory {
      * resulting in an object not able to be created.
      *
      * @param int $methodType
+     * @return boolean
      */
     public function setErrorHandlingMethod($methodType) {
         $whiteListedMethods = array(
@@ -156,7 +157,9 @@ abstract class Base extends CoreObject implements Factory {
         );
         if (\in_array($methodType, $whiteListedMethods, true)) {
             $this->configuredErrorHandling = $methodType;
+            return true;
         }
+        return false;
     }
 
     /**
