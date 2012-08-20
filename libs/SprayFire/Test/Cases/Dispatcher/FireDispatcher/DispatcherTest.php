@@ -13,6 +13,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 
     protected $environmentConfig;
 
+    public $routeConfig;
+
     /**
      * @property SprayFire.Test.Helpers.DevelopmentLogger
      */
@@ -30,42 +32,44 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $Container->addService($ReflectionCache);
         $Container->addService($Paths);
 
+        $this->routeConfig = array(
+            '404' => array(
+                'static' => true,
+                'layoutPath' => $Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'just-templatecontents-around-div.php'),
+                'templatePath' => $Paths->getLibsPath('SprayFire', 'Responder', 'html', '404.php'),
+                'responderName' => 'SprayFire.Responder.HtmlResponder'
+            ),
+            'routes' => array(
+                '/' => array(
+                    'namespace' => 'SprayFire.Test.Helpers.Controller',
+                    'controller' => 'TestPages',
+                    'action' => 'index-yo-dog',
+                    'parameters' => array(
+                        'yo',
+                        'dog'
+                    )
+                ),
+                '/test-pages/non-existent/' => array(
+                    'namespace' => 'SprayFire.Test.Helpers.Controller',
+                    'controller' => 'TestPages',
+                    'action' => 'non-existent'
+                ),
+                '/nocontroller/' => array(
+                    'namespace' => 'SprayFire.Test.Helpers.Controller',
+                    'controller' => 'NoExist'
+                )
+            )
+        );
+
+        $that = $this;
         $environmentConfig = array(
             'services' => array(
                 'HttpRouter' => array(
                     'name' => 'SprayFire.Http.Routing.FireRouting.Router',
-                    'parameterCallback' => function() use ($Paths) {
+                    'parameterCallback' => function() use ($Paths, $that) {
                         $Normalizer = new \SprayFire\Http\Routing\FireRouting\Normalizer();
-                        $config = array(
-                            '404' => array(
-                                'static' => true,
-                                'layoutPath' => $Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'just-templatecontents-around-div.php'),
-                                'templatePath' => $Paths->getLibsPath('SprayFire', 'Responder', 'html', '404.php'),
-                                'responderName' => 'SprayFire.Responder.HtmlResponder'
-                            ),
-                            'routes' => array(
-                                '/' => array(
-                                    'namespace' => 'SprayFire.Test.Helpers.Controller',
-                                    'controller' => 'TestPages',
-                                    'action' => 'index-yo-dog',
-                                    'parameters' => array(
-                                        'yo',
-                                        'dog'
-                                    )
-                                ),
-                                '/test-pages/non-existent/' => array(
-                                    'namespace' => 'SprayFire.Test.Helpers.Controller',
-                                    'controller' => 'TestPages',
-                                    'action' => 'non-existent'
-                                ),
-                                '/nocontroller/' => array(
-                                    'namespace' => 'SprayFire.Test.Helpers.Controller',
-                                    'controller' => 'NoExist'
-                                )
-                            )
-                        );
                         $installDir = \basename($Paths->getInstallPath());
-                        return array($Normalizer, $config, $installDir);
+                        return array($Normalizer, $that->routeConfig, $installDir);
                     }
                 ),
                 'Logging' => array(
