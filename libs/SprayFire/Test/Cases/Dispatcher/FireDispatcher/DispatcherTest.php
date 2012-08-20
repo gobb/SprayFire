@@ -141,6 +141,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
     protected function getDispatcher() {
         $Router = $this->Container->getService($this->environmentConfig['services']['HttpRouter']['name']);
         $ControllerFactory = $this->Container->getService($this->environmentConfig['services']['ControllerFactory']['name']);
+        $ControllerFactory->setErrorHandlingMethod(\SprayFire\Factory\FireFactory\Base::THROW_EXCEPTION);
         $ResponderFactory = $this->Container->getService($this->environmentConfig['services']['ResponderFactory']['name']);
         return new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $ControllerFactory, $ResponderFactory);
     }
