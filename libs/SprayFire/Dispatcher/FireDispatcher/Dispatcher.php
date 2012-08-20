@@ -17,7 +17,9 @@ use \SprayFire\Dispatcher\Dispatcher as DispatcherDispatcher,
     \SprayFire\Http\Request as Request,
     \SprayFire\Http\Routing\RoutedRequest as RoutedRequest,
     \SprayFire\Logging\LogOverseer as LogOverseer,
-    \SprayFire\CoreObject as CoreObject;
+    \SprayFire\Controller\Controller as Controller,
+    \SprayFire\CoreObject as CoreObject,
+    \SprayFire\Factory\Exception\TypeNotFound as TypeNotFoundException;
 
 class Dispatcher extends CoreObject implements DispatcherDispatcher {
 
@@ -52,6 +54,11 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
     protected $environmentConfig;
 
     /**
+     * @property boolean
+     */
+    protected $dispatching404;
+
+    /**
      * @param SprayFire.Service.Container $ServiceContainer
      * @param array $environmentConfig
      */
@@ -59,6 +66,7 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
         $this->Router = $Router;
         $this->ControllerFactory = $ControllerFactory;
         $this->ResponderFactory = $ResponderFactory;
+        $this->dispatching404 = false;
     }
 
     /**
@@ -67,35 +75,63 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
     public function dispatchResponse(Request $Request) {
         $RoutedRequest = $this->Router->getRoutedRequest($Request);
         if ($RoutedRequest->isStatic()) {
-            $staticFiles = $this->Router->getStaticFilePaths($RoutedRequest);
-            $Responder = $this->ResponderFactory->makeObject($staticFiles['responderName']);
-            echo $Responder->generateStaticResponse($staticFiles['layoutPath'], $staticFiles['templatePath']);
+            $this->sendStaticRequest($RoutedRequest);
         } else {
-            $Controller = $this->invokeController($RoutedRequest);
-            $Responder = $this->ResponderFactory->makeObject($Controller->getResponderName());
-            echo $Responder->generateDynamicResponse($Controller);
+            $this->sendDynamicRequest($RoutedRequest);
         }
+    }
 
+    /**
+     * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
+     */
+    protected function sendStaticRequest(RoutedRequest $RoutedRequest) {
+        $staticFiles = $this->Router->getStaticFilePaths($RoutedRequest);
+        $Responder = $this->ResponderFactory->makeObject($staticFiles['responderName']);
+        echo $Responder->generateStaticResponse($staticFiles['layoutPath'], $staticFiles['templatePath']);
+    }
+
+    protected function sendDynamicRequest(RoutedRequest $RoutedRequest) {
+        try {
+            $controllerName = $RoutedRequest->getController();
+            $actionName = $RoutedRequest->getAction();
+            $Controller = $this->generateController($controllerName, $actionName);
+            $this->invokeController($Controller, $RoutedRequest);
+            $ResponderName = $Controller->getResponderName();
+            $Responder = $this->ResponderFactory->makeObject($ResponderName);
+            echo $Responder->generateDynamicResponse($Controller);
+        } catch(TypeNotFoundException $TypeNotFoundExc) {
+            $this->dispatch404Response();
+        }
+    }
+
+    protected function generateController($controllerName, $actionName) {
+        $Controller = $this->ControllerFactory->makeObject($controllerName);
+        if (!\method_exists($Controller, $actionName)) {
+            throw new TypeNotFoundException('The given object ' . $controllerName . ' does not have the requested action ' . $actionName);
+        }
+        return $Controller;
     }
 
     /**
      * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
      * @return SprayFire.Controller.Controller
      */
-    protected function invokeController(RoutedRequest $RoutedRequest) {
-        $controllerName = $RoutedRequest->getController();
-        $Controller = $this->ControllerFactory->makeObject($controllerName);
-        $action = $RoutedRequest->getAction();
-        if (\method_exists($Controller, $action)) {
-            $Controller->$action();
-        } else {
-            $nullController = $this->ControllerFactory->getNullObjectType();
-            $Controller = $this->ControllerFactory->makeObject($nullController);
-            $errorMessage = 'The action, ' . $action . ', was not found in, ' . $controllerName . '.';
-            $Controller->giveDirtyData(\compact('errorMessage'));
-            $Controller->$action();
+    protected function invokeController(Controller $Controller, RoutedRequest $RoutedRequest) {
+        $actionName = $RoutedRequest->getAction();
+        $parameters = $RoutedRequest->getParameters();
+        \call_user_func_array(array($Controller, $actionName), $parameters);
+    }
+
+    protected function dispatch404Response() {
+        if ($this->dispatching404 === true) {
+            throw new \SprayFire\Exception\FatalRuntimeException('An infinite loop from a missing 404 file was found.');
         }
-        return $Controller;
+        $RoutedRequest = $this->Router->get404RoutedRequest();
+        if ($RoutedRequest->isStatic()) {
+            $this->sendStaticRequest($RoutedRequest);
+        } else {
+            $this->sendDynamicRequest($RoutedRequest);
+        }
     }
 
 }
