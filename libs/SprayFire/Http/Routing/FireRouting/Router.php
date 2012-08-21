@@ -202,6 +202,9 @@ class Router extends CoreObject implements HttpRoutingRouter {
         return $RoutedRequest;
     }
 
+    /**
+     * @return SprayFire.Http.Routing.FireRouting.RoutedRequest
+     */
     public function get404RoutedRequest() {
         $route = $this->noResource;
         if (isset($route['static']) && $route['static'] === true) {
@@ -224,6 +227,10 @@ class Router extends CoreObject implements HttpRoutingRouter {
             $this->StaticFilesStorage[$RoutedRequest] = $route;
         }
         return $RoutedRequest;
+    }
+
+    public function set404Configuration(array $configuration) {
+        $this->noResource = $configuration;
     }
 
     /**
