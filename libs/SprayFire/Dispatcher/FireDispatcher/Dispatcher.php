@@ -19,7 +19,7 @@ use \SprayFire\Dispatcher\Dispatcher as DispatcherDispatcher,
     \SprayFire\Logging\LogOverseer as LogOverseer,
     \SprayFire\Controller\Controller as Controller,
     \SprayFire\CoreObject as CoreObject,
-    \SprayFire\Factory\Exception\TypeNotFound as TypeNotFoundException;
+    \SprayFire\Exception\ResourceNotFound as ResourceNotFoundException;
 
 class Dispatcher extends CoreObject implements DispatcherDispatcher {
 
@@ -99,7 +99,7 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
             $ResponderName = $Controller->getResponderName();
             $Responder = $this->ResponderFactory->makeObject($ResponderName);
             echo $Responder->generateDynamicResponse($Controller);
-        } catch(TypeNotFoundException $TypeNotFoundExc) {
+        } catch(ResourceNotFoundException $TypeNotFoundExc) {
             $this->dispatch404Response();
         }
     }
@@ -107,7 +107,7 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
     protected function generateController($controllerName, $actionName) {
         $Controller = $this->ControllerFactory->makeObject($controllerName);
         if (!\method_exists($Controller, $actionName)) {
-            throw new TypeNotFoundException('The given object ' . $controllerName . ' does not have the requested action ' . $actionName);
+            throw new ResourceNotFoundException('The given object ' . $controllerName . ' does not have the requested action ' . $actionName);
         }
         return $Controller;
     }
