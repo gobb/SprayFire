@@ -8,13 +8,13 @@
  * code
  */
 
-namespace SprayFire\Responder;
+namespace SprayFire\Responder\FireResponder;
 
 use \SprayFire\Responder\Responder as Responder,
     \SprayFire\Controller\Controller as Controller,
     \SprayFire\Service\FireService\Consumer as ServiceConsumer;
 
-class HtmlResponder extends ServiceConsumer implements Responder {
+class Html extends ServiceConsumer implements Responder {
 
     /**
      * @property string
