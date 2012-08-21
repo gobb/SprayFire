@@ -29,7 +29,7 @@ abstract class Base extends ServiceConsumer implements Controller {
     /**
      * @property string
      */
-    protected $responderName = 'SprayFire.Responder.HtmlResponder';
+    protected $responderName = 'SprayFire.Responder.FireResponder.Html';
 
     /**
      * An array of data that would need to be sanitized by the Responder before
