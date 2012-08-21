@@ -199,6 +199,20 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('template', $staticFiles['templatePath']);
     }
 
+    public function testGetting404RoutedRequestAfterConfiguration() {
+        $Router = $this->getRouter('');
+        $Router->set404Configuration(array(
+            'static' => false,
+            'namespace' => 'SprayFire.Controller',
+            'controller' => 'NullController',
+            'action' => 'index'
+        ));
+        $RoutedRequest = $Router->get404RoutedRequest();
+        $this->assertFalse($RoutedRequest->isStatic(), 'RoutedRequest is static ');
+        $this->assertSame('SprayFire.Controller.NullController', $RoutedRequest->getController());
+        $this->assertSame('index', $RoutedRequest->getAction());
+    }
+
     /**
      * @param string $requestUri
      * @return SprayFire.Http.StandardRequest
