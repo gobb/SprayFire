@@ -33,4 +33,10 @@ interface Router {
      */
     public function getStaticFilePaths(RoutedRequest $RoutedRequest);
 
+    /**
+     * @param array $configuration
+     * @return array
+     */
+    public function set404Configuration(array $configuration);
+
 }
