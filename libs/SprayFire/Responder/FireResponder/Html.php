@@ -12,7 +12,8 @@ namespace SprayFire\Responder\FireResponder;
 
 use \SprayFire\Responder\Responder as Responder,
     \SprayFire\Controller\Controller as Controller,
-    \SprayFire\Service\FireService\Consumer as ServiceConsumer;
+    \SprayFire\Service\FireService\Consumer as ServiceConsumer,
+    \SprayFire\Exception\ResourceNotFound as ResourceNotFoundException;
 
 class Html extends ServiceConsumer implements Responder {
 
@@ -78,6 +79,9 @@ class Html extends ServiceConsumer implements Responder {
      * @return string
      */
     protected function render($filePath, array $data) {
+        if (!\file_exists($filePath)) {
+            throw new ResourceNotFoundException($filePath . ' could not be found.');
+        }
         \extract($data);
         \ob_start();
         include $filePath;
