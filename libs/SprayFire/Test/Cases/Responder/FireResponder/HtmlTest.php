@@ -9,7 +9,7 @@
  * code
  */
 
-namespace SprayFire\Test\Cases\Responder;
+namespace SprayFire\Test\Cases\Responder\FireResponder;
 
 class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
 
@@ -20,7 +20,7 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testSanitizingHtmlData() {
-        $Responder = new \SprayFire\Responder\HtmlResponder();
+        $Responder = new \SprayFire\Responder\FireResponder\Html();
         $dirtyData = array(
             'var1' => '<script>alert(\'Yo dog, I stole your focus.\');</script>',
             'var2' => 'Some seemingly \'innocent\' text <b>but</b> still has HTML & an "ampersand" in it',
@@ -47,12 +47,12 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
         $Container->addService($Paths, null);
 
         $ControllerFactory = new \SprayFire\Controller\FireController\Factory($Cache, $Container, $LogDelegator);
-        $Controller = $ControllerFactory->makeObject('SprayFire.Test.Cases.Responder.NoDataController');
+        $Controller = $ControllerFactory->makeObject('SprayFire.Test.Cases.Responder.FireResponder.NoDataController');
 
-        $this->assertInstanceOf('\\SprayFire\\Test\\Cases\\Responder\\NoDataController', $Controller);
+        $this->assertInstanceOf('\\SprayFire\\Test\\Cases\\Responder\\FireResponder\\NoDataController', $Controller);
         $Controller->index();
 
-        $Responder = new \SprayFire\Responder\HtmlResponder();
+        $Responder = new \SprayFire\Responder\FireResponder\Html();
         $response = $Responder->generateDynamicResponse($Controller);
         $this->assertSame('<div>SprayFire</div>', $response);
     }
@@ -60,9 +60,17 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
     public function testGeneratingStaticResponse() {
         $layoutPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/libs/SprayFire/Responder/html/layout/just-templatecontents-around-div.php';
         $templatePath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/libs/SprayFire/Responder/html/just-sprayfire.php';
-        $Responder = new \SprayFire\Responder\HtmlResponder();
+        $Responder = new \SprayFire\Responder\FireResponder\Html();
         $response = $Responder->generateStaticResponse($layoutPath, $templatePath);
         $this->assertSame('<div>SprayFire</div>', $response);
+    }
+
+    public function testGeneratingStaticResponseWithInvalidFile() {
+        $Responder = new \SprayFire\Responder\FireResponder\Html();
+        $this->setExpectedException('\\SprayFire\\Exception\\ResourceNotFound');
+        $layoutPath = '';
+        $templatePath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/libs/SprayFire/Responder/html/just-sprayfire.php';
+        $Responder->generateStaticResponse($layoutPath, $templatePath);
     }
 
 }
