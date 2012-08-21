@@ -16,8 +16,8 @@ use \SprayFire\Factory\Factory as Factory,
     \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \SprayFire\ObjectTypeValidator as TypeValidator,
     \SprayFire\CoreObject as CoreObject,
-    \SprayFire\Factory\Exception\TypeNotFound as TypeNotFoundException,
-    \SprayFire\ReflectionCache as ReflectionCache;
+    \SprayFire\ReflectionCache as ReflectionCache,
+    \SprayFire\Exception\ResourceNotFound as ResourceNotFoundException;
 
 /**
  * All class names passed to this Factory can be passed using PHP or Java
@@ -63,7 +63,7 @@ abstract class Base extends CoreObject implements Factory {
      * @param SprayFire.JavaNamespaceConverter $JavaNameConverter
      * @param string $returnTypeRestriction
      * @param string $nullObject
-     * @throws SprayFire.Factory.Exception.TypeNotFound
+     * @throws InvalidArgumentException
      */
     public function __construct(ReflectionCache $ReflectionCache, LogOverseer $LogOverseer, $returnTypeRestriction, $nullObject) {
         $this->ReflectionCache = $ReflectionCache;
@@ -75,14 +75,14 @@ abstract class Base extends CoreObject implements Factory {
 
     /**
      * @return SprayFire.ObjectTypeValidator
-     * @throws SprayFire.Exception.TypeNotFoundException
+     * @throws InvalidArgumentException
      */
     protected function createTypeValidator($objectType) {
         try {
             $ReflectedType = $this->ReflectionCache->getClass($objectType);
             return new TypeValidator($ReflectedType);
         } catch (\ReflectionException $ReflectExc) {
-            throw new TypeNotFoundException('The injected interface or class, ' . $objectType . ', passed to ' . \get_class($this) . ' could not be loaded.', null, $ReflectExc);
+            throw new \InvalidArgumentException('The injected interface or class, ' . $objectType . ', passed to ' . \get_class($this) . ' could not be loaded.', null, $ReflectExc);
         }
     }
 
@@ -97,7 +97,7 @@ abstract class Base extends CoreObject implements Factory {
                 $ReflectedNullObject = $this->ReflectionCache->getClass($NullObject);
                 $NullObject = $ReflectedNullObject->newInstance();
             } catch (\ReflectionException $ReflectExc) {
-                throw new \InvalidArgumentException('The given, ' . $nullObjectType . ', could not be loaded.', null, $ReflectExc);
+                throw new \InvalidArgumentException('The given null object, ' . $nullObjectType . ', could not be loaded.', null, $ReflectExc);
             }
         }
         $this->TypeValidator->throwExceptionIfObjectNotParentType($NullObject);
@@ -128,7 +128,7 @@ abstract class Base extends CoreObject implements Factory {
             }
 
             if ($this->configuredErrorHandling === self::THROW_EXCEPTION) {
-                throw new TypeNotFoundException($message, 0, $ReflectExc);
+                throw new ResourceNotFoundException($message, 0, $ReflectExc);
             }
         } catch (\InvalidArgumentException $InvalArgExc) {
             $this->LogOverseer->logError('The requested object, ' . $className . ', does not properly implement the appropriate type, ' . $this->TypeValidator->getType() . ', for this factory.');
@@ -137,7 +137,7 @@ abstract class Base extends CoreObject implements Factory {
             }
 
             if ($this->configuredErrorHandling === self::THROW_EXCEPTION) {
-                throw new TypeNotFoundException($message, 0, $InvalArgExc);
+                throw new ResourceNotFoundException($message, 0, $InvalArgExc);
             }
         }
     }
