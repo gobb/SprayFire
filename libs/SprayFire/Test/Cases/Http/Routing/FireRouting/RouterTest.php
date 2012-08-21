@@ -201,6 +201,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetting404RoutedRequestAfterConfiguration() {
         $Router = $this->getRouter('');
+        $BeforeRoutedRequest = $Router->get404RoutedRequest();
+        $this->assertTrue($BeforeRoutedRequest->isStatic(), '404 Routed Request is not static');
         $Router->set404Configuration(array(
             'static' => false,
             'namespace' => 'SprayFire.Controller',
