@@ -42,7 +42,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $JavaConverter = new \SprayFire\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
-        $this->setExpectedException('\\SprayFire\\Factory\\Exception\\TypeNotFound');
+        $this->setExpectedException('\\InvalidArgumentException');
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.NonExistent', 'stdClass');
     }
 
@@ -90,7 +90,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $ReflectionCache = new \SprayFire\ReflectionCache($JavaConverter);
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestObject');
         $Factory->setErrorHandlingMethod(\SprayFire\Factory\FireFactory\Base::THROW_EXCEPTION);
-        $this->setExpectedException('\\SprayFire\\Factory\\Exception\\TypeNotFound');
+        $this->setExpectedException('\\SprayFire\\Exception\\ResourceNotFound');
         $Factory->makeObject('SprayFire.NonExistent');
     }
 
