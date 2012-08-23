@@ -13,6 +13,6 @@ use \SprayFire\Http\Routing\RoutedRequest as RoutedRequest;
 
 interface AppInitializer {
 
-    public function intializeApp(RoutedRequest $RoutedRequest);
+    public function initializeApp(RoutedRequest $RoutedRequest);
 
 }
