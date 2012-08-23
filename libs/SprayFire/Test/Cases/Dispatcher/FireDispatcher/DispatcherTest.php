@@ -57,6 +57,11 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
                 '/nocontroller/' => array(
                     'namespace' => 'SprayFire.Test.Helpers.Controller',
                     'controller' => 'NoExist'
+                ),
+                '/initializer/' => array(
+                    'namespace' => 'TestApp.Controller',
+                    'controller' => 'Base',
+                    'action' => 'index'
                 )
             )
         );
@@ -134,6 +139,16 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $response);
     }
 
+    public function testFireDispatcherInitializingApp() {
+        $Dispatcher = $this->getDispatcher();
+        \ob_start();
+        $Dispatcher->dispatchResponse($this->getRequest('/initializer'));
+        $response = \ob_get_contents();
+        \ob_end_clean();
+        $expected = '<div>intiializer</div>';
+        $this->assertTrue($this->Container->doesServiceExist('TestApp.Service.FromBootstrap'), 'Container does not have TestApp.Bootstrap added service');
+    }
+
     protected function getRequest($uri) {
         $_server = array();
         $_server['REQUEST_URI'] = $uri;
@@ -143,11 +158,22 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
     }
 
     protected function getDispatcher() {
+        $Initializer = $this->getAppInitializer();
         $Router = $this->Container->getService($this->environmentConfig['services']['HttpRouter']['name']);
         $ControllerFactory = $this->Container->getService($this->environmentConfig['services']['ControllerFactory']['name']);
         $ControllerFactory->setErrorHandlingMethod(\SprayFire\Factory\FireFactory\Base::THROW_EXCEPTION);
         $ResponderFactory = $this->Container->getService($this->environmentConfig['services']['ResponderFactory']['name']);
-        return new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $ControllerFactory, $ResponderFactory);
+        return new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $Initializer, $ControllerFactory, $ResponderFactory);
+    }
+
+    protected function getAppInitializer() {
+        $installDir = \SPRAYFIRE_ROOT;
+        $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($installDir);
+        $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
+        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\ReflectionCache($JavaNameConverter);
+        $ClassLoader = new \ClassLoader\Loader();
+        return new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($this->Container, $ClassLoader, $Paths);
     }
 
 }
