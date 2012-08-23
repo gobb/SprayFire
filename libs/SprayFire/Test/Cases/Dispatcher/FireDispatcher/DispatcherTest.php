@@ -97,6 +97,20 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
                         $Logger = $Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
                         return array($ReflectionCache, $Container, $Logger);
                     }
+                ),
+                'HttpRequest' => array(
+                    'name' => 'SprayFire.Http.FireHttp.Request',
+                    'parameterCallback' => function() {
+                        $Uri = new \SprayFire\Http\FireHttp\Uri();
+                        $RequestHeader = new \SprayFire\Http\FireHttp\RequestHeaders();
+                        return array($Uri, $ReflectionCache);
+                    }
+                ),
+                'HttpRoutedRequest' => array(
+                    'name' => 'SprayFire.Http.Routing.FireRouting.RoutedRequest',
+                    'parameterCallback' => function() use($Container) {
+                        return array('', '', array(), false);
+                    }
                 )
             )
         );
@@ -145,8 +159,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $Dispatcher->dispatchResponse($this->getRequest('/initializer'));
         $response = \ob_get_contents();
         \ob_end_clean();
-        $expected = '<div>intiializer</div>';
+        $expected = '<div>initializer</div>';
         $this->assertTrue($this->Container->doesServiceExist('TestApp.Service.FromBootstrap'), 'Container does not have TestApp.Bootstrap added service');
+        $this->assertSame($expected, $response);
     }
 
     protected function getRequest($uri) {
@@ -154,7 +169,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $_server['REQUEST_URI'] = $uri;
         $Uri = new \SprayFire\Http\FireHttp\Uri($_server);
         $Headers = new \SprayFire\Http\FireHttp\RequestHeaders();
-        return new \SprayFire\Http\FireHttp\Request($Uri, $Headers);
+        $Request = new \SprayFire\Http\FireHttp\Request($Uri, $Headers);
+        $this->Container->addService($Request);
+        return $Request;
     }
 
     protected function getDispatcher() {
@@ -173,6 +190,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\ReflectionCache($JavaNameConverter);
         $ClassLoader = new \ClassLoader\Loader();
+        $ClassLoader->setAutoloader();
         return new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($this->Container, $ClassLoader, $Paths);
     }
 
