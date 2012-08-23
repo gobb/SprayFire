@@ -11,6 +11,7 @@
 namespace SprayFire\Dispatcher\FireDispatcher;
 
 use \SprayFire\Dispatcher\Dispatcher as DispatcherDispatcher,
+    \SprayFire\Dispatcher\AppInitializer as DispatcherAppInitializer,
     \SprayFire\Service\Container as ServiceContainer,
     \SprayFire\Http\Routing\Router as HttpRouter,
     \SprayFire\Factory\Factory as Factory,
@@ -33,10 +34,7 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
      */
     protected $Router;
 
-    /**
-     * @property SprayFire.Logging.LogOverseer
-     */
-    protected $LogOverseer;
+    protected $AppInitializer;
 
     /**
      * @property SprayFire.Factory.Factory
@@ -59,11 +57,14 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
     protected $dispatching404;
 
     /**
-     * @param SprayFire.Service.Container $ServiceContainer
-     * @param array $environmentConfig
+     * @param SprayFire.Http.Routing.Router $Router
+     * @param SprayFire.Dispatcher.AppInitializer $AppInitializer
+     * @param SprayFire.Factory.Factory $Factory
+     * @param SprayFire.Factory.Factory $Factory
      */
-    public function __construct(HttpRouter $Router, Factory $ControllerFactory, Factory $ResponderFactory) {
+    public function __construct(HttpRouter $Router, DispatcherAppInitializer $AppInitializer, Factory $ControllerFactory, Factory $ResponderFactory) {
         $this->Router = $Router;
+        $this->AppInitializer = $AppInitializer;
         $this->ControllerFactory = $ControllerFactory;
         $this->ResponderFactory = $ResponderFactory;
         $this->dispatching404 = false;
@@ -77,6 +78,7 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
         if ($RoutedRequest->isStatic()) {
             $this->sendStaticRequest($RoutedRequest);
         } else {
+            $this->AppInitializer->initializeApp($RoutedRequest);
             $this->sendDynamicRequest($RoutedRequest);
         }
     }
