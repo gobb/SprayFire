@@ -53,6 +53,9 @@ class AppInitializer extends CoreObject implements \SprayFire\Dispatcher\AppInit
      */
     public function initializeApp(RoutedRequest $RoutedRequest) {
         $appNamespace = $RoutedRequest->getAppNamespace();
+        if (\strtolower($appNamespace) === 'sprayfire') {
+            return;
+        }
         $this->ClassLoader->registerNamespaceDirectory($appNamespace, $this->Paths->getAppPath());
         $bootstrapName = '\\' . $appNamespace . '\\Bootstrap';
         if (!\class_exists($bootstrapName)) {
