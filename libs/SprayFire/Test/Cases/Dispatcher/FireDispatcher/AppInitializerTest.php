@@ -41,6 +41,13 @@ class AppInitializerTest extends \PHPUnit_Framework_TestCase {
         $Initializer->initializeApp($RoutedRequest);
     }
 
+    public function testAppInitializerWithSprayFireController() {
+        $Initializer = $this->getInitializer();
+        $controller = 'SprayFire.Controller.Base';
+        $RoutedRequest = $this->getRoutedRequest($controller);
+        $Initializer->initializeApp($RoutedRequest);
+    }
+
     protected function getInitializer() {
         $this->Container = $this->getServiceContainer();
         $this->ClassLoader = $this->getClassLoader();
