@@ -130,7 +130,9 @@ $ResponderFactory = $Container->getService($environmentConfig['services']['Respo
 
 $Container->addService($Router->getRoutedRequest($Request));
 
-$Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $ControllerFactory, $ResponderFactory);
+$AppInitializer = new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($Container, $ClassLoader, $Paths);
+
+$Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $AppInitializer, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
 
 echo '<pre>Request time ' . (microtime(true) - $requestStartTime) . '</pre>';
