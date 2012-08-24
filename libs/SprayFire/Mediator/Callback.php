@@ -12,7 +12,7 @@
 namespace SprayFire\Mediator;
 
 use \SprayFire\Mediator\Event as Event,
-    \SprayFire\Mediator\Object as Object;
+    \SprayFire\Object as Object;
 
 interface Callback extends Object {
 
