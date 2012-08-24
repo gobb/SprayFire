@@ -17,9 +17,14 @@ use \SprayFire\Mediator\Callback as MediatorCallback,
 class Callback extends CoreObject implements MediatorCallback {
 
     protected $eventName;
+    protected $function;
 
-    public function __construct($eventName) {
+    public function __construct($eventName, $function) {
         $this->eventName = $eventName;
+        if (!\is_callable($function)) {
+            throw new \InvalidArgumentException('A callable function must be passed to \\SprayFire\\Mediator\\FireMediator\\Callback as the second constructor parameter.');
+        }
+        $this->function = $function;
     }
 
 
@@ -28,7 +33,7 @@ class Callback extends CoreObject implements MediatorCallback {
     }
 
     public function invoke(MediatorEvent $Event) {
-
+        return \call_user_func_array($this->function, array($Event));
     }
 
 }
