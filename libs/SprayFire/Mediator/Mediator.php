@@ -34,4 +34,12 @@ interface Mediator {
      */
     public function triggerEvent($eventName, $Target, array $arguments = array());
 
+    /**
+     * Will return an array of SprayFire.Mediator.Callback objects
+     *
+     * @param string $eventName
+     * @return array
+     */
+    public function getCallbacks($eventName);
+
 }
