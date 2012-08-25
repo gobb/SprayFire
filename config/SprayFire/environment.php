@@ -1,7 +1,9 @@
 <?php
 
+$developmentMode = true;
+
 $environment = array(
-    'developmentMode' => true,
+    'developmentMode' => $developmentMode,
     'services' => array(
         'Logging' => array(
             'name' => 'SprayFire.Logging.FireLogging.LogDelegator',
@@ -11,6 +13,13 @@ $environment = array(
                 $InfoLogger = new \SprayFire\Logging\FireLogging\DevelopmentLogger();
                 $DebugLogger = new \SprayFire\Logging\FireLogging\DevelopmentLogger();
                 return array($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+            }
+        ),
+        'Handler' => array(
+            'name' => 'SprayFire.Handler',
+            'parameterCallback' => function() use($Container) {
+                $LogDelegator = $Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
+                return array($LogDelegator);
             }
         ),
         'HttpRequest' => array(

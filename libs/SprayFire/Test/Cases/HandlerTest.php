@@ -11,13 +11,13 @@ namespace SprayFire\Test\Cases\Error;
 /**
  * @brief
  */
-class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
+class HandlerTest extends \PHPUnit_Framework_TestCase {
 
     public function testErrorHandlerFunctionUnhandledSeverity() {
         $TestLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
-        $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
-        $trappedError = $ErrorHandler->trap(E_RECOVERABLE_ERROR, 'This is an error message with unhandled severity.', 'file.php', 14);
+        $ErrorHandler = new \SprayFire\Handler($LogDelegator);
+        $trappedError = $ErrorHandler->trapError(E_RECOVERABLE_ERROR, 'This is an error message with unhandled severity.', 'file.php', 14);
         $this->assertFalse($trappedError);
 
         $ErrorLogger = $this->getErrorLogger($LogDelegator);
@@ -33,8 +33,8 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
     public function testErrorHandlerFunctionUnknownSeverity() {
         $TestLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
-        $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
-        $ErrorHandler->trap(E_COMPILE_ERROR, 'This is an error message with unknown severity', 'file.php', 100);
+        $ErrorHandler = new \SprayFire\Handler($LogDelegator);
+        $ErrorHandler->trapError(E_COMPILE_ERROR, 'This is an error message with unknown severity', 'file.php', 100);
 
         $ErrorLogger = $this->getErrorLogger($LogDelegator);
         $actualErrorData = $ErrorLogger->getLoggedMessages();
@@ -49,12 +49,12 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase {
     public function testErrorHandlerFunctionWithErrorReportingTurnedOff() {
         $TestLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($TestLogger, $TestLogger, $TestLogger, $TestLogger);
-        $ErrorHandler = new \SprayFire\Error\Handler($LogDelegator);
-        \set_error_handler(array($ErrorHandler, 'trap'));
+        $ErrorHandler = new \SprayFire\Handler($LogDelegator);
+        \set_error_handler(array($ErrorHandler, 'trapError'));
 
         $originalErrorReporting = \error_reporting();
         \error_reporting(0);
-        $this->assertFalse($ErrorHandler->trap(E_USER_DEPRECATED, 'Should return false.'));
+        $this->assertFalse($ErrorHandler->trapError(E_USER_DEPRECATED, 'Should return false.'));
         \error_reporting($originalErrorReporting);
 
         $ErrorLogger = $this->getErrorLogger($LogDelegator);

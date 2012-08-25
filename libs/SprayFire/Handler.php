@@ -8,17 +8,19 @@
  * code
  */
 
-namespace SprayFire\Error;
+namespace SprayFire;
 
 use \SprayFire\Logging\LogOverseer,
     \SprayFire\CoreObject as CoreObject;
 
-class Handler extends \SprayFire\CoreObject {
+class Handler extends CoreObject {
 
     /**
      * @property SprayFire.Logging.LogOverseer
      */
     protected $Logger;
+
+    protected $developmentMode;
 
     /**
      * @param SprayFire.Logging.LogOverseer $Log
@@ -26,7 +28,7 @@ class Handler extends \SprayFire\CoreObject {
      */
     public function __construct(LogOverseer $Log, $developmentModeOn = false) {
         $this->Logger = $Log;
-        $this->developmentModeOn = (boolean) $developmentModeOn;
+        $this->developmentMode = (boolean) $developmentModeOn;
     }
 
     /**
@@ -38,21 +40,44 @@ class Handler extends \SprayFire\CoreObject {
      * error
      * @return boolean
      */
-    public function trap($severity, $message, $file = null, $line = null, $context = null) {
+    public function trapError($severity, $message, $file = null, $line = null, $context = null) {
         if (\error_reporting() === 0) {
             return false;
         }
         $line = 'line:' . (int) $line;
         $message = \implode(';', \compact('message', 'file', 'line'));
         $this->Logger->logError($message);
-        $intSeverity = $severity;
-        $severity = $this->normalizeSeverity($severity);
         $unHandledSeverity = array(E_RECOVERABLE_ERROR);
-        if (\in_array($intSeverity, $unHandledSeverity)) {
+        if (\in_array($severity, $unHandledSeverity)) {
             return false;
         }
 
         return true;
+    }
+
+    public function trapException(\Exception $Exception) {
+        if (!$this->developmentMode) {
+            $this->Logger->logEmergency($Exception->getMessage());
+        } else {
+            \var_dump($Exception);
+        }
+        \header('HTTP/1.1 500 Internal Server Error');
+        \header('Content-Type: text-html; charset=UTF-8');
+
+        echo <<< HTML
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <title>Server Error</title>
+        </head>
+        <body>
+            <h1>500 Internal Server Error</h1>
+        </body>
+    </html>
+HTML;
+
+        exit;
     }
 
     /**
