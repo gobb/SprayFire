@@ -72,7 +72,7 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
         $firstEvent = \SprayFire\Mediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED;
         $secondEvent = \SprayFire\Mediator\DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
         $function = function(\SprayFire\Mediator\Event $Event) use(&$eventData) {
-            $eventName = $eventData->getEventName();
+            $eventName = $Event->getEventName();
             $eventData[$eventName] = 'value set';
         };
         $FirstCallback = new \SprayFire\Mediator\FireMediator\Callback($firstEvent, $function);
@@ -81,6 +81,15 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
         $Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
         $Mediator->addCallback($FirstCallback);
         $Mediator->addCallback($SecondCallback);
+        $Mediator->triggerEvent($firstEvent, '');
+        $Mediator->triggerEvent($secondEvent, '');
+        $expected = array(
+            $firstEvent => 'value set',
+            $secondEvent => 'value set'
+        );
+        $this->assertSame($expected, $eventData);
     }
+
+    
 
 }
