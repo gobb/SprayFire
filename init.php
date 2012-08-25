@@ -135,6 +135,9 @@ $AppInitializer = new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($Conta
 $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $AppInitializer, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
 
+$Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
+
 echo '<pre>Request time ' . (microtime(true) - $requestStartTime) . '</pre>';
 \var_dump(memory_get_peak_usage(true));
 \var_dump($preBootstrapErrors);
+\var_dump($Mediator);
