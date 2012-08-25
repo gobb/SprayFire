@@ -67,4 +67,20 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
         $this->assertCount(0, $Mediator->getCallbacks($eventName), 'An event has a stored callback though it should not');
     }
 
+    public function testMediatorTriggeringEvents() {
+        $eventData = array();
+        $firstEvent = \SprayFire\Mediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED;
+        $secondEvent = \SprayFire\Mediator\DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
+        $function = function(\SprayFire\Mediator\Event $Event) use(&$eventData) {
+            $eventName = $eventData->getEventName();
+            $eventData[$eventName] = 'value set';
+        };
+        $FirstCallback = new \SprayFire\Mediator\FireMediator\Callback($firstEvent, $function);
+        $SecondCallback = new \SprayFire\Mediator\FireMediator\Callback($secondEvent, $function);
+
+        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
+        $Mediator->addCallback($FirstCallback);
+        $Mediator->addCallback($SecondCallback);
+    }
+
 }
