@@ -12,7 +12,9 @@ namespace SprayFire\Mediator\FireMediator;
 
 use \SprayFire\Mediator\Mediator as MediatorMediator,
     \SprayFire\Mediator\Callback as MediatorCallback,
+    \SprayFire\Mediator\DispatcherEvents as DispatcherEvents,
     \SprayFire\CoreObject as CoreObject;
+
 
 
 class Mediator extends CoreObject implements MediatorMediator {
@@ -23,11 +25,47 @@ class Mediator extends CoreObject implements MediatorMediator {
     protected $eventCallbacks = array();
 
     /**
+     * @property array
+     */
+    protected $validCallbacks = array();
+
+    public function __construct() {
+        $this->buildValidEventCallbacks();
+        $this->buildEventStorage();
+    }
+
+    /**
+     * Will create a map of valid callbacks based on the abstract class constants
+     * for event classes.
+     */
+    protected function buildValidEventCallbacks() {
+        $eventClasses = array(
+            '\\SprayFire\\Mediator\\DispatcherEvents',
+            '\\SprayFire\\Mediator\\LoggingEvents'
+        );
+        foreach ($eventClasses as $eventClass) {
+            $ReflectedEvent = new \ReflectionClass($eventClass);
+            $eventContants = $ReflectedEvent->getConstants();
+            $this->validCallbacks = \array_merge($this->validCallbacks, $eventContants);
+        }
+    }
+
+    protected function buildEventStorage() {
+        foreach ($this->validCallbacks as $eventName) {
+            $this->eventCallbacks[$eventName] = array();
+        }
+    }
+
+    /**
      * @param SprayFire.Mediator.Callback $Callback
      * @return boolean
      */
     public function addCallback(MediatorCallback $Callback) {
-        $this->eventCallbacks[] = $Callback;
+        $eventName = $Callback->getEventName();
+        if (!\in_array($eventName, $this->validCallbacks)) {
+            throw new \InvalidArgumentException('The event name, ' . $eventName . ', is not valid and cannot be used as a callback.');
+        }
+        $this->eventCallbacks[$eventName][] = $Callback;
         return true;
     }
 
@@ -37,7 +75,17 @@ class Mediator extends CoreObject implements MediatorMediator {
      * @return boolean
      */
     public function removeCallback(MediatorCallback $Callback) {
-
+        $eventName = $Callback->getEventName();
+        if (!\in_array($eventName, $this->validCallbacks)) {
+            return false;
+        }
+        $storedCallbacks = $this->eventCallbacks[$eventName];
+        foreach($storedCallbacks as $key => $StoredCallback) {
+            if ($Callback->equals($StoredCallback)) {
+                unset($this->eventCallbacks[$eventName][$key]);
+            }
+        }
+        return true;
     }
 
     /**
@@ -46,7 +94,10 @@ class Mediator extends CoreObject implements MediatorMediator {
      * @return array
      */
     public function getCallbacks($eventName) {
-        return $this->eventCallbacks;
+        if (!\in_array($eventName, $this->validCallbacks)) {
+            return array();
+        }
+        return $this->eventCallbacks[$eventName];
     }
 
     /**
@@ -55,7 +106,11 @@ class Mediator extends CoreObject implements MediatorMediator {
      * @param array $arguments
      */
     public function triggerEvent($eventName, $Target, array $arguments = array()) {
-
+        $Event = new \SprayFire\Mediator\FireMediator\Event($eventName, $Target, $arguments);
+        $callbacks = $this->eventCallbacks[$eventName];
+        foreach ($callbacks as $Callback) {
+            $Callback->invoke($Event, $arguments);
+        }
     }
 
 }
