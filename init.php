@@ -56,6 +56,7 @@ $ResponderFactory = $Container->getService($environmentConfig['services']['Respo
 $Container->addService($Router->getRoutedRequest($Request));
 
 $AppInitializer = new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($Container, $ClassLoader, $Paths);
+$Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
 
 $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $AppInitializer, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
