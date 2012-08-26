@@ -9,9 +9,17 @@ namespace SprayFire\Test\Cases\Dispatcher\FireDispatcher;
 
 class DispatcherTest extends \PHPUnit_Framework_TestCase {
 
-    protected $Container;
+    public $Container;
 
-    protected $environmentConfig;
+    public $JavaNameConverter;
+
+    public $ReflectionCache;
+
+    public $environmentConfig;
+
+    public $Paths;
+
+    public $Mediator;
 
     public $routeConfig;
 
@@ -21,22 +29,22 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
     protected $ErrorLog;
 
     public function setUp() {
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $ReflectionCache = new \SprayFire\ReflectionCache($JavaNameConverter);
-        $Container = new \SprayFire\Service\FireService\Container($ReflectionCache);
+        $this->JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $this->ReflectionCache = new \SprayFire\ReflectionCache($this->JavaNameConverter);
+        $Container = new \SprayFire\Service\FireService\Container($this->ReflectionCache);
 
         $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths(\SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework');
-        $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
+        $this->Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
 
-        $Container->addService($JavaNameConverter);
-        $Container->addService($ReflectionCache);
-        $Container->addService($Paths);
+        $Container->addService($this->JavaNameConverter);
+        $Container->addService($this->ReflectionCache);
+        $Container->addService($this->Paths);
 
         $this->routeConfig = array(
             '404' => array(
                 'static' => true,
-                'layoutPath' => $Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'just-templatecontents-around-div.php'),
-                'templatePath' => $Paths->getLibsPath('SprayFire', 'Responder', 'html', '404.php'),
+                'layoutPath' => $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'just-templatecontents-around-div.php'),
+                'templatePath' => $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', '404.php'),
                 'responderName' => 'SprayFire.Responder.HtmlResponder'
             ),
             'routes' => array(
@@ -71,9 +79,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
             'services' => array(
                 'HttpRouter' => array(
                     'name' => 'SprayFire.Http.Routing.FireRouting.Router',
-                    'parameterCallback' => function() use ($Paths, $that) {
+                    'parameterCallback' => function() use ($that) {
                         $Normalizer = new \SprayFire\Http\Routing\FireRouting\Normalizer();
-                        $installDir = \basename($Paths->getInstallPath());
+                        $installDir = \basename($that->Paths->getInstallPath());
                         return array($Normalizer, $that->routeConfig, $installDir);
                     }
                 ),
@@ -86,16 +94,16 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
                 ),
                 'ControllerFactory' => array(
                     'name' => 'SprayFire.Controller.FireController.Factory',
-                    'parameterCallback' => function() use ($ReflectionCache, $Container) {
-                        $Logger = $Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
-                        return array($ReflectionCache, $Container, $Logger);
+                    'parameterCallback' => function() use ($that) {
+                        $Logger = $that->Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
+                        return array($that->ReflectionCache, $that->Container, $Logger);
                     }
                 ),
                 'ResponderFactory' => array(
                     'name' => 'SprayFire.Responder.Factory',
-                    'parameterCallback' => function() use ($ReflectionCache, $Container) {
-                        $Logger = $Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
-                        return array($ReflectionCache, $Container, $Logger);
+                    'parameterCallback' => function() use ($that) {
+                        $Logger = $that->Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
+                        return array($that->ReflectionCache, $that->Container, $Logger);
                     }
                 ),
                 'HttpRequest' => array(
@@ -120,6 +128,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         }
 
         $this->Container = $Container;
+        $this->Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
         $this->environmentConfig = $environmentConfig;
     }
 
@@ -164,6 +173,25 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $response);
     }
 
+    public function testFireDispatcherTriggeringBeforeRoutingEvent() {
+        $eventData = array();
+        $eventName = \SprayFire\Mediator\DispatcherEvents::BEFORE_ROUTING;
+        $function = function($Event) use(&$eventData) {
+            $eventData[$Event->getEventName()] = 'callback invoked';
+        };
+        $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
+        $this->Mediator->addCallback($Callback);
+
+        $Dispatcher = $this->getDispatcher();
+        \ob_start();
+        $Dispatcher->dispatchResponse($this->getRequest('/initializer'));
+        $response = \ob_get_contents();
+        \ob_end_clean();
+        $expected = '<div>initializer</div>';
+        $this->assertSame($expected, $response);
+        $this->assertSame($eventData[$eventName], 'callback invoked');
+    }
+
     protected function getRequest($uri) {
         $_server = array();
         $_server['REQUEST_URI'] = $uri;
@@ -184,14 +212,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
     }
 
     protected function getAppInitializer() {
-        $installDir = \SPRAYFIRE_ROOT;
-        $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($installDir);
-        $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $ReflectionCache = new \SprayFire\ReflectionCache($JavaNameConverter);
         $ClassLoader = new \ClassLoader\Loader();
         $ClassLoader->setAutoloader();
-        return new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($this->Container, $ClassLoader, $Paths);
+        return new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($this->Container, $ClassLoader, $this->Paths);
     }
 
 }
