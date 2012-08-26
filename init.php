@@ -61,5 +61,5 @@ $Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
 $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $AppInitializer, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
 
-echo '<pre>Request time ' . (microtime(true) - $requestStartTime) . '</pre>';
-\var_dump(memory_get_peak_usage(true));
+echo '<pre>Request time ' . (\microtime(true) - $requestStartTime) . '</pre>';
+\var_dump(\memory_get_peak_usage(true));
