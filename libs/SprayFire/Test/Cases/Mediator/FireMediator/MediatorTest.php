@@ -90,6 +90,12 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $eventData);
     }
 
-    
+    public function testMediatorTriggerInvalidEvent() {
+        $eventName = 'notarget.nonexistent';
+        $Target = 'something';
+        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
+        $this->setExpectedException('\\InvalidArgumentException');
+        $Mediator->triggerEvent($eventName, $Target);
+    }
 
 }
