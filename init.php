@@ -63,4 +63,3 @@ $Dispatcher->dispatchResponse($Request);
 
 echo '<pre>Request time ' . (microtime(true) - $requestStartTime) . '</pre>';
 \var_dump(memory_get_peak_usage(true));
-\var_dump($Mediator);
