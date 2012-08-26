@@ -15,8 +15,6 @@ use \SprayFire\Mediator\Mediator as MediatorMediator,
     \SprayFire\Mediator\DispatcherEvents as DispatcherEvents,
     \SprayFire\CoreObject as CoreObject;
 
-
-
 class Mediator extends CoreObject implements MediatorMediator {
 
     /**
@@ -40,8 +38,7 @@ class Mediator extends CoreObject implements MediatorMediator {
      */
     protected function buildValidEventCallbacks() {
         $eventClasses = array(
-            '\\SprayFire\\Mediator\\DispatcherEvents',
-            '\\SprayFire\\Mediator\\LoggingEvents'
+            '\\SprayFire\\Mediator\\DispatcherEvents'
         );
         foreach ($eventClasses as $eventClass) {
             $ReflectedEvent = new \ReflectionClass($eventClass);
@@ -106,6 +103,9 @@ class Mediator extends CoreObject implements MediatorMediator {
      * @param array $arguments
      */
     public function triggerEvent($eventName, $Target, array $arguments = array()) {
+        if (!\in_array($eventName, $this->validCallbacks)) {
+            throw new \InvalidArgumentException('The event name passed, ' . $eventName . ', is not a validly registered event.');
+        }
         $Event = new \SprayFire\Mediator\FireMediator\Event($eventName, $Target, $arguments);
         $callbacks = $this->eventCallbacks[$eventName];
         foreach ($callbacks as $Callback) {
