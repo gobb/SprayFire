@@ -17,9 +17,9 @@ $environment = array(
         ),
         'Handler' => array(
             'name' => 'SprayFire.Handler',
-            'parameterCallback' => function() use($Container) {
+            'parameterCallback' => function() use($Container, $developmentMode) {
                 $LogDelegator = $Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
-                return array($LogDelegator);
+                return array($LogDelegator, $developmentMode);
             }
         ),
         'HttpRequest' => array(
