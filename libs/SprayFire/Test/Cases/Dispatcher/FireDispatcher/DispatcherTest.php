@@ -177,7 +177,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $eventData = array();
         $eventName = \SprayFire\Mediator\DispatcherEvents::BEFORE_ROUTING;
         $function = function($Event) use(&$eventData) {
-            $eventData[$Event->getEventName()] = 'callback invoked';
+            $eventData[$Event->getEventName()] = $Event->getTarget()->getUri()->getPath();
         };
         $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
         $this->Mediator->addCallback($Callback);
@@ -189,7 +189,26 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         \ob_end_clean();
         $expected = '<div>initializer</div>';
         $this->assertSame($expected, $response);
-        $this->assertSame($eventData[$eventName], 'callback invoked');
+        $this->assertSame($eventData[$eventName], '/initializer');
+    }
+
+    public function testFireDispatcherTriggeringAFterRoutingEvent() {
+        $eventData = array();
+        $eventName = \SprayFire\Mediator\DispatcherEvents::AFTER_ROUTING;
+        $function = function($Event) use(&$eventData) {
+            $eventData[$Event->getEventName()] = $Event->getTarget()->getController();
+        };
+        $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
+        $this->Mediator->addCallback($Callback);
+
+        $Dispatcher = $this->getDispatcher();
+        \ob_start();
+        $Dispatcher->dispatchResponse($this->getRequest('/initializer'));
+        $response = \ob_get_contents();
+        \ob_end_clean();
+        $expected = '<div>initializer</div>';
+        $this->assertSame($expected, $response);
+        $this->assertSame($eventData[$eventName], '/initializer');
     }
 
     protected function getRequest($uri) {
@@ -208,7 +227,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $ControllerFactory = $this->Container->getService($this->environmentConfig['services']['ControllerFactory']['name']);
         $ControllerFactory->setErrorHandlingMethod(\SprayFire\Factory\FireFactory\Base::THROW_EXCEPTION);
         $ResponderFactory = $this->Container->getService($this->environmentConfig['services']['ResponderFactory']['name']);
-        return new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $Initializer, $ControllerFactory, $ResponderFactory);
+        return new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $this->Mediator, $Initializer, $ControllerFactory, $ResponderFactory);
     }
 
     protected function getAppInitializer() {
