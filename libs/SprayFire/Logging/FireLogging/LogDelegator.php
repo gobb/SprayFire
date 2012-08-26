@@ -86,4 +86,25 @@ class LogDelegator extends CoreObject implements LogOverseer {
         return $this->InfoLogger->log($message, $options);
     }
 
+    public function getLogger($loggerType) {
+        $loggerType = \strtolower($loggerType);
+        switch($loggerType) {
+            case 'emergency':
+                return $this->EmergencyLogger;
+                break;
+            case 'error':
+                return $this->ErrorLogger;
+                break;
+            case 'info':
+                return $this->InfoLogger;
+                break;
+            case 'debug':
+                return $this->DebugLogger;
+                break;
+            default:
+                return null;
+
+        }
+    }
+
 }

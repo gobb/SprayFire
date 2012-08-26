@@ -43,4 +43,10 @@ interface LogOverseer extends Object {
      */
     public function logInfo($message, array $options = array());
 
+    /**
+     * @param string $loggerType
+     * @return SprayFire.Logging.Logger
+     */
+    public function getLogger($loggerType);
+
 }
