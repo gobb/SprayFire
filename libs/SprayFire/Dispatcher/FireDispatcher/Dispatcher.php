@@ -16,10 +16,12 @@ use \SprayFire\Dispatcher\Dispatcher as DispatcherDispatcher,
     \SprayFire\Http\Routing\Router as HttpRouter,
     \SprayFire\Factory\Factory as Factory,
     \SprayFire\Http\Request as Request,
+    \SprayFire\Mediator\Mediator as Mediator,
     \SprayFire\Http\Routing\RoutedRequest as RoutedRequest,
     \SprayFire\Logging\LogOverseer as LogOverseer,
     \SprayFire\Controller\Controller as Controller,
     \SprayFire\CoreObject as CoreObject,
+    \SprayFire\Mediator\DispatcherEvents as DispatcherEvents,
     \SprayFire\Exception\ResourceNotFound as ResourceNotFoundException;
 
 class Dispatcher extends CoreObject implements DispatcherDispatcher {
@@ -34,6 +36,14 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
      */
     protected $Router;
 
+    /**
+     * @property SprayFire.Mediator.Mediator
+     */
+    protected $Mediator;
+
+    /**
+     * @property SprayFire.AppInitializer
+     */
     protected $AppInitializer;
 
     /**
@@ -58,12 +68,14 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
 
     /**
      * @param SprayFire.Http.Routing.Router $Router
+     * @param SprayFire.Mediator.Mediator $Mediator
      * @param SprayFire.Dispatcher.AppInitializer $AppInitializer
      * @param SprayFire.Factory.Factory $Factory
      * @param SprayFire.Factory.Factory $Factory
      */
-    public function __construct(HttpRouter $Router, DispatcherAppInitializer $AppInitializer, Factory $ControllerFactory, Factory $ResponderFactory) {
+    public function __construct(HttpRouter $Router, Mediator $Mediator, DispatcherAppInitializer $AppInitializer, Factory $ControllerFactory, Factory $ResponderFactory) {
         $this->Router = $Router;
+        $this->Mediator = $Mediator;
         $this->AppInitializer = $AppInitializer;
         $this->ControllerFactory = $ControllerFactory;
         $this->ResponderFactory = $ResponderFactory;
@@ -74,6 +86,7 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
      * @param SprayFire.Http.Request $Request
      */
     public function dispatchResponse(Request $Request) {
+        $this->Mediator->triggerEvent(DispatcherEvents::BEFORE_ROUTING, $Request);
         $RoutedRequest = $this->Router->getRoutedRequest($Request);
         if ($RoutedRequest->isStatic()) {
             $this->sendStaticRequest($RoutedRequest);
