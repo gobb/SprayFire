@@ -208,7 +208,45 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         \ob_end_clean();
         $expected = '<div>initializer</div>';
         $this->assertSame($expected, $response);
-        $this->assertSame($eventData[$eventName], '/initializer');
+        $this->assertSame($eventData[$eventName], 'TestApp.Controller.Base');
+    }
+
+    public function testFireDispatcherTriggeringBeforeControllerInvokedEvent() {
+        $eventData = array();
+        $eventName = \SprayFire\Mediator\DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
+        $function = function($Event) use(&$eventData) {
+            $eventData[$Event->getEventName()] = \get_class($Event->getTarget());
+        };
+        $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
+        $this->Mediator->addCallback($Callback);
+
+        $Dispatcher = $this->getDispatcher();
+        \ob_start();
+        $Dispatcher->dispatchResponse($this->getRequest('/'));
+        $response = \ob_get_contents();
+        \ob_end_clean();
+        $expected = '<div>SprayFire</div>';
+        $this->assertSame($expected, $response);
+        $this->assertSame($eventData[$eventName], 'SprayFire\\Test\\Helpers\\Controller\\TestPages');
+    }
+
+    public function testFireDispatcherTriggeringAfterControllerInvokedEvent() {
+        $eventData = array();
+        $eventName = \SprayFire\Mediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED;
+        $function = function($Event) use(&$eventData) {
+            $eventData[$Event->getEventName()] = \get_class($Event->getTarget());
+        };
+        $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
+        $this->Mediator->addCallback($Callback);
+
+        $Dispatcher = $this->getDispatcher();
+        \ob_start();
+        $Dispatcher->dispatchResponse($this->getRequest('/'));
+        $response = \ob_get_contents();
+        \ob_end_clean();
+        $expected = '<div>SprayFire</div>';
+        $this->assertSame($expected, $response);
+        $this->assertSame($eventData[$eventName], 'SprayFire\\Test\\Helpers\\Controller\\TestPages');
     }
 
     protected function getRequest($uri) {
