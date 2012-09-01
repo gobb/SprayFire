@@ -88,6 +88,7 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
     public function dispatchResponse(Request $Request) {
         $this->Mediator->triggerEvent(DispatcherEvents::BEFORE_ROUTING, $Request);
         $RoutedRequest = $this->Router->getRoutedRequest($Request);
+        $this->Mediator->triggerEvent(DispatcherEvents::AFTER_ROUTING, $RoutedRequest);
         if ($RoutedRequest->isStatic()) {
             $this->sendStaticRequest($RoutedRequest);
         } else {
@@ -110,7 +111,9 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
             $controllerName = $RoutedRequest->getController();
             $actionName = $RoutedRequest->getAction();
             $Controller = $this->generateController($controllerName, $actionName);
+            $this->Mediator->triggerEvent(DispatcherEvents::BEFORE_CONTROLLER_INVOKED, $Controller);
             $this->invokeController($Controller, $RoutedRequest);
+            $this->Mediator->triggerEvent(DispatcherEvents::AFTER_CONTROLLER_INVOKED, $Controller);
             $ResponderName = $Controller->getResponderName();
             $Responder = $this->ResponderFactory->makeObject($ResponderName);
             echo $Responder->generateDynamicResponse($Controller);
