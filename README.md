@@ -32,7 +32,6 @@ The [framework wiki](http://www.github.com/cspray/SprayFire/wiki/) is a more rel
 - Some of SprayFire required  configuration is done in [JSON](http://www.json.org/) and you will need the [appropriate PHP extension](http://www.php.net/manual/en/book.json.php).
 - Unit tests are written with [PHPUnit](https://github.com/sebastianbergmann/phpunit).
 - Class autoloading is taken care of by [ClassLoader](http://github.com/cspray/ClassLoader)
-- Reflection caching is handled by an [Artax](https://github.com/rdlowrey/Artax) component written by [rdlowery](https://github.com/rdlowrey), though the entire Artax framework is provided as well.
 
 ## github
 
