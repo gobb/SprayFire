@@ -249,6 +249,44 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($eventData[$eventName], 'SprayFire\\Test\\Helpers\\Controller\\TestPages');
     }
 
+    public function testFireDispatcherTriggeringBeforeResponseInvokedEvent() {
+        $eventData = array();
+        $eventName = \SprayFire\Mediator\DispatcherEvents::BEFORE_RESPONSE_SENT;
+        $function = function($Event) use(&$eventData) {
+            $eventData[$Event->getEventName()] = \get_class($Event->getTarget());
+        };
+        $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
+        $this->Mediator->addCallback($Callback);
+
+        $Dispatcher = $this->getDispatcher();
+        \ob_start();
+        $Dispatcher->dispatchResponse($this->getRequest('/'));
+        $response = \ob_get_contents();
+        \ob_end_clean();
+        $expected = '<div>SprayFire</div>';
+        $this->assertSame($expected, $response);
+        $this->assertSame($eventData[$eventName], 'SprayFire\\Responder\\FireResponder\\Html');
+    }
+
+    public function testFireDispatcherTriggeringAfterResponseInvokedEvent() {
+        $eventData = array();
+        $eventName = \SprayFire\Mediator\DispatcherEvents::AFTER_RESPONSE_SENT;
+        $function = function($Event) use(&$eventData) {
+            $eventData[$Event->getEventName()] = \get_class($Event->getTarget());
+        };
+        $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
+        $this->Mediator->addCallback($Callback);
+
+        $Dispatcher = $this->getDispatcher();
+        \ob_start();
+        $Dispatcher->dispatchResponse($this->getRequest('/'));
+        $response = \ob_get_contents();
+        \ob_end_clean();
+        $expected = '<div>SprayFire</div>';
+        $this->assertSame($expected, $response);
+        $this->assertSame($eventData[$eventName], 'SprayFire\\Responder\\FireResponder\\Html');
+    }
+
     protected function getRequest($uri) {
         $_server = array();
         $_server['REQUEST_URI'] = $uri;
