@@ -116,7 +116,9 @@ class Dispatcher extends CoreObject implements DispatcherDispatcher {
             $this->Mediator->triggerEvent(DispatcherEvents::AFTER_CONTROLLER_INVOKED, $Controller);
             $ResponderName = $Controller->getResponderName();
             $Responder = $this->ResponderFactory->makeObject($ResponderName);
+            $this->Mediator->triggerEvent(DispatcherEvents::BEFORE_RESPONSE_SENT, $Responder);
             echo $Responder->generateDynamicResponse($Controller);
+            $this->Mediator->triggerEvent(DispatcherEvents::AFTER_RESPONSE_SENT, $Responder);
         } catch(ResourceNotFoundException $TypeNotFoundExc) {
             $this->dispatch404Response();
         }
