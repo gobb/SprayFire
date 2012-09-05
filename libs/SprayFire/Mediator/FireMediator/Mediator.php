@@ -12,7 +12,7 @@ namespace SprayFire\Mediator\FireMediator;
 
 use \SprayFire\Mediator\Mediator as MediatorMediator,
     \SprayFire\Mediator\Callback as MediatorCallback,
-    \SprayFire\Mediator\DispatcherEvents as DispatcherEvents,
+    \SprayFire\Mediator\FireMediator\EventRegistry as EventRegistry,
     \SprayFire\CoreObject as CoreObject;
 
 class Mediator extends CoreObject implements MediatorMediator {
@@ -27,7 +27,7 @@ class Mediator extends CoreObject implements MediatorMediator {
      */
     protected $validCallbacks = array();
 
-    public function __construct() {
+    public function __construct(EventRegistry $Registry) {
         $this->buildValidEventCallbacks();
         $this->buildEventStorage();
     }
