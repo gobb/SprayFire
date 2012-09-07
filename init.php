@@ -52,12 +52,16 @@ $Request = $Container->getService($environmentConfig['services']['HttpRequest'][
 $Router = $Container->getService($environmentConfig['services']['HttpRouter']['name']);
 $ControllerFactory = $Container->getService($environmentConfig['services']['ControllerFactory']['name']);
 $ResponderFactory = $Container->getService($environmentConfig['services']['ResponderFactory']['name']);
+$EventRegistry = $Container->getService($environmentConfig['services']['EventRegistry']['name']);
+$Mediator = $Container->getService($environmentConfig['services']['Mediator']['name']);
 
 $Container->addService($Router->getRoutedRequest($Request));
 
-$AppInitializer = new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($Container, $ClassLoader, $Paths);
-$Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
+foreach ($environmentConfig['registeredEvents'] as $eventName => $eventType) {
+    $EventRegistry->registerEvent($eventName, $eventType);
+}
 
+$AppInitializer = new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($Container, $ClassLoader, $Paths);
 $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $Mediator, $AppInitializer, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
 
