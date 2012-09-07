@@ -7,13 +7,15 @@
 
 namespace SprayFire\Test\Cases\Mediator\FireMediator;
 
+use SprayFire\Mediator\DispatcherEvents as DispatcherEvents;
+
 class MediatorTest extends \PHPUnit_Framework_TestCase {
 
     public function testMediatorStoringSingleValidCallback() {
         $eventName = \SprayFire\Mediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED;
         $function = function(\SprayFire\Mediator\Event $Event) {};
         $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
-        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
+        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->getEventRegistry());
         $Mediator->addCallback($Callback);
         $callbacks = $Mediator->getCallbacks($eventName);
         $this->assertSame($callbacks[0], $Callback);
@@ -26,7 +28,7 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
         $FirstCallback = new \SprayFire\Mediator\FireMediator\Callback($firstEventName, $function);
         $SecondCallback = new \SprayFire\Mediator\FireMediator\Callback($secondEventName, $function);
 
-        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
+        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->getEventRegistry());
         $Mediator->addCallback($FirstCallback);
         $Mediator->addCallback($SecondCallback);
 
@@ -41,7 +43,7 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
         $eventName = 'nonexistent.event_name';
         $function = function() {};
         $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
-        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
+        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->getEventRegistry());
 
         $this->setExpectedException('\\InvalidArgumentException');
         $Mediator->addCallback($Callback);
@@ -51,7 +53,7 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
         $eventName = 'nonexistent.event_name';
         $function = function() {};
         $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
-        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
+        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->getEventRegistry());
         $actual = $Mediator->getCallbacks($eventName);
         $this->assertSame(array(), $actual);
     }
@@ -60,7 +62,7 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
         $eventName = \SprayFire\Mediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED;
         $function = function() {};
         $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
-        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
+        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->getEventRegistry());
         $Mediator->addCallback($Callback);
         $this->assertCount(1, $Mediator->getCallbacks($eventName), 'An event does not have a stored callback though it should');
         $this->assertTrue($Mediator->removeCallback($Callback), 'An event has not been properly removed');
@@ -78,7 +80,7 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
         $FirstCallback = new \SprayFire\Mediator\FireMediator\Callback($firstEvent, $function);
         $SecondCallback = new \SprayFire\Mediator\FireMediator\Callback($secondEvent, $function);
 
-        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
+        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->getEventRegistry());
         $Mediator->addCallback($FirstCallback);
         $Mediator->addCallback($SecondCallback);
         $Mediator->triggerEvent($firstEvent, '');
@@ -93,9 +95,21 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
     public function testMediatorTriggerInvalidEvent() {
         $eventName = 'notarget.nonexistent';
         $Target = 'something';
-        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
+        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->getEventRegistry());
         $this->setExpectedException('\\InvalidArgumentException');
         $Mediator->triggerEvent($eventName, $Target);
+    }
+
+    protected function getEventRegistry() {
+        $Registry = new \SprayFire\Mediator\FireMediator\EventRegistry();
+
+        $targetType = '';
+
+        $Registry->registerEvent(DispatcherEvents::BEFORE_ROUTING, $targetType);
+        $Registry->registerEvent(DispatcherEvents::AFTER_CONTROLLER_INVOKED, $targetType);
+        $Registry->registerEvent(DispatcherEvents::BEFORE_CONTROLLER_INVOKED, $targetType);
+
+        return $Registry;
     }
 
 }
