@@ -12,7 +12,7 @@ namespace SprayFire\Mediator\FireMediator;
 
 use \SprayFire\CoreObject as CoreObject;
 
-class EventRegistry extends CoreObject {
+class EventRegistry extends CoreObject implements \IteratorAggregate {
 
     /**
      * @property array
@@ -66,6 +66,13 @@ class EventRegistry extends CoreObject {
      */
     public function hasEvent($eventName) {
         return \array_key_exists($eventName, $this->registry);
+    }
+
+    /**
+     * @return Traversable
+     */
+    public function getIterator() {
+        return new \ArrayIterator($this->registry);
     }
 
 }
