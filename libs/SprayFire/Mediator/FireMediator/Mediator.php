@@ -12,6 +12,7 @@ namespace SprayFire\Mediator\FireMediator;
 
 use \SprayFire\Mediator\Mediator as MediatorMediator,
     \SprayFire\Mediator\Callback as MediatorCallback,
+    \SprayFire\Mediator\FireMediator\Event as MediatorEvent,
     \SprayFire\Mediator\FireMediator\EventRegistry as EventRegistry,
     \SprayFire\CoreObject as CoreObject;
 
@@ -23,33 +24,21 @@ class Mediator extends CoreObject implements MediatorMediator {
     protected $eventCallbacks = array();
 
     /**
-     * @property array
+     * @property SprayFire.Mediator.FireMediator.EventRegistry
      */
-    protected $validCallbacks = array();
+    protected $Registry;
 
+    /**
+     * @param SprayFire.Mediator.FireMediator.EventRegistry $Registry
+     */
     public function __construct(EventRegistry $Registry) {
-        $this->buildValidEventCallbacks();
+        $this->Registry = $Registry;
         $this->buildEventStorage();
     }
 
-    /**
-     * Will create a map of valid callbacks based on the abstract class constants
-     * for event classes.
-     */
-    protected function buildValidEventCallbacks() {
-        $eventClasses = array(
-            '\\SprayFire\\Mediator\\DispatcherEvents'
-        );
-        foreach ($eventClasses as $eventClass) {
-            $ReflectedEvent = new \ReflectionClass($eventClass);
-            $eventContants = $ReflectedEvent->getConstants();
-            $this->validCallbacks = \array_merge($this->validCallbacks, $eventContants);
-        }
-    }
-
-    protected function buildEventStorage() {
-        foreach ($this->validCallbacks as $eventName) {
-            $this->eventCallbacks[$eventName] = array();
+    public function buildEventStorage() {
+        foreach ($this->Registry as $event => $eventType) {
+            $this->eventCallbacks[$event] = array();
         }
     }
 
@@ -59,7 +48,7 @@ class Mediator extends CoreObject implements MediatorMediator {
      */
     public function addCallback(MediatorCallback $Callback) {
         $eventName = $Callback->getEventName();
-        if (!\in_array($eventName, $this->validCallbacks)) {
+        if (!$this->Registry->hasEvent($eventName)) {
             throw new \InvalidArgumentException('The event name, ' . $eventName . ', is not valid and cannot be used as a callback.');
         }
         $this->eventCallbacks[$eventName][] = $Callback;
@@ -73,7 +62,7 @@ class Mediator extends CoreObject implements MediatorMediator {
      */
     public function removeCallback(MediatorCallback $Callback) {
         $eventName = $Callback->getEventName();
-        if (!\in_array($eventName, $this->validCallbacks)) {
+        if (!$this->Registry->hasEvent($eventName)) {
             return false;
         }
         $storedCallbacks = $this->eventCallbacks[$eventName];
@@ -91,7 +80,7 @@ class Mediator extends CoreObject implements MediatorMediator {
      * @return array
      */
     public function getCallbacks($eventName) {
-        if (!\in_array($eventName, $this->validCallbacks)) {
+        if (!$this->Registry->hasEvent($eventName)) {
             return array();
         }
         return $this->eventCallbacks[$eventName];
@@ -103,10 +92,10 @@ class Mediator extends CoreObject implements MediatorMediator {
      * @param array $arguments
      */
     public function triggerEvent($eventName, $Target, array $arguments = array()) {
-        if (!\in_array($eventName, $this->validCallbacks)) {
+        if (!$this->Registry->hasEvent($eventName)) {
             throw new \InvalidArgumentException('The event name passed, ' . $eventName . ', is not a validly registered event.');
         }
-        $Event = new \SprayFire\Mediator\FireMediator\Event($eventName, $Target, $arguments);
+        $Event = new MediatorEvent($eventName, $Target, $arguments);
         $callbacks = $this->eventCallbacks[$eventName];
         foreach ($callbacks as $Callback) {
             $Callback->invoke($Event, $arguments);
