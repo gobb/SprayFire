@@ -4,10 +4,18 @@ $developmentMode = true;
 
 $environment = array(
     'developmentMode' => $developmentMode,
+    'registeredEvents' => array(
+        \SprayFire\Mediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED => '',
+        \SprayFire\Mediator\DispatcherEvents::AFTER_RESPONSE_SENT => '',
+        \SprayFire\Mediator\DispatcherEvents::AFTER_ROUTING => '',
+        \SprayFire\Mediator\DispatcherEvents::BEFORE_CONTROLLER_INVOKED => '',
+        \SprayFire\Mediator\DispatcherEvents::BEFORE_RESPONSE_SENT => '',
+        \SprayFire\Mediator\DispatcherEvents::BEFORE_ROUTING => ''
+    ),
     'services' => array(
         'Logging' => array(
             'name' => 'SprayFire.Logging.FireLogging.LogDelegator',
-            'parameterCallback' => function() use($Paths) {
+            'parameterCallback' => function() {
                 $EmergencyLogger = new \SprayFire\Logging\FireLogging\SysLogLogger();
                 $ErrorLogger = new \SprayFire\Logging\FireLogging\ErrorLogLogger();
                 $InfoLogger = new \SprayFire\Logging\FireLogging\DevelopmentLogger();
@@ -24,7 +32,7 @@ $environment = array(
         ),
         'HttpRequest' => array(
             'name' => 'SprayFire.Http.FireHttp.Request',
-            'parameterCallback' => function() use($Paths) {
+            'parameterCallback' => function() {
                 $Uri = new \SprayFire\Http\FireHttp\Uri();
                 $RequestHeaders = new \SprayFire\Http\FireHttp\RequestHeaders();
                 return array($Uri, $RequestHeaders);
@@ -55,6 +63,16 @@ $environment = array(
                 $LogDelegator = $Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
                 return array($ReflectionCache, $Container, $LogDelegator);
             }
+        ),
+        'Mediator' => array(
+            'name' => 'SprayFire.Mediator.FireMediator.Mediator',
+            'parameterCallback' => function() use($Container) {
+                return array($Container->getService('SprayFire.Mediator.FireMediator.EventRegistry'));
+            }
+        ),
+        'EventRegistry' => array(
+            'name' => 'SprayFire.Mediator.FireMediator.EventRegistry',
+            'parameterCallback' => null
         )
     )
 );
