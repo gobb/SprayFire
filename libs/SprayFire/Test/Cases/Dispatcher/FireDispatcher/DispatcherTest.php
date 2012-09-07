@@ -7,6 +7,8 @@
 
 namespace SprayFire\Test\Cases\Dispatcher\FireDispatcher;
 
+use \SprayFire\Mediator\DispatcherEvents as DispatcherEvents;
+
 class DispatcherTest extends \PHPUnit_Framework_TestCase {
 
     public $Container;
@@ -20,6 +22,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
     public $Paths;
 
     public $Mediator;
+
+    public $EventRegistry;
 
     public $routeConfig;
 
@@ -128,7 +132,16 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         }
 
         $this->Container = $Container;
-        $this->Mediator = new \SprayFire\Mediator\FireMediator\Mediator();
+        $this->EventRegistry = new \SprayFire\Mediator\FireMediator\EventRegistry();
+
+        $this->EventRegistry->registerEvent(DispatcherEvents::BEFORE_ROUTING, '');
+        $this->EventRegistry->registerEvent(DispatcherEvents::AFTER_ROUTING, '');
+        $this->EventRegistry->registerEvent(DispatcherEvents::BEFORE_CONTROLLER_INVOKED, '');
+        $this->EventRegistry->registerEvent(DispatcherEvents::AFTER_CONTROLLER_INVOKED, '');
+        $this->EventRegistry->registerEvent(DispatcherEvents::BEFORE_RESPONSE_SENT, '');
+        $this->EventRegistry->registerEvent(DispatcherEvents::AFTER_RESPONSE_SENT, '');
+
+        $this->Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->EventRegistry);
         $this->environmentConfig = $environmentConfig;
     }
 
