@@ -5,7 +5,10 @@
  * retrieval of information about the services the controller needs and provides
  * a means to give data to the Responder
  *
- * @author Charles Sprayberry
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Controller;
@@ -13,6 +16,19 @@ namespace SprayFire\Controller;
 use \SprayFire\Object as Object,
     \SprayFire\Service\Consumer as ServiceConsumer;
 
+/**
+ * @TODO
+ * This interface should reevaluate how it is providing data to the SprayFire.Responder.Responder
+ * and whether or not it should be providing a mechanism for giving clean or
+ * dirty data.  Should we not assume that all data is dirty?  If you are providing
+ * data in a way that requires data to not be escaped on output is this not a
+ * security flaw in your application?
+ *
+ * In the context of providing data to a SprayFire.Responder.Responder the data
+ * should always be escaped.  By allowing data, regardless of the source, to be
+ * output without first being escaped you are opening a security flaw into your
+ * application.  If it can be used it can be compromised at some level.
+ */
 interface Controller extends Object, ServiceConsumer {
 
     /**
