@@ -24,6 +24,10 @@ use \SprayFire\Controller\Controller as Controller,
  * is satisfied by this object and can be extended in such a way that overwriting
  * properties or altering properties at runtime, either at construction, as an event
  * or during action invocation alters the behavior of the implementation.
+ *
+ * If you overwrite the methods in this class please ensure that you return the
+ * appropriate types as defined in the documentation of the interfaces SprayFire.Controller.Controller
+ * and SprayFire.Service.Consumer.
  */
 abstract class Base extends ServiceConsumer implements Controller {
 
@@ -135,7 +139,7 @@ abstract class Base extends ServiceConsumer implements Controller {
     }
 
     /**
-     * Provide data to the SprayFire.Responder.Responder that does not need to
+     * Provide data to the SprayFire.Responder.Responder that does NOT need to
      * be sanitized.
      *
      * @param array $data
@@ -146,6 +150,9 @@ abstract class Base extends ServiceConsumer implements Controller {
     }
 
     /**
+     * Provide data to the SprayFire.Responder.Responder that DOES need to be
+     * sanitized.
+     *
      * @param array $data
      * @return void
      */
