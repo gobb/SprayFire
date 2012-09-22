@@ -1,12 +1,12 @@
 <?php
 
 /**
- * An interface for implementing objects that are responsible for framework or
- * app bootstrap functions.
+ * Interface for bootstrapping processes during framework or app initialization.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Bootstrap;
@@ -14,16 +14,15 @@ namespace SprayFire\Bootstrap;
 use \SprayFire\Object as Object;
 
 /**
- * All framework and application bootstraps should implement this interface, an
- * app bootstrap that does not implement this interface is not guaranteed to
- * be ran.
+ * Your application specific bootstraps should implement this interface to ensure
+ * that any initialization scripts are ran at start up time.
  */
 interface Bootstrapper extends Object {
 
     /**
      * Should perform whatever actions are necessary for the given bootstrap.
      *
-     * @return mixed
+     * @return void
      */
     public function runBootstrap();
 
