@@ -1,12 +1,14 @@
 <?php
 
 /**
- * The base framework controller, by default inherited by framework provided controllers
- * and is a prime choice for the parent controller in your app controllers.
+ * Abstract implementation of SprayFire.Controller.Controller that allows for easy
+ * sharing of generic functionality that it would be reasonable all implementations
+ * to use.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Controller\FireController;
@@ -14,26 +16,42 @@ namespace SprayFire\Controller\FireController;
 use \SprayFire\Controller\Controller as Controller,
     \SprayFire\Service\FireService\Consumer as ServiceConsumer;
 
+/**
+ * Application controllers are expected to take advantage of the very basic functionality
+ * provided by this object.
+ *
+ * The contract for SprayFire.Controller.Controller and SprayFire.Service.Consumer
+ * is satisfied by this object and can be extended in such a way that overwriting
+ * properties or altering properties at runtime, either at construction, as an event
+ * or during action invocation alters the behavior of the implementation.
+ */
 abstract class Base extends ServiceConsumer implements Controller {
 
     /**
+     * The complete, absolute path to the layout used for this controller
+     *
      * @property string
      */
     protected $layoutPath = '';
 
     /**
+     * The complete, absolute path to the template used for this controller
+     *
      * @property string
      */
     protected $templatePath = '';
 
     /**
+     * The PHP or Java style namespaced class to use as the SprayFire.Responder.Responder
+     * implementation for this controller.
+     *
      * @property string
      */
     protected $responderName = 'SprayFire.Responder.FireResponder.Html';
 
     /**
-     * An array of data that would need to be sanitized by the Responder before
-     * the response is sent to the user.
+     * An array of data that would need to be sanitized by the SprayFire.Responder.Responder
+     * before the response is sent to the user.
      *
      * @property array
      */
@@ -41,22 +59,26 @@ abstract class Base extends ServiceConsumer implements Controller {
 
     /**
      * An array of data that does not necessarily need to be sanitized by the
-     * Responder before the response is sent to the user.
+     * SprayFire.Responder.Responder before the response is sent to the user.
      *
      * @property array
      */
     protected $cleanData = array();
 
     /**
-     * Array of objects added to this Controller during the controller setup
-     * process.
+     * Array of services provided to this SprayFire.Controller.Controller during
+     * creation by the Controller Factory as defined by Base::$services
      *
      * @property array
      */
     protected $attachedServices = array();
 
     /**
-     * Array of services available to controller extending this object
+     * Array of services that is provided by default to all implementations extending
+     * this class.
+     *
+     * If you extend this class and overwrite this property the default services
+     * will not be properly added and will not be made available to you.
      *
      * @property array
      */
@@ -68,6 +90,8 @@ abstract class Base extends ServiceConsumer implements Controller {
     );
 
     /**
+     * Java or PHP style namespaced class name.
+     *
      * @return string
      */
     public function getResponderName() {
@@ -75,6 +99,8 @@ abstract class Base extends ServiceConsumer implements Controller {
     }
 
     /**
+     * The complete, absolute path to the layout for this controller
+     *
      * @return string
      */
     public function getLayoutPath() {
@@ -82,6 +108,8 @@ abstract class Base extends ServiceConsumer implements Controller {
     }
 
     /**
+     * The complete, absolute path to the template for this controller
+     *
      * @return string
      */
     public function getTemplatePath() {
@@ -89,6 +117,8 @@ abstract class Base extends ServiceConsumer implements Controller {
     }
 
     /**
+     * Retrieve data that does not need to be escaped by the SprayFire.Responder.Responder.
+     *
      * @return array
      */
     public function getCleanData() {
@@ -96,6 +126,8 @@ abstract class Base extends ServiceConsumer implements Controller {
     }
 
     /**
+     * Retrieve data that should be escaped by the SprayFire.Responder.Responder.
+     *
      * @return array
      */
     public function getDirtyData() {
@@ -103,6 +135,9 @@ abstract class Base extends ServiceConsumer implements Controller {
     }
 
     /**
+     * Provide data to the SprayFire.Responder.Responder that does not need to
+     * be sanitized.
+     *
      * @param array $data
      * @return void
      */
