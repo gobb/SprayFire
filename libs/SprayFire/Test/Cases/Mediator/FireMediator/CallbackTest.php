@@ -1,71 +1,110 @@
 <?php
 
 /**
- * @file
- * @brief Holds a PHPUnit test case to confirm the functionality of CallbackTest
+ * A test case to ensure the coverage of SprayFire.Mediator.FireMediator.Callback
+ *
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
+ * @covers  \\SprayFire\\Mediator\\FireMediator\\Callback
  */
 
-namespace SprayFire\Test\Cases;
+namespace SprayFire\Test\Cases\Mediator\FireMediator;
+
+use \SprayFire\Mediator\Event as MediatorEvent,
+    \SprayFire\Mediator\DispatcherEvents as DispatcherEvents,
+    \SprayFire\Mediator\FireMediator\Callback as FireCallback;
 
 class CallbackTest extends \PHPUnit_Framework_TestCase {
 
-    public function setUp() {
-
-    }
-
-    public function testCallbackGettingEventName() {
-        $eventName = \SprayFire\Mediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED;
-        $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, function() {});
-        $this->assertSame($eventName, $Callback->getEventName());
-    }
-
+    /**
+     * Ensure that an anonymous function is properly invoked and that the appropriate
+     * messages are passed to the anonymous function.
+     *
+     * @covers \\SprayFire\\Mediator\\FireMediator\\Callback::invoke
+     */
     public function testCallbackInvokingAnonymousFunction() {
         $testData = array();
-        $eventName = \SprayFire\Mediator\DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
-
-        $function = function(\SprayFire\Mediator\Event $Event) use(&$testData) {
+        $function = function(MediatorEvent $Event) use(&$testData) {
             $testData['eventName'] = $Event->getEventName();
             $testData['target'] = $Event->getTarget();
             $testData['arguments'] = $Event->getArguments();
         };
 
-        $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
-
+        $eventName = DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
         $target = 'test';
         $arguments = array(1,2,3,4);
-        $Event = new \SprayFire\Mediator\FireMediator\Event($eventName, $target, $arguments);
 
-        $Callback->invoke($Event);
-        $this->assertSame($target, $testData['target']);
+        $Callback = new FireCallback($eventName, $function);
+        $MockEvent = $this->getMockedEvent($eventName, $target, $arguments);
+
+        $Callback->invoke($MockEvent);
+
         $this->assertSame($eventName, $testData['eventName']);
+        $this->assertSame($target, $testData['target']);
         $this->assertSame($arguments, $testData['arguments']);
     }
 
+    /**
+     * Ensure that a global function string name passed will have the appropriate
+     * function invoked and the appropriate messages are passed.
+     *
+     * @covers \\SprayFire\\Mediator\\FireMediator\\Callback::invoke
+     */
     public function testCallbackInvokingFunctionName() {
         $testData = array();
-        $eventName = \SprayFire\Mediator\DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
-
-        $function = '\\SprayFire\\Test\\Cases\\testData';
-
-        $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
-
+        $eventName = DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
+        $function = '\\SprayFire\\Test\\Cases\\Mediator\\FireMediator\\testData';
         $target = 'test';
         $arguments = array(&$testData,2,3,4);
-        $Event = new \SprayFire\Mediator\FireMediator\Event($eventName, $target, $arguments);
 
-        $Callback->invoke($Event);
+        $Callback = new FireCallback($eventName, $function);
+        $MockEvent = $this->getMockedEvent($eventName, $target, $arguments);
+
+        $Callback->invoke($MockEvent);
+
         $this->assertSame($target, $testData['target']);
         $this->assertSame($eventName, $testData['eventName']);
     }
 
-    public function tearDown() {
-
+    /**
+     * Will create a mock object of SprayFire.Mediator.Event interface, ensuring
+     * that the appropriate methods from that interface are invoked one time with
+     * the appropriate return values.
+     *
+     * @param string $name
+     * @param mixed $target
+     * @param array $arguments
+     * @return SprayFire.Mediator.Event
+     */
+    protected function getMockedEvent($name, $target, array $arguments) {
+        $mockedInterface = '\\SprayFire\\Mediator\\Event';
+        $MockEvent = $this->getMock($mockedInterface);
+        $MockEvent->expects($this->once())
+                  ->method('getEventName')
+                  ->will($this->returnValue($name));
+        $MockEvent->expects($this->once())
+                  ->method('getTarget')
+                  ->will($this->returnValue($target));
+        $MockEvent->expects($this->once())
+                  ->method('getArguments')
+                  ->will($this->returnValue($arguments));
+        return $MockEvent;
     }
 
 }
 
-function testData(\SprayFire\Mediator\Event $Event) {
+/**
+ * Will store information about the event in an array that is the first argument
+ * passed to the event.
+ *
+ * @param SprayFire.Mediator.Event $Event
+ */
+function testData(MediatorEvent $Event) {
     $arguments = $Event->getArguments();
+    // This is a reference so we can pass along the appropriate keys we add to
+    // $array in the code below.
     $array =& $arguments[0];
     $array['target'] = $Event->getTarget();
     $array['eventName'] = $Event->getEventName();
