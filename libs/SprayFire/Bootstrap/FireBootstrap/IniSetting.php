@@ -1,11 +1,13 @@
 <?php
 
 /**
- * Class to set php.ini settings based on an array passed in constructor
+ * Implementation of SprayFire.Bootstrapper.Bootstrapper that sets variable php.ini
+ * configuration properties during framework initialization.
  *
  * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @verison 0.1
+ * @since 0.1
  */
 
 namespace SprayFire\Bootstrap\FireBootstrap;
@@ -17,14 +19,14 @@ class IniSetting extends CoreObject implements Bootstrapper {
 
     /**
      * Associative array holding the settings and values that should be used in
-     * the ini_set() call, setting => value
+     * the ini_set() call, [setting => value]
      *
      * @property array
      */
     protected $config;
 
     /**
-     * The array should be associative with ini_setting => value
+     * The array should be associative with [ini_setting => value]
      *
      * @param array $config
      */
@@ -33,8 +35,9 @@ class IniSetting extends CoreObject implements Bootstrapper {
     }
 
     /**
-     * Will set the global ini configuration settings and either the development
-     * or production ini configuration.
+     * Sets the ini configuration provided at object construction
+     *
+     * @return void
      */
     public function runBootstrap() {
         foreach ($this->config as $setting => $value) {
