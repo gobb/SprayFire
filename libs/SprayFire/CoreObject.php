@@ -1,47 +1,59 @@
 <?php
 
 /**
- * An implementation of the base SprayFire.Object interface
+ * Abstract implementation of SprayFire.Object.
  *
  * @author Charles Sprayberry
  * @license Governed by the LICENSE file found in the root directory of this source
  * code
+ * @version 0.1
+ * @since 0.1
  */
 
 namespace SprayFire;
 
 use \SprayFire\Object as Object;
 
+/**
+ * It is recommended that classes needing to implement SprayFire.Object extend
+ * this class.
+ *
+ * This class will never implement any functionality not specified in the SprayFire.Object
+ * interface.  It is explicitly designed in such a way that it should be reasonable
+ * for all objects to trace their inheritance back through this object if interfaces
+ * they implement require SprayFire.Object.
+ */
 abstract class CoreObject implements Object {
 
     /**
-     * @return A unique identifying string based on the internal memory pointer
+     * Returns a unique identifier for the object that will be the same for objects
+     * referencing the same spot in memory.
+     *
+     * @return string
      * @see http://us3.php.net/manual/en/function.spl-object-hash.php
      */
     public final function hashCode() {
-        $hashCode = \spl_object_hash($this);
-        return $hashCode;
+        return \spl_object_hash($this);
     }
 
     /**
-     * @brief Default implementation, compares the SprayFire.Core.CoreObject::hashCode()
-     * return value to the passed \a $CompareObject.
+     * Default implementation, compares the SprayFire.Core.CoreObject::hashCode()
+     * return value to the passed $CompareObject.
      *
-     * @details
-     * If your objects need to implement a Comparator be sure to override the
-     * implementation of this class.
+     * If your objects need to implement a Comparator be sure to override this
+     * implementation.
      *
-     * @param $CompareObject A SprayFire.Core.Object to compare to this one for equality
-     * @return True if the calling object and \a $CompareObject are equal, false if not
+     * @param SprayFire.Object $CompareObject Object to compare to for equality
+     * @return boolean
      */
     public function equals(Object $CompareObject) {
-        $thisHash = $this->hashCode();
-        $compareHash = $CompareObject->hashCode();
-        return $thisHash === $compareHash;
+        return $this->hashCode() === $CompareObject->hashCode();
     }
 
     /**
-     * @return A string representation of the calling object
+     * Returns the fully namespaced class name.
+     *
+     * @return string
      */
     public function __toString() {
         return \get_class($this);
