@@ -2,8 +2,11 @@
 
 $developmentMode = true;
 
+$defaultCharset = 'UTF-8';
+
 $environment = array(
     'developmentMode' => $developmentMode,
+    'defaultCharset' => $defaultCharset,
     'registeredEvents' => array(
         \SprayFire\Mediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED => '',
         \SprayFire\Mediator\DispatcherEvents::AFTER_RESPONSE_SENT => '',
