@@ -7,7 +7,6 @@
  * @license Subject to the terms of the LICENSE file in the project root
  * @version 0.1
  * @since   0.1
- * @covers  \\SprayFire\\Mediator\\FireMediator\\Callback
  */
 
 namespace SprayFire\Test\Cases\Mediator\FireMediator;
@@ -16,6 +15,9 @@ use \SprayFire\Mediator\Event as MediatorEvent,
     \SprayFire\Mediator\DispatcherEvents as DispatcherEvents,
     \SprayFire\Mediator\FireMediator\Callback as FireCallback;
 
+/**
+ * @covers  \\SprayFire\\Mediator\\FireMediator\\Callback
+ */
 class CallbackTest extends \PHPUnit_Framework_TestCase {
 
     /**
