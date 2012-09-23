@@ -1,88 +1,170 @@
 <?php
 
 /**
- * @file
- * @brief Holds a PHPUnit test case to confirm the functionality of MediatorTest
+ * A test case to ensure the coverage of SprayFire.Mediator.FireMediator.Mediator
+ *
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Test\Cases\Mediator\FireMediator;
 
-use SprayFire\Mediator\DispatcherEvents as DispatcherEvents;
+use \SprayFire\Mediator\Event as MediatorEvent,
+    \SprayFire\Mediator\Callback as MediatorCallback,
+    \SprayFire\Mediator\DispatcherEvents as DispatcherEvents,
+    \SprayFire\Mediator\FireMediator\Mediator as FireMediator;
 
+/**
+ * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator
+ */
 class MediatorTest extends \PHPUnit_Framework_TestCase {
 
-    public function testMediatorStoringSingleValidCallback() {
-        $eventName = \SprayFire\Mediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED;
-        $function = function(\SprayFire\Mediator\Event $Event) {};
-        $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
-        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->getEventRegistry());
-        $Mediator->addCallback($Callback);
+    /**
+     * Ensures that a single callback can be added to an event and the appropriate
+     * callback is returned as the only object in the events collection.
+     *
+     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::addCallback
+     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::getCallbacks
+     */
+    public function testMediatorStoringSingleCallbackToSingleEvent() {
+        $eventName = DispatcherEvents::AFTER_CONTROLLER_INVOKED;
+        $MockCallback = $this->getMock('\\SprayFire\\Mediator\\Callback');
+        $MockCallback->expects($this->once())
+                     ->method('getEventName')
+                     ->will($this->returnValue($eventName));
+        $Mediator = new FireMediator($this->getEventRegistry());
+
+        $Mediator->addCallback($MockCallback);
         $callbacks = $Mediator->getCallbacks($eventName);
-        $this->assertSame($callbacks[0], $Callback);
+
+        $this->assertCount(1, $callbacks, 'Mediator that should have 1 callback has more or less than 1 stored.');
+        $this->assertSame($callbacks[0], $MockCallback);
     }
 
-    public function testMediatorStoringDoubleValidCallback() {
-        $firstEventName = \SprayFire\Mediator\DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
-        $secondEventName = \SprayFire\Mediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED;
-        $function = function(\SprayFire\Mediator\Event $Event) {};
-        $FirstCallback = new \SprayFire\Mediator\FireMediator\Callback($firstEventName, $function);
-        $SecondCallback = new \SprayFire\Mediator\FireMediator\Callback($secondEventName, $function);
+    /**
+     * Ensures that multiple, unique callbacks may be added to unique events and
+     * that the appropriate callback collections are returned for those events.
+     *
+     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::addCallback
+     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::getCallbacks
+     */
+    public function testMediatorStoringMultipleCallbackToMultipleEvent() {
+        // setup
+        $firstEventName = DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
+        $secondEventName = DispatcherEvents::AFTER_CONTROLLER_INVOKED;
+        $FirstMockCallback = $this->getMock('\\SprayFire\\Mediator\\Callback');
+        $FirstMockCallback->expects($this->once())
+                          ->method('getEventName')
+                          ->will($this->returnValue($firstEventName));
+        $SecondMockCallback = $this->getMock('\\SprayFire\\Mediator\\Callback');
+        $SecondMockCallback->expects($this->once())
+                           ->method('getEventName')
+                           ->will($this->returnValue($secondEventName));
+        $Mediator = new FireMediator($this->getEventRegistry());
 
-        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->getEventRegistry());
-        $Mediator->addCallback($FirstCallback);
-        $Mediator->addCallback($SecondCallback);
-
+        $Mediator->addCallback($FirstMockCallback);
+        $Mediator->addCallback($SecondMockCallback);
         $firstCallbacks = $Mediator->getCallbacks($firstEventName);
         $secondCallbacks = $Mediator->getCallbacks($secondEventName);
 
-        $this->assertSame($firstCallbacks[0], $FirstCallback);
-        $this->assertSame($secondCallbacks[0], $SecondCallback);
+        $this->assertSame($firstCallbacks[0], $FirstMockCallback);
+        $this->assertSame($secondCallbacks[0], $SecondMockCallback);
     }
 
-    public function testMediatorStoringInvalidCallback() {
+    /**
+     * Ensures that if an event is added to the Mediator that is not registered
+     * appropriately an exception will be thrown.
+     *
+     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::addCallback
+     */
+    public function testMediatorStoringInvalidCallbackThrowsException() {
         $eventName = 'nonexistent.event_name';
-        $function = function() {};
-        $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
-        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->getEventRegistry());
+        $MockCallback = $this->getMock('\\SprayFire\\Mediator\\Callback');
+        $MockCallback->expects($this->once())
+                     ->method('getEventName')
+                     ->will($this->returnValue($eventName));
+        $Mediator = new FireMediator($this->getEventRegistry());
 
         $this->setExpectedException('\\InvalidArgumentException');
-        $Mediator->addCallback($Callback);
+
+        $Mediator->addCallback($MockCallback);
     }
 
-    public function testMediatorGettingInvalidCallback() {
-        $eventName = 'nonexistent.event_name';
-        $function = function() {};
-        $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
-        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->getEventRegistry());
-        $actual = $Mediator->getCallbacks($eventName);
-        $this->assertSame(array(), $actual);
-    }
-
+    /**
+     * Ensures that a valid callback that has been added to event collection may
+     * also be removed from that collection.
+     *
+     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::removeCallback
+     */
     public function testMediatorRemovingValidCallback() {
-        $eventName = \SprayFire\Mediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED;
-        $function = function() {};
-        $Callback = new \SprayFire\Mediator\FireMediator\Callback($eventName, $function);
-        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->getEventRegistry());
-        $Mediator->addCallback($Callback);
+        $eventName = DispatcherEvents::AFTER_CONTROLLER_INVOKED;
+        $MockCallback = $this->getMock('\\SprayFire\\Mediator\\Callback');
+        $MockCallback->expects($this->exactly(2))
+                     ->method('getEventName')
+                     ->will($this->returnValue($eventName));
+        $MockCallback->expects($this->once())
+                     ->method('equals')
+                     ->will($this->returnValue('same_mock'));
+
+        $Mediator = new FireMediator($this->getEventRegistry());
+        $Mediator->addCallback($MockCallback);
+
         $this->assertCount(1, $Mediator->getCallbacks($eventName), 'An event does not have a stored callback though it should');
-        $this->assertTrue($Mediator->removeCallback($Callback), 'An event has not been properly removed');
+        $this->assertTrue($Mediator->removeCallback($MockCallback), 'An event has not been properly removed');
         $this->assertCount(0, $Mediator->getCallbacks($eventName), 'An event has a stored callback though it should not');
     }
 
-    public function testMediatorTriggeringEvents() {
+    /**
+     * Ensures that multiple events can have callbacks stored in their collection
+     * and those callbacks are invoked when the appropriate event is triggered.
+     *
+     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::triggerEvent
+     */
+    public function testMediatorTriggeringMultipleEvents() {
         $eventData = array();
-        $firstEvent = \SprayFire\Mediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED;
-        $secondEvent = \SprayFire\Mediator\DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
-        $function = function(\SprayFire\Mediator\Event $Event) use(&$eventData) {
+        $firstEvent = DispatcherEvents::AFTER_CONTROLLER_INVOKED;
+        $secondEvent = DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
+        $function = function(MediatorEvent $Event) use(&$eventData) {
             $eventName = $Event->getEventName();
             $eventData[$eventName] = 'value set';
         };
-        $FirstCallback = new \SprayFire\Mediator\FireMediator\Callback($firstEvent, $function);
-        $SecondCallback = new \SprayFire\Mediator\FireMediator\Callback($secondEvent, $function);
+        $FirstMockCallback = $this->getMock(
+            '\\SprayFire\\Test\\Cases\\Mediator\\FireMediator\\CallbackStub',
+            array(
+                'equals',
+                'hashCode',
+                '__toString',
+                'getEventName',
+            ),
+            array(
+                $function
+            )
+        );
+        $FirstMockCallback->expects($this->once())
+                          ->method('getEventName')
+                          ->will($this->returnValue($firstEvent));
 
-        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->getEventRegistry());
-        $Mediator->addCallback($FirstCallback);
-        $Mediator->addCallback($SecondCallback);
+        $SecondMockCallback = $this->getMock(
+            '\\SprayFire\\Test\\Cases\\Mediator\\FireMediator\\CallbackStub',
+            array(
+                'equals',
+                'hashCode',
+                '__toString',
+                'getEventName'
+            ),
+            array(
+                $function
+            )
+        );
+        $SecondMockCallback->expects($this->once())
+                           ->method('getEventName')
+                           ->will($this->returnValue($secondEvent));
+
+        $Mediator = new FireMediator($this->getEventRegistry());
+        $Mediator->addCallback($FirstMockCallback);
+        $Mediator->addCallback($SecondMockCallback);
         $Mediator->triggerEvent($firstEvent, '');
         $Mediator->triggerEvent($secondEvent, '');
         $expected = array(
@@ -92,14 +174,26 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $eventData);
     }
 
-    public function testMediatorTriggerInvalidEvent() {
+    /**
+     * Ensures that an exception is thrown if an event is triggered that is not
+     * appropriately registered.
+     *
+     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::triggerEvent
+     */
+    public function testMediatorTriggerInvalidEventThrowsException() {
         $eventName = 'notarget.nonexistent';
         $Target = 'something';
-        $Mediator = new \SprayFire\Mediator\FireMediator\Mediator($this->getEventRegistry());
+        $Mediator = new FIreMediator($this->getEventRegistry());
         $this->setExpectedException('\\InvalidArgumentException');
         $Mediator->triggerEvent($eventName, $Target);
     }
 
+    /**
+     * Returns an EventRegistry object with the appropriate events used in this
+     * test case already registered.
+     *
+     * @return SprayFire.Mediator.FireMediator.EventRegistry
+     */
     protected function getEventRegistry() {
         $Registry = new \SprayFire\Mediator\FireMediator\EventRegistry();
 
@@ -110,6 +204,36 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
         $Registry->registerEvent(DispatcherEvents::BEFORE_CONTROLLER_INVOKED, $targetType);
 
         return $Registry;
+    }
+
+}
+
+/**
+ * A stub to allow the storing and invocation of callable variables.
+ *
+ * This stub is here to ensure that appropriate events are triggered as we expect
+ * by the SprayFire.Mediator.FireMediator.Mediator
+ */
+abstract class CallbackStub implements MediatorCallback {
+
+    /**
+     * @property callable
+     */
+    protected $function;
+
+    /**
+     * @param callable $function
+     */
+    public function __construct($function) {
+        $this->function = $function;
+    }
+
+    /**
+     * @param SprayFire.Mediator.Event $Event
+     * @return mixed
+     */
+    public function invoke(MediatorEvent $Event) {
+        return \call_user_func_array($this->function, array($Event));
     }
 
 }
