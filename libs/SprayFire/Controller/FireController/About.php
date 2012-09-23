@@ -56,16 +56,7 @@ class About extends BaseController implements \SprayFire\Controller\Controller {
             'Developed by Charles Sprayberry',
             'Graphic Design by Dyana Stewart'
         );
-
-        $css = array(
-            $this->Paths->getUrlPath('css', 'sprayfire.style.css'),
-            $this->Paths->getUrlPath('css', 'font-awesome.css'),
-            $this->Paths->getUrlPath('css', 'bootstrap.min.css')
-        );
-
         $this->giveCleanData(array(
-            'css' => $css,
-            'sprayFireLogo' => $this->Paths->getUrlPath('images', 'sprayfire-logo-bar-75.png'),
             'messages' => $messages
         ));
     }
