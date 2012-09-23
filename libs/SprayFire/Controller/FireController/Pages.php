@@ -14,13 +14,31 @@ namespace SprayFire\Controller\FireController;
 
 use \SprayFire\Controller\FireController\Base as BaseController;
 
+/**
+ * This controller is responsible for the default SprayFire install pages, other
+ * than the about page.
+ *
+ * This controller is not intended to be used by your application.  Please extend
+ * your application controllers on some application specific controller.  The
+ * default SprayFire install should include an implementation in:
+ *
+ * <AppName>.Controller.Base
+ */
 class Pages extends BaseController {
 
     /**
+     * A service used to generate absolute paths to various resources used by
+     * the framework or your application.
+     *
      * @property SprayFire.FileSys.FireFileSys.Paths
      */
     protected $Paths;
 
+    /**
+     * Provides data used by the default SprayFire install home page; primarily
+     * responsible for setting up the appropriate sidebar and providing sidebar
+     * content.
+     */
     public function index() {
         $this->setUp();
 
@@ -48,6 +66,10 @@ class Pages extends BaseController {
         $this->giveDirtyData($dirtyData);
     }
 
+    /**
+     * Provides some basic data about the request, nothing too detailed and just
+     * dumps that information out.
+     */
     public function debug() {
         $this->setUp();
 
@@ -76,6 +98,9 @@ class Pages extends BaseController {
         $this->giveDirtyData($dirtyData);
     }
 
+    /**
+     * Sets up the controller with some generic functionality used by all actions.
+     */
     protected function setUp() {
         $this->Paths = $this->service('Paths');
         $this->layoutPath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
