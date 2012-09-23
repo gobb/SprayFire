@@ -66,12 +66,16 @@ class Mediator extends CoreObject implements MediatorMediator {
             return false;
         }
         $storedCallbacks = $this->eventCallbacks[$eventName];
+        $callbackRemoved = false;
         foreach($storedCallbacks as $key => $StoredCallback) {
             if ($Callback->equals($StoredCallback)) {
+                $this->eventCallbacks[$eventName][$key] = null;
                 unset($this->eventCallbacks[$eventName][$key]);
+                $callbackRemoved = true;
+                break;
             }
         }
-        return true;
+        return $callbackRemoved;
     }
 
     /**
