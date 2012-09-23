@@ -1,10 +1,13 @@
 <?php
 
 /**
+ * Implementation of SprayFire.Controller.Controller that is used to show off the
+ * intallation and debug pages provided in the default SprayFire install.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Controller\FireController;
@@ -18,12 +21,8 @@ class Pages extends BaseController {
      */
     protected $Paths;
 
-    public function setServices() {
-        $this->Paths = $this->service('Paths');
-    }
-
     public function index() {
-        $this->setServices();
+        $this->setUp();
 
         $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'index.php');
         $this->layoutPath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
@@ -33,21 +32,22 @@ class Pages extends BaseController {
             $this->Paths->getUrlPath('css', 'bootstrap.min.css')
         );
         $twitterBootstrapJs = $this->Paths->getUrlPath('js', 'bootstrap.min.js');
-        $csprayGravatarHash = \md5('cspray@gmail.com');
-        $dyanaGravatarHash = \md5('dystewart249@gmail.com');
+        $sprayFireLogo = $this->Paths->getUrlPath('images', 'sprayfire-logo-bar-75.png');
+        $csprayGravatarHash = '0fd2816e78f6a04d5f8ce0aba1cb42e6';
+        $dyanaGravatarHash = 'c1ca92616de3b725e808fb69a6bf94d2';
+
         $sidebarContent = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'sidebar.php');
         $sidebarData = \compact(
             'csprayGravatarHash',
             'dyanaGravatarHash'
         );
-        $sprayFireLogo = $this->Paths->getUrlPath('images', 'sprayfire-logo-bar-75.png');
 
         $cleanData = array(
             'css' => $css,
             'sprayFireLogo' => $sprayFireLogo,
             'twitterBootstrapJs' => $twitterBootstrapJs,
             'csprayGravatarHash' => $csprayGravatarHash,
-            'dayanaGravatarHash' => $dyanaGravatarHash,
+            'dyanaGravatarHash' => $dyanaGravatarHash,
             'sidebarContent' => $sidebarContent,
             'message' => ''
         );
@@ -61,7 +61,7 @@ class Pages extends BaseController {
     }
 
     public function debug() {
-        $this->setServices();
+        $this->setUp();
 
         $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'debug-content.php');
         $this->layoutPath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
@@ -97,6 +97,10 @@ class Pages extends BaseController {
                 );
         $this->giveCleanData($cleanData);
         $this->giveDirtyData($dirtyData);
+    }
+
+    protected function setUp() {
+        $this->Paths = $this->service('Paths');
     }
 
 }
