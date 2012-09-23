@@ -4,10 +4,10 @@
  * Implementation of SprayFire.Bootstrapper.Bootstrapper that sets variable php.ini
  * configuration properties during framework initialization.
  *
- * @author Charles Sprayberry
+ * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @verison 0.1
- * @since 0.1
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Bootstrap\FireBootstrap;
