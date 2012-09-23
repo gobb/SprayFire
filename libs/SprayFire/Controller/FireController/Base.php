@@ -2,7 +2,7 @@
 
 /**
  * Abstract implementation of SprayFire.Controller.Controller that allows for easy
- * sharing of generic functionality that it would be reasonable all implementations
+ * sharing of generic functionality that would be reasonable all implementations
  * to use.
  *
  * @author  Charles Sprayberry
@@ -26,7 +26,7 @@ use \SprayFire\Controller\Controller as Controller,
  * or during action invocation alters the behavior of the implementation.
  *
  * If you overwrite the methods in this class please ensure that you return the
- * appropriate types as defined in the documentation of the interfaces SprayFire.Controller.Controller
+ * appropriate types as defined in the documentation of SprayFire.Controller.Controller
  * and SprayFire.Service.Consumer.
  */
 abstract class Base extends ServiceConsumer implements Controller {
