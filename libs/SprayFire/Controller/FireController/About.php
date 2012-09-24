@@ -12,7 +12,8 @@
 
 namespace SprayFire\Controller\FireController;
 
-use \SprayFire\Controller\FireController\Base as BaseController;
+use \SprayFire\Controller as SFController;
+
 
 /**
  * This implementation is intended to provide the user some more detailed info on
@@ -20,8 +21,11 @@ use \SprayFire\Controller\FireController\Base as BaseController;
  *
  * This controller is not required to stick around, but please remove the appropriate
  * route, '/about/', if you decide to remove this from your SprayFire install.
+ *
+ * @package SprayFire
+ * @package Controller.FireController
  */
-class About extends BaseController implements \SprayFire\Controller\Controller {
+class About extends Base implements SFController\Controller {
 
     /**
      * A default service provided by SprayFire.Controller.FireController.Base.

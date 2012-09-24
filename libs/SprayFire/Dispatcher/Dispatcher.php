@@ -12,10 +12,14 @@
 
 namespace SprayFire\Dispatcher;
 
-use \SprayFire\Object as Object,
-    \SprayFire\Http\Request as Request;
+use \SprayFire\Object as SFObject,
+    \SprayFire\Http as SFHttp;
 
-interface Dispatcher extends Object {
+/**
+ * @package SprayFire
+ * @subpackage Dispatcher
+ */
+interface Dispatcher extends SFObject {
 
     /**
      * At some point during the execution of this method the response appropriate
@@ -24,6 +28,6 @@ interface Dispatcher extends Object {
      * @param SprayFire.Http.Request $Request
      * @return mixed
      */
-    public function dispatchResponse(Request $Request);
+    public function dispatchResponse(SFHttp\Request $Request);
 
 }

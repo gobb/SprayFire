@@ -13,8 +13,8 @@
 
 namespace SprayFire\Controller\FireController;
 
-use \SprayFire\Controller\Controller as Controller,
-    \SprayFire\Service\FireService\Consumer as ServiceConsumer;
+use \SprayFire\Controller as SFController,
+    \SprayFire\Service\FireService as FireService;
 
 /**
  * Application controllers are expected to take advantage of the very basic functionality
@@ -28,8 +28,11 @@ use \SprayFire\Controller\Controller as Controller,
  * If you overwrite the methods in this class please ensure that you return the
  * appropriate types as defined in the documentation of SprayFire.Controller.Controller
  * and SprayFire.Service.Consumer.
+ *
+ * @package SprayFire
+ * @subpackage Controller.FireController
  */
-abstract class Base extends ServiceConsumer implements Controller {
+abstract class Base extends FireService\Consumer implements SFController\Controller {
 
     /**
      * The complete, absolute path to the layout used for this controller

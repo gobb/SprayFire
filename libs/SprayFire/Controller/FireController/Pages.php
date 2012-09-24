@@ -12,8 +12,6 @@
 
 namespace SprayFire\Controller\FireController;
 
-use \SprayFire\Controller\FireController\Base as BaseController;
-
 /**
  * This controller is responsible for the default SprayFire install pages, other
  * than the about page.
@@ -23,8 +21,11 @@ use \SprayFire\Controller\FireController\Base as BaseController;
  * default SprayFire install should include an implementation in:
  *
  * <AppName>.Controller.Base
+ *
+ * @package SprayFire
+ * @subpackage Controller.FireController
  */
-class Pages extends BaseController {
+class Pages extends Base {
 
     /**
      * A service used to generate absolute paths to various resources used by
@@ -53,8 +54,6 @@ class Pages extends BaseController {
         );
 
         $cleanData = array(
-            'csprayGravatarHash' => $csprayGravatarHash,
-            'dyanaGravatarHash' => $dyanaGravatarHash,
             'sidebarContent' => $sidebarContent
         );
 

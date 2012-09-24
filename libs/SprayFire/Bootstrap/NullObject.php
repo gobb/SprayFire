@@ -11,14 +11,18 @@
 
 namespace SprayFire\Bootstrap;
 
-use \SprayFire\Bootstrap\Bootstrapper as Bootstrapper,
-    \SprayFire\CoreObject as CoreObject;
+use \SprayFire\Bootstrap as SFBootstrap,
+    \SprayFire\CoreObject as SFCoreObject;
 
 /**
- * The primary use case for this object would be as a possible return value from
- * a factory that creates SprayFire.Bootstrap.Bootstrapper objects.
+ * Provided so that SprayFire.Factory.Factory objects creating objects implementing
+ * SprayFire.Bootstrap.Bootstrapper can return an appropriate null object if so
+ * configured.
+ *
+ * @package SprayFire
+ * @package Bootstrap
  */
-class NullObject extends CoreObject implements Bootstrapper {
+class NullObject extends SFCoreObject implements SFBootstrap\Bootstrapper {
 
     /**
      * Performs no operation and returns null.

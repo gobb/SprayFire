@@ -12,8 +12,8 @@
 
 namespace SprayFire\Controller;
 
-use \SprayFire\Controller\Controller as Controller,
-    \SprayFire\CoreObject as CoreObject;
+use \SprayFire\Controller as SFController,
+    \SprayFire\CoreObject as SFCoreObject;
 
 /**
  * By default this object is returned from the SprayFire.Controller.FireController.Factory
@@ -30,8 +30,11 @@ use \SprayFire\Controller\Controller as Controller,
  * - getResponderName() // SprayFire.Responder.FireResponder.Html
  * - getLayoutPath()    // install_dir/Responder/html/default.php
  * - getTemplatePath()  // install_dir/Responder/html/blank.php
+ *
+ * @package SprayFire
+ * @subpackage Controller
  */
-class NullObject extends CoreObject implements Controller {
+class NullObject extends SFCoreObject implements SFController\Controller {
 
     /**
      * Here to ensure that this object can invoke any action called upon it so that

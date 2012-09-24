@@ -13,8 +13,8 @@
 
 namespace SprayFire\Controller;
 
-use \SprayFire\Object as Object,
-    \SprayFire\Service\Consumer as ServiceConsumer;
+use \SprayFire\Object as SFObject,
+    \SprayFire\Service as SFService;
 
 /**
  * @TODO
@@ -28,8 +28,11 @@ use \SprayFire\Object as Object,
  * should always be escaped.  By allowing data, regardless of the source, to be
  * output without first being escaped you are opening a security flaw into your
  * application.  If it can be used it can be compromised at some level.
+ *
+ * @package SprayFire
+ * @package Controller
  */
-interface Controller extends Object, ServiceConsumer {
+interface Controller extends SFObject, SFService\Consumer {
 
     /**
      * Provides the fully namespaced name of the class to use as the Responder

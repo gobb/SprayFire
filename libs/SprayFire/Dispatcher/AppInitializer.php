@@ -13,8 +13,12 @@
 
 namespace SprayFire\Dispatcher;
 
-use \SprayFire\Http\Routing\RoutedRequest as RoutedRequest;
+use \SprayFire\Http\Routing as SFRouting;
 
+/**
+ * @package SprayFire
+ * @subpackage Dispatcher
+ */
 interface AppInitializer {
 
     /**
@@ -24,6 +28,6 @@ interface AppInitializer {
      * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
      * @return void
      */
-    public function initializeApp(RoutedRequest $RoutedRequest);
+    public function initializeApp(SFRouting\RoutedRequest $RoutedRequest);
 
 }

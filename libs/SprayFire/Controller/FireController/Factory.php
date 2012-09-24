@@ -11,15 +11,18 @@
 
 namespace SprayFire\Controller\FireController;
 
-use \SprayFire\Service\Container as Container,
-    \SprayFire\Controller\Controller as Controller,
-    \SprayFire\Logging\LogOverseer as LogOverseer,
-    \SprayFire\JavaNamespaceConverter as JavaNameConverter,
-    \SprayFire\Service\FireService\ConsumerFactory as ConsumerFactory,
-    \SprayFire\Service\NotFoundException as ServiceNotFoundException,
-    \SprayFire\ReflectionCache as ReflectionCache;
+use \SprayFire\Controller\Controller as SFController,
+    \SprayFire\Service as SFService,
+    \SprayFire\Logging as SFLogging,
+    \SprayFire\Service\FireService as FireService,
+    \SprayFire\JavaNamespaceConverter as SFJavaNameConverter,
+    \SprayFire\ReflectionCache as SFReflectionCache;
 
-class Factory extends ConsumerFactory {
+/**
+ * @package SprayFire
+ * @subpackage Controller.FireController
+ */
+class Factory extends FireService\ConsumerFactory {
 
     /**
      * @param SprayFire.ReflectionCache $Cache
@@ -29,9 +32,9 @@ class Factory extends ConsumerFactory {
      * @param string $nullType
      */
     public function __construct(
-        ReflectionCache $Cache,
-        Container $Container,
-        LogOverseer $LogOverseer,
+        SFReflectionCache $Cache,
+        SFService\Container $Container,
+        SFLogging\LogOverseer $LogOverseer,
         $type = 'SprayFire.Controller.Controller',
         $nullType = 'SprayFire.Controller.NullObject'
     ) {
