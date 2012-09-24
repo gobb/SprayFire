@@ -12,10 +12,17 @@
 
 namespace SprayFire\Bootstrap\FireBootstrap;
 
-use \SprayFire\Bootstrap\Bootstrapper as Bootstrapper,
-    \SprayFire\CoreObject as CoreObject;
+use \SprayFire\Bootstrap as SFBootstrap,
+    \SprayFire\CoreObject as SFCoreObject;
 
-class IniSetting extends CoreObject implements Bootstrapper {
+/**
+ * This bootstrap should be ran by init.php during framework initialization; to alter
+ * the ini values that are set please reference install_dir/config/SprayFire/environment.php.
+ *
+ * @package SprayFire
+ * @subpackage Bootstrap.FireBootstrap
+ */
+class IniSetting extends SFCoreObject implements SFBootstrap\Bootstrapper {
 
     /**
      * Associative array holding the settings and values that should be used in
