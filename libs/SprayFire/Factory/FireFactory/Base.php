@@ -1,71 +1,90 @@
 <?php
 
 /**
- * An abstract class that provides some common functionality and groundwork
- * for concrete factory implementations.
+ * Abstract implementation of SprayFire.Factory.Factory that will allow for the
+ * creation of generic SprayFire objects.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Factory\FireFactory;
 
-use \SprayFire\Factory\Factory as Factory,
-    \SprayFire\Logging\LogOverseer as LogOverseer,
-    \SprayFire\JavaNamespaceConverter as JavaNameConverter,
-    \SprayFire\ObjectTypeValidator as TypeValidator,
-    \SprayFire\CoreObject as CoreObject,
-    \SprayFire\ReflectionCache as ReflectionCache,
-    \SprayFire\Exception\ResourceNotFound as ResourceNotFoundException;
+use \SprayFire\Factory as SFFactory,
+    \SprayFire\Logging as SFLogging,
+    \SprayFire\JavaNamespaceConverter as SFJavaNameConverter,
+    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\ReflectionCache as SFReflectionCache,
+    \SprayFire\Exception as SFException;
 
 /**
- * All class names passed to this Factory can be passed using PHP or Java
- * style formatting.
+ * All Factory implementations provided by the default SprayFire install will
+ * extend from this Factory.
+ *
+ * @package SprayFire
+ * @subpackage Factory.FireFactory
+ *
+ * @TODO
+ * Look at implementing a strategy pattern for dealing with Factory error handling.
  */
-abstract class Base extends CoreObject implements Factory {
+abstract class Base extends SFCoreObject implements SFFactory\Factory {
 
     const RETURN_NULL_OBJECT = 1;
     const THROW_EXCEPTION = 2;
 
-
     /**
-     * Cache to help prevent unneeded ReflectionClasses from being created.
+     * Cache to help prevent unneeded ReflectionClass from being created.
      *
-     * @property Artax.ReflectionPool
+     * @property SprayFire.ReflectionCache
      */
     protected $ReflectionCache;
 
     /**
+     * Ensures that we can log messages about failed object creation.
+     *
      * @property SprayFire.Logging.LogOverseer
      */
     protected $LogOverseer;
 
     /**
+     * The type of object that should be returned if an error is encountered with
+     * the creation of the requested object.
+     *
+     * This object is only returned if the error handling configuration is set
+     * to Base::RETURN_NULL_OBJECT.
+     *
      * @property Object
      */
     protected $NullObject;
 
     /**
+     * A helper object to ensure that the appropriate types are returned from
+     * Base::makeObject
+     *
      * @property SprayFire.Core.Util.ObjectTypeValidator
      */
     protected $TypeValidator;
 
     /**
+     * Stores the values for the error handling requested for the creation of
+     * this object.
+     *
      * @property int
      */
     protected $configuredErrorHandling;
 
     /**
      *
-     * @param Artax.ReflectionPool $ReflectionCache
+     * @param SprayFire.ReflectionCache $ReflectionCache
      * @param SprayFire.Logging.LogOveseer $LogOverseer
      * @param SprayFire.JavaNamespaceConverter $JavaNameConverter
      * @param string $returnTypeRestriction
      * @param string $nullObject
      * @throws InvalidArgumentException
      */
-    public function __construct(ReflectionCache $ReflectionCache, LogOverseer $LogOverseer, $returnTypeRestriction, $nullObject) {
+    public function __construct(SFReflectionCache $ReflectionCache, SFLogging\LogOverseer $LogOverseer, $returnTypeRestriction, $nullObject) {
         $this->ReflectionCache = $ReflectionCache;
         $this->LogOverseer = $LogOverseer;
         $this->TypeValidator = $this->createTypeValidator($returnTypeRestriction);
@@ -74,19 +93,28 @@ abstract class Base extends CoreObject implements Factory {
     }
 
     /**
+     * Ensures that the appropriate type validator is created for this factory.
+     *
+     * We are not injecting this as a dependency because this is really an implementation
+     * detail and shouldn't be exposed to the outside world, we just care about
+     * validating types correctly.
+     *
      * @return SprayFire.ObjectTypeValidator
      * @throws InvalidArgumentException
      */
     protected function createTypeValidator($objectType) {
         try {
             $ReflectedType = $this->ReflectionCache->getClass($objectType);
-            return new TypeValidator($ReflectedType);
+            return new ObjectTypeValidator($ReflectedType);
         } catch (\ReflectionException $ReflectExc) {
             throw new \InvalidArgumentException('The injected interface or class, ' . $objectType . ', passed to ' . \get_class($this) . ' could not be loaded.', null, $ReflectExc);
         }
     }
 
     /**
+     * Creates a Null Object implementation and ensures that the implementation
+     * is of the appropriate type for the factory.
+     *
      * @return Object instanceof $this->nullObjectType
      * @throws InvalidArgumentException
      */
@@ -110,8 +138,8 @@ abstract class Base extends CoreObject implements Factory {
      *
      * @param string $className
      * @param array $parameters
-     * @return Ojbect Type will be the type of the TypeValidator for the return type
-     * @throws SprayFire.Factory.Exception.TypeNotFound Only thrown if configured
+     * @return Object Type restricted by Factory constructor parameters
+     * @throws SprayFire.Exception.ResourceNotFound Only thrown if configured
      */
     public function makeObject($className, array $parameters = array()) {
         try {
@@ -128,7 +156,7 @@ abstract class Base extends CoreObject implements Factory {
             }
 
             if ($this->configuredErrorHandling === self::THROW_EXCEPTION) {
-                throw new ResourceNotFoundException($message, 0, $ReflectExc);
+                throw new SFException\ResourceNotFound($message, 0, $ReflectExc);
             }
         } catch (\InvalidArgumentException $InvalArgExc) {
             $this->LogOverseer->logError('The requested object, ' . $className . ', does not properly implement the appropriate type, ' . $this->TypeValidator->getType() . ', for this factory.');
@@ -137,7 +165,7 @@ abstract class Base extends CoreObject implements Factory {
             }
 
             if ($this->configuredErrorHandling === self::THROW_EXCEPTION) {
-                throw new ResourceNotFoundException($message, 0, $InvalArgExc);
+                throw new SFException\ResourceNotFound($message, 0, $InvalArgExc);
             }
         }
     }
