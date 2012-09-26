@@ -23,7 +23,7 @@ use \SprayFire\Controller as SFController;
  * route, '/about/', if you decide to remove this from your SprayFire install.
  *
  * @package SprayFire
- * @package Controller.FireController
+ * @subpackage Controller.FireController
  */
 class About extends Base implements SFController\Controller {
 

@@ -91,8 +91,8 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * @param SprayFire.Http.Routing.Router $Router
      * @param SprayFire.Mediator.Mediator $Mediator
      * @param SprayFire.Dispatcher.AppInitializer $AppInitializer
-     * @param SprayFire.Factory.Factory $Factory
-     * @param SprayFire.Factory.Factory $Factory
+     * @param SprayFire.Factory.Factory $ControllerFactory
+     * @param SprayFire.Factory.Factory $ResponderFactory
      */
     public function __construct(
         SFRouting\Router $Router,

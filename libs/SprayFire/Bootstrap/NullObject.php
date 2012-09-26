@@ -20,7 +20,7 @@ use \SprayFire\Bootstrap as SFBootstrap,
  * configured.
  *
  * @package SprayFire
- * @package Bootstrap
+ * @subpackage Bootstrap
  */
 class NullObject extends SFCoreObject implements SFBootstrap\Bootstrapper {
 
