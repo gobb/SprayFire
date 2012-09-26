@@ -1,11 +1,13 @@
 <?php
 
 /**
- * Interface representing the root parent for all SprayFire objects.
+ * Interface to represent a generic object within the context of SprayFire or a
+ * SprayFire-driven application.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire;
