@@ -16,6 +16,15 @@ use \SprayFire\Object as SFObject,
     \SprayFire\Http as SFHttp;
 
 /**
+ * Implementations of this interface should be able to handle routing the given
+ * SprayFire.Http.Request, creation and invocation of SprayFire.Controller.Controller,
+ * creation of SprayFire.Responder.Responder and the sending of the response to
+ * the user.
+ *
+ * It is also encouraged that your implementations support the SprayFire event
+ * hooks we have built into the framework.  Please see the SprayFire.Mediator
+ * module and also take a look at the wiki for more information on SprayFire events.
+ *
  * @package SprayFire
  * @subpackage Dispatcher
  */
