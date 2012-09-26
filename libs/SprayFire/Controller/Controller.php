@@ -1,9 +1,7 @@
 <?php
 
 /**
- * An interface implemented by all SprayFire and app controllers; allows for the
- * retrieval of information about the services the controller needs and provides
- * a means to give data to the Responder
+ * Interface that serves as a connection between the Model and Responder
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -17,6 +15,10 @@ use \SprayFire\Object as SFObject,
     \SprayFire\Service as SFService;
 
 /**
+ * Designed to serve as a data conduit to the chose SprayFire.Responder.Responder
+ * providing the chosen Responder with the appropriate information needed to send
+ * the correct resource to the user.
+ *
  * @TODO
  * This interface should reevaluate how it is providing data to the SprayFire.Responder.Responder
  * and whether or not it should be providing a mechanism for giving clean or
