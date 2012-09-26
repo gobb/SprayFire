@@ -8,7 +8,7 @@
  * code
  */
 
-namespace SprayFire;
+namespace SprayFire\Factory\FireFactory;
 
 class ObjectTypeValidator {
 
