@@ -1,20 +1,31 @@
 <?php
 
 /**
- * An interface to allow a common API for all factory objects.
+ * Interface to allow the dynamic creation of objects and to retrieve information
+ * about the type of objects created by the implementation.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Factory;
 
-use \SprayFire\Object as Object;
+use \SprayFire\Object as SFObject;
 
-interface Factory extends Object {
+/**
+ * @package    SprayFire
+ * @subpackage Factory
+ */
+interface Factory extends SFObject {
 
     /**
+     * If the appropriate object could not be successfully created we should return
+     * a Null Object implementation or throw an exception, at no point should a
+     * value be returned from this method that cannot be invoked as if it were
+     * an object.
+     *
      * @param string $objectName
      * @param array $options
      * @return object
@@ -22,11 +33,17 @@ interface Factory extends Object {
     public function makeObject($objectName, array $options = array());
 
     /**
+     * Should return the Java or PHP style name for the type of object the factory
+     * creates.
+     *
      *@return string
      */
     public function getObjectType();
 
     /**
+     * Should return the specific type for the object returned if an error was
+     * encountered creating the requested object.
+     *
      * @return string
      */
     public function getNullObjectType();
