@@ -1,18 +1,28 @@
 <?php
 
 /**
- * An interface that represents an HTTP request sent to the app
+ * Interface that represents an HTTP request provided by the user to retrieve a
+ * specific resource.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Http;
 
-use \SprayFire\Object as Object;
+use \SprayFire\Object as SFObject;
 
-interface Request extends Object {
+/**
+ * It is important to note that implementations of this interface need to return
+ * other interfaces in the SprayFire.Http module; please check out the rest of
+ * this module if you intend on implementing this interface yourself.
+ *
+ * @package SprayFire
+ * @subpackage Http
+ */
+interface Request extends SFObject {
 
     /**
      * @return SprayFire.Http.Uri
