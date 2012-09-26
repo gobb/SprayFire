@@ -22,6 +22,10 @@ class Html extends ServiceConsumer implements Responder {
      */
     protected $response = '';
 
+    protected $services = array(
+        'Paths' => 'SprayFire.FileSys.FireFileSys.Paths'
+    );
+
     /**
      * Will create the appropriate HTML structure based on the contents of the
      * $Controller->getLayoutPath() and $Controller->getTemplatePath() return
