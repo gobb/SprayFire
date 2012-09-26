@@ -79,12 +79,16 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
      *
      * @param SprayFire.ReflectionCache $ReflectionCache
      * @param SprayFire.Logging.LogOveseer $LogOverseer
-     * @param SprayFire.JavaNamespaceConverter $JavaNameConverter
      * @param string $returnTypeRestriction
      * @param string $nullObject
      * @throws InvalidArgumentException
      */
-    public function __construct(SFReflectionCache $ReflectionCache, SFLogging\LogOverseer $LogOverseer, $returnTypeRestriction, $nullObject) {
+    public function __construct(
+        SFReflectionCache $ReflectionCache,
+        SFLogging\LogOverseer $LogOverseer,
+        $returnTypeRestriction,
+        $nullObject
+    ) {
         $this->ReflectionCache = $ReflectionCache;
         $this->LogOverseer = $LogOverseer;
         $this->TypeValidator = $this->createTypeValidator($returnTypeRestriction);
@@ -99,6 +103,7 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
      * detail and shouldn't be exposed to the outside world, we just care about
      * validating types correctly.
      *
+     * @param string $objectType
      * @return SprayFire.ObjectTypeValidator
      * @throws InvalidArgumentException
      */
@@ -191,6 +196,8 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
     }
 
     /**
+     * Will return the type created by the factory as a PHP namespaced type.
+     *
      * @return string
      */
     public function getObjectType() {
@@ -198,6 +205,9 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
     }
 
     /**
+     * Will return the type of Null Object used by the factory as a PHP namespaced
+     * type.
+     *
      * @return string
      */
     public function getNullObjectType() {
