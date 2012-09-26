@@ -1,19 +1,28 @@
 <?php
 
 /**
- * An interface used to get absolute and relative paths to directories and files
- * used by the framework and/or app.
+ * Interface to create absolute paths to various SprayFire directories.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\FileSys;
 
-use \SprayFire\Object as Object;
+use \SprayFire\Object as SFObject;
 
-interface PathGenerator extends Object {
+/**
+ * It is expected that implementations of this interface will accept a variety of
+ * arguments for each method; it is intended that implementations will determine
+ * the appropriate way to allow the passing of sub-directory paths needed to
+ * each method.
+ *
+ * @package SprayFire
+ * @package FileSys
+ */
+interface PathGenerator extends SFObject {
 
     /**
      * Should return the root path that the app and framework is installed in;
