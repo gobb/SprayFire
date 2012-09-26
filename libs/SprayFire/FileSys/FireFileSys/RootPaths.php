@@ -1,45 +1,66 @@
 <?php
 
 /**
- * A value object for root directory paths for the creation of a SprayFire.FileSys.PathGenerator
+ * Implementation of SprayFire.ValueObject that allows the storing of paths used
+ * by SprayFire.FileSys.FireFileSys.Paths
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\FileSys\FireFileSys;
 
-use \SprayFire\ValueObject as ValueObject;
+use \SprayFire\ValueObject as SFValueObject;
 
-class RootPaths extends ValueObject {
+/**
+ * This is a package private implementatoin and is intended to be used by
+ * SprayFire.FileSys.FireFileSys module.
+ *
+ * @package SprayFire
+ * @subpackage FileSys.FireFileSys
+ */
+class RootPaths extends SFValueObject {
 
     /**
+     * The full, absolute path to the directory holding SprayFire source.
+     *
      * @property string
      */
     protected $install;
 
     /**
+     * The full, absolute path to the directory holding SprayFire API and implementations.
+     *
      * @property string
      */
     protected $libs;
 
     /**
+     * The full, absolute path to the directory holding SprayFire driven applications.
+     *
      * @property string
      */
     protected $app;
 
     /**
+     * The full, absolute path to the directory holding web accessible files.
+     *
      * @property string
      */
     protected $web;
 
     /**
+     * The full, absolute path to the directory holding framework and app config files.
+     *
      * @property string
      */
     protected $config;
 
     /**
+     * The full, absolute path to the directory holding logs written to file.
+     *
      * @property string
      */
     protected $logs;
@@ -52,7 +73,15 @@ class RootPaths extends ValueObject {
      * @param string $config
      * @param string $logs
      */
-    public function __construct($install, $libs = null, $app = null, $web = null, $config = null, $logs = null) {
+    public function __construct(
+        $install,
+        $libs = null,
+        $app = null,
+        $web = null,
+        $config =
+        null, $logs =
+        null
+    ) {
         $paths = \compact('libs', 'app', 'web', 'config', 'logs');
         $install = (string) $install;
         $this->replaceNullWithDefault($paths, $install);
@@ -61,7 +90,10 @@ class RootPaths extends ValueObject {
     }
 
     /**
-     * @param array $paths
+     * Will replace any paths that aren't provided with the default path being
+     * $install/path_name.
+     *
+     * @param array &$paths
      * @param string $install
      */
     protected function replaceNullWithDefault(array &$paths, $install) {
@@ -73,6 +105,9 @@ class RootPaths extends ValueObject {
     }
 
     /**
+     * Required from SprayFire.ValueObject, required in case PHP array functions
+     * are needed to be performed on the value object.
+     *
      * @return array
      */
     public function toArray() {
@@ -87,6 +122,10 @@ class RootPaths extends ValueObject {
     }
 
     /**
+     * Required from SprayFire.ValueObject, provides the parent implementation
+     * with details about what properties are allowed to be accessed by the
+     * outside world.
+     *
      * @return array
      */
     protected function getAccessibleProperties() {
