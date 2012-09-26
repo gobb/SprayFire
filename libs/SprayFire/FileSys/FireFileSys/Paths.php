@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Class to ease the creation of absolute paths for directories and files used by
- * apps and the framework.
+ * Implementation of SprayFire.FileSys.Paths to create absolute paths to various
+ * directories in SprayFire.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\FileSys\FireFileSys;
 
-use \SprayFire\FileSys\PathGenerator as PathGenerator,
-    \SprayFire\CoreObject as CoreObject,
-    \SprayFire\FileSys\FireFileSys\RootPaths as RootPaths;
+use \SprayFire\FileSys as SFFileSys,
+    \SprayFire\CoreObject as SFCoreObject;
 
 /**
  * All of the getter methods in this class allow a variable number of parameters
@@ -26,41 +26,63 @@ use \SprayFire\FileSys\PathGenerator as PathGenerator,
  * Method 2 - array
  * -----------------------------------------------------------------------------
  * Paths::getInstallPath(array('path', 'to', 'your', 'file'));
+ *
+ * @package SprayFire
+ * @package FileSys.FireFileSys
  */
-class Paths extends CoreObject implements PathGenerator {
+class Paths extends SFCoreObject implements SFFileSys\PathGenerator {
 
     /**
+     * The full, absolute path to the directory the SprayFire source was installed
+     * in.
+     *
+     * Relative to this directory the framework API and implementations should
+     * be in ./libs/SprayFire.
+     *
      * @property string
      */
     protected $installPath;
 
     /**
+     * The full, absolute path to the directory the SprayFire API and implementations
+     * are stored in.
+     *
      * @property string
      */
     protected $libsPath;
 
     /**
+     * The full absolute path to the directory holding application API and implementations.
+     *
      * @property string
      */
     protected $appPath;
 
     /**
+     * The full, absolute path to the directory holding configuration values for
+     * SprayFire and your applications.
+     *
      * @property string
      */
     protected $configPath;
 
     /**
+     * The full, absolute path to store logs written to files.
+     *
      * @property string
      */
     protected $logsPath;
 
     /**
+     * The full, absolute path to the web accessible folder for the framework
+     * and your applications.
+     *
      * @property string
      */
     protected $webPath;
 
     /**
-     * @param SprayFire.FileSys.RootPaths
+     * @param SprayFire.FileSys.FireFileSys.RootPaths
      */
     public function __construct(RootPaths $RootPaths) {
         $this->installPath = $RootPaths->install;
@@ -116,7 +138,7 @@ class Paths extends CoreObject implements PathGenerator {
     }
 
     /**
-     * Path suitable for front-end HTML linking to files in the web directory
+     * Path suitable for front-end HTML linking to files in the web directory.
      *
      * @return string
      */
