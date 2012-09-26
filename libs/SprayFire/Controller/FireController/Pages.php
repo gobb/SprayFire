@@ -17,8 +17,8 @@ namespace SprayFire\Controller\FireController;
  * than the about page.
  *
  * This controller is not intended to be used by your application.  Please extend
- * your application controllers on some application specific controller.  The
- * default SprayFire install should include an implementation in:
+ * your controllers on some application specific controller.  The default SprayFire
+ * install should include an implementation in:
  *
  * <AppName>.Controller.Base
  *
