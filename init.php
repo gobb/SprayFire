@@ -25,8 +25,8 @@ $ClassLoader->setAutoloader();
 $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
 $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
 
-$JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-$ReflectionCache = new \SprayFire\ReflectionCache($JavaNameConverter);
+$JavaNameConverter = new \SprayFire\Utils\JavaNamespaceConverter();
+$ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaNameConverter);
 $Container = new \SprayFire\Service\FireService\Container($ReflectionCache);
 
 $getEnvironmentConfig = function() use ($Paths, $ReflectionCache, $Container) {

@@ -13,12 +13,11 @@ namespace SprayFire\Service\FireService;
 
 use \SprayFire\Service\Container as ServiceContainer,
     \SprayFire\Service\Consumer as ServiceConsumer,
+    \SprayFire\Utils as SFUtils,
     \SprayFire\Logging\LogOverseer as LogOverseer,
     \SprayFire\Factory\FireFactory\Base as BaseFactory,
-    \SprayFire\JavaNamespaceConverter as JavaNameConverter,
     \SprayFire\Exception\FatalRuntimeException as FatalException,
-    \SprayFire\Service\NotFoundException as ServiceNotFoundException,
-    \SprayFire\ReflectionCache as ReflectionCache;
+    \SprayFire\Service\NotFoundException as ServiceNotFoundException;
 
 abstract class ConsumerFactory extends BaseFactory {
 
@@ -28,13 +27,19 @@ abstract class ConsumerFactory extends BaseFactory {
     protected $Container;
 
     /**
-     * @param Artax.ReflectionPool $Cache
+     * @param SprayFire.Utils.ReflectionCache $Cache
      * @param SprayFire.Service.Container $Container
      * @param SprayFire.Logging.LogOverseer $LogOverseer
      * @param string $type
      * @param string $nullObject
      */
-    public function __construct(ReflectionCache $Cache, ServiceContainer $Container, LogOverseer $LogOverseer, $type, $nullObject) {
+    public function __construct(
+        SFUtils\ReflectionCache $Cache,
+        ServiceContainer $Container,
+        LogOverseer $LogOverseer,
+        $type,
+        $nullObject
+    ) {
         parent::__construct($Cache, $LogOverseer, $type, $nullObject);
         $this->Container = $Container;
     }

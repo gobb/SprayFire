@@ -3,22 +3,27 @@
 /**
  * A class that holds a container responsible for creating and storing services.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Service\FireService;
 
-use \SprayFire\Service\Container as ServiceContainer,
-    \SprayFire\CoreObject as CoreObject,
-    \SprayFire\JavaNamespaceConverter as JavaNameConverter,
-    \SprayFire\ReflectionCache as ReflectionCache;
+use \SprayFire\Service as SFService,
+    \SprayFire\Utils as SFUtils,
+    \SprayFire\CoreObject as SFCoreObject;
 
-class Container extends CoreObject implements ServiceContainer {
+/**
+ *
+ * @package SprayFire
+ * @subpackage Service.FireService
+ */
+class Container extends SFCoreObject implements SFService\Container {
 
     /**
-     * @property Artax.ReflectionPool
+     * @property SprayFire.Utils.ReflectionCache
      */
     protected $ReflectionCache;
 
@@ -46,9 +51,9 @@ class Container extends CoreObject implements ServiceContainer {
     protected $emptyCallback;
 
     /**
-     * @param Artax.ReflectionPool $ReflectionCache
+     * @param SprayFire.Utils.ReflecationCache $ReflectionCache
      */
-    public function __construct(ReflectionCache $ReflectionCache) {
+    public function __construct(SFUtils\ReflectionCache $ReflectionCache) {
         $this->ReflectionCache = $ReflectionCache;
         $this->emptyCallback = function() { return array(); };
     }
@@ -101,13 +106,13 @@ class Container extends CoreObject implements ServiceContainer {
             return $this->storedServices[$serviceKey];
         }
         if (!\array_key_exists($serviceKey, $this->addedServices)) {
-            throw new \SprayFire\Service\NotFoundException('A service, ' . $serviceName . ', was not properly added to the container.');
+            throw new SFService\NotFoundException('A service, ' . $serviceName . ', was not properly added to the container.');
         }
         $parameterCallback = $this->addedServices[$serviceKey];
         try {
             $ReflectedService = $this->ReflectionCache->getClass($serviceName);
         } catch(\ReflectionException $NotFoundExc) {
-            throw new \SprayFire\Service\NotFoundException($NotFoundExc->getMessage());
+            throw new SFService\NotFoundException($NotFoundExc->getMessage());
         }
         $Service = $ReflectedService->newInstanceArgs($parameterCallback());
         $this->storedServices[$serviceKey] = $Service;

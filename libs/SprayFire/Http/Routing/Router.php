@@ -15,7 +15,7 @@ namespace SprayFire\Http\Routing;
 use \SprayFire\Http as SFHttp;
 
 /**
- * 
+ *
  *
  * @package SprayFire
  * @subpackage Http.Routing

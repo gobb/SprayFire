@@ -14,9 +14,8 @@ namespace SprayFire\Factory\FireFactory;
 
 use \SprayFire\Factory as SFFactory,
     \SprayFire\Logging as SFLogging,
-    \SprayFire\JavaNamespaceConverter as SFJavaNameConverter,
+    \SprayFire\Utils as SFUtils,
     \SprayFire\CoreObject as SFCoreObject,
-    \SprayFire\ReflectionCache as SFReflectionCache,
     \SprayFire\Exception as SFException;
 
 /**
@@ -77,14 +76,14 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
 
     /**
      *
-     * @param SprayFire.ReflectionCache $ReflectionCache
+     * @param SprayFire.Utils.ReflectionCache $ReflectionCache
      * @param SprayFire.Logging.LogOveseer $LogOverseer
      * @param string $returnTypeRestriction
      * @param string $nullObject
      * @throws InvalidArgumentException
      */
     public function __construct(
-        SFReflectionCache $ReflectionCache,
+        SFUtils\ReflectionCache $ReflectionCache,
         SFLogging\LogOverseer $LogOverseer,
         $returnTypeRestriction,
         $nullObject
