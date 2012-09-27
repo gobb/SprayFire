@@ -40,7 +40,7 @@ interface Request extends SFObject {
     public function getMethod();
 
     /**
-     * @return float
+     * @return string
      */
     public function getVersion();
 

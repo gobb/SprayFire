@@ -1,21 +1,28 @@
 <?php
 
 /**
- * Interface to tell the dispatcher exactly what controller, action and parameters
- * are to be used for the given request.
+ * Interface that represents data about the requested resource after the
+ * SprayFire.Http.Routing.Router has routed a SprayFire.Http.Request
  *
  * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Http\Routing;
 
+/**
+ * This is, in effect, a Data Transfer Object intended to provide pertinent information
+ * about the routed resource to SprayFire.Dispatcher.Dispatcher implementations.
+ *
+ * @package SprayFire
+ * @subpackage Http.Routing
+ */
 interface RoutedRequest {
 
     /**
-     * Should return the top level namespace for controller that the request was
-     * routed to.
+     * Should return the top level namespace for the routed request.
      *
      * @return string
      */

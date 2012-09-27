@@ -1,19 +1,19 @@
 <?php
 
 /**
- * An interface representing the different parts of a Universe Resource Identifier
- * (URI) as dictated in http://tools.ietf.org/html/rfc3986.
+ * Interface representing an HTTP URI as dictated in http://tools.ietf.org/html/rfc3986.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Http;
 
-use \SprayFire\Object as Object;
+use \SprayFire\Object as SFObject;
 
-interface Uri extends Object {
+interface Uri extends SFObject {
 
     /**
      * Will return the HTTP protocol for the given request

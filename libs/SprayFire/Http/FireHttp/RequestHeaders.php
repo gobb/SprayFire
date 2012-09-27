@@ -1,19 +1,33 @@
 <?php
 
 /**
- * Base class abstracting away typical headers sent in a HTTP request.
+ * Implementation of SprayFire.Http.RequestHeaders designed to work with an
+ * Apache server.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Http\FireHttp;
 
-use \SprayFire\Http\RequestHeaders as HttpRequestHeaders,
-    \SprayFire\CoreObject as CoreObject;
+use \SprayFire\Http as SFHttp,
+    \SprayFire\CoreObject as SFCoreObject;
 
-class RequestHeaders extends CoreObject implements HttpRequestHeaders {
+/**
+ * Will determine the appropriate HTTP request headers based on common indices
+ * found in the superglobal $_SERVER.
+ *
+ * This implementation is known to work with Apache servers but may not work with
+ * others if that server does not properly populate the $_SERVER superglobal with
+ * the appropriate indices.
+ *
+ *
+ * @package SprayFire
+ * @subpackage Http.FireHttp
+ */
+class RequestHeaders extends SFCoreObject implements SFHttp\RequestHeaders {
 
     /**
      * @property string
@@ -83,6 +97,9 @@ class RequestHeaders extends CoreObject implements HttpRequestHeaders {
 
 
     /**
+     * The $_server parameter is optional, if it is not provided the superglobal
+     * $_SERVER will be used to parse the various pieces of information.
+     *
      * @param array $_server
      */
     public function __construct(array $_server = null) {

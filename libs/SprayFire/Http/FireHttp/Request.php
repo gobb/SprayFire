@@ -1,23 +1,30 @@
 <?php
 
 /**
- * Base class for abstracting out the HTTP information pertinent to routing a
- * request.
+ * Implementation of SprayFire.Http.Request designed to work with an Apache server.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Http\FireHttp;
 
-use \SprayFire\Http\Request as HttpRequest,
-    \SprayFire\Http\Uri as HttpUri,
-    \SprayFire\Http\RequestHeaders as HttpRequestHeaders,
-    \SprayFire\CoreObject as CoreObject;
+use \SprayFire\Http as SFHttp,
+    \SprayFire\CoreObject as SFCoreObject;
 
-
-class Request extends CoreObject implements HttpRequest {
+/**
+ * This implementation is specifically designed to work with common indexes available
+ * to the superglobal $_SERVER.
+ *
+ * This superglobal is known to be populated with the appropriate values on Apache
+ * servers but has not been tested on other servers.
+ *
+ * @package SprayFire
+ * @subpackage Http.FireHttp
+ */
+class Request extends SFCoreObject implements SFHttp\Request {
 
     /**
      * @property SprayFire.Http.Uri
@@ -44,7 +51,7 @@ class Request extends CoreObject implements HttpRequest {
      * @param SprayFire.HttpRequestHeaders $Headers
      * @param array $_server
      */
-    public function __construct(HttpUri $Uri, HttpRequestHeaders $Headers, array $_server = null) {
+    public function __construct(SFHttp\Uri $Uri, SFHttp\RequestHeaders $Headers, array $_server = null) {
         $this->Uri = $Uri;
         $this->Headers = $Headers;
         if (\is_null($_server)) {
@@ -54,6 +61,10 @@ class Request extends CoreObject implements HttpRequest {
     }
 
     /**
+     * Will set the appropriate $version and $method based on the values from the
+     * passed configuration, if the values could not be found then the method is
+     * defaulted to GET and the HTTP version is set to a blank value.
+     *
      * @param array $_server
      */
     protected function parseMethodAndVersion(array $_server) {
@@ -66,7 +77,6 @@ class Request extends CoreObject implements HttpRequest {
     }
 
     /**
-     *
      * @return SprayFire.Http.RequestHeaders
      */
     public function getHeaders() {
@@ -74,6 +84,7 @@ class Request extends CoreObject implements HttpRequest {
     }
 
     /**
+     * The string returned will always be in UPPER CASE letters
      *
      * @return string
      */
@@ -89,6 +100,8 @@ class Request extends CoreObject implements HttpRequest {
     }
 
     /**
+     * This string will be returned as a string with a x.x decimal format.
+     *
      * @return string
      */
     public function getVersion() {

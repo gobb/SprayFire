@@ -1,20 +1,32 @@
 <?php
 
 /**
- * The framework's base implementation of the SprayFire.Http.Uri interface.
+ * Implementation of SprayFire.Http.Uri provided by the default SprayFire install.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Http\FireHttp;
 
-use \SprayFire\Object as Object,
-    \SprayFire\Http\Uri as HttpUri,
-    \SprayFire\CoreObject as CoreObject;
+use \SprayFire\Http as SFHttp,
+    \SprayFire\Object as SFObject,
+    \SprayFire\CoreObject as SFCoreObject;
 
-class Uri extends CoreObject implements HttpUri {
+/**
+ * This implementation is designed to gather information about the HTTP URI from
+ * the superglobal $_SERVER variable.
+ *
+ * This implementation is known to work with Apache servers but may not work on
+ * servers that do not properly populate the $_SERVER superglobal with the appropriate
+ * values.
+ *
+ * @package SprayFire
+ * @subpackage Http.FireHttp
+ */
+class Uri extends SFCoreObject implements SFHttp\Uri {
 
     /**
      * @property string
@@ -125,6 +137,9 @@ class Uri extends CoreObject implements HttpUri {
     }
 
     /**
+     * Overridden from SprayFire.CoreObject to ensure that the string version of
+     * the parsed HTTP URI is returned and not an object hash code.
+     *
      * @return string
      */
     public function __toString() {
@@ -136,11 +151,16 @@ class Uri extends CoreObject implements HttpUri {
     }
 
     /**
+     * Overrides SprayFire.CoreObject to ensure that objects compared to this
+     * implementation for equality does not care if they are the same object
+     * but whether or not the appropriate stringified URI is the same as the object
+     * being compared to.
+     *
      * @param SprayFire.Object $Object
      * @return boolean
      */
-    public function equals(Object $Object) {
-        if (!($Object instanceof HttpUri)) {
+    public function equals(SFObject $Object) {
+        if (!($Object instanceof SFHttp\Uri)) {
             return false;
         }
 
