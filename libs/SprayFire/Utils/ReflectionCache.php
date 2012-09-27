@@ -7,18 +7,17 @@
  * code
  */
 
-namespace SprayFire;
+namespace SprayFire\Utils;
 
-use \SprayFire\CoreObject as CoreObject,
-    \SprayFire\JavaNamespaceConverter as JavaNameConverter;
+use \SprayFire\CoreObject as SFCoreObject;
 
-class ReflectionCache extends CoreObject {
+class ReflectionCache extends SFCoreObject {
 
     protected $JavaNameConverter;
 
     protected $cache = array();
 
-    public function __construct(JavaNameConverter $JavaNameConverter) {
+    public function __construct(JavaNamespaceConverter $JavaNameConverter) {
         $this->JavaNameConverter = $JavaNameConverter;
     }
 

@@ -8,7 +8,7 @@
  * code
  */
 
-namespace SprayFire;
+namespace SprayFire\Utils;
 
 class JavaNamespaceConverter {
 
