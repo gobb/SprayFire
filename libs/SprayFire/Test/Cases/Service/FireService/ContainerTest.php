@@ -67,14 +67,14 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     public function testAddingObjectAsServiceAndRetrievingRightObject() {
         $Container = $this->getContainer();
         $Container->addService($this->ReflectionCache, function() {return array();});
-        $Cache = $Container->getService('SprayFire.ReflectionCache');
+        $Cache = $Container->getService('SprayFire.Utils.ReflectionCache');
         $this->assertSame($this->ReflectionCache, $Cache);
     }
 
     public function testAddingObjectAsServiceAndCheckingServiceExists() {
         $Container = $this->getContainer();
         $Container->addService($this->ReflectionCache, function() {return array();});
-        $this->assertTrue($Container->doesServiceExist('SprayFire.ReflectionCache'));
+        $this->assertTrue($Container->doesServiceExist('SprayFire.Utils.ReflectionCache'));
     }
 
     public function testGettingServiceThatDoesNotExist() {
