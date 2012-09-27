@@ -11,9 +11,8 @@
 namespace SprayFire\Test\Cases\Controller\FireController;
 
 use \SprayFire\Service\FireService\Container as Container,
-    \SprayFire\JavaNamespaceConverter as JavaNameConverter,
-    \SprayFire\Controller\FireController\Factory as Factory,
-    \SprayFire\ReflectionCache as ReflectionCache;
+    \SprayFire\Utils as SFUtils,
+    \SprayFire\Controller\FireController\Factory as Factory;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase {
 
@@ -26,8 +25,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
     protected $ErrorLogger;
 
     public function setUp() {
-        $this->JavaNameConverter = new JavaNameConverter();
-        $this->ReflectionCache = new ReflectionCache($this->JavaNameConverter);
+        $this->JavaNameConverter = new SFUtils\JavaNamespaceConverter();
+        $this->ReflectionCache = new SFUtils\ReflectionCache($this->JavaNameConverter);
         $this->Container = new Container($this->ReflectionCache);
         $this->ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
     }

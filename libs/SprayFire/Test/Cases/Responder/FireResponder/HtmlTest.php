@@ -16,7 +16,7 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
     protected $JavaNameConverter;
 
     public function setUp() {
-        $this->JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
+        $this->JavaNameConverter = new \SprayFire\Utils\JavaNamespaceConverter();
     }
 
     public function testSanitizingHtmlData() {
@@ -39,7 +39,7 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
         $install = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework';
         $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($install);
         $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
-        $Cache = new \SprayFire\ReflectionCache($this->JavaNameConverter);
+        $Cache = new \SprayFire\Utils\ReflectionCache($this->JavaNameConverter);
         $Container = new \SprayFire\Service\FireService\Container($Cache);
         $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
         $ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();

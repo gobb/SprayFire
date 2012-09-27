@@ -33,8 +33,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
     protected $ErrorLog;
 
     public function setUp() {
-        $this->JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $this->ReflectionCache = new \SprayFire\ReflectionCache($this->JavaNameConverter);
+        $this->JavaNameConverter = new \SprayFire\Utils\JavaNamespaceConverter();
+        $this->ReflectionCache = new \SprayFire\Utils\ReflectionCache($this->JavaNameConverter);
         $Container = new \SprayFire\Service\FireService\Container($this->ReflectionCache);
 
         $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths(\SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework');

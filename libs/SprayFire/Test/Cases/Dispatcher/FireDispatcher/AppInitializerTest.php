@@ -59,8 +59,8 @@ class AppInitializerTest extends \PHPUnit_Framework_TestCase {
     }
 
     protected function getServiceContainer() {
-        $JavaNameConverter = new \SprayFire\JavaNamespaceConverter();
-        $ReflectionCache = new \SprayFire\ReflectionCache($JavaNameConverter);
+        $JavaNameConverter = new \SprayFire\Utils\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaNameConverter);
         return new \SprayFire\Service\FireService\Container($ReflectionCache);
     }
 
