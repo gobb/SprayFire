@@ -1,20 +1,27 @@
 <?php
 
 /**
- * Will normalize controller and action names for routing purposes.
+ * Implementation to normalize class and method names into something that fits
+ * the SprayFire coding standards.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Http\Routing\FireRouting;
 
+use \SprayFire\CoreObject as SFCoreObject;
+
 /**
- * Will take a controller or action URI fragment and return a string that is formatted
- * to follow the rules defined at http://www.github.com/cspray/SprayFire/wiki/Routing.
+ * This is a package private class and is intended to be used by other implementations
+ * in the SprayFire.Http.Routing.FireRouting module.
+ *
+ * @package SprayFire
+ * @subpackage Http.Routing.FireRouting
  */
-class Normalizer extends \SprayFire\CoreObject {
+class Normalizer extends SFCoreObject {
 
     /**
      * PCRE regex pattern used to remove all non-alphabetic/space characters
@@ -24,6 +31,10 @@ class Normalizer extends \SprayFire\CoreObject {
     protected $characterRegex = '/[^A-Za-z\s]/';
 
     /**
+     * Will replace dashes and underscores with spaces, remove anything that isn't
+     * a letter and finally return a string with resulting fragments converted to
+     * a pascal cased string.
+     *
      * @param string $controller
      * @return string
      */
@@ -36,8 +47,16 @@ class Normalizer extends \SprayFire\CoreObject {
     }
 
     /**
+     * Will replace dashes and underscores with spaces, remove anything that isn't a
+     * letter or a number and return a string with resulting fragments converted
+     * to a camel cased string.
+     *
      * @param strubg $action
      * @return string
+     *
+     * @todo
+     * We need to make a test to normalize an action with a number in it.  This
+     * is not robust enough to ship with version 0.1
      */
     public function normalizeAction($action) {
         $action = \strtolower($action);
@@ -66,7 +85,7 @@ class Normalizer extends \SprayFire\CoreObject {
     }
 
     /**
-     * @param strubg $string
+     * @param string $string
      * @param string $character
      * @return string
      */
@@ -104,7 +123,5 @@ class Normalizer extends \SprayFire\CoreObject {
         $string = $this->makePascalCased($string);
         return \lcfirst($string);
     }
-
-
 
 }

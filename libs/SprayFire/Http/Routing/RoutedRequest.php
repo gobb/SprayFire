@@ -4,7 +4,7 @@
  * Interface that represents data about the requested resource after the
  * SprayFire.Http.Routing.Router has routed a SprayFire.Http.Request
  *
- * @author Charles Sprayberry
+ * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
  * @version 0.1
  * @since   0.1

@@ -29,7 +29,7 @@ use \SprayFire\Dispatcher as SFDispatcher,
  * @package SprayFire
  * @subpackage Dispatcher.FireDispatcher
  *
- * @TODO
+ * @todo
  * Take a look at whether or not we should allow some configuration value
  * that determines whether or not to throw an exception if a boostrap does not
  * exist or just should continue processing.
@@ -68,7 +68,7 @@ class AppInitializer extends SFCoreObject implements SFDispatcher\AppInitializer
      * @param ClassLoader.Loader $ClassLoader
      * @param SprayFire.FileSys.PathGenerator $Paths
      *
-     * @TODO
+     * @todo
      * See about refactoring the list to accept SprayFire components then
      * third party components.
      */

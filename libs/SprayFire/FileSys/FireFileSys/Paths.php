@@ -28,7 +28,7 @@ use \SprayFire\FileSys as SFFileSys,
  * Paths::getInstallPath(array('path', 'to', 'your', 'file'));
  *
  * @package SprayFire
- * @package FileSys.FireFileSys
+ * @subpackage FileSys.FireFileSys
  */
 class Paths extends SFCoreObject implements SFFileSys\PathGenerator {
 

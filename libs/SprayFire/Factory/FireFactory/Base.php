@@ -25,7 +25,7 @@ use \SprayFire\Factory as SFFactory,
  * @package SprayFire
  * @subpackage Factory.FireFactory
  *
- * @TODO
+ * @todo
  * Look at implementing a strategy pattern for dealing with Factory error handling.
  */
 abstract class Base extends SFCoreObject implements SFFactory\Factory {
@@ -119,6 +119,7 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
      * Creates a Null Object implementation and ensures that the implementation
      * is of the appropriate type for the factory.
      *
+     * @param string $nullObjectType
      * @return Object instanceof $this->nullObjectType
      * @throws InvalidArgumentException
      */

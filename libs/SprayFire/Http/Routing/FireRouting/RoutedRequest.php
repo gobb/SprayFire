@@ -1,20 +1,32 @@
 <?php
 
 /**
- * Simple base class providing a means to retrieve a given controller, action and
- * parameters that should be invoked for a given request.
+ * Implementation of SprayFire.Http.Routing.RoutedRequest provided with the default
+ * SprayFire install.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Http\Routing\FireRouting;
 
-use \SprayFire\Http\Routing\RoutedRequest as HttpRoutingRoutedRequest,
-    \SprayFire\CoreObject as CoreObject;
+use \SprayFire\Http\Routing as SFRouting,
+    \SprayFire\CoreObject as SFCoreObject;
 
-class RoutedRequest extends CoreObject implements HttpRoutingRoutedRequest {
+/**
+ * This implementation is a Data Transfer Object to provide data from the
+ * SprayFire.Http.Routing to the SprayFire.Dispatcher module.
+ *
+ * Ultimately the only functionality provided by this object is parsing the
+ * top level namespace from a controller.  This functionality is only provided
+ * internally and
+ *
+ * @package SprayFire
+ * @subpackage Http.Routing.FireRouting
+ */
+class RoutedRequest extends SFCoreObject implements SFRouting\RoutedRequest {
 
     /**
      * @property string
@@ -42,6 +54,9 @@ class RoutedRequest extends CoreObject implements HttpRoutingRoutedRequest {
     protected $isStatic;
 
     /**
+     * Will parse the app namespace for this RoutedRequest based on the top level
+     * of the controller namespace passed.
+     *
      * @param string $controller
      * @param string $action
      * @param array $parameters

@@ -4,25 +4,27 @@
  * Base class to route an HTTP request to the appropriate controller, action and
  * parameters.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Http\Routing\FireRouting;
 
-use \SprayFire\Http\Routing\Router as HttpRoutingRouter,
-    \SprayFire\Http\Routing\RoutedRequest as HttpRoutingRoutedRequest,
-    \SprayFire\Http\Request as HttpRequest,
-    \SprayFire\CoreObject as CoreObject,
-    \SprayFire\Http\Routing\FireRouting\Normalizer as Normalizer,
-    \SprayFire\Http\Routing\ConfigFallbacks as ConfigFallbacks,
-    \SprayFire\Exception\FatalRuntimeException as FatalRunTimeException;
+use \SprayFire\Http as SFHttp,
+    \SprayFire\Http\Routing as SFRouting,
+    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\Exception as SFException;
 
-class Router extends CoreObject implements HttpRoutingRouter {
+/**
+ * @package SprayFire
+ * @subpackage Http.Routing.FireRouting
+ */
+class Router extends SFCoreObject implements SFRouting\Router {
 
     /**
-     * @property SprayFire.Http.Routing.Normalizer
+     * @property SprayFire.Http.Routing.FireRouting.Normalizer
      */
     protected $Normalizer;
 
@@ -67,10 +69,10 @@ class Router extends CoreObject implements HttpRoutingRouter {
     protected $noResource;
 
     /**
-     * @param SprayFire.Config.Routes $Config
-     * @param SprayFire.Http.Routing.FireRouting.Normalizer $Normalizer
-     * @param SprayFire.FileSys.PathGenerator
-     * @param string $configPath
+     *
+     *
+     * @param SprayFire.Http.Routing.FireRouting.Normalizer
+     * @param array $config
      * @param string $installDir
      * @throws SprayFire.Exception.FatalRuntimeException
      */
@@ -96,18 +98,18 @@ class Router extends CoreObject implements HttpRoutingRouter {
     protected function createDefaultsFallbackMap() {
         $defaultsFallbackMap = array();
         $defaultsFallbackMap['defaults'] = array(
-            'namespace' => ConfigFallbacks::DEFAULT_NAMESPACE,
-            'controller' => ConfigFallbacks::DEFAULT_CONTROLLER,
-            'action' => ConfigFallbacks::DEFAULT_ACTION,
+            'namespace' => SFRouting\ConfigFallbacks::DEFAULT_NAMESPACE,
+            'controller' => SFRouting\ConfigFallbacks::DEFAULT_CONTROLLER,
+            'action' => SFRouting\ConfigFallbacks::DEFAULT_ACTION,
             'parameters' => array(),
-            'method' => ConfigFallbacks::DEFAULT_METHOD
+            'method' => SFRouting\ConfigFallbacks::DEFAULT_METHOD
         );
         $defaultsFallbackMap['staticDefaults'] = array(
-            'static' => ConfigFallbacks::DEFAULT_STATIC,
-            'responderName' => ConfigFallbacks::DEFAULT_STATIC_RESPONDER_NAME,
-            'layoutPath' => ConfigFallbacks::DEFAULT_STATIC_LAYOUT_PATH,
-            'templatePath' => ConfigFallbacks::DEFAULT_STATIC_TEMPLATE_PATH,
-            'method' => ConfigFallbacks::DEFAULT_METHOD
+            'static' => SFRouting\ConfigFallbacks::DEFAULT_STATIC,
+            'responderName' => SFRouting\ConfigFallbacks::DEFAULT_STATIC_RESPONDER_NAME,
+            'layoutPath' => SFRouting\ConfigFallbacks::DEFAULT_STATIC_LAYOUT_PATH,
+            'templatePath' => SFRouting\ConfigFallbacks::DEFAULT_STATIC_TEMPLATE_PATH,
+            'method' => SFRouting\ConfigFallbacks::DEFAULT_METHOD
         );
         $defaultsFallbackMap['404'] = array();
         $defaultsFallbackMap['500'] = array();
@@ -135,7 +137,7 @@ class Router extends CoreObject implements HttpRoutingRouter {
      * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
      * @return type
      */
-    public function getStaticFilePaths(HttpRoutingRoutedRequest $RoutedRequest) {
+    public function getStaticFilePaths(SFRouting\RoutedRequest $RoutedRequest) {
         if (isset($this->StaticFilesStorage[$RoutedRequest])) {
             return $this->StaticFilesStorage[$RoutedRequest];
         }
@@ -148,7 +150,7 @@ class Router extends CoreObject implements HttpRoutingRouter {
      * @param SprayFire.Http.Request $Request
      * @return SprayFire.Http.Routing.RoutedRequest
      */
-    public function getRoutedRequest(HttpRequest $Request) {
+    public function getRoutedRequest(SFHttp\Request $Request) {
         if (isset($this->RoutedRequestCache[$Request])) {
             return $this->RoutedRequestCache[$Request];
         }

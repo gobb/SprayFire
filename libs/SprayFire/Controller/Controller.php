@@ -19,7 +19,7 @@ use \SprayFire\Object as SFObject,
  * providing the chosen Responder with the appropriate information needed to send
  * the correct resource to the user.
  *
- * @TODO
+ * @todo
  * This interface should reevaluate how it is providing data to the SprayFire.Responder.Responder
  * and whether or not it should be providing a mechanism for giving clean or
  * dirty data.  Should we not assume that all data is dirty?  If you are providing

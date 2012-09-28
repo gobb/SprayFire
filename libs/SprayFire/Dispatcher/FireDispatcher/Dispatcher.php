@@ -37,7 +37,7 @@ use \SprayFire\Dispatcher as SFDispatcher,
  * @package SprayFire
  * @subpackage Dispatcher.FireDispatcher
  *
- * @TODO
+ * @todo
  * We need to add event triggering to static responses.
  */
 class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
