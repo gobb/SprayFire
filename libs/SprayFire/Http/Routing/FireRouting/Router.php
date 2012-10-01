@@ -324,7 +324,14 @@ class Router extends SFCoreObject implements SFRouting\Router {
 
     /**
      * Will return a RoutedRequest object that marries back to the 404 configuration
-     * given at the time of Router creation.
+     * provided.
+     *
+     * Note that we are creating new objects here so that we can properly ensure
+     * that new 404 configurations passed at runtime are honored.  If we were to
+     * attempt a simple cache of the object created then only the configuration
+     * set at the time of method invocation would be honored.  We could attempt
+     * to serialize and hash each configuration that is used but that is far too
+     * much overhead for a method that should only be called sparingly.
      *
      * @return SprayFire.Http.Routing.FireRouting.RoutedRequest
      */
