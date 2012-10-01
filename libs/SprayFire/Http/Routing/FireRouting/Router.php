@@ -109,8 +109,6 @@ class Router extends SFCoreObject implements SFRouting\Router {
      */
     protected $noResourceConfiguration;
 
-    protected $NoResourceRoutedRequest;
-
     /**
      * Please see the documentation on routing configurations at
      * https://github.com/cspray/SprayFire/wiki/HTTP-and-Routing
