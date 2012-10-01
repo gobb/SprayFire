@@ -19,9 +19,13 @@ use \SprayFire\Http\Routing as SFRouting,
  * This implementation is a Data Transfer Object to provide data from the
  * SprayFire.Http.Routing to the SprayFire.Dispatcher module.
  *
+ * Although this object is not package private it is highly recommended that you
+ * do not manually create a RoutedRequest object, instead letting the
+ * SprayFire.Http.Routing.FireRouting.Router implement the appropriate RoutedRequest.
+ *
  * Ultimately the only functionality provided by this object is parsing the
  * top level namespace from a controller.  This functionality is only provided
- * internally and
+ * internally and can be "used" when passing a constructor value.
  *
  * @package SprayFire
  * @subpackage Http.Routing.FireRouting
@@ -70,8 +74,8 @@ class RoutedRequest extends SFCoreObject implements SFRouting\RoutedRequest {
     }
 
     /**
-     * Will return the top level namespace for a controller, whether that namespace
-     * is separated by dots or back slashes
+     * Will return the top level namespace for a class, whether the namespace is
+     * separated by dots or back slashes
      *
      * @param string $controller
      * @return string
@@ -124,4 +128,5 @@ class RoutedRequest extends SFCoreObject implements SFRouting\RoutedRequest {
     public function isStatic() {
         return $this->isStatic;
     }
+    
 }
