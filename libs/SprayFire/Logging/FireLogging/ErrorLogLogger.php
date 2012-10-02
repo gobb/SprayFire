@@ -22,7 +22,7 @@ use \SprayFire\Logging as SFLogging,
  *
  * @see http://us.php.net/manual/en/function.error-log.php
  */
-class ErrorLogLogger extends CoreObject implements Logger {
+class ErrorLogLogger extends SFCoreObject implements SFLogging\Logger {
 
     /**
      * @param string $message
