@@ -17,7 +17,7 @@ $environment = array(
     ),
     'services' => array(
         'Logging' => array(
-            'name' => 'SprayFire.Logging.FireLogging.LogDelegator',
+            'name' => 'SprayFire.Logging.FireLogging.LogOverseer',
             'parameterCallback' => function() {
                 $EmergencyLogger = new \SprayFire\Logging\FireLogging\SysLogLogger();
                 $ErrorLogger = new \SprayFire\Logging\FireLogging\ErrorLogLogger();
@@ -29,7 +29,7 @@ $environment = array(
         'Handler' => array(
             'name' => 'SprayFire.Handler',
             'parameterCallback' => function() use($Container, $developmentMode) {
-                $LogDelegator = $Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
+                $LogDelegator = $Container->getService('SprayFire.Logging.FireLogging.LogOverseer');
                 return array($LogDelegator, $developmentMode);
             }
         ),
@@ -55,7 +55,7 @@ $environment = array(
         'ControllerFactory' => array(
             'name' => 'SprayFire.Controller.FireController.Factory',
             'parameterCallback' => function() use ($ReflectionCache, $Container) {
-                $LogDelegator = $Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
+                $LogDelegator = $Container->getService('SprayFire.Logging.FireLogging.LogOverseer');
                 return array($ReflectionCache, $Container, $LogDelegator);
 
             }
@@ -63,7 +63,7 @@ $environment = array(
         'ResponderFactory' => array(
             'name' => 'SprayFire.Responder.Factory',
             'parameterCallback' => function() use($ReflectionCache, $Container) {
-                $LogDelegator = $Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
+                $LogDelegator = $Container->getService('SprayFire.Logging.FireLogging.LogOverseer');
                 return array($ReflectionCache, $Container, $LogDelegator);
             }
         ),
