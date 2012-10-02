@@ -1,23 +1,51 @@
 <?php
 
 /**
- * Responsible for delegating the appropriate error messages to the appropriate
- * SprayFire.Logging.Logger.
+ * Interface to handle logging information to a variety of levels and resources.
  *
- * @author Charles Sprayberry
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Logging;
 
-use \SprayFire\Object as Object;
+use \SprayFire\Object as SFObject;
 
 /**
- * Implementations are ultimately acting as a facade to allow the logging
- * of information pertinent to the system to a variety of different places.
+ * Implementations should use the SprayFire.Logging.Logger interface in some
+ * capacity to provide the appropriate services for logging to at least 4 different
+ * levels: Emergency, Error, Debug and Info.
  *
- * @see http://www.github.com/cspray/SprayFire/wiki/Logging
+ * @package SprayFire
+ * @subpackage Logging
  */
-interface LogOverseer extends Object {
+interface LogOverseer extends SFObject {
+
+    /**
+     * An internal ID of the Emergency logger, primary use case is an argument
+     * to SprayFire.Logging.LogOverseer::getLogger
+     */
+    const EMERGENCY_LOGGER = 'emerg';
+
+    /**
+     * An internal ID of the Error logger, primary use case is an argument to
+     * SprayFire.Logging.LogOverseer::getLogger
+     */
+    const ERROR_LOGGER = 'err';
+
+    /**
+     * An internal ID of the Debug logger, primary use case is an argument to
+     * SprayFire.Logging.LogOverseer::getLogger
+     */
+    const DEBUG_LOGGER = 'deb';
+
+    /**
+     * An internal ID of the Info logger, primary use case is an argument to
+     * SprayFire.Logging.LogOverseer::getLogger
+     */
+    const INFO_LOGGER = 'inf';
 
     /**
      * @param string $message
@@ -44,6 +72,9 @@ interface LogOverseer extends Object {
     public function logInfo($message, array $options = array());
 
     /**
+     * For compatibility purposes you should implement this function to accept a
+     * $loggerType using the constants provided by this interface.
+     *
      * @param string $loggerType
      * @return SprayFire.Logging.Logger
      */

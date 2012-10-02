@@ -1,24 +1,33 @@
 <?php
 
 /**
- * SprayFire.Logger.Logger implementation that acts as a Null logger
+ * Implementation of SprayFire.Logging.Logger designed to perform no operations.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Logging;
 
-use \SprayFire\Logging\Logger as Logger,
-    \SprayFire\CoreObject as CoreObject;
+use \SprayFire\CoreObject as SFCoreObject;
 
-class NullLogger extends CoreObject implements Logger {
+/**
+ * Primary use case for this object is as a return value to an implementation of
+ * a Logger factory.
+ *
+ * @package SprayFire
+ * @subpackage Logging
+ */
+class NullLogger extends SFCoreObject implements Logger {
 
     /**
-     * @param $message string The message to log
-     * @param $options null This parameter is not used in this implementation
-     * @return boolean Always returns true
+     * Performs no operation, always returns true.
+     *
+     * @param string $message
+     * @param mixed $options
+     * @return boolean
      */
     public function log($message, $options = null) {
         return true;
