@@ -1,26 +1,39 @@
 <?php
 
 /**
- * A logger that will log messages to whatever configuration is set for error_log
- * in `php.ini`
+ * Implementation of SprayFire.Logging.Logger
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Logging\FireLogging;
 
-use \SprayFire\Logging\Logger as Logger,
-    \SprayFire\CoreObject as CoreObject;
+use \SprayFire\Logging as SFLogging,
+    \SprayFire\CoreObject as SFCoreObject;
 
-
+/**
+ * This implementation will log messages to the PHP provided error_log function.
+ *
+ * @package SprayFire
+ * @subpackage Logging.FireLogging
+ *
+ * @see http://us.php.net/manual/en/function.error-log.php
+ */
 class ErrorLogLogger extends CoreObject implements Logger {
 
     /**
      * @param string $message
      * @param null $options
-     * @return bool|mixed
+     * @return boolean
+     *
+     * @todo
+     * We need to take a look at having this method accept options as additional
+     * parameters are availble to the underlying implementation that should be
+     * exposed to calling code.  Perhaps an array of additional parameters that
+     * can be used with a call_user_func_array
      */
     public function log($message, $options = null) {
         return \error_log($message);
