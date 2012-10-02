@@ -90,7 +90,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
                     }
                 ),
                 'Logging' => array(
-                    'name' => 'SprayFire.Logging.FireLogging.LogDelegator',
+                    'name' => 'SprayFire.Logging.FireLogging.LogOverseer',
                     'parameterCallback' => function() {
                         $Logger = new \SprayFire\Logging\FireLogging\DevelopmentLogger();
                         return array($Logger, $Logger, $Logger, $Logger);
@@ -99,14 +99,14 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
                 'ControllerFactory' => array(
                     'name' => 'SprayFire.Controller.FireController.Factory',
                     'parameterCallback' => function() use ($that) {
-                        $Logger = $that->Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
+                        $Logger = $that->Container->getService('SprayFire.Logging.FireLogging.LogOverseer');
                         return array($that->ReflectionCache, $that->Container, $Logger);
                     }
                 ),
                 'ResponderFactory' => array(
                     'name' => 'SprayFire.Responder.Factory',
                     'parameterCallback' => function() use ($that) {
-                        $Logger = $that->Container->getService('SprayFire.Logging.FireLogging.LogDelegator');
+                        $Logger = $that->Container->getService('SprayFire.Logging.FireLogging.LogOverseer');
                         return array($that->ReflectionCache, $that->Container, $Logger);
                     }
                 ),

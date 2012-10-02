@@ -93,7 +93,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
         'Paths' => 'SprayFire.FileSys.FireFileSys.Paths',
         'Request' => 'SprayFire.Http.FireHttp.Request',
         'RoutedRequest' => 'SprayFire.Http.Routing.FireRouting.RoutedRequest',
-        'Logging' => 'SprayFire.Logging.FireLogging.LogDelegator'
+        'Logging' => 'SprayFire.Logging.FireLogging.LogOverseer'
     );
 
     /**

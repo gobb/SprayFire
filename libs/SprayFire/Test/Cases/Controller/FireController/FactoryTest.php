@@ -87,7 +87,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
 
     protected function getFactory($type = 'SprayFire.Controller.Controller', $nullType = 'SprayFire.Controller.NullObject') {
         $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
-        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $this->ErrorLogger, $DebugLogger, $InfoLogger);
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogOverseer($EmergencyLogger, $this->ErrorLogger, $DebugLogger, $InfoLogger);
         return new Factory($this->ReflectionCache, $this->Container, $LogDelegator, $type, $nullType);
     }
 

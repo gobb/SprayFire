@@ -14,7 +14,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
 
     public function testCreatingATestObject() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $JavaConverter = new \SprayFire\Utils\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaConverter);
         $TestFactory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Test.Helpers.TestObject', new \SprayFire\Test\Helpers\TestObject());
@@ -27,7 +27,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $exceptionThrown = false;
         try {
             $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-            $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+            $LogDelegator = new \SprayFire\Logging\FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
             $JavaConverter = new \SprayFire\Utils\JavaNamespaceConverter();
             $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaConverter);
             $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'stdClass', 'SprayFire.NonExistent');
@@ -39,7 +39,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
 
     public function testPassingInvalidReturnType() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $JavaConverter = new \SprayFire\Utils\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaConverter);
         $this->setExpectedException('\\InvalidArgumentException');
@@ -48,7 +48,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
 
     public function testCreatingObjectNotProperReturnType() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $JavaConverter = new \SprayFire\Utils\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaConverter);
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'stdClass', 'stdClass');
@@ -66,7 +66,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
 
     public function testReturningNullObjectIfResourceNotFound() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $JavaConverter = new \SprayFire\Utils\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaConverter);
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestObject');
@@ -85,7 +85,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
 
     public function testThrowingExceptionIfResourceNotFound() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $JavaConverter = new \SprayFire\Utils\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaConverter);
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestObject');
@@ -96,7 +96,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
 
     public function testGettingObjectName() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $JavaConverter = new \SprayFire\Utils\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaConverter);
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestFactoryObject');
@@ -105,7 +105,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
 
     public function testGettingNullObjectName() {
         $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\FireLogging\LogDelegator($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $JavaConverter = new \SprayFire\Utils\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaConverter);
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestFactoryObject');
