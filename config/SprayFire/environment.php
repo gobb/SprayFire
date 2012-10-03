@@ -57,11 +57,10 @@ $environment = array(
             'parameterCallback' => function() use ($ReflectionCache, $Container) {
                 $LogDelegator = $Container->getService('SprayFire.Logging.FireLogging.LogOverseer');
                 return array($ReflectionCache, $Container, $LogDelegator);
-
             }
         ),
         'ResponderFactory' => array(
-            'name' => 'SprayFire.Responder.Factory',
+            'name' => 'SprayFire.Responder.FireResponder.Factory',
             'parameterCallback' => function() use($ReflectionCache, $Container) {
                 $LogDelegator = $Container->getService('SprayFire.Logging.FireLogging.LogOverseer');
                 return array($ReflectionCache, $Container, $LogDelegator);
