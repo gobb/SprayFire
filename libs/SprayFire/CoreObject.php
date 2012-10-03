@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Abstract implementation of SprayFire.Object.
+ * Abstract implementation of SprayFire.Object designed to provide basic functionality
+ * across a variety of objects, both in the framework and your applications.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
