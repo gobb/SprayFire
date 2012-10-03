@@ -1,21 +1,37 @@
 <?php
 
 /**
- * Logger that utilizes PHP's built-in syslog function
+ * Implementation of SprayFire.Logging.Logger that logs information using syslog.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Logging\FireLogging;
 
-use \SprayFire\Logging\Logger as Logger,
-    \SprayFire\CoreObject as CoreObject;
+use \SprayFire\Logging as SFLogging,
+    \SprayFire\CoreObject as SFCoreObject;
 
-class SysLogLogger extends CoreObject implements Logger {
+/**
+ * There are a variety of options that can be passed to the constructor and
+ * log() methods, these options are passed as PHP syslog constants.
+ *
+ * The values for constructor options can be found at
+ * http://us.php.net/manual/en/function.openlog.php
+ *
+ * The values for log() options can be found at
+ * http://us.php.net/manual/en/function.syslog.php
+ *
+ * @package SprayFire
+ * @subpackage Logging.FireLogging
+ */
+class SysLogLogger extends SFCoreObject implements SFLogging\Logger {
 
     /**
+     * Will open the syslog with the appropriate options, preparing it for use.
+     *
      * @param string $ident
      * @param int $loggingOption
      * @param int $facility
@@ -25,9 +41,11 @@ class SysLogLogger extends CoreObject implements Logger {
     }
 
     /**
+     * The options passed to this array should be one of the syslog constants.
+     *
      * @param string $message
-     * @param mixed $options
-     * @return mixed
+     * @param int $options
+     * @return boolean
      */
     public function log($message, $options = \LOG_ERR) {
         return \syslog($options, $message);
