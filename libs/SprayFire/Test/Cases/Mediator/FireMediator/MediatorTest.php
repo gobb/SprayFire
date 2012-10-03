@@ -16,17 +16,25 @@ use \SprayFire\Mediator\Event as MediatorEvent,
     \SprayFire\Mediator\DispatcherEvents as DispatcherEvents,
     \SprayFire\Mediator\FireMediator\Mediator as FireMediator;
 
-/**
- * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator
- */
 class MediatorTest extends \PHPUnit_Framework_TestCase {
+
+    /**
+     * A list of methods from SprayFire.Mediator.Callback that should be implemented
+     * by the mock objects.
+     *
+     * @property array
+     */
+    protected $mockCallbackMethods = array(
+        'getEventName',
+        'invoke',
+        'equals',
+        'hashCode',
+        '__toString'
+    );
 
     /**
      * Ensures that a single callback can be added to an event and the appropriate
      * callback is returned as the only object in the events collection.
-     *
-     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::addCallback
-     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::getCallbacks
      */
     public function testMediatorStoringSingleCallbackToSingleEvent() {
         $eventName = DispatcherEvents::AFTER_CONTROLLER_INVOKED;
@@ -46,9 +54,6 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
     /**
      * Ensures that multiple, unique callbacks may be added to unique events and
      * that the appropriate callback collections are returned for those events.
-     *
-     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::addCallback
-     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::getCallbacks
      */
     public function testMediatorStoringMultipleCallbackToMultipleEvent() {
         // setup
@@ -58,7 +63,8 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
         $FirstMockCallback->expects($this->once())
                           ->method('getEventName')
                           ->will($this->returnValue($firstEventName));
-        $SecondMockCallback = $this->getMock('\\SprayFire\\Mediator\\Callback');
+        $SecondMockCallback = $this->getMock(
+            '\\SprayFire\\Mediator\\Callback');
         $SecondMockCallback->expects($this->once())
                            ->method('getEventName')
                            ->will($this->returnValue($secondEventName));
@@ -76,12 +82,11 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
     /**
      * Ensures that if an event is added to the Mediator that is not registered
      * appropriately an exception will be thrown.
-     *
-     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::addCallback
      */
     public function testMediatorStoringInvalidCallbackThrowsException() {
         $eventName = 'nonexistent.event_name';
-        $MockCallback = $this->getMock('\\SprayFire\\Mediator\\Callback');
+        $MockCallback = $this->getMock(
+            '\\SprayFire\\Mediator\\Callback');
         $MockCallback->expects($this->once())
                      ->method('getEventName')
                      ->will($this->returnValue($eventName));
@@ -95,12 +100,11 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
     /**
      * Ensures that a valid callback that has been added to event collection may
      * also be removed from that collection.
-     *
-     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::removeCallback
      */
     public function testMediatorRemovingValidCallback() {
         $eventName = DispatcherEvents::AFTER_CONTROLLER_INVOKED;
-        $MockCallback = $this->getMock('\\SprayFire\\Mediator\\Callback');
+        $MockCallback = $this->getMock(
+            '\\SprayFire\\Mediator\\Callback');
         $MockCallback->expects($this->exactly(2))
                      ->method('getEventName')
                      ->will($this->returnValue($eventName));
@@ -119,8 +123,6 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
     /**
      * Ensures that multiple events can have callbacks stored in their collection
      * and those callbacks are invoked when the appropriate event is triggered.
-     *
-     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::triggerEvent
      */
     public function testMediatorTriggeringMultipleEvents() {
         $eventData = array();
@@ -177,8 +179,6 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
     /**
      * Ensures that an exception is thrown if an event is triggered that is not
      * appropriately registered.
-     *
-     * @covers \\SprayFire\\Mediator\\FireMediator\\Mediator::triggerEvent
      */
     public function testMediatorTriggerInvalidEventThrowsException() {
         $eventName = 'notarget.nonexistent';

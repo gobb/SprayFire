@@ -1,19 +1,25 @@
 <?php
 
 /**
- * Base class to provide functionality for object consuming services
+ * Base class implementating SprayFire.Service.Consumer to provide generic
+ * functionality for classes consuming services.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Service\FireService;
 
-use \SprayFire\Service\Consumer as ServiceConsumer,
-    \SprayFire\CoreObject as CoreObject;
+use \SprayFire\Service as SFService,
+    \SprayFire\CoreObject as SFCoreObject;
 
-abstract class Consumer extends CoreObject implements ServiceConsumer {
+/**
+ * @package SprayFire
+ * @subpackage Service.FireService
+ */
+abstract class Consumer extends SFCoreObject implements SFService\Consumer {
 
     /**
      * @property array
@@ -35,7 +41,13 @@ abstract class Consumer extends CoreObject implements ServiceConsumer {
     }
 
     /**
-     * Provides a requested service to the consumer.
+     * Provides a requested service to the consumer, the service will be stored
+     * in Consumer::storedServices with the $key passed.
+     *
+     * If the $Service is not an object of some type an exception will be thrown.
+     *
+     * If the $key passed has already been stored its value will be overwritten
+     * by the $Service passed.
      *
      * @param string $key
      * @param object $Service
@@ -49,6 +61,13 @@ abstract class Consumer extends CoreObject implements ServiceConsumer {
         $this->storedServices[$key] = $Service;
     }
 
+    /**
+     * Method provided to easily retrive a service based on the key stored in
+     * Consumer::services
+     *
+     * @param string $serviceName
+     * @return mixed
+     */
     public function service($serviceName) {
         if (\array_key_exists($serviceName, $this->storedServices)) {
             return $this->storedServices[$serviceName];

@@ -1,18 +1,27 @@
 <?php
 
 /**
- * An interface for objects that use services from a SprayFire.Service.Container.
+ * Interface for objects that require services from SprayFire.Service.Container.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Service;
 
-use \SprayFire\Object as Object;
+use \SprayFire\Object as SFObject;
 
-interface Consumer extends Object {
+/**
+ * Implementations of this object are expected to provide a mechanism for retrieving
+ * a list of services needed from a Container and to provide storage for those
+ * services if they are property stored by the container.
+ *
+ * @package SprayFire
+ * @subpackage Service
+ */
+interface Consumer extends SFObject {
 
     /**
      * An associative array with $key => $nameOfService; the $key should be passed

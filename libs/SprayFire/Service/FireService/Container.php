@@ -13,6 +13,7 @@ namespace SprayFire\Service\FireService;
 
 use \SprayFire\Service as SFService,
     \SprayFire\Utils as SFUtils,
+    \SprayFire\Service\Exception as SFServiceException,
     \SprayFire\CoreObject as SFCoreObject;
 
 /**
@@ -98,7 +99,7 @@ class Container extends SFCoreObject implements SFService\Container {
     /**
      * @param string $serviceName
      * @return object
-     * @throws SprayFire.Service.NotFoundException
+     * @throws SprayFire.Service.Exception.ServiceNotFound
      */
     public function getService($serviceName) {
         $serviceKey = $this->getServiceKey($serviceName);
@@ -106,13 +107,13 @@ class Container extends SFCoreObject implements SFService\Container {
             return $this->storedServices[$serviceKey];
         }
         if (!\array_key_exists($serviceKey, $this->addedServices)) {
-            throw new SFService\NotFoundException('A service, ' . $serviceName . ', was not properly added to the container.');
+            throw new SFServiceException\ServiceNotFound('A service, ' . $serviceName . ', was not properly added to the container.');
         }
         $parameterCallback = $this->addedServices[$serviceKey];
         try {
             $ReflectedService = $this->ReflectionCache->getClass($serviceName);
         } catch(\ReflectionException $NotFoundExc) {
-            throw new SFService\NotFoundException($NotFoundExc->getMessage());
+            throw new SFServiceException\ServiceNotFound($NotFoundExc->getMessage());
         }
         $Service = $ReflectedService->newInstanceArgs($parameterCallback());
         $this->storedServices[$serviceKey] = $Service;

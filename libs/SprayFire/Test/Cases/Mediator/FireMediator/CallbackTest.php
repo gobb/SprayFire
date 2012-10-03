@@ -15,16 +15,11 @@ use \SprayFire\Mediator\Event as MediatorEvent,
     \SprayFire\Mediator\DispatcherEvents as DispatcherEvents,
     \SprayFire\Mediator\FireMediator\Callback as FireCallback;
 
-/**
- * @covers  \\SprayFire\\Mediator\\FireMediator\\Callback
- */
 class CallbackTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * Ensure that an anonymous function is properly invoked and that the appropriate
      * messages are passed to the anonymous function.
-     *
-     * @covers \\SprayFire\\Mediator\\FireMediator\\Callback::invoke
      */
     public function testCallbackInvokingAnonymousFunction() {
         $testData = array();
@@ -51,8 +46,6 @@ class CallbackTest extends \PHPUnit_Framework_TestCase {
     /**
      * Ensure that a global function string name passed will have the appropriate
      * function invoked and the appropriate messages are passed.
-     *
-     * @covers \\SprayFire\\Mediator\\FireMediator\\Callback::invoke
      */
     public function testCallbackInvokingFunctionName() {
         $testData = array();

@@ -3,16 +3,13 @@
 /**
  * Abstract implementation of SprayFire.Object.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
  * @version 0.1
- * @since 0.1
+ * @since   0.1
  */
 
 namespace SprayFire;
-
-use \SprayFire\Object as Object;
 
 /**
  * It is recommended that classes needing to implement SprayFire.Object extend
@@ -22,6 +19,8 @@ use \SprayFire\Object as Object;
  * interface.  It is explicitly designed in such a way that it should be reasonable
  * for all objects to trace their inheritance back through this object if interfaces
  * they implement require SprayFire.Object.
+ *
+ * @package SprayFire
  */
 abstract class CoreObject implements Object {
 

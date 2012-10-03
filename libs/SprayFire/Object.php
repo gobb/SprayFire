@@ -12,15 +12,23 @@
 
 namespace SprayFire;
 
+/**
+ * @package SprayFire
+ */
 interface Object {
 
     /**
+     * Should return true or false for whether or not the given $Object is equal
+     * to the object invoking equals.
+     *
      * @param SprayFire.Object $Object
      * @return boolean
      */
-    public function equals(\SprayFire\Object $Object);
+    public function equals(Object $Object);
 
     /**
+     * Should return some unique identifier for the object.
+     *
      * @return string
      */
     public function hashCode();

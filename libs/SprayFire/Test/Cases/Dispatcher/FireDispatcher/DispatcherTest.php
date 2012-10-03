@@ -104,7 +104,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
                     }
                 ),
                 'ResponderFactory' => array(
-                    'name' => 'SprayFire.Responder.Factory',
+                    'name' => 'SprayFire.Responder.FireResponder.Factory',
                     'parameterCallback' => function() use ($that) {
                         $Logger = $that->Container->getService('SprayFire.Logging.FireLogging.LogOverseer');
                         return array($that->ReflectionCache, $that->Container, $Logger);

@@ -2,28 +2,41 @@
 
 /**
  * An implementation of SprayFire.Mediator.Mediator used to handle event triggering
+ * for the SprayFire framework and your application.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Mediator\FireMediator;
 
-use \SprayFire\Mediator\Mediator as MediatorMediator,
-    \SprayFire\Mediator\Callback as MediatorCallback,
-    \SprayFire\Mediator\FireMediator\Event as MediatorEvent,
-    \SprayFire\Mediator\FireMediator\EventRegistry as EventRegistry,
-    \SprayFire\CoreObject as CoreObject;
+use \SprayFire\Mediator as SFMediator,
+    \SprayFire\CoreObject as SFCoreObject;
 
-class Mediator extends CoreObject implements MediatorMediator {
+/**
+ * @package SprayFire
+ * @subpackage Mediator.FireMediator
+ *
+ * @todo
+ * We have a serious disconnect betwee this implementation and
+ * SprayFire.Mediatore.FireMediator.EventRegistry.  We need to ensure the Mediator
+ * is properly updated when events are registered and unregistered on the fly.
+ *
+ */
+class Mediator extends SFCoreObject implements SFMediator\Mediator {
 
     /**
+     * A multi-dimensional array that stores the callbacks for various events
+     *
      * @property array
      */
     protected $eventCallbacks = array();
 
     /**
+     * Stores the events that are able to be triggered by this implementation.
+     *
      * @property SprayFire.Mediator.FireMediator.EventRegistry
      */
     protected $Registry;
@@ -36,17 +49,25 @@ class Mediator extends CoreObject implements MediatorMediator {
         $this->buildEventStorage();
     }
 
-    public function buildEventStorage() {
+    /**
+     * Will add the appropriate event storage containers to the primary event
+     * callback array.
+     */
+    protected function buildEventStorage() {
         foreach ($this->Registry as $event => $eventType) {
             $this->eventCallbacks[$event] = array();
         }
     }
 
     /**
+     * Will add the $Callback to be invoked when the $Callback::getEventName() is
+     * triggered.
+     *
      * @param SprayFire.Mediator.Callback $Callback
      * @return boolean
+     * @throws InvalidArgumentException
      */
-    public function addCallback(MediatorCallback $Callback) {
+    public function addCallback(SFMediator\Callback $Callback) {
         $eventName = $Callback->getEventName();
         if (!$this->Registry->hasEvent($eventName)) {
             throw new \InvalidArgumentException('The event name, ' . $eventName . ', is not valid and cannot be used as a callback.');
@@ -56,18 +77,21 @@ class Mediator extends CoreObject implements MediatorMediator {
     }
 
     /**
+     * Will remove the $Callback associated to the $Callback::getEventName().
+     *
+     * This implementation uses $Callback::equals() from the SprayFire.Object
+     * interface to ensure that the appropriate object is removed.
      *
      * @param SprayFire.Mediator.Callback $Callback
      * @return boolean
      */
-    public function removeCallback(MediatorCallback $Callback) {
+    public function removeCallback(SFMediator\Callback $Callback) {
         $eventName = $Callback->getEventName();
         if (!$this->Registry->hasEvent($eventName)) {
             return false;
         }
-        $storedCallbacks = $this->eventCallbacks[$eventName];
         $callbackRemoved = false;
-        foreach($storedCallbacks as $key => $StoredCallback) {
+        foreach($this->eventCallbacks[$eventName] as $key => $StoredCallback) {
             if ($Callback->equals($StoredCallback)) {
                 $this->eventCallbacks[$eventName][$key] = null;
                 unset($this->eventCallbacks[$eventName][$key]);
@@ -79,6 +103,9 @@ class Mediator extends CoreObject implements MediatorMediator {
     }
 
     /**
+     * If the $eventName is not a validly registered event an empty array will
+     * be returned otherwise will return array of whatever callbacks are attached
+     * to the $eventName.
      *
      * @param string $eventName
      * @return array
@@ -94,12 +121,13 @@ class Mediator extends CoreObject implements MediatorMediator {
      * @param string $eventName
      * @param object $Target
      * @param array $arguments
+     * @throws InvalidArgumentException
      */
     public function triggerEvent($eventName, $Target, array $arguments = array()) {
         if (!$this->Registry->hasEvent($eventName)) {
             throw new \InvalidArgumentException('The event name passed, ' . $eventName . ', is not a validly registered event.');
         }
-        $Event = new MediatorEvent($eventName, $Target, $arguments);
+        $Event = new Event($eventName, $Target, $arguments);
         $callbacks = $this->eventCallbacks[$eventName];
         foreach ($callbacks as $Callback) {
             $Callback->invoke($Event, $arguments);

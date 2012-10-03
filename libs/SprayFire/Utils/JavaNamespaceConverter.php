@@ -1,20 +1,29 @@
 <?php
 
 /**
- * A class that allows for the conversion of Java style namespaces to PHP namespaces.
+ * Utility object that provides the ability to convert Java style class names
+ * into PHP style class names.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Utils;
 
+/**
+ * @package SprayFire
+ * @subpackage Utils
+ */
 class JavaNamespaceConverter {
 
     /**
-     * @param $className A Java-style namespaced class
-     * @return A PHP-style namespaced class
+     * Will convert a dot separated, Java style $className into its PHP equivalent
+     * with the appropriate namespace separator.
+     *
+     * @param string $className
+     * @return string
      */
     public function convertJavaClassToPhpClass($className) {
         if (!\is_string($className)) {

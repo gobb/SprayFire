@@ -1,19 +1,20 @@
 <?php
 
 /**
- * A base abstract class implementing basic functionality for a Value Object
+ * A base abstract class implementing functionality for a Value Object
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire;
 
-use \SprayFire\Object as Object,
-    \SprayFire\CoreObject as CoreObject;
-
-abstract class ValueObject extends CoreObject {
+/**
+ * @package SprayFire
+ */
+abstract class ValueObject extends Object {
 
     /**
      * An associative array holding the property as the key and the data type for

@@ -1,30 +1,47 @@
 <?php
 
 /**
- * Holds events that the SprayFire.Mediator.FireMediator.Mediator is able to trigger.
+ * A registry of events used by SprayFire.Mediator.FireMediator.Mediator to determine
+ * what events should store callbacks and trigger events.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Mediator\FireMediator;
 
-use \SprayFire\CoreObject as CoreObject;
+use \SprayFire\CoreObject as SFCoreObject;
 
-class EventRegistry extends CoreObject implements \IteratorAggregate {
+/**
+ * This is a private package implementation that is designed to be used by the
+ * SprayFire.Mediator.FireMediator implementations.
+ *
+ * This object is provided as a default service by SprayFire and you can add your
+ * own custom events to this object in your application's bootstraps.
+ *
+ * @package SprayFire
+ * @subpackage Mediator.FireMediator
+ *
+ * @todo
+ * We need to take a look at some way we can hook into this object from SprayFire.Mediator.Mediator
+ * so that we may take the appropriate steps when events are removed and added
+ * to the registry.
+ */
+class EventRegistry extends SFCoreObject implements \IteratorAggregate {
 
     /**
+     * Key value array storing [$eventName => $targetType]
+     *
      * @property array
      */
     protected $registry = array();
 
     /**
-     * Adds an event to the registry, enforcing a specific type to be implemented
-     * for the target of that event.
+     * Adds an event and expected target type to the registry.
      *
-     * An exception is thrown if the $eventName being registered has already been
-     *
+     * An exception is thrown if the $eventName has already been registered.
      *
      * @param string $eventName
      * @param string $targetType Java or PHP style class name
@@ -39,6 +56,8 @@ class EventRegistry extends CoreObject implements \IteratorAggregate {
     }
 
     /**
+     * Removes an event from the registry, if that event has already been registered.
+     *
      * @param string $eventName
      * @return void
      */
@@ -50,6 +69,9 @@ class EventRegistry extends CoreObject implements \IteratorAggregate {
     }
 
     /**
+     * Will return a Java style or PHP style name, depending on the type of value
+     * passed in the constructor of this implementation.
+     *
      * @param string $eventName
      * @return string|false
      */
@@ -61,6 +83,8 @@ class EventRegistry extends CoreObject implements \IteratorAggregate {
     }
 
     /**
+     * Returns whether or not the event has been registered.
+     *
      * @param string $eventName
      * @return boolean
      */
@@ -69,6 +93,8 @@ class EventRegistry extends CoreObject implements \IteratorAggregate {
     }
 
     /**
+     * Allows the registry to be iterated over.
+     *
      * @return Traversable
      */
     public function getIterator() {

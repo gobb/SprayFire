@@ -3,30 +3,45 @@
 /**
  * Class responsible for logging and keeping track of errors triggered.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire;
 
-use \SprayFire\Logging\LogOverseer,
-    \SprayFire\CoreObject as CoreObject;
+use \SprayFire\Logging as SFLogging,
+    \SprayFire\CoreObject as SFCoreObject;
 
-class Handler extends CoreObject {
+/**
+ * A universal error and exception handler designed to log various error messages and
+ * display the appropriate 500 response when an uncaught exception occurs.
+ *
+ * @package SprayFire
+ */
+class Handler extends SFCoreObject {
 
     /**
+     * Provides facilities to log error messages that are trapped.
+     *
      * @property SprayFire.Logging.LogOverseer
      */
     protected $Logger;
 
+    /**
+     * Used to determine whether we should log uncaught exception messages
+     * or simply var_dump the exception out to the user.
+     *
+     * @property boolean
+     */
     protected $developmentMode;
 
     /**
      * @param SprayFire.Logging.LogOverseer $Log
      * @param boolean $developmentModeOn
      */
-    public function __construct(LogOverseer $Log, $developmentModeOn = false) {
+    public function __construct(SFLogging\LogOverseer $Log, $developmentModeOn = false) {
         $this->Logger = $Log;
         $this->developmentMode = (boolean) $developmentModeOn;
     }
@@ -47,6 +62,7 @@ class Handler extends CoreObject {
         $line = 'line:' . (int) $line;
         $message = \implode(';', \compact('message', 'file', 'line'));
         $this->Logger->logError($message);
+        // this is here to ensure that compile errors passing the wrong object type occur as appropriate
         $unHandledSeverity = array(E_RECOVERABLE_ERROR);
         if (\in_array($severity, $unHandledSeverity)) {
             return false;
@@ -55,6 +71,17 @@ class Handler extends CoreObject {
         return true;
     }
 
+    /**
+     * Traps uncaught exceptions and spits out an appropriate 500 response.
+     *
+     * All script execution is halted after this function is invoked.
+     *
+     * @param Exception $Exception
+     *
+     * @todo
+     * We need to take a look at some way we can allow custom 500 responses to
+     * be sent.
+     */
     public function trapException(\Exception $Exception) {
         if (!$this->developmentMode) {
             $this->Logger->logEmergency($Exception->getMessage());

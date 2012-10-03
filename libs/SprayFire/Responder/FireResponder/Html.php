@@ -3,25 +3,44 @@
 /**
  * A Responder object that generates and sends a response as a string of HTML.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Responder\FireResponder;
 
-use \SprayFire\Responder\Responder as Responder,
-    \SprayFire\Controller\Controller as Controller,
-    \SprayFire\Service\FireService\Consumer as ServiceConsumer,
-    \SprayFire\Exception\ResourceNotFound as ResourceNotFoundException;
+use \SprayFire\Responder as SFResponder,
+    \SprayFire\Controller as SFController,
+    \SprayFire\Service\FireService as FireService,
+    \SprayFire\Exception as SFException;
 
-class Html extends ServiceConsumer implements Responder {
+/**
+ *
+ * @package SprayFire
+ * @subpackage Responder.FireResponder
+ *
+ * @todo
+ * We should take a look at abstracting out the services aspect of this into a
+ * base Responder that should be available to all SprayFire.Responder.Responder
+ * implementations.
+ *
+ */
+class Html extends FireService\Consumer implements SFResponder\Responder {
 
     /**
+     * Stores the final generated response from this Responder
+     *
      * @property string
      */
     protected $response = '';
 
+    /**
+     * Provides functionality to SprayFire.Service.FireService.Consumer implementation.
+     *
+     * @property array
+     */
     protected $services = array(
         'Paths' => 'SprayFire.FileSys.FireFileSys.Paths'
     );
@@ -37,7 +56,7 @@ class Html extends ServiceConsumer implements Responder {
      * @param SprayFire.Controller.Controller $Controller
      * @return string
      */
-    public function generateDynamicResponse(Controller $Controller) {
+    public function generateDynamicResponse(SFController\Controller $Controller) {
         $data = $this->getSafeData($Controller);
         $templatePath = $Controller->getTemplatePath();
         $templateContent = $this->render($templatePath, $data);
@@ -48,6 +67,10 @@ class Html extends ServiceConsumer implements Responder {
     }
 
     /**
+     * Will generate a response without providing data, the template generated
+     * from $templatePath will be available to your layout in a variable named
+     * $templateContent.
+     *
      * @param string $layoutPath
      * @param string $templatePath
      * @return string
@@ -64,7 +87,7 @@ class Html extends ServiceConsumer implements Responder {
      *
      * @return array
      */
-    protected function getSafeData(Controller $Controller) {
+    protected function getSafeData(SFController\Controller $Controller) {
         $cleanData = $Controller->getCleanData();
         $dirtyData = $Controller->getDirtyData();
         $sanitizedData = $this->sanitizeData($dirtyData);
@@ -84,7 +107,7 @@ class Html extends ServiceConsumer implements Responder {
      */
     protected function render($filePath, array $data) {
         if (!\file_exists($filePath)) {
-            throw new ResourceNotFoundException($filePath . ' could not be found.');
+            throw new SFException\ResourceNotFound($filePath . ' could not be found.');
         }
         \extract($data);
         \ob_start();
@@ -99,6 +122,11 @@ class Html extends ServiceConsumer implements Responder {
      *
      * @param array $data
      * @return array
+     *
+     * @todo
+     * This is not a suitable solution as we do not know in what context the
+     * various pieces of $data will be used.  We need to take a major overhaul
+     * at how we are escaping and what the best method of escaping should be.
      */
     public function sanitizeData(array $data) {
         $cleanData = array();
