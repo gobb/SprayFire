@@ -1,7 +1,8 @@
 <?php
 
 /**
- * A class that holds a container responsible for creating and storing services.
+ * Implementation of SprayFire.Service.Container provided by the default SprayFire
+ * install.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -17,6 +18,8 @@ use \SprayFire\Service as SFService,
     \SprayFire\CoreObject as SFCoreObject;
 
 /**
+ * A very simple implementation designed to lazy-load services needed and provide
+ * all consuemrs of services the same service.
  *
  * @package SprayFire
  * @subpackage Service.FireService
@@ -24,6 +27,9 @@ use \SprayFire\Service as SFService,
 class Container extends SFCoreObject implements SFService\Container {
 
     /**
+     * Ensures that we are not creating uneeded Reflection objects when creating
+     * services.
+     *
      * @property SprayFire.Utils.ReflectionCache
      */
     protected $ReflectionCache;
@@ -88,15 +94,21 @@ class Container extends SFCoreObject implements SFService\Container {
     }
 
     /**
+     * Return whether or not the service has been added to the container.
+     *
      * @param string $serviceName
      * @return bool
      */
     public function doesServiceExist($serviceName) {
         $serviceKey = $this->getServiceKey($serviceName);
-        return (\array_key_exists($serviceKey, $this->addedServices) || \array_key_exists($serviceKey, $this->storedServices));
+        return (\array_key_exists($serviceKey, $this->addedServices)
+                || \array_key_exists($serviceKey, $this->storedServices));
     }
 
     /**
+     * Return a service object represented by $serviceName, an exception will be
+     * thrown if the service requested does not exist.
+     *
      * @param string $serviceName
      * @return object
      * @throws SprayFire.Service.Exception.ServiceNotFound
@@ -120,6 +132,13 @@ class Container extends SFCoreObject implements SFService\Container {
         return $Service;
     }
 
+    /**
+     * Normalizes the service name, allowing it to be stored in the added and
+     * stored services collections.
+     *
+     * @param string $serviceName
+     * @return string
+     */
     public function getServiceKey($serviceName) {
         return \strtolower(\preg_replace('/[^A-Za-z0-9]/', '', $serviceName));
     }

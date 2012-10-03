@@ -22,6 +22,11 @@ use \SprayFire\Service as SFService,
 /**
  * @package SprayFire
  * @subpackage Service.FireService
+ *
+ * @todo
+ * We should take a look making this a Builder and not a Factory.  We are too
+ * reliant on implementations to not override makeObject or to properly override
+ * makeObject in such a way that the ConsumerFactory::MakeObject is still invoked.
  */
 abstract class ConsumerFactory extends FireFactory\Base {
 
