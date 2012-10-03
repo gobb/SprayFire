@@ -1,21 +1,25 @@
 <?php
 
 /**
- * An interface responsible for generating and sending a response based on a given
- * controller.
+ * Interface responsible for preparing and sending an appropriate response to
+ * the user.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
  * code
  */
 
 namespace SprayFire\Responder;
 
-use \SprayFire\Object as Object,
-    \SprayFire\Service\Consumer as ServiceConsumer,
-    \SprayFire\Controller\Controller as Controller;
+use \SprayFire\Object as SFObject,
+    \SprayFire\Service as SFService,
+    \SprayFire\Controller as SFController;
 
-interface Responder extends Object, ServiceConsumer {
+/**
+ * @package SprayFire
+ * @subpackage Responder
+ */
+interface Responder extends SFObject, SFService\Consumer {
 
     /**
      * Should return an array of snitized data based on the type of responder
@@ -33,7 +37,7 @@ interface Responder extends Object, ServiceConsumer {
      * @param SprayFire.Controller.Controller $Controller
      * @return string
      */
-    public function generateDynamicResponse(Controller $Controller);
+    public function generateDynamicResponse(SFController\Controller $Controller);
 
     /**
      * @param string $layoutPath
