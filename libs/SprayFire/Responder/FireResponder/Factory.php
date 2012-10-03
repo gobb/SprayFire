@@ -1,8 +1,8 @@
 <?php
 
 /**
- * A Factory for creating Responders and assuring that they are constructed with
- * the appropriate services attached.
+ * A Factory for creating SprayFire.Responder.Responder implementations and
+ * assuring that they are constructed with the appropriate services attached.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -10,7 +10,7 @@
  * @since   0.1
  */
 
-namespace SprayFire\Responder;
+namespace SprayFire\Responder\FireResponder;
 
 use \SprayFire\Logging as SFLogging,
     \SprayFire\Service as SFService,
@@ -19,7 +19,7 @@ use \SprayFire\Logging as SFLogging,
 
 /**
  * @package SprayFire
- * @subpackage Responder
+ * @subpackage Responder.FireResponder
  */
 class Factory extends FireService\ConsumerFactory {
 
