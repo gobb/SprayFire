@@ -14,7 +14,7 @@ namespace SprayFire;
 /**
  * @package SprayFire
  */
-abstract class ValueObject extends Object {
+abstract class ValueObject extends CoreObject {
 
     /**
      * An associative array holding the property as the key and the data type for
