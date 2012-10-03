@@ -81,7 +81,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase {
         $nullType = 'SprayFire.Test.Helpers.Controller.NullObjectInvalidServices';
         $Factory = $this->getFactory($type, $nullType);
 
-        $this->setExpectedException('\\SprayFire\\Service\\NotFoundException');
+        $this->setExpectedException('\\SprayFire\\Service\\Exception\\ServiceNotFound');
         $Controller = $Factory->makeObject('SprayFire.Controller.NoGo');
     }
 
