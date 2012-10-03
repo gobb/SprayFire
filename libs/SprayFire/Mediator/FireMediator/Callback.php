@@ -16,7 +16,7 @@ use \SprayFire\Mediator as SFMediator,
     \SprayFire\CoreObject as SFCoreObject;
 
 /**
- * @package
+ * @package SprayFire
  * @subpackage Mediator.FireMediator
  */
 class Callback extends SFCoreObject implements SFMediator\Callback {
