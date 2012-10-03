@@ -13,6 +13,10 @@ namespace SprayFire\Http;
 
 use \SprayFire\Object as SFObject;
 
+/**
+ * @package SprayFire
+ * @subpackage Http
+ */
 interface Uri extends SFObject {
 
     /**
