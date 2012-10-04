@@ -109,7 +109,25 @@ class RouteBagTest extends \PHPUnit_Framework_TestCase {
         }
 
         $this->assertSame(3, $i, 'The foreach loop did not iterate the appropriate number of times');
+    }
 
+    /**
+     * Ensures that a route pattern can only be added to the collection one time,
+     * preventing route objects from being overwritten.
+     *
+     * @covers \SprayFire\Http\Routing\FireRouting\RouteBag::addRoute
+     */
+    public function testRouteBagThrowingExceptionIfSamePatternPassedMultipleTimes() {
+        $MockRouteOne = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
+        $MockRouteOne->expects($this->once())->method('getPattern')->will($this->returnValue('one'));
+        $MockRouteTwo = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
+        $MockRouteTwo->expects($this->once())->method('getPattern')->will($this->returnValue('one'));
+
+        $RouteBag = new FireRouting\RouteBag();
+        $RouteBag->addRoute($MockRouteOne);
+
+        $this->setExpectedException('\\InvalidArgumentException');
+        $RouteBag->addRoute($MockRouteTwo);
     }
 
 }
