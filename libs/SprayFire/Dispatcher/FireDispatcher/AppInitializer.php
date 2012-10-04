@@ -93,7 +93,7 @@ class AppInitializer extends SFCoreObject implements SFDispatcher\AppInitializer
      *
      * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
      * @return void
-     * @throws SprayFire.Exception.ResourceNotFound
+     * @throws SprayFire.Exception.ResourceNotFoundException
      */
     public function initializeApp(SFRouting\RoutedRequest $RoutedRequest) {
         $appNamespace = $RoutedRequest->getAppNamespace();
@@ -103,11 +103,11 @@ class AppInitializer extends SFCoreObject implements SFDispatcher\AppInitializer
         $this->ClassLoader->registerNamespaceDirectory($appNamespace, $this->Paths->getAppPath());
         $bootstrapName = '\\' . $appNamespace . '\\Bootstrap';
         if (!\class_exists($bootstrapName)) {
-            throw new SFException\ResourceNotFound('The application bootstrap for the RoutedRequest could not be found.  Please ensure you have created a \\' . $appNamespace . '\\Bootstrap object.');
+            throw new SFException\ResourceNotFoundException('The application bootstrap for the RoutedRequest could not be found.  Please ensure you have created a \\' . $appNamespace . '\\Bootstrap object.');
         }
         $Bootstrap = new $bootstrapName($this->Container, $this->ClassLoader);
         if (($Bootstrap instanceof SFBootstrap\Bootstrapper) === false) {
-            throw new SFException\ResourceNotFound('The application bootstrap, ' . $bootstrapName . ', for the RoutedRequest does not implement the appropriate interface, \\SprayFire\\Bootstrap\\Bootstrapper');
+            throw new SFException\ResourceNotFoundException('The application bootstrap, ' . $bootstrapName . ', for the RoutedRequest does not implement the appropriate interface, \\SprayFire\\Bootstrap\\Bootstrapper');
         }
         $Bootstrap->runBootstrap();
     }

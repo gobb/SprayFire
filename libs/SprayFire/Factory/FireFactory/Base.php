@@ -161,7 +161,7 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
             }
 
             if ($this->configuredErrorHandling === self::THROW_EXCEPTION) {
-                throw new SFException\ResourceNotFound($message, 0, $ReflectExc);
+                throw new SFException\ResourceNotFoundException($message, 0, $ReflectExc);
             }
         } catch (\InvalidArgumentException $InvalArgExc) {
             $this->LogOverseer->logError('The requested object, ' . $className . ', does not properly implement the appropriate type, ' . $this->TypeValidator->getType() . ', for this factory.');
@@ -170,7 +170,7 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
             }
 
             if ($this->configuredErrorHandling === self::THROW_EXCEPTION) {
-                throw new SFException\ResourceNotFound($message, 0, $InvalArgExc);
+                throw new SFException\ResourceNotFoundException($message, 0, $InvalArgExc);
             }
         }
     }
