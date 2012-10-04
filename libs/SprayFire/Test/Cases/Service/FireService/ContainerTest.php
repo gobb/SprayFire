@@ -79,7 +79,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
 
     public function testGettingServiceThatDoesNotExist() {
         $Container = $this->getContainer();
-        $this->setExpectedException('\\SprayFire\\Service\\NotFoundException');
+        $this->setExpectedException('\\SprayFire\\Service\\Exception\\ServiceNotFound');
         $Container->getService('SprayFire.NonExistent.Service');
     }
 

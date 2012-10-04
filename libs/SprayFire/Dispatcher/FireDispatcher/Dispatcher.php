@@ -160,7 +160,7 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
             $this->Mediator->triggerEvent(SFDispatcherEvents::BEFORE_RESPONSE_SENT, $Responder);
             echo $Responder->generateDynamicResponse($Controller);
             $this->Mediator->triggerEvent(SFDispatcherEvents::AFTER_RESPONSE_SENT, $Responder);
-        } catch(SFException\ResourceNotFound $TypeNotFoundExc) {
+        } catch(SFException\ResourceNotFoundException $TypeNotFoundExc) {
             $this->dispatch404Response();
         }
     }

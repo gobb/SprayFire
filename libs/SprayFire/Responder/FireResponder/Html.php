@@ -107,7 +107,7 @@ class Html extends FireService\Consumer implements SFResponder\Responder {
      */
     protected function render($filePath, array $data) {
         if (!\file_exists($filePath)) {
-            throw new SFException\ResourceNotFound($filePath . ' could not be found.');
+            throw new SFException\ResourceNotFoundException($filePath . ' could not be found.');
         }
         \extract($data);
         \ob_start();

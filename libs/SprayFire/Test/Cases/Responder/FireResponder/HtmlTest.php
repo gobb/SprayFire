@@ -11,7 +11,7 @@
 
 namespace SprayFire\Test\Cases\Responder\FireResponder;
 
-class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
+class HtmlTest extends \PHPUnit_Framework_TestCase {
 
     protected $JavaNameConverter;
 
@@ -67,7 +67,7 @@ class HtmlResponderTest extends \PHPUnit_Framework_TestCase {
 
     public function testGeneratingStaticResponseWithInvalidFile() {
         $Responder = new \SprayFire\Responder\FireResponder\Html();
-        $this->setExpectedException('\\SprayFire\\Exception\\ResourceNotFound');
+        $this->setExpectedException('\\SprayFire\\Exception\\ResourceNotFoundException');
         $layoutPath = '';
         $templatePath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/libs/SprayFire/Responder/html/just-sprayfire.php';
         $Responder->generateStaticResponse($layoutPath, $templatePath);

@@ -90,7 +90,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaConverter);
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestObject');
         $Factory->setErrorHandlingMethod(\SprayFire\Factory\FireFactory\Base::THROW_EXCEPTION);
-        $this->setExpectedException('\\SprayFire\\Exception\\ResourceNotFound');
+        $this->setExpectedException('\\SprayFire\\Exception\\ResourceNotFoundException');
         $Factory->makeObject('SprayFire.NonExistent');
     }
 

@@ -25,11 +25,11 @@ class AppInitializerTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($this->Container->doesServiceExist('TestApp.Service.FromBootstrap'), 'The service from the app bootstrap was not loaded');
     }
 
-    public function testAppInitializerWithInvalidNamesapce() {
+    public function testAppInitializerWithInvalidNamespace() {
         $Initializer = $this->getInitializer();
         $controller = 'NonExistent.Controller';
         $RoutedRequest = $this->getRoutedRequest($controller);
-        $this->setExpectedException('\\SprayFire\\Exception\\ResourceNotFound');
+        $this->setExpectedException('\\SprayFire\\Exception\\ResourceNotFoundException');
         $Initializer->initializeApp($RoutedRequest);
     }
 
@@ -37,7 +37,7 @@ class AppInitializerTest extends \PHPUnit_Framework_TestCase {
         $Initializer = $this->getInitializer();
         $controller = 'NoBootstrap.Bootstrap';
         $RoutedRequest = $this->getRoutedRequest($controller);
-        $this->setExpectedException('\\SprayFire\\Exception\\ResourceNotFound');
+        $this->setExpectedException('\\SprayFire\\Exception\\ResourceNotFoundException');
         $Initializer->initializeApp($RoutedRequest);
     }
 
@@ -71,8 +71,6 @@ class AppInitializerTest extends \PHPUnit_Framework_TestCase {
     protected function getClassLoader() {
         return new \ClassLoader\Loader();
     }
-
-
 
     public function tearDown() {
 
