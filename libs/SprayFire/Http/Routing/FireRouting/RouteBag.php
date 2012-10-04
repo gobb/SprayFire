@@ -2,9 +2,11 @@
 
 /**
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ *
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Http\Routing\FireRouting;
@@ -12,16 +14,22 @@ namespace SprayFire\Http\Routing\FireRouting;
 use \SprayFire\Http\Routing as SFRouting,
     \SprayFire\CoreObject as SFCoreObject;
 
+/**
+ *
+ * @package SprayFire
+ * @subpackage Http.Routing.FireRouting
+ */
 class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
 
     /**
-     *
+     * Stores a collection of routes [$routePattern => SprayFire.Http.Routing.Route]
      *
      * @property array
      */
     protected $routes = array();
 
     /**
+     * Will store a $Route with the pattern for that route as the given key.
      *
      * @param SprayFire.Http.Routing.Route $Route
      */
@@ -30,6 +38,12 @@ class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
         $this->routes[$routePattern] = $Route;
     }
 
+    /**
+     * Will remove a SprayFire.Http.Routing.Route from the collection that matches
+     * $pattern if it has been added.
+     *
+     * @param string $pattern
+     */
     public function removeRouteWithPattern($pattern) {
         foreach($this->routes as $routePattern => $Route) {
             if ($routePattern === $pattern) {
@@ -49,13 +63,15 @@ class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
     }
 
     /**
-     *
      * @return int
      */
     public function count() {
         return \count($this->routes);
     }
 
+    /**
+     * @return ArrayIterator
+     */
     public function getIterator() {
         return new \ArrayIterator($this->routes);
     }
