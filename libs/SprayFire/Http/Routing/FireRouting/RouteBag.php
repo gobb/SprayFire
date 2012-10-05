@@ -35,6 +35,11 @@ class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
      */
     public function addRoute(SFRouting\Route $Route) {
         $routePattern = $Route->getPattern();
+        if ($this->hasRouteWithPattern($routePattern)) {
+            $message = 'The given pattern, ' . $routePattern . ', has already been added to ' . __CLASS__ . ' and may not be overwritten.';
+            $message .= '  Please see ' . __CLASS__ . '::removeRouteWithPattern.';
+            throw new \InvalidArgumentException($message);
+        }
         $this->routes[$routePattern] = $Route;
     }
 
