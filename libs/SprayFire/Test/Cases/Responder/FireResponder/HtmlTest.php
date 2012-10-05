@@ -57,22 +57,6 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('<div>SprayFire</div>', $response);
     }
 
-    public function testGeneratingStaticResponse() {
-        $layoutPath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/libs/SprayFire/Responder/html/layout/just-templatecontents-around-div.php';
-        $templatePath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/libs/SprayFire/Responder/html/just-sprayfire.php';
-        $Responder = new \SprayFire\Responder\FireResponder\Html();
-        $response = $Responder->generateStaticResponse($layoutPath, $templatePath);
-        $this->assertSame('<div>SprayFire</div>', $response);
-    }
-
-    public function testGeneratingStaticResponseWithInvalidFile() {
-        $Responder = new \SprayFire\Responder\FireResponder\Html();
-        $this->setExpectedException('\\SprayFire\\Exception\\ResourceNotFoundException');
-        $layoutPath = '';
-        $templatePath = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework/libs/SprayFire/Responder/html/just-sprayfire.php';
-        $Responder->generateStaticResponse($layoutPath, $templatePath);
-    }
-
 }
 
 class NoDataController extends \SprayFire\Controller\FireController\Base {
