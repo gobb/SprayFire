@@ -30,11 +30,18 @@ class Route extends SFCoreObject implements SFRouting\Route {
     protected $regexPattern;
 
     /**
-     * Java or PHP namespaced controller to invoke for the given route.
+     * Java or PHP namespace that the controller exists in.
      *
      * @property string
      */
-    protected $namespacedController;
+    protected $namespace;
+
+    /**
+     * The name of the class to invoke, it should exist in Route::namespace
+     *
+     * @property string
+     */
+    protected $class;
 
     /**
      * The name of the action to invoke on the namespaced controller.
@@ -53,13 +60,15 @@ class Route extends SFCoreObject implements SFRouting\Route {
      *
      *
      * @param string $regexPattern
-     * @param string $namespacedController
+     * @param string $namespace
+     * @param string $class
      * @param string $action
      * @param mixed $httpMethod
      */
-    public function __construct($regexPattern, $namespacedController, $action = 'index', $httpMethod = null) {
+    public function __construct($regexPattern, $namespace, $class = 'Pages', $action = 'index', $httpMethod = null) {
         $this->regexPattern = $regexPattern;
-        $this->namespacedController = $namespacedController;
+        $this->namespace = $namespacedController;
+        $this->class = $class;
         $this->action = $action;
         $this->httpMethod = $httpMethod;
     }
@@ -84,8 +93,16 @@ class Route extends SFCoreObject implements SFRouting\Route {
      *
      * @return string
      */
-    public function getNamespacedController() {
-        return $this->namespacedController;
+    public function getControllerNamespace() {
+        return $this->namespace;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getControllerClass() {
+        return $this->class;
     }
 
     /**
