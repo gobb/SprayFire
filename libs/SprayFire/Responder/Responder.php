@@ -39,10 +39,4 @@ interface Responder extends SFObject, SFService\Consumer {
      */
     public function generateDynamicResponse(SFController\Controller $Controller);
 
-    /**
-     * @param string $layoutPath
-     * @param string $templatePath
-     * @return string
-     */
-    public function generateStaticResponse($layoutPath, $templatePath);
 }

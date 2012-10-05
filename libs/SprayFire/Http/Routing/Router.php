@@ -40,15 +40,6 @@ interface Router {
     public function getRoutedRequest(SFHttp\Request $Request);
 
     /**
-     * Should provide an array of file paths that are used to process a static
-     * SprayFire.Http.Routing.RoutedRequest.
-     *
-     * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
-     * @return array
-     */
-    public function getStaticFilePaths(RoutedRequest $RoutedRequest);
-
-    /**
      * Return a SprayFire.Http.Routing.RoutedRequest that represents a resource
      * not appropriately found.
      *
