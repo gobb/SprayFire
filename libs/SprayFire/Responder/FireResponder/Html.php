@@ -67,21 +67,6 @@ class Html extends FireService\Consumer implements SFResponder\Responder {
     }
 
     /**
-     * Will generate a response without providing data, the template generated
-     * from $templatePath will be available to your layout in a variable named
-     * $templateContent.
-     *
-     * @param string $layoutPath
-     * @param string $templatePath
-     * @return string
-     */
-    public function generateStaticResponse($layoutPath, $templatePath) {
-        $templateContent = $this->render($templatePath, array());
-        $this->response = $this->render($layoutPath, array('templateContent' => $templateContent));
-        return $this->response;
-    }
-
-    /**
      * Returns an array of data from the Controller that is clean, with any dirty
      * data being sanitized.
      *
