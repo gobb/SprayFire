@@ -3,12 +3,16 @@
 /**
  * A test of the StandardRouter implementation to ensure it routes as expected
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Test\Cases\Http\Routing\FireRouting;
+
+use \SprayFire\Http\Routing as SFRouting,
+    \SprayFire\Http\Routing\FireRouting as FireRouting;
 
 class RouterTest extends \PHPUnit_Framework_TestCase {
 
@@ -68,11 +72,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
                 'controller' => 'Charles',
                 'action' => 'drinks'
             ),
-            '/static/page/' => array(
-                'static' => true,
-                'layoutPath' => $this->mockFrameworkPath . '/libs/SprayFire/Responder/html/default.php',
-                'templatePath' => $this->mockFrameworkPath . '/libs/SprayFire/Responder/html/template/static.php'
-            ),
             '/should/be/post/' => array(
                 'method' => 'POST',
                 'controller' => 'post-method',
@@ -82,33 +81,29 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Assures that the Router will properly use the controller, action and parameters
-     * given by the request if there is no routing available.
-     */
-    public function testStandardRouterWithUnroutedUrl() {
-        $Request = $this->getRequest('/SprayFire/controller/action/param1/param2/param3/');
-        $Router = $this->getRouter('SprayFire');
-        $RoutedRequest = $Router->getRoutedRequest($Request);
-        $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
-        $this->assertTrue($RoutedRequest->isStatic(), 'A RoutedRequest is not static, though it should be.');
-        $staticFiles = $Router->getStaticFilePaths($RoutedRequest);
-        $this->assertSame('layout', $staticFiles['layoutPath']);
-        $this->assertSame('template', $staticFiles['templatePath']);
-    }
-
-    /**
      * Assures that the Router will properly use default values in configuration
      * if there are none present in the request.
      */
     public function testStandardRouterGoingToRootPath() {
         $Request = $this->getRequest('/SprayFire/');
-        $Router = $this->getRouter('SprayFire');
+
+        $RouteBag = new FireRouting\RouteBag();
+        $MockRoute = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
+        $MockRoute->expects($this->once())->method('getPattern')->will($this->returnValue('/'));
+        $MockRoute->expects($this->once())->method('getMethod')->will($this->returnValue(null));
+        $MockRoute->expects($this->once())->method('getControllerNamespace')->will($this->returnValue('SprayFire.Test.Helpers.Controller'));
+        $MockRoute->expects($this->once())->method('getControllerClass')->will($this->returnValue('TestPages'));
+        $MockRoute->expects($this->once())->method('getAction')->will($this->returnValue('index-yo-dog'));
+        $RouteBag->addRoute($MockRoute);
+
+        $Router = new FireRouting\Router($RouteBag, $this->Normalizer, 'SprayFire');
+
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
         $this->assertSame('SprayFire', $RoutedRequest->getAppNamespace());
         $this->assertSame('SprayFire.Test.Helpers.Controller.TestPages', $RoutedRequest->getController());
         $this->assertSame('indexYoDog', $RoutedRequest->getAction());
-        $this->assertSame(array('yo', 'dog'), $RoutedRequest->getParameters());
+        $this->assertSame(array(), $RoutedRequest->getParameters());
     }
 
     /**
@@ -117,7 +112,17 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
      */
     public function testStandardRouterGoingToControllerActionWithParam() {
         $Request = $this->getRequest('/college.football/charles/roots_for/alabama');
-        $Router = $this->getRouter('college.football');
+
+        $RouteBag = new FireRouting\RouteBag();
+        $MockRoute = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
+        $MockRoute->expects($this->once())->method('getPattern')->will($this->returnValue('/charles/roots_for/(?P<item>[A-Za-z]+)/'));
+        $MockRoute->expects($this->once())->method('getMethod')->will($this->returnValue(null));
+        $MockRoute->expects($this->once())->method('getControllerNamespace')->will($this->returnValue('FourteenChamps.Controller'));
+        $MockRoute->expects($this->once())->method('getControllerClass')->will($this->returnValue('NickSaban'));
+        $MockRoute->expects($this->once())->method('getAction')->will($this->returnValue('win'));
+        $RouteBag->addRoute($MockRoute);
+
+        $Router = new FireRouting\Router($RouteBag, $this->Normalizer, 'college.football');
         $RoutedRequest = $Router->getRoutedRequest($Request);
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
         $this->assertSame('FourteenChamps', $RoutedRequest->getAppNamespace());
@@ -141,42 +146,12 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(array('brewer' => 'sam_adams', 'beer' => 'boston_lager'), $RoutedRequest->getParameters());
     }
 
-    public function testGettingStaticRoutedRequest() {
-        $Request = $this->getRequest('/static/page');
-        $Router = $this->getRouter('');
-        $RoutedRequest = $Router->getRoutedRequest($Request);
-        $this->assertTrue($RoutedRequest->isStatic());
-    }
-
-    public function testGettingStaticRoutedRequestFilePaths() {
-        $Request = $this->getRequest('/static/page');
-        $Router = $this->getRouter('');
-        $RoutedRequest = $Router->getRoutedRequest($Request);
-        $paths = $Router->getStaticFilePaths($RoutedRequest);
-        $expectedLayout = $this->mockFrameworkPath . '/libs/SprayFire/Responder/html/default.php';
-        $expectedTemplate = $this->mockFrameworkPath . '/libs/SprayFire/Responder/html/template/static.php';
-        $actualLayout = $paths['layoutPath'];
-        $actualTemplate = $paths['templatePath'];
-        $this->assertSame($expectedLayout, $actualLayout);
-        $this->assertSame($expectedTemplate, $actualTemplate);
-    }
-
     public function testGettingSameRoutedRequestFromSameRequest() {
         $Request = $this->getRequest('');
         $Router = $this->getRouter('');
         $RoutedRequestOne = $Router->getRoutedRequest($Request);
         $RoutedRequestTwo = $Router->getRoutedRequest($Request);
         $this->assertSame($RoutedRequestOne, $RoutedRequestTwo);
-    }
-
-    public function testGettingSameStaticFilesFromSameRoutedRequest() {
-        $Request = $this->getRequest('/static/page');
-        $Router = $this->getRouter('');
-        $RoutedRequestOne = $Router->getRoutedRequest($Request);
-        $RoutedRequestTwo = $Router->getRoutedRequest($Request);
-        $routeOneFiles = $Router->getStaticFilePaths($RoutedRequestOne);
-        $routeTwoFiles = $Router->getStaticFilePaths($RoutedRequestTwo);
-        $this->assertSame($routeOneFiles, $routeTwoFiles);
     }
 
     public function testValidRouteWithImproperMethod() {
@@ -220,12 +195,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
      * @return SprayFire.Http.StandardRequest
      */
     protected function getRequest($requestUri, $method = 'GET') {
-        $_server = array();
-        $_server['REQUEST_URI'] = $requestUri;
-        $_server['REQUEST_METHOD'] = $method;
-        $Uri = new \SprayFire\Http\FireHttp\Uri($_server);
-        $Headers = new \SprayFire\Http\FireHttp\RequestHeaders($_server);
-        return new \SprayFire\Http\FireHttp\Request($Uri, $Headers, $_server);
+        $MockUri = $this->getMock('\\SprayFire\\Http\\Uri');
+        $MockUri->expects($this->once())->method('getPath')->will($this->returnValue($requestUri));
+
+        $MockRequest = $this->getMock('\\SprayFire\\Http\\Request');
+        $MockRequest->expects($this->once())->method('getUri')->will($this->returnValue($MockUri));
+        $MockRequest->expects($this->once())->method('getMethod')->will($this->returnValue($method));
+        return $MockRequest;
     }
 
     /**
