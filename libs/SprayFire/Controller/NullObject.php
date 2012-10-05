@@ -33,6 +33,8 @@ use \SprayFire\Controller as SFController,
  *
  * @package SprayFire
  * @subpackage Controller
+ *
+ * @codeCoverageIgnore
  */
 class NullObject extends SFCoreObject implements SFController\Controller {
 

@@ -35,16 +35,9 @@ class AppInitializerTest extends \PHPUnit_Framework_TestCase {
 
     public function testAppInitializerWithAppBootstrapNotBootstrapper() {
         $Initializer = $this->getInitializer();
-        $controller = 'NoBootstrap.Bootstrap';
+        $controller = 'AnotherApp.Controller.Page';
         $RoutedRequest = $this->getRoutedRequest($controller);
         $this->setExpectedException('\\SprayFire\\Exception\\ResourceNotFoundException');
-        $Initializer->initializeApp($RoutedRequest);
-    }
-
-    public function testAppInitializerWithSprayFireController() {
-        $Initializer = $this->getInitializer();
-        $controller = 'SprayFire.Controller.Base';
-        $RoutedRequest = $this->getRoutedRequest($controller);
         $Initializer->initializeApp($RoutedRequest);
     }
 

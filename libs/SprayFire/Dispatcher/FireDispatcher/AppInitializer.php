@@ -97,9 +97,14 @@ class AppInitializer extends SFCoreObject implements SFDispatcher\AppInitializer
      */
     public function initializeApp(SFRouting\RoutedRequest $RoutedRequest) {
         $appNamespace = $RoutedRequest->getAppNamespace();
+
+        // @codeCoverageIgnoreStart
+        // No reliable way to test
         if (\strtolower($appNamespace) === 'sprayfire') {
             return;
         }
+        // @codeCoverageIgnoreEnd
+        
         $this->ClassLoader->registerNamespaceDirectory($appNamespace, $this->Paths->getAppPath());
         $bootstrapName = '\\' . $appNamespace . '\\Bootstrap';
         if (!\class_exists($bootstrapName)) {
