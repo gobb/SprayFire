@@ -47,12 +47,10 @@ class Router extends SFCoreObject implements SFRouting\Router {
     protected $Normalizer;
 
     /**
-     * Stores arrays of configuration data against a created
-     * SprayFire.Http.Routing.RoutedRequest.
      *
-     * @property SplObjectStorage
+     * @property SprayFire.Http.Routing.FireRouting.RouteBag
      */
-    protected $StaticFilesStorage;
+    protected $RouteBag;
 
     /**
      * Stores SprayFire.Http.Routing.RoutedRequest objects against SprayFire.Http.Request
@@ -69,14 +67,6 @@ class Router extends SFCoreObject implements SFRouting\Router {
      * @property string
      */
     protected $installDir;
-
-    /**
-     * An array of route matching regular expressions and the routing configuration
-     * data associated with that expression.
-     *
-     * @property array
-     */
-    protected $routes;
 
     /**
      * An array of data used as a value fallback in case a routing configuration
@@ -118,17 +108,11 @@ class Router extends SFCoreObject implements SFRouting\Router {
      * @param string $installDir
      * @throws SprayFire.Exception.FatalRuntimeException
      */
-    public function __construct(Normalizer $Normalizer, array $config, $installDir = '') {
+    public function __construct(RouteBag $RouteBag, Normalizer $Normalizer, $installDir = '') {
         $this->Normalizer = $Normalizer;
-        $this->config = $config;
-        $this->StaticFilesStorage = new \SplObjectStorage();
+        $this->RouteBag = $RouteBag;
         $this->RoutedRequestCache = new \SplObjectStorage();
         $this->installDir = (string) $installDir;
-        $this->defaultsFallbackMap = $this->createDefaultsFallbackMap();
-        $this->defaults = $this->getDefaultConfig($config, 'defaults');
-        $this->staticDefaults = $this->getDefaultConfig($config, 'staticDefaults');
-        $this->noResourceConfiguration = $this->getDefaultConfig($config, '404');
-        $this->routes = $this->getDefaultConfig($config, 'routes');
     }
 
     /**
@@ -144,13 +128,6 @@ class Router extends SFCoreObject implements SFRouting\Router {
             'controller' => SFRouting\ConfigFallbacks::DEFAULT_CONTROLLER,
             'action' => SFRouting\ConfigFallbacks::DEFAULT_ACTION,
             'parameters' => array(),
-            'method' => SFRouting\ConfigFallbacks::DEFAULT_METHOD
-        );
-        $defaultsFallbackMap['staticDefaults'] = array(
-            'static' => SFRouting\ConfigFallbacks::DEFAULT_STATIC,
-            'responderName' => SFRouting\ConfigFallbacks::DEFAULT_STATIC_RESPONDER_NAME,
-            'layoutPath' => SFRouting\ConfigFallbacks::DEFAULT_STATIC_LAYOUT_PATH,
-            'templatePath' => SFRouting\ConfigFallbacks::DEFAULT_STATIC_TEMPLATE_PATH,
             'method' => SFRouting\ConfigFallbacks::DEFAULT_METHOD
         );
         $defaultsFallbackMap['404'] = array();
@@ -184,40 +161,6 @@ class Router extends SFCoreObject implements SFRouting\Router {
     }
 
     /**
-     * Returns an array of information about the static file paths, if they exist
-     * for a given $RoutedRequest.
-     *
-     * This method will always return an array with at least the following keys:
-     *
-     * array(
-     *      'responderName' => '',
-     *      'layoutPath'    => '',
-     *      'templatePath'  => ''
-     * )
-     *
-     * If there are static files found for the given $RoutedRequest then the keys
-     * will be filled in with the appropriate information provided by the configuration.
-     * If there are no static files found for the given $RoutedRequest then the
-     * keys will have blank strings as values.
-     *
-     * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
-     * @return type
-     *
-     * @todo
-     * Make sure that a test covers the retrieval of static files for a $RoutedRequest
-     * that has no static files.  We may need to look at changing the empty string
-     * on a bad request.  Perhaps we should even look at just returning an empty
-     * array or false.
-     *
-     */
-    public function getStaticFilePaths(SFRouting\RoutedRequest $RoutedRequest) {
-        if (isset($this->StaticFilesStorage[$RoutedRequest])) {
-            return $this->StaticFilesStorage[$RoutedRequest];
-        }
-        return array('responderName' => '', 'layoutPath' => '', 'templatePath' => '');
-    }
-
-    /**
      * Bsed on the URI path and HTTP method passed in the given SprayFire.Http.Request
      * will return an appropriate SprayFire.Http.Routing.FireRouting.RoutedRequest
      * configured for the appropriate resource.
@@ -230,20 +173,16 @@ class Router extends SFCoreObject implements SFRouting\Router {
             return $this->RoutedRequestCache[$Request];
         }
 
-        $route = $this->getMatchedRouteOr404($Request);
-        $normalizedRoute = $this->normalizeRoute($route);
+        $data = $this->getMatchedRouteOr404($Request);
+        $Route = $data['Route'];
+        $parameters = $data['parameters'];
 
         $RoutedRequest = new RoutedRequest(
-            $normalizedRoute['controller'],
-            $normalizedRoute['action'],
-            $normalizedRoute['parameters'],
-            $normalizedRoute['isStatic']
+            $Route->getControllerNamespace() . '.' . $this->normalizeController($Route->getControllerClass()),
+            $this->normalizeAction($Route->getAction()),
+            $parameters
         );
         $this->RoutedRequestCache[$Request] = $RoutedRequest;
-        if ($normalizedRoute['isStatic']) {
-            $this->StaticFilesStorage[$RoutedRequest] = $route;
-        }
-
         return $RoutedRequest;
     }
 
@@ -258,65 +197,26 @@ class Router extends SFCoreObject implements SFRouting\Router {
     protected function getMatchedRouteOr404(SFHttp\Request $Request) {
         $resourcePath = $this->cleanPath($Request->getUri()->getPath());
         $requestMethod = \strtolower($Request->getMethod());
-        $route = $this->noResourceConfiguration;
+        $returnRoute = $this->noResourceConfiguration;
+        $match = array();
 
-        foreach ($this->routes as $routePattern => $routeConfig) {
+        foreach ($this->RouteBag as $routePattern => $Route) {
             $routePattern = '#^' . $routePattern . '$#';
             if (\preg_match($routePattern, $resourcePath, $match)) {
-                $route = $routeConfig;
-                $routeMethod = $this->getRouteMethod($route);
-                if ($requestMethod !== $routeMethod) {
-                    $route = $this->noResourceConfiguration;
-                    break;
-                }
-
-                if (!isset($route['parameters'])) {
-                    // this is here to remove numeric indexes from the matched
-                    // regex so that we only get regex capturing groups
-                    foreach ($match as $key => $val) {
-                        if ($key === (int) $key) {
-                            unset($match[$key]);
-                        }
+                foreach ($match as $key => $val) {
+                    // Ensures that numeric keys are removed from the match array
+                    // only returning the appropriate named groups.
+                    if ($key === (int) $key) {
+                        unset($match[$key]);
                     }
-                    $route['parameters'] = $match;
                 }
-                break;
+                $returnRoute = $Route;
             }
         }
 
-        return $route;
-    }
-
-    /**
-     * Will take a $route configuration and return an array with keys matching to
-     * the parameters passed to the created SprayFire.Http.Routing.FireRouting.RoutedRequest.
-     *
-     * @param array $route
-     * @return array
-     *
-     * @todo
-     * Come up with a better name for this function, it does not adequately describe
-     * what the functionality is doing.
-     */
-    protected function normalizeRoute(array $route) {
-        if (isset($route['static']) && $route['static'] === true) {
-            $this->setStaticDefaults($route);
-            $controller = '';
-            $action = '';
-            $parameters = array();
-            $isStatic = true;
-        } else {
-            $this->setDefaults($route);
-            $controller = $route['namespace'] . '.' . $this->normalizeController($route['controller']);
-            $action = $this->normalizeAction($route['action']);
-            $parameters = $route['parameters'];
-            $isStatic = false;
-        }
         return array(
-            'controller' => $controller,
-            'action' => $action,
-            'parameters' => $parameters,
-            'isStatic' => $isStatic
+            'Route' => $returnRoute,
+            'parameters' => $match
         );
     }
 
@@ -355,48 +255,6 @@ class Router extends SFCoreObject implements SFRouting\Router {
      */
     public function set404Configuration(array $configuration) {
         $this->noResourceConfiguration = $configuration;
-    }
-
-    /**
-     * Will return the method for the given route, or the default method if none
-     * was provided.
-     *
-     * @param array $route
-     * @return string
-     */
-    protected function getRouteMethod(array $route) {
-        if (isset($route['method'])) {
-            return \strtolower($route['method']);
-        }
-        return \strtolower($this->defaults['method']);
-    }
-
-    /**
-     * Replace any values that are not set properly in the route with the route
-     * static defaults.
-     *
-     * @param array &$route
-     */
-    protected function setStaticDefaults(array &$route) {
-        foreach ($this->staticDefaults as $key => $defaultValue) {
-            if (!isset($route[$key]) || empty($route[$key])) {
-                $route[$key] = $defaultValue;
-            }
-        }
-    }
-
-    /**
-     * Replace any values that are not set properly in the route with the route
-     * defaults.
-     *
-     * @param array &$route
-     */
-    protected function setDefaults(array &$route) {
-        foreach ($this->defaults as $key => $defaultValue) {
-            if (!isset($route[$key]) || empty($route[$key])) {
-                $route[$key] = $defaultValue;
-            }
-        }
     }
 
     /**
