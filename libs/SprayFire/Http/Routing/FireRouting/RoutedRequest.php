@@ -53,11 +53,6 @@ class RoutedRequest extends SFCoreObject implements SFRouting\RoutedRequest {
     protected $parameters = array();
 
     /**
-     * @property boolean
-     */
-    protected $isStatic;
-
-    /**
      * Will parse the app namespace for this RoutedRequest based on the top level
      * of the controller namespace passed.
      *
@@ -65,12 +60,11 @@ class RoutedRequest extends SFCoreObject implements SFRouting\RoutedRequest {
      * @param string $action
      * @param array $parameters
      */
-    public function __construct($controller, $action, array $parameters, $isStatic = false) {
+    public function __construct($controller, $action, array $parameters = array()) {
         $this->appNamespace = $this->getTopLevelNamespace($controller);
         $this->controller = (string) $controller;
         $this->action = (string) $action;
         $this->parameters = $parameters;
-        $this->isStatic = $isStatic;
     }
 
     /**
@@ -122,11 +116,4 @@ class RoutedRequest extends SFCoreObject implements SFRouting\RoutedRequest {
         return $this->parameters;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isStatic() {
-        return $this->isStatic;
-    }
-    
 }
