@@ -180,7 +180,7 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
     protected function generateController($controllerName, $actionName) {
         $Controller = $this->ControllerFactory->makeObject($controllerName);
         if (!\method_exists($Controller, $actionName)) {
-            throw new SFException\ResourceNotFound('The given object ' . $controllerName . ' does not have the requested action ' . $actionName);
+            throw new SFException\ResourceNotFoundException('The given object ' . $controllerName . ' does not have the requested action ' . $actionName);
         }
         return $Controller;
     }
