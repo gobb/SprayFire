@@ -19,6 +19,8 @@ use \SprayFire\CoreObject as SFCoreObject;
  *
  * @package SprayFire
  * @subpackage Logging
+ *
+ * @codeCoverageIgnore
  */
 class NullLogger extends SFCoreObject implements Logger {
 

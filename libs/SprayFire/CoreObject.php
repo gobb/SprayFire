@@ -22,6 +22,8 @@ namespace SprayFire;
  * they implement require SprayFire.Object.
  *
  * @package SprayFire
+ *
+ * @codeCoverageIgnore
  */
 abstract class CoreObject implements Object {
 

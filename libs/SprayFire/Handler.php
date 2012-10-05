@@ -78,6 +78,8 @@ class Handler extends SFCoreObject {
      *
      * @param Exception $Exception
      *
+     * @codeCoverageIgnore
+     *
      * @todo
      * We need to take a look at some way we can allow custom 500 responses to
      * be sent.
@@ -105,32 +107,6 @@ class Handler extends SFCoreObject {
 HTML;
 
         exit;
-    }
-
-    /**
-     * Converts a numeric severity into the textual representation of the
-     * error level constant representing it; if it the severity is not known or not
-     * one expected to be trapped by the handler it will return 'E_UNKNOWN_SEVERITY'
-     *
-     * @param int $severity
-     * @return string
-     */
-    protected function normalizeSeverity($severity) {
-        $severityMap = array(
-            E_WARNING => 'E_WARNING',
-            E_NOTICE => 'E_NOTICE',
-            E_STRICT => 'E_STRICT',
-            E_USER_ERROR => 'E_USER_ERROR',
-            E_USER_WARNING => 'E_USER_WARNING',
-            E_USER_NOTICE => 'E_USER_NOTICE',
-            E_USER_DEPRECATED => 'E_USER_DEPRECATED',
-            E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
-            E_DEPRECATED => 'E_DEPRECATED'
-        );
-        if (\array_key_exists($severity, $severityMap)) {
-            return $severityMap[$severity];
-        }
-        return 'E_UNKNOWN_SEVERITY';
     }
 
 }
