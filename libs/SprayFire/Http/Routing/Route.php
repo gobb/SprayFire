@@ -38,11 +38,23 @@ interface Route extends SFObject {
     public function getMethod();
 
     /**
-     * The fully namespaced controller can be in Java or PHP style.
+     * The namespace that the controller belongs to.
+     *
+     * For example, if you were going to return the namespace for all SprayFire
+     * provided controllers you would return 'SprayFire.Controller.FireController'
      *
      * @return string
      */
-    public function getNamespacedController();
+    public function getControllerNamespace();
+
+    /**
+     * Returns the name of the controller that we should instantiate, it should
+     * exist in the namespace returned by Route::getControllerNamespace();
+     *
+     *
+     * @return string
+     */
+    public function getControllerClass();
 
     /**
      * The name of the action to invoke on the controller.
