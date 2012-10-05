@@ -74,6 +74,11 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
                     'namespace' => 'TestApp.Controller',
                     'controller' => 'Base',
                     'action' => 'index'
+                ),
+                '/noaction/' => array(
+                    'namespace' => 'SprayFire.Test.Helpers.Controller',
+                    'controller' => 'TestPages',
+                    'action' => 'likelyThatThisDoesNotExist'
                 )
             )
         );
@@ -169,6 +174,16 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $Dispatcher = $this->getDispatcher();
         \ob_start();
         $Dispatcher->dispatchResponse($this->getRequest('/nocontroller'));
+        $response = \ob_get_contents();
+        \ob_end_clean();
+        $expected = '<div><p>404 Not Found</p></div>';
+        $this->assertSame($expected, $response);
+    }
+
+    public function testFireDispatcherWithControllerNotHavingAppropriateAction() {
+        $Dispatcher = $this->getDispatcher();
+        \ob_start();
+        $Dispatcher->dispatchResponse($this->getRequest('/noaction'));
         $response = \ob_get_contents();
         \ob_end_clean();
         $expected = '<div><p>404 Not Found</p></div>';
@@ -299,6 +314,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $response);
         $this->assertSame($eventData[$eventName], 'SprayFire\\Responder\\FireResponder\\Html');
     }
+
+
 
     protected function getRequest($uri) {
         $_server = array();
