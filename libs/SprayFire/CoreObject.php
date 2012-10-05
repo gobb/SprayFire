@@ -53,6 +53,10 @@ abstract class CoreObject implements Object {
     /**
      * Returns the fully namespaced class name.
      *
+     * We are using get_class() over the __CLASS__ magic constant as the constant
+     * will return the name of the class this method is implemented in and not
+     * the name of the class we are invoking the object on.
+     *
      * @return string
      */
     public function __toString() {
