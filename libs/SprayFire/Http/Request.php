@@ -24,6 +24,20 @@ use \SprayFire\Object as SFObject;
  */
 interface Request extends SFObject {
 
+    const METHOD_OPTIONS = 'OPTIONS';
+
+    const METHOD_GET = 'GET';
+
+    const METHOD_HEAD = 'HEAD';
+
+    const METHOD_POST = 'POST';
+
+    const METHOD_PUT = 'PUT';
+
+    const METHOD_DELETE = 'DELETE';
+
+    const METHOD_TRACE = 'TRACE';
+
     /**
      * @return SprayFire.Http.Uri
      */
