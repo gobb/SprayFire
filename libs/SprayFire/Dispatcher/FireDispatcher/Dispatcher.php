@@ -119,28 +119,8 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
         $this->Mediator->triggerEvent(SFDispatcherEvents::BEFORE_ROUTING, $Request);
         $RoutedRequest = $this->Router->getRoutedRequest($Request);
         $this->Mediator->triggerEvent(SFDispatcherEvents::AFTER_ROUTING, $RoutedRequest);
-        if ($RoutedRequest->isStatic()) {
-            $this->sendStaticRequest($RoutedRequest);
-        } else {
-            $this->AppInitializer->initializeApp($RoutedRequest);
-            $this->sendDynamicRequest($RoutedRequest);
-        }
-    }
-
-    /**
-     * Will get the appropriate static files for the provided SprayFire.Http.Routing.RoutedRequest
-     * and will simply render the contents provided.
-     *
-     * This implementation does not do anything else, it is specfically intended
-     * to be a shorter, less resource intensive means of sending content to the
-     * user.  However this means that no data is passed to the Responder.
-     *
-     * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
-     */
-    protected function sendStaticRequest(SFRouting\RoutedRequest $RoutedRequest) {
-        $staticFiles = $this->Router->getStaticFilePaths($RoutedRequest);
-        $Responder = $this->ResponderFactory->makeObject($staticFiles['responderName']);
-        echo $Responder->generateStaticResponse($staticFiles['layoutPath'], $staticFiles['templatePath']);
+        $this->AppInitializer->initializeApp($RoutedRequest);
+        $this->sendDynamicRequest($RoutedRequest);
     }
 
     /**
@@ -152,17 +132,13 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
      */
     protected function sendDynamicRequest(SFRouting\RoutedRequest $RoutedRequest) {
-        try {
-            $Controller = $this->generateController($RoutedRequest->getController(), $RoutedRequest->getAction());
-            $this->invokeController($Controller, $RoutedRequest);
-            $ResponderName = $Controller->getResponderName();
-            $Responder = $this->ResponderFactory->makeObject($ResponderName);
-            $this->Mediator->triggerEvent(SFDispatcherEvents::BEFORE_RESPONSE_SENT, $Responder);
-            echo $Responder->generateDynamicResponse($Controller);
-            $this->Mediator->triggerEvent(SFDispatcherEvents::AFTER_RESPONSE_SENT, $Responder);
-        } catch(SFException\ResourceNotFoundException $TypeNotFoundExc) {
-            $this->dispatch404Response();
-        }
+        $Controller = $this->generateController($RoutedRequest->getController(), $RoutedRequest->getAction());
+        $this->invokeController($Controller, $RoutedRequest);
+        $ResponderName = $Controller->getResponderName();
+        $Responder = $this->ResponderFactory->makeObject($ResponderName);
+        $this->Mediator->triggerEvent(SFDispatcherEvents::BEFORE_RESPONSE_SENT, $Responder);
+        echo $Responder->generateDynamicResponse($Controller);
+        $this->Mediator->triggerEvent(SFDispatcherEvents::AFTER_RESPONSE_SENT, $Responder);
     }
 
     /**
@@ -199,19 +175,6 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
         $parameters = $RoutedRequest->getParameters();
         \call_user_func_array(array($Controller, $actionName), $parameters);
         $this->Mediator->triggerEvent(SFDispatcherEvents::AFTER_CONTROLLER_INVOKED, $Controller);
-    }
-
-    /**
-     * Gathers a 404 routed request from the SprayFire.Http.Routing.Router injected
-     * at construction time and send off the appropriate response.
-     */
-    protected function dispatch404Response() {
-        $RoutedRequest = $this->Router->get404RoutedRequest();
-        if ($RoutedRequest->isStatic()) {
-            $this->sendStaticRequest($RoutedRequest);
-        } else {
-            $this->sendDynamicRequest($RoutedRequest);
-        }
     }
 
 }
