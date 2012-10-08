@@ -14,7 +14,7 @@ namespace SprayFire\Http\Routing\FireRouting;
 
 use \SprayFire\Http as SFHttp,
     \SprayFire\Http\Routing as SFRouting,
-    \SprayFire\Object as SFObject;
+    \SprayFire\CoreObject as SFCoreObject;
 
 /**
  * @package SprayFire
@@ -67,7 +67,7 @@ class Route extends SFCoreObject implements SFRouting\Route {
      */
     public function __construct($regexPattern, $namespace, $class = 'Pages', $action = 'index', $httpMethod = null) {
         $this->regexPattern = $regexPattern;
-        $this->namespace = $namespacedController;
+        $this->namespace = $namespace;
         $this->class = $class;
         $this->action = $action;
         $this->httpMethod = $httpMethod;
