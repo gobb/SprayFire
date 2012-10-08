@@ -54,9 +54,7 @@ class Request extends SFCoreObject implements SFHttp\Request {
     public function __construct(SFHttp\Uri $Uri, SFHttp\RequestHeaders $Headers, array $_server = null) {
         $this->Uri = $Uri;
         $this->Headers = $Headers;
-        if (\is_null($_server)) {
-            $_server = $_SERVER;
-        }
+        $_server = $_server ?: $_SERVER;
         $this->parseMethodAndVersion($_server);
     }
 
@@ -68,8 +66,8 @@ class Request extends SFCoreObject implements SFHttp\Request {
      * @param array $_server
      */
     protected function parseMethodAndVersion(array $_server) {
-        $this->method = isset($_server['REQUEST_METHOD']) ? \strtoupper($_server['REQUEST_METHOD']) : 'GET';
-        $version = '';
+        $this->method = isset($_server['REQUEST_METHOD']) ? \strtoupper($_server['REQUEST_METHOD']) : SFHttp\Request::METHOD_GET;
+        $version = '1.0';
         if (isset($_server['SERVER_PROTOCOL'])) {
             $version = \preg_replace('/[^0-9\.]/', '', $_server['SERVER_PROTOCOL']);
         }
