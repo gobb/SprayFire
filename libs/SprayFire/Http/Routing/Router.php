@@ -39,21 +39,4 @@ interface Router {
      */
     public function getRoutedRequest(SFHttp\Request $Request);
 
-    /**
-     * Return a SprayFire.Http.Routing.RoutedRequest that represents a resource
-     * not appropriately found.
-     *
-     * @return SprayFire.Http.Routing.RoutedRequest
-     */
-    public function get404RoutedRequest();
-
-    /**
-     * Provide configuration details for the SprayFire.Http.Routing.RoutedRequest
-     * returned from Router::get404RoutedRequest.
-     *
-     * @param array $configuration
-     * @return array
-     */
-    public function set404Configuration(array $configuration);
-
 }

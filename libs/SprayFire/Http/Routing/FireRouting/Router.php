@@ -116,51 +116,6 @@ class Router extends SFCoreObject implements SFRouting\Router {
     }
 
     /**
-     * Creates an array of default value fallbacks to be used if the route configuration
-     * passed did not include default values.
-     *
-     * @return array
-     */
-    protected function createDefaultsFallbackMap() {
-        $defaultsFallbackMap = array();
-        $defaultsFallbackMap['defaults'] = array(
-            'namespace' => SFRouting\ConfigFallbacks::DEFAULT_NAMESPACE,
-            'controller' => SFRouting\ConfigFallbacks::DEFAULT_CONTROLLER,
-            'action' => SFRouting\ConfigFallbacks::DEFAULT_ACTION,
-            'parameters' => array(),
-            'method' => SFRouting\ConfigFallbacks::DEFAULT_METHOD
-        );
-        $defaultsFallbackMap['404'] = array();
-        $defaultsFallbackMap['500'] = array();
-        $defaultsFallbackMap['routes'] = array();
-        return $defaultsFallbackMap;
-    }
-
-    /**
-     * Creates an appropriate array of default configuration values, using defaults
-     * provided by the routing configuration and if not provided reverting back
-     * the default fallbacks.
-     *
-     * @param array $config
-     * @param string $property
-     * @return array
-     */
-    protected function getDefaultConfig(array $config, $property) {
-        $defaults = array();
-        if (isset($config[$property]) && \is_array($config[$property])) {
-            $defaults = $config[$property];
-        }
-
-        $defaultsFallback = $this->defaultsFallbackMap[$property];
-        foreach ($defaultsFallback as $key => $value) {
-            if (!isset($defaults[$key])) {
-                $defaults[$key] = $value;
-            }
-        }
-        return $defaults;
-    }
-
-    /**
      * Bsed on the URI path and HTTP method passed in the given SprayFire.Http.Request
      * will return an appropriate SprayFire.Http.Routing.FireRouting.RoutedRequest
      * configured for the appropriate resource.
@@ -173,7 +128,7 @@ class Router extends SFCoreObject implements SFRouting\Router {
             return $this->RoutedRequestCache[$Request];
         }
 
-        $data = $this->getMatchedRouteOr404($Request);
+        $data = $this->getMatchedRoute($Request);
         $Route = $data['Route'];
         $parameters = $data['parameters'];
 
@@ -194,7 +149,7 @@ class Router extends SFCoreObject implements SFRouting\Router {
      * @param SprayFire.Http.Request $Request
      * @return array
      */
-    protected function getMatchedRouteOr404(SFHttp\Request $Request) {
+    protected function getMatchedRoute(SFHttp\Request $Request) {
         $resourcePath = $this->cleanPath($Request->getUri()->getPath());
         $requestMethod = \strtolower($Request->getMethod());
         $returnRoute = $this->noResourceConfiguration;
@@ -218,43 +173,6 @@ class Router extends SFCoreObject implements SFRouting\Router {
             'Route' => $returnRoute,
             'parameters' => $match
         );
-    }
-
-    /**
-     * Will return a RoutedRequest object that marries back to the 404 configuration
-     * provided.
-     *
-     * Note that we are creating new objects here so that we can properly ensure
-     * that new 404 configurations passed at runtime are honored.  If we were to
-     * attempt a simple cache of the object created then only the configuration
-     * set at the time of method invocation would be honored.  We could attempt
-     * to serialize and hash each configuration that is used but that is far too
-     * much overhead for a method that should only be called sparingly.
-     *
-     * @return SprayFire.Http.Routing.FireRouting.RoutedRequest
-     */
-    public function get404RoutedRequest() {
-        $route = $this->normalizeRoute($this->noResourceConfiguration);
-        $RoutedRequest = new RoutedRequest(
-            $route['controller'],
-            $route['action'],
-            $route['parameters'],
-            $route['isStatic']
-        );
-        if ($route['isStatic']) {
-            $this->StaticFilesStorage[$RoutedRequest] = $this->noResourceConfiguration;
-        }
-        return $RoutedRequest;
-    }
-
-    /**
-     * Allows the setting of 404 configuration at runtime, after the Router
-     * implementation has been created.
-     *
-     * @param array $configuration
-     */
-    public function set404Configuration(array $configuration) {
-        $this->noResourceConfiguration = $configuration;
     }
 
     /**
@@ -332,17 +250,6 @@ class Router extends SFCoreObject implements SFRouting\Router {
         $regex = '/^' . $this->installDir . '/';
         $nothing = '';
         return \preg_replace($regex, $nothing, $uri);
-    }
-
-    /**
-     * @param string $routeKey
-     * @return boolean
-     */
-    protected function checkRequestIsStatic($routeKey) {
-        if ($routeKey !== false && isset($this->config['routes'][$routeKey]['static'])) {
-            return true;
-        }
-        return false;
     }
 
 }
