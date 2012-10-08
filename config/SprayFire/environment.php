@@ -44,12 +44,12 @@ $environment = array(
         'HttpRouter' => array(
             'name' => 'SprayFire.Http.Routing.FireRouting.Router',
             'parameterCallback' => function() use ($Paths) {
-                $Normalizer = new \SprayFire\Http\Routing\FireRouting\Normalizer();
-                $getRoutesConfig = function() use ($Paths) {
+                $getRouteBag = function() use ($Paths) {
                     return include $Paths->getConfigPath('SprayFire', 'routes.php');
                 };
+                $Normalizer = new \SprayFire\Http\Routing\FireRouting\Normalizer();
                 $installDir = \basename($Paths->getInstallPath());
-                return array($Normalizer, $getRoutesConfig(), $installDir);
+                return array($getRouteBag(), $Normalizer, $installDir);
             }
         ),
         'ControllerFactory' => array(
