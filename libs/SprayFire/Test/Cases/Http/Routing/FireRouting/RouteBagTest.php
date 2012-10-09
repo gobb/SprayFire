@@ -130,4 +130,29 @@ class RouteBagTest extends \PHPUnit_Framework_TestCase {
         $RouteBag->addRoute($MockRouteTwo);
     }
 
+    /**
+     * Ensures that we get an appropriate SprayFire.Http.Routing.Route object
+     * matching a supplied pattern.
+     */
+    public function testRouteBagGettingRouteMatchingPattern() {
+        $MockRoute = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
+        $MockRoute->expects($this->once())
+                  ->method('getPattern')
+                  ->will($this->returnValue('test'));
+        $RouteBag = new FireRouting\RouteBag();
+        $RouteBag->addRoute($MockRoute);
+
+        $this->assertSame($MockRoute, $RouteBag->getRoute('test'));
+    }
+
+    /**
+     * Ensures that if no parameter is passed to RouteBag::getRoute() an object
+     * is properly returned.
+     */
+    public function testRouteBagGettingRouteWithNoPattern() {
+        $MockRoute = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
+        $RouteBag = new FireRouting\RouteBag($MockRoute);
+        $this->assertSame($MockRoute, $RouteBag->getRoute());
+    }
+
 }
