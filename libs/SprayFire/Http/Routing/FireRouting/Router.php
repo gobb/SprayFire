@@ -47,6 +47,7 @@ class Router extends SFCoreObject implements SFRouting\Router {
     protected $Normalizer;
 
     /**
+     * Holds the routes that we can match against SprayFire.Http.Request.
      *
      * @property SprayFire.Http.Routing.FireRouting.RouteBag
      */
@@ -69,44 +70,12 @@ class Router extends SFCoreObject implements SFRouting\Router {
     protected $installDir;
 
     /**
-     * An array of data used as a value fallback in case a routing configuration
-     * is not properly provided for the route.
-     *
-     * @property array
-     */
-    protected $defaultsFallbackMap;
-
-    /**
-     * Default values for dynamic requests that were provided by the routing
-     * configuration.
-     *
-     * @property array
-     */
-    protected $defaults;
-
-    /**
-     * Default values for static requests that were provided by the routing
-     * configuration.
-     *
-     * @property array
-     */
-    protected $staticDefaults;
-
-    /**
-     * A routing configuration that represents a 404 route response.
-     *
-     * @property array
-     */
-    protected $noResourceConfiguration;
-
-    /**
      * Please see the documentation on routing configurations at
      * https://github.com/cspray/SprayFire/wiki/HTTP-and-Routing
      *
-     * @param SprayFire.Http.Routing.FireRouting.Normalizer
-     * @param array $config
+     * @param SprayFire.Http.Routing.FireRouting.RouteBag $RouteBag
+     * @param SprayFire.Http.Routing.FireRouting.Normalizer $Normalizer
      * @param string $installDir
-     * @throws SprayFire.Exception.FatalRuntimeException
      */
     public function __construct(RouteBag $RouteBag, Normalizer $Normalizer, $installDir = '') {
         $this->Normalizer = $Normalizer;
