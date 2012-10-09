@@ -159,6 +159,39 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expectedParameters, $RoutedRequest->getParameters());
     }
 
+        /**
+     * Ensures that an appropriate RoutedRequest is returned when multiple matching
+     * routes are found, the first match should always be the first Route added
+     * to the bag.
+     *
+     * This test ensures coverage of bug #98.
+     * https://github.com/cspray/SprayFire/issues/98
+     */
+    public function testMultipleMatchingRoutesOnlyReturnsFirstMatch() {
+        $MockRouteOne = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
+        $MockRouteOne->expects($this->once())
+                     ->method('getPattern')
+                     ->will($this->returnValue('/'));
+        $MockRouteOne->expects($this->once())
+                      ->method('getControllerNamespace')
+                      ->will($this->returnValue('Mock.Route.One'));
+        $MockRouteOne->expects($this->once())
+                     ->method('getControllerClass')
+                     ->will($this->returnValue('Test'));
+        $MockRouteTwo = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
+        $MockRouteTwo->expects($this->once())
+                     ->method('getPattern')
+                     ->will($this->returnValue('/something'));
+        $RouteBag = new FireRouting\RouteBag();
+        $RouteBag->addRoute($MockRouteOne);
+        $RouteBag->addRoute($MockRouteTwo);
+        $Normalizer = new FireRouting\Normalizer();
+        $Router = new FireRouting\Router($RouteBag, $Normalizer, '');
+
+        $RoutedRequest = $Router->getRoutedRequest($this->getRequest('/'));
+        $this->assertSame('Mock.Route.One.Test', $RoutedRequest->getController());
+    }
+
     /**
      * @param string $requestUri
      * @param string $method
