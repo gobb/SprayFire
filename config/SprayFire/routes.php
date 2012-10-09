@@ -20,6 +20,8 @@ $DebugRoute = new FireRouting\Route('/debug/', 'SprayFire.Controller.FireControl
 $AboutRoute = new FireRouting\Route('/about/', 'SprayFire.Controller.FireController', 'About', 'sprayfire');
 
 // Make sure you add each of your newly created Route objects to the $RouteBag
+// You can inject a Route object into the constructor of this object to be used
+// as the route that is returned if a non-matching pattern is passed to
 $RouteBag = new FireRouting\RouteBag();
 $RouteBag->addRoute($RootDirectoryRoute);
 $RouteBag->addRoute($DebugRoute);
