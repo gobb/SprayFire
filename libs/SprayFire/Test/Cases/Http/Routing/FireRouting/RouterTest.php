@@ -135,7 +135,17 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
      * SprayFire.Http.Routing.RoutedRequest
      */
     public function testGettingRouteWithNoMatchingPattern() {
-        $RouteBag = new FireRouting\RouteBag();
+        $MockRoute = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
+        $MockRoute->expects($this->once())
+                  ->method('getControllerNamespace')
+                  ->will($this->returnValue('SprayFire.Controller'));
+        $MockRoute->expects($this->once())
+                  ->method('getControllerClass')
+                  ->will($this->returnValue('NoRoute'));
+        $MockRoute->expects($this->once())
+                  ->method('getAction')
+                  ->will($this->returnValue('view'));
+        $RouteBag = new FireRouting\RouteBag($MockRoute);
         $Normalizer = new FireRouting\Normalizer();
         $Router = new FireRouting\Router($RouteBag, $Normalizer, '');
         $Request = $this->getRequest('');
