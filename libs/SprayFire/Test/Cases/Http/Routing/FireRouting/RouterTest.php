@@ -167,7 +167,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
      * This test ensures coverage of bug #98.
      * https://github.com/cspray/SprayFire/issues/98
      */
-    public function testMultipleMatchingRoutesOnlyReturnsFirstMatch() {
+    public function testMultipleRoutesReturnsAppropriateMatch() {
         $MockRouteOne = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
         $MockRouteOne->expects($this->once())
                      ->method('getPattern')
