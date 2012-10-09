@@ -12,6 +12,7 @@
 namespace SprayFire\Http\Routing\FireRouting;
 
 use \SprayFire\Http\Routing as SFRouting,
+    \SprayFire\Http\Routing\FireRouting as FireRouting,
     \SprayFire\CoreObject as SFCoreObject;
 
 /**
@@ -29,6 +30,21 @@ class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
     protected $routes = array();
 
     /**
+     * Stores a route that is returned if a route is attempted to be retrieved
+     * and there is no match.
+     *
+     * @property SprayFire.Http.Routing.Route
+     */
+    protected $NoMatchRoute;
+
+    public function __construct(SFRouting\Route $NoMatchRoute = null) {
+        if (\is_null($NoMatchRoute)) {
+            $NoMatchRoute = new FireRouting\Route('', 'SprayFire.Controller.FireController');
+        }
+        $this->NoMatchRoute = $NoMatchRoute;
+    }
+
+    /**
      * Will store a $Route with the pattern for that route as the given key.
      *
      * @param SprayFire.Http.Routing.Route $Route
@@ -41,6 +57,19 @@ class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
             throw new \InvalidArgumentException($message);
         }
         $this->routes[$routePattern] = $Route;
+    }
+
+    /**
+     *
+     *
+     * @param string $pattern
+     * @return mixed
+     */
+    public function getRoute($pattern = null) {
+        if (\is_null($pattern) || !$this->hasRouteWithPattern($pattern)) {
+            return $this->NoMatchRoute;
+        }
+        return $this->routes[$pattern];
     }
 
     /**
