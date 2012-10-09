@@ -124,7 +124,7 @@ class Router extends SFCoreObject implements SFRouting\Router {
         $Route = $this->RouteBag->getRoute();
         $match = array();
 
-        foreach ($this->RouteBag as $routePattern => $Route) {
+        foreach ($this->RouteBag as $routePattern => $StoredRoute) {
             $routePattern = '#^' . $routePattern . '$#';
             if (\preg_match($routePattern, $resourcePath, $match)) {
                 foreach ($match as $key => $val) {
@@ -134,7 +134,8 @@ class Router extends SFCoreObject implements SFRouting\Router {
                         unset($match[$key]);
                     }
                 }
-                $Route = $Route;
+                $Route = $StoredRoute;
+                break;
             }
         }
 
