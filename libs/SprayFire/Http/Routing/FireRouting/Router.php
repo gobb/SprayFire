@@ -121,7 +121,7 @@ class Router extends SFCoreObject implements SFRouting\Router {
     protected function getMatchedRoute(SFHttp\Request $Request) {
         $resourcePath = $this->cleanPath($Request->getUri()->getPath());
         $requestMethod = \strtolower($Request->getMethod());
-        $returnRoute = $this->noResourceConfiguration;
+        $Route = $this->RouteBag->getRoute();
         $match = array();
 
         foreach ($this->RouteBag as $routePattern => $Route) {
@@ -134,12 +134,12 @@ class Router extends SFCoreObject implements SFRouting\Router {
                         unset($match[$key]);
                     }
                 }
-                $returnRoute = $Route;
+                $Route = $Route;
             }
         }
 
         return array(
-            'Route' => $returnRoute,
+            'Route' => $Route,
             'parameters' => $match
         );
     }
