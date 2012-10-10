@@ -97,7 +97,7 @@ class Router extends SFCoreObject implements SFRouting\Router {
             return $this->RoutedRequestCache[$Request];
         }
 
-        $data = $this->getMatchedRoute($Request);
+        $data = $this->getMatchedRouteAndParameters($Request);
         $Route = $data['Route'];
         $parameters = $data['parameters'];
 
@@ -118,7 +118,7 @@ class Router extends SFCoreObject implements SFRouting\Router {
      * @param SprayFire.Http.Request $Request
      * @return array
      */
-    protected function getMatchedRoute(SFHttp\Request $Request) {
+    protected function getMatchedRouteAndParameters(SFHttp\Request $Request) {
         $resourcePath = $this->cleanPath($Request->getUri()->getPath());
         $requestMethod = \strtolower($Request->getMethod());
         $Route = $this->RouteBag->getRoute();
