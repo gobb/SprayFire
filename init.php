@@ -19,7 +19,7 @@ $logsPath = $installPath . '/logs';
 include $libsPath . '/ClassLoader/Loader.php';
 $ClassLoader = new \ClassLoader\Loader();
 $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
-$ClassLoader->registerNamespaceDirectory('Artax', $libsPath . '/Artax/src');
+$ClassLoader->registerNamespaceDirectory('Zend', $libsPath);
 $ClassLoader->setAutoloader();
 
 $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
