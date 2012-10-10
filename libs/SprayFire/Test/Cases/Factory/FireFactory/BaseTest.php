@@ -5,10 +5,11 @@
  * @brief
  */
 
-namespace SprayFire\Test\Factory\FireFactory;
+namespace SprayFire\Test\Cases\Factory\FireFactory;
 
 /**
- * @brief
+ * @package SprayFireTest
+ * @subpackage Cases.Factory.FireFactory
  */
 class BaseTest extends \PHPUnit_Framework_TestCase {
 
@@ -56,7 +57,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($Object instanceof \stdClass);
         $expected = array(
             array(
-                'message' => 'The requested object, SprayFire.Test.Helpers.TestObject, does not properly implement the appropriate type, stdClass, for this factory.',
+                'message' => 'The requested object, SprayFire.Test.Helpers.TestObject, does not properly implement the appropriate type, \\stdClass, for this factory.',
                 'options' => array()
             )
         );
@@ -70,7 +71,6 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $JavaConverter = new \SprayFire\Utils\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaConverter);
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestObject');
-        $Factory->setErrorHandlingMethod(\SprayFire\Factory\FireFactory\Base::RETURN_NULL_OBJECT); // this is done by default, testing setting option explicitly
         $Object = $Factory->makeObject('SprayFire.NonExistent');
         $this->assertTrue($Object instanceof \SprayFire\Test\Helpers\TestObject, 'The object returns is not the appropriate NullObject');
         $expected = array(
@@ -81,17 +81,6 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         );
         $actual = $ErrorLogger->getLoggedMessages();
         $this->assertSame($expected, $actual);
-    }
-
-    public function testThrowingExceptionIfResourceNotFound() {
-        $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $JavaConverter = new \SprayFire\Utils\JavaNamespaceConverter();
-        $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaConverter);
-        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.Object', 'SprayFire.Test.Helpers.TestObject');
-        $Factory->setErrorHandlingMethod(\SprayFire\Factory\FireFactory\Base::THROW_EXCEPTION);
-        $this->setExpectedException('\\SprayFire\\Exception\\ResourceNotFoundException');
-        $Factory->makeObject('SprayFire.NonExistent');
     }
 
     public function testGettingObjectName() {

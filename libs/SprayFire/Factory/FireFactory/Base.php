@@ -29,10 +29,6 @@ use \SprayFire\Factory as SFFactory,
  * Look at implementing a strategy pattern for dealing with Factory error handling.
  */
 abstract class Base extends SFCoreObject implements SFFactory\Factory {
-
-    const RETURN_NULL_OBJECT = 1;
-    const THROW_EXCEPTION = 2;
-
     /**
      * Cache to help prevent unneeded ReflectionClass from being created.
      *
@@ -67,14 +63,6 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
     protected $TypeValidator;
 
     /**
-     * Stores the values for the error handling requested for the creation of
-     * this object.
-     *
-     * @property int
-     */
-    protected $configuredErrorHandling;
-
-    /**
      *
      * @param SprayFire.Utils.ReflectionCache $ReflectionCache
      * @param SprayFire.Logging.LogOveseer $LogOverseer
@@ -92,7 +80,6 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
         $this->LogOverseer = $LogOverseer;
         $this->TypeValidator = $this->createTypeValidator($returnTypeRestriction);
         $this->NullObject = $this->createNullObject($nullObject);
-        $this->configuredErrorHandling = self::RETURN_NULL_OBJECT;
     }
 
     /**
@@ -155,44 +142,12 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
         } catch (\ReflectionException $ReflectExc) {
             $message = 'There was an error creating the requested object, ' . $className . '.  It likely does not exist.';
             $this->LogOverseer->logError($message);
-
-            if ($this->configuredErrorHandling === self::RETURN_NULL_OBJECT) {
-                return clone $this->NullObject;
-            }
-
-            if ($this->configuredErrorHandling === self::THROW_EXCEPTION) {
-                throw new SFException\ResourceNotFoundException($message, 0, $ReflectExc);
-            }
+            return clone $this->NullObject;
         } catch (\InvalidArgumentException $InvalArgExc) {
-            $this->LogOverseer->logError('The requested object, ' . $className . ', does not properly implement the appropriate type, ' . $this->TypeValidator->getType() . ', for this factory.');
-            if ($this->configuredErrorHandling === self::RETURN_NULL_OBJECT) {
-                return clone $this->NullObject;
-            }
-
-            if ($this->configuredErrorHandling === self::THROW_EXCEPTION) {
-                throw new SFException\ResourceNotFoundException($message, 0, $InvalArgExc);
-            }
+            $message = 'The requested object, ' . $className . ', does not properly implement the appropriate type, ' . $this->getObjectType() . ', for this factory.';
+            $this->LogOverseer->logError($message);
+            return clone $this->NullObject;
         }
-    }
-
-    /**
-     * If the $methodType is an appropriate method the factory is configured to
-     * handle it will alter the behavior of the factory when an error is encountered
-     * resulting in an object not able to be created.
-     *
-     * @param int $methodType
-     * @return boolean
-     */
-    public function setErrorHandlingMethod($methodType) {
-        $whiteListedMethods = array(
-            self::RETURN_NULL_OBJECT,
-            self::THROW_EXCEPTION
-        );
-        if (\in_array($methodType, $whiteListedMethods, true)) {
-            $this->configuredErrorHandling = $methodType;
-            return true;
-        }
-        return false;
     }
 
     /**
