@@ -32,4 +32,29 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('&#039;, &quot;, &lt;, &gt;, &amp;', $escaped);
     }
 
+    /**
+     * Ensures that an array of data passed to be escaped is returned with all
+     * values escaped and keys preserved.
+     */
+    public function testArrayOfStringsHtmlContentEscaped() {
+        $data = array(
+            'singleQuote' => '\'',
+            'doubleQuote' => '"',
+            'lessThan' => '<',
+            'greaterThan' => '>',
+            'ampersand' => '&'
+        );
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $escaped = $Escaper->escapeHtmlContent($data);
+
+        $expected = array(
+            'singleQuote' => '&#039;',
+            'doubleQuote' => '&quote;',
+            'lessThan' => '&lt;',
+            'greaterThan' => '&gt;',
+            'ampersand' => '&amp;'
+        );
+        $this->assertSame($expected, $Escaper->escapeHtmlContent($data));
+    }
+
 }
