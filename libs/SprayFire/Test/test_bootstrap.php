@@ -7,5 +7,5 @@ defined('SPRAYFIRE_ROOT') or define('SPRAYFIRE_ROOT', \dirname(\dirname(\dirname
 include \SPRAYFIRE_ROOT . '/libs/ClassLoader/Loader.php';
 $ClassLoader = new \ClassLoader\Loader();
 $ClassLoader->registerNamespaceDirectory('SprayFire', \SPRAYFIRE_ROOT . '/libs');
-$ClassLoader->registerNamespaceDirectory('Artax', \SPRAYFIRE_ROOT . '/libs/Artax/src');
+$ClassLoader->registerNamespaceDirectory('Zend', \SPRAYFIRE_ROOT . '/libs');
 $ClassLoader->setAutoloader();
