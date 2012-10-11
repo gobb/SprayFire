@@ -168,8 +168,8 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
         $data = array(
             'singleQuote' => '\'',
             'doubleQuote' => '"',
-            'lessThan', '<',
-            'greaterThan', '>',
+            'lessThan' => '<',
+            'greaterThan' => '>',
             'ampersand' => '&',
             'above255Ascii' => 'Ā',
             'space' => ' ',
@@ -192,7 +192,7 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
         $escaped = $Escaper->escapeHtmlAttribute($data);
 
         $expected = array(
-            'singleQuote' => '&#x2l;',
+            'singleQuote' => '&#x27;',
             'doubleQuote' => '&quot;',
             'lessThan' => '&lt;',
             'greaterThan' => '&gt;',
@@ -211,7 +211,7 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
             'nine' => '9',
             'period' => '.',
             'dash' => '-',
-            'unerscore' => '_',
+            'underscore' => '_',
             'comma' => ','
         );
 
