@@ -49,12 +49,76 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
 
         $expected = array(
             'singleQuote' => '&#039;',
-            'doubleQuote' => '&quote;',
+            'doubleQuote' => '&quot;',
             'lessThan' => '&lt;',
             'greaterThan' => '&gt;',
             'ampersand' => '&amp;'
         );
         $this->assertSame($expected, $Escaper->escapeHtmlContent($data));
+    }
+
+    public function testNestedArrayOfStringsHtmlContentEscaped() {
+        $data = array(
+            'singleQuote' => '\'',
+            'doubleQuote' => '"',
+            'lessThan' => '<',
+            'greaterThan' => '>',
+            'ampersand' => '&',
+            'secondLevel' => array(
+                'singleQuote' => '\'',
+                'doubleQuote' => '"',
+                'lessThan' => '<',
+                'greaterThan' => '>',
+                'ampersand' => '&',
+                'thirdLevel' => array(
+                    'singleQuote' => '\'',
+                    'doubleQuote' => '"',
+                    'lessThan' => '<',
+                    'greaterThan' => '>',
+                    'ampersand' => '&',
+                    'fourthLevel' => array(
+                        'singleQuote' => '\'',
+                        'doubleQuote' => '"',
+                        'lessThan' => '<',
+                        'greaterThan' => '>',
+                        'ampersand' => '&'
+                    )
+                )
+            )
+        );
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $escaped = $Escaper->escapeHtmlContent($data);
+
+        $expected = array(
+            'singleQuote' => '&#039;',
+            'doubleQuote' => '&quot;',
+            'lessThan' => '&lt;',
+            'greaterThan' => '&gt;',
+            'ampersand' => '&amp;',
+            'secondLevel' => array(
+                'singleQuote' => '&#039;',
+                'doubleQuote' => '&quot;',
+                'lessThan' => '&lt;',
+                'greaterThan' => '&gt;',
+                'ampersand' => '&amp;',
+                'thirdLevel' => array(
+                    'singleQuote' => '&#039;',
+                    'doubleQuote' => '&quot;',
+                    'lessThan' => '&lt;',
+                    'greaterThan' => '&gt;',
+                    'ampersand' => '&amp;',
+                    'fourthLevel' => array(
+                        'singleQuote' => '&#039;',
+                        'doubleQuote' => '&quot;',
+                        'lessThan' => '&lt;',
+                        'greaterThan' => '&gt;',
+                        'ampersand' => '&amp;'
+                    )
+                )
+            )
+        );
+
+        $this->assertSame($expected, $escaped);
     }
 
 }
