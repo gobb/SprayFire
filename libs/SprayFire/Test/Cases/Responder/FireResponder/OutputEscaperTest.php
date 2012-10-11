@@ -57,6 +57,13 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $Escaper->escapeHtmlContent($data));
     }
 
+    /**
+     * Ensures that a nested array of strings is properly escaped with all keys
+     * reserved.
+     *
+     * Although this is only testing 4 levels of nesting we assume that the algorithm
+     * to pass this test is recursive and can go to an arbirtrary level of nesting.
+     */
     public function testNestedArrayOfStringsHtmlContentEscaped() {
         $data = array(
             'singleQuote' => '\'',
