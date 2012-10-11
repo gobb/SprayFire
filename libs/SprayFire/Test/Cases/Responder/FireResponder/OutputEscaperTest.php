@@ -128,4 +128,94 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $escaped);
     }
 
+    /**
+     * Ensures that some characters we expect to be escaped for an HTML attribute
+     * context are properly escaped: ', ", <, >, &, Ā, ' ' are checked.
+     */
+    public function testSingleStringHtmlAttributeEscaped() {
+        $data = '\',",<,>,&,Ā, ';
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $escaped = $Escaper->escapeHtmlAttribute($data);
+        $this->assertSame('&#x27;,&quot;,&lt;,&gt;,&amp;,&#x0100;,&#x20;', $escaped);
+    }
+
+    /**
+     * Ensures that appropriate control characters, such as line feeds, tabs and
+     * null are properly escaped.
+     */
+    public function testSingleControlCharactersHtmlAttributeEscaped() {
+        $data = "\r,\n,\t,\0";
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $escaped = $Escaper->escapeHtmlAttribute($data);
+        $this->assertSame('&#x0D;,&#x0A;,&#x09;,&#xFFFD;', $escaped);
+    }
+
+    /**
+     * Ensures that some basic characters that should not be escaped in an HTML
+     * attribute context are indeed not escaped.
+     */
+    public function testBasicCharactersNotEscapedHtmlAttribute() {
+        $data = 'A,a,Z,z,0,9,.,-,_';
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $escaped = $Escaper->escapeHtmlAttribute($data);
+        $this->assertSame('A,a,Z,z,0,9,.,-,_', $escaped);
+    }
+
+    /**
+     * Ensures that a single dimension array of strings are properly escaped.
+     */
+    public function testArrayOfStringHtmlAttributeEscaped() {
+        $data = array(
+            'singleQuote' => '\'',
+            'doubleQuote' => '"',
+            'lessThan', '<',
+            'greaterThan', '>',
+            'ampersand' => '&',
+            'above255Ascii' => 'Ā',
+            'space' => ' ',
+            'carriageReturn' => "\r",
+            'carriageLine' => "\n",
+            'tab' => "\t",
+            'null' => "\0",
+            'a' => 'a',
+            'A' => 'A',
+            'z' => 'z',
+            'Z' => 'Z',
+            'zero' => '0',
+            'nine' => '9',
+            'period' => '.',
+            'dash' => '-',
+            'underscore' => '_',
+            'comma' => ','
+        );
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $escaped = $Escaper->escapeHtmlAttribute($data);
+
+        $expected = array(
+            'singleQuote' => '&#x2l;',
+            'doubleQuote' => '&quot;',
+            'lessThan' => '&lt;',
+            'greaterThan' => '&gt;',
+            'ampersand' => '&amp;',
+            'above255Ascii' => '&#x0100;',
+            'space' => '&#x20;',
+            'carriageReturn' => '&#x0D;',
+            'carriageLine' => '&#x0A;',
+            'tab' => '&#x09;',
+            'null' => '&#xFFFD;',
+            'a' => 'a',
+            'A' => 'A',
+            'z' => 'z',
+            'Z' => 'Z',
+            'zero' => '0',
+            'nine' => '9',
+            'period' => '.',
+            'dash' => '-',
+            'unerscore' => '_',
+            'comma' => ','
+        );
+
+        $this->assertSame($expected, $escaped);
+    }
+
 }
