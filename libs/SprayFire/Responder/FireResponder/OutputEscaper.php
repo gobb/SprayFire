@@ -64,7 +64,16 @@ class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
      * @return mixed
      */
     public function escapeHtmlContent($data) {
-        return $this->ZendEscaper->escapeHtml($data);
+        if (\is_string($data)) {
+            return $this->ZendEscaper->escapeHtml($data);
+        } else if (\is_array($data)) {
+            $escapedData = array();
+            foreach ($data as $key => $value) {
+                $escapedData[$key] = $this->ZendEscaper->escapeHtml($value);
+            }
+            return $escapedData;
+        }
+
     }
 
     /**
