@@ -22,6 +22,172 @@ use \SprayFire\Responder\FireResponder as FireResponder;
 class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
 
     /**
+     * Used in tests ensuring that arrays of HTML content strings are properly escaped.
+     *
+     * @property array
+     */
+    protected $arrayHtmlContentUnescaped = array(
+        'singleQuote' => '\'',
+        'doubleQuote' => '"',
+        'lessThan' => '<',
+        'greaterThan' => '>',
+        'ampersand' => '&'
+    );
+
+    /**
+     * Used in tests ensuring that arrays of HTML content strings are properly escaped.
+     *
+     * @property array
+     */
+    protected $arrayHtmlContentEscaped = array(
+        'singleQuote' => '&#039;',
+        'doubleQuote' => '&quot;',
+        'lessThan' => '&lt;',
+        'greaterThan' => '&gt;',
+        'ampersand' => '&amp;'
+    );
+
+    protected $arrayHtmlAttributeUnescaped = array(
+        'singleQuote' => '\'',
+        'doubleQuote' => '"',
+        'lessThan' => '<',
+        'greaterThan' => '>',
+        'ampersand' => '&',
+        'above255Ascii' => 'Ā',
+        'space' => ' ',
+        'carriageReturn' => "\r",
+        'carriageLine' => "\n",
+        'tab' => "\t",
+        'null' => "\0",
+        'a' => 'a',
+        'A' => 'A',
+        'z' => 'z',
+        'Z' => 'Z',
+        'zero' => '0',
+        'nine' => '9',
+        'period' => '.',
+        'dash' => '-',
+        'underscore' => '_',
+        'comma' => ','
+    );
+
+    protected $arrayHtmlAttributeEscaped = array(
+        'singleQuote' => '&#x27;',
+        'doubleQuote' => '&quot;',
+        'lessThan' => '&lt;',
+        'greaterThan' => '&gt;',
+        'ampersand' => '&amp;',
+        'above255Ascii' => '&#x0100;',
+        'space' => '&#x20;',
+        'carriageReturn' => '&#x0D;',
+        'carriageLine' => '&#x0A;',
+        'tab' => '&#x09;',
+        'null' => '&#xFFFD;',
+        'a' => 'a',
+        'A' => 'A',
+        'z' => 'z',
+        'Z' => 'Z',
+        'zero' => '0',
+        'nine' => '9',
+        'period' => '.',
+        'dash' => '-',
+        'underscore' => '_',
+        'comma' => ','
+    );
+
+    protected $arrayCssUnescaped = array(
+        'lessThan' => '<',
+        'greaterThan' => '>',
+        'singleQuote' => '\'',
+        'doubleQuote' => '"',
+        'ampersand' => '&',
+        'highAsciiValue' => 'Ā',
+        'comma' => ',',
+        'period' => '.',
+        'underscore' => '_',
+        'a' => 'a',
+        'A' => 'A',
+        'z' => 'z',
+        'Z' => 'Z',
+        'zero' => '0',
+        'nine' => '9',
+        'carriageReturn' => "\r",
+        'newLine' => "\n",
+        'tab' => "\t",
+        'null' => "\0",
+        'space' => ' '
+    );
+
+    protected $arrayCssEscaped = array(
+        'lessThan' => '\\3C ',
+        'greaterThan' => '\\3E ',
+        'singleQuote' => '\\27 ',
+        'doubleQuote' => '\\22 ',
+        'ampersand' => '\\26 ',
+        'highAsciiValue' => '\\100 ',
+        'comma' => '\\2C ',
+        'period' => '\\2E ',
+        'underscore' => '\\5F ',
+        'a' => 'a',
+        'A' => 'A',
+        'z' => 'z',
+        'Z' => 'Z',
+        'zero' => '0',
+        'nine' => '9',
+        'carriageReturn' => '\\D ',
+        'newLine' => '\\A ',
+        'tab' => '\\9 ',
+        'null' => '\\0 ',
+        'space' => '\\20 '
+    );
+
+    protected $arrayJavaScriptUnescaped = array(
+        'lessThan' => '<',
+        'greaterThan' => '>',
+        'singleQuote' => '\'',
+        'doubleQuote' => '"',
+        'ampersand' => '&',
+        'highAsciiValue' => 'Ā',
+        'comma' => ',',
+        'period' => '.',
+        'underscore' => '_',
+        'a' => 'a',
+        'A' => 'A',
+        'z' => 'z',
+        'Z' => 'Z',
+        'zero' => '0',
+        'nine' => '9',
+        'carriageReturn' => "\r",
+        'newLine' => "\n",
+        'tab' => "\t",
+        'null' => "\0",
+        'space' => ' '
+    );
+
+    protected $arrayJavaScriptEscaped = array(
+        'lessThan' => '\\x3C',
+        'greaterThan' => '\\x3E',
+        'singleQuote' => '\\x27',
+        'doubleQuote' => '\\x22',
+        'ampersand' => '\\x26',
+        'highAsciiValue' => '\\u0100',
+        'comma' => ',',
+        'period' => '.',
+        'underscore' => '_',
+        'a' => 'a',
+        'A' => 'A',
+        'z' => 'z',
+        'Z' => 'Z',
+        'zero' => '0',
+        'nine' => '9',
+        'carriageReturn' => "\\x0D",
+        'newLine' => "\\x0A",
+        'tab' => "\\x09",
+        'null' => "\\x00",
+        'space' => '\\x20'
+    );
+
+    /**
      * Ensures that a single string escaped for HTML content context is properly
      * escaped.
      */
@@ -37,23 +203,11 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
      * values escaped and keys preserved.
      */
     public function testArrayOfStringsHtmlContentEscaped() {
-        $data = array(
-            'singleQuote' => '\'',
-            'doubleQuote' => '"',
-            'lessThan' => '<',
-            'greaterThan' => '>',
-            'ampersand' => '&'
-        );
+        $data = $this->arrayHtmlContentUnescaped;
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $escaped = $Escaper->escapeHtmlContent($data);
 
-        $expected = array(
-            'singleQuote' => '&#039;',
-            'doubleQuote' => '&quot;',
-            'lessThan' => '&lt;',
-            'greaterThan' => '&gt;',
-            'ampersand' => '&amp;'
-        );
+        $expected = $this->arrayHtmlContentEscaped;
         $this->assertSame($expected, $Escaper->escapeHtmlContent($data));
     }
 
@@ -65,65 +219,18 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
      * to pass this test is recursive and can go to an arbirtrary level of nesting.
      */
     public function testNestedArrayOfStringsHtmlContentEscaped() {
-        $data = array(
-            'singleQuote' => '\'',
-            'doubleQuote' => '"',
-            'lessThan' => '<',
-            'greaterThan' => '>',
-            'ampersand' => '&',
-            'secondLevel' => array(
-                'singleQuote' => '\'',
-                'doubleQuote' => '"',
-                'lessThan' => '<',
-                'greaterThan' => '>',
-                'ampersand' => '&',
-                'thirdLevel' => array(
-                    'singleQuote' => '\'',
-                    'doubleQuote' => '"',
-                    'lessThan' => '<',
-                    'greaterThan' => '>',
-                    'ampersand' => '&',
-                    'fourthLevel' => array(
-                        'singleQuote' => '\'',
-                        'doubleQuote' => '"',
-                        'lessThan' => '<',
-                        'greaterThan' => '>',
-                        'ampersand' => '&'
-                    )
-                )
-            )
-        );
+        $data = $this->arrayHtmlContentUnescaped;
+        $data['secondLevel'] = $this->arrayHtmlContentUnescaped;
+        $data['secondLevel']['thirdLevel'] = $this->arrayHtmlContentUnescaped;
+        $data['secondLevel']['thirdLevel']['fourthLevel'] = $this->arrayHtmlContentUnescaped;
+
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $escaped = $Escaper->escapeHtmlContent($data);
 
-        $expected = array(
-            'singleQuote' => '&#039;',
-            'doubleQuote' => '&quot;',
-            'lessThan' => '&lt;',
-            'greaterThan' => '&gt;',
-            'ampersand' => '&amp;',
-            'secondLevel' => array(
-                'singleQuote' => '&#039;',
-                'doubleQuote' => '&quot;',
-                'lessThan' => '&lt;',
-                'greaterThan' => '&gt;',
-                'ampersand' => '&amp;',
-                'thirdLevel' => array(
-                    'singleQuote' => '&#039;',
-                    'doubleQuote' => '&quot;',
-                    'lessThan' => '&lt;',
-                    'greaterThan' => '&gt;',
-                    'ampersand' => '&amp;',
-                    'fourthLevel' => array(
-                        'singleQuote' => '&#039;',
-                        'doubleQuote' => '&quot;',
-                        'lessThan' => '&lt;',
-                        'greaterThan' => '&gt;',
-                        'ampersand' => '&amp;'
-                    )
-                )
-            )
-        );
+        $expected = $this->arrayHtmlContentEscaped;
+        $expected['secondLevel'] = $this->arrayHtmlContentEscaped;
+        $expected['secondLevel']['thirdLevel'] = $this->arrayHtmlContentEscaped;
+        $expected['secondLevel']['thirdLevel']['fourthLevel'] = $this->arrayHtmlContentEscaped;
 
         $this->assertSame($expected, $escaped);
     }
@@ -166,55 +273,12 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
      * HTML attribute context.
      */
     public function testArrayOfStringHtmlAttributeEscaped() {
-        $data = array(
-            'singleQuote' => '\'',
-            'doubleQuote' => '"',
-            'lessThan' => '<',
-            'greaterThan' => '>',
-            'ampersand' => '&',
-            'above255Ascii' => 'Ā',
-            'space' => ' ',
-            'carriageReturn' => "\r",
-            'carriageLine' => "\n",
-            'tab' => "\t",
-            'null' => "\0",
-            'a' => 'a',
-            'A' => 'A',
-            'z' => 'z',
-            'Z' => 'Z',
-            'zero' => '0',
-            'nine' => '9',
-            'period' => '.',
-            'dash' => '-',
-            'underscore' => '_',
-            'comma' => ','
-        );
+        $data = $this->arrayHtmlAttributeUnescaped;
+
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $escaped = $Escaper->escapeHtmlAttribute($data);
 
-        $expected = array(
-            'singleQuote' => '&#x27;',
-            'doubleQuote' => '&quot;',
-            'lessThan' => '&lt;',
-            'greaterThan' => '&gt;',
-            'ampersand' => '&amp;',
-            'above255Ascii' => '&#x0100;',
-            'space' => '&#x20;',
-            'carriageReturn' => '&#x0D;',
-            'carriageLine' => '&#x0A;',
-            'tab' => '&#x09;',
-            'null' => '&#xFFFD;',
-            'a' => 'a',
-            'A' => 'A',
-            'z' => 'z',
-            'Z' => 'Z',
-            'zero' => '0',
-            'nine' => '9',
-            'period' => '.',
-            'dash' => '-',
-            'underscore' => '_',
-            'comma' => ','
-        );
+        $expected = $this->arrayHtmlAttributeEscaped;
 
         $this->assertSame($expected, $escaped);
     }
@@ -223,194 +287,18 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
      * Ensures that a nested array of HTML attribute data is properly escaped.
      */
     public function testNestedArrayOfStringsHtmlAttributeEscape() {
-        $data = array(
-            'singleQuote' => '\'',
-            'doubleQuote' => '"',
-            'lessThan' => '<',
-            'greaterThan' => '>',
-            'ampersand' => '&',
-            'above255Ascii' => 'Ā',
-            'space' => ' ',
-            'carriageReturn' => "\r",
-            'carriageLine' => "\n",
-            'tab' => "\t",
-            'null' => "\0",
-            'a' => 'a',
-            'A' => 'A',
-            'z' => 'z',
-            'Z' => 'Z',
-            'zero' => '0',
-            'nine' => '9',
-            'period' => '.',
-            'dash' => '-',
-            'underscore' => '_',
-            'comma' => ',',
-            'secondLevel' => array(
-                'singleQuote' => '\'',
-                'doubleQuote' => '"',
-                'lessThan' => '<',
-                'greaterThan' => '>',
-                'ampersand' => '&',
-                'above255Ascii' => 'Ā',
-                'space' => ' ',
-                'carriageReturn' => "\r",
-                'carriageLine' => "\n",
-                'tab' => "\t",
-                'null' => "\0",
-                'a' => 'a',
-                'A' => 'A',
-                'z' => 'z',
-                'Z' => 'Z',
-                'zero' => '0',
-                'nine' => '9',
-                'period' => '.',
-                'dash' => '-',
-                'underscore' => '_',
-                'comma' => ',',
-                'thirdLevel' => array(
-                    'singleQuote' => '\'',
-                    'doubleQuote' => '"',
-                    'lessThan' => '<',
-                    'greaterThan' => '>',
-                    'ampersand' => '&',
-                    'above255Ascii' => 'Ā',
-                    'space' => ' ',
-                    'carriageReturn' => "\r",
-                    'carriageLine' => "\n",
-                    'tab' => "\t",
-                    'null' => "\0",
-                    'a' => 'a',
-                    'A' => 'A',
-                    'z' => 'z',
-                    'Z' => 'Z',
-                    'zero' => '0',
-                    'nine' => '9',
-                    'period' => '.',
-                    'dash' => '-',
-                    'underscore' => '_',
-                    'comma' => ',',
-                    'fourthLevel' => array(
-                        'singleQuote' => '\'',
-                        'doubleQuote' => '"',
-                        'lessThan' => '<',
-                        'greaterThan' => '>',
-                        'ampersand' => '&',
-                        'above255Ascii' => 'Ā',
-                        'space' => ' ',
-                        'carriageReturn' => "\r",
-                        'carriageLine' => "\n",
-                        'tab' => "\t",
-                        'null' => "\0",
-                        'a' => 'a',
-                        'A' => 'A',
-                        'z' => 'z',
-                        'Z' => 'Z',
-                        'zero' => '0',
-                        'nine' => '9',
-                        'period' => '.',
-                        'dash' => '-',
-                        'underscore' => '_',
-                        'comma' => ','
-                    )
-                )
-            )
-        );
+        $data = $this->arrayHtmlAttributeUnescaped;
+        $data['secondLevel'] = $this->arrayHtmlAttributeUnescaped;
+        $data['secondLevel']['thirdLevel'] = $this->arrayHtmlAttributeUnescaped;
+        $data['secondLevel']['thirdLevel']['fourthLevel'] = $this->arrayHtmlAttributeUnescaped;
 
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $escaped = $Escaper->escapeHtmlAttribute($data);
 
-        $expected = array(
-            'singleQuote' => '&#x27;',
-            'doubleQuote' => '&quot;',
-            'lessThan' => '&lt;',
-            'greaterThan' => '&gt;',
-            'ampersand' => '&amp;',
-            'above255Ascii' => '&#x0100;',
-            'space' => '&#x20;',
-            'carriageReturn' => '&#x0D;',
-            'carriageLine' => '&#x0A;',
-            'tab' => '&#x09;',
-            'null' => '&#xFFFD;',
-            'a' => 'a',
-            'A' => 'A',
-            'z' => 'z',
-            'Z' => 'Z',
-            'zero' => '0',
-            'nine' => '9',
-            'period' => '.',
-            'dash' => '-',
-            'underscore' => '_',
-            'comma' => ',',
-            'secondLevel' => array(
-                'singleQuote' => '&#x27;',
-                'doubleQuote' => '&quot;',
-                'lessThan' => '&lt;',
-                'greaterThan' => '&gt;',
-                'ampersand' => '&amp;',
-                'above255Ascii' => '&#x0100;',
-                'space' => '&#x20;',
-                'carriageReturn' => '&#x0D;',
-                'carriageLine' => '&#x0A;',
-                'tab' => '&#x09;',
-                'null' => '&#xFFFD;',
-                'a' => 'a',
-                'A' => 'A',
-                'z' => 'z',
-                'Z' => 'Z',
-                'zero' => '0',
-                'nine' => '9',
-                'period' => '.',
-                'dash' => '-',
-                'underscore' => '_',
-                'comma' => ',',
-                'thirdLevel' => array(
-                    'singleQuote' => '&#x27;',
-                    'doubleQuote' => '&quot;',
-                    'lessThan' => '&lt;',
-                    'greaterThan' => '&gt;',
-                    'ampersand' => '&amp;',
-                    'above255Ascii' => '&#x0100;',
-                    'space' => '&#x20;',
-                    'carriageReturn' => '&#x0D;',
-                    'carriageLine' => '&#x0A;',
-                    'tab' => '&#x09;',
-                    'null' => '&#xFFFD;',
-                    'a' => 'a',
-                    'A' => 'A',
-                    'z' => 'z',
-                    'Z' => 'Z',
-                    'zero' => '0',
-                    'nine' => '9',
-                    'period' => '.',
-                    'dash' => '-',
-                    'underscore' => '_',
-                    'comma' => ',',
-                    'fourthLevel' => array(
-                        'singleQuote' => '&#x27;',
-                        'doubleQuote' => '&quot;',
-                        'lessThan' => '&lt;',
-                        'greaterThan' => '&gt;',
-                        'ampersand' => '&amp;',
-                        'above255Ascii' => '&#x0100;',
-                        'space' => '&#x20;',
-                        'carriageReturn' => '&#x0D;',
-                        'carriageLine' => '&#x0A;',
-                        'tab' => '&#x09;',
-                        'null' => '&#xFFFD;',
-                        'a' => 'a',
-                        'A' => 'A',
-                        'z' => 'z',
-                        'Z' => 'Z',
-                        'zero' => '0',
-                        'nine' => '9',
-                        'period' => '.',
-                        'dash' => '-',
-                        'underscore' => '_',
-                        'comma' => ','
-                    )
-                )
-            )
-        );
+        $expected = $this->arrayHtmlAttributeEscaped;
+        $expected['secondLevel'] = $this->arrayHtmlAttributeEscaped;
+        $expected['secondLevel']['thirdLevel'] = $this->arrayHtmlAttributeEscaped;
+        $expected['secondLevel']['thirdLevel']['fourthLevel'] = $this->arrayHtmlAttributeEscaped;
 
         $this->assertSame($expected, $escaped);
     }
@@ -433,54 +321,12 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
      * Ensures that an array of strings is properly escaped in a CSS context.
      */
     public function testArrayOfStringEscapingCssContext() {
-        $data = array(
-            'lessThan' => '<',
-            'greaterThan' => '>',
-            'singleQuote' => '\'',
-            'doubleQuote' => '"',
-            'ampersand' => '&',
-            'highAsciiValue' => 'Ā',
-            'comma' => ',',
-            'period' => '.',
-            'underscore' => '_',
-            'a' => 'a',
-            'A' => 'A',
-            'z' => 'z',
-            'Z' => 'Z',
-            'zero' => '0',
-            'nine' => '9',
-            'carriageReturn' => "\r",
-            'newLine' => "\n",
-            'tab' => "\t",
-            'null' => "\0",
-            'space' => ' '
-        );
+        $data = $this->arrayCssUnescaped;
 
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $escaped = $Escaper->escapeCss($data);
 
-        $expected = array(
-            'lessThan' => '\\3C ',
-            'greaterThan' => '\\3E ',
-            'singleQuote' => '\\27 ',
-            'doubleQuote' => '\\22 ',
-            'ampersand' => '\\26 ',
-            'highAsciiValue' => '\\100 ',
-            'comma' => '\\2C ',
-            'period' => '\\2E ',
-            'underscore' => '\\5F ',
-            'a' => 'a',
-            'A' => 'A',
-            'z' => 'z',
-            'Z' => 'Z',
-            'zero' => '0',
-            'nine' => '9',
-            'carriageReturn' => '\\D ',
-            'newLine' => '\\A ',
-            'tab' => '\\9 ',
-            'null' => '\\0 ',
-            'space' => '\\20 '
-        );
+        $expected = $this->arrayCssEscaped;
 
         $this->assertSame($expected, $escaped);
     }
@@ -489,187 +335,55 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
      * Ensures that a nested array of strings is properly escaped in a CSS context.
      */
     public function testNestedArrayOfStringsEscapingCssContext() {
-        $data = array(
-            'lessThan' => '<',
-            'greaterThan' => '>',
-            'singleQuote' => '\'',
-            'doubleQuote' => '"',
-            'ampersand' => '&',
-            'highAsciiValue' => 'Ā',
-            'comma' => ',',
-            'period' => '.',
-            'underscore' => '_',
-            'a' => 'a',
-            'A' => 'A',
-            'z' => 'z',
-            'Z' => 'Z',
-            'zero' => '0',
-            'nine' => '9',
-            'carriageReturn' => "\r",
-            'newLine' => "\n",
-            'tab' => "\t",
-            'null' => "\0",
-            'space' => ' ',
-            'secondLevel' => array(
-                'lessThan' => '<',
-                'greaterThan' => '>',
-                'singleQuote' => '\'',
-                'doubleQuote' => '"',
-                'ampersand' => '&',
-                'highAsciiValue' => 'Ā',
-                'comma' => ',',
-                'period' => '.',
-                'underscore' => '_',
-                'a' => 'a',
-                'A' => 'A',
-                'z' => 'z',
-                'Z' => 'Z',
-                'zero' => '0',
-                'nine' => '9',
-                'carriageReturn' => "\r",
-                'newLine' => "\n",
-                'tab' => "\t",
-                'null' => "\0",
-                'space' => ' ',
-                'thirdLevel' => array(
-                    'lessThan' => '<',
-                    'greaterThan' => '>',
-                    'singleQuote' => '\'',
-                    'doubleQuote' => '"',
-                    'ampersand' => '&',
-                    'highAsciiValue' => 'Ā',
-                    'comma' => ',',
-                    'period' => '.',
-                    'underscore' => '_',
-                    'a' => 'a',
-                    'A' => 'A',
-                    'z' => 'z',
-                    'Z' => 'Z',
-                    'zero' => '0',
-                    'nine' => '9',
-                    'carriageReturn' => "\r",
-                    'newLine' => "\n",
-                    'tab' => "\t",
-                    'null' => "\0",
-                    'space' => ' ',
-                    'fourthLevel' => array(
-                        'lessThan' => '<',
-                        'greaterThan' => '>',
-                        'singleQuote' => '\'',
-                        'doubleQuote' => '"',
-                        'ampersand' => '&',
-                        'highAsciiValue' => 'Ā',
-                        'comma' => ',',
-                        'period' => '.',
-                        'underscore' => '_',
-                        'a' => 'a',
-                        'A' => 'A',
-                        'z' => 'z',
-                        'Z' => 'Z',
-                        'zero' => '0',
-                        'nine' => '9',
-                        'carriageReturn' => "\r",
-                        'newLine' => "\n",
-                        'tab' => "\t",
-                        'null' => "\0",
-                        'space' => ' '
-                    )
-                )
-            )
-        );
+        $data = $this->arrayCssUnescaped;
+        $data['secondLevel'] = $this->arrayCssUnescaped;
+        $data['secondLevel']['thirdLevel'] = $this->arrayCssUnescaped;
+        $data['secondLevel']['thirdLevel']['fourthLevel'] = $this->arrayCssUnescaped;
 
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $escaped = $Escaper->escapeCss($data);
 
-        $expected = array(
-            'lessThan' => '\\3C ',
-            'greaterThan' => '\\3E ',
-            'singleQuote' => '\\27 ',
-            'doubleQuote' => '\\22 ',
-            'ampersand' => '\\26 ',
-            'highAsciiValue' => '\\100 ',
-            'comma' => '\\2C ',
-            'period' => '\\2E ',
-            'underscore' => '\\5F ',
-            'a' => 'a',
-            'A' => 'A',
-            'z' => 'z',
-            'Z' => 'Z',
-            'zero' => '0',
-            'nine' => '9',
-            'carriageReturn' => '\\D ',
-            'newLine' => '\\A ',
-            'tab' => '\\9 ',
-            'null' => '\\0 ',
-            'space' => '\\20 ',
-            'secondLevel' => array(
-                'lessThan' => '\\3C ',
-                'greaterThan' => '\\3E ',
-                'singleQuote' => '\\27 ',
-                'doubleQuote' => '\\22 ',
-                'ampersand' => '\\26 ',
-                'highAsciiValue' => '\\100 ',
-                'comma' => '\\2C ',
-                'period' => '\\2E ',
-                'underscore' => '\\5F ',
-                'a' => 'a',
-                'A' => 'A',
-                'z' => 'z',
-                'Z' => 'Z',
-                'zero' => '0',
-                'nine' => '9',
-                'carriageReturn' => '\\D ',
-                'newLine' => '\\A ',
-                'tab' => '\\9 ',
-                'null' => '\\0 ',
-                'space' => '\\20 ',
-                'thirdLevel' => array(
-                    'lessThan' => '\\3C ',
-                    'greaterThan' => '\\3E ',
-                    'singleQuote' => '\\27 ',
-                    'doubleQuote' => '\\22 ',
-                    'ampersand' => '\\26 ',
-                    'highAsciiValue' => '\\100 ',
-                    'comma' => '\\2C ',
-                    'period' => '\\2E ',
-                    'underscore' => '\\5F ',
-                    'a' => 'a',
-                    'A' => 'A',
-                    'z' => 'z',
-                    'Z' => 'Z',
-                    'zero' => '0',
-                    'nine' => '9',
-                    'carriageReturn' => '\\D ',
-                    'newLine' => '\\A ',
-                    'tab' => '\\9 ',
-                    'null' => '\\0 ',
-                    'space' => '\\20 ',
-                    'fourthLevel' => array(
-                        'lessThan' => '\\3C ',
-                        'greaterThan' => '\\3E ',
-                        'singleQuote' => '\\27 ',
-                        'doubleQuote' => '\\22 ',
-                        'ampersand' => '\\26 ',
-                        'highAsciiValue' => '\\100 ',
-                        'comma' => '\\2C ',
-                        'period' => '\\2E ',
-                        'underscore' => '\\5F ',
-                        'a' => 'a',
-                        'A' => 'A',
-                        'z' => 'z',
-                        'Z' => 'Z',
-                        'zero' => '0',
-                        'nine' => '9',
-                        'carriageReturn' => '\\D ',
-                        'newLine' => '\\A ',
-                        'tab' => '\\9 ',
-                        'null' => '\\0 ',
-                        'space' => '\\20 '
-                    )
-                )
-            )
-        );
+        $expected = $this->arrayCssEscaped;
+        $expected['secondLevel'] = $this->arrayCssEscaped;
+        $expected['secondLevel']['thirdLevel'] = $this->arrayCssEscaped;
+        $expected['secondLevel']['thirdLevel']['fourthLevel'] = $this->arrayCssEscaped;
 
+        $this->assertSame($expected, $escaped);
+    }
+
+    public function testStringEscapingJavaScriptContext() {
+        $data = '<,>,\',",&';
+
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $escaped = $Escaper->escapeJavaScript($data);
+
+        $expected = '\\x3C,\\x3E,\\x27,\\x22,\\x26';
+        $this->assertSame($expected, $escaped);
+    }
+
+    public function testArrayOfStringsEscapingJavaScriptContext() {
+        $data = $this->arrayJavaScriptUnescaped;
+
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $escaped = $Escaper->escapeJavaScript($data);
+
+        $expected = $this->arrayJavaScriptEscaped;
+        $this->assertSame($expected, $escaped);
+    }
+
+    public function testNestedArrayOfStringsEscapingJavaScriptContext() {
+        $data = $this->arrayJavascriptUnescaped;
+        $data['secondLevel'] = $this->arrayJavascriptUnescaped;
+        $data['secondLevel']['thirdLevel'] = $this->arrayJavascriptUnescaped;
+        $data['secondLevel']['thirdLevel']['fourthLevel'] = $this->arrayJavascriptUnescaped;
+
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $escaped = $Escaper->escapeJavaScript($data);
+
+        $expected = $this->arrayJavascriptEscaped;
+        $expected['secondLevel'] = $this->arrayJavascriptEscaped;
+        $expected['secondLevel']['thirdLevel'] = $this->arrayJavascriptEscaped;
+        $expected['secondLevel']['thirdLevel']['fourthLevel'] = $this->arrayJavaScriptEscaped;
         $this->assertSame($expected, $escaped);
     }
 
