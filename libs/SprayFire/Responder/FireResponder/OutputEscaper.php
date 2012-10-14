@@ -44,7 +44,7 @@ class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
      * @return mixed
      */
     public function escapeCss($data) {
-
+        return $this->escapeContent($data, 'escapeCss');
     }
 
     /**
@@ -54,7 +54,7 @@ class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
      * @return mixed
      */
     public function escapeHtmlAttribute($data) {
-
+        return $this->escapeContent($data, 'escapeHtmlAttr');
     }
 
     /**
@@ -64,15 +64,7 @@ class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
      * @return mixed
      */
     public function escapeHtmlContent($data) {
-        if (\is_string($data)) {
-            return $this->ZendEscaper->escapeHtml($data);
-        } else if (\is_array($data)) {
-            $escapedData = array();
-            foreach ($data as $key => $value) {
-                $escapedData[$key] = $this->ZendEscaper->escapeHtml($value);
-            }
-            return $escapedData;
-        }
+        return $this->escapeContent($data, 'escapeHtml');
 
     }
 
@@ -83,7 +75,44 @@ class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
      * @return mixed
      */
     public function escapeJavaScript($data) {
+        return $this->escapeContent($data, 'escapeJs');
+    }
 
+    /**
+     * Will escape the appropriate data, be it a string or array, with the
+     * $context passed being the name of the ZendEscaper method to invoke.
+     *
+     * @param mixed $data
+     * @param string $context
+     * @return mixed
+     */
+    protected function escapeContent($data, $context) {
+        if (\is_string($data)) {
+            return $this->ZendEscaper->$context($data);
+        } else if (\is_array($data)) {
+            $escapedData = $this->escapeMultipleContent($data, $context);
+            return $escapedData;
+        }
+    }
+
+    /**
+     * Will recursively escape an array of data, the $context being the ZendEscaper
+     * method to invoke on the strings in $data.
+     *
+     * @param array $data
+     * @param string $context
+     * @return array
+     */
+    protected function escapeMultipleContent(array $data, $context) {
+        $escapedData = array();
+        foreach ($data as $key => $value) {
+            if (\is_array($value)) {
+                $escapedData[$key] = $this->escapeMultipleContent($value, $context);
+            } else {
+                $escapedData[$key] = $this->ZendEscaper->$zendEscaperMethod($value);
+            }
+        }
+        return $escapedData;
     }
 
 
