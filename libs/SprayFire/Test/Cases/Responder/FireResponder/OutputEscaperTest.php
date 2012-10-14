@@ -372,17 +372,17 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testNestedArrayOfStringsEscapingJavaScriptContext() {
-        $data = $this->arrayJavascriptUnescaped;
-        $data['secondLevel'] = $this->arrayJavascriptUnescaped;
-        $data['secondLevel']['thirdLevel'] = $this->arrayJavascriptUnescaped;
-        $data['secondLevel']['thirdLevel']['fourthLevel'] = $this->arrayJavascriptUnescaped;
+        $data = $this->arrayJavaScriptUnescaped;
+        $data['secondLevel'] = $this->arrayJavaScriptUnescaped;
+        $data['secondLevel']['thirdLevel'] = $this->arrayJavaScriptUnescaped;
+        $data['secondLevel']['thirdLevel']['fourthLevel'] = $this->arrayJavaScriptUnescaped;
 
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $escaped = $Escaper->escapeJavaScript($data);
 
-        $expected = $this->arrayJavascriptEscaped;
-        $expected['secondLevel'] = $this->arrayJavascriptEscaped;
-        $expected['secondLevel']['thirdLevel'] = $this->arrayJavascriptEscaped;
+        $expected = $this->arrayJavaScriptEscaped;
+        $expected['secondLevel'] = $this->arrayJavaScriptEscaped;
+        $expected['secondLevel']['thirdLevel'] = $this->arrayJavaScriptEscaped;
         $expected['secondLevel']['thirdLevel']['fourthLevel'] = $this->arrayJavaScriptEscaped;
         $this->assertSame($expected, $escaped);
     }
