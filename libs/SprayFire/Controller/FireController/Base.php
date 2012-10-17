@@ -123,44 +123,4 @@ abstract class Base extends FireService\Consumer implements SFController\Control
         return $this->templatePath;
     }
 
-    /**
-     * Retrieve data that does not need to be escaped by the SprayFire.Responder.Responder.
-     *
-     * @return array
-     */
-    public function getCleanData() {
-        return $this->cleanData;
-    }
-
-    /**
-     * Retrieve data that should be escaped by the SprayFire.Responder.Responder.
-     *
-     * @return array
-     */
-    public function getDirtyData() {
-        return $this->dirtyData;
-    }
-
-    /**
-     * Provide data to the SprayFire.Responder.Responder that does NOT need to
-     * be sanitized.
-     *
-     * @param array $data
-     * @return void
-     */
-    public function giveCleanData(array $data) {
-        $this->cleanData = \array_merge($this->cleanData, $data);
-    }
-
-    /**
-     * Provide data to the SprayFire.Responder.Responder that DOES need to be
-     * sanitized.
-     *
-     * @param array $data
-     * @return void
-     */
-    public function giveDirtyData(array $data) {
-        $this->dirtyData = \array_merge($this->dirtyData, $data);
-    }
-
 }
