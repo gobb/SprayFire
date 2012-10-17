@@ -45,6 +45,22 @@ interface Controller extends SFObject, SFService\Consumer {
     public function getResponderName();
 
     /**
+     * Provide data to the SprayFire.Responder.Responder that should be used
+     * during response processing.
+     *
+     * @param string $name
+     * @param mixed $value
+     */
+    public function setResponderData($name, $value);
+
+    /**
+     * Return an array of data provided by setResponderData
+     *
+     * @return array
+     */
+    public function getResponderData();
+
+    /**
      * Return the full path to the template file, including file extension
      *
      * @return string
@@ -57,39 +73,5 @@ interface Controller extends SFObject, SFService\Consumer {
      * @return string
      */
     public function getLayoutPath();
-
-    /**
-     * Should provide a means to give a Responder data that is to be considered
-     * unsanitized.
-     *
-     * @param array $data
-     * @return mixed
-     */
-    public function giveDirtyData(array $data);
-
-    /**
-     * Provide a means to give a Responder data that is to be considered safe
-     * and should not go through sanitization.
-     *
-     * @param array $data
-     * @return mixed
-     */
-    public function giveCleanData(array $data);
-
-    /**
-     * Should return an array of data given to the Responder that is considered
-     * dirty and should be sanitized in some way.
-     *
-     * @return array
-     */
-    public function getDirtyData();
-
-    /**
-     * Should return an array of data given to the Responder that is considered
-     * clean and should not be sanitized.
-     *
-     * @return array
-     */
-    public function getCleanData();
 
 }
