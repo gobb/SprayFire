@@ -45,11 +45,23 @@ interface Controller extends SFObject, SFService\Consumer {
     public function getResponderName();
 
     /**
+     * Provide a set of data to the SprayFire.Responder.Responder that should be
+     * used during response processing.
+     *
+     * The $data should be in the format [$varName => $varValue]
+     *
+     * @param array $data
+     * @return void
+     */
+    public function setMultipleResponderData(array $data);
+
+    /**
      * Provide data to the SprayFire.Responder.Responder that should be used
      * during response processing.
      *
      * @param string $name
      * @param mixed $value
+     * @return void
      */
     public function setResponderData($name, $value);
 
