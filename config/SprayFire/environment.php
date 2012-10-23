@@ -75,6 +75,12 @@ $environment = array(
         'EventRegistry' => array(
             'name' => 'SprayFire.Mediator.FireMediator.EventRegistry',
             'parameterCallback' => null
+        ),
+        'OutputEscaper' => array(
+            'name' => 'SprayFire.Responder.FireResponder.OutputEscaper',
+            'parameterCallback' => function() {
+                return array('utf-8');
+            }
         )
     )
 );
