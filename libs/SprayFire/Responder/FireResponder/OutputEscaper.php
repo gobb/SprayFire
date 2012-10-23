@@ -109,7 +109,7 @@ class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
             if (\is_array($value)) {
                 $escapedData[$key] = $this->escapeMultipleContent($value, $context);
             } else {
-                $escapedData[$key] = $this->ZendEscaper->$zendEscaperMethod($value);
+                $escapedData[$key] = $this->ZendEscaper->$context($value);
             }
         }
         return $escapedData;
