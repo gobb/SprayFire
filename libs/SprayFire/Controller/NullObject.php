@@ -51,20 +51,31 @@ class NullObject extends SFCoreObject implements SFController\Controller {
     }
 
     /**
-     * No operation; returns empty array
+     * No operation performed
      *
-     * @return array
+     * @param array $data
+     * @return void
      */
-    public function getCleanData() {
-        return array();
+    public function setMultipleResponderData(array $data) {
+
     }
 
     /**
-     * No operation; returns empty array
+     * No operation performed
+     *
+     * @param string $name
+     * @param mixed $value
+     */
+    public function setResponderData($name, $value) {
+
+    }
+
+    /**
+     * No operation performed
      *
      * @return array
      */
-    public function getDirtyData() {
+    public function getResponderData() {
         return array();
     }
 
@@ -95,24 +106,6 @@ class NullObject extends SFCoreObject implements SFController\Controller {
      */
     public function getTemplatePath() {
         return \dirname(__DIR__) . '/Responder/html/blank.php';
-    }
-
-    /**
-     * No operation; no data will be provided to layout or template
-     *
-     * @param array $data
-     */
-    public function giveCleanData(array $data) {
-
-    }
-
-    /**
-     * No operation; no data will be provided to layout or template
-     *
-     * @param array $data
-     */
-    public function giveDirtyData(array $data) {
-
     }
 
     /**
