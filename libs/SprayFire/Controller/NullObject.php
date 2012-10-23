@@ -13,6 +13,7 @@
 namespace SprayFire\Controller;
 
 use \SprayFire\Controller as SFController,
+    \SprayFire\Mediator as SFMediator,
     \SprayFire\CoreObject as SFCoreObject;
 
 /**
@@ -49,6 +50,28 @@ class NullObject extends SFCoreObject implements SFController\Controller {
     public function __call($name, $arguments) {
 
     }
+
+    /**
+     * No operation performed
+     *
+     * @param SprayFire.Mediator.Event $Event
+     * @return void
+     */
+    public function beforeAction(SFMediator\Event $Event) {
+
+    }
+
+    /**
+     * No operation performed
+     *
+     * @param \SprayFire\Mediator\Event $Event
+     * @return void
+     */
+    public function afterAction(SFMediator\Event $Event) {
+
+    }
+
+
 
     /**
      * No operation performed
