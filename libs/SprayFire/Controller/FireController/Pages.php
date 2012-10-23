@@ -53,16 +53,10 @@ class Pages extends Base {
             'dyanaGravatarHash'
         );
 
-        $cleanData = array(
-            'sidebarContent' => $sidebarContent
-        );
-
-        $dirtyData = array(
-            'sidebarData' => $sidebarData,
-        );
-
-        $this->giveCleanData($cleanData);
-        $this->giveDirtyData($dirtyData);
+        $this->setMultipleResponderData(\compact(
+            'sidebarContent',
+            'sidebarData'
+        ));
     }
 
     /**
@@ -82,19 +76,15 @@ class Pages extends Base {
         $action = $this->service('RoutedRequest')->getAction();
         $parameters = \print_r(\func_get_args(), true);
 
-        $cleanData = \compact(
-                    'controller'
-                );
-        $dirtyData = \compact(
-                    'getData',
-                    'postData',
-                    'sessionData',
-                    'serverData',
-                    'action',
-                    'parameters'
-                );
-        $this->giveCleanData($cleanData);
-        $this->giveDirtyData($dirtyData);
+        $this->setMultipleResponderData(\compact(
+            'serverData',
+            'sessionData',
+            'postData',
+            'getData',
+            'controller',
+            'action',
+            'parameters'
+        ));
     }
 
     /**
