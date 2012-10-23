@@ -12,7 +12,8 @@
 namespace SprayFire\Controller;
 
 use \SprayFire\Object as SFObject,
-    \SprayFire\Service as SFService;
+    \SprayFire\Service as SFService,
+    \SprayFire\Mediator as SFMediator;
 
 /**
  * Designed to serve as a data conduit to the chose SprayFire.Responder.Responder
@@ -85,5 +86,23 @@ interface Controller extends SFObject, SFService\Consumer {
      * @return string
      */
     public function getLayoutPath();
+
+    /**
+     * This method is invoked during dispatching of a request before the requested
+     * controller action is invoked.
+     *
+     * @param SprayFire.Mediator.Event $Event
+     * @return void
+     */
+    public function beforeAction(SFMediator\Event $Event);
+
+    /**
+     * This method is invoked during dispatching of a request after the requested
+     * controller action is invoked.
+     *
+     * @param SprayFire.Mediator.Event $Event
+     * @return void
+     */
+    public function afterAction(SFMediator\Event $Event);
 
 }
