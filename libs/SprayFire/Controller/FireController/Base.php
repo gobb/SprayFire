@@ -57,20 +57,11 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     protected $responderName = 'SprayFire.Responder.FireResponder.Html';
 
     /**
-     * An array of data that would need to be sanitized by the SprayFire.Responder.Responder
-     * before the response is sent to the user.
+     * Stores the data that will be made available to the SprayFire.Responder.Responder
      *
      * @property array
      */
-    protected $dirtyData = array();
-
-    /**
-     * An array of data that does not necessarily need to be sanitized by the
-     * SprayFire.Responder.Responder before the response is sent to the user.
-     *
-     * @property array
-     */
-    protected $cleanData = array();
+    protected $responderData = array();
 
     /**
      * Array of services provided to this SprayFire.Controller.Controller during
@@ -103,6 +94,37 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      */
     public function getResponderName() {
         return $this->responderName;
+    }
+
+    /**
+     * Provide a set of data to the responder, should be in the format
+     * [$varName => $varValue]
+     *
+     * @param array $data
+     */
+    public function setMultipleResponderData(array $data) {
+        foreach ($data as $name => $value) {
+            $this->setResponderData($name, $value);
+        }
+    }
+
+    /**
+     * Provides a single data value to the set of data used by the responder
+     *
+     * @param string $name
+     * @param mixed $value
+     */
+    public function setResponderData($name, $value) {
+        $this->responderData[(string) $name] = $value;
+    }
+
+    /**
+     * Provides a set of data that should be made available to the responder
+     *
+     * @return array
+     */
+    public function getResponderData() {
+         return $this->responderData;
     }
 
     /**
