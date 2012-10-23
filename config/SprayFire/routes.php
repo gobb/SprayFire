@@ -16,7 +16,7 @@ use \SprayFire\Http\Routing\FireRouting as FireRouting;
 // the appropriate regex pattern to match the URI path on, the namespace controllers
 // stored in and finally the controller and action to invoke for the matched route.
 $RootDirectoryRoute = new FireRouting\Route('/', 'SprayFire.Controller.FireController');
-$DebugRoute = new FireRouting\Route('/debug/', 'SprayFire.Controller.FireController');
+$DebugRoute = new FireRouting\Route('/debug/', 'SprayFire.Controller.FireController', 'Pages', 'debug');
 $AboutRoute = new FireRouting\Route('/about/', 'SprayFire.Controller.FireController', 'About', 'sprayfire');
 
 // Make sure you add each of your newly created Route objects to the $RouteBag
