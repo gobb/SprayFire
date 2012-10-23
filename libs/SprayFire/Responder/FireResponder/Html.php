@@ -42,7 +42,8 @@ class Html extends FireService\Consumer implements SFResponder\Responder {
      * @property array
      */
     protected $services = array(
-        'Paths' => 'SprayFire.FileSys.FireFileSys.Paths'
+        'Paths' => 'SprayFire.FileSys.FireFileSys.Paths',
+        'Escaper' => 'SprayFire.Responder.FireResponder.OutputEscaper'
     );
 
     /**
@@ -57,26 +58,13 @@ class Html extends FireService\Consumer implements SFResponder\Responder {
      * @return string
      */
     public function generateDynamicResponse(SFController\Controller $Controller) {
-        $data = $this->getSafeData($Controller);
+        $data = $Controller->getResponderData();
         $templatePath = $Controller->getTemplatePath();
         $templateContent = $this->render($templatePath, $data);
         $data['templateContent'] = $templateContent;
         $layoutPath = $Controller->getLayoutPath();
         $this->response = $this->render($layoutPath, $data);
         return $this->response;
-    }
-
-    /**
-     * Returns an array of data from the Controller that is clean, with any dirty
-     * data being sanitized.
-     *
-     * @return array
-     */
-    protected function getSafeData(SFController\Controller $Controller) {
-        $cleanData = $Controller->getCleanData();
-        $dirtyData = $Controller->getDirtyData();
-        $sanitizedData = $this->sanitizeData($dirtyData);
-        return \array_merge(array(), $cleanData, $sanitizedData);
     }
 
     /**
