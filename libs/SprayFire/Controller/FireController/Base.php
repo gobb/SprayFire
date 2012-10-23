@@ -14,6 +14,7 @@
 namespace SprayFire\Controller\FireController;
 
 use \SprayFire\Controller as SFController,
+    \SprayFire\Mediator as SFMediator,
     \SprayFire\Service\FireService as FireService;
 
 /**
@@ -86,6 +87,22 @@ abstract class Base extends FireService\Consumer implements SFController\Control
         'RoutedRequest' => 'SprayFire.Http.Routing.FireRouting.RoutedRequest',
         'Logging' => 'SprayFire.Logging.FireLogging.LogOverseer'
     );
+
+    /**
+     * @param SprayFire.Mediator.Event $Event
+     * @return void
+     */
+    public function beforeAction(SFMediator\Event $Event) {
+
+    }
+
+    /**
+     * @param SprayFire.Mediator.Event $Event
+     * @return void
+     */
+    public function afterAction(SFMediator\Event $Event) {
+
+    }
 
     /**
      * Java or PHP style namespaced class name.
