@@ -1,7 +1,6 @@
 <?php
 
 /**
- * Abstract classes storing the events that are invoked by a SprayFire.Dispatcher.Dispatcher.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -9,18 +8,15 @@
  * @since   0.1
  */
 
-namespace SprayFire\Mediator;
+namespace SprayFire\Dispatcher;
 
 /**
- * @package SprayFire
- * @subpackage Mediator
  *
- * @todo
- * We should take a look at moving this class to be under the SprayFire.Dispatcher
- * namespace and not SprayFire.Mediator.  It does not make sense that the Mediator
- * namespace would know about the details of the events.
+ *
+ * @package SprayFire
+ * @subpackage`
  */
-abstract class DispatcherEvents {
+abstract class Events {
 
     /**
      * Should be invoked before any routing takes place and should set the target
