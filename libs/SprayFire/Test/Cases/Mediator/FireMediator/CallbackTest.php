@@ -12,7 +12,6 @@
 namespace SprayFire\Test\Cases\Mediator\FireMediator;
 
 use \SprayFire\Mediator\Event as MediatorEvent,
-    \SprayFire\Mediator\DispatcherEvents as DispatcherEvents,
     \SprayFire\Mediator\FireMediator\Callback as FireCallback;
 
 class CallbackTest extends \PHPUnit_Framework_TestCase {
@@ -29,7 +28,7 @@ class CallbackTest extends \PHPUnit_Framework_TestCase {
             $testData['arguments'] = $Event->getArguments();
         };
 
-        $eventName = DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
+        $eventName = 'foo';
         $target = 'test';
         $arguments = array(1,2,3,4);
 
@@ -49,7 +48,7 @@ class CallbackTest extends \PHPUnit_Framework_TestCase {
      */
     public function testCallbackInvokingFunctionName() {
         $testData = array();
-        $eventName = DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
+        $eventName = 'foo';
         $function = '\\SprayFire\\Test\\Cases\\Mediator\\FireMediator\\testData';
         $target = 'test';
         $arguments = array(&$testData,2,3,4);
