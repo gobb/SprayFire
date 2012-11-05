@@ -35,7 +35,7 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
      * callback is returned as the only object in the events collection.
      */
     public function testMediatorStoringSingleCallbackToSingleEvent() {
-        $eventName = SFMediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED;
+        $eventName = 'foo';
         $MockCallback = $this->getMock('\\SprayFire\\Mediator\\Callback');
         $MockCallback->expects($this->once())
                      ->method('getEventName')
@@ -54,8 +54,8 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
      * that the appropriate callback collections are returned for those events.
      */
     public function testMediatorStoringMultipleCallbackToMultipleEvent() {
-        $firstEventName = SFMediator\DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
-        $secondEventName = SFMediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED;
+        $firstEventName = 'foo';
+        $secondEventName = 'bar';
         $FirstMockCallback = $this->getMock('\\SprayFire\\Mediator\\Callback');
         $FirstMockCallback->expects($this->once())
                           ->method('getEventName')
@@ -97,7 +97,7 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
      * also be removed from that collection.
      */
     public function testMediatorRemovingValidCallback() {
-        $eventName = SFMediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED;
+        $eventName = 'foo';
         $MockCallback = $this->getMock(
             '\\SprayFire\\Mediator\\Callback');
         $MockCallback->expects($this->exactly(2))
@@ -121,8 +121,8 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
      */
     public function testMediatorTriggeringMultipleEvents() {
         $eventData = array();
-        $firstEvent = SFMediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED;
-        $secondEvent = SFMediator\DispatcherEvents::BEFORE_CONTROLLER_INVOKED;
+        $firstEvent = 'foo';
+        $secondEvent = 'bar';
         $function = function(SFMediator\Event $Event) use(&$eventData) {
             $eventName = $Event->getEventName();
             $eventData[$eventName] = 'value set';
@@ -180,9 +180,8 @@ class MediatorTest extends \PHPUnit_Framework_TestCase {
 
         $targetType = '';
 
-        $Registry->registerEvent(SFMediator\DispatcherEvents::BEFORE_ROUTING, $targetType);
-        $Registry->registerEvent(SFMediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED, $targetType);
-        $Registry->registerEvent(SFMediator\DispatcherEvents::BEFORE_CONTROLLER_INVOKED, $targetType);
+        $Registry->registerEvent('foo', $targetType);
+        $Registry->registerEvent('bar', $targetType);
 
         return $Registry;
     }
