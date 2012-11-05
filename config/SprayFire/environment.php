@@ -1,5 +1,7 @@
 <?php
 
+use \SprayFire\Dispatcher as SFDispatcher;
+
 $developmentMode = true;
 
 $defaultCharset = 'UTF-8';
@@ -8,12 +10,12 @@ $environment = array(
     'developmentMode' => $developmentMode,
     'defaultCharset' => $defaultCharset,
     'registeredEvents' => array(
-        \SprayFire\Mediator\DispatcherEvents::AFTER_CONTROLLER_INVOKED => '',
-        \SprayFire\Mediator\DispatcherEvents::AFTER_RESPONSE_SENT => '',
-        \SprayFire\Mediator\DispatcherEvents::AFTER_ROUTING => '',
-        \SprayFire\Mediator\DispatcherEvents::BEFORE_CONTROLLER_INVOKED => '',
-        \SprayFire\Mediator\DispatcherEvents::BEFORE_RESPONSE_SENT => '',
-        \SprayFire\Mediator\DispatcherEvents::BEFORE_ROUTING => ''
+        SFDispatcher\Events::AFTER_CONTROLLER_INVOKED => '',
+        SFDispatcher\Events::AFTER_RESPONSE_SENT => '',
+        SFDispatcher\Events::AFTER_ROUTING => '',
+        SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED => '',
+        SFDispatcher\Events::BEFORE_RESPONSE_SENT => '',
+        SFDispatcher\Events::BEFORE_ROUTING => ''
     ),
     'services' => array(
         'Logging' => array(
