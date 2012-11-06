@@ -130,7 +130,11 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 
         $MockRoutedRequest = $this->getMockRoutedRequest($controller, $action, $parameters);
         $MockRouter = $this->getMockRouter($MockRoutedRequest);
-        $MockMediator = $this->getMock('\\SprayFire\\Test\\Cases\\Dispatcher\\FireDispatcher\\DispatcherCallbackMediator');
+        $MockMediator = $this->getMock('\\SprayFire\\Test\\Cases\\Dispatcher\\FireDispatcher\\DispatcherCallbackMediator',
+                                       array(
+                                            'triggerEvent',
+                                            'removeCallback'
+                                       ));
         $MockAppInitializer = $this->getMock('\\SprayFire\\Dispatcher\\AppInitializer');
         $MockController = $this->getMockController($action, $responderName, array($action));
         $MockControllerFactory = $this->getMockControllerFactory($MockController, $controller);
