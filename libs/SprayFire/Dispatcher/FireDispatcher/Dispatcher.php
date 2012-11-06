@@ -13,7 +13,6 @@
 namespace SprayFire\Dispatcher\FireDispatcher;
 
 use \SprayFire\Dispatcher as SFDispatcher,
-    \SprayFire\Service as SFService,
     \SprayFire\Http as SFHttp,
     \SprayFire\Http\Routing as SFRouting,
     \SprayFire\Factory as SFFactory,
@@ -21,7 +20,7 @@ use \SprayFire\Dispatcher as SFDispatcher,
     \SprayFire\Controller as SFController,
     \SprayFire\Exception as SFException,
     \SprayFire\CoreObject as SFCoreObject,
-    \SprayFire\Mediator\DispatcherEvents as SFDispatcherEvents;
+    \SprayFire\Mediator\FireMediator as FireMediator;
 
 /**
  * This class is the primary workhorse of the framework and is responsible for
@@ -116,9 +115,9 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * @param SprayFire.Http.Request $Request
      */
     public function dispatchResponse(SFHttp\Request $Request) {
-        $this->Mediator->triggerEvent(SFDispatcherEvents::BEFORE_ROUTING, $Request);
+        $this->Mediator->triggerEvent(SFDispatcher\Events::BEFORE_ROUTING, $Request);
         $RoutedRequest = $this->Router->getRoutedRequest($Request);
-        $this->Mediator->triggerEvent(SFDispatcherEvents::AFTER_ROUTING, $RoutedRequest);
+        $this->Mediator->triggerEvent(SFDispatcher\Events::AFTER_ROUTING, $RoutedRequest);
         $this->AppInitializer->initializeApp($RoutedRequest);
         $this->sendDynamicRequest($RoutedRequest);
     }
@@ -133,12 +132,26 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      */
     protected function sendDynamicRequest(SFRouting\RoutedRequest $RoutedRequest) {
         $Controller = $this->generateController($RoutedRequest->getController(), $RoutedRequest->getAction());
+        $this->addControllerBeforeActionEvent($Controller);
         $this->invokeController($Controller, $RoutedRequest);
         $ResponderName = $Controller->getResponderName();
         $Responder = $this->ResponderFactory->makeObject($ResponderName);
-        $this->Mediator->triggerEvent(SFDispatcherEvents::BEFORE_RESPONSE_SENT, $Responder);
+        $this->Mediator->triggerEvent(SFDispatcher\Events::BEFORE_RESPONSE_SENT, $Responder);
         echo $Responder->generateDynamicResponse($Controller);
-        $this->Mediator->triggerEvent(SFDispatcherEvents::AFTER_RESPONSE_SENT, $Responder);
+        $this->Mediator->triggerEvent(SFDispatcher\Events::AFTER_RESPONSE_SENT, $Responder);
+    }
+
+    /**
+     * Will create a callback for the Controller::beforeAction method and add that
+     * to the Mediator to be invoked before the controller action is invoked.
+     *
+     * @param SprayFire.Controller.Controller $Controller
+     */
+    protected function addControllerBeforeActionEvent(SFController\Controller $Controller) {
+        $event = SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED;
+        $function = array($Controller, 'beforeAction');
+        $Callback = new FireMediator\Callback($event, $function);
+        $this->Mediator->addCallback($Callback);
     }
 
     /**
@@ -170,11 +183,11 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * @return void
      */
     protected function invokeController(SFController\Controller $Controller, SFRouting\RoutedRequest $RoutedRequest) {
-        $this->Mediator->triggerEvent(SFDispatcherEvents::BEFORE_CONTROLLER_INVOKED, $Controller);
+        $this->Mediator->triggerEvent(SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED, $Controller);
         $actionName = $RoutedRequest->getAction();
         $parameters = $RoutedRequest->getParameters();
         \call_user_func_array(array($Controller, $actionName), $parameters);
-        $this->Mediator->triggerEvent(SFDispatcherEvents::AFTER_CONTROLLER_INVOKED, $Controller);
+        $this->Mediator->triggerEvent(SFDispatcher\Events::AFTER_CONTROLLER_INVOKED, $Controller);
     }
 
 }
