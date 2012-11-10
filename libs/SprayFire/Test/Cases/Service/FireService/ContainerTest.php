@@ -97,6 +97,14 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($service->property, 'factory created');
     }
 
+    public function testCreatingServiceUsingUnregisteredFactory() {
+        $Container = $this->getContainer();
+        $Container->addService('SprayFire.Utils.ReflectionCache', null, FactoryKeyTester::CONTAINER_KEY);
+
+        $this->setExpectedException('\SprayFire\Service\Exception\FactoryNotRegistered');
+        $Container->getService('SprayFire.Utils.ReflectionCache');
+    }
+
     protected function getContainer() {
         $JavaNameConverter = new \SprayFire\Utils\JavaNamespaceConverter();
         $this->ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaNameConverter);
