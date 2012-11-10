@@ -13,6 +13,7 @@
 namespace SprayFire\Service\FireService;
 
 use \SprayFire\Service as SFService,
+    \SprayFire\Factory as SFFactory,
     \SprayFire\Utils as SFUtils,
     \SprayFire\Service\Exception as SFServiceException,
     \SprayFire\CoreObject as SFCoreObject;
@@ -49,6 +50,14 @@ class Container extends SFCoreObject implements SFService\Container {
     protected $storedServices = array();
 
     /**
+     * Stores SprayFire.Factory.Factory objects that are to be used for services
+     * requested
+     *
+     * @property array
+     */
+    protected $registeredFactories = array();
+
+    /**
      * We are storing the empty callback for null parameters as a class property
      * so that we do not create unnecessary Closures for multiple calls with
      * null parameters.
@@ -73,7 +82,7 @@ class Container extends SFCoreObject implements SFService\Container {
      * @param callable|null $callableParameters
      * @throws InvalidArgumentException
      */
-    public function addService($serviceName, $callableParameters = null) {
+    public function addService($serviceName, $callableParameters = null, $factoryKey = null) {
         if (\is_object($serviceName)) {
             $service = $serviceName;
             $serviceName = '\\' . \get_class($service);
@@ -88,8 +97,13 @@ class Container extends SFCoreObject implements SFService\Container {
                 throw new \InvalidArgumentException('Attempting to pass a non-callable type to a callable required parameter.');
             }
             $serviceKey = $this->getServiceKey($serviceName);
+            $factoryKey = ($factoryKey === null) ? false : $factoryKey;
+            $serviceSignature = array(
+                'parameterCallback' => $callableParameters,
+                'factoryKey' => $factoryKey
+            );
 
-            $this->addedServices[$serviceKey] = $callableParameters;
+            $this->addedServices[$serviceKey] = $serviceSignature;
         }
     }
 
@@ -121,14 +135,36 @@ class Container extends SFCoreObject implements SFService\Container {
         if (!\array_key_exists($serviceKey, $this->addedServices)) {
             throw new SFServiceException\ServiceNotFound('A service, ' . $serviceName . ', was not properly added to the container.');
         }
-        $parameterCallback = $this->addedServices[$serviceKey];
+        $serviceSignature = $this->addedServices[$serviceKey];
+        $Service = $this->createService($serviceName, $serviceSignature);
+        $this->storedServices[$serviceKey] = $Service;
+        return $Service;
+    }
+
+    /**
+     * Will create a service based on the serviceSignature passed, properly ensuring
+     * that a Factory is used if the service was added with a Factory key.
+     *
+     * @param string $serviceName
+     * @param array $serviceSignature
+     * @return object
+     * @throws SprayFire.Service.Exception.ServiceNotFound
+     */
+    protected function createService($serviceName, array $serviceSignature) {
+        $parameterCallback = $serviceSignature['parameterCallback'];
+
+        $factoryKey = $serviceSignature['factoryKey'];
+        if ($factoryKey) {
+            return $this->registeredFactories[$factoryKey]->makeObject($serviceName, $parameterCallback());
+        }
+
         try {
             $ReflectedService = $this->ReflectionCache->getClass($serviceName);
+            $Service = $ReflectedService->newInstanceArgs($parameterCallback());
         } catch(\ReflectionException $NotFoundExc) {
             throw new SFServiceException\ServiceNotFound($NotFoundExc->getMessage());
         }
-        $Service = $ReflectedService->newInstanceArgs($parameterCallback());
-        $this->storedServices[$serviceKey] = $Service;
+
         return $Service;
     }
 
@@ -141,6 +177,15 @@ class Container extends SFCoreObject implements SFService\Container {
      */
     public function getServiceKey($serviceName) {
         return \strtolower(\preg_replace('/[^A-Za-z0-9]/', '', $serviceName));
+    }
+
+    /**
+     *
+     * @param string $factoryKey
+     * @param SprayFire.Factory.Factory $Factory
+     */
+    public function registerFactory($factoryKey, SFFactory\Factory $Factory) {
+        $this->registeredFactories[(string) $factoryKey] = $Factory;
     }
 
 }
