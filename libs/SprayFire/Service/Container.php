@@ -12,7 +12,8 @@
 
 namespace SprayFire\Service;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Factory as SFFactory,
+    \SprayFire\Object as SFObject;
 
 /**
  * @package SprayFire
@@ -34,10 +35,13 @@ interface Container extends SFObject {
      * Add a service to the container, $callableParameters should be a callable
      * function that returns the appropriate dependencies for the service.
      *
+     * If a valid $factoryKey has been passed the service should be created with
+     * that Factory. An invalid key will result
+     *
      * @param string $serviceName
      * @param callable|null $callableParameters
      */
-    public function addService($serviceName, $callableParameters = null);
+    public function addService($serviceName, $callableParameters = null, $factoryKey = null);
 
     /**
      * Should return whether or not a given service has been added to the container.
@@ -46,5 +50,14 @@ interface Container extends SFObject {
      * @return bool
      */
     public function doesServiceExist($serviceName);
+
+    /**
+     * Will register a Factory with a given key, if that key is used in addService
+     * calls then the service will be created by that Factory.
+     *
+     * @param string $factoryKey
+     * @param SprayFire.Factory.Factory $Factory
+     */
+    public function registerFactory($factoryKey, SFFactory\Factory $Factory);
 
 }
