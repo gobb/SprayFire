@@ -7,6 +7,8 @@
 
 namespace SprayFire\Test\Cases\Service\FireService;
 
+use \SprayFire\Factory as SFFactory;
+
 class ContainerTest extends \PHPUnit_Framework_TestCase {
 
     protected $ReflectionCache;
@@ -83,6 +85,18 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $Container->getService('SprayFire.NonExistent.Service');
     }
 
+    public function testCreatingServiceUsingRegisteredFactory() {
+        $Container = $this->getContainer();
+        $Factory = new FactoryKeyTester();
+        $Container->registerFactory(FactoryKeyTester::CONTAINER_KEY, $Factory);
+        $Container->addService('Testing.Factory.Creation', null, FactoryKeyTester::CONTAINER_KEY);
+
+        $service = $Container->getService('Testing.Factory.Creation');
+
+        $this->assertInstanceOf('\stdClass', $service);
+        $this->assertSame($service->property, 'factory created');
+    }
+
     protected function getContainer() {
         $JavaNameConverter = new \SprayFire\Utils\JavaNamespaceConverter();
         $this->ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaNameConverter);
@@ -92,3 +106,34 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
 }
 
 class Value {}
+
+class FactoryKeyTester implements SFFactory\Factory {
+
+    const CONTAINER_KEY = 'factory_key_tester';
+
+    public function __toString() {
+
+    }
+
+    public function equals(\SprayFire\Object $Object) {
+
+    }
+
+    public function getNullObjectType() {
+
+    }
+
+    public function getObjectType() {
+
+    }
+
+    public function hashCode() {
+
+    }
+
+    public function makeObject($objectName, array $options = array()) {
+        $object = new \stdClass();
+        $object->property = 'factory created';
+        return $object;
+    }
+}
