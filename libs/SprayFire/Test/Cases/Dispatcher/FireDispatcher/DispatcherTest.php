@@ -89,16 +89,16 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $MockMediator->expects($this->at(1))
                      ->method('triggerEvent')
                      ->with(SFDispatcher\Events::AFTER_ROUTING, $MockRoutedRequest);
-        $MockMediator->expects($this->at(3))
-                     ->method('triggerEvent')
-                     ->with(SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED, $MockController);
         $MockMediator->expects($this->at(4))
                      ->method('triggerEvent')
-                     ->with(SFDispatcher\Events::AFTER_CONTROLLER_INVOKED, $MockController);
+                     ->with(SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED, $MockController);
         $MockMediator->expects($this->at(5))
                      ->method('triggerEvent')
-                     ->with(SFDispatcher\Events::BEFORE_RESPONSE_SENT, $MockResponder);
+                     ->with(SFDispatcher\Events::AFTER_CONTROLLER_INVOKED, $MockController);
         $MockMediator->expects($this->at(6))
+                     ->method('triggerEvent')
+                     ->with(SFDispatcher\Events::BEFORE_RESPONSE_SENT, $MockResponder);
+        $MockMediator->expects($this->at(7))
                      ->method('triggerEvent')
                      ->with(SFDispatcher\Events::AFTER_RESPONSE_SENT, $MockResponder);
 
@@ -158,6 +158,59 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 
         $BeforeControllerCallback = $MockMediator->getCallbacks(\SprayFire\Dispatcher\Events::BEFORE_CONTROLLER_INVOKED);
         $this->assertInstanceOf('\SprayFire\Mediator\Callback', $BeforeControllerCallback);
+        $FunctionValue = $this->getFunctionPropertyValue($BeforeControllerCallback);
+        $this->assertSame(array($MockController, 'beforeAction'), $FunctionValue);
+    }
+
+    public function testAddingControllerAfterActionCallbackToMediator() {
+        $controller = 'SprayFire.Test.Helpers.Controller.TestPages';
+        $action = 'indexYoDog';
+        $parameters = array();
+        $responderName = 'SprayFire.Responder.FireResponder.Html';
+
+        $MockRoutedRequest = $this->getMockRoutedRequest($controller, $action, $parameters);
+        $MockRouter = $this->getMockRouter($MockRoutedRequest);
+        $MockMediator = $this->getMock('\\SprayFire\\Test\\Cases\\Dispatcher\\FireDispatcher\\DispatcherCallbackMediator',
+                                       array(
+                                            'triggerEvent',
+                                            'removeCallback'
+                                       ));
+        $MockAppInitializer = $this->getMock('\\SprayFire\\Dispatcher\\AppInitializer');
+        $MockController = $this->getMockController($action, $responderName, array($action));
+        $MockControllerFactory = $this->getMockControllerFactory($MockController, $controller);
+        $MockResponder = $this->getMockResponder($MockController, '<div>SprayFire</div>');
+        $MockResponderFactory = $this->getMockResponderFactory($MockResponder, $responderName);
+
+        $Dispatcher = new FireDispatcher\Dispatcher(
+            $MockRouter,
+            $MockMediator,
+            $MockAppInitializer,
+            $MockControllerFactory,
+            $MockResponderFactory
+        );
+
+        \ob_start();
+        $Dispatcher->dispatchResponse($this->getRequest(''));
+        $response = \ob_get_contents();
+        \ob_end_clean();
+        $expected = '<div>SprayFire</div>';
+        $this->assertSame($expected, $response);
+
+        $AfterControllerCallback = $MockMediator->getCallbacks(\SprayFire\Dispatcher\Events::AFTER_CONTROLLER_INVOKED);
+        $this->assertInstanceOf('\SprayFire\Mediator\Callback', $AfterControllerCallback);
+        $FunctionValue = $this->getFunctionPropertyValue($AfterControllerCallback);
+        $this->assertSame(array($MockController, 'afterAction'), $FunctionValue);
+    }
+
+    protected function getFunctionPropertyValue(SFMediator\Callback $Callback) {
+        $ReflectedCallback = new \ReflectionObject($Callback);
+        try {
+            $FunctionProperty = $ReflectedCallback->getProperty('function');
+            $FunctionProperty->setAccessible(true);
+            return $FunctionProperty->getValue($Callback);
+        } catch(\ReflectionException $ReflectionException) {
+            return null;
+        }
     }
 
     /**
