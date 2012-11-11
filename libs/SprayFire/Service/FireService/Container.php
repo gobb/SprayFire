@@ -149,12 +149,17 @@ class Container extends SFCoreObject implements SFService\Container {
      * @param array $serviceSignature
      * @return object
      * @throws SprayFire.Service.Exception.ServiceNotFound
+     * @throws SprayFire.Service.Exception.FactoryNotRegistered
      */
     protected function createService($serviceName, array $serviceSignature) {
         $parameterCallback = $serviceSignature['parameterCallback'];
 
         $factoryKey = $serviceSignature['factoryKey'];
         if ($factoryKey) {
+            if (!\array_key_exists($factoryKey, $this->registeredFactories)) {
+                $message = 'The factory key, ' . $factoryKey . ', does not have a Factory registered.';
+                throw new SFServiceException\FactoryNotRegistered($message);
+            }
             return $this->registeredFactories[$factoryKey]->makeObject($serviceName, $parameterCallback());
         }
 
