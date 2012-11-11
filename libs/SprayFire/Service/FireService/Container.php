@@ -126,6 +126,7 @@ class Container extends SFCoreObject implements SFService\Container {
      * @param string $serviceName
      * @return object
      * @throws SprayFire.Service.Exception.ServiceNotFound
+     * @throws SprayFire.Service.Exception.FactoryNotRegistered
      */
     public function getService($serviceName) {
         $serviceKey = $this->getServiceKey($serviceName);
