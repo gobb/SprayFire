@@ -5,8 +5,6 @@
  * @brief The primary intialization script for SprayFire
  */
 
-\session_start();
-
 $requestStartTime = \microtime(true);
 
 $installPath = __DIR__;
