@@ -35,9 +35,6 @@ use \SprayFire\Dispatcher as SFDispatcher,
  *
  * @package SprayFire
  * @subpackage Dispatcher.FireDispatcher
- *
- * @todo
- * We need to add event triggering to static responses.
  */
 class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
 
@@ -146,7 +143,7 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
 
     /**
      * Will create a callback for the Controller::beforeAction method and add that
-     * to the Mediator to be invoked before the controller action is invoked.
+     * to the Mediator to be invoked as appropriate.
      *
      * @param SprayFire.Controller.Controller $Controller
      */
@@ -157,6 +154,12 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
         $this->Mediator->addCallback($Callback);
     }
 
+    /**
+     * Will create a callback for the Controller::afterAction method and add that
+     * to the Mediator to be invoked as appropriate.
+     *
+     * @param SprayFire.Controller.Controller $Controller
+     */
     protected function addControllerAfterActionEventToMediator(SFController\Controller $Controller) {
         $event = SFDispatcher\Events::AFTER_CONTROLLER_INVOKED;
         $function = array($Controller, 'afterAction');
