@@ -22,15 +22,6 @@ use \SprayFire\Object as SFObject,
 interface Responder extends SFObject, SFService\Consumer {
 
     /**
-     * Should return an array of snitized data based on the type of responder
-     * being used.
-     *
-     * @param array $data
-     * @return array
-     */
-    public function sanitizeData(array $data);
-
-    /**
      * Should sanitize the appropriate data and generate a response based on the
      * $Controller data provided.
      *
