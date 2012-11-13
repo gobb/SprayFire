@@ -17,7 +17,6 @@ use \SprayFire\Responder as SFResponder,
     \SprayFire\Exception as SFException;
 
 /**
- *
  * @package SprayFire
  * @subpackage Responder.FireResponder
  *
@@ -88,30 +87,6 @@ class Html extends FireService\Consumer implements SFResponder\Responder {
         $content = \ob_get_contents();
         \ob_end_clean();
         return $content;
-    }
-
-    /**
-     * Ensures that an array of data has been escaped for unsafe HTML entities.
-     *
-     * @param array $data
-     * @return array
-     *
-     * @todo
-     * This is not a suitable solution as we do not know in what context the
-     * various pieces of $data will be used.  We need to take a major overhaul
-     * at how we are escaping and what the best method of escaping should be.
-     */
-    public function sanitizeData(array $data) {
-        $cleanData = array();
-        foreach ($data as $key => $dirtyValue) {
-            if (\is_array($dirtyValue)) {
-                $cleanData[$key] = $this->sanitizeData($dirtyValue);
-            } else {
-                $cleanValue = \htmlspecialchars($dirtyValue, \ENT_COMPAT, 'UTF-8', false);
-                $cleanData[$key] = $cleanValue;
-            }
-        }
-        return $cleanData;
     }
 
 }
