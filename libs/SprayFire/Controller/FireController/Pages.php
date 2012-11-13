@@ -12,6 +12,8 @@
 
 namespace SprayFire\Controller\FireController;
 
+use \SprayFire\Mediator as SFMediator;
+
 /**
  * This controller is responsible for the default SprayFire install pages, other
  * than the about page.
@@ -28,12 +30,12 @@ namespace SprayFire\Controller\FireController;
 class Pages extends Base {
 
     /**
-     * A service used to generate absolute paths to various resources used by
-     * the framework or your application.
-     *
-     * @property SprayFire.FileSys.FireFileSys.Paths
+     * @param SprayFire.Mediator.Event $Event
      */
-    protected $Paths;
+    public function beforeAction(SFMediator\Event $Event) {
+        parent::beforeAction($Event);
+        $this->layoutPath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
+    }
 
     /**
      * Provides data used by the default SprayFire install home page; primarily
@@ -41,8 +43,6 @@ class Pages extends Base {
      * content.
      */
     public function index() {
-        $this->setUp();
-
         $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'index.php');
         $csprayGravatarHash = '0fd2816e78f6a04d5f8ce0aba1cb42e6';
         $dyanaGravatarHash = 'c1ca92616de3b725e808fb69a6bf94d2';
@@ -64,11 +64,10 @@ class Pages extends Base {
      * dumps that information out.
      */
     public function debug() {
-        $this->setUp();
-
         $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'debug-content.php');
 
         $serverData = \print_r($_SERVER, true);
+        $sessionActive = (\session_id() === '') ? 'No' : 'Yes';
         $sessionData = \print_r($_SESSION, true);
         $postData = \print_r($_POST, true);
         $getData = \print_r($_GET, true);
@@ -78,6 +77,7 @@ class Pages extends Base {
 
         $this->setMultipleResponderData(\compact(
             'serverData',
+            'sessionActive',
             'sessionData',
             'postData',
             'getData',
@@ -85,14 +85,6 @@ class Pages extends Base {
             'action',
             'parameters'
         ));
-    }
-
-    /**
-     * Sets up the controller with some generic functionality used by all actions.
-     */
-    protected function setUp() {
-        $this->Paths = $this->service('Paths');
-        $this->layoutPath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
     }
 
 }
