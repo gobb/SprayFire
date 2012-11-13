@@ -73,6 +73,26 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     protected $attachedServices = array();
 
     /**
+     * @property SprayFire.FileSys.PathGenerator
+     */
+    protected $Paths;
+
+    /**
+     * @property SprayFire.Http.Request
+     */
+    protected $Request;
+
+    /**
+     * @property SprayFire.Http.Routing.RoutedRequest
+     */
+    protected $RoutedRequest;
+
+    /**
+     * @property SprayFire.Logging.LogOverseer
+     */
+    protected $Logging;
+
+    /**
      * Array of services that is provided by default to all implementations extending
      * this class.
      *
@@ -93,7 +113,12 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      * @return void
      */
     public function beforeAction(SFMediator\Event $Event) {
-
+        $properties = \get_object_vars($this);
+        foreach ($this->services as $serviceKey => $serviceName) {
+            if (\array_key_exists($serviceKey, $properties)) {
+                $this->$serviceKey = $this->service($serviceKey);
+            }
+        }
     }
 
     /**
