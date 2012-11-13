@@ -1,6 +1,8 @@
 <h2>Server Data</h2>
 <pre><?php echo $serverData; ?></pre>
 <h2>Session Data</h2>
+<pre>Session active: <?php echo $sessionActive; ?></pre>
+<pre>Session ID: <?php echo \session_id(); ?></pre>
 <pre><?php echo $sessionData; ?></pre>
 <h2>POST Data</h2>
 <pre><?php echo $postData; ?></pre>
