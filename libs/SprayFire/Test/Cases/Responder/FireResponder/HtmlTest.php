@@ -19,22 +19,6 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
         $this->JavaNameConverter = new \SprayFire\Utils\JavaNamespaceConverter();
     }
 
-    public function testSanitizingHtmlData() {
-        $Responder = new \SprayFire\Responder\FireResponder\Html();
-        $dirtyData = array(
-            'var1' => '<script>alert(\'Yo dog, I stole your focus.\');</script>',
-            'var2' => 'Some seemingly \'innocent\' text <b>but</b> still has HTML & an "ampersand" in it',
-            'var3' => 'Testing that &lt; and &gt; do not get encoded'
-        );
-        $cleanData = $Responder->sanitizeData($dirtyData);
-        $expected = array(
-            'var1' => '&lt;script&gt;alert(\'Yo dog, I stole your focus.\');&lt;/script&gt;',
-            'var2' => 'Some seemingly \'innocent\' text &lt;b&gt;but&lt;/b&gt; still has HTML &amp; an &quot;ampersand&quot; in it',
-            'var3' => 'Testing that &lt; and &gt; do not get encoded'
-        );
-        $this->assertSame($expected, $cleanData);
-    }
-
     public function testGeneratingValidResponseWithoutData() {
         $install = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework';
         $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($install);
