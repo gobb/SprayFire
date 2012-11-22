@@ -23,11 +23,18 @@ use \SprayFire\Responder\Template as SFResponderTemplate,
 class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
 
     /**
+     * Represents the primary template for a given response.
+     *
+     * @property SprayFire.Responder.Template.Template
+     */
+    protected $LayoutTemplate;
+
+    /**
      * Stores the templates added to the Manager
      *
      * @property array
      */
-    protected $templates = array();
+    protected $contentTemplates = array();
 
     /**
      * Stores a $Template against the name returned from $Template::getName.
@@ -36,7 +43,7 @@ class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
      * @return void
      */
     public function addContentTemplate(SFResponderTemplate\Template $Template) {
-        $this->templates[(string) $Template->getName()] = $Template;
+        $this->contentTemplates[(string) $Template->getName()] = $Template;
     }
 
     /**
@@ -46,11 +53,17 @@ class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
      * @return array
      */
     public function getContentTemplates() {
-        return $this->templates;
+        return $this->contentTemplates;
     }
 
+    /**
+     * Return the SprayFire.Responder.Template.Template that was passed to
+     * Manager::setLayoutTemplate()
+     *
+     * @return SprayFire.Responder.Template.Template
+     */
     public function getLayoutTemplate() {
-
+        return $this->LayoutTemplate;
     }
 
     /**
@@ -60,15 +73,18 @@ class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
      * @return boolean
      */
     public function hasTemplate($templateName) {
-        return \array_key_exists($templateName, $this->templates);
+        return \array_key_exists($templateName, $this->contentTemplates);
     }
 
     public function removeTemplate($templateName) {
 
     }
 
+    /**
+     * @param SprayFire.Responder.Template.Template $Template
+     */
     public function setLayoutTemplate(SFResponderTemplate\Template $Template) {
-
+        $this->LayoutTemplate = $Template;
     }
 
 }
