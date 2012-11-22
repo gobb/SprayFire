@@ -35,4 +35,14 @@ class Manager extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($Manager->hasTemplate('name'));
     }
 
+    /**
+     * Ensures that if we check for a Manager having a template that is not yet
+     * added false is properly returned.
+     */
+    public function testmanagerNotHavingTemplate() {
+        $Manager = new FireResponderTemplate\Manager();
+
+        $this->assertFalse($Manager->hasTemplate('noExist'));
+    }
+
 }
