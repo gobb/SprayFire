@@ -47,8 +47,14 @@ class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
 
     }
 
+    /**
+     * Returns whether or not a specific template has been added to this instance.
+     *
+     * @param string $templateName
+     * @return boolean
+     */
     public function hasTemplate($templateName) {
-        return true;
+        return \array_key_exists($templateName, $this->templates);
     }
 
     public function removeTemplate($templateName) {
