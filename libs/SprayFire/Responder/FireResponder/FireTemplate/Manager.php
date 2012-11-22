@@ -39,8 +39,14 @@ class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
         $this->templates[(string) $Template->getName()] = $Template;
     }
 
+    /**
+     * Provides an array of SprayFire.Responder.Template.Template that have been
+     * added as a content template.
+     *
+     * @return array
+     */
     public function getContentTemplates() {
-
+        return $this->templates;
     }
 
     public function getLayoutTemplate() {
