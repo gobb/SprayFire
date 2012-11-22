@@ -45,6 +45,22 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($Manager->hasTemplate('noExist'));
     }
 
+    /**
+     * Ensures that a layout template can be properly set and retrieved.
+     */
+    public function testManagerSettingAndRetrievingLayoutTemplate() {
+        $Template = $this->getMock('\SprayFire\Responder\Template\Template');
+
+        $Manager = new FireResponderTemplate\Manager();
+        $Manager->setLayoutTemplate($Template);
+
+        $this->assertSame($Template, $Manager->getLayoutTemplate());
+    }
+
+    /**
+     * Ensures that a series of templates added to the managare are retrieved
+     * with the appropriate keys.
+     */
     public function testManagerGettingContentTemplates() {
         $TemplateOne = $this->getMock('\SprayFire\Responder\Template\Template');
         $TemplateOne->expects($this->once())
