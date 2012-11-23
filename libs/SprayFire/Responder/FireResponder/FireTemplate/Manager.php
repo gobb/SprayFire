@@ -63,6 +63,9 @@ class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
      * @return SprayFire.Responder.Template.Template
      */
     public function getLayoutTemplate() {
+        if (!$this->LayoutTemplate instanceof SFResponderTemplate\Template) {
+            throw new SFResponderTemplate\Exception\LayoutNotSet('A layout template has not been properly set for this instance.');
+        }
         return $this->LayoutTemplate;
     }
 
