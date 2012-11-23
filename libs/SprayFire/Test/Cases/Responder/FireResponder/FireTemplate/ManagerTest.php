@@ -121,7 +121,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Ensures that a template added can also be properly removed
+     * Ensures that a template added is also properly removed
      */
     public function testManagerRemovingTemplateThatHasBeenAdded() {
         $TemplateOne = $this->getMock('\SprayFire\Responder\Template\Template');
