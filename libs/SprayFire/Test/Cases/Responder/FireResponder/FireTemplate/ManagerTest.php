@@ -82,4 +82,33 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $Manager->getContentTemplates());
     }
 
+    /**
+     * Ensures that getContentTemplates() will appropriately only return content
+     * templates and not the layout template.
+     */
+    public function testManagerGettingOnlyContentTemplatesWithLayoutSet() {
+        $TemplateOne = $this->getMock('\SprayFire\Responder\Template\Template');
+        $TemplateOne->expects($this->once())
+                    ->method('getName')
+                    ->will($this->returnValue('content_one'));
+        $TemplateTwo = $this->getMock('\SprayFire\Responder\Template\Template');
+        $TemplateTwo->expects($this->once())
+                    ->method('getName')
+                    ->will($this->returnValue('content_two'));
+
+        $LayoutTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
+
+        $Manager = new FireResponderTemplate\Manager();
+        $Manager->setLayoutTemplate($LayoutTemplate);
+        $Manager->addContentTemplate($TemplateOne);
+        $Manager->addContentTemplate($TemplateTwo);
+
+        $expected = array(
+            'content_one' => $TemplateOne,
+            'content_two' => $TemplateTwo
+        );
+        $this->assertSame($expected, $Manager->getContentTemplates());
+    }
+
+
 }
