@@ -92,6 +92,9 @@ class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
      */
     public function removeTemplate($templateName) {
         $hasTemplate = $this->hasTemplate($templateName);
+        if (!$hasTemplate) {
+            return false;
+        }
         $this->contentTemplates[$templateName] = null;
         unset($this->contentTemplates[$templateName]);
         return $hasTemplate;
