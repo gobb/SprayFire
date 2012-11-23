@@ -58,13 +58,17 @@ class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
 
     /**
      * Return the SprayFire.Responder.Template.Template that was passed to
-     * Manager::setLayoutTemplate()
+     * Manager::setLayoutTemplate().
+     *
+     * If Manager::setLayoutTemplate is never called and this method is invoked
+     * an exception will be thrown.
      *
      * @return SprayFire.Responder.Template.Template
+     * @throws SprayFire.Responder.Template.Exception.LayoutNotSet
      */
     public function getLayoutTemplate() {
         if (!$this->LayoutTemplate instanceof SFResponderTemplate\Template) {
-            throw new SFResponderTemplate\Exception\LayoutNotSet('A layout template has not been properly set for this instance.');
+            throw new SFResponderTemplate\Exception\LayoutNotSet('A layout template has not been properly set.');
         }
         return $this->LayoutTemplate;
     }
@@ -79,8 +83,18 @@ class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
         return \array_key_exists($templateName, $this->contentTemplates);
     }
 
+    /**
+     * Removes a content template from the collection added, returns true if the
+     * collection was removed, false if it was not.
+     *
+     * @param string $templateName
+     * @return boolean
+     */
     public function removeTemplate($templateName) {
-
+        $hasTemplate = $this->hasTemplate($templateName);
+        $this->contentTemplates[$templateName] = null;
+        unset($this->contentTemplates[$templateName]);
+        return $hasTemplate;
     }
 
     /**
