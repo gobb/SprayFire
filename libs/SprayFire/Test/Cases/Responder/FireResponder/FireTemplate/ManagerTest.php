@@ -120,6 +120,21 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $Manager->getContentTemplates());
     }
 
+    /**
+     * Ensures that a template added can also be properly removed
+     */
+    public function testManagerRemovingTemplateThatHasBeenAdded() {
+        $TemplateOne = $this->getMock('\SprayFire\Responder\Template\Template');
+        $TemplateOne->expects($this->once())
+                    ->method('getName')
+                    ->will($this->returnValue('one'));
 
+        $Manager = new FireResponderTemplate\Manager();
+        $Manager->addContentTemplate($TemplateOne);
+
+        $this->assertTrue($Manager->hasTemplate('one'), 'The Manager does not have the appropriate template');
+        $this->assertTrue($Manager->removeTemplate('one'), 'The Manager did not return proper value for removing template');
+        $this->assertFalse($Manager->hasTemplate('one'), 'The Manager still has a template that should be removed');
+    }
 
 }
