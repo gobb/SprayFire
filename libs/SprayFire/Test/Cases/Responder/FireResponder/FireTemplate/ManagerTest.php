@@ -121,7 +121,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Ensures that a template added is also properly removed
+     * Ensures that a template added is also properly removed.
      */
     public function testManagerRemovingTemplateThatHasBeenAdded() {
         $TemplateOne = $this->getMock('\SprayFire\Responder\Template\Template');
@@ -135,6 +135,24 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($Manager->hasTemplate('one'), 'The Manager does not have the appropriate template');
         $this->assertTrue($Manager->removeTemplate('one'), 'The Manager did not return proper value for removing template');
         $this->assertFalse($Manager->hasTemplate('one'), 'The Manager still has a template that should be removed');
+    }
+
+    /**
+     * Ensures that a template attempted to be removed that has not been added
+     * returns the appropriate value.
+     */
+    public function testManagerRemovingTemplateThatHasNotBeenAdded() {
+        $TemplateOne = $this->getMock('\SprayFire\Responder\Template\Template');
+        $TemplateOne->expects($this->once())
+                    ->method('getName')
+                    ->will($this->returnValue('one'));
+
+        $Manager = new FireResponderTemplate\Manager();
+        $Manager->addContentTemplate($TemplateOne);
+
+        $this->assertTrue($Manager->hasTemplate('one'), 'The Manager does not have the appropriate template');
+        $this->assertFalse($Manager->removeTemplate('two'), 'The Manager did not return proper value for removing template');
+        $this->assertTrue($Manager->hasTemplate('one'), 'The Manager does not have a template that should still be there');
     }
 
 }
