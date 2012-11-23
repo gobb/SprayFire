@@ -58,6 +58,16 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * Ensures that an exception is thrown if a layout template is attempted to
+     * be retrieved that has not been set yet.
+     */
+    public function testManagerRetrievingLayoutTemplateNotSet() {
+        $Manager = new FireResponderTemplate\Manager();
+        $this->setExpectedException('\SprayFire\Responder\Template\Exception\LayoutNotSet');
+        $LayoutTemplate = $Manager->getLayoutTemplate();
+    }
+
+    /**
      * Ensures that a series of templates added to the managare are retrieved
      * with the appropriate keys.
      */
@@ -109,6 +119,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
         );
         $this->assertSame($expected, $Manager->getContentTemplates());
     }
+
 
 
 }
