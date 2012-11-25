@@ -54,4 +54,21 @@ class FileTemplateTest extends \PHPUnit_Framework_TestCase {
         $FileTemplate = new FireResponderTemplate\FileTemplate($name, $filePath);
     }
 
+    public function testFileTemplatePassingSplFileObjectToFilePath() {
+        $name = '';
+        $filePath = $this->mockFrameworkPath . 'libs/SprayFire/Responder/html/file-template-test.php';
+        $File = new \SplFileObject($filePath);
+
+        $FileTemplate = new FireResponderTemplate\FileTemplate($name, $File);
+
+        $data = array(
+            'foo' => 'foobar'
+        );
+
+        $expected = '<div>foobar</div>';
+        $actual = $FileTemplate->getContent($data);
+
+        $this->assertSame($expected, $actual);
+    }
+
 }
