@@ -33,13 +33,16 @@ class FileTemplate extends BaseTemplate {
      */
     public function __construct($name, $filePath) {
         parent::__construct($name);
-        try {
-            $this->File = new \SplFileObject($filePath);
-        } catch(\RuntimeException $RuntimeException) {
-            $message = 'The file path, ' . $filePath . ', could not be found or opened properly';
-            throw new SFResponderTemplate\Exception\FileNotFound($message, null, $RuntimeException);
+        if ($filePath instanceof \SplFileObject) {
+            $this->File = $filePath;
+        } elseif (\is_string($filePath)) {
+            try {
+                $this->File = new \SplFileObject($filePath);
+            } catch(\RuntimeException $RuntimeException) {
+                $message = 'The file path, ' . $filePath . ', could not be found or opened properly';
+                throw new SFResponderTemplate\Exception\FileNotFound($message, null, $RuntimeException);
+            }
         }
-
     }
 
     /**
