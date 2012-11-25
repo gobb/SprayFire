@@ -19,13 +19,18 @@ use SprayFire\Responder\FireResponder\FireTemplate as FireResponderTemplate;
  */
 class FileTemplateTest extends \PHPUnit_Framework_TestCase {
 
+    protected $mockFrameworkPath;
+
+    public function setUp() {
+        $this->mockFrameworkPath = \SPRAYFIRE_ROOT .'/libs/SprayFire/Test/mockframework/';
+    }
+
     /**
      * Ensures that a file is properly rendered with the passed data.
      */
     public function testFileTemplateRenderingContent() {
         $name = '';
-        $filePath = \SPRAYFIRE_ROOT .'/libs/SprayFire/Test/mockframework/';
-        $filePath .= 'libs/SprayFire/Responder/html/file-template-test.php';
+        $filePath = $this->mockFrameworkPath . 'libs/SprayFire/Responder/html/file-template-test.php';
         $FileTemplate = new FireResponderTemplate\FileTemplate($name, $filePath);
 
         $data = array(
@@ -36,6 +41,17 @@ class FileTemplateTest extends \PHPUnit_Framework_TestCase {
         $actual = $FileTemplate->getContent($data);
 
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Ensures that an exception is thrown if the $filePath passed to a FileTemplate
+     * does not exist or cannot be properly opened.
+     */
+    public function testFileTemplateThrowingExceptionIfFileDoesNotExist() {
+        $name = '';
+        $filePath = $this->mockFrameworkPath . 'libs/SprayFire/Responder/html/file-does-not-exist.php';
+        $this->setExpectedException('\SprayFire\Responder\Template\Exception\FileNotFound');
+        $FileTemplate = new FireResponderTemplate\FileTemplate($name, $filePath);
     }
 
 }
