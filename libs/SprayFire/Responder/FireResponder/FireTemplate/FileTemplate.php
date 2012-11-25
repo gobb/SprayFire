@@ -12,6 +12,8 @@
 
 namespace SprayFire\Responder\FireResponder\FireTemplate;
 
+use \SprayFire\Responder\Template as SFResponderTemplate;
+
 /**
  * @package SprayFire
  * @subpackage`Responder.FireResponder.FireTemplate
@@ -21,9 +23,9 @@ class FileTemplate extends BaseTemplate {
     /**
      * The absolute path to the file storing the output that should be rendered
      *
-     * @property string
+     * @property SplFileObject
      */
-    protected $filePath;
+    protected $File;
 
     /**
      * @param string $name
@@ -31,7 +33,13 @@ class FileTemplate extends BaseTemplate {
      */
     public function __construct($name, $filePath) {
         parent::__construct($name);
-        $this->filePath = $filePath;
+        try {
+            $this->File = new \SplFileObject($filePath);
+        } catch(\RuntimeException $RuntimeException) {
+            $message = 'The file path, ' . $filePath . ', could not be found or opened properly';
+            throw new SFResponderTemplate\Exception\FileNotFound($message, null, $RuntimeException);
+        }
+
     }
 
     /**
@@ -45,7 +53,7 @@ class FileTemplate extends BaseTemplate {
     public function getContent(array $data) {
         \extract($data);
         \ob_start();
-        include $this->filePath;
+        include (string) $this->File;
         $contents = \ob_get_contents();
         \ob_end_clean();
         return $contents;
