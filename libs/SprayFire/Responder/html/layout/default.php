@@ -20,7 +20,7 @@
                     </div>
 
                     <div id="sidebar">
-
+                        <?php echo $sidebarContent; ?>
                     </div>
                 </div>
 
