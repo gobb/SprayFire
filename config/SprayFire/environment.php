@@ -83,6 +83,10 @@ $environment = array(
             'parameterCallback' => function() {
                 return array('utf-8');
             }
+        ),
+        'TemplateManager' => array(
+            'name' => 'SprayFire.Responder.FireResponder.FireTemplate.Manager',
+            'parameterCallback' => null
         )
     )
 );
