@@ -13,8 +13,7 @@ namespace SprayFire\Responder\FireResponder;
 
 use \SprayFire\Responder as SFResponder,
     \SprayFire\Controller as SFController,
-    \SprayFire\Service\FireService as FireService,
-    \SprayFire\Exception as SFException;
+    \SprayFire\Service\FireService as FireService;
 
 /**
  * @package SprayFire
@@ -46,47 +45,36 @@ class Html extends FireService\Consumer implements SFResponder\Responder {
     );
 
     /**
-     * Will create the appropriate HTML structure based on the contents of the
-     * $Controller->getLayoutPath() and $Controller->getTemplatePath() return
-     * variables.
-     *
-     * For your layout the contents of the template will be in a variable named
-     * $templateContent.
      *
      * @param SprayFire.Controller.Controller $Controller
      * @return string
      */
     public function generateDynamicResponse(SFController\Controller $Controller) {
-        $data = $Controller->getResponderData();
-        $templatePath = $Controller->getTemplatePath();
-        $templateContent = $this->render($templatePath, $data);
-        $data['templateContent'] = $templateContent;
-        $layoutPath = $Controller->getLayoutPath();
-        $this->response = $this->render($layoutPath, $data);
-        return $this->response;
+        $TemplateManager = $Controller->getTemplateManager();
+        $LayoutTemplate = $TemplateManager->getLayoutTemplate();
+        $data = array();
+        $data['Responder'] = $this;
+        $contentTemplates = $TemplateManager->getContentTemplates();
+        if ($this->isTraversable($contentTemplates)) {
+            foreach ($contentTemplates as $name => $Template) {
+                $data[$name] = $Template->getContent($data);
+            }
+        }
+
+        echo $LayoutTemplate->getContent($data);
     }
 
     /**
-     * Will include the $filePath and extract $data, providing whatever is in $data
-     * as variables.
+     * Determines if the given $traversable is a valid argument to a foreach() loop
      *
-     * @todo This is in a rudimentary state to get tests passing.  We need to take
-     * a look at adding some kind of error handling to this.
-     *
-     * @param string $filePath
-     * @param array $data
-     * @return string
+     * @param mixed $traversable
+     * @return boolean
      */
-    protected function render($filePath, array $data) {
-        if (!\file_exists($filePath)) {
-            throw new SFException\ResourceNotFoundException($filePath . ' could not be found.');
+    protected function isTraversable($traversable) {
+        if (\is_array($traversable) || $traversable instanceof \Traversable || $traversable instanceof \stdClass) {
+            return true;
         }
-        \extract($data);
-        \ob_start();
-        include $filePath;
-        $content = \ob_get_contents();
-        \ob_end_clean();
-        return $content;
+        return false;
     }
 
 }
