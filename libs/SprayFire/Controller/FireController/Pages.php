@@ -12,7 +12,8 @@
 
 namespace SprayFire\Controller\FireController;
 
-use \SprayFire\Mediator as SFMediator;
+use \SprayFire\Mediator as SFMediator,
+    \SprayFire\Responder\FireResponder\FireTemplate as FireResponderTemplate;
 
 /**
  * This controller is responsible for the default SprayFire install pages, other
@@ -34,7 +35,10 @@ class Pages extends Base {
      */
     public function beforeAction(SFMediator\Event $Event) {
         parent::beforeAction($Event);
-        $this->layoutPath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
+        $layoutName = 'layoutTemplate';
+        $layoutFilePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
+        $LayoutTemplate = new FireResponderTemplate\FileTemplate($layoutName, $layoutFilePath);
+        $this->TemplateManager->setLayoutTemplate($LayoutTemplate);
     }
 
     /**
