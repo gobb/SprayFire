@@ -11,48 +11,87 @@
 
 namespace SprayFire\Test\Cases\Responder\FireResponder;
 
+use \SprayFire\Responder\FireResponder as FireResponder;
+
 class HtmlTest extends \PHPUnit_Framework_TestCase {
 
-    protected $JavaNameConverter;
+    /**
+     * Ensures that the Layout
+     */
+    public function testGeneratingValidResponseWithoutDataAndNoContentTemplates() {
+        $LayoutTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
+        $LayoutTemplate->expects($this->once())
+                       ->method('getContent')
+                       ->with(array())
+                       ->will($this->returnValue('<div>SprayFire</div>'));
 
-    public function setUp() {
-        $this->JavaNameConverter = new \SprayFire\Utils\JavaNamespaceConverter();
+        $TemplateManager = $this->getMock('\SprayFire\Responder\Template\Manager');
+        $TemplateManager->expects($this->once())
+                        ->method('getLayoutTemplate')
+                        ->will($this->returnValue($LayoutTemplate));
+
+        $Controller = $this->getMock('\SprayFire\Controller\Controller');
+        $Controller->expects($this->once())
+                   ->method('getTemplateManager')
+                   ->will($this->returnValue($TemplateManager));
+
+        $Responder = new FireResponder\Html();
+
+        \ob_start();
+        $Responder->generateDynamicResponse($Controller);
+        $actual = \ob_get_contents();
+        \ob_end_clean();
+
+        $expected = '<div>SprayFire</div>';
+
+        $this->assertSame($expected, $actual);
     }
 
-    public function testGeneratingValidResponseWithoutData() {
-        $install = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework';
-        $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($install);
-        $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
-        $Cache = new \SprayFire\Utils\ReflectionCache($this->JavaNameConverter);
-        $Container = new \SprayFire\Service\FireService\Container($Cache);
-        $EmergencyLogger = $DebugLogger = $InfoLogger = new \SprayFire\Logging\NullLogger();
-        $ErrorLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-        $LogDelegator = new \SprayFire\Logging\FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-        $Container->addService($Paths, null);
+    public function testGenerateValidResponseWithNoDataButWithContentTemplates() {
+        $Responder = new FireResponder\Html();
 
-        $ControllerFactory = new \SprayFire\Controller\FireController\Factory($Cache, $Container, $LogDelegator);
-        $Controller = $ControllerFactory->makeObject('SprayFire.Test.Cases.Responder.FireResponder.NoDataController');
+        $ContentTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
+        $ContentTemplate->expects($this->once())
+                        ->method('getContent')
+                        ->with(array(
+                            'Responder' => $Responder
+                        ))
+                        ->will($this->returnValue('<p>Template content</p>'));
 
-        $this->assertInstanceOf('\\SprayFire\\Test\\Cases\\Responder\\FireResponder\\NoDataController', $Controller);
-        $Controller->index();
+        $LayoutTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
+        $LayoutTemplate->expects($this->once())
+                       ->method('getContent')
+                       ->with(array(
+                            'Responder' => $Responder,
+                            'templateContent' => '<p>Template content</p>'
+                       ))
+                       ->will($this->returnValue('<div><p>Template content</p></div>'));
 
-        $Responder = new \SprayFire\Responder\FireResponder\Html();
-        $response = $Responder->generateDynamicResponse($Controller);
-        $this->assertSame('<div>SprayFire</div>', $response);
+        $TemplateManager = $this->getMock('\SprayFire\Responder\Template\Manager');
+        $TemplateManager->expects($this->once())
+                        ->method('getLayoutTemplate')
+                        ->will($this->returnValue($LayoutTemplate));
+        $TemplateManager->expects($this->once())
+                        ->method('getContentTemplates')
+                        ->will($this->returnValue(array(
+                            'templateContent' => $ContentTemplate
+                        )));
+
+        $Controller = $this->getMock('\SprayFire\Controller\Controller');
+        $Controller->expects($this->once())
+                   ->method('getTemplateManager')
+                   ->will($this->returnValue($TemplateManager));
+
+        \ob_start();
+        $Responder->generateDynamicResponse($Controller);
+        $actual = \ob_get_contents();
+        \ob_end_clean();
+
+        $expected = '<div><p>Template content</p></div>';
+        $this->assertSame($expected, $actual);
+
     }
 
-}
 
-class NoDataController extends \SprayFire\Controller\FireController\Base {
 
-    public function __construct() {
-        $this->services = array(
-            'Paths' => 'SprayFire.FileSys.FireFileSys.Paths'
-        );
-    }
-
-    public function index() {
-        $this->layoutPath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'just-templatecontents-around-div.php');
-        $this->templatePath = $this->service('Paths')->getLibsPath('SprayFire', 'Responder', 'html', 'just-sprayfire.php');
-    }
 }
