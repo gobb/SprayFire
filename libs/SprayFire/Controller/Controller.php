@@ -74,18 +74,13 @@ interface Controller extends SFObject, SFService\Consumer {
     public function getResponderData();
 
     /**
-     * Return the full path to the template file, including file extension
+     * Return an implementation of SprayFire.Responder.Template.Manager that tells
+     * the SprayFire.Responder.Responder implementation what layout and content
+     * templates to use for the given request.
      *
-     * @return string
+     * @return SprayFire.Responder.Template.Manager
      */
-    public function getTemplatePath();
-
-    /**
-     * Return the full path to the layout for this template, include file extension
-     *
-     * @return string
-     */
-    public function getLayoutPath();
+    public function getTemplateManager();
 
     /**
      * This method is invoked during dispatching of a request before the requested
