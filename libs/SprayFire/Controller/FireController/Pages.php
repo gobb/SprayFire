@@ -47,19 +47,22 @@ class Pages extends Base {
      * content.
      */
     public function index() {
-        $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'index.php');
+        $templateName = 'templateContent';
+        $templateFilePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'index.php');
+        $ContentTemplate = new FireResponderTemplate\FileTemplate($templateName, $templateFilePath);
+        $this->TemplateManager->addContentTemplate($ContentTemplate);
+
+        $sidebarTemplateName = 'sidebarContent';
+        $sidebarTemplateFilePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'sidebar.php');
+        $SidebarTemplate = new FireResponderTemplate\FileTemplate($sidebarTemplateName, $sidebarTemplateFilePath);
+        $this->TemplateManager->addContentTemplate($SidebarTemplate);
+
         $csprayGravatarHash = '0fd2816e78f6a04d5f8ce0aba1cb42e6';
         $dyanaGravatarHash = 'c1ca92616de3b725e808fb69a6bf94d2';
 
-        $sidebarContent = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'sidebar.php');
-        $sidebarData = \compact(
+        $this->setMultipleResponderData(\compact(
             'csprayGravatarHash',
             'dyanaGravatarHash'
-        );
-
-        $this->setMultipleResponderData(\compact(
-            'sidebarContent',
-            'sidebarData'
         ));
     }
 
