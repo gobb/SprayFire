@@ -19,10 +19,14 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
      * Ensures that the Layout
      */
     public function testGeneratingValidResponseWithoutDataAndNoContentTemplates() {
+        $Responder = new FireResponder\Html();
+
         $LayoutTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
         $LayoutTemplate->expects($this->once())
                        ->method('getContent')
-                       ->with(array())
+                       ->with(array(
+                           'Responder' => $Responder
+                       ))
                        ->will($this->returnValue('<div>SprayFire</div>'));
 
         $TemplateManager = $this->getMock('\SprayFire\Responder\Template\Manager');
@@ -34,8 +38,6 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
         $Controller->expects($this->once())
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
-
-        $Responder = new FireResponder\Html();
 
         \ob_start();
         $Responder->generateDynamicResponse($Controller);
