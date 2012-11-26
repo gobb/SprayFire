@@ -36,20 +36,6 @@ use \SprayFire\Controller as SFController,
 abstract class Base extends FireService\Consumer implements SFController\Controller {
 
     /**
-     * The complete, absolute path to the layout used for this controller
-     *
-     * @property string
-     */
-    protected $layoutPath = '';
-
-    /**
-     * The complete, absolute path to the template used for this controller
-     *
-     * @property string
-     */
-    protected $templatePath = '';
-
-    /**
      * The PHP or Java style namespaced class to use as the SprayFire.Responder.Responder
      * implementation for this controller.
      *
@@ -93,6 +79,11 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     protected $Logging;
 
     /**
+     * @property SprayFire.Responder.Template.Manager
+     */
+    protected $TemplateManager;
+
+    /**
      * Array of services that is provided by default to all implementations extending
      * this class.
      *
@@ -105,7 +96,8 @@ abstract class Base extends FireService\Consumer implements SFController\Control
         'Paths' => 'SprayFire.FileSys.FireFileSys.Paths',
         'Request' => 'SprayFire.Http.FireHttp.Request',
         'RoutedRequest' => 'SprayFire.Http.Routing.FireRouting.RoutedRequest',
-        'Logging' => 'SprayFire.Logging.FireLogging.LogOverseer'
+        'Logging' => 'SprayFire.Logging.FireLogging.LogOverseer',
+        'TemplateManager' => 'SprayFire.Responder.FireResponder.FireTemplate.Manager'
     );
 
     /**
@@ -170,21 +162,10 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     }
 
     /**
-     * The complete, absolute path to the layout for this controller
-     *
-     * @return string
+     * @return SprayFire.Responder.Template.Manager
      */
-    public function getLayoutPath() {
-        return $this->layoutPath;
-    }
-
-    /**
-     * The complete, absolute path to the template for this controller
-     *
-     * @return string
-     */
-    public function getTemplatePath() {
-        return $this->templatePath;
+    public function getTemplateManager() {
+        return $this->TemplateManager;
     }
 
 }
