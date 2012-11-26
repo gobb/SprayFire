@@ -14,7 +14,8 @@ namespace SprayFire\Controller;
 
 use \SprayFire\Controller as SFController,
     \SprayFire\Mediator as SFMediator,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\Responder\FireResponder\FireTemplate as FireResponderTemplate;
 
 /**
  * By default this object is returned from the SprayFire.Controller.FireController.Factory
@@ -38,6 +39,33 @@ use \SprayFire\Controller as SFController,
  * @codeCoverageIgnore
  */
 class NullObject extends SFCoreObject implements SFController\Controller {
+
+    /**
+     * @property SprayFire.Responder.Template.Manager
+     */
+    protected $TemplateManager;
+
+    /**
+     * Ensures that an appropriate SprayFire.Responder.Template.Manager is setup
+     * to be returned from getTemplateManager()
+     */
+    public function __construct() {
+        $this->setUpTemplateManager();
+    }
+
+    /**
+     * Create a SprayFire.Responder.FireResponder.FireTemplate.Manager instance
+     * and set the appropriate layout template.
+     */
+    protected function setUpTemplateManager() {
+        $name = 'layoutTemplate';
+        $layoutFile = \dirname(__DIR__) . '/Responder/html/layout/default.php';
+        $LayoutTemplate = new FireResponderTemplate\FileTemplate($name, $layoutFile);
+        $Manager = new FireResponderTemplate\Manager();
+        $Manager->setLayoutTemplate($LayoutTemplate);
+
+        $this->TemplateManager = $Manager;
+    }
 
     /**
      * Here to ensure that this object can invoke any action called upon it so that
@@ -103,32 +131,12 @@ class NullObject extends SFCoreObject implements SFController\Controller {
     }
 
     /**
-     * Returns a layout path to be used by a SprayFire.Responder.FireResponder.Html
-     * object.
-     *
-     * @return string
-     */
-    public function getLayoutPath() {
-        return \dirname(__DIR__) . '/Responder/html/layout/default.php';
-    }
-
-    /**
      * Returns the default HTML responder provided by the framework
      *
      * @return string
      */
     public function getResponderName() {
         return 'SprayFire.Responder.FireResponder.Html';
-    }
-
-    /**
-     * Returns a template path to be used by a SprayFire.Responder.FireResponder.Html
-     * object.
-     *
-     * @return string
-     */
-    public function getTemplatePath() {
-        return \dirname(__DIR__) . '/Responder/html/blank.php';
     }
 
     /**
@@ -148,6 +156,10 @@ class NullObject extends SFCoreObject implements SFController\Controller {
      */
     public function giveService($key, $Service) {
 
+    }
+
+    public function getTemplateManager() {
+        return $this->TemplateManager;
     }
 
 }
