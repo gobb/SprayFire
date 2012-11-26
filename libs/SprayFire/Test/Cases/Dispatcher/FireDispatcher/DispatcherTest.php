@@ -14,8 +14,7 @@ use \SprayFire\Http\Routing as SFRouting,
     \SprayFire\Responder as SFResponder,
     \SprayFire\Dispatcher as SFDispatcher,
     \SprayFire\Mediator as SFMediator,
-    \SprayFire\Dispatcher\FireDispatcher as FireDispatcher,
-    \SprayFire\Mediator\DispatcherEvents as DispatcherEvents;
+    \SprayFire\Dispatcher\FireDispatcher as FireDispatcher;
 
 /**
  * @package SprayFireTest
@@ -243,8 +242,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
     protected function getMockController($action, $responderName, array $extraMethods = array()) {
         $defaultMethods = array(
             'getResponderName',
-            'getTemplatePath',
-            'getLayoutPath',
+            'getTemplateManager',
             'setResponderData',
             'setMultipleResponderData',
             'getResponderData',
