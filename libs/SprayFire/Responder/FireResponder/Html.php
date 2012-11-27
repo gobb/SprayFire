@@ -54,6 +54,7 @@ class Html extends FireService\Consumer implements SFResponder\Responder {
         $LayoutTemplate = $TemplateManager->getLayoutTemplate();
         $data = array();
         $data['Responder'] = $this;
+        $data = \array_merge($data, $Controller->getResponderData());
         $contentTemplates = $TemplateManager->getContentTemplates();
         if ($this->isTraversable($contentTemplates)) {
             foreach ($contentTemplates as $name => $Template) {
