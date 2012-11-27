@@ -1,22 +1,28 @@
 <?php
 
 /**
- * A test to ensure that the HtmlResponder sanitizes data correctly and produces
- * the appropriate output.
+ * A test to ensure that the SprayFire.Responder.FireResponder.Html implementation
+ * produces the appropriate output.
  *
- * @author Charles Sprayberry
- * @license Governed by the LICENSE file found in the root directory of this source
- * code
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
  */
 
 namespace SprayFire\Test\Cases\Responder\FireResponder;
 
 use \SprayFire\Responder\FireResponder as FireResponder;
 
+/**
+ * @package SprayFireTest
+ * @subpackage Cases.Responder.FireResponder
+ */
 class HtmlTest extends \PHPUnit_Framework_TestCase {
 
     /**
-     * Ensures that the Layout
+     * Ensures that no content templates or data from the controller properly
+     * produces output from strictly the LayoutTemplate.
      */
     public function testGeneratingValidResponseWithoutDataAndNoContentTemplates() {
         $Responder = new FireResponder\Html();
@@ -52,7 +58,11 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $actual);
     }
 
-    public function testGenerateValidResponseWithNoDataButWithContentTemplates() {
+    /**
+     * Ensures that a TemplateManager with a single content template passes the
+     * appropriate data to the LayoutTemplate.
+     */
+    public function testGenerateValidResponseWithNoDataButWithSingleContentTemplates() {
         $Responder = new FireResponder\Html();
 
         $ContentTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
@@ -100,6 +110,10 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
 
     }
 
+    /**
+     * Ensures that a controller with data and a TemplateManager with multiple
+     * content templates results in the appropriate data passed to the LayoutTemplate.
+     */
     public function testGeneratingValidResponseWithControllerDataAndMultipleContentTemplates() {
         $Responder = new FireResponder\Html();
 
@@ -165,7 +179,6 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
 
         $expected = '<div>SprayFire</div>';
         $this->assertSame($expected, $actual);
-
     }
 
 }
