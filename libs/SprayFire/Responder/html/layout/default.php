@@ -19,9 +19,11 @@
                         <?php echo $templateContent; ?>
                     </div>
 
+                    <?php if (isset($sidebarContent)): ?>
                     <div id="sidebar">
                         <?php echo $sidebarContent; ?>
                     </div>
+                    <?php endif; ?>
                 </div>
 
                 <div id="footer">
