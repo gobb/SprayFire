@@ -1,4 +1,6 @@
 
+[![Build Status](https://secure.travis-ci.org/cspray/SprayFire.png?branch=master)](https://travis-ci.org/cspray/SprayFire)
+
 ## Introduction
 
 SprayFire is a modular, unit-tested, MVC-inspired approach to developing web applications using PHP 5.3+.
