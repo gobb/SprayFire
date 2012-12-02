@@ -2,11 +2,11 @@
     <h2>meet the team</h2>
     <div class="team-member">
         <div class="bio">
-            <img alt="Charles Sprayberry - Benevolent Dicator for Life" src="http://www.gravatar.com/avatar/<?php echo $csprayGravatarHash; ?>?s=160" />
+            <img alt="Charles Sprayberry - Benevolent Dicator for Life" src="http://www.gravatar.com/avatar/<?php echo $Responder->service('Escaper')->escapeHtmlAttribute($csprayGravatarHash); ?>?s=160" />
             <ul>
                 <li>Name: Charles Sprayberry</li>
                 <li>Benevolent Dictator for Life</li>
-                <li>Lead developer and primary contributor to the SprayFire project.  Charles created the project in his spare time and spearheads the majority of the development efforts.  When Charles isn't coding or spending time with his fiancee, Dyana, he's perusing Netflix or working on his dog training skills.</li>
+                <li>Lead developer and primary contributor to the SprayFire project.  Charles created the project in his spare time and spearheads the majority of the development efforts.  When Charles isn't coding or spending time with his fiancee, Dyana, he's perusing Netflix, working on his dog training skills or watching football.</li>
             </ul>
         </div>
         <div class="social-networking">
