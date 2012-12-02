@@ -75,4 +75,36 @@ abstract class Consumer extends SFCoreObject implements SFService\Consumer {
         return false;
     }
 
+    /**
+     * @param string $serviceName
+     * @return object|false
+     */
+    public function __get($serviceName) {
+        return $this->service($serviceName);
+    }
+
+    /**
+     * @param string $serviceName
+     * @param object $Service
+     */
+    public function __set($serviceName, $Service) {
+        $this->giveService($serviceName, $Service);
+    }
+
+    /**
+     * @param string $serviceName
+     * @return boolean
+     */
+    public function __isset($serviceName) {
+        return \is_object($this->service($serviceName));
+    }
+
+    /**
+     * @param string $serviceName
+     * @throws BadMethodCallException
+     */
+    public function __unset($serviceName) {
+        throw new \BadMethodCallException('You may not remove a service expecting to be consumed.');
+    }
+
 }
