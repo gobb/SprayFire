@@ -2,7 +2,7 @@
     <h2>meet the team</h2>
     <div class="team-member">
         <div class="bio">
-            <img alt="Charles Sprayberry - Benevolent Dicator for Life" src="http://www.gravatar.com/avatar/<?php echo $Responder->service('Escaper')->escapeHtmlAttribute($csprayGravatarHash); ?>?s=160" />
+            <img alt="Charles Sprayberry - Benevolent Dicator for Life" src="http://www.gravatar.com/avatar/<?php echo $Responder->Escaper->escapeHtmlAttribute($csprayGravatarHash); ?>?s=160" />
             <ul>
                 <li>Name: Charles Sprayberry</li>
                 <li>Benevolent Dictator for Life</li>
@@ -19,7 +19,7 @@
 
     <div class="team-member">
         <div class="bio">
-            <img alt="Dyana Stewart - Graphic Designer" src="http://www.gravatar.com/avatar/<?php echo $dyanaGravatarHash; ?>?s=160" />
+            <img alt="Dyana Stewart - Graphic Designer" src="http://www.gravatar.com/avatar/<?php echo $Responder->Escaper->escapeHtmlAttribute($dyanaGravatarHash); ?>?s=160" />
             <ul>
                 <li>Name: Dyana Stewart</li>
                 <li>Graphic Designer</li>

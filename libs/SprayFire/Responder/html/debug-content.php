@@ -1,16 +1,16 @@
 <h2>Server Data</h2>
-<pre><?php echo $serverData; ?></pre>
+<pre><?php echo $Responder->Escaper->escapeHtmlContent($serverData); ?></pre>
 <h2>Session Data</h2>
-<pre>Session active: <?php echo $sessionActive; ?></pre>
+<pre>Session active: <?php echo $Responder->Escaper->escapeHtmlContent($sessionActive); ?></pre>
 <pre>Session ID: <?php echo \session_id(); ?></pre>
-<pre><?php echo $sessionData; ?></pre>
+<pre><?php echo $Responder->Escaper->escapeHtmlContent($sessionData); ?></pre>
 <h2>POST Data</h2>
-<pre><?php echo $postData; ?></pre>
+<pre><?php echo $Responder->Escaper->escapeHtmlContent($postData); ?></pre>
 <h2>GET Data</h2>
-<pre><?php echo $getData; ?></pre>
+<pre><?php echo $Responder->Escaper->escapeHtmlContent($getData); ?></pre>
 <h2>Controller Instantiated</h2>
-<pre><?php echo $controller; ?></pre>
+<pre><?php echo $Responder->Escaper->escapeHtmlContent($controller); ?></pre>
 <h2>Controller Action invoked</h2>
-<pre><?php echo $action; ?></pre>
+<pre><?php echo $Responder->Escaper->escapeHtmlContent($action); ?></pre>
 <h2>Parameters</h2>
-<pre><?php echo $parameters; ?></pre>
+<pre><?php echo $Responder->Escaper->escapeHtmlContent($parameters); ?></pre>
