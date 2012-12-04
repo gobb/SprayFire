@@ -37,4 +37,25 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(\json_encode(array()), $actual);
     }
 
+    /**
+     * Ensures that data from a controller is echoed as JSON appropriately.
+     */
+    public function testJsonResponseWithOnlyControllerDataAndNoTemplates() {
+        $data = array(
+            'foo' => 'bar',
+            'bar' => 1,
+            'baz' => array()
+        );
+        $Controller = $this->getMock('\SprayFire\Controller\Controller');
+        $Controller->expects($this->once())
+                   ->method('getResponderData')
+                   ->will($this->returnValue($data));
+        $Responder = new FireResponder\Json();
+        \ob_start();
+        $Responder->generateDynamicResponse($Controller);
+        $actual = \ob_get_contents();
+        \ob_end_clean();
+        $this->assertSame(\json_encode($data), $actual);
+    }
+
 }
