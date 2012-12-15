@@ -74,12 +74,12 @@ class AppInitializer extends SFCoreObject implements SFDispatcher\AppInitializer
      */
     public function __construct(
         SFService\Container $Container,
-        ClassLoader $ClassLoader,
-        SFFileSys\PathGenerator $Paths)
+        SFFileSys\PathGenerator $Paths,
+        ClassLoader $ClassLoader)
     {
         $this->Container = $Container;
-        $this->ClassLoader = $ClassLoader;
         $this->Paths = $Paths;
+        $this->ClassLoader = $ClassLoader;
     }
 
     /**
@@ -104,7 +104,7 @@ class AppInitializer extends SFCoreObject implements SFDispatcher\AppInitializer
             return;
         }
         // @codeCoverageIgnoreEnd
-        
+
         $this->ClassLoader->registerNamespaceDirectory($appNamespace, $this->Paths->getAppPath());
         $bootstrapName = '\\' . $appNamespace . '\\Bootstrap';
         if (!\class_exists($bootstrapName)) {
