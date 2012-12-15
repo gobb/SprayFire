@@ -27,12 +27,6 @@ use \SprayFire\Controller as SFController,
  * supposed to be as minimal as possible and to perform no operations for the
  * majority of calls.
  *
- * By default this object will only return values for
- *
- * - getResponderName() // SprayFire.Responder.FireResponder.Html
- * - getLayoutPath()    // install_dir/Responder/html/default.php
- * - getTemplatePath()  // install_dir/Responder/html/blank.php
- *
  * @package SprayFire
  * @subpackage Controller
  *
