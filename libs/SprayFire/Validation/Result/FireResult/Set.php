@@ -10,7 +10,7 @@
  * @since   0.1
  */
 
-namespace SprayFire\Validation\FireValidation\FireResult;
+namespace SprayFire\Validation\Result\FireResult;
 
 use \SprayFire\Validation\Result as SFValidationResult,
     \SprayFire\CoreObject as SFCoreObject;

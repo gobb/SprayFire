@@ -11,10 +11,10 @@
  * @since   0.1
  */
 
-namespace SprayFire\Test\Cases\Validation\FireValidation\FireResult;
+namespace SprayFire\Test\Cases\Validation\FireResult;
 
 use \SprayFire\Validation\Result as SFValidationResult,
-    \SprayFire\Validation\FireValidation\FireResult as FireResult;
+    \SprayFire\Validation\Result\FireResult as FireResult;
 
 /**
  *
@@ -187,7 +187,7 @@ class SetTest extends \PHPUnit_Framework_TestCase {
         $ResultSet->addResult($ThirdResult);
         $ResultSet->addResult($FourthResult);
 
-        $expectedMessage = 'An invalid argument, gobbledygook, was passed to SprayFire\Validation\FireValidation\FireResult\Set::count, please use defined constants';
+        $expectedMessage = 'An invalid argument, gobbledygook, was passed to SprayFire\Validation\Result\FireResult\Set::count, please use defined constants';
 
         $this->setExpectedException('PHPUnit_Framework_Error_Notice', $expectedMessage);
         $ResultSet->count('gobbledygook');
@@ -334,7 +334,7 @@ class SetTest extends \PHPUnit_Framework_TestCase {
         $ResultSet->addResult($ThirdResult);
         $ResultSet->addResult($FourthResult);
 
-        $expectedMessage = 'An invalid argument, more gobbledygook, was passed to SprayFire\Validation\FireValidation\FireResult\Set::getResultsByFieldName, please use defined constants';
+        $expectedMessage = 'An invalid argument, more gobbledygook, was passed to SprayFire\Validation\Result\FireResult\Set::getResultsByFieldName, please use defined constants';
 
         $this->setExpectedException('PHPUnit_Framework_Error_Notice', $expectedMessage);
         $ResultSet->getResultsByFieldName('foo', 'more gobbledygook');
