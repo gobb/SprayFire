@@ -49,6 +49,38 @@ class CheckTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $Check->getMessages());
     }
 
+    public function testCheckGettingFormattedDisplayMessageAndBlankLogForDefaultErrorCode() {
+        $MessageParser = new FireCheck\MessageParser();
+        $Check = new CheckHelper($MessageParser);
+
+        $Check->setDisplayMessage('{value} === {value}');
+
+        $expected = array(
+            'log' => '',
+            'display' => 'SprayFire === SprayFire'
+        );
+
+        $Check->passesCheck('SprayFire');
+        $this->assertSame($expected, $Check->getMessages());
+    }
+
+    public function testCheckGettingFormattedDisplayMessageAndLogForDefaultErrorCodeMultipleTokens() {
+        $MessageParser = new FireCheck\MessageParser();
+        $Check = new CheckHelper($MessageParser);
+
+        $Check->setLogMessage('Logging {value} to {foo}');
+        $Check->setDisplayMessage('{value} === {foo}');
+
+        $expected = array(
+            'log' => 'Logging SprayFire to unit tested',
+            'display' => 'SprayFire === unit tested'
+        );
+
+        $Check->passesCheck('SprayFire');
+        $Check->setToken('foo', 'unit tested');
+        $this->assertSame($expected, $Check->getMessages());
+    }
+
 }
 
 
@@ -58,8 +90,7 @@ class CheckHelper extends FireCheck\Check {
         return $this->tokenValues;
     }
 
-    public function passesCheck($value) {
-        $this->setTokenValue('value', $value);
-        return false;
+    public function setToken($name, $value) {
+        $this->setTokenValue($name, $value);
     }
 }
