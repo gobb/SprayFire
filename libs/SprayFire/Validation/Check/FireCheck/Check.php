@@ -55,10 +55,57 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
     protected $displayMessages = array();
 
     /**
+     * Holds the parameters that should be used for the Check
+     *
+     * @property array
+     */
+    protected $parameters = array();
+
+    /**
+     * Populate this with parameter values that should be used if no parameter
+     * has been set at the time of passesCheck call.
+     *
+     * @property array
+     */
+    protected $defaultParameters = array();
+
+    /**
      * @param SprayFire.Validation.Check.MessageParser $MessageParser
      */
     public function __construct(SFValidationCheck\MessageParser $MessageParser) {
         $this->MessageParser = $MessageParser;
+    }
+
+    /**
+     * Allows for the setting of parameters that can be used in the algorithm
+     * used in Check::passesCheck.
+     *
+     * Each parameter should be implemented as a descriptive constant name in the
+     * Check implementation.
+     *
+     * @param string $parameter
+     * @param mixed $value
+     */
+    public function setParameter($parameter, $value) {
+        $this->parameters[(string) $parameter] = $value;
+    }
+
+    /**
+     * Allows for the retrieval of a parameter value or a default value, if appropriate
+     * settings have been configurd.
+     *
+     * @param string $parameter
+     * @return mixed
+     */
+    protected function getParameter($parameter) {
+        if (isset($this->parameters[$parameter])) {
+            return $this->parameters[$parameter];
+        } else {
+            if (isset($this->defaultParameters[$parameter])) {
+                return $this->defaultParameters[$parameter];
+            }
+        }
+        return null;
     }
 
     /**
