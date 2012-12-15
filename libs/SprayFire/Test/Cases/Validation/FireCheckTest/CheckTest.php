@@ -19,10 +19,6 @@ use \SprayFire\Validation\Check\FireCheck as FireCheck;
  */
 class CheckTest extends \PHPUnit_Framework_TestCase {
 
-    public function setUp() {
-
-    }
-
     public function testCheckGettingUnformattedMessagesForDefaultErrorCode() {
         $MessageParser = new FireCheck\MessageParser();
         $Check = new CheckHelper($MessageParser);
@@ -38,8 +34,19 @@ class CheckTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $Check->getMessages());
     }
 
-    public function tearDown() {
+    public function testCheckGettingFormattedLogMessageAndBlankDisplayForDefaultErrorCode() {
+        $MessageParser = new FireCheck\MessageParser();
+        $Check = new CheckHelper($MessageParser);
 
+        $Check->setLogMessage('The value being checked is {value}');
+
+        $expected = array(
+            'log' => 'The value being checked is SprayFire',
+            'display' => ''
+        );
+
+        $Check->passesCheck('SprayFire');
+        $this->assertSame($expected, $Check->getMessages());
     }
 
 }
@@ -48,10 +55,11 @@ class CheckTest extends \PHPUnit_Framework_TestCase {
 class CheckHelper extends FireCheck\Check {
 
     protected function getTokenValues() {
-        return array();
+        return $this->tokenValues;
     }
 
     public function passesCheck($value) {
+        $this->setTokenValue('value', $value);
         return false;
     }
 }
