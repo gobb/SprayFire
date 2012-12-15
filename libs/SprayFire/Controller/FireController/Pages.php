@@ -71,8 +71,6 @@ class Pages extends Base {
      * dumps that information out.
      */
     public function debug() {
-        $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'debug-content.php');
-
         $serverData = \print_r($_SERVER, true);
         $sessionActive = (\session_id() === '') ? 'No' : 'Yes';
         $sessionData = \print_r($_SESSION, true);
