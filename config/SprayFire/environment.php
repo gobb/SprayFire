@@ -85,7 +85,7 @@ $environment = array(
             }
         ),
         'TemplateManager' => array(
-            'name' => 'SprayFire.Responder.FireResponder.FireTemplate.Manager',
+            'name' => 'SprayFire.Responder.Template.FireTemplate.Manager',
             'parameterCallback' => null
         )
     )

@@ -15,7 +15,7 @@ namespace SprayFire\Controller;
 use \SprayFire\Controller as SFController,
     \SprayFire\Mediator as SFMediator,
     \SprayFire\CoreObject as SFCoreObject,
-    \SprayFire\Responder\FireResponder\FireTemplate as FireResponderTemplate;
+    \SprayFire\Responder\Template\FireTemplate as FireTemplate;
 
 /**
  * By default this object is returned from the SprayFire.Controller.FireController.Factory
@@ -60,8 +60,8 @@ class NullObject extends SFCoreObject implements SFController\Controller {
     protected function setUpTemplateManager() {
         $name = 'layoutTemplate';
         $layoutFile = \dirname(__DIR__) . '/Responder/html/layout/default.php';
-        $LayoutTemplate = new FireResponderTemplate\FileTemplate($name, $layoutFile);
-        $Manager = new FireResponderTemplate\Manager();
+        $LayoutTemplate = new FireTemplate\FileTemplate($name, $layoutFile);
+        $Manager = new FireTemplate\Manager();
         $Manager->setLayoutTemplate($LayoutTemplate);
 
         $this->TemplateManager = $Manager;

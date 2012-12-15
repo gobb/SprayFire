@@ -64,7 +64,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
         'Request' => 'SprayFire.Http.FireHttp.Request',
         'RoutedRequest' => 'SprayFire.Http.Routing.FireRouting.RoutedRequest',
         'Logging' => 'SprayFire.Logging.FireLogging.LogOverseer',
-        'TemplateManager' => 'SprayFire.Responder.FireResponder.FireTemplate.Manager'
+        'TemplateManager' => 'SprayFire.Responder.Template.FireTemplate.Manager'
     );
 
     /**
