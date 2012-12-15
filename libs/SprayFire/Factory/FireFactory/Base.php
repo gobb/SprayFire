@@ -16,7 +16,8 @@ use \SprayFire\Factory as SFFactory,
     \SprayFire\Logging as SFLogging,
     \SprayFire\Utils as SFUtils,
     \SprayFire\CoreObject as SFCoreObject,
-    \SprayFire\Exception as SFException;
+    \ReflectionException as ReflectionException,
+    \InvalidArgumentException as InvalidArgumentException;
 
 /**
  * All Factory implementations provided by the default SprayFire install will
@@ -97,8 +98,8 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
         try {
             $ReflectedType = $this->ReflectionCache->getClass($objectType);
             return new ObjectTypeValidator($ReflectedType);
-        } catch (\ReflectionException $ReflectExc) {
-            throw new \InvalidArgumentException('The injected interface or class, ' . $objectType . ', passed to ' . \get_class($this) . ' could not be loaded.', null, $ReflectExc);
+        } catch (ReflectionException $ReflectExc) {
+            throw new InvalidArgumentException('The injected interface or class, ' . $objectType . ', passed to ' . \get_class($this) . ' could not be loaded.', null, $ReflectExc);
         }
     }
 
@@ -116,8 +117,8 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
             try {
                 $ReflectedNullObject = $this->ReflectionCache->getClass($NullObject);
                 $NullObject = $ReflectedNullObject->newInstance();
-            } catch (\ReflectionException $ReflectExc) {
-                throw new \InvalidArgumentException('The given null object, ' . $nullObjectType . ', could not be loaded.', null, $ReflectExc);
+            } catch (ReflectionException $ReflectExc) {
+                throw new InvalidArgumentException('The given null object, ' . $nullObjectType . ', could not be loaded.', null, $ReflectExc);
             }
         }
         $this->TypeValidator->throwExceptionIfObjectNotParentType($NullObject);
@@ -139,15 +140,13 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
             $returnObject = $ReflectedClass->newInstanceArgs($parameters);
             $this->TypeValidator->throwExceptionIfObjectNotParentType($returnObject);
             return $returnObject;
-        } catch (\ReflectionException $ReflectExc) {
+        } catch (ReflectionException $ReflectExc) {
             $message = 'There was an error creating the requested object, ' . $className . '.  It likely does not exist.';
-            $this->LogOverseer->logError($message);
-            return clone $this->NullObject;
-        } catch (\InvalidArgumentException $InvalArgExc) {
+        } catch (InvalidArgumentException $InvalArgExc) {
             $message = 'The requested object, ' . $className . ', does not properly implement the appropriate type, ' . $this->getObjectType() . ', for this factory.';
-            $this->LogOverseer->logError($message);
-            return clone $this->NullObject;
         }
+        $this->LogOverseer->logError($message);
+        return clone $this->NullObject;
     }
 
     /**
