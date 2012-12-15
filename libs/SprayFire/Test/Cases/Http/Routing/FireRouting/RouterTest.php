@@ -203,7 +203,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
 
         $MockRequest = $this->getMock('\\SprayFire\\Http\\Request');
         $MockRequest->expects($this->once())->method('getUri')->will($this->returnValue($MockUri));
-        $MockRequest->expects($this->once())->method('getMethod')->will($this->returnValue($method));
         return $MockRequest;
     }
 
