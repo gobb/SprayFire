@@ -12,7 +12,8 @@
 
 namespace SprayFire\Utils;
 
-use \SprayFire\CoreObject as SFCoreObject;
+use \SprayFire\CoreObject as SFCoreObject,
+    \ReflectionClass as ReflectionClass;
 
 /**
  * @package SprayFire
@@ -57,7 +58,7 @@ class ReflectionCache extends SFCoreObject {
             return $this->cache[$className];
         }
 
-        $Reflection = new \ReflectionClass($className);
+        $Reflection = new ReflectionClass($className);
         $this->cache[$className] = $Reflection;
         return $Reflection;
     }

@@ -13,7 +13,9 @@ namespace SprayFire\Responder\FireResponder;
 
 use \SprayFire\Responder as SFResponder,
     \SprayFire\Controller as SFController,
-    \SprayFire\Service\FireService as FireService;
+    \SprayFire\Service\FireService as FireService,
+    \Traversable as Traversable,
+    \stdClass as stdClass;
 
 /**
  * @package SprayFire
@@ -72,7 +74,7 @@ class Html extends FireService\Consumer implements SFResponder\Responder {
      * @return boolean
      */
     protected function isTraversable($traversable) {
-        if (\is_array($traversable) || $traversable instanceof \Traversable || $traversable instanceof \stdClass) {
+        if (\is_array($traversable) || $traversable instanceof Traversable || $traversable instanceof stdClass) {
             return true;
         }
         return false;

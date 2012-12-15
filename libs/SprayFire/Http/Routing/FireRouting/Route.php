@@ -12,8 +12,7 @@
 
 namespace SprayFire\Http\Routing\FireRouting;
 
-use \SprayFire\Http as SFHttp,
-    \SprayFire\Http\Routing as SFRouting,
+use \SprayFire\Http\Routing as SFRouting,
     \SprayFire\CoreObject as SFCoreObject;
 
 /**

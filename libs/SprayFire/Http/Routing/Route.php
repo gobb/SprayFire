@@ -12,8 +12,7 @@
 
 namespace SprayFire\Http\Routing;
 
-use \SprayFire\Object as SFObject,
-    \SprayFire\Http as SFHttp;
+use \SprayFire\Object as SFObject;
 
 
 /**

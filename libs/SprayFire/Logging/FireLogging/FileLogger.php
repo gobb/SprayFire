@@ -13,7 +13,10 @@
 namespace SprayFire\Logging\FireLogging;
 
 use \SprayFire\Logging as SFLogging,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\CoreObject as SFCoreObject,
+    \SplFileInfo as SplFileInfo,
+    \RuntimeException as RuntimeException,
+    \InvalidArgumentException as InvalidArgumentException;
 
 /**
  *
@@ -45,8 +48,8 @@ class FileLogger extends SFCoreObject implements SFLogging\Logger  {
     public function __construct(\SplFileInfo $LogFile, $openMode = 'a') {
         try {
             $this->LogFile = $LogFile->openFile($openMode);
-        } catch (\RuntimeException $RuntimeException) {
-            throw new \InvalidArgumentException('There was an error attempting to open a writable log file.', null, $RuntimeException);
+        } catch (RuntimeException $RuntimeException) {
+            throw new InvalidArgumentException('There was an error attempting to open a writable log file.', null, $RuntimeException);
         }
     }
 

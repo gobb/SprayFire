@@ -12,7 +12,10 @@
 
 namespace SprayFire\Mediator\FireMediator;
 
-use \SprayFire\CoreObject as SFCoreObject;
+use \SprayFire\CoreObject as SFCoreObject,
+    \ArrayIterator as ArrayIterator,
+    \IteratorAggregate as IteratorAggregate,
+    \InvalidArgumentException as InvalidArgumentException;
 
 /**
  * This is a private package implementation that is designed to be used by the
@@ -29,7 +32,7 @@ use \SprayFire\CoreObject as SFCoreObject;
  * so that we may take the appropriate steps when events are removed and added
  * to the registry.
  */
-class EventRegistry extends SFCoreObject implements \IteratorAggregate {
+class EventRegistry extends SFCoreObject implements IteratorAggregate {
 
     /**
      * Key value array storing [$eventName => $targetType]
@@ -50,7 +53,7 @@ class EventRegistry extends SFCoreObject implements \IteratorAggregate {
      */
     public function registerEvent($eventName, $targetType) {
         if ($this->hasEvent($eventName)) {
-            throw new \InvalidArgumentException('The event, ' . $eventName . ', has already been registered.');
+            throw new InvalidArgumentException('The event, ' . $eventName . ', has already been registered.');
         }
         $this->registry[$eventName] = $targetType;
     }
@@ -98,7 +101,7 @@ class EventRegistry extends SFCoreObject implements \IteratorAggregate {
      * @return Traversable
      */
     public function getIterator() {
-        return new \ArrayIterator($this->registry);
+        return new ArrayIterator($this->registry);
     }
 
 }

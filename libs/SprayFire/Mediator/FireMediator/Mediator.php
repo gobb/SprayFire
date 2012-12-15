@@ -13,7 +13,9 @@
 namespace SprayFire\Mediator\FireMediator;
 
 use \SprayFire\Mediator as SFMediator,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\CoreObject as SFCoreObject,
+    \InvalidArgumentException as InvalidArgumentException;
+
 
 /**
  * @package SprayFire
@@ -70,7 +72,7 @@ class Mediator extends SFCoreObject implements SFMediator\Mediator {
     public function addCallback(SFMediator\Callback $Callback) {
         $eventName = $Callback->getEventName();
         if (!$this->Registry->hasEvent($eventName)) {
-            throw new \InvalidArgumentException('The event name, ' . $eventName . ', is not valid and cannot be used as a callback.');
+            throw new InvalidArgumentException('The event name, ' . $eventName . ', is not valid and cannot be used as a callback.');
         }
         $this->eventCallbacks[$eventName][] = $Callback;
         return true;
@@ -125,7 +127,7 @@ class Mediator extends SFCoreObject implements SFMediator\Mediator {
      */
     public function triggerEvent($eventName, $Target, array $arguments = array()) {
         if (!$this->Registry->hasEvent($eventName)) {
-            throw new \InvalidArgumentException('The event name passed, ' . $eventName . ', is not a validly registered event.');
+            throw new InvalidArgumentException('The event name passed, ' . $eventName . ', is not a validly registered event.');
         }
         $Event = new Event($eventName, $Target, $arguments);
         $callbacks = $this->eventCallbacks[$eventName];
