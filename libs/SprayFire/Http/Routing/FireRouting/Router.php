@@ -14,7 +14,8 @@ namespace SprayFire\Http\Routing\FireRouting;
 
 use \SprayFire\Http as SFHttp,
     \SprayFire\Http\Routing as SFRouting,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\CoreObject as SFCoreObject,
+    \SplObjectStorage as SplObjectStorage;
 
 /**
  * At the moment this implementation is a configuration strict implementation,
@@ -80,7 +81,7 @@ class Router extends SFCoreObject implements SFRouting\Router {
     public function __construct(RouteBag $RouteBag, Normalizer $Normalizer, $installDir = '') {
         $this->Normalizer = $Normalizer;
         $this->RouteBag = $RouteBag;
-        $this->RoutedRequestCache = new \SplObjectStorage();
+        $this->RoutedRequestCache = new SplObjectStorage();
         $this->installDir = (string) $installDir;
     }
 
@@ -120,7 +121,6 @@ class Router extends SFCoreObject implements SFRouting\Router {
      */
     protected function getMatchedRouteAndParameters(SFHttp\Request $Request) {
         $resourcePath = $this->cleanPath($Request->getUri()->getPath());
-        $requestMethod = \strtolower($Request->getMethod());
         $Route = $this->RouteBag->getRoute();
         $match = array();
 
