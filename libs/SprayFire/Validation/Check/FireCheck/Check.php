@@ -15,9 +15,6 @@ use \SprayFire\Validation\Check as SFValidationCheck,
     \SprayFire\CoreObject as SFCoreObject;
 
 /**
- * 
- *
- *
  * @package SprayFire
  * @subpackage`Validation.Check.FireCheck
  */
@@ -65,6 +62,48 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
     }
 
     /**
+     * Only here to provide a convenient way to set token value parameter.
+     *
+     * DO NOT RELY ON THIS TO RETURN PROPER ERROR CODE!
+     *
+     * @param string $value
+     * @return null
+     */
+    public function passesCheck($value) {
+        $this->setTokenValue('value', $value);
+    }
+
+    /**
+     * Will return a string parsed by the injected $this->MessageParser with the
+     * values returned by $this->getTokenValues().
+     *
+     * @param integer $errorCode
+     * @return string
+     */
+    protected function getLogMessage($errorCode) {
+        $message = '';
+        if (isset($this->logMessages[$errorCode])) {
+            $message = $this->MessageParser->parseMessage($this->logMessages[$errorCode], (array) $this->getTokenValues());
+        }
+        return $message;
+    }
+
+    /**
+     * Will return a string parsed by the injected $this->MessageParser with the
+     * values returned by this->getTokenValues()
+     *
+     * @param integer $errorCode
+     * @return string
+     */
+    protected function getDisplayMessage($errorCode) {
+        $message = '';
+        if (isset($this->displayMessages[$errorCode])) {
+            $message = $this->MessageParser->parseMessage($this->displayMessages[$errorCode], (array) $this->getTokenValues());
+        }
+        return $message;
+    }
+
+    /**
      * Will return an array of 'log' and 'display' messages matching the passed
      * $errorCode.
      *
@@ -75,8 +114,8 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
      */
     public function getMessages($errorCode = null) {
         $errorCode = $this->getErrorCode($errorCode);
-        $log = isset($this->logMessages[$errorCode]) ? $this->logMessages[$errorCode] : '';
-        $display = isset($this->displayMessages[$errorCode]) ? $this->displayMessages[$errorCode] : '';
+        $log = $this->getLogMessage($errorCode);
+        $display = $this->getDisplayMessage($errorCode);
         return \compact('log', 'display');
     }
 
