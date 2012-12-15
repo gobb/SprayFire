@@ -177,8 +177,7 @@ class Paths extends SFCoreObject implements SFFileSys\PathGenerator {
         foreach ($subDir as $dir) {
             $subDirPath .= \trim($dir) . '/';
         }
-        $subDirPath = \rtrim($subDirPath, '/');
-        return $subDirPath;
+        return \rtrim($subDirPath, '/');
     }
 
 }
