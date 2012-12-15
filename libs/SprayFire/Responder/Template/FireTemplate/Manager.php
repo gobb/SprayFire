@@ -11,7 +11,7 @@
  * @since   0.1
  */
 
-namespace SprayFire\Responder\FireResponder\FireTemplate;
+namespace SprayFire\Responder\Template\FireTemplate;
 
 use \SprayFire\Responder\Template as SFResponderTemplate,
     \SprayFire\CoreObject as SFCoreObject;
