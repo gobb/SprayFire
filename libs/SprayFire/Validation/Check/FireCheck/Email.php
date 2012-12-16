@@ -36,6 +36,7 @@ class Email extends Check {
         if (\filter_var($value, \FILTER_VALIDATE_EMAIL)) {
             return ErrorCodes::NO_ERROR;
         }
+        return ErrorCodes::INVALID_EMAIL_ERROR;
     }
 
 }
