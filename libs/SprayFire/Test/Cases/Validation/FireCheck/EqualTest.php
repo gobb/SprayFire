@@ -19,52 +19,16 @@ use \SprayFire\Validation\Check\FireCheck as FireCheck;
  */
 class EqualTest extends \PHPUnit_Framework_TestCase {
 
-    public function setUp() {
-
-    }
-
     public function testEqualCheckReturnsProperErrorCodeForFailedCheck() {
-        $MessageParser = new FireCheck\MessageParser();
-        $Equal = new FireCheck\Equal($MessageParser);
-        $Equal->setParameter(FireCheck\Equal::COMPARISON_PARAMETER, 'other frameworks');
-
+        $Equal = new FireCheck\Equal('other frameworks');
         $this->assertSame(FireCheck\Equal::DEFAULT_ERROR_CODE, $Equal->passesCheck('SprayFire'));
+        $this->assertSame(array('value' => 'SprayFire', 'comparison' => 'other frameworks'), $Equal->getTokenValues());
     }
 
     public function testEqualCheckReturnsProperNoErrorCodeForPassedCheck() {
-        $MessageParser = new FireCheck\MessageParser();
-        $Equal = new FireCheck\Equal($MessageParser);
-        $Equal->setParameter(FireCheck\Equal::COMPARISON_PARAMETER, 'SprayFire');
-
+        $Equal = new FireCheck\Equal('SprayFire');
         $this->assertSame(FireCheck\Equal::NO_ERROR, $Equal->passesCheck('SprayFire'));
-    }
-
-    public function testEqualCheckGetsAppropriateMessage() {
-        $MessageParser = new FireCheck\MessageParser();
-        $Equal = new FireCheck\Equal($MessageParser);
-        $Equal->setParameter(FireCheck\Equal::COMPARISON_PARAMETER, 'other frameworks');
-
-        $comparisonToken = FireCheck\Equal::COMPARISON_TOKEN;
-        $Equal->setLogMessage('{value} does not equal {' . $comparisonToken . '}');
-
-        $expected = array(
-            'log' => 'SprayFire does not equal other frameworks',
-            'display' => ''
-        );
-
-        $Equal->passesCheck('SprayFire');
-        $this->assertSame($expected, $Equal->getMessages());
-    }
-
-    public function testEqualCheckWithNoComparisonParameter() {
-        $MessageParser = new FireCheck\MessageParser();
-        $Equal = new FireCheck\Equal($MessageParser);
-
-        $this->assertSame(FireCheck\Equal::NO_ERROR, $Equal->passesCheck(''));
-    }
-
-    public function tearDown() {
-
+        $this->assertSame(array('value' => 'SprayFire', 'comparison' => 'SprayFire'), $Equal->getTokenValues());
     }
 
 }
