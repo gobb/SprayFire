@@ -15,15 +15,14 @@ use \SprayFire\Validation\Check as SFValidationCheck,
     \SprayFire\CoreObject as SFCoreObject;
 
 /**
+ * Tokens available to this implementation
+ * -----------------------------------------------------------------------------
+ * - value => The value being checked
+ *
  * @package SprayFire
- * @subpackage`Validation.Check.FireCheck
+ * @subpackage Validation.Check.FireCheck
  */
 abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
-
-    /**
-     * Error code used if the $errorCode passed to various functions are null
-     */
-    const DEFAULT_ERROR_CODE = 1;
 
     /**
      * Map of tokens => values that should be used when parsing log and display
@@ -90,8 +89,8 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
      * @param integer $errorCode
      * @return array
      */
-    public function getMessages($errorCode = null) {
-        $errorCode = $this->getErrorCode($errorCode);
+    public function getMessages($errorCode) {
+        $errorCode = (int) $errorCode;
         $log = $this->getLogMessage($errorCode);
         $display = $this->getDisplayMessage($errorCode);
         return \compact('log', 'display');
@@ -101,18 +100,16 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
      * @param string $message
      * @param integer $errorCode
      */
-    public function setLogMessage($message, $errorCode = null) {
-        $errorCode = $this->getErrorCode($errorCode);
-        $this->logMessages[$errorCode] = (string) $message;
+    public function setLogMessage($message, $errorCode) {
+        $this->logMessages[(int) $errorCode] = (string) $message;
     }
 
     /**
      * @param string $message
      * @param integer $errorCode
      */
-    public function setDisplayMessage($message, $errorCode = null) {
-        $errorCode = $this->getErrorCode($errorCode);
-        $this->displayMessages[$errorCode] = (string) $message;
+    public function setDisplayMessage($message, $errorCode) {
+        $this->displayMessages[(int) $errorCode] = (string) $message;
     }
 
     /**
@@ -133,17 +130,6 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
      */
     protected function setTokenValue($token, $value) {
         $this->tokenValues[(string) $token] = (string) $value;
-    }
-
-    /**
-     * Will return the passed $errorCode unless it is not set in which case the
-     * default error code will be returned.
-     *
-     * @param integer $errorCode
-     * @return integer
-     */
-    protected function getErrorCode($errorCode) {
-        return isset($errorCode) ? (int) $errorCode : self::DEFAULT_ERROR_CODE;
     }
 
 }
