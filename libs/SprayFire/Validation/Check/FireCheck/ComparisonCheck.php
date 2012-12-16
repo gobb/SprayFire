@@ -19,12 +19,6 @@ namespace SprayFire\Validation\Check\FireCheck;
 abstract class ComparisonCheck extends Check {
 
     /**
-     * Constant used with Check::setParameter() to determine what the check should
-     * compare the passed value against.
-     */
-    const COMPARISON_PARAMETER = 'comparison';
-
-    /**
      * Constant used in messages as a token for the value being compared against
      */
     const COMPARISON_TOKEN = 'comparison';
@@ -36,14 +30,9 @@ abstract class ComparisonCheck extends Check {
      */
     protected $comparisonParameter;
 
-    /**
-     * A set of default parameters that will be used if none were set explicitly
-     *
-     * @property array
-     */
-    protected $defaultParameters = array(
-        self::COMPARISON_PARAMETER => ''
-    );
+    public function __construct($comparisonParameter) {
+        $this->comparisonParameter = $comparisonParameter;
+    }
 
     /**
      * Will set the $comparisonParameter property and will set the value of that
@@ -53,15 +42,7 @@ abstract class ComparisonCheck extends Check {
      */
     public function passesCheck($value) {
         parent::passesCheck($value);
-        $this->comparisonParameter = $this->getParameter(self::COMPARISON_PARAMETER);
         $this->setTokenValue(self::COMPARISON_TOKEN, $this->comparisonParameter);
-    }
-
-    /**
-     * @return array
-     */
-    protected function getTokenValues() {
-        return $this->tokenValues;
     }
 
 }
