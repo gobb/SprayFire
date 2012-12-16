@@ -45,4 +45,9 @@ abstract class ErrorCodes {
      */
     const LESS_THAN_ERROR = 5;
 
+    /**
+     * Code returned if the error is because the value is an invalid email address
+     */
+    const INVALID_EMAIL_ERROR = 6;
+
 }
