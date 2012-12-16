@@ -21,14 +21,12 @@ class EqualTest extends \PHPUnit_Framework_TestCase {
 
     public function testEqualCheckReturnsProperErrorCodeForFailedCheck() {
         $Equal = new FireCheck\Equal('other frameworks');
-        $this->assertSame(FireCheck\Equal::DEFAULT_ERROR_CODE, $Equal->passesCheck('SprayFire'));
-        $this->assertSame(array('value' => 'SprayFire', 'comparison' => 'other frameworks'), $Equal->getTokenValues());
+        $this->assertSame(FireCheck\ErrorCodes::NOT_EQUAL_TO_ERROR, $Equal->passesCheck('SprayFire'));
     }
 
     public function testEqualCheckReturnsProperNoErrorCodeForPassedCheck() {
         $Equal = new FireCheck\Equal('SprayFire');
-        $this->assertSame(FireCheck\Equal::NO_ERROR, $Equal->passesCheck('SprayFire'));
-        $this->assertSame(array('value' => 'SprayFire', 'comparison' => 'SprayFire'), $Equal->getTokenValues());
+        $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $Equal->passesCheck('SprayFire'));
     }
 
 }

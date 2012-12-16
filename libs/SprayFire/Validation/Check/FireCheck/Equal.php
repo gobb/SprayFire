@@ -12,19 +12,13 @@
 
 namespace SprayFire\Validation\Check\FireCheck;
 
-use \SprayFire\Validation\Check as SFValidationCheck;
-
 /**
  * This implementation will compare on a strict '===' check.
  *
- * Constants
- * -------------------------------------------------------------
- * - COMPARISON_PARAMETER => parameter name for value to compare against
- * - COMPARISON_TOKEN => token name for comparison value in messages
- *
- * Tokens available:
+ * Tokens available
+ * -----------------------------------------------------------------------------
  * - value => The value being checked
- * - comparison => The value being checked against
+ * - comparison => The value being compared against
  *
  * @package SprayFire
  * @subpackage Validation.Check.FireCheck
@@ -32,17 +26,21 @@ use \SprayFire\Validation\Check as SFValidationCheck;
 class Equal extends ComparisonCheck {
 
     /**
-     * Passes if $value is strictly equal '===' to value set to COMPARISON_PARAMETER
+     * Passes if $value is strictly equal '===' to value passed at construction
      *
-     * @param string $value
+     * Possible error codes returned:
+     * - ErrorCodes::NO_ERROR
+     * - ErrorCodes::NOT_EQUAL_TO_ERROR
+     *
+     * @param mixed $value
      * @return integer
      */
     public function passesCheck($value) {
         parent::passesCheck($value);
         if ($value === $this->comparisonParameter) {
-            return self::NO_ERROR;
+            return ErrorCodes::NO_ERROR;
         }
-        return self::DEFAULT_ERROR_CODE;
+        return ErrorCodes::NOT_EQUAL_TO_ERROR;
     }
 
 }

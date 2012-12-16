@@ -21,20 +21,17 @@ class GreaterThanTest extends \PHPUnit_Framework_TestCase {
 
     public function testGreaterThanReturningNoError() {
         $GreaterThan = new FireCheck\GreaterThan(4);
-        $this->assertSame(FireCheck\GreaterThan::NO_ERROR, $GreaterThan->passesCheck(5));
-        $this->assertSame(array('value' => '5', 'comparison' => '4'), $GreaterThan->getTokenValues());
+        $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $GreaterThan->passesCheck(5));
     }
 
     public function testGreaterThanReturningEqualToErrorCode() {
         $GreaterThan = new FireCheck\GreaterThan(4);
-        $this->assertSame(FireCheck\GreaterThan::EQUAL_TO_ERROR, $GreaterThan->passesCheck(4));
-        $this->assertSame(array('value' => '4', 'comparison' => '4'), $GreaterThan->getTokenValues());
+        $this->assertSame(FireCheck\ErrorCodes::EQUAL_TO_ERROR, $GreaterThan->passesCheck(4));
     }
 
     public function testGreaterThanReturningLessThanErrorCode() {
         $GreaterThan = new FireCheck\GreaterThan(4);
-        $this->assertSame(FireCheck\GreaterThan::LESS_THAN_ERROR, $GreaterThan->passesCheck('3'));
-        $this->assertSame(array('value' => '3', 'comparison' => '4'), $GreaterThan->getTokenValues());
+        $this->assertSame(FireCheck\ErrorCodes::LESS_THAN_ERROR, $GreaterThan->passesCheck('3'));
     }
 
 }

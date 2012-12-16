@@ -12,23 +12,23 @@
 namespace SprayFire\Validation\Check\FireCheck;
 
 /**
+ * Tokens available
+ * -----------------------------------------------------------------------------
+ * - value => The value being checked
+ * - comparison => The value being checked against
+ *
  * @package SprayFire
  * @subpackage Validation.Check.FireCheck
  */
 class GreaterThan extends ComparisonCheck {
 
     /**
-     * Error code returned if the $value is equal to the comparison value
-     */
-    const EQUAL_TO_ERROR = 2;
-
-    /**
-     * Error code returned if the $value is less than the comparison value
-     */
-    const LESS_THAN_ERROR = 3;
-
-    /**
      * Checks to see if the integer $value is greaterThan the comparison value.
+     *
+     * Possible error codes:
+     * - ErrorCodes::NO_ERROR
+     * - ErrorCodes::EQUAL_TO_ERROR
+     * - ErrorCodes::LESS_THAN_ERROR
      *
      * @param integer $value
      * @return integer
@@ -36,11 +36,11 @@ class GreaterThan extends ComparisonCheck {
     public function passesCheck($value) {
         parent::passesCheck($value);
         if ($value > $this->comparisonParameter) {
-            return self::NO_ERROR;
+            return ErrorCodes::NO_ERROR;
         } elseif ($value == $this->comparisonParameter) {
-            return self::EQUAL_TO_ERROR;
+            return ErrorCodes::EQUAL_TO_ERROR;
         }
-        return self::LESS_THAN_ERROR;
+        return ErrorCodes::LESS_THAN_ERROR;
     }
 
 }
