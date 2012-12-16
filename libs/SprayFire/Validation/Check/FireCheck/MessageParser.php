@@ -64,7 +64,7 @@ class MessageParser extends SFCoreObject implements SFValidationCheck\MessagePar
      * @return string
      */
     protected function getTokenPattern($token) {
-        return \sprintf('/%s%s%s/', $this->startDelimiter, $token, $this->endDelimiter);
+        return \sprintf('/\%s%s\%s/', $this->startDelimiter, $token, $this->endDelimiter);
     }
-    
+
 }
