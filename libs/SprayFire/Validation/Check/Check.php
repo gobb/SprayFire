@@ -43,13 +43,7 @@ use \SprayFire\Object as SFObject;
  * @subpackage Validation.Check
  */
 interface Check extends SFObject, MessageTokenizable {
-
-    /**
-     * Code that should be returned by passesCheck if there was no error and the
-     * value passes the rule check.
-     */
-    const NO_ERROR = 0;
-
+    
     /**
      * In logging and display messages this token will be replaced with the value
      * being checked against.
@@ -77,7 +71,7 @@ interface Check extends SFObject, MessageTokenizable {
      * @param string $message
      * @param integer $errorCode
      */
-    public function setLogMessage($message, $errorCode = null);
+    public function setLogMessage($message, $errorCode);
 
     /**
      * Set the display message that is suitable for showing to users for a given
@@ -89,7 +83,7 @@ interface Check extends SFObject, MessageTokenizable {
      * @param string $message
      * @param integer $errorCode
      */
-    public function setDisplayMessage($message, $errorCode = null);
+    public function setDisplayMessage($message, $errorCode);
 
     /**
      * If no $errorCode is passed your check should return some default messages;
@@ -105,6 +99,6 @@ interface Check extends SFObject, MessageTokenizable {
      * @param integer $errorCodes
      * @return array
      */
-    public function getMessages($errorCode = null);
+    public function getMessages($errorCode);
 
 }
