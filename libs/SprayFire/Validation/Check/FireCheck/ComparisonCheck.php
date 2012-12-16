@@ -13,6 +13,11 @@
 namespace SprayFire\Validation\Check\FireCheck;
 
 /**
+ * Tokens available to implementations
+ * --------------------------------------------------------------
+ * - value => The value being checked
+ * - comparison => The value being checked against
+ *
  * @package SprayFire
  * @subpackage Validation.Check.FireCheck
  */
@@ -26,10 +31,13 @@ abstract class ComparisonCheck extends Check {
     /**
      * The data that a $value should be compared against.
      *
-     * @protected string
+     * @protected mixed
      */
     protected $comparisonParameter;
 
+    /**
+     * @param mixed $comparisonParameter
+     */
     public function __construct($comparisonParameter) {
         $this->comparisonParameter = $comparisonParameter;
     }
@@ -38,7 +46,9 @@ abstract class ComparisonCheck extends Check {
      * Will set the $comparisonParameter property and will set the value of that
      * comparison parameter to be an available token value.
      *
-     * @param string $value
+     * DO NOT RELY ON THE RETURN OF THIS FUNCTION TO SUPPLY AN ERROR CODE!
+     *
+     * @param mixed $value
      */
     public function passesCheck($value) {
         parent::passesCheck($value);
