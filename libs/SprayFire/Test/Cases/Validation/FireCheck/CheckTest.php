@@ -22,15 +22,15 @@ class CheckTest extends \PHPUnit_Framework_TestCase {
     public function testCheckGettingUnformattedMessagesForDefaultErrorCode() {
         $Check = new CheckHelper();
 
-        $Check->setLogMessage('An unformatted message saying foo');
-        $Check->setDisplayMessage('Sorry, we could not get your foo.');
+        $Check->setLogMessage('An unformatted message saying foo', 1);
+        $Check->setDisplayMessage('Sorry, we could not get your foo.', 1);
 
         $expected = array(
             'log' => 'An unformatted message saying foo',
             'display' => 'Sorry, we could not get your foo.'
         );
 
-        $this->assertSame($expected, $Check->getMessages());
+        $this->assertSame($expected, $Check->getMessages(1));
         // expecting no token values because passedCheck wasn't called
         $this->assertSame(array(), $Check->getTokenValues());
     }
@@ -38,7 +38,7 @@ class CheckTest extends \PHPUnit_Framework_TestCase {
     public function testCheckGettingFormattedLogMessageAndBlankDisplayForDefaultErrorCode() {
         $Check = new CheckHelper();
 
-        $Check->setLogMessage('The value being checked is {value}');
+        $Check->setLogMessage('The value being checked is {value}', 1);
 
         $expected = array(
             'log' => 'The value being checked is {value}',
@@ -46,7 +46,7 @@ class CheckTest extends \PHPUnit_Framework_TestCase {
         );
 
         $Check->passesCheck('SprayFire');
-        $this->assertSame($expected, $Check->getMessages());
+        $this->assertSame($expected, $Check->getMessages(1));
         $this->assertSame(array('value' => 'SprayFire'), $Check->getTokenValues());
     }
 
@@ -54,7 +54,7 @@ class CheckTest extends \PHPUnit_Framework_TestCase {
         $MessageParser = new FireCheck\MessageParser();
         $Check = new CheckHelper($MessageParser);
 
-        $Check->setDisplayMessage('{value} === {value}');
+        $Check->setDisplayMessage('{value} === {value}', 1);
 
         $expected = array(
             'log' => '',
@@ -62,15 +62,15 @@ class CheckTest extends \PHPUnit_Framework_TestCase {
         );
 
         $Check->passesCheck('SprayFire');
-        $this->assertSame($expected, $Check->getMessages());
+        $this->assertSame($expected, $Check->getMessages(1));
         $this->assertSame(array('value' => 'SprayFire'), $Check->getTokenValues());
     }
 
     public function testCheckGettingFormattedDisplayMessageAndLogForDefaultErrorCodeMultipleTokens() {
         $Check = new CheckHelper();
 
-        $Check->setLogMessage('Logging {value} to {foo}');
-        $Check->setDisplayMessage('{value} === {foo}');
+        $Check->setLogMessage('Logging {value} to {foo}', 1);
+        $Check->setDisplayMessage('{value} === {foo}', 1);
 
         $expected = array(
             'log' => 'Logging {value} to {foo}',
@@ -79,8 +79,8 @@ class CheckTest extends \PHPUnit_Framework_TestCase {
 
         $Check->passesCheck('SprayFire');
         $Check->setToken('foo', 'unit tested');
-        $this->assertSame($expected, $Check->getMessages());
-        $Check->getTokenValues(array('value' => 'SprayFire', 'foo' => 'unit tested'), $Check->getTokenValues());
+        $this->assertSame($expected, $Check->getMessages(1));
+        $this->assertSame(array('value' => 'SprayFire', 'foo' => 'unit tested'), $Check->getTokenValues());
     }
 
 }
@@ -91,5 +91,5 @@ class CheckHelper extends FireCheck\Check {
     public function setToken($name, $value) {
         $this->setTokenValue($name, $value);
     }
-    
+
 }
