@@ -19,10 +19,6 @@ use \SprayFire\Validation\Check\FireCheck as FireCheck;
  */
 class MessageParserTest extends \PHPUnit_Framework_TestCase {
 
-    public function setUp() {
-
-    }
-
     public function testParsingSingleTokenMessage() {
         $message = 'This is a test of {foo}';
         $Parser = new FireCheck\MessageParser();
@@ -30,11 +26,15 @@ class MessageParserTest extends \PHPUnit_Framework_TestCase {
             'This is a test of SprayFire',
             $Parser->parseMessage($message, array('foo' => 'SprayFire'))
         );
-
     }
 
-    public function tearDown() {
-
+    public function testParsingMultipleTokenMessageWithNewDelimiter() {
+        $message = 'This is a test of [foo] and [bar]';
+        $Parser = new FireCheck\MessageParser('[', ']');
+        $this->assertSame(
+            'This is a test of SprayFire and regex',
+            $Parser->parseMessage($message, array('foo' => 'SprayFire', 'bar' => 'regex'))
+        );
     }
 
 }
