@@ -36,12 +36,13 @@ use \SprayFire\Object as SFObject;
  * - Messages should support tokens which can be replaced with various information
  *   from the check. Strongly recommended that if you implement this interface
  *   you take advantage of the MessageParser interface in the same module.
- * - Getting messages should have all appropriate tokens replaced.
+ * - Messages should not be returned formatted.  The array of token values returned
+ *   by MessageTokenizable should be specific to the given $value check.
  *
  * @package SprayFire
  * @subpackage Validation.Check
  */
-interface Check extends SFObject {
+interface Check extends SFObject, MessageTokenizable {
 
     /**
      * Code that should be returned by passesCheck if there was no error and the
@@ -95,8 +96,8 @@ interface Check extends SFObject {
      * the messages returned will be formatted with the information from the last
      * call to passesCheck
      *
-     * An array with 2 keys, log and display, should be returned holding the
-     * formatted messages.
+     * An array with 2 keys, log and display, should be returned holding the unformatted
+     * messages.
      *
      * Please see interface level documentation for important information about
      * the message values returned from this method.
