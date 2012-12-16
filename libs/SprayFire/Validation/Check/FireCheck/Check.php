@@ -26,13 +26,6 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
     const DEFAULT_ERROR_CODE = 1;
 
     /**
-     * Will format the appropriate messages to support tokens
-     *
-     * @property SprayFire.Validation.Check.MessageParser
-     */
-    protected $MessageParser;
-
-    /**
      * Map of tokens => values that should be used when parsing log and display
      * messages.
      *
@@ -55,60 +48,6 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
     protected $displayMessages = array();
 
     /**
-     * Holds the parameters that should be used for the Check
-     *
-     * @property array
-     */
-    protected $parameters = array();
-
-    /**
-     * Populate this with parameter values that should be used if no parameter
-     * has been set at the time of passesCheck call.
-     *
-     * @property array
-     */
-    protected $defaultParameters = array();
-
-    /**
-     * @param SprayFire.Validation.Check.MessageParser $MessageParser
-     */
-    public function __construct(SFValidationCheck\MessageParser $MessageParser) {
-        $this->MessageParser = $MessageParser;
-    }
-
-    /**
-     * Allows for the setting of parameters that can be used in the algorithm
-     * used in Check::passesCheck.
-     *
-     * Each parameter should be implemented as a descriptive constant name in the
-     * Check implementation.
-     *
-     * @param string $parameter
-     * @param mixed $value
-     */
-    public function setParameter($parameter, $value) {
-        $this->parameters[(string) $parameter] = $value;
-    }
-
-    /**
-     * Allows for the retrieval of a parameter value or a default value, if appropriate
-     * settings have been configurd.
-     *
-     * @param string $parameter
-     * @return mixed
-     */
-    protected function getParameter($parameter) {
-        if (isset($this->parameters[$parameter])) {
-            return $this->parameters[$parameter];
-        } else {
-            if (isset($this->defaultParameters[$parameter])) {
-                return $this->defaultParameters[$parameter];
-            }
-        }
-        return null;
-    }
-
-    /**
      * Only here to provide a convenient way to set token value parameter.
      *
      * DO NOT RELY ON THIS TO RETURN PROPER ERROR CODE!
@@ -128,11 +67,7 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
      * @return string
      */
     protected function getLogMessage($errorCode) {
-        $message = '';
-        if (isset($this->logMessages[$errorCode])) {
-            $message = $this->MessageParser->parseMessage($this->logMessages[$errorCode], (array) $this->getTokenValues());
-        }
-        return $message;
+        return (isset($this->logMessages[$errorCode])) ? $this->logMessages[$errorCode] : '';
     }
 
     /**
@@ -143,11 +78,7 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
      * @return string
      */
     protected function getDisplayMessage($errorCode) {
-        $message = '';
-        if (isset($this->displayMessages[$errorCode])) {
-            $message = $this->MessageParser->parseMessage($this->displayMessages[$errorCode], (array) $this->getTokenValues());
-        }
-        return $message;
+        return (isset($this->displayMessages[$errorCode])) ? $this->displayMessages[$errorCode] : '';
     }
 
     /**
@@ -185,11 +116,13 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
     }
 
     /**
-     * Should return an array of [token => value] used for log and display messages.
+     * Message token values that should be used to format the appropriate message.
      *
      * @return array
      */
-    abstract protected function getTokenValues();
+    public function getTokenValues() {
+        return $this->tokenValues;
+    }
 
     /**
      * Helper method that could be used to implement getTokenValues simply as
