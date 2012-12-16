@@ -20,27 +20,21 @@ use \SprayFire\Validation\Check\FireCheck as FireCheck;
 class GreaterThanTest extends \PHPUnit_Framework_TestCase {
 
     public function testGreaterThanReturningNoError() {
-        $MessageParser = new FireCheck\MessageParser();
-        $GreaterThan = new FireCheck\GreaterThan($MessageParser);
-        $GreaterThan->setParameter(FireCheck\GreaterThan::COMPARISON_PARAMETER, '4');
-
+        $GreaterThan = new FireCheck\GreaterThan(4);
         $this->assertSame(FireCheck\GreaterThan::NO_ERROR, $GreaterThan->passesCheck(5));
+        $this->assertSame(array('value' => '5', 'comparison' => '4'), $GreaterThan->getTokenValues());
     }
 
     public function testGreaterThanReturningEqualToErrorCode() {
-        $MessageParser = new FireCheck\MessageParser();
-        $GreaterThan = new FireCheck\GreaterThan($MessageParser);
-        $GreaterThan->setParameter(FireCheck\GreaterThan::COMPARISON_PARAMETER, '4');
-
+        $GreaterThan = new FireCheck\GreaterThan(4);
         $this->assertSame(FireCheck\GreaterThan::EQUAL_TO_ERROR, $GreaterThan->passesCheck(4));
+        $this->assertSame(array('value' => '4', 'comparison' => '4'), $GreaterThan->getTokenValues());
     }
 
     public function testGreaterThanReturningLessThanErrorCode() {
-        $MessageParser = new FireCheck\MessageParser();
-        $GreaterThan = new FireCheck\GreaterThan($MessageParser);
-        $GreaterThan->setParameter(FireCheck\GreaterThan::COMPARISON_PARAMETER, '4');
-
+        $GreaterThan = new FireCheck\GreaterThan(4);
         $this->assertSame(FireCheck\GreaterThan::LESS_THAN_ERROR, $GreaterThan->passesCheck('3'));
+        $this->assertSame(array('value' => '3', 'comparison' => '4'), $GreaterThan->getTokenValues());
     }
 
 }
