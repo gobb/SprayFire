@@ -23,7 +23,7 @@ interface Result extends SFObject {
     /**
      * @return boolean
      */
-    public function isValid();
+    public function passedCheck();
 
     /**
      * @return string
@@ -36,13 +36,13 @@ interface Result extends SFObject {
     public function getFieldValue();
 
     /**
-     * @return array
+     * @return string
      */
-    public function getErrorMessages();
+    public function getLogMessage();
 
     /**
      * @return string
      */
-    public function getRuleName();
+    public function getDisplayMessage();
 
 }
