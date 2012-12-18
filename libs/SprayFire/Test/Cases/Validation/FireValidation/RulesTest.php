@@ -30,6 +30,14 @@ class RulesTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($FooChecks[$MockCheck]);
     }
 
+    public function testRulesGettingFieldChecksWhenNoneAdded() {
+        $Rules = new FireValidation\Rules();
+
+        $FooChecks = $Rules->getChecks('foo');
+        $this->assertInstanceOf('SplObjectStorage', $FooChecks);
+        $this->assertCount(0, $FooChecks);
+    }
+
     public function testRulesAddingAndGettingChecksWithFluentApi() {
         $FirstCheck = $this->getMock('\SprayFire\Validation\Check\Check');
         $SecondCheck = $this->getMock('\SprayFire\Validation\Check\Check');
