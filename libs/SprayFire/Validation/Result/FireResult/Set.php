@@ -79,7 +79,7 @@ class Set extends SFCoreObject implements SFValidationResult\Set {
      * @param SprayFire.Validation.Result.Result $Result
      */
     public function addResult(SFValidationResult\Result $Result) {
-        if ($Result->isValid()) {
+        if ($Result->passedCheck()) {
             $this->addSuccessfulResult($Result);
         } else {
             $this->addFailedResult($Result);

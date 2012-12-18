@@ -371,7 +371,7 @@ class SetTest extends \PHPUnit_Framework_TestCase {
     protected function getMockResult($isValid, $fieldName) {
         $Result = $this->getMock('\SprayFire\Validation\Result\Result');
         $Result->expects($this->once())
-                    ->method('isValid')
+                    ->method('passedCheck')
                     ->will($this->returnValue($isValid));
         $Result->expects($this->once())
                     ->method('getFieldName')
