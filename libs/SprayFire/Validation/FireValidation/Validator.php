@@ -28,30 +28,35 @@ class Validator extends SFCoreObject implements SFValidation\Validator {
     /**
      * @param array $data
      * @param \SprayFire\Validation\Rules $Rules
-     * @return \SprayFire\Validation\Result.Set
+     * @return \SprayFire\Validation\Result\Set
      */
     public function validate(array $data, SFValidation\Rules $Rules) {
         $ResultSet = new FireResult\Set();
 
         $fieldName = 'foo';
         $fieldValue = $data['foo'];
-        foreach ($Rules->getChecks('foo') as $Check) {
+        $Checks = $Rules->getChecks('foo');
+        foreach ($Checks as $Check) {
             $errorCode = $Check->passesCheck($fieldValue);
-
+            $breakOnFailure = false;
             if ($errorCode === FireCheck\ErrorCodes::NO_ERROR) {
                 $passedCheck = true;
                 $messages = array(
                     'log' => '',
                     'display' => ''
                 );
-
             } else {
                 $passedCheck = false;
                 $messages = $Check->getMessages($errorCode);
+                $breakOnFailure = $Checks[$Check];
             }
 
             $Result = new FireResult\Result($fieldName, $fieldValue, (string) $Check, $passedCheck, $messages);
             $ResultSet->addResult($Result);
+
+            if ($breakOnFailure) {
+                break;
+            }
         }
 
         return $ResultSet;
