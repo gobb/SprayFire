@@ -97,10 +97,10 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
         $Validator = new FireValidation\Validator();
         $ResultSet = $Validator->validate($data, $Rules);
 
-        $succesfulResults = $ResultSet->getResultsByFieldName('foo', $ResultSet::SUCCESSFUL_RESULTS);
+        $successfulResults = $ResultSet->getResultsByFieldName('foo', $ResultSet::SUCCESSFUL_RESULTS);
         $failureResults = $ResultSet->getResultsByFieldName('foo', $ResultSet::FAILURE_RESULTS);
 
-        $this->assertCount(2, $succesfulResults);
+        $this->assertCount(2, $successfulResults);
         $this->assertCount(1, $failureResults);
 
         $expectedSuccessful = array(
@@ -112,7 +112,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
         );
 
         $counter = 0;
-        foreach ($succesfulResults as $Result) {
+        foreach ($successfulResults as $Result) {
             $this->assertSame($expectedSuccessful[$counter], $Result->getCheckName());
             $counter++;
         }
