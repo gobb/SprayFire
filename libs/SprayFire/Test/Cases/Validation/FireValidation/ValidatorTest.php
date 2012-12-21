@@ -140,11 +140,9 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
 
         $successfulResults = $ResultSet->getResultsByFieldName('foo', $ResultSet::SUCCESSFUL_RESULTS);
         $failureResults = $ResultSet->getResultsByFieldName('foo', $ResultSet::FAILURE_RESULTS);
-
         $expectedSuccessful = array(
             'Equal'
         );
-
         $expectedFailure = array(
             'GreaterThan'
         );
@@ -161,6 +159,34 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
             $this->assertSame($expectedFailure[$counter], $Result->getCheckName());
             $counter++;
         }
+    }
+
+    public function testValidatorTestingMultipleFieldsAndMultipleRulesAllPassed() {
+        $data = array(
+            'foo' => 1,
+            'bar' => 2,
+            'foobar' => 3
+        );
+
+        $EqualOne = new FireCheck\Equal(1);
+        $EqualTwo = new FireCheck\Equal(2);
+        $EqualThree = new FireCheck\Equal(3);
+        $LessThanFour = new FireCheck\LessThan(4);
+        $GreaterThanZero = new FireCheck\GreaterThan(0);
+
+        $Rules = new FireValidation\Rules();
+        $Rules->forField('foo')->add($EqualOne)->add($LessThanFour)->add($GreaterThanZero);
+        $Rules->forField('bar')->add($EqualTwo)->add($LessThanFour)->add($GreaterThanZero);
+        $Rules->forField('foobar')->add($EqualThree)->add($LessThanFour)->add($GreaterThanZero);
+
+        $Validator = new FireValidation\Validator();
+        $ResultSet = $Validator->validate($data, $Rules);
+
+        $this->assertSame(9, $ResultSet->count($ResultSet::SUCCESSFUL_RESULTS));
+        $this->assertSame(0, $ResultSet->count($ResultSet::FAILURE_RESULTS));
+        $this->assertCount(3, $ResultSet->getResultsByFieldName('foo', $ResultSet::SUCCESSFUL_RESULTS));
+        $this->assertCount(3, $ResultSet->getResultsByFieldName('bar', $ResultSet::SUCCESSFUL_RESULTS));
+        $this->assertCount(3, $ResultSet->getResultsByFieldName('foobar', $ResultSet::SUCCESSFUL_RESULTS));
     }
 
 }
