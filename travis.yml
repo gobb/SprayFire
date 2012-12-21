@@ -1,6 +1,0 @@
-## YAML Template.
----
-language: php
-php:
-  - 5.3
-script: phpunit --configuration libs/SprayFire/Test/configuration.xml
