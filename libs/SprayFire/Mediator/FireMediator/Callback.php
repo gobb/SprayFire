@@ -41,7 +41,7 @@ class Callback extends SFCoreObject implements SFMediator\Callback {
      *
      * @param string $eventName
      * @param callable $function
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct($eventName, $function) {
         $this->eventName = $eventName;
@@ -62,7 +62,7 @@ class Callback extends SFCoreObject implements SFMediator\Callback {
      * Invokes the $function stored by the callback, passing along the $Event
      * object as the one and only parameter.
      *
-     * @param SprayFire.Mediator.Event $Event
+     * @param \SprayFire\Mediator\Event $Event
      * @return mixed
      */
     public function invoke(SFMediator\Event $Event) {

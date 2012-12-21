@@ -96,7 +96,7 @@ interface Check extends SFObject, MessageTokenizable {
      * Please see interface level documentation for important information about
      * the message values returned from this method.
      *
-     * @param integer $errorCodes
+     * @param integer $errorCode
      * @return array
      */
     public function getMessages($errorCode);

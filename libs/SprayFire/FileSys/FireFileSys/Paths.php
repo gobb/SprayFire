@@ -82,7 +82,7 @@ class Paths extends SFCoreObject implements SFFileSys\PathGenerator {
     protected $webPath;
 
     /**
-     * @param SprayFire.FileSys.FireFileSys.RootPaths
+     * @param \SprayFire\FileSys\FireFileSys\RootPaths
      */
     public function __construct(RootPaths $RootPaths) {
         $this->installPath = $RootPaths->install;

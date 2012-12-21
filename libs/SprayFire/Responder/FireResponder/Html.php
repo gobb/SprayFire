@@ -48,7 +48,7 @@ class Html extends FireService\Consumer implements SFResponder\Responder {
 
     /**
      *
-     * @param SprayFire.Controller.Controller $Controller
+     * @param \SprayFire\Controller\Controller $Controller
      * @return string
      */
     public function generateDynamicResponse(SFController\Controller $Controller) {

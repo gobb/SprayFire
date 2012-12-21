@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation of SprayFire.Dispatcher.Dispatcher provided with the default
+ * Implementation of \SprayFire\Dispatcher\Dispatcher provided with the default
  * SprayFire install.
  *
  * @author  Charles Sprayberry
@@ -26,9 +26,9 @@ use \SprayFire\Dispatcher as SFDispatcher,
  * This class is the primary workhorse of the framework and is responsible for
  * the overall resource processing logic including:
  *
- * - Routing the given SprayFire.Http.Request
+ * - Routing the given \SprayFire\Http\Request
  * - Initializing the appropriate application based on routing
- * - Creation of the appropriate SprayFire.Controller.Controller and SprayFire.Responder.Responder
+ * - Creation of the appropriate \SprayFire\Controller\Controller and \SprayFire\Responder\Responder
  * objects.
  * - Invocation of the Controller and the triggering of an events provided by
  * the default SprayFire install
@@ -41,15 +41,15 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
     /**
      * Used to ensure the appropriate applications gets autoloaded and bootstrapped.
      *
-     * @property SprayFire.Dispatcher.AppInitializer
+     * @property \SprayFire\Dispatcher\AppInitializer
      */
     protected $AppInitializer;
 
     /**
-     * Is used to get an appropriate SprayFire.Http.Routing.RoutedRequest to
+     * Is used to get an appropriate \SprayFire\Http\Routing\RoutedRequest to
      * know what controller/action to process.
      *
-     * @property SprayFire.Http.Routing.Router
+     * @property \SprayFire\Http\Routing\Router
      */
     protected $Router;
 
@@ -57,21 +57,21 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * Is used to ensure that appropriate events for the dispatching process are
      * triggered when appropriate.
      *
-     * @property SprayFire.Mediator.Mediator
+     * @property \SprayFire\Mediator\Mediator
      */
     protected $Mediator;
 
     /**
-     * Ensures an appropriate SprayFire.Controller.Controller can be created.
+     * Ensures an appropriate \SprayFire\Controller\Controller can be created.
      *
-     * @property SprayFire.Factory.Factory
+     * @property \SprayFire\Factory\Factory
      */
     protected $ControllerFactory;
 
     /**
-     * Ensures an appropriate SprayFire.Responder.Responder can be created.
+     * Ensures an appropriate \SprayFire\Responder\Responder can be created.
      *
-     * @property SprayFire.Factory.Factory
+     * @property \SprayFire\Factory\Factory
      */
     protected $ResponderFactory;
 
@@ -84,11 +84,11 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
     protected $environmentConfig;
 
     /**
-     * @param SprayFire.Http.Routing.Router $Router
-     * @param SprayFire.Mediator.Mediator $Mediator
-     * @param SprayFire.Dispatcher.AppInitializer $AppInitializer
-     * @param SprayFire.Factory.Factory $ControllerFactory
-     * @param SprayFire.Factory.Factory $ResponderFactory
+     * @param \SprayFire\Http\Routing\Router $Router
+     * @param \SprayFire\Mediator\Mediator $Mediator
+     * @param \SprayFire\Dispatcher\AppInitializer $AppInitializer
+     * @param \SprayFire\Factory\Factory $ControllerFactory
+     * @param \SprayFire\Factory\Factory $ResponderFactory
      */
     public function __construct(
         SFRouting\Router $Router,
@@ -109,7 +109,8 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * events along the way, and start the invocation of the static or dynamic
      * response sending.
      *
-     * @param SprayFire.Http.Request $Request
+     * @param \SprayFire\Http\Request $Request
+     * @return mixed|void
      */
     public function dispatchResponse(SFHttp\Request $Request) {
         $this->Mediator->triggerEvent(SFDispatcher\Events::BEFORE_ROUTING, $Request);
@@ -125,7 +126,7 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * the response to the user; along the way appropriate SprayFire events will
      * be triggered.
      *
-     * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
+     * @param \SprayFire\Http\Routing\RoutedRequest $RoutedRequest
      */
     protected function sendDynamicRequest(SFRouting\RoutedRequest $RoutedRequest) {
         $Controller = $this->generateController($RoutedRequest->getController(), $RoutedRequest->getAction());
@@ -145,7 +146,7 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * Will create a callback for the Controller::beforeAction method and add that
      * to the Mediator to be invoked as appropriate.
      *
-     * @param SprayFire.Controller.Controller $Controller
+     * @param \SprayFire\Controller\Controller $Controller
      */
     protected function addControllerBeforeActionEventToMediator(SFController\Controller $Controller) {
         $event = SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED;
@@ -158,7 +159,7 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * Will create a callback for the Controller::afterAction method and add that
      * to the Mediator to be invoked as appropriate.
      *
-     * @param SprayFire.Controller.Controller $Controller
+     * @param \SprayFire\Controller\Controller $Controller
      */
     protected function addControllerAfterActionEventToMediator(SFController\Controller $Controller) {
         $event = SFDispatcher\Events::AFTER_CONTROLLER_INVOKED;
@@ -176,8 +177,8 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      *
      * @param string $controllerName
      * @param string $actionName
-     * @return SprayFire.Controller.Controller
-     * @throws SprayFire.Exception.ResourceNotFound
+     * @return \SprayFire\Controller\Controller
+     * @throws \SprayFire\Exception\ResourceNotFoundException
      */
     protected function generateController($controllerName, $actionName) {
         $Controller = $this->ControllerFactory->makeObject($controllerName);
@@ -188,11 +189,11 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
     }
 
     /**
-     * Ensures that the appropriate events and actions for invoking a SprayFire.Controller.Controller
+     * Ensures that the appropriate events and actions for invoking a \SprayFire\Controller\Controller
      * are properly carried out.
      *
-     * @param SprayFire.Controller.Controller $Controller
-     * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
+     * @param \SprayFire\Controller\Controller $Controller
+     * @param \SprayFire\Http\Routing\RoutedRequest $RoutedRequest
      * @return void
      */
     protected function invokeController(SFController\Controller $Controller, SFRouting\RoutedRequest $RoutedRequest) {

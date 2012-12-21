@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * Interface that holds a set of results from a call to \SprayFire\Validation\Validator::validate
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -26,14 +27,14 @@ interface Set extends SFObject {
 
     const FAILURE_RESULTS = 'failure';
 
-
     /**
-     * @param SprayFire.Validation.Result.Result $Result
+     * @param \SprayFire\Validation\Result\Result $Result
      */
     public function addResult(Result $Result);
 
     /**
      * @param string $field
+     * @param string $resultType
      * @return array
      */
     public function getResultsByFieldName($field, $resultType = Set::ALL_RESULTS);

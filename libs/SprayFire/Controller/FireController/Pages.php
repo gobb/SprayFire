@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Implementation of SprayFire.Controller.Controller that is used to show off the
- * intallation and debug pages provided in the default SprayFire install.
+ * Implementation of \SprayFire\Controller\Controller that is used to show off the
+ * installation and debug pages provided in the default SprayFire install.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -23,7 +23,7 @@ use \SprayFire\Mediator as SFMediator,
  * your controllers on some application specific controller.  The default SprayFire
  * install should include an implementation in:
  *
- * <AppName>.Controller.Base
+ * \<AppName>\Controller\Base
  *
  * @package SprayFire
  * @subpackage Controller.FireController
@@ -31,7 +31,7 @@ use \SprayFire\Mediator as SFMediator,
 class Pages extends Base {
 
     /**
-     * @param SprayFire.Mediator.Event $Event
+     * @param \SprayFire\Mediator\Event $Event
      */
     public function beforeAction(SFMediator\Event $Event) {
         parent::beforeAction($Event);

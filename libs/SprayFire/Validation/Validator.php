@@ -28,8 +28,8 @@ interface Validator extends SFObject {
      * of whether all fields passed the rules or not.
      *
      * @param array $data
-     * @param SprayFire.Validation.Rules $Rules
-     * @return SprayFire.Validation.Result.Set
+     * @param \SprayFire\Validation\Rules $Rules
+     * @return \SprayFire\Validation\Result\Set
      */
     public function validate(array $data, Rules $Rules);
 

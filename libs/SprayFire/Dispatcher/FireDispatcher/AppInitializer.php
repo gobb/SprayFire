@@ -64,19 +64,11 @@ class AppInitializer extends SFCoreObject implements SFDispatcher\AppInitializer
     protected $Paths;
 
     /**
-     * @param SprayFire.Service.Container $Container
-     * @param ClassLoader.Loader $ClassLoader
-     * @param SprayFire.FileSys.PathGenerator $Paths
-     *
-     * @todo
-     * See about refactoring the list to accept SprayFire components then
-     * third party components.
+     * @param \SprayFire\Service\Container $Container
+     * @param \SprayFire\FileSys\PathGenerator $Paths
+     * @param \ClassLoader\Loader $ClassLoader
      */
-    public function __construct(
-        SFService\Container $Container,
-        SFFileSys\PathGenerator $Paths,
-        ClassLoader $ClassLoader)
-    {
+    public function __construct(SFService\Container $Container, SFFileSys\PathGenerator $Paths, ClassLoader $ClassLoader) {
         $this->Container = $Container;
         $this->Paths = $Paths;
         $this->ClassLoader = $ClassLoader;
@@ -84,16 +76,16 @@ class AppInitializer extends SFCoreObject implements SFDispatcher\AppInitializer
 
     /**
      * Based on the application namespace from the $RoutedRequest will setup the
-     * appropriate autoloading and determine if there is a <AppName>.Bootstrap
-     * class that properly implements SprayFire.Bootstrap.Bootstrapper and, if
+     * appropriate autoloading and determine if there is a \<AppName>\Bootstrap
+     * class that properly implements \SprayFire\Bootstrap\Bootstrapper and, if
      * so, will instantiate and invoke the runBootstrap() object for the application.
      *
-     * It is assumed that your application bootstraps are expecting a SprayFire.Service.Container
-     * and a ClassLoader.Loader are injected at construction time.
+     * It is assumed that your application bootstraps are expecting a \SprayFire\Service\Container
+     * and a \ClassLoader\Loader are injected at construction time.
      *
-     * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
+     * @param \SprayFire\Http\Routing\RoutedRequest $RoutedRequest
      * @return void
-     * @throws SprayFire.Exception.ResourceNotFoundException
+     * @throws \SprayFire\Exception\ResourceNotFoundException
      */
     public function initializeApp(SFRouting\RoutedRequest $RoutedRequest) {
         $appNamespace = $RoutedRequest->getAppNamespace();
@@ -108,11 +100,13 @@ class AppInitializer extends SFCoreObject implements SFDispatcher\AppInitializer
         $this->ClassLoader->registerNamespaceDirectory($appNamespace, $this->Paths->getAppPath());
         $bootstrapName = '\\' . $appNamespace . '\\Bootstrap';
         if (!\class_exists($bootstrapName)) {
-            throw new SFException\ResourceNotFoundException('The application bootstrap for the RoutedRequest could not be found.  Please ensure you have created a \\' . $appNamespace . '\\Bootstrap object.');
+            $message = 'The application bootstrap for the RoutedRequest could not be found.  Please ensure you have created a \\' . $appNamespace . '\\Bootstrap object.';
+            throw new SFException\ResourceNotFoundException($message);
         }
         $Bootstrap = new $bootstrapName($this->Container, $this->ClassLoader);
         if (($Bootstrap instanceof SFBootstrap\Bootstrapper) === false) {
-            throw new SFException\ResourceNotFoundException('The application bootstrap, ' . $bootstrapName . ', for the RoutedRequest does not implement the appropriate interface, \\SprayFire\\Bootstrap\\Bootstrapper');
+            $message = 'The application bootstrap, ' . $bootstrapName . ', for the RoutedRequest does not implement the appropriate interface, \\SprayFire\\Bootstrap\\Bootstrapper';
+            throw new SFException\ResourceNotFoundException($message);
         }
         $Bootstrap->runBootstrap();
     }

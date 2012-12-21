@@ -132,7 +132,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
         $GreaterThan = new FireCheck\GreaterThan(1);
         $LessThan = new FireCheck\LessThan(2);
 
-        
+        $Rules = new FireValidation\Rules();
+        $Rules->forField('foo');
     }
 
 

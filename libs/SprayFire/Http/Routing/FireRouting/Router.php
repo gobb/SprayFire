@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation of SprayFire.Http.Routing.Router provided by the default SprayFire
+ * Implementation of \SprayFire\Http\Routing\Router provided by the default SprayFire
  * install.
  *
  * @author  Charles Sprayberry
@@ -20,7 +20,7 @@ use \SprayFire\Http as SFHttp,
 /**
  * At the moment this implementation is a configuration strict implementation,
  * meaning that if the route requested is not in the configuration passed to the
- * router then a SprayFire.Http.Routing.RoutedRequest representing a 404 response
+ * router then a \SprayFire\Http\Routing\RoutedRequest representing a 404 response
  * will be returned.
  *
  * The routing configuration passed is expected to be of a specific format that
@@ -43,22 +43,22 @@ class Router extends SFCoreObject implements SFRouting\Router {
      * Ensures that the appropriate controller and action name are passed to the
      * SprayFire.Http.Routing.RoutedRequest.
      *
-     * @property SprayFire.Http.Routing.FireRouting.Normalizer
+     * @property \SprayFire\Http\Routing\FireRouting\Normalizer
      */
     protected $Normalizer;
 
     /**
      * Holds the routes that we can match against SprayFire.Http.Request.
      *
-     * @property SprayFire.Http.Routing.FireRouting.RouteBag
+     * @property \SprayFire\Http\Routing\RouteBag
      */
     protected $RouteBag;
 
     /**
-     * Stores SprayFire.Http.Routing.RoutedRequest objects against SprayFire.Http.Request
+     * Stores \SprayFire\Http\Routing\RoutedRequest objects against \SprayFire\Http\Request
      * objects used to create them.
      *
-     * @property SplObjectStorage
+     * @property \SplObjectStorage
      */
     protected $RoutedRequestCache;
 
@@ -74,8 +74,8 @@ class Router extends SFCoreObject implements SFRouting\Router {
      * Please see the documentation on routing configurations at
      * https://github.com/cspray/SprayFire/wiki/HTTP-and-Routing
      *
-     * @param SprayFire.Http.Routing.FireRouting.RouteBag $RouteBag
-     * @param SprayFire.Http.Routing.FireRouting.Normalizer $Normalizer
+     * @param \SprayFire\Http\Routing\FireRouting\RouteBag $RouteBag
+     * @param \SprayFire\Http\Routing\FireRouting\Normalizer $Normalizer
      * @param string $installDir
      */
     public function __construct(RouteBag $RouteBag, Normalizer $Normalizer, $installDir = '') {
@@ -86,12 +86,12 @@ class Router extends SFCoreObject implements SFRouting\Router {
     }
 
     /**
-     * Bsed on the URI path and HTTP method passed in the given SprayFire.Http.Request
-     * will return an appropriate SprayFire.Http.Routing.FireRouting.RoutedRequest
+     * Based on the URI path and HTTP method passed in the given \SprayFire\Http\Request
+     * will return an appropriate \SprayFire\Http\Routing\FireRouting\RoutedRequest
      * configured for the appropriate resource.
      *
-     * @param SprayFire.Http.Request $Request
-     * @return SprayFire.Http.Routing.FireRouting.RoutedRequest
+     * @param \SprayFire\Http\Request $Request
+     * @return \SprayFire\Http\Routing\FireRouting\RoutedRequest
      */
     public function getRoutedRequest(SFHttp\Request $Request) {
         if (isset($this->RoutedRequestCache[$Request])) {
@@ -112,11 +112,11 @@ class Router extends SFCoreObject implements SFRouting\Router {
     }
 
     /**
-     * Will parse the given SprayFire.Http.Request to determine if there is a
+     * Will parse the given \SprayFire\Http\Request to determine if there is a
      * matched routed in the configuration, if there is not a 404 route will be
      * returned.
      *
-     * @param SprayFire.Http.Request $Request
+     * @param \SprayFire\Http\Request $Request
      * @return array
      */
     protected function getMatchedRouteAndParameters(SFHttp\Request $Request) {
@@ -193,7 +193,7 @@ class Router extends SFCoreObject implements SFRouting\Router {
     }
 
     /**
-     * @param $uri string
+     * @param string $uri
      * @return string
      */
     protected function removeLeadingForwardSlash($uri) {

@@ -48,7 +48,8 @@ class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
     /**
      * Will store a $Route with the pattern for that route as the given key.
      *
-     * @param SprayFire.Http.Routing.Route $Route
+     * @param \SprayFire\Http\Routing\Route $Route
+     * @throws \InvalidArgumentException
      */
     public function addRoute(SFRouting\Route $Route) {
         $routePattern = $Route->getPattern();

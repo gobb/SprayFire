@@ -13,7 +13,9 @@
 namespace SprayFire\Service\FireService;
 
 use \SprayFire\Service as SFService,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\CoreObject as SFCoreObject,
+    \InvalidArgumentException as InvalidArgumentException,
+    \BadMethodCallException as BadMethodCallException;
 
 /**
  * @package SprayFire
@@ -51,7 +53,7 @@ abstract class Consumer extends SFCoreObject implements SFService\Consumer {
      *
      * @param string $key
      * @param object $Service
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function giveService($key, $Service) {
         $key = (string) $key;
@@ -62,7 +64,7 @@ abstract class Consumer extends SFCoreObject implements SFService\Consumer {
     }
 
     /**
-     * Method provided to easily retrive a service based on the key stored in
+     * Method provided to easily retrieve a service based on the key stored in
      * Consumer::services
      *
      * @param string $serviceName
@@ -101,10 +103,10 @@ abstract class Consumer extends SFCoreObject implements SFService\Consumer {
 
     /**
      * @param string $serviceName
-     * @throws BadMethodCallException
+     * @throws \BadMethodCallException
      */
     public function __unset($serviceName) {
-        throw new \BadMethodCallException('You may not remove a service expecting to be consumed.');
+        throw new BadMethodCallException('You may not remove a service expecting to be consumed.');
     }
 
 }

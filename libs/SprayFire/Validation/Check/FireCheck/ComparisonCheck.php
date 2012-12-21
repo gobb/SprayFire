@@ -49,6 +49,7 @@ abstract class ComparisonCheck extends Check {
      * DO NOT RELY ON THE RETURN OF THIS FUNCTION TO SUPPLY AN ERROR CODE!
      *
      * @param mixed $value
+     * @return void
      */
     public function passesCheck($value) {
         parent::passesCheck($value);

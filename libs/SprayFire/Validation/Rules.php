@@ -28,7 +28,7 @@ interface Rules extends SFObject {
      * $Check should be ran in the order they are added to the Rules
      *
      * @param string $field
-     * @param SprayFire.Validation.Check.Check $Check
+     * @param \SprayFire\Validation\Check\Check $Check
      * @param boolean $breakOnFailure
      */
     public function addCheck($field, SFValidationCheck\Check $Check, $breakOnFailure = false);

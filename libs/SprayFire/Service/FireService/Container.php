@@ -16,11 +16,12 @@ use \SprayFire\Service as SFService,
     \SprayFire\Factory as SFFactory,
     \SprayFire\Utils as SFUtils,
     \SprayFire\Service\Exception as SFServiceException,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\CoreObject as SFCoreObject,
+    \InvalidArgumentException as InvalidArgumentException;
 
 /**
  * A very simple implementation designed to lazy-load services needed and provide
- * all consuemrs of services the same service.
+ * all consumers of services the same service.
  *
  * @package SprayFire
  * @subpackage Service.FireService
@@ -28,10 +29,10 @@ use \SprayFire\Service as SFService,
 class Container extends SFCoreObject implements SFService\Container {
 
     /**
-     * Ensures that we are not creating uneeded Reflection objects when creating
+     * Ensures that we are not creating unneeded Reflection objects when creating
      * services.
      *
-     * @property SprayFire.Utils.ReflectionCache
+     * @property \SprayFire\Utils\ReflectionCache
      */
     protected $ReflectionCache;
 
@@ -67,11 +68,13 @@ class Container extends SFCoreObject implements SFService\Container {
     protected $emptyCallback;
 
     /**
-     * @param SprayFire.Utils.ReflecationCache $ReflectionCache
+     * @param \SprayFire\Utils\ReflectionCache $ReflectionCache
      */
     public function __construct(SFUtils\ReflectionCache $ReflectionCache) {
         $this->ReflectionCache = $ReflectionCache;
-        $this->emptyCallback = function() { return array(); };
+        $this->emptyCallback = function() {
+            return array();
+        };
     }
 
     /**
@@ -80,7 +83,9 @@ class Container extends SFCoreObject implements SFService\Container {
      *
      * @param string $serviceName
      * @param callable|null $callableParameters
-     * @throws InvalidArgumentException
+     * @param string|null $factoryKey
+     * @throws \InvalidArgumentException
+     * @return void
      */
     public function addService($serviceName, $callableParameters = null, $factoryKey = null) {
         if (\is_object($serviceName)) {
@@ -125,8 +130,8 @@ class Container extends SFCoreObject implements SFService\Container {
      *
      * @param string $serviceName
      * @return object
-     * @throws SprayFire.Service.Exception.ServiceNotFound
-     * @throws SprayFire.Service.Exception.FactoryNotRegistered
+     * @throws \SprayFire\Service\Exception\ServiceNotFound
+     * @throws \SprayFire\Service\Exception\FactoryNotRegistered
      */
     public function getService($serviceName) {
         $serviceKey = $this->getServiceKey($serviceName);
@@ -149,8 +154,8 @@ class Container extends SFCoreObject implements SFService\Container {
      * @param string $serviceName
      * @param array $serviceSignature
      * @return object
-     * @throws SprayFire.Service.Exception.ServiceNotFound
-     * @throws SprayFire.Service.Exception.FactoryNotRegistered
+     * @throws \SprayFire\Service\Exception\ServiceNotFound
+     * @throws \SprayFire\Service\Exception\FactoryNotRegistered
      */
     protected function createService($serviceName, array $serviceSignature) {
         $parameterCallback = $serviceSignature['parameterCallback'];
@@ -188,7 +193,7 @@ class Container extends SFCoreObject implements SFService\Container {
     /**
      *
      * @param string $factoryKey
-     * @param SprayFire.Factory.Factory $Factory
+     * @param \SprayFire\Factory\Factory $Factory
      */
     public function registerFactory($factoryKey, SFFactory\Factory $Factory) {
         $this->registeredFactories[(string) $factoryKey] = $Factory;

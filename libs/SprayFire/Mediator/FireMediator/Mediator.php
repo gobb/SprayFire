@@ -22,8 +22,8 @@ use \SprayFire\Mediator as SFMediator,
  * @subpackage Mediator.FireMediator
  *
  * @todo
- * We have a serious disconnect betwee this implementation and
- * SprayFire.Mediatore.FireMediator.EventRegistry.  We need to ensure the Mediator
+ * We have a serious disconnect between this implementation and
+ * \SprayFire\Mediator\FireMediator\EventRegistry.  We need to ensure the Mediator
  * is properly updated when events are registered and unregistered on the fly.
  *
  */
@@ -39,12 +39,12 @@ class Mediator extends SFCoreObject implements SFMediator\Mediator {
     /**
      * Stores the events that are able to be triggered by this implementation.
      *
-     * @property SprayFire.Mediator.FireMediator.EventRegistry
+     * @property \SprayFire\Mediator\FireMediator\EventRegistry
      */
     protected $Registry;
 
     /**
-     * @param SprayFire.Mediator.FireMediator.EventRegistry $Registry
+     * @param \SprayFire\Mediator\FireMediator\EventRegistry $Registry
      */
     public function __construct(EventRegistry $Registry) {
         $this->Registry = $Registry;
@@ -65,9 +65,9 @@ class Mediator extends SFCoreObject implements SFMediator\Mediator {
      * Will add the $Callback to be invoked when the $Callback::getEventName() is
      * triggered.
      *
-     * @param SprayFire.Mediator.Callback $Callback
+     * @param \SprayFire\Mediator\Callback $Callback
      * @return boolean
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function addCallback(SFMediator\Callback $Callback) {
         $eventName = $Callback->getEventName();
@@ -84,7 +84,7 @@ class Mediator extends SFCoreObject implements SFMediator\Mediator {
      * This implementation uses $Callback::equals() from the SprayFire.Object
      * interface to ensure that the appropriate object is removed.
      *
-     * @param SprayFire.Mediator.Callback $Callback
+     * @param \SprayFire\Mediator\Callback $Callback
      * @return boolean
      */
     public function removeCallback(SFMediator\Callback $Callback) {
@@ -123,7 +123,8 @@ class Mediator extends SFCoreObject implements SFMediator\Mediator {
      * @param string $eventName
      * @param object $Target
      * @param array $arguments
-     * @throws InvalidArgumentException
+     * @return void
+     * @throws \InvalidArgumentException
      */
     public function triggerEvent($eventName, $Target, array $arguments = array()) {
         if (!$this->Registry->hasEvent($eventName)) {

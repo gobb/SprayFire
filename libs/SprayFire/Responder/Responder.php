@@ -25,7 +25,7 @@ interface Responder extends SFObject, SFService\Consumer {
      * Should sanitize the appropriate data and generate a response based on the
      * $Controller data provided.
      *
-     * @param SprayFire.Controller.Controller $Controller
+     * @param \SprayFire\Controller\Controller $Controller
      * @return string
      */
     public function generateDynamicResponse(SFController\Controller $Controller);

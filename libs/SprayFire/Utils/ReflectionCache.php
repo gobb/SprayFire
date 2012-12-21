@@ -38,7 +38,7 @@ class ReflectionCache extends SFCoreObject {
     protected $cache = array();
 
     /**
-     * @param SprayFire.Utils.JavaNamespaceConverter $JavaNameConverter
+     * @param \SprayFire\Utils\JavaNamespaceConverter $JavaNameConverter
      */
     public function __construct(JavaNamespaceConverter $JavaNameConverter) {
         $this->JavaNameConverter = $JavaNameConverter;
@@ -49,8 +49,8 @@ class ReflectionCache extends SFCoreObject {
      * if there was an error.
      *
      * @param string $className
-     * @return ReflectionClass
-     * @throws ReflectionException
+     * @return \ReflectionClass
+     * @throws \ReflectionException
      */
     public function getClass($className) {
         $className = $this->JavaNameConverter->convertJavaClassToPhpClass($className);

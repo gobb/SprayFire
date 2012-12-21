@@ -18,14 +18,14 @@ use \SprayFire\Responder\Template as SFResponderTemplate,
 
 /**
  * @package SprayFire
- * @subpackage`Responder.FireResponder.FireTemplate
+ * @subpackage Responder.FireResponder.FireTemplate
  */
 class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
 
     /**
      * Represents the primary template for a given response.
      *
-     * @property SprayFire.Responder.Template.Template
+     * @property \SprayFire\Responder\Template\Template
      */
     protected $LayoutTemplate;
 
@@ -39,7 +39,7 @@ class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
     /**
      * Stores a $Template against the name returned from $Template::getName.
      *
-     * @param SprayFire.Responder.Template.Template $Template
+     * @param \SprayFire\Responder\Template\Template $Template
      * @return void
      */
     public function addContentTemplate(SFResponderTemplate\Template $Template) {
@@ -47,7 +47,7 @@ class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
     }
 
     /**
-     * Provides an array of SprayFire.Responder.Template.Template that have been
+     * Provides an array of \SprayFire\Responder\Template\Template that have been
      * added as a content template.
      *
      * @return array
@@ -57,14 +57,14 @@ class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
     }
 
     /**
-     * Return the SprayFire.Responder.Template.Template that was passed to
+     * Return the \SprayFire\Responder\Template\Template that was passed to
      * Manager::setLayoutTemplate().
      *
      * If Manager::setLayoutTemplate is never called and this method is invoked
      * an exception will be thrown.
      *
-     * @return SprayFire.Responder.Template.Template
-     * @throws SprayFire.Responder.Template.Exception.LayoutNotSet
+     * @return\SprayFire\Responder\Template\Template
+     * @throws \SprayFire\Responder\Template\Exception\LayoutNotSet
      */
     public function getLayoutTemplate() {
         if (!$this->LayoutTemplate instanceof SFResponderTemplate\Template) {
@@ -101,7 +101,7 @@ class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
     }
 
     /**
-     * @param SprayFire.Responder.Template.Template $Template
+     * @param \SprayFire\Responder\Template\Template $Template
      */
     public function setLayoutTemplate(SFResponderTemplate\Template $Template) {
         $this->LayoutTemplate = $Template;

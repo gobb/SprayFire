@@ -46,7 +46,7 @@ class Rules extends SFCoreObject implements SFValidation\Rules {
      * Will add the passed $Check as the next in order to be ran for $field.
      *
      * @param string $field
-     * @param SprayFire.Validation.Check.Check $Check
+     * @param \SprayFire\Validation\Check\Check $Check
      * @param boolean $breakOnFailure
      */
     public function addCheck($field, SFValidationCheck\Check $Check, $breakOnFailure = false) {
@@ -86,7 +86,7 @@ class Rules extends SFCoreObject implements SFValidation\Rules {
      * Sets the field that all successive add() calls will store the $Check against.
      *
      * @param string $field
-     * @return SprayFire.Validation.FireValidation.Rules
+     * @return \SprayFire\Validation\FireValidation\Rules
      */
     public function forField($field) {
         $this->activeField = (string) $field;
@@ -94,11 +94,12 @@ class Rules extends SFCoreObject implements SFValidation\Rules {
     }
 
     /**
-     * Adds a $Check to the storage for the field set by the last call to Rules::forField
+     * Adds a Check to the storage for the field set by the last call to Rules::forField
      *
-     * @param SprayFire.Validation.Check $Check
+     * @param \SprayFire\Validation\Check\Check $Check
      * @param boolean $breakOnFailure
-     * @return SprayFire.Validation.FireValidation.Rules
+     * @return \SprayFire\Validation\FireValidation\Rules
+     * @throws \SprayFire\Validation\Exception\InvalidMethodChain
      */
     public function add(SFValidationCheck\Check $Check, $breakOnFailure = false) {
         if (!isset($this->activeField)) {

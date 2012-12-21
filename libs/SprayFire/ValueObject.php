@@ -11,6 +11,8 @@
 
 namespace SprayFire;
 
+use \SprayFire\Exception as SFException;
+
 /**
  * @package SprayFire
  */
@@ -23,6 +25,8 @@ abstract class ValueObject extends CoreObject {
      * @property array
      */
     private $accessibleProperties;
+
+    private $errorMessage = 'You may not change property values of %s, it is immutable.';
 
     /**
      * Accepts an associative array with the property as the key and the value for
@@ -68,25 +72,26 @@ abstract class ValueObject extends CoreObject {
     /**
      * @param string $property
      * @param mixed $value
-     * @throws SprayFire.Exception.UnsupportedOperationException
+     * @throws \SprayFire\Exception\UnsupportedOperationException
      */
     public final function __set($property, $value) {
-        throw new \SprayFire\Exception\UnsupportedOperationException('You may not change the value of this object, it is immutable.');
+        $message = \sprintf($this->errorMessage, \get_class($this));
+        throw new SFException\UnsupportedOperationException($message);
     }
 
     /**
      * @param string $property
-     * @throws SprayFire.Exception.UnsupportedOperationException
+     * @throws \SprayFire\Exception\UnsupportedOperationException
      */
     public final function __unset($property) {
-        throw new \SprayFire\Exception\UnsupportedOperationException('You may not change the value of this object, it is immutable.');
+        throw new SFException\UnsupportedOperationException('');
     }
 
     /**
      * Overridden to ensure that ValueObject equality is based on the values stored
      * by each object.
      *
-     * @param SprayFire.Object $Object
+     * @param \SprayFire\Object $Object
      * @return boolean
      */
     public function equals(Object $Object) {

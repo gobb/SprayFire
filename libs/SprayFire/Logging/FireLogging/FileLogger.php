@@ -44,6 +44,8 @@ class FileLogger extends SFCoreObject implements SFLogging\Logger  {
      *
      * Or perhaps we should let them provide this object and they can then read
      * from it in some other code.
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(\SplFileInfo $LogFile, $openMode = 'a') {
         try {

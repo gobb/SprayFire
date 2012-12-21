@@ -35,12 +35,12 @@ use \SprayFire\Controller as SFController,
 class NullObject extends SFCoreObject implements SFController\Controller {
 
     /**
-     * @property SprayFire.Responder.Template.Manager
+     * @property \SprayFire\Responder\Template\Manager
      */
     protected $TemplateManager;
 
     /**
-     * Ensures that an appropriate SprayFire.Responder.Template.Manager is setup
+     * Ensures that an appropriate \SprayFire\Responder\Template\Manager is setup
      * to be returned from getTemplateManager()
      */
     public function __construct() {
@@ -48,7 +48,7 @@ class NullObject extends SFCoreObject implements SFController\Controller {
     }
 
     /**
-     * Create a SprayFire.Responder.FireResponder.FireTemplate.Manager instance
+     * Create a \SprayFire\Responder\FireResponder\FireTemplate\Manager instance
      * and set the appropriate layout template.
      */
     protected function setUpTemplateManager() {
@@ -76,7 +76,7 @@ class NullObject extends SFCoreObject implements SFController\Controller {
     /**
      * No operation performed
      *
-     * @param SprayFire.Mediator.Event $Event
+     * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
     public function beforeAction(SFMediator\Event $Event) {
@@ -92,8 +92,6 @@ class NullObject extends SFCoreObject implements SFController\Controller {
     public function afterAction(SFMediator\Event $Event) {
 
     }
-
-
 
     /**
      * No operation performed
@@ -152,6 +150,9 @@ class NullObject extends SFCoreObject implements SFController\Controller {
 
     }
 
+    /**
+     * @return \SprayFire\Responder\Template\Manager
+     */
     public function getTemplateManager() {
         return $this->TemplateManager;
     }

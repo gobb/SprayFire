@@ -24,7 +24,7 @@ use \SprayFire\Validation\Result as SFValidationResult,
 class Set extends SFCoreObject implements SFValidationResult\Set {
 
     /**
-     * Holds the valid SprayFire.Validation.Result.Result objects added stored
+     * Holds the valid \SprayFire\Validation\Result\Result objects added stored
      * against the field for the given Result.
      *
      * @property array
@@ -43,7 +43,7 @@ class Set extends SFCoreObject implements SFValidationResult\Set {
     private $numSuccessfulResults = 0;
 
     /**
-     * Holds the invalid SprayFire.Validation.Result.Result objects added stored
+     * Holds the invalid \SprayFire\Validation\Result\Result objects added stored
      * against the field for the given Result.
      *
      * @property array
@@ -76,7 +76,7 @@ class Set extends SFCoreObject implements SFValidationResult\Set {
      * Will also increment internal counters for $Results added to keep track of
      * the appropriate return value for count()
      *
-     * @param SprayFire.Validation.Result.Result $Result
+     * @param \SprayFire\Validation\Result\Result $Result
      */
     public function addResult(SFValidationResult\Result $Result) {
         if ($Result->passedCheck()) {
@@ -87,7 +87,7 @@ class Set extends SFCoreObject implements SFValidationResult\Set {
     }
 
     /**
-     * @param SprayFire.Validation.Result.Result $Result
+     * @param \SprayFire\Validation\Result\Result $Result
      */
     protected function addSuccessfulResult(SFValidationResult\Result $Result) {
         $field = (string) $Result->getFieldName();
@@ -99,7 +99,7 @@ class Set extends SFCoreObject implements SFValidationResult\Set {
     }
 
     /**
-     * @param SprayFire.Validation.Result.Result $Result
+     * @param \SprayFire\Validation\Result\Result $Result
      */
     protected function addFailedResult(SFValidationResult\Result $Result) {
         $field = (string) $Result->getFieldName();
@@ -173,10 +173,10 @@ class Set extends SFCoreObject implements SFValidationResult\Set {
      * @return array
      */
     protected function getFailedResultsByFieldName($field) {
-       if (isset($this->failureResults[$field])) {
-           return $this->failureResults[$field];
-       }
-       return array();
+        if (isset($this->failureResults[$field])) {
+            return $this->failureResults[$field];
+        }
+        return array();
     }
 
     /**

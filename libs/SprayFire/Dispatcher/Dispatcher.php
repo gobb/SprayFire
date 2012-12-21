@@ -34,7 +34,7 @@ interface Dispatcher extends SFObject {
      * At some point during the execution of this method the response appropriate
      * for the passed $Request should be sent to the user.
      *
-     * @param SprayFire.Http.Request $Request
+     * @param \SprayFire\Http\Request $Request
      * @return mixed
      */
     public function dispatchResponse(SFHttp\Request $Request);
