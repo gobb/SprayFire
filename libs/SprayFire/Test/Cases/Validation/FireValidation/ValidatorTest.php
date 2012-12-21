@@ -133,9 +133,34 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
         $LessThan = new FireCheck\LessThan(2);
 
         $Rules = new FireValidation\Rules();
-        $Rules->forField('foo');
+        $Rules->forField('foo')->add($Equal)->add($GreaterThan, true)->add($LessThan);
+
+        $Validator = new FireValidation\Validator();
+        $ResultSet = $Validator->validate($data, $Rules);
+
+        $successfulResults = $ResultSet->getResultsByFieldName('foo', $ResultSet::SUCCESSFUL_RESULTS);
+        $failureResults = $ResultSet->getResultsByFieldName('foo', $ResultSet::FAILURE_RESULTS);
+
+        $expectedSuccessful = array(
+            'Equal'
+        );
+
+        $expectedFailure = array(
+            'GreaterThan'
+        );
+
+        $counter = 0;
+        foreach ($successfulResults as $Result) {
+            /* @var \SprayFire\Validation\Result\Result $Result */
+            $this->assertSame($expectedSuccessful[$counter], $Result->getCheckName());
+            $counter++;
+        }
+
+        $counter = 0;
+        foreach ($failureResults as $Result) {
+            $this->assertSame($expectedFailure[$counter], $Result->getCheckName());
+            $counter++;
+        }
     }
-
-
 
 }
