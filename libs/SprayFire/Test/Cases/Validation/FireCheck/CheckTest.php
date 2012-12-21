@@ -92,4 +92,8 @@ class CheckHelper extends FireCheck\Check {
         $this->setTokenValue($name, $value);
     }
 
+    protected function getCheckName() {
+        return 'CheckHelper';
+    }
+
 }

@@ -43,4 +43,8 @@ class Equal extends ComparisonCheck {
         return ErrorCodes::NOT_EQUAL_TO_ERROR;
     }
 
+    protected function getCheckName() {
+        return 'Equal';
+    }
+
 }

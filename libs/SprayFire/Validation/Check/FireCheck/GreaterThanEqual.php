@@ -39,5 +39,9 @@ class GreaterThanEqual extends ComparisonCheck {
         return ErrorCodes::LESS_THAN_ERROR;
     }
 
+    protected function getCheckName() {
+        return 'GreaterThanEqual';
+    }
+
 
 }

@@ -39,4 +39,8 @@ class Email extends Check {
         return ErrorCodes::INVALID_EMAIL_ERROR;
     }
 
+    protected function getCheckName() {
+        return 'Email';
+    }
+
 }

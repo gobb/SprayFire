@@ -43,4 +43,8 @@ class GreaterThan extends ComparisonCheck {
         return ErrorCodes::LESS_THAN_ERROR;
     }
 
+    protected function getCheckName() {
+        return 'GreaterThan';
+    }
+
 }

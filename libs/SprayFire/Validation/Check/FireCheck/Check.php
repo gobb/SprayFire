@@ -122,6 +122,15 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
     }
 
     /**
+     * Returns the name of the check, as returned from Check::getCheckName
+     *
+     * @return string
+     */
+    public function __toString() {
+        return (string) $this->getCheckName();
+    }
+
+    /**
      * Helper method that could be used to implement getTokenValues simply as
      * return $this->tokenValues and using this method to set all token values.
      *
@@ -131,5 +140,12 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
     protected function setTokenValue($token, $value) {
         $this->tokenValues[(string) $token] = (string) $value;
     }
+
+    /**
+     * Return the name of the check that should be used when __toString() is called
+     *
+     * @return string
+     */
+    abstract protected function getCheckName();
 
 }
