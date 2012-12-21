@@ -22,13 +22,11 @@ use \SprayFire\Validation\Result as SFValidationResult,
 class Result extends SFCoreObject implements SFValidationResult\Result {
 
     /**
-     *
      * @property string
      */
     protected $fieldName;
 
     /**
-     *
      * @property mixed
      */
     protected $fieldValue;
@@ -41,21 +39,27 @@ class Result extends SFCoreObject implements SFValidationResult\Result {
     protected $messages;
 
     /**
+     * @property string
+     */
+    protected $checkName;
+
+    /**
      * @property boolean
      */
     protected $passedCheck;
 
     /**
-     *
      * @param string $fieldName
      * @param mixed $fieldValue
+     * @param string $checkName
      * @param boolean $passedCheck
      * @param array $messages
      */
-    public function __construct($fieldName, $fieldValue, $passedCheck, array $messages) {
+    public function __construct($fieldName, $fieldValue, $checkName, $passedCheck, array $messages) {
         $this->fieldName = (string) $fieldName;
         $this->fieldValue = $fieldValue;
-        $this->passedCheck - (boolean) $passedCheck;
+        $this->checkName = (string) $checkName;
+        $this->passedCheck = (boolean) $passedCheck;
         $this->messages = $messages;
     }
 
@@ -92,6 +96,13 @@ class Result extends SFCoreObject implements SFValidationResult\Result {
      */
     public function passedCheck() {
         return $this->passedCheck;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCheckName() {
+        return $this->checkName;
     }
 
 }
