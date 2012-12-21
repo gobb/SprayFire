@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Default implementation of SprayFire.Validation.Validator provided by the
+ * Default implementation of \SprayFire\Validation\Validator provided by the
  * framework.
  *
  * @author  Charles Sprayberry
