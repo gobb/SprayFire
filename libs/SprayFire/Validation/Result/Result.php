@@ -45,4 +45,9 @@ interface Result extends SFObject {
      */
     public function getDisplayMessage();
 
+    /**
+     * @return string
+     */
+    public function getCheckName();
+
 }
