@@ -18,7 +18,8 @@ use \SprayFire\Validation as SFValidation,
     \SprayFire\CoreObject as SFCoreObject;
 
 /**
- *
+ * Validates a set of data, passed as an associative array, checks against the
+ * Checks stored against the field for those Rules.
  *
  * @package SprayFire
  * @subpackage Validation.FireValidation
@@ -32,30 +33,29 @@ class Validator extends SFCoreObject implements SFValidation\Validator {
      */
     public function validate(array $data, SFValidation\Rules $Rules) {
         $ResultSet = new FireResult\Set();
+        foreach ($data as $field => $value) {
+            $Checks = $Rules->getChecks($field);
+            foreach ($Checks as $Check) {
+                $errorCode = $Check->passesCheck($value);
+                $breakOnFailure = false;
+                if ($errorCode === FireCheck\ErrorCodes::NO_ERROR) {
+                    $passedCheck = true;
+                    $messages = array(
+                        'log' => '',
+                        'display' => ''
+                    );
+                } else {
+                    $passedCheck = false;
+                    $messages = $Check->getMessages($errorCode);
+                    $breakOnFailure = $Checks[$Check];
+                }
 
-        $fieldName = 'foo';
-        $fieldValue = $data['foo'];
-        $Checks = $Rules->getChecks('foo');
-        foreach ($Checks as $Check) {
-            $errorCode = $Check->passesCheck($fieldValue);
-            $breakOnFailure = false;
-            if ($errorCode === FireCheck\ErrorCodes::NO_ERROR) {
-                $passedCheck = true;
-                $messages = array(
-                    'log' => '',
-                    'display' => ''
-                );
-            } else {
-                $passedCheck = false;
-                $messages = $Check->getMessages($errorCode);
-                $breakOnFailure = $Checks[$Check];
-            }
+                $Result = new FireResult\Result($field, $value, (string) $Check, $passedCheck, $messages);
+                $ResultSet->addResult($Result);
 
-            $Result = new FireResult\Result($fieldName, $fieldValue, (string) $Check, $passedCheck, $messages);
-            $ResultSet->addResult($Result);
-
-            if ($breakOnFailure) {
-                break;
+                if ($breakOnFailure) {
+                    break;
+                }
             }
         }
 
