@@ -30,7 +30,7 @@ interface Callback extends SFObject {
     /**
      * Invoke whatever function is being stored in the callback
      *
-     * @param SprayFire.Mediator.Event $Event
+     * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
     public function invoke(Event $Event);

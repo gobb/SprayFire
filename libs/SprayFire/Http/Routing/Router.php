@@ -16,7 +16,7 @@ use \SprayFire\Http as SFHttp;
 
 /**
  * Implementations should accept some configuration that dictates what information
- * should be passed in a SprayFire.Http.Routing.RoutedRequest when routing is
+ * should be passed in a \SprayFire\Http\Routing\RoutedRequest when routing is
  * processed.
  *
  * @package SprayFire
@@ -31,11 +31,11 @@ interface Router {
 
     /**
      * By matching various pieces of information from the $Request should return
-     * a SprayFire.Http.Routing.RoutedRequest based on some configuration passed
+     * a \SprayFire\Http\Routing\RoutedRequest based on some configuration passed
      * to the implementation.
      *
-     * @param SprayFire.Http.Requst $Request
-     * @return SprayFire.Http.Routing.RoutedRequest
+     * @param \SprayFire\Http\Request $Request
+     * @return \SprayFire\Http\Routing\RoutedRequest
      */
     public function getRoutedRequest(SFHttp\Request $Request);
 

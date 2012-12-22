@@ -44,7 +44,7 @@ class SysLogLogger extends SFCoreObject implements SFLogging\Logger {
      * The options passed to this array should be one of the syslog constants.
      *
      * @param string $message
-     * @param int $options
+     * @param int|mixed|null $options
      * @return boolean
      */
     public function log($message, $options = \LOG_ERR) {

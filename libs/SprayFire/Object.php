@@ -21,7 +21,7 @@ interface Object {
      * Should return true or false for whether or not the given $Object is equal
      * to the object invoking equals.
      *
-     * @param SprayFire.Object $Object
+     * @param \SprayFire\Object $Object
      * @return boolean
      */
     public function equals(Object $Object);

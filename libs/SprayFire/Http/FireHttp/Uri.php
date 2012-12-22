@@ -151,12 +151,12 @@ class Uri extends SFCoreObject implements SFHttp\Uri {
     }
 
     /**
-     * Overrides SprayFire.CoreObject to ensure that objects compared to this
+     * Overrides \SprayFire\CoreObject to ensure that objects compared to this
      * implementation for equality does not care if they are the same object
      * but whether or not the appropriate stringified URI is the same as the object
      * being compared to.
      *
-     * @param SprayFire.Object $Object
+     * @param \SprayFire\Object $Object
      * @return boolean
      */
     public function equals(SFObject $Object) {

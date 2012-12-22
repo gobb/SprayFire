@@ -13,7 +13,8 @@ namespace SprayFire\Http\Routing\FireRouting;
 
 use \SprayFire\Http\Routing as SFRouting,
     \SprayFire\Http\Routing\FireRouting as FireRouting,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\CoreObject as SFCoreObject,
+    \InvalidArgumentException as InvalidArgumentException;
 
 /**
  *
@@ -47,14 +48,15 @@ class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
     /**
      * Will store a $Route with the pattern for that route as the given key.
      *
-     * @param SprayFire.Http.Routing.Route $Route
+     * @param \SprayFire\Http\Routing\Route $Route
+     * @throws \InvalidArgumentException
      */
     public function addRoute(SFRouting\Route $Route) {
         $routePattern = $Route->getPattern();
         if ($this->hasRouteWithPattern($routePattern)) {
             $message = 'The given pattern, ' . $routePattern . ', has already been added to ' . __CLASS__ . ' and may not be overwritten.';
             $message .= '  Please see ' . __CLASS__ . '::removeRouteWithPattern.';
-            throw new \InvalidArgumentException($message);
+            throw new InvalidArgumentException($message);
         }
         $this->routes[$routePattern] = $Route;
     }

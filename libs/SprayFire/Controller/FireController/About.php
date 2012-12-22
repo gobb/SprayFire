@@ -12,7 +12,8 @@
 
 namespace SprayFire\Controller\FireController;
 
-use \SprayFire\Controller as SFController;
+use \SprayFire\Controller as SFController,
+    \SprayFire\Responder\Template as SFResponderTemplate;
 
 
 /**
@@ -44,8 +45,12 @@ class About extends Base implements SFController\Controller {
      */
     protected function setUp() {
         $this->Paths = $this->service('Paths');
-        $this->layoutPath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
-        $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'about.php');
+        $templateName = 'layoutContent';
+        $filePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
+        $LayoutTemplate = new SFResponderTemplate\FireTemplate\FileTemplate($templateName, $filePath);
+
+        $this->TemplateManager->setLayoutTemplate($LayoutTemplate);
+
     }
 
     /**
@@ -60,9 +65,7 @@ class About extends Base implements SFController\Controller {
             'Developed by Charles Sprayberry',
             'Graphic Design by Dyana Stewart'
         );
-        $this->giveCleanData(array(
-            'messages' => $messages
-        ));
+        $this->setResponderData('messages', $messages);
     }
 
 }

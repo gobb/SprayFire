@@ -13,7 +13,9 @@
 namespace SprayFire\Service\FireService;
 
 use \SprayFire\Service as SFService,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\CoreObject as SFCoreObject,
+    \InvalidArgumentException as InvalidArgumentException,
+    \BadMethodCallException as BadMethodCallException;
 
 /**
  * @package SprayFire
@@ -51,7 +53,7 @@ abstract class Consumer extends SFCoreObject implements SFService\Consumer {
      *
      * @param string $key
      * @param object $Service
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function giveService($key, $Service) {
         $key = (string) $key;
@@ -62,7 +64,7 @@ abstract class Consumer extends SFCoreObject implements SFService\Consumer {
     }
 
     /**
-     * Method provided to easily retrive a service based on the key stored in
+     * Method provided to easily retrieve a service based on the key stored in
      * Consumer::services
      *
      * @param string $serviceName
@@ -73,6 +75,38 @@ abstract class Consumer extends SFCoreObject implements SFService\Consumer {
             return $this->storedServices[$serviceName];
         }
         return false;
+    }
+
+    /**
+     * @param string $serviceName
+     * @return object|false
+     */
+    public function __get($serviceName) {
+        return $this->service($serviceName);
+    }
+
+    /**
+     * @param string $serviceName
+     * @param object $Service
+     */
+    public function __set($serviceName, $Service) {
+        $this->giveService($serviceName, $Service);
+    }
+
+    /**
+     * @param string $serviceName
+     * @return boolean
+     */
+    public function __isset($serviceName) {
+        return \is_object($this->service($serviceName));
+    }
+
+    /**
+     * @param string $serviceName
+     * @throws \BadMethodCallException
+     */
+    public function __unset($serviceName) {
+        throw new BadMethodCallException('You may not remove a service expecting to be consumed.');
     }
 
 }

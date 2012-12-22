@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Abstract implementation of SprayFire.Controller.Controller that allows for easy
+ * Abstract implementation of \SprayFire\Controller\Controller that allows for easy
  * sharing of generic functionality that would be reasonable all implementations
  * to use.
  *
@@ -51,39 +51,6 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     protected $responderData = array();
 
     /**
-     * Array of services provided to this SprayFire.Controller.Controller during
-     * creation by the Controller Factory as defined by Base::$services
-     *
-     * @property array
-     */
-    protected $attachedServices = array();
-
-    /**
-     * @property SprayFire.FileSys.PathGenerator
-     */
-    protected $Paths;
-
-    /**
-     * @property SprayFire.Http.Request
-     */
-    protected $Request;
-
-    /**
-     * @property SprayFire.Http.Routing.RoutedRequest
-     */
-    protected $RoutedRequest;
-
-    /**
-     * @property SprayFire.Logging.LogOverseer
-     */
-    protected $Logging;
-
-    /**
-     * @property SprayFire.Responder.Template.Manager
-     */
-    protected $TemplateManager;
-
-    /**
      * Array of services that is provided by default to all implementations extending
      * this class.
      *
@@ -97,24 +64,19 @@ abstract class Base extends FireService\Consumer implements SFController\Control
         'Request' => 'SprayFire.Http.FireHttp.Request',
         'RoutedRequest' => 'SprayFire.Http.Routing.FireRouting.RoutedRequest',
         'Logging' => 'SprayFire.Logging.FireLogging.LogOverseer',
-        'TemplateManager' => 'SprayFire.Responder.FireResponder.FireTemplate.Manager'
+        'TemplateManager' => 'SprayFire.Responder.Template.FireTemplate.Manager'
     );
 
     /**
-     * @param SprayFire.Mediator.Event $Event
+     * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
     public function beforeAction(SFMediator\Event $Event) {
-        $properties = \get_object_vars($this);
-        foreach ($this->services as $serviceKey => $serviceName) {
-            if (\array_key_exists($serviceKey, $properties)) {
-                $this->$serviceKey = $this->service($serviceKey);
-            }
-        }
+
     }
 
     /**
-     * @param SprayFire.Mediator.Event $Event
+     * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
     public function afterAction(SFMediator\Event $Event) {
@@ -162,7 +124,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     }
 
     /**
-     * @return SprayFire.Responder.Template.Manager
+     * @return \SprayFire\Responder\Template\Manager
      */
     public function getTemplateManager() {
         return $this->TemplateManager;

@@ -8,9 +8,9 @@
  * @since   0.1
  */
 
-namespace SprayFire\Test\Cases\Responder\FireResponder\FireTemplate;
+namespace SprayFire\Test\Cases\Responder\Template\FireTemplate;
 
-use \SprayFire\Responder\FireResponder\FireTemplate as FireResponderTemplate;
+use \SprayFire\Responder\Template\FireTemplate as FireTemplate;
 
 /**
  *
@@ -29,7 +29,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
                  ->method('getName')
                  ->will($this->returnValue('name'));
 
-        $Manager = new FireResponderTemplate\Manager();
+        $Manager = new FireTemplate\Manager();
 
         $Manager->addContentTemplate($Template);
         $this->assertTrue($Manager->hasTemplate('name'));
@@ -40,7 +40,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
      * added false is properly returned.
      */
     public function testManagerNotHavingTemplate() {
-        $Manager = new FireResponderTemplate\Manager();
+        $Manager = new FireTemplate\Manager();
 
         $this->assertFalse($Manager->hasTemplate('noExist'));
     }
@@ -51,7 +51,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
     public function testManagerSettingAndRetrievingLayoutTemplate() {
         $Template = $this->getMock('\SprayFire\Responder\Template\Template');
 
-        $Manager = new FireResponderTemplate\Manager();
+        $Manager = new FireTemplate\Manager();
         $Manager->setLayoutTemplate($Template);
 
         $this->assertSame($Template, $Manager->getLayoutTemplate());
@@ -62,7 +62,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
      * be retrieved that has not been set yet.
      */
     public function testManagerRetrievingLayoutTemplateNotSet() {
-        $Manager = new FireResponderTemplate\Manager();
+        $Manager = new FireTemplate\Manager();
         $this->setExpectedException('\SprayFire\Responder\Template\Exception\LayoutNotSet');
         $LayoutTemplate = $Manager->getLayoutTemplate();
     }
@@ -81,7 +81,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
                     ->method('getName')
                     ->will($this->returnValue('templateTwo'));
 
-        $Manager = new FireResponderTemplate\Manager();
+        $Manager = new FireTemplate\Manager();
         $Manager->addContentTemplate($TemplateOne);
         $Manager->addContentTemplate($TemplateTwo);
 
@@ -108,7 +108,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
 
         $LayoutTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
 
-        $Manager = new FireResponderTemplate\Manager();
+        $Manager = new FireTemplate\Manager();
         $Manager->setLayoutTemplate($LayoutTemplate);
         $Manager->addContentTemplate($TemplateOne);
         $Manager->addContentTemplate($TemplateTwo);
@@ -129,7 +129,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
                     ->method('getName')
                     ->will($this->returnValue('one'));
 
-        $Manager = new FireResponderTemplate\Manager();
+        $Manager = new FireTemplate\Manager();
         $Manager->addContentTemplate($TemplateOne);
 
         $this->assertTrue($Manager->hasTemplate('one'), 'The Manager does not have the appropriate template');
@@ -147,7 +147,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase {
                     ->method('getName')
                     ->will($this->returnValue('one'));
 
-        $Manager = new FireResponderTemplate\Manager();
+        $Manager = new FireTemplate\Manager();
         $Manager->addContentTemplate($TemplateOne);
 
         $this->assertTrue($Manager->hasTemplate('one'), 'The Manager does not have the appropriate template');

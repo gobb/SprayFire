@@ -47,8 +47,8 @@ class Request extends SFCoreObject implements SFHttp\Request {
     protected $version;
 
     /**
-     * @param SprayFire.Http.Uri $Uri
-     * @param SprayFire.HttpRequestHeaders $Headers
+     * @param \SprayFire\Http\Uri $Uri
+     * @param \SprayFire\Http\RequestHeaders $Headers
      * @param array $_server
      */
     public function __construct(SFHttp\Uri $Uri, SFHttp\RequestHeaders $Headers, array $_server = null) {
@@ -75,7 +75,7 @@ class Request extends SFCoreObject implements SFHttp\Request {
     }
 
     /**
-     * @return SprayFire.Http.RequestHeaders
+     * @return \SprayFire\Http\RequestHeaders
      */
     public function getHeaders() {
         return $this->Headers;
@@ -91,7 +91,7 @@ class Request extends SFCoreObject implements SFHttp\Request {
     }
 
     /**
-     * @return SprayFire.Http.Uri
+     * @return \SprayFire\Http\Uri
      */
     public function getUri() {
         return $this->Uri;

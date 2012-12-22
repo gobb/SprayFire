@@ -12,7 +12,8 @@
 namespace SprayFire;
 
 use \SprayFire\Logging as SFLogging,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\CoreObject as SFCoreObject,
+    \Exception as Exception;
 
 /**
  * A universal error and exception handler designed to log various error messages and
@@ -38,7 +39,7 @@ class Handler extends SFCoreObject {
     protected $developmentMode;
 
     /**
-     * @param SprayFire.Logging.LogOverseer $Log
+     * @param \SprayFire\Logging\LogOverseer $Log
      * @param boolean $developmentModeOn
      */
     public function __construct(SFLogging\LogOverseer $Log, $developmentModeOn = false) {
@@ -50,9 +51,8 @@ class Handler extends SFCoreObject {
      * @param int $severity int representing an error level constant
      * @param string $message string representing an error message
      * @param string $file string representing the file the error occurred in
-     * @param int $line int the line that triggered the error in \a $file
-     * @param array $context an array of variables available at time of
-     * error
+     * @param int $line int the line that triggered the error in $file
+     * @param array $context an array of variables available at time of error
      * @return boolean
      */
     public function trapError($severity, $message, $file = null, $line = null, $context = null) {
@@ -76,7 +76,7 @@ class Handler extends SFCoreObject {
      *
      * All script execution is halted after this function is invoked.
      *
-     * @param Exception $Exception
+     * @param \Exception $Exception
      *
      * @codeCoverageIgnore
      *
@@ -84,7 +84,7 @@ class Handler extends SFCoreObject {
      * We need to take a look at some way we can allow custom 500 responses to
      * be sent.
      */
-    public function trapException(\Exception $Exception) {
+    public function trapException(Exception $Exception) {
         if (!$this->developmentMode) {
             $this->Logger->logEmergency($Exception->getMessage());
         } else {
