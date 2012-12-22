@@ -27,19 +27,22 @@ interface Container extends SFObject {
      *
      * @param string $serviceName
      * @return object
-     * @throws SprayFire.Service.NotFoundException
+     * @throws \SprayFire\Service\NotFoundException
      */
     public function getService($serviceName);
 
     /**
-     * Add a service to the container, $callableParameters should be a callable
-     * function that returns the appropriate dependencies for the service.
+     * Add a service to the container, $callableParameters for constructor should
+     * be a callable function that returns the appropriate dependencies for the service.
      *
      * If a valid $factoryKey has been passed the service should be created with
-     * that Factory. An invalid key will result
+     * that Factory. An invalid key should result in an exception being thrown.
      *
      * @param string $serviceName
      * @param callable|null $callableParameters
+     * @param null $factoryKey
+     * @return void
+     * @param string|null $factoryKey
      */
     public function addService($serviceName, $callableParameters = null, $factoryKey = null);
 
@@ -56,7 +59,7 @@ interface Container extends SFObject {
      * calls then the service will be created by that Factory.
      *
      * @param string $factoryKey
-     * @param SprayFire.Factory.Factory $Factory
+     * @param \SprayFire\Factory\Factory $Factory
      */
     public function registerFactory($factoryKey, SFFactory\Factory $Factory);
 

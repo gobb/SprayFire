@@ -13,13 +13,13 @@
 namespace SprayFire;
 
 /**
- * It is recommended that classes needing to implement SprayFire.Object extend
+ * It is recommended that classes needing to implement \SprayFire\Object extend
  * this class.
  *
  * This class will never implement any functionality not specified in the SprayFire.Object
  * interface.  It is explicitly designed in such a way that it should be reasonable
  * for all objects to trace their inheritance back through this object if interfaces
- * they implement require SprayFire.Object.
+ * they implement require \SprayFire\Object.
  *
  * @package SprayFire
  *
@@ -39,13 +39,13 @@ abstract class CoreObject implements Object {
     }
 
     /**
-     * Default implementation, compares the SprayFire.Core.CoreObject::hashCode()
+     * Default implementation, compares the \SprayFire\CoreObject::hashCode()
      * return value to the passed $CompareObject.
      *
      * If your objects need to implement a Comparator be sure to override this
      * implementation.
      *
-     * @param SprayFire.Object $CompareObject Object to compare to for equality
+     * @param \SprayFire\Object $CompareObject
      * @return boolean
      */
     public function equals(Object $CompareObject) {

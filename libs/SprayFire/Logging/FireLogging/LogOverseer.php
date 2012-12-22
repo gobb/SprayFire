@@ -60,10 +60,10 @@ class LogOverseer extends SFCoreObject implements SFLogging\LogOverseer {
     protected $InfoLogger;
 
     /**
-     * @param SprayFire.Logging.Logger $Emergency
-     * @param SprayFire.Logging.Logger $Error
-     * @param SprayFire.Logging.Logger $Debug
-     * @param SprayFire.Logging.Logger $Info
+     * @param \SprayFire\Logging\Logger $Emergency
+     * @param \SprayFire\Logging\Logger $Error
+     * @param \SprayFire\Logging\Logger $Debug
+     * @param \SprayFire\Logging\Logger $Info
      */
     public function __construct(
         SFLogging\Logger $Emergency,

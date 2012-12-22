@@ -32,7 +32,7 @@ interface AppInitializer {
      * Based on information from the $RoutedRequest initialize any bootstrapping
      * process needed.
      *
-     * @param SprayFire.Http.Routing.RoutedRequest $RoutedRequest
+     * @param \SprayFire\Http\Routing\RoutedRequest $RoutedRequest
      * @return void
      */
     public function initializeApp(SFRouting\RoutedRequest $RoutedRequest);

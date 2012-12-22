@@ -10,7 +10,7 @@
  * @since   0.1
  */
 
-namespace SprayFire\Responder\FireResponder\FireTemplate;
+namespace SprayFire\Responder\Template\FireTemplate;
 
 use \SprayFire\Responder\Template as SFResponderTemplate;
 
@@ -30,6 +30,7 @@ class FileTemplate extends BaseTemplate {
     /**
      * @param string $name
      * @param string $filePath
+     * @throws \SprayFire\Responder\Template\Exception\FileNotFound
      */
     public function __construct($name, $filePath) {
         parent::__construct($name);

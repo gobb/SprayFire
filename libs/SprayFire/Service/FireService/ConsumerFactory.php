@@ -39,9 +39,9 @@ abstract class ConsumerFactory extends FireFactory\Base {
     protected $Container;
 
     /**
-     * @param SprayFire.Utils.ReflectionCache $Cache
-     * @param SprayFire.Service.Container $Container
-     * @param SprayFire.Logging.LogOverseer $LogOverseer
+     * @param \SprayFire\Utils\ReflectionCache $Cache
+     * @param \SprayFire\Service\Container $Container
+     * @param \SprayFire\Logging\LogOverseer $LogOverseer
      * @param string $type
      * @param string $nullObject
      */
@@ -86,8 +86,8 @@ abstract class ConsumerFactory extends FireFactory\Base {
     }
 
     /**
-     * @param Object $Object
-     * @throws SprayFire.Service.Exception.ServiceNotFound
+     * @param \SprayFire\Service\Consumer $Object
+     * @throws \SprayFire\Service\Exception\ServiceNotFound
      */
     protected function addServices(SFService\Consumer $Object) {
         $services = $Object->getRequestedServices();

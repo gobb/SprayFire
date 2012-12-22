@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Abstract implementation of SprayFire.Controller.Controller that allows for easy
+ * Abstract implementation of \SprayFire\Controller\Controller that allows for easy
  * sharing of generic functionality that would be reasonable all implementations
  * to use.
  *
@@ -64,11 +64,11 @@ abstract class Base extends FireService\Consumer implements SFController\Control
         'Request' => 'SprayFire.Http.FireHttp.Request',
         'RoutedRequest' => 'SprayFire.Http.Routing.FireRouting.RoutedRequest',
         'Logging' => 'SprayFire.Logging.FireLogging.LogOverseer',
-        'TemplateManager' => 'SprayFire.Responder.FireResponder.FireTemplate.Manager'
+        'TemplateManager' => 'SprayFire.Responder.Template.FireTemplate.Manager'
     );
 
     /**
-     * @param SprayFire.Mediator.Event $Event
+     * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
     public function beforeAction(SFMediator\Event $Event) {
@@ -76,7 +76,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     }
 
     /**
-     * @param SprayFire.Mediator.Event $Event
+     * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
     public function afterAction(SFMediator\Event $Event) {
@@ -124,7 +124,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     }
 
     /**
-     * @return SprayFire.Responder.Template.Manager
+     * @return \SprayFire\Responder\Template\Manager
      */
     public function getTemplateManager() {
         return $this->TemplateManager;

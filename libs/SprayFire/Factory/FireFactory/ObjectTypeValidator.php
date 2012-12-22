@@ -11,6 +11,9 @@
 
 namespace SprayFire\Factory\FireFactory;
 
+use \ReflectionClass as ReflectionClass,
+    \InvalidArgumentException as InvalidArgumentException;
+
 /**
  * This is a package private class and is intended to be used only by implementations
  * in module SprayFire.Factory.FireFactory
@@ -30,7 +33,7 @@ class ObjectTypeValidator {
     /**
      * @param ReflectionClass $ReflectedType
      */
-    public function __construct(\ReflectionClass $ReflectedType) {
+    public function __construct(ReflectionClass $ReflectedType) {
         $this->ReflectedParentType = $ReflectedType;
     }
 
@@ -41,7 +44,7 @@ class ObjectTypeValidator {
     public function throwExceptionIfObjectNotParentType($Object) {
         if (!\is_a($Object, $this->ReflectedParentType->getName())) {
             $message = 'The object, ' . \get_class($Object) . ', does not properly implement ' . $this->getType();
-            throw new \InvalidArgumentException($message);
+            throw new InvalidArgumentException($message);
         }
     }
 

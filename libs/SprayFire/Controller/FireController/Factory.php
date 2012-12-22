@@ -34,9 +34,9 @@ use \SprayFire\Service as SFService,
 class Factory extends FireService\ConsumerFactory {
 
     /**
-     * @param SprayFire.Utils.ReflectionCache $Cache
-     * @param SprayFire.Service.Container $Container
-     * @param SprayFire.Logging.LogOverseer $LogOverseer
+     * @param \SprayFire\Utils\ReflectionCache $Cache
+     * @param \SprayFire\Service\Container $Container
+     * @param \SprayFire\Logging\LogOverseer $LogOverseer
      * @param string $type
      * @param string $nullType
      */

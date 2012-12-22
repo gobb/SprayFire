@@ -48,7 +48,7 @@ class AppInitializerTest extends \PHPUnit_Framework_TestCase {
         $installDir = \SPRAYFIRE_ROOT . '/libs/SprayFire/Test/mockframework';
         $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($installDir);
         $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
-        return new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($this->Container, $this->ClassLoader, $Paths);
+        return new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($this->Container, $Paths, $this->ClassLoader);
     }
 
     protected function getServiceContainer() {

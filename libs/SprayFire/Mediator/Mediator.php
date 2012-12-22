@@ -22,7 +22,7 @@ interface Mediator {
      * Should add a callback to a collection of callbacks for a specific event
      * based on the event name returned from the passed $Callback.
      *
-     * @param SprayFire.Mediator.Callback $Callback
+     * @param \SprayFire\Mediator\Callback $Callback
      * @return boolean
      */
     public function addCallback(Callback $Callback);
@@ -31,7 +31,7 @@ interface Mediator {
      * Should remove a callback from the collection of callbacks for the event
      * name.
      *
-     * @param SprayFire.Mediator.Callback $Callback
+     * @param \SprayFire\Mediator\Callback $Callback
      */
     public function removeCallback(Callback $Callback);
 

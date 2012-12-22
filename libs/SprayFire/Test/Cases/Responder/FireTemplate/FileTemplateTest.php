@@ -9,9 +9,9 @@
  * @since   0.1
  */
 
-namespace SprayFire\Test\Cases\Responder\FireResponder\FireTemplate;
+namespace SprayFire\Test\Cases\Responder\FireTemplate;
 
-use SprayFire\Responder\FireResponder\FireTemplate as FireResponderTemplate;
+use SprayFire\Responder\Template\FireTemplate as FireTemplate;
 
 /**
  * @package SprayFireTest
@@ -31,7 +31,7 @@ class FileTemplateTest extends \PHPUnit_Framework_TestCase {
     public function testFileTemplateRenderingContent() {
         $name = '';
         $filePath = $this->mockFrameworkPath . 'libs/SprayFire/Responder/html/file-template-test.php';
-        $FileTemplate = new FireResponderTemplate\FileTemplate($name, $filePath);
+        $FileTemplate = new FireTemplate\FileTemplate($name, $filePath);
 
         $data = array(
             'foo' => 'bar'
@@ -51,7 +51,7 @@ class FileTemplateTest extends \PHPUnit_Framework_TestCase {
         $name = '';
         $filePath = $this->mockFrameworkPath . 'libs/SprayFire/Responder/html/file-does-not-exist.php';
         $this->setExpectedException('\SprayFire\Responder\Template\Exception\FileNotFound');
-        $FileTemplate = new FireResponderTemplate\FileTemplate($name, $filePath);
+        $FileTemplate = new FireTemplate\FileTemplate($name, $filePath);
     }
 
     public function testFileTemplatePassingSplFileObjectToFilePath() {
@@ -59,7 +59,7 @@ class FileTemplateTest extends \PHPUnit_Framework_TestCase {
         $filePath = $this->mockFrameworkPath . 'libs/SprayFire/Responder/html/file-template-test.php';
         $File = new \SplFileObject($filePath);
 
-        $FileTemplate = new FireResponderTemplate\FileTemplate($name, $File);
+        $FileTemplate = new FireTemplate\FileTemplate($name, $File);
 
         $data = array(
             'foo' => 'foobar'

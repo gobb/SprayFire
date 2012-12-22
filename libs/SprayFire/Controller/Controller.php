@@ -20,18 +20,6 @@ use \SprayFire\Object as SFObject,
  * providing the chosen Responder with the appropriate information needed to send
  * the correct resource to the user.
  *
- * @todo
- * This interface should reevaluate how it is providing data to the SprayFire.Responder.Responder
- * and whether or not it should be providing a mechanism for giving clean or
- * dirty data.  Should we not assume that all data is dirty?  If you are providing
- * data in a way that requires data to not be escaped on output is this not a
- * security flaw in your application?
- *
- * In the context of providing data to a SprayFire.Responder.Responder the data
- * should always be escaped.  By allowing data, regardless of the source, to be
- * output without first being escaped you are opening a security flaw into your
- * application.  If it can be used it can be compromised at some level.
- *
  * @package SprayFire
  * @package Controller
  */
@@ -78,7 +66,7 @@ interface Controller extends SFObject, SFService\Consumer {
      * the SprayFire.Responder.Responder implementation what layout and content
      * templates to use for the given request.
      *
-     * @return SprayFire.Responder.Template.Manager
+     * @return \SprayFire\Responder\Template\Manager
      */
     public function getTemplateManager();
 
@@ -86,7 +74,7 @@ interface Controller extends SFObject, SFService\Consumer {
      * This method is invoked during dispatching of a request before the requested
      * controller action is invoked.
      *
-     * @param SprayFire.Mediator.Event $Event
+     * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
     public function beforeAction(SFMediator\Event $Event);
@@ -95,7 +83,7 @@ interface Controller extends SFObject, SFService\Consumer {
      * This method is invoked during dispatching of a request after the requested
      * controller action is invoked.
      *
-     * @param SprayFire.Mediator.Event $Event
+     * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
     public function afterAction(SFMediator\Event $Event);

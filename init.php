@@ -59,7 +59,7 @@ foreach ($environmentConfig['registeredEvents'] as $eventName => $eventType) {
     $EventRegistry->registerEvent($eventName, $eventType);
 }
 
-$AppInitializer = new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($Container, $ClassLoader, $Paths);
+$AppInitializer = new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($Container, $Paths, $ClassLoader);
 $Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $Mediator, $AppInitializer, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
 

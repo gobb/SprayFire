@@ -13,7 +13,8 @@
 namespace SprayFire\Mediator\FireMediator;
 
 use \SprayFire\Mediator as SFMediator,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\CoreObject as SFCoreObject,
+    \InvalidArgumentException as InvalidArgumentException;
 
 /**
  * @package SprayFire
@@ -40,12 +41,12 @@ class Callback extends SFCoreObject implements SFMediator\Callback {
      *
      * @param string $eventName
      * @param callable $function
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct($eventName, $function) {
         $this->eventName = $eventName;
         if (!\is_callable($function)) {
-            throw new \InvalidArgumentException('A callable function must be passed to \\SprayFire\\Mediator\\FireMediator\\Callback as the second constructor parameter.');
+            throw new InvalidArgumentException('A callable function must be passed to \\SprayFire\\Mediator\\FireMediator\\Callback as the second constructor parameter.');
         }
         $this->function = $function;
     }
@@ -61,7 +62,7 @@ class Callback extends SFCoreObject implements SFMediator\Callback {
      * Invokes the $function stored by the callback, passing along the $Event
      * object as the one and only parameter.
      *
-     * @param SprayFire.Mediator.Event $Event
+     * @param \SprayFire\Mediator\Event $Event
      * @return mixed
      */
     public function invoke(SFMediator\Event $Event) {

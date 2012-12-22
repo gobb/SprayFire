@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Implementation of SprayFire.Controller.Controller that is used to show off the
- * intallation and debug pages provided in the default SprayFire install.
+ * Implementation of \SprayFire\Controller\Controller that is used to show off the
+ * installation and debug pages provided in the default SprayFire install.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -13,7 +13,7 @@
 namespace SprayFire\Controller\FireController;
 
 use \SprayFire\Mediator as SFMediator,
-    \SprayFire\Responder\FireResponder\FireTemplate as FireResponderTemplate;
+    \SprayFire\Responder\Template\FireTemplate as FireTemplate;
 
 /**
  * This controller is responsible for the default SprayFire install pages, other
@@ -23,7 +23,7 @@ use \SprayFire\Mediator as SFMediator,
  * your controllers on some application specific controller.  The default SprayFire
  * install should include an implementation in:
  *
- * <AppName>.Controller.Base
+ * \<AppName>\Controller\Base
  *
  * @package SprayFire
  * @subpackage Controller.FireController
@@ -31,13 +31,13 @@ use \SprayFire\Mediator as SFMediator,
 class Pages extends Base {
 
     /**
-     * @param SprayFire.Mediator.Event $Event
+     * @param \SprayFire\Mediator\Event $Event
      */
     public function beforeAction(SFMediator\Event $Event) {
         parent::beforeAction($Event);
         $layoutName = 'layoutTemplate';
         $layoutFilePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
-        $LayoutTemplate = new FireResponderTemplate\FileTemplate($layoutName, $layoutFilePath);
+        $LayoutTemplate = new FireTemplate\FileTemplate($layoutName, $layoutFilePath);
         $this->TemplateManager->setLayoutTemplate($LayoutTemplate);
     }
 
@@ -49,12 +49,12 @@ class Pages extends Base {
     public function index() {
         $templateName = 'templateContent';
         $templateFilePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'index.php');
-        $ContentTemplate = new FireResponderTemplate\FileTemplate($templateName, $templateFilePath);
+        $ContentTemplate = new FireTemplate\FileTemplate($templateName, $templateFilePath);
         $this->TemplateManager->addContentTemplate($ContentTemplate);
 
         $sidebarTemplateName = 'sidebarContent';
         $sidebarTemplateFilePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'sidebar.php');
-        $SidebarTemplate = new FireResponderTemplate\FileTemplate($sidebarTemplateName, $sidebarTemplateFilePath);
+        $SidebarTemplate = new FireTemplate\FileTemplate($sidebarTemplateName, $sidebarTemplateFilePath);
         $this->TemplateManager->addContentTemplate($SidebarTemplate);
 
         $csprayGravatarHash = '0fd2816e78f6a04d5f8ce0aba1cb42e6';
@@ -71,7 +71,10 @@ class Pages extends Base {
      * dumps that information out.
      */
     public function debug() {
-        $this->templatePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'debug-content.php');
+        $templateName = 'templateContent';
+        $templateFilePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'debug-content.php');
+        $ContentTemplate = new FireTemplate\FileTemplate($templateName, $templateFilePath);
+        $this->TemplateManager->addContentTemplate($ContentTemplate);
 
         $serverData = \print_r($_SERVER, true);
         $sessionActive = (\session_id() === '') ? 'No' : 'Yes';
