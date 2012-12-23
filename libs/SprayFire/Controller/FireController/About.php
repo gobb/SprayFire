@@ -13,6 +13,7 @@
 namespace SprayFire\Controller\FireController;
 
 use \SprayFire\Controller as SFController,
+    \SprayFire\Mediator as SFMediator,
     \SprayFire\Responder\Template as SFResponderTemplate;
 
 
@@ -29,28 +30,16 @@ use \SprayFire\Controller as SFController,
 class About extends Base implements SFController\Controller {
 
     /**
-     * A default service provided by SprayFire.Controller.FireController.Base.
-     *
-     * This property is here as a convenience to not need to call $this->service()
-     * everytime we need to use the service.
-     *
-     * @property SprayFire.FileSys.PathGenerator
-     */
-    protected $Paths;
-
-    /**
      * Takes care of some generic actions that may be used by multiple actions
      *
+     * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
-    protected function setUp() {
-        $this->Paths = $this->service('Paths');
+    public function beforeAction(SFMediator\Event $Event) {
         $templateName = 'layoutContent';
         $filePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
         $LayoutTemplate = new SFResponderTemplate\FireTemplate\FileTemplate($templateName, $filePath);
-
         $this->TemplateManager->setLayoutTemplate($LayoutTemplate);
-
     }
 
     /**
@@ -59,7 +48,11 @@ class About extends Base implements SFController\Controller {
      * @return void
      */
     public function sprayFire() {
-        $this->setUp();
+        $templateName = 'templateContent';
+        $filePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'about.php');
+        $BodyTemplate = new SFResponderTemplate\FireTemplate\FileTemplate($templateName, $filePath);
+        $this->TemplateManager->addContentTemplate($BodyTemplate);
+
         $messages = array(
             'PHP 5.3 framework',
             'Developed by Charles Sprayberry',
