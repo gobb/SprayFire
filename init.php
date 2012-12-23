@@ -1,10 +1,5 @@
 <?php
 
-/**
- *
- *
- */
-
 use \SprayFire\FileSys\FireFileSys as FireFileSys,
     \SprayFire\Service\FireService as FireService,
     \SprayFire\Dispatcher\FireDispatcher as FireDispatcher,
@@ -47,13 +42,17 @@ $getRouteBag = function() use ($Paths) {
     return include $Paths->getConfigPath('SprayFire', 'routes.php');
 };
 
+$environmentConfig = $getEnvironmentConfig();
+
+$Handler = new \SprayFire\Handler($LogOverseer, $environmentConfig['developmentMode']);
+\set_error_handler(array($Handler, 'trapError'));
+\set_exception_handler(array($Handler, 'trapException'));
+
 /**
  * We are instantiating these services here to prevent unneeded reflection for
  * components of the framework that are highly unlikely to change. This drastically
  * improves processing time and memory used.
  */
-
-$environmentConfig = $getEnvironmentConfig();
 
 $Uri = new FireHttp\Uri();
 $Headers = new FireHttp\RequestHeaders();
@@ -98,11 +97,6 @@ foreach ($environmentConfig['registeredEvents'] as $eventName => $eventType) {
     $EventRegistry->registerEvent($eventName, $eventType);
 }
 
-$Handler = new \SprayFire\Handler($LogOverseer, $environmentConfig['developmentMode']);
-
-\set_error_handler(array($Handler, 'trapError'));
-\set_exception_handler(array($Handler, 'trapException'));
-
 $AppInitializer = new FireDispatcher\AppInitializer($Container, $Paths, $ClassLoader);
 $Dispatcher = new FireDispatcher\Dispatcher($Router, $Mediator, $AppInitializer, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
@@ -111,4 +105,3 @@ if ($environmentConfig['developmentMode']) {
     echo '<pre>Request time ' . (\microtime(true) - $requestStartTime) . '</pre>';
     \var_dump(\memory_get_peak_usage(true));
 }
-
