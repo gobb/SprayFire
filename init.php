@@ -107,5 +107,8 @@ $AppInitializer = new FireDispatcher\AppInitializer($Container, $Paths, $ClassLo
 $Dispatcher = new FireDispatcher\Dispatcher($Router, $Mediator, $AppInitializer, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
 
-echo '<pre>Request time ' . (\microtime(true) - $requestStartTime) . '</pre>';
-\var_dump(\memory_get_peak_usage(true));
+if ($environmentConfig['developmentMode']) {
+    echo '<pre>Request time ' . (\microtime(true) - $requestStartTime) . '</pre>';
+    \var_dump(\memory_get_peak_usage(true));
+}
+
