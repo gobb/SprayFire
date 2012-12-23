@@ -12,7 +12,8 @@
 
 namespace SprayFire\Test\Cases\Responder\FireResponder;
 
-use \SprayFire\Responder\FireResponder as FireResponder;
+use \SprayFire\Responder as SFResponder,
+    \SprayFire\Responder\FireResponder as FireResponder;
 
 /**
  * @package SprayFireTest
@@ -26,6 +27,8 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
      */
     public function testGeneratingValidResponseWithoutDataAndNoContentTemplates() {
         $Responder = new FireResponder\Html();
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $Responder->giveService('Escaper', $Escaper);
 
         $LayoutTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
         $LayoutTemplate->expects($this->once())
@@ -64,6 +67,8 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
      */
     public function testGenerateValidResponseWithNoDataButWithSingleContentTemplates() {
         $Responder = new FireResponder\Html();
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $Responder->giveService('Escaper', $Escaper);
 
         $ContentTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
         $ContentTemplate->expects($this->once())
@@ -116,6 +121,8 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
      */
     public function testGeneratingValidResponseWithControllerDataAndMultipleContentTemplates() {
         $Responder = new FireResponder\Html();
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $Responder->giveService('Escaper', $Escaper);
 
         $ContentTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
         $ContentTemplate->expects($this->once())
@@ -179,6 +186,48 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
 
         $expected = '<div>SprayFire</div>';
         $this->assertSame($expected, $actual);
+    }
+
+    public function testAutomaticEscapingOfHtmlContentData() {
+        $Responder = new FireResponder\Html();
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $Responder->giveService('Escaper', $Escaper);
+
+        $LayoutTemplate = $this->getMock('\sprayFire\Responder\Template\Template');
+        $LayoutTemplate->expects($this->once())
+                       ->method('getContent')
+                       ->with(array(
+                            'Responder' => $Responder,
+                            'greaterThan' => '&gt;',
+                            'lessThan' => '&lt;',
+                            'ampersand' => '&amp;'
+                       ))
+                       ->will($this->returnValue('<div>&gt;&lt;&amp;</div>'));
+
+        $TemplateManager = $this->getMock('\SprayFire\Responder\Template\Manager');
+        $TemplateManager->expects($this->once())
+                        ->method('getLayoutTemplate')
+                        ->will($this->returnValue($LayoutTemplate));
+
+        $Controller = $this->getMock('\SprayFire\Controller\Controller');
+        $Controller->expects($this->once())
+                   ->method('getResponderData')
+                   ->with(SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT)
+                   ->will($this->returnValue(array(
+                        'greaterThan' => '>',
+                        'lessThan' => '<',
+                        'ampersand' => '&'
+                   )));
+        $Controller->expects($this->once())
+                   ->method('getTemplateManager')
+                   ->will($this->returnValue($TemplateManager));
+
+        \ob_start();
+        $Responder->generateDynamicResponse($Controller);
+        $actual = \ob_get_contents();
+        \ob_end_clean();
+
+        $this->assertSame('<div>&gt;&lt;&amp;</div>', $actual);
     }
 
 }
