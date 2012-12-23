@@ -36,7 +36,7 @@ use \SprayFire\Controller as SFController,
 abstract class Base extends FireService\Consumer implements SFController\Controller {
 
     /**
-     * The PHP or Java style namespaced class to use as the SprayFire.Responder.Responder
+     * The PHP or Java style namespaced class to use as the \SprayFire\Responder\Responder
      * implementation for this controller.
      *
      * @property string
@@ -51,7 +51,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     protected $responderData = array();
 
     /**
-     * Array of services that is provided by default to all implementations extending
+     * Services that are provided by default to all implementations extending
      * this class.
      *
      * If you extend this class and overwrite this property the default services
