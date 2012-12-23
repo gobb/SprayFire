@@ -1,9 +1,21 @@
 <?php
 
 /**
- * @file
- * @brief The primary intialization script for SprayFire
+ *
+ *
  */
+
+use \SprayFire\FileSys\FireFileSys as FireFileSys,
+    \SprayFire\Service\FireService as FireService,
+    \SprayFire\Dispatcher\FireDispatcher as FireDispatcher,
+    \SprayFire\Http\FireHttp as FireHttp,
+    \SprayFire\Http\Routing\FireRouting as FireRouting,
+    \SprayFire\Mediator\FireMediator as FireMediator,
+    \SprayFire\Controller\FireController as FireController,
+    \SprayFire\Responder\FireResponder as FireResponder,
+    \SprayFire\Responder\Template\FireTemplate as FireTemplate,
+    \SprayFire\Logging\FireLogging as FireLogging,
+    \SprayFire\Utils as SFUtils;
 
 $requestStartTime = \microtime(true);
 
@@ -20,47 +32,79 @@ $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 $ClassLoader->registerNamespaceDirectory('Zend', $libsPath);
 $ClassLoader->setAutoloader();
 
-$RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
-$Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
+$RootPaths = new FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
+$Paths = new FireFileSys\Paths($RootPaths);
 
-$JavaNameConverter = new \SprayFire\Utils\JavaNamespaceConverter();
-$ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaNameConverter);
-$Container = new \SprayFire\Service\FireService\Container($ReflectionCache);
+$JavaNameConverter = new SFUtils\JavaNamespaceConverter();
+$ReflectionCache = new SFUtils\ReflectionCache($JavaNameConverter);
+$Container = new FireService\Container($ReflectionCache);
 
 $getEnvironmentConfig = function() use ($Paths, $ReflectionCache, $Container) {
     return include $Paths->getConfigPath('SprayFire', 'environment.php');
 };
 
-$Container->addService($ClassLoader);
-$Container->addService($Paths);
-$Container->addService($JavaNameConverter);
+$getRouteBag = function() use ($Paths) {
+    return include $Paths->getConfigPath('SprayFire', 'routes.php');
+};
+
+/**
+ * We are instantiating these services here to prevent unneeded reflection for
+ * components of the framework that are highly unlikely to change. This drastically
+ * improves processing time and memory used.
+ */
 
 $environmentConfig = $getEnvironmentConfig();
 
-foreach ($environmentConfig['services'] as $service) {
-    $Container->addService($service['name'], $service['parameterCallback']);
-}
+$Uri = new FireHttp\Uri();
+$Headers = new FireHttp\RequestHeaders();
+$Request = new FireHttp\Request($Uri, $Headers);
 
-$Handler = $Container->getService($environmentConfig['services']['Handler']['name']);
+$RouteBag = $getRouteBag();
+$Normalizer = new FireRouting\Normalizer();
+$Router = new FireRouting\Router($RouteBag, $Normalizer, \basename($Paths->getInstallPath()));
 
-\set_error_handler(array($Handler, 'trapError'));
-\set_exception_handler(array($Handler, 'trapException'));
+$EventRegistry = new FireMediator\EventRegistry();
+$Mediator = new FireMediator\Mediator($EventRegistry);
 
-$Request = $Container->getService($environmentConfig['services']['HttpRequest']['name']);
-$Router = $Container->getService($environmentConfig['services']['HttpRouter']['name']);
-$ControllerFactory = $Container->getService($environmentConfig['services']['ControllerFactory']['name']);
-$ResponderFactory = $Container->getService($environmentConfig['services']['ResponderFactory']['name']);
-$EventRegistry = $Container->getService($environmentConfig['services']['EventRegistry']['name']);
-$Mediator = $Container->getService($environmentConfig['services']['Mediator']['name']);
+$OutputEscaper = new FireResponder\OutputEscaper($environmentConfig['defaultCharset']);
+$TemplateManager = new FireTemplate\Manager();
 
+$EmergencyLogger = new FireLogging\SysLogLogger();
+$ErrorLogger = new FireLogging\ErrorLogLogger();
+$InfoLogger = new FireLogging\DevelopmentLogger();
+$DebugLogger = new FireLogging\DevelopmentLogger();
+$LogOverseer = new FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+
+$ControllerFactory = new FireController\Factory($ReflectionCache, $Container, $LogOverseer);
+$ResponderFactory = new FireResponder\Factory($ReflectionCache, $Container, $LogOverseer);
+
+$Container->addService($Request);
+$Container->addService($ClassLoader);
+$Container->addService($Paths);
+$Container->addService($JavaNameConverter);
+$Container->addService($ReflectionCache);
+$Container->addService($EventRegistry);
+$Container->addService($Mediator);
+$Container->addService($RouteBag);
+$Container->addService($Router);
 $Container->addService($Router->getRoutedRequest($Request));
+$Container->addService($OutputEscaper);
+$Container->addService($TemplateManager);
+$Container->addService($LogOverseer);
+$Container->addService($ControllerFactory);
+$Container->addService($ResponderFactory);
 
 foreach ($environmentConfig['registeredEvents'] as $eventName => $eventType) {
     $EventRegistry->registerEvent($eventName, $eventType);
 }
 
-$AppInitializer = new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($Container, $Paths, $ClassLoader);
-$Dispatcher = new \SprayFire\Dispatcher\FireDispatcher\Dispatcher($Router, $Mediator, $AppInitializer, $ControllerFactory, $ResponderFactory);
+$Handler = new \SprayFire\Handler($LogOverseer, $environmentConfig['developmentMode']);
+
+\set_error_handler(array($Handler, 'trapError'));
+\set_exception_handler(array($Handler, 'trapException'));
+
+$AppInitializer = new FireDispatcher\AppInitializer($Container, $Paths, $ClassLoader);
+$Dispatcher = new FireDispatcher\Dispatcher($Router, $Mediator, $AppInitializer, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
 
 echo '<pre>Request time ' . (\microtime(true) - $requestStartTime) . '</pre>';
