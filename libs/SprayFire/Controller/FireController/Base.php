@@ -68,6 +68,13 @@ abstract class Base extends FireService\Consumer implements SFController\Control
         'TemplateManager' => 'SprayFire.Responder.Template.FireTemplate.Manager'
     );
 
+    public function __construct() {
+        $this->responderData[SFResponder\OutputEscaper::CSS_CONTEXT] = array();
+        $this->responderData[SFResponder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT] = array();
+        $this->responderData[SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT] = array();
+        $this->responderData[SFResponder\OutputEscaper::JAVASCRIPT_CONTEXT] = array();
+    }
+
     /**
      * @param \SprayFire\Mediator\Event $Event
      * @return void
@@ -116,7 +123,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      * @return void
      */
     public function setResponderData($name, $value, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
-        $this->responderData[(string) $name] = $value;
+        $this->responderData[$context][(string) $name] = $value;
     }
 
     /**
@@ -126,7 +133,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      * @return array
      */
     public function getResponderData($context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
-         return $this->responderData;
+        return $this->responderData[$context];
     }
 
     /**
