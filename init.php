@@ -34,7 +34,7 @@ $JavaNameConverter = new SFUtils\JavaNamespaceConverter();
 $ReflectionCache = new SFUtils\ReflectionCache($JavaNameConverter);
 $Container = new FireService\Container($ReflectionCache);
 
-$getEnvironmentConfig = function() use ($Paths, $ReflectionCache, $Container) {
+$getEnvironmentConfig = function() use($Paths) {
     return include $Paths->getConfigPath('SprayFire', 'environment.php');
 };
 
@@ -44,15 +44,21 @@ $getRouteBag = function() use ($Paths) {
 
 $environmentConfig = $getEnvironmentConfig();
 
-$Handler = new \SprayFire\Handler($LogOverseer, $environmentConfig['developmentMode']);
-\set_error_handler(array($Handler, 'trapError'));
-\set_exception_handler(array($Handler, 'trapException'));
-
 /**
  * We are instantiating these services here to prevent unneeded reflection for
  * components of the framework that are highly unlikely to change. This drastically
  * improves processing time and memory used.
  */
+
+$EmergencyLogger = new FireLogging\SysLogLogger();
+$ErrorLogger = new FireLogging\ErrorLogLogger();
+$InfoLogger = new FireLogging\DevelopmentLogger();
+$DebugLogger = new FireLogging\DevelopmentLogger();
+$LogOverseer = new FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+
+$Handler = new \SprayFire\Handler($LogOverseer, $environmentConfig['developmentMode']);
+\set_error_handler(array($Handler, 'trapError'));
+\set_exception_handler(array($Handler, 'trapException'));
 
 $Uri = new FireHttp\Uri();
 $Headers = new FireHttp\RequestHeaders();
@@ -67,12 +73,6 @@ $Mediator = new FireMediator\Mediator($EventRegistry);
 
 $OutputEscaper = new FireResponder\OutputEscaper($environmentConfig['defaultCharset']);
 $TemplateManager = new FireTemplate\Manager();
-
-$EmergencyLogger = new FireLogging\SysLogLogger();
-$ErrorLogger = new FireLogging\ErrorLogLogger();
-$InfoLogger = new FireLogging\DevelopmentLogger();
-$DebugLogger = new FireLogging\DevelopmentLogger();
-$LogOverseer = new FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
 
 $ControllerFactory = new FireController\Factory($ReflectionCache, $Container, $LogOverseer);
 $ResponderFactory = new FireResponder\Factory($ReflectionCache, $Container, $LogOverseer);
