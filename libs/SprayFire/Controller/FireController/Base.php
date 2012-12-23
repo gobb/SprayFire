@@ -15,6 +15,7 @@ namespace SprayFire\Controller\FireController;
 
 use \SprayFire\Controller as SFController,
     \SprayFire\Mediator as SFMediator,
+    \SprayFire\Responder as SFResponder,
     \SprayFire\Service\FireService as FireService;
 
 /**
@@ -97,8 +98,10 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      * [$varName => $varValue]
      *
      * @param array $data
+     * @param string $context
+     * @return void
      */
-    public function setMultipleResponderData(array $data) {
+    public function setMultipleResponderData(array $data, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
         foreach ($data as $name => $value) {
             $this->setResponderData($name, $value);
         }
@@ -109,17 +112,20 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      *
      * @param string $name
      * @param mixed $value
+     * @param string $context
+     * @return void
      */
-    public function setResponderData($name, $value) {
+    public function setResponderData($name, $value, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
         $this->responderData[(string) $name] = $value;
     }
 
     /**
      * Provides a set of data that should be made available to the responder
      *
+     * @param string $context
      * @return array
      */
-    public function getResponderData() {
+    public function getResponderData($context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
          return $this->responderData;
     }
 
