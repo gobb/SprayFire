@@ -20,9 +20,33 @@ use \SprayFire\Object as SFObject;
  * recursively.
  *
  * @package SprayFire
- * @subpackage
+ * @subpackage Responder
  */
 interface OutputEscaper extends SFObject {
+
+    /**
+     * Constant that can be used by other modules to signify data or escaping in
+     * a CSS context.
+     */
+    const CSS_CONTEXT = 'css';
+
+    /**
+     * Constant that can be used by other modules to signify data or escaping in
+     * a HTML content context.
+     */
+    const HTML_CONTENT_CONTEXT = 'html_content';
+
+    /**
+     * Constant that can be used by other modules to signify data or escaping in
+     * a HTML attribute context.
+     */
+    const HTML_ATTRIBUTE_CONTEXT = 'html_attribute';
+
+    /**
+     * Constant that can be used by other modules to signify data or escaping in
+     * a JavaScript context.
+     */
+    const JAVASCRIPT_CONTEXT = 'javascript';
 
     /**
      * Pass a string or string[] that should be escaped in a CSS context.
