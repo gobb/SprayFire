@@ -110,7 +110,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      */
     public function setMultipleResponderData(array $data, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
         foreach ($data as $name => $value) {
-            $this->setResponderData($name, $value);
+            $this->setResponderData($name, $value, $context);
         }
     }
 
