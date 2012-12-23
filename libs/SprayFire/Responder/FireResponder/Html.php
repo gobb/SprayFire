@@ -21,6 +21,9 @@ use \SprayFire\Responder as SFResponder,
  * @package SprayFire
  * @subpackage Responder.FireResponder
  *
+ * @property \SprayFire\FileSys\FireFileSys\Paths $Paths
+ * @property \SprayFire\Responder\FireResponder\OutputEscaper $Escaper
+ *
  * @todo
  * We should take a look at abstracting out the services aspect of this into a
  * base Responder that should be available to all SprayFire.Responder.Responder
@@ -56,7 +59,7 @@ class Html extends FireService\Consumer implements SFResponder\Responder {
         $LayoutTemplate = $TemplateManager->getLayoutTemplate();
         $data = array();
         $data['Responder'] = $this;
-        $data = \array_merge($data, $Controller->getResponderData());
+        $data = \array_merge($data, $this->getEscapedData($Controller));
         $contentTemplates = $TemplateManager->getContentTemplates();
         if ($this->isTraversable($contentTemplates)) {
             foreach ($contentTemplates as $name => $Template) {
@@ -65,6 +68,19 @@ class Html extends FireService\Consumer implements SFResponder\Responder {
         }
 
         echo $LayoutTemplate->getContent($data);
+    }
+
+    /**
+     * Will get the appropriate data from the $Controller with the appropriate
+     * contexts and return an array with that data escaped in that context.
+     *
+     * @param \SprayFire\Controller\Controller $Controller
+     * @return array
+     */
+    protected function getEscapedData(SFController\Controller $Controller) {
+        $dirtyHtmlContent = $Controller->getResponderData(SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT);
+        $cleanHtmlContent = $this->Escaper->escapeHtmlContent($dirtyHtmlContent);
+        return \array_merge(array(), $cleanHtmlContent);
     }
 
     /**
