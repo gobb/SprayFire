@@ -13,6 +13,7 @@ namespace SprayFire\Controller;
 
 use \SprayFire\Object as SFObject,
     \SprayFire\Service as SFService,
+    \SprayFire\Responder as SFResponder,
     \SprayFire\Mediator as SFMediator;
 
 /**
@@ -34,15 +35,24 @@ interface Controller extends SFObject, SFService\Consumer {
     public function getResponderName();
 
     /**
+     * Return an array of data provided by setResponderData
+     *
+     * @param string $context
+     * @return array
+     */
+    public function getResponderData($context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT);
+
+    /**
      * Provide a set of data to the SprayFire.Responder.Responder that should be
      * used during response processing.
      *
      * The $data should be in the format [$varName => $varValue]
      *
      * @param array $data
+     * @param string $context
      * @return void
      */
-    public function setMultipleResponderData(array $data);
+    public function setMultipleResponderData(array $data, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT);
 
     /**
      * Provide data to the SprayFire.Responder.Responder that should be used
@@ -50,19 +60,13 @@ interface Controller extends SFObject, SFService\Consumer {
      *
      * @param string $name
      * @param mixed $value
+     * @param string $context
      * @return void
      */
-    public function setResponderData($name, $value);
+    public function setResponderData($name, $value, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT);
 
     /**
-     * Return an array of data provided by setResponderData
-     *
-     * @return array
-     */
-    public function getResponderData();
-
-    /**
-     * Return an implementation of SprayFire.Responder.Template.Manager that tells
+     * Return an implementation of \SprayFire\Responder\Template\Manager that tells
      * the SprayFire.Responder.Responder implementation what layout and content
      * templates to use for the given request.
      *

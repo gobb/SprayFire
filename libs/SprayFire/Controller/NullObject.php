@@ -14,6 +14,7 @@ namespace SprayFire\Controller;
 
 use \SprayFire\Controller as SFController,
     \SprayFire\Mediator as SFMediator,
+    \SprayFire\Responder as SFResponder,
     \SprayFire\CoreObject as SFCoreObject,
     \SprayFire\Responder\Template\FireTemplate as FireTemplate;
 
@@ -99,7 +100,7 @@ class NullObject extends SFCoreObject implements SFController\Controller {
      * @param array $data
      * @return void
      */
-    public function setMultipleResponderData(array $data) {
+    public function setMultipleResponderData(array $data, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
 
     }
 
@@ -109,7 +110,7 @@ class NullObject extends SFCoreObject implements SFController\Controller {
      * @param string $name
      * @param mixed $value
      */
-    public function setResponderData($name, $value) {
+    public function setResponderData($name, $value, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
 
     }
 
@@ -118,7 +119,7 @@ class NullObject extends SFCoreObject implements SFController\Controller {
      *
      * @return array
      */
-    public function getResponderData() {
+    public function getResponderData($context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
         return array();
     }
 

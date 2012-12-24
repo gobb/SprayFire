@@ -67,6 +67,7 @@ $Request = new FireHttp\Request($Uri, $Headers);
 $RouteBag = $getRouteBag();
 $Normalizer = new FireRouting\Normalizer();
 $Router = new FireRouting\Router($RouteBag, $Normalizer, \basename($Paths->getInstallPath()));
+$RoutedRequest = $Router->getRoutedRequest($Request);
 
 $EventRegistry = new FireMediator\EventRegistry();
 $Mediator = new FireMediator\Mediator($EventRegistry);
@@ -86,7 +87,7 @@ $Container->addService($EventRegistry);
 $Container->addService($Mediator);
 $Container->addService($RouteBag);
 $Container->addService($Router);
-$Container->addService($Router->getRoutedRequest($Request));
+$Container->addService($RoutedRequest);
 $Container->addService($OutputEscaper);
 $Container->addService($TemplateManager);
 $Container->addService($LogOverseer);
@@ -98,10 +99,13 @@ foreach ($environmentConfig['registeredEvents'] as $eventName => $eventType) {
 }
 
 $AppInitializer = new FireDispatcher\AppInitializer($Container, $Paths, $ClassLoader);
-$Dispatcher = new FireDispatcher\Dispatcher($Router, $Mediator, $AppInitializer, $ControllerFactory, $ResponderFactory);
+$AppInitializer->initializeApp($RoutedRequest);
+
+$Dispatcher = new FireDispatcher\Dispatcher($Router, $Mediator, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
 
 if ($environmentConfig['developmentMode']) {
     echo '<pre>Request time ' . (\microtime(true) - $requestStartTime) . '</pre>';
     \var_dump(\memory_get_peak_usage(true));
+    \var_dump(new \stdClass());
 }

@@ -20,15 +20,15 @@ use \SprayFire\Responder as SFResponder,
  * @package SprayFire
  * @subpackage Responder.FireResponder
  */
-class Json extends FireService\Consumer implements SFResponder\Responder {
+class Json extends Base implements SFResponder\Responder {
 
     /**
      * 
      *
-     * @param SprayFire.Controller.Controller $Controller
+     * @param \SprayFire\Controller\Controller $Controller
      */
     public function generateDynamicResponse(SFController\Controller $Controller) {
-        $data = $Controller->getResponderData();
+        $data = $this->getEscapedData($Controller);
         echo \json_encode($data);
     }
 

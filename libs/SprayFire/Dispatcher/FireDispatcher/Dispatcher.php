@@ -90,16 +90,9 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * @param \SprayFire\Factory\Factory $ControllerFactory
      * @param \SprayFire\Factory\Factory $ResponderFactory
      */
-    public function __construct(
-        SFRouting\Router $Router,
-        SFMediator\Mediator $Mediator,
-        SFDispatcher\AppInitializer $AppInitializer,
-        SFFactory\Factory $ControllerFactory,
-        SFFactory\Factory $ResponderFactory
-    ) {
+    public function __construct(SFRouting\Router $Router, SFMediator\Mediator $Mediator, SFFactory\Factory $ControllerFactory, SFFactory\Factory $ResponderFactory) {
         $this->Router = $Router;
         $this->Mediator = $Mediator;
-        $this->AppInitializer = $AppInitializer;
         $this->ControllerFactory = $ControllerFactory;
         $this->ResponderFactory = $ResponderFactory;
     }
@@ -116,7 +109,6 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
         $this->Mediator->triggerEvent(SFDispatcher\Events::BEFORE_ROUTING, $Request);
         $RoutedRequest = $this->Router->getRoutedRequest($Request);
         $this->Mediator->triggerEvent(SFDispatcher\Events::AFTER_ROUTING, $RoutedRequest);
-        $this->AppInitializer->initializeApp($RoutedRequest);
         $this->sendDynamicRequest($RoutedRequest);
     }
 

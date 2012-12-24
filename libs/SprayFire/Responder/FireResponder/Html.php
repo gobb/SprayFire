@@ -13,7 +13,6 @@ namespace SprayFire\Responder\FireResponder;
 
 use \SprayFire\Responder as SFResponder,
     \SprayFire\Controller as SFController,
-    \SprayFire\Service\FireService as FireService,
     \Traversable as Traversable,
     \stdClass as stdClass;
 
@@ -21,13 +20,16 @@ use \SprayFire\Responder as SFResponder,
  * @package SprayFire
  * @subpackage Responder.FireResponder
  *
+ * @property \SprayFire\FileSys\FireFileSys\Paths $Paths
+ * @property \SprayFire\Responder\FireResponder\OutputEscaper $Escaper
+ *
  * @todo
  * We should take a look at abstracting out the services aspect of this into a
  * base Responder that should be available to all SprayFire.Responder.Responder
  * implementations.
  *
  */
-class Html extends FireService\Consumer implements SFResponder\Responder {
+class Html extends Base implements SFResponder\Responder {
 
     /**
      * Stores the final generated response from this Responder
@@ -56,7 +58,7 @@ class Html extends FireService\Consumer implements SFResponder\Responder {
         $LayoutTemplate = $TemplateManager->getLayoutTemplate();
         $data = array();
         $data['Responder'] = $this;
-        $data = \array_merge($data, $Controller->getResponderData());
+        $data = \array_merge($data, $this->getEscapedData($Controller));
         $contentTemplates = $TemplateManager->getContentTemplates();
         if ($this->isTraversable($contentTemplates)) {
             foreach ($contentTemplates as $name => $Template) {
