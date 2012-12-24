@@ -13,7 +13,6 @@ namespace SprayFire\Responder\FireResponder;
 
 use \SprayFire\Responder as SFResponder,
     \SprayFire\Controller as SFController,
-    \SprayFire\Service\FireService as FireService,
     \Traversable as Traversable,
     \stdClass as stdClass;
 
@@ -30,7 +29,7 @@ use \SprayFire\Responder as SFResponder,
  * implementations.
  *
  */
-class Html extends FireService\Consumer implements SFResponder\Responder {
+class Html extends Base implements SFResponder\Responder {
 
     /**
      * Stores the final generated response from this Responder
@@ -68,26 +67,6 @@ class Html extends FireService\Consumer implements SFResponder\Responder {
         }
 
         echo $LayoutTemplate->getContent($data);
-    }
-
-    /**
-     * Will get the appropriate data from the $Controller with the appropriate
-     * contexts and return an array with that data escaped in that context.
-     *
-     * @param \SprayFire\Controller\Controller $Controller
-     * @return array
-     */
-    protected function getEscapedData(SFController\Controller $Controller) {
-        $dirtyHtmlContent = (array) $Controller->getResponderData(SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT);
-        $dirtyHtmlAttribute = (array) $Controller->getResponderData(SFResponder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT);
-        $dirtyCss = (array) $Controller->getResponderData(SFResponder\OutputEscaper::CSS_CONTEXT);
-        $dirtyJavaScript = (array) $Controller->getResponderData(SFResponder\OutputEscaper::JAVASCRIPT_CONTEXT);
-
-        $cleanHtmlContent = $this->Escaper->escapeHtmlContent($dirtyHtmlContent);
-        $cleanHtmlAttribute = $this->Escaper->escapeHtmlAttribute($dirtyHtmlAttribute);
-        $cleanCss = $this->Escaper->escapeCss($dirtyCss);
-        $cleanJavaScript = $this->Escaper->escapeJavaScript($dirtyJavaScript);
-        return \array_merge(array(), $cleanHtmlContent, $cleanHtmlAttribute, $cleanCss, $cleanJavaScript);
     }
 
     /**
