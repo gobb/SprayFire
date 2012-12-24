@@ -46,7 +46,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
         $Normalizer = new FireRouting\Normalizer();
         $Router = new FireRouting\Router($RouteBag, $Normalizer, 'SprayFire');
 
-        $RoutedRequest = $Router->getRoutedRequest($this->getRequest('/SprayFire/'));
+        $Request = $this->getRequest('/SprayFire/');
+        $RoutedRequest = $Router->getRoutedRequest($Request);
 
         $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
         $this->assertSame('SprayFire', $RoutedRequest->getAppNamespace());
@@ -192,6 +193,33 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('Mock.Route.One.Test', $RoutedRequest->getController());
     }
 
+    public function testRouterCheckingAppropriateMethod() {
+        $NoMatchRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $NoMatchRoute->expects($this->once())
+                     ->method('getControllerNamespace')
+                     ->will($this->returnValue('Mock.NoMatch.Route'));
+        $NoMatchRoute->expects($this->once())
+                     ->method('getControllerClass')
+                     ->will($this->returnValue('Test'));
+
+        $PatternMatchWrongMethod = $this->getMock('\SprayFire\Http\Routing\Route');
+        $PatternMatchWrongMethod->expects($this->once())
+                                ->method('getPattern')
+                                ->will($this->returnValue('/method_check/'));
+        $PatternMatchWrongMethod->expects($this->once())
+                                ->method('getMethod')
+                                ->will($this->returnValue('GET'));
+
+        $RouteBag = new FireRouting\RouteBag($NoMatchRoute);
+        $RouteBag->addRoute($PatternMatchWrongMethod);
+        $Normalizer = new FireRouting\Normalizer();
+        $Router = new FireRouting\Router($RouteBag, $Normalizer);
+
+        $Request = $this->getRequest('/method_check', 'POST');
+        $RoutedRequest = $Router->getRoutedRequest($Request);
+        $this->assertSame('Mock.NoMatch.Route.Test', $RoutedRequest->getController());
+    }
+
     /**
      * @param string $requestUri
      * @param string $method
@@ -203,6 +231,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
 
         $MockRequest = $this->getMock('\\SprayFire\\Http\\Request');
         $MockRequest->expects($this->once())->method('getUri')->will($this->returnValue($MockUri));
+        $MockRequest->expects($this->once())->method('getMethod')->will($this->returnValue($method));
         return $MockRequest;
     }
 
