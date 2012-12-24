@@ -34,7 +34,7 @@ class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
      * Stores a route that is returned if a route is attempted to be retrieved
      * and there is no match.
      *
-     * @property SprayFire.Http.Routing.Route
+     * @property \SprayFire\Http\Routing\Route
      */
     protected $NoMatchRoute;
 
