@@ -26,10 +26,10 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
      */
     public function testJsonResponseWithNoDataAndNotTemplates() {
         $Controller = $this->getMock('\SprayFire\Controller\Controller');
-        $Controller->expects($this->once())
-                   ->method('getResponderData')
-                   ->will($this->returnValue(array()));
         $Responder = new FireResponder\Json();
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $Responder->giveService('Escaper', $Escaper);
+
         \ob_start();
         $Responder->generateDynamicResponse($Controller);
         $actual = \ob_get_contents();
@@ -43,14 +43,17 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
     public function testJsonResponseWithOnlyControllerDataAndNoTemplates() {
         $data = array(
             'foo' => 'bar',
-            'bar' => 1,
+            'bar' => '1',
             'baz' => array()
         );
         $Controller = $this->getMock('\SprayFire\Controller\Controller');
-        $Controller->expects($this->once())
+        $Controller->expects($this->at(1))
                    ->method('getResponderData')
                    ->will($this->returnValue($data));
         $Responder = new FireResponder\Json();
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $Responder->giveService('Escaper', $Escaper);
+
         \ob_start();
         $Responder->generateDynamicResponse($Controller);
         $actual = \ob_get_contents();
