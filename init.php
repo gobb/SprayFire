@@ -35,14 +35,18 @@ $ReflectionCache = new SFUtils\ReflectionCache($JavaNameConverter);
 $Container = new FireService\Container($ReflectionCache);
 
 $getEnvironmentConfig = function() use($Paths) {
-    return include $Paths->getConfigPath('SprayFire', 'environment.php');
+    $path = $Paths->getConfigPath('SprayFire', 'environment.php');
+    $config = array();
+    if (\file_exists($path)) {
+        $config = (array) include $path;
+    }
+
+    return new \SprayFire\EnvironmentConfig($config);
 };
 
 $getRouteBag = function() use ($Paths) {
     return include $Paths->getConfigPath('SprayFire', 'routes.php');
 };
-
-$environmentConfig = $getEnvironmentConfig();
 
 /**
  * We are instantiating these services here to prevent unneeded reflection for
@@ -50,13 +54,15 @@ $environmentConfig = $getEnvironmentConfig();
  * improves processing time and memory used.
  */
 
+$EnvironmentConfig = $getEnvironmentConfig();
+
 $EmergencyLogger = new FireLogging\SysLogLogger();
 $ErrorLogger = new FireLogging\ErrorLogLogger();
 $InfoLogger = new FireLogging\DevelopmentLogger();
 $DebugLogger = new FireLogging\DevelopmentLogger();
 $LogOverseer = new FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
 
-$Handler = new \SprayFire\Handler($LogOverseer, $environmentConfig['developmentMode']);
+$Handler = new \SprayFire\Handler($LogOverseer, $EnvironmentConfig->isDevelopmentMode());
 \set_error_handler(array($Handler, 'trapError'));
 \set_exception_handler(array($Handler, 'trapException'));
 
@@ -72,7 +78,7 @@ $RoutedRequest = $Router->getRoutedRequest($Request);
 $EventRegistry = new FireMediator\EventRegistry();
 $Mediator = new FireMediator\Mediator($EventRegistry);
 
-$OutputEscaper = new FireResponder\OutputEscaper($environmentConfig['defaultCharset']);
+$OutputEscaper = new FireResponder\OutputEscaper($EnvironmentConfig->getDefaultCharset());
 $TemplateManager = new FireTemplate\Manager();
 
 $ControllerFactory = new FireController\Factory($ReflectionCache, $Container, $LogOverseer);
@@ -93,8 +99,9 @@ $Container->addService($TemplateManager);
 $Container->addService($LogOverseer);
 $Container->addService($ControllerFactory);
 $Container->addService($ResponderFactory);
+$Container->addService($EnvironmentConfig);
 
-foreach ($environmentConfig['registeredEvents'] as $eventName => $eventType) {
+foreach ($EnvironmentConfig->getRegisteredEvents() as $eventName => $eventType) {
     $EventRegistry->registerEvent($eventName, $eventType);
 }
 
@@ -104,7 +111,7 @@ $AppInitializer->initializeApp($RoutedRequest);
 $Dispatcher = new FireDispatcher\Dispatcher($Router, $Mediator, $ControllerFactory, $ResponderFactory);
 $Dispatcher->dispatchResponse($Request);
 
-if ($environmentConfig['developmentMode']) {
+if ($EnvironmentConfig->isDevelopmentMode()) {
     echo '<pre>Request time ' . (\microtime(true) - $requestStartTime) . '</pre>';
     \var_dump(\memory_get_peak_usage(true));
     \var_dump(new \stdClass());
