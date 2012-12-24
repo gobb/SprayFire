@@ -78,9 +78,16 @@ class Html extends FireService\Consumer implements SFResponder\Responder {
      * @return array
      */
     protected function getEscapedData(SFController\Controller $Controller) {
-        $dirtyHtmlContent = $Controller->getResponderData(SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT);
+        $dirtyHtmlContent = (array) $Controller->getResponderData(SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT);
+        $dirtyHtmlAttribute = (array) $Controller->getResponderData(SFResponder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT);
+        $dirtyCss = (array) $Controller->getResponderData(SFResponder\OutputEscaper::CSS_CONTEXT);
+        $dirtyJavaScript = (array) $Controller->getResponderData(SFResponder\OutputEscaper::JAVASCRIPT_CONTEXT);
+
         $cleanHtmlContent = $this->Escaper->escapeHtmlContent($dirtyHtmlContent);
-        return \array_merge(array(), $cleanHtmlContent);
+        $cleanHtmlAttribute = $this->Escaper->escapeHtmlAttribute($dirtyHtmlAttribute);
+        $cleanCss = $this->Escaper->escapeCss($dirtyCss);
+        $cleanJavaScript = $this->Escaper->escapeJavaScript($dirtyJavaScript);
+        return \array_merge(array(), $cleanHtmlContent, $cleanHtmlAttribute, $cleanCss, $cleanJavaScript);
     }
 
     /**
