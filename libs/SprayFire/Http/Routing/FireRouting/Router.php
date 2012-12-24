@@ -121,10 +121,19 @@ class Router extends SFCoreObject implements SFRouting\Router {
      */
     protected function getMatchedRouteAndParameters(SFHttp\Request $Request) {
         $resourcePath = $this->cleanPath($Request->getUri()->getPath());
+
+        // Default the Route to a NoMatchRoute from the RouteBag
         $Route = $this->RouteBag->getRoute();
+        $requestMethod = $Request->getMethod();
         $match = array();
 
         foreach ($this->RouteBag as $routePattern => $StoredRoute) {
+            /* @var \SprayFire\Http\Routing\Route $StoredRoute */
+            $routeMethod = $StoredRoute->getMethod();
+            if (isset($routeMethod) && $requestMethod !== $routeMethod) {
+                continue;
+            }
+
             $routePattern = '#^' . $routePattern . '$#';
             if (\preg_match($routePattern, $resourcePath, $match)) {
                 foreach ($match as $key => $val) {
