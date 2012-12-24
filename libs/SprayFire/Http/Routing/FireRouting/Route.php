@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation of SprayFire.Http.Routing.Route provided by the default SprayFire
+ * Implementation of \SprayFire\Http\Routing\Route provided by the default SprayFire
  * install.
  *
  * @author  Charles Sprayberry
