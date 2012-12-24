@@ -31,7 +31,6 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $MockRoutedRequest = $this->getMockRoutedRequest($controller, $action, $parameters);
         $MockRouter = $this->getMockRouter($MockRoutedRequest);
         $MockMediator = $this->getMock('\\SprayFire\\Mediator\\Mediator');
-        $MockAppInitializer = $this->getMock('\\SprayFire\\Dispatcher\\AppInitializer');
         $MockController = $this->getMockController($action, $responderName, array($action));
         $MockControllerFactory = $this->getMockControllerFactory($MockController, $controller);
         $MockResponder = $this->getMockResponder($MockController, '<div>SprayFire</div>');
@@ -40,7 +39,6 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $Dispatcher = new FireDispatcher\Dispatcher(
             $MockRouter,
             $MockMediator,
-            $MockAppInitializer,
             $MockControllerFactory,
             $MockResponderFactory
         );
@@ -101,14 +99,12 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
                      ->method('triggerEvent')
                      ->with(SFDispatcher\Events::AFTER_RESPONSE_SENT, $MockResponder);
 
-        $MockAppInitializer = $this->getMock('\\SprayFire\\Dispatcher\\AppInitializer');
         $MockControllerFactory = $this->getMockControllerFactory($MockController, $controller);
         $MockResponderFactory = $this->getMockResponderFactory($MockResponder, $responderName);
 
         $Dispatcher = new FireDispatcher\Dispatcher(
             $MockRouter,
             $MockMediator,
-            $MockAppInitializer,
             $MockControllerFactory,
             $MockResponderFactory
         );
@@ -134,7 +130,6 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
                                             'triggerEvent',
                                             'removeCallback'
                                        ));
-        $MockAppInitializer = $this->getMock('\\SprayFire\\Dispatcher\\AppInitializer');
         $MockController = $this->getMockController($action, $responderName, array($action));
         $MockControllerFactory = $this->getMockControllerFactory($MockController, $controller);
         $MockResponder = $this->getMockResponder($MockController, '<div>SprayFire</div>');
@@ -143,7 +138,6 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $Dispatcher = new FireDispatcher\Dispatcher(
             $MockRouter,
             $MockMediator,
-            $MockAppInitializer,
             $MockControllerFactory,
             $MockResponderFactory
         );
@@ -174,7 +168,6 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
                                             'triggerEvent',
                                             'removeCallback'
                                        ));
-        $MockAppInitializer = $this->getMock('\\SprayFire\\Dispatcher\\AppInitializer');
         $MockController = $this->getMockController($action, $responderName, array($action));
         $MockControllerFactory = $this->getMockControllerFactory($MockController, $controller);
         $MockResponder = $this->getMockResponder($MockController, '<div>SprayFire</div>');
@@ -183,7 +176,6 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $Dispatcher = new FireDispatcher\Dispatcher(
             $MockRouter,
             $MockMediator,
-            $MockAppInitializer,
             $MockControllerFactory,
             $MockResponderFactory
         );
