@@ -47,9 +47,6 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
         $Controller->expects($this->once())
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
-        $Controller->expects($this->once())
-                   ->method('getResponderData')
-                   ->will($this->returnValue(array()));
 
         \ob_start();
         $Responder->generateDynamicResponse($Controller);
@@ -101,9 +98,6 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
         $Controller->expects($this->once())
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
-        $Controller->expects($this->once())
-                   ->method('getResponderData')
-                   ->will($this->returnValue(array()));
 
         \ob_start();
         $Responder->generateDynamicResponse($Controller);
@@ -172,7 +166,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
         $Controller->expects($this->once())
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
-        $Controller->expects($this->once())
+        $Controller->expects($this->at(1))
                    ->method('getResponderData')
                    ->will($this->returnValue(array(
                        'foo' => 'bar',
@@ -210,7 +204,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
                         ->will($this->returnValue($LayoutTemplate));
 
         $Controller = $this->getMock('\SprayFire\Controller\Controller');
-        $Controller->expects($this->once())
+        $Controller->expects($this->at(1))
                    ->method('getResponderData')
                    ->with(SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT)
                    ->will($this->returnValue(array(
@@ -228,6 +222,132 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
         \ob_end_clean();
 
         $this->assertSame('<div>&gt;&lt;&amp;</div>', $actual);
+    }
+
+    public function testAutomaticEscapingOfHtmlAttributeData() {
+        $Responder = new FireResponder\Html();
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $Responder->giveService('Escaper', $Escaper);
+
+        $LayoutTemplate = $this->getMock('\sprayFire\Responder\Template\Template');
+        $LayoutTemplate->expects($this->once())
+                       ->method('getContent')
+                       ->with(array(
+                            'Responder' => $Responder,
+                            'space' => '&#x20;',
+                            'tab' => '&#x09;',
+                            'null' => '&#xFFFD;'
+                       ))
+                       ->will($this->returnValue('<div>&#x20;&&#x09;&#xFFFD;</div>'));
+
+        $TemplateManager = $this->getMock('\SprayFire\Responder\Template\Manager');
+        $TemplateManager->expects($this->once())
+            ->method('getLayoutTemplate')
+            ->will($this->returnValue($LayoutTemplate));
+
+        $Controller = $this->getMock('\SprayFire\Controller\Controller');
+        $Controller->expects($this->at(2))
+                   ->method('getResponderData')
+                   ->with(SFResponder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT)
+                   ->will($this->returnValue(array(
+                        'space' => ' ',
+                        'tab' => "\t",
+                        'null' => "\0"
+                   )));
+        $Controller->expects($this->once())
+                   ->method('getTemplateManager')
+                   ->will($this->returnValue($TemplateManager));
+
+        \ob_start();
+        $Responder->generateDynamicResponse($Controller);
+        $actual = \ob_get_contents();
+        \ob_end_clean();
+
+        $this->assertSame('<div>&#x20;&&#x09;&#xFFFD;</div>', $actual);
+    }
+
+    public function testAutomaticEscapingOfCssData() {
+        $Responder = new FireResponder\Html();
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $Responder->giveService('Escaper', $Escaper);
+
+        $LayoutTemplate = $this->getMock('\sprayFire\Responder\Template\Template');
+        $LayoutTemplate->expects($this->once())
+                       ->method('getContent')
+                       ->with(array(
+                            'Responder' => $Responder,
+                            'comma' => '\\2C ',
+                            'period' => '\\2E ',
+                            'underscore' => '\\5F '
+                        ))
+                        ->will($this->returnValue('<div>\\2C\\2E\\5F</div>'));
+
+        $TemplateManager = $this->getMock('\SprayFire\Responder\Template\Manager');
+        $TemplateManager->expects($this->once())
+                        ->method('getLayoutTemplate')
+                        ->will($this->returnValue($LayoutTemplate));
+
+        $Controller = $this->getMock('\SprayFire\Controller\Controller');
+        $Controller->expects($this->at(3))
+                   ->method('getResponderData')
+                   ->with(SFResponder\OutputEscaper::CSS_CONTEXT)
+                   ->will($this->returnValue(array(
+                        'comma' => ',',
+                        'period' => '.',
+                        'underscore' => '_'
+                   )));
+        $Controller->expects($this->once())
+                   ->method('getTemplateManager')
+                   ->will($this->returnValue($TemplateManager));
+
+        \ob_start();
+        $Responder->generateDynamicResponse($Controller);
+        $actual = \ob_get_contents();
+        \ob_end_clean();
+
+        $this->assertSame('<div>\\2C\\2E\\5F</div>', $actual);
+    }
+
+    public function testAutomaticEscapingOfJavaScript() {
+        $Responder = new FireResponder\Html();
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $Responder->giveService('Escaper', $Escaper);
+
+        $LayoutTemplate = $this->getMock('\sprayFire\Responder\Template\Template');
+        $LayoutTemplate->expects($this->once())
+                       ->method('getContent')
+                       ->with(array(
+                            'Responder' => $Responder,
+                            'singleQuote' => '\\x27',
+                            'doubleQuote' => '\\x22',
+                            'ampersand' => '\\x26'
+                       ))
+                       ->will($this->returnValue('<div>\\x27\\x22\\x26</div>'));
+
+        $TemplateManager = $this->getMock('\SprayFire\Responder\Template\Manager');
+        $TemplateManager->expects($this->once())
+                        ->method('getLayoutTemplate')
+                        ->will($this->returnValue($LayoutTemplate));
+
+        $Controller = $this->getMock('\SprayFire\Controller\Controller');
+        $Controller->expects($this->at(4))
+                   ->method('getResponderData')
+                   ->with(SFResponder\OutputEscaper::JAVASCRIPT_CONTEXT)
+                   ->will($this->returnValue(array(
+                        'singleQuote' => "'",
+                        'doubleQuote' => '"',
+                        'ampersand' => '&'
+                    )));
+        $Controller->expects($this->once())
+                   ->method('getTemplateManager')
+                   ->will($this->returnValue($TemplateManager));
+
+        \ob_start();
+        $Responder->generateDynamicResponse($Controller);
+        $actual = \ob_get_contents();
+        \ob_end_clean();
+
+        $this->assertSame('<div>\\x27\\x22\\x26</div>', $actual);
     }
 
 }
