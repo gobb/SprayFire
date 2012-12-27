@@ -11,6 +11,8 @@
 
 namespace SprayFire\Exception;
 
-class UnsupportedOperationException extends \RuntimeException {
+use \RuntimeException as RuntimeException;
+
+class UnsupportedOperationException extends RuntimeException {
 
 }
