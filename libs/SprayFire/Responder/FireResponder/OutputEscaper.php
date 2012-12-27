@@ -114,6 +114,7 @@ class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
      */
     protected function escapeContent($data, $context) {
         $type = \gettype($data);
+        $preserveBooleanAndNumeric = self::PRESERVE_NUMERIC | self::PRESERVE_BOOLEAN;
         $preserveBooleanOnly = self::PRESERVE_BOOLEAN;
         $preserveNumericOnly = self::PRESERVE_NUMERIC;
         $escapedData = null;
@@ -122,23 +123,17 @@ class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
             case 'object':
                 $escapedData = $this->escapeMultipleContent($data, $context);
                 break;
-            case 'integer':
-                if ($this->typePreservation === $preserveNumericOnly) {
-                    $escapedData = (int) $data;
-                } else {
-                    $escapedData = $this->ZendEscaper->$context($data);
-                }
-                break;
             case 'double':
-                if ($this->typePreservation === $preserveNumericOnly) {
-                    $escapedData = (float) $data;
+            case 'integer':
+                if ($this->typePreservation === $preserveBooleanAndNumeric || $this->typePreservation === $preserveNumericOnly) {
+                    $escapedData = $data;
                 } else {
                     $escapedData = $this->ZendEscaper->$context($data);
                 }
                 break;
             case 'boolean':
-                if ($this->typePreservation === $preserveBooleanOnly) {
-                    $escapedData = (boolean) $data;
+                if ($this->typePreservation === $preserveBooleanAndNumeric || $this->typePreservation === $preserveBooleanOnly) {
+                    $escapedData = $data;
                 } else {
                     $escapedData = $this->ZendEscaper->$context($data);
                 }
