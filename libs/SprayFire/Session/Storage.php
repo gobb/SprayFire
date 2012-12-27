@@ -38,15 +38,26 @@ interface Storage extends SFObject, ArrayAccess, Countable, Traversable {
     public function clear();
 
     /**
-     *
+     * Clear data associated to a specific $key from the session storage.
      *
      * @param string $key
      * @return void
      */
     public function clearKey($key);
 
+    /**
+     * Determine whether or not the session storage can be written to.
+     *
+     * @return boolean
+     */
     public function isImmutable();
 
+    /**
+     * Will make the session storage immutable, causing an exception to be thrown
+     * if the session is written to after this method is invoked.
+     *
+     * @return void
+     */
     public function makeImmutable();
 
 }
