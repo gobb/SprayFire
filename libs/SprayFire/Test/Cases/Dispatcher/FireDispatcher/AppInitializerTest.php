@@ -29,7 +29,7 @@ class AppInitializerTest extends \PHPUnit_Framework_TestCase {
         $Initializer = $this->getInitializer();
         $controller = 'NonExistent.Controller';
         $RoutedRequest = $this->getRoutedRequest($controller);
-        $this->setExpectedException('\\SprayFire\\Exception\\ResourceNotFoundException');
+        $this->setExpectedException('\\SprayFire\\Dispatcher\\Exception\\BootstrapNotFound');
         $Initializer->initializeApp($RoutedRequest);
     }
 
