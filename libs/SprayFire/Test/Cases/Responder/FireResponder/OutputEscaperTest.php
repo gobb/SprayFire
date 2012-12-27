@@ -431,13 +431,13 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
 
     public function testPreservingNumericAndBooleanData() {
         $Escaper = new FireResponder\OutputEscaper('utf-8');
-        $Escaper->preserveDataType($Escaper::PRESERVE_BOOLEAN | $Escaper::PRESERVE_NUMERIC);
+        $Escaper->preserveDataType($Escaper::PRESERVE_NUMERIC | $Escaper::PRESERVE_BOOLEAN);
 
         $escapedInteger = $Escaper->escapeHtmlContent(1);
         $escapedTrue = $Escaper->escapeHtmlContent(true);
 
-        $this->assertSame(1, $escapedInteger);
-        $this->assertTrue($escapedTrue);
+        $this->assertSame(1, $escapedInteger, 'Integer was improperly escaped to string');
+        $this->assertTrue($escapedTrue, 'Boolean was improperly escaped to string');
     }
 
 }
