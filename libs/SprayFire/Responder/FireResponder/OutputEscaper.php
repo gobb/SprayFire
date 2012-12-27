@@ -26,9 +26,35 @@ use \SprayFire\Responder as SFResponder,
 class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
 
     /**
-     * @property Zend.Escaper.Escaper
+     * Used in conjunction with preserveDataType to indicate that boolean and
+     * numeric types should be escaped.
+     */
+    const NO_PRESERVATION = 1;
+
+    /**
+     * Used in conjunction with preserveDataType to indicate that boolean data
+     * should be preserved and not escaped.
+     */
+    const PRESERVE_BOOLEAN = 2;
+
+    /**
+     * Used in conjunction with preserveDataType to indicate that numeric data,
+     * integers and floats, should be preserved and not escaped.
+     */
+    const PRESERVE_NUMERIC = 4;
+
+    /**
+     * @property \Zend\Escaper\Escaper
      */
     protected $ZendEscaper;
+
+    /**
+     * The property that controls whether or not numeric and/or boolean data should
+     * be preserved during escaping.
+     *
+     * @property integer
+     */
+    protected $typePreservation = self::NO_PRESERVATION;
 
     /**
      * @param string $encoding
@@ -87,12 +113,26 @@ class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
      * @return mixed
      */
     protected function escapeContent($data, $context) {
-        if (\is_string($data)) {
-            return $this->ZendEscaper->$context($data);
-        } else if (\is_array($data)) {
-            $escapedData = $this->escapeMultipleContent($data, $context);
-            return $escapedData;
+        $type = \gettype($data);
+        $preserveBooleanOnly = self::PRESERVE_BOOLEAN;
+        $escapedData = null;
+        switch ($type) {
+            case 'array':
+            case 'object':
+                $escapedData = $this->escapeMultipleContent($data, $context);
+                break;
+            case 'boolean':
+                if ($this->typePreservation === $preserveBooleanOnly) {
+                    $escapedData = (boolean) $data;
+                } else {
+                    $escapedData = $this->ZendEscaper->$context($data);
+                }
+                break;
+            default:
+                $escapedData = $this->ZendEscaper->$context($data);
         }
+
+        return $escapedData;
     }
 
     /**
@@ -106,13 +146,38 @@ class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
     protected function escapeMultipleContent(array $data, $context) {
         $escapedData = array();
         foreach ($data as $key => $value) {
-            if (\is_array($value)) {
-                $escapedData[$key] = $this->escapeMultipleContent($value, $context);
-            } else {
-                $escapedData[$key] = $this->ZendEscaper->$context($value);
-            }
+            $escapedData[$key] = $this->escapeContent($value, $context);
         }
         return $escapedData;
+    }
+
+    /**
+     * Indicate whether or not boolean and numeric data types should be preserved
+     * and not escaped.
+     *
+     * It is strongly advised that you make use of the OutputEscaper constants
+     * to ensure the appropriate data types are preserved.
+     *
+     * Preserve boolean and numeric data
+     * -------------------------------------------------------------------------
+     * $typeBitMask = OutputEscaper::PRESERVE_NUMERIC | OutputEscaper::PRESERVE_BOOLEAN
+     *
+     * Preserve boolean data only
+     * -------------------------------------------------------------------------
+     * $typeBitMask = OutputEscaper::PRESERVE_BOOLEAN
+     *
+     * Preserve numeric data only
+     * -------------------------------------------------------------------------
+     * $typeBitMask = OutputEscaper::PRESERVE_NUMERIC
+     *
+     * Any other value will result in no preservation taking place and all values
+     * being escaped.
+     *
+     * @param $typeBitMask
+     * @return void
+     */
+    public function preserveDataType($typeBitMask) {
+        $this->typePreservation = $typeBitMask;
     }
 
 
