@@ -387,4 +387,35 @@ class OutputEscaperTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $escaped);
     }
 
+    public function testEscapingBooleanData() {
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+
+        $escapedTrue = $Escaper->escapeHtmlContent(true);
+        $escapedFalse = $Escaper->escapeHtmlContent(false);
+
+        $this->assertSame('1', $escapedTrue, 'true was not escaped to the string 1');
+        $this->assertSame('', $escapedFalse, 'false was not escaped to the string 0');
+    }
+
+    public function testEscapingNumericData() {
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+
+        $escapedInt = $Escaper->escapeHtmlContent(1);
+        $escapedFloat = $Escaper->escapeHtmlContent(1.1);
+
+        $this->assertSame('1', $escapedInt);
+        $this->assertSame('1.1', $escapedFloat);
+    }
+
+    public function testPreservingBooleanData() {
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $Escaper->preserveDataType($Escaper::PRESERVE_BOOLEAN);
+
+        $escapedTrue = $Escaper->escapeHtmlContent(true);
+        $escapedFalse = $Escaper->escapeHtmlContent(false);
+
+        $this->assertTrue($escapedTrue);
+        $this->assertFalse($escapedFalse);
+    }
+
 }
