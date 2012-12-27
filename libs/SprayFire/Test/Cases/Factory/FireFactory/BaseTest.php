@@ -25,17 +25,13 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testPassingInvalidNullPrototype() {
-        $exceptionThrown = false;
-        try {
-            $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
-            $LogDelegator = new \SprayFire\Logging\FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
-            $JavaConverter = new \SprayFire\Utils\JavaNamespaceConverter();
-            $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaConverter);
-            $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'stdClass', 'SprayFire.NonExistent');
-        } catch (\InvalidArgumentException $InvalArgExc) {
-            $exceptionThrown = true;
-        }
-        $this->assertTrue($exceptionThrown);
+        $EmergencyLogger = $ErrorLogger = $DebugLogger = $InfoLogger = new \SprayFire\Test\Helpers\DevelopmentLogger();
+        $LogDelegator = new \SprayFire\Logging\FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
+        $JavaConverter = new \SprayFire\Utils\JavaNamespaceConverter();
+        $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaConverter);
+
+        $this->setExpectedException('\\SprayFire\\Factory\\Exception\\TypeNotFound');
+        $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'stdClass', 'SprayFire.NonExistent');
     }
 
     public function testPassingInvalidReturnType() {
@@ -43,7 +39,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         $LogDelegator = new \SprayFire\Logging\FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
         $JavaConverter = new \SprayFire\Utils\JavaNamespaceConverter();
         $ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaConverter);
-        $this->setExpectedException('\\InvalidArgumentException');
+        $this->setExpectedException('\\SprayFire\\Factory\\Exception\\TypeNotFound');
         $Factory = new \SprayFire\Test\Helpers\TestBaseFactory($ReflectionCache, $LogDelegator, 'SprayFire.NonExistent', 'stdClass');
     }
 
