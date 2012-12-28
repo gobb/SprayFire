@@ -53,6 +53,7 @@ class Regex extends Check {
         if (\preg_match($this->pattern, $value)) {
             return ErrorCodes::NO_ERROR;
         }
+        return ErrorCodes::REGEX_NOT_MATCHED;
     }
 
     /**
