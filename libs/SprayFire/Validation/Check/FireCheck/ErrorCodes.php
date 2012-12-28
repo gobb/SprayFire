@@ -50,4 +50,9 @@ abstract class ErrorCodes {
      */
     const INVALID_EMAIL_ERROR = 6;
 
+    /**
+     * Code returned if a regular expression pattern is not matched by a checked value
+     */
+    const REGEX_NOT_MATCHED = 7;
+
 }
