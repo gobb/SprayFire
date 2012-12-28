@@ -27,4 +27,10 @@ class AlphabeticTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
     }
 
+    public function testAlphabeticStringIsValidWithSpaces() {
+        $Check = new FireCheck\Alphabetic(FireCheck\Alphabetic::IGNORE_SPACES);
+        $code = $Check->passesCheck('This is an alphabetic string with spaces but no tabs or new lines');
+        $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
+    }
+
 }
