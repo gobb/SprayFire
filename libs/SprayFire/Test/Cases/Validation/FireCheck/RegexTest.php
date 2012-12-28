@@ -26,4 +26,10 @@ class RegexTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
     }
 
+    public function testRegexNotMatchingReturnsProperCode() {
+        $Regex = new FireCheck\Regex('/^SprayFire$/');
+        $code = $Regex->passesCheck('Not SprayFire');
+        $this->assertSame(FireCheck\ErrorCodes::REGEX_NOT_MATCHED, $code);
+    }
+
 }
