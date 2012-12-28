@@ -22,12 +22,43 @@ namespace SprayFire\Validation\Check\FireCheck;
 class Alphabetic extends Regex {
 
     /**
+     * Value passed to construct parameter to ignore spaces in values checked
+     */
+    const IGNORE_SPACES = true;
+
+    /**
+     * Value passed to construct parameter if spaces are not to be ignored and
+     * would result in an invalid check on a value if it does have spaces in it
+     */
+    const DO_NOT_IGNORE_SPACES = false;
+
+    /**
+     * @property boolean
+     */
+    protected $ignoreSpaces;
+
+    /**
      * @property string
      */
     protected $alphabeticRegex = '/[^A-Za-z]/';
 
-    public function __construct() {
-        parent::__construct($this->alphabeticRegex);
+    /**
+     * @property string
+     */
+    protected $alphabeticWithSpacesRegex = '/[^A-Za-z ]/';
+
+    /**
+     * @param boolean $ignoreSpaces
+     */
+    public function __construct($ignoreSpaces = self::DO_NOT_IGNORE_SPACES) {
+        $this->ignoreSpaces = (boolean) $ignoreSpaces;
+        if ($this->ignoreSpaces) {
+            $pattern = $this->alphabeticWithSpacesRegex;
+        } else {
+            $pattern = $this->alphabeticRegex;
+        }
+        parent::__construct($pattern);
+
     }
 
     /**
@@ -43,6 +74,8 @@ class Alphabetic extends Regex {
      */
     public function passesCheck($value) {
         $matchCode = parent::passesCheck($value);
+        // We are checking to see if the regex did not match because we are passing
+        // a negated regex, that will only match if invalid characters are found
         if ($matchCode === ErrorCodes::REGEX_NOT_MATCHED) {
             return ErrorCodes::NO_ERROR;
         }
