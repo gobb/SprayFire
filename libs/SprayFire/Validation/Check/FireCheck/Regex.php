@@ -43,6 +43,7 @@ class Regex extends Check {
      *
      * Possible error codes:
      * - ErrorCodes::NO_ERROR
+     * - ErrorCodes::REGEX_NOT_MATCHED
      *
      * @param string $value
      * @return int
