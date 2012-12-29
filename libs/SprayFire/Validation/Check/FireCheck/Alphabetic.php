@@ -40,23 +40,19 @@ class Alphabetic extends Regex {
     /**
      * @property string
      */
-    protected $alphabeticRegex = '/[^A-Za-z]/';
+    protected $patternWithoutSpaces = '/[^A-Za-z]/';
 
     /**
      * @property string
      */
-    protected $alphabeticWithSpacesRegex = '/[^A-Za-z ]/';
+    protected $patternWithSpaces = '/[^A-Za-z ]/';
 
     /**
      * @param boolean $ignoreSpaces
      */
     public function __construct($ignoreSpaces = self::DO_NOT_IGNORE_SPACES) {
         $this->ignoreSpaces = (boolean) $ignoreSpaces;
-        if ($this->ignoreSpaces) {
-            $pattern = $this->alphabeticWithSpacesRegex;
-        } else {
-            $pattern = $this->alphabeticRegex;
-        }
+        $pattern = $ignoreSpaces ? $this->patternWithoutSpaces : $this->patternWithSpaces;
         parent::__construct($pattern);
 
     }
@@ -68,6 +64,7 @@ class Alphabetic extends Regex {
      *
      * Possible error codes:
      * - ErrorCodes::NO_ERROR
+     * - ErrorCodes::NOT_ALPHABETIC
      *
      * @param string $value
      * @return int
