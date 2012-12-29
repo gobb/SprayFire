@@ -33,4 +33,10 @@ class AlphabeticTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
     }
 
+    public function testNonAlphabeticStringReturnsProperErrorCode() {
+        $Check = new FireCheck\Alphabetic();
+        $code = $Check->passesCheck('notstrictly4lph4b3tic');
+        $this->assertSame(FireCheck\ErrorCodes::NOT_ALPHABETIC, $code);
+    }
+
 }
