@@ -43,6 +43,11 @@ class LessThan extends ComparisonCheck {
         return ErrorCodes::GREATER_THAN_ERROR;
     }
 
+    /**
+     * Return the name of the check that should be used when __toString() is called
+     *
+     * @return string
+     */
     protected function getCheckName() {
         return 'LessThan';
     }

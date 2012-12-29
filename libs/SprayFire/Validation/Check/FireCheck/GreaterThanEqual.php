@@ -39,6 +39,11 @@ class GreaterThanEqual extends ComparisonCheck {
         return ErrorCodes::LESS_THAN_ERROR;
     }
 
+    /**
+     * Return the name of the check that should be used when __toString() is called
+     *
+     * @return string
+     */
     protected function getCheckName() {
         return 'GreaterThanEqual';
     }
