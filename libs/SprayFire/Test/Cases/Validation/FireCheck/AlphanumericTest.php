@@ -22,7 +22,7 @@ use \SprayFire\Validation\Check\FireCheck as FireCheck,
 class AlphanumericTest extends PHPUnitTestCase {
 
     public function testAlphanumericReturningNoErrorWithoutSpaces() {
-        $Check = FireCheck\Alphanumeric();
+        $Check = new FireCheck\Alphanumeric();
         $code = $Check->passesCheck('alph4b3ticstringwith4umbers');
         $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
     }
