@@ -73,10 +73,9 @@ class Alphabetic extends Regex {
      * @return int
      */
     public function passesCheck($value) {
-        $matchCode = parent::passesCheck($value);
         // We are checking to see if the regex did not match because we are passing
         // a negated regex, that will only match if invalid characters are found
-        if ($matchCode === ErrorCodes::REGEX_NOT_MATCHED) {
+        if (parent::passesCheck($value) === ErrorCodes::REGEX_NOT_MATCHED) {
             return ErrorCodes::NO_ERROR;
         }
         return ErrorCodes::NOT_ALPHABETIC;
