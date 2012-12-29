@@ -79,6 +79,7 @@ class Alphabetic extends Regex {
         if ($matchCode === ErrorCodes::REGEX_NOT_MATCHED) {
             return ErrorCodes::NO_ERROR;
         }
+        return ErrorCodes::NOT_ALPHABETIC;
     }
 
     /**
