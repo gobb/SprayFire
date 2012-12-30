@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation of SprayFire.Validation.Check.FireCheck.Check that is intended
+ * Implementation of \SprayFire\Validation\Check\FireCheck\Check that is intended
  * to provide generic functionality for checks that are simple binary comparisons
  *
  * @author  Charles Sprayberry
