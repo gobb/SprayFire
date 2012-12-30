@@ -53,12 +53,12 @@ abstract class ErrorCodes {
     /**
      * Code returned if a regular expression pattern is not matched by a checked value
      */
-    const REGEX_NOT_MATCHED = 7;
+    const REGEX_NOT_MATCHED_ERROR = 7;
 
     /**
      * Code returned if a string is not properly recognized as being only alphabetic
      * characters A-Z and a-z.
      */
-    const NOT_ALPHABETIC = 8;
+    const NOT_ALPHABETIC_ERROR = 8;
 
 }
