@@ -30,4 +30,14 @@ class LessThanEqualTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
     }
 
+    /**
+     * Ensures that no error code is returned for values that are equal to the
+     * passed constructor parameter.
+     */
+    public function testValueBeingLessThanEqualWithAnEqualValue() {
+        $Check = new FireCheck\LessThanEqual(3);
+        $code = $Check->passesCheck(3);
+        $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
+    }
+
 }
