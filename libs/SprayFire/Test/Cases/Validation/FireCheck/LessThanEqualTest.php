@@ -21,7 +21,7 @@ use \SprayFire\Validation\Check\FireCheck as FireCheck,
 class LessThanEqualTest extends PHPUnitTestCase {
 
     /**
-     * Ensures that no error code is returned for values that are less than the
+     * Ensures that NO_ERROR_CODE is returned for values that are less than the
      * passed constructor parameter.
      */
     public function testValueBeingLessThanEqualWithALessThanValue() {
@@ -31,13 +31,23 @@ class LessThanEqualTest extends PHPUnitTestCase {
     }
 
     /**
-     * Ensures that no error code is returned for values that are equal to the
+     * Ensures that NO_ERROR_CODE is returned for values that are equal to the
      * passed constructor parameter.
      */
     public function testValueBeingLessThanEqualWithAnEqualValue() {
         $Check = new FireCheck\LessThanEqual(3);
         $code = $Check->passesCheck(3);
         $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
+    }
+
+    /**
+     * Ensures that a GREATER_THAN_ERROR code is returned for a value greater than
+     * the injected comparison parameter.
+     */
+    public function testValueReturningGreaterThanErrorCodeForGreaterThanValue() {
+        $Check = new FireCheck\LessThanEqual(3);
+        $code = $Check->passesCheck(4);
+        $this->assertSame(FireCheck\ErrorCodes::GREATER_THAN_ERROR, $code);
     }
 
 }
