@@ -52,9 +52,8 @@ class Alphabetic extends Regex {
      */
     public function __construct($ignoreSpaces = self::DO_NOT_IGNORE_SPACES) {
         $this->ignoreSpaces = (boolean) $ignoreSpaces;
-        $pattern = $ignoreSpaces ? $this->patternWithoutSpaces : $this->patternWithSpaces;
+        $pattern = $ignoreSpaces ? $this->patternWithSpaces : $this->patternWithoutSpaces;
         parent::__construct($pattern);
-
     }
 
     /**
@@ -72,10 +71,10 @@ class Alphabetic extends Regex {
     public function passesCheck($value) {
         // We are checking to see if the regex did not match because we are passing
         // a negated regex, that will only match if invalid characters are found
-        if (parent::passesCheck($value) === ErrorCodes::REGEX_NOT_MATCHED) {
+        if (parent::passesCheck($value) === ErrorCodes::REGEX_NOT_MATCHED_ERROR) {
             return ErrorCodes::NO_ERROR;
         }
-        return ErrorCodes::NOT_ALPHABETIC;
+        return ErrorCodes::NOT_ALPHABETIC_ERROR;
     }
 
     /**
