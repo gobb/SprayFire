@@ -28,13 +28,17 @@ class LessThanEqual extends ComparisonCheck {
      *
      * Possible error codes:
      * - ErrorCodes::NO_ERROR
+     * - ErrorCodes::GREATER_THAN_ERROR
      *
      * @param integer|float $value
      * @return integer
      */
     public function passesCheck($value) {
         parent::passesCheck($value);
-        return ErrorCodes::NO_ERROR;
+        if ($value <= $this->comparisonParameter) {
+            return ErrorCodes::NO_ERROR;
+        }
+        return ErrorCodes::GREATER_THAN_ERROR;
     }
 
     /**
