@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * Testing the implementation of the LessThanEqual validation check to ensure
+ * appropriate error codes are returned.
+ *
+ * @author  Charles Sprayberry
+ * @license Subject to the terms of the LICENSE file in the project root
+ * @version 0.1
+ * @since   0.1
+ */
+namespace SprayFire\Test\Cases\Validation\FireCheck;
+
+use \SprayFire\Validation\Check\FireCheck as FireCheck,
+    \PHPUnit_Framework_TestCase as PHPUnitTestCase;
+
+/**
+ * @package SprayFireTest
+ * @subpackage Cases.Validation.FireCheck
+ */
+class LessThanEqualTest extends PHPUnitTestCase {
+
+    /**
+     * Ensures that no error code is returned for values that are less than the
+     * passed constructor parameter.
+     */
+    public function testValueBeingLessThanEqualWithALessThanValue() {
+        $Check = new FireCheck\LessThanEqual(3);
+        $code = $Check->passesCheck(2);
+        $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
+    }
+
+}
