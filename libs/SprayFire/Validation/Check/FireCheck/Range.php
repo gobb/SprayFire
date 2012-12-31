@@ -100,6 +100,12 @@ class Range extends Check {
         $this->setTokenValue(self::MAXIMUM_TOKEN, $max);
     }
 
+    /**
+     * Ensures that a valid check type is set and will trigger an error if an
+     * invalid type is attempted to be set.
+     *
+     * @param string $type
+     */
     protected function setCheckType($type) {
         $validTypes = array(
             self::INCLUSIVE_CHECK,
@@ -109,6 +115,7 @@ class Range extends Check {
         if (!\in_array($type, $validTypes)) {
             $message = 'Invalid check type passed to ' . __CLASS__ . '. Exclusive check used by default.';
             \trigger_error($message, \E_USER_NOTICE);
+            $validType = self::EXCLUSIVE_CHECK;
         }
         $this->checkType = $validType;
     }
