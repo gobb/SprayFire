@@ -90,6 +90,8 @@ class Range extends Check {
         } else {
             if ($this->min > $value) {
                 return ErrorCodes::MINIMUM_LIMIT_ERROR;
+            } else {
+                return ErrorCodes::MAXIMUM_LIMIT_ERROR;
             }
         }
     }
