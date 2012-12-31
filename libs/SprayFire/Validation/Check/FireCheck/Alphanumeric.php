@@ -22,12 +22,33 @@ namespace SprayFire\Validation\Check\FireCheck;
 class Alphanumeric extends Regex {
 
     /**
+     * Passed to constructor parameter to cause spaces to be invalid in checked
+     * values, this is set by default.
+     */
+    const DO_NOT_IGNORE_SPACES = false;
+
+    /**
+     * Passed to constructor parameter to cause spaces to not make checked
+     * value invalid.
+     */
+    const IGNORE_SPACES = true;
+
+    /**
+     * @property string
+     */
+    protected $patternWithSpaces = '/[^A-Za-z0-9 ]/';
+
+    /**
      * @property string
      */
     protected $patternWithoutSpaces = '/[^A-Za-z0-9]/';
 
-    public function __construct() {
-        parent::__construct($this->patternWithoutSpaces);
+    /**
+     * @param boolean $ignoreSpaces
+     */
+    public function __construct($ignoreSpaces = self::DO_NOT_IGNORE_SPACES) {
+        $pattern = $ignoreSpaces ? $this->patternWithSpaces : $this->patternWithoutSpaces;
+        parent::__construct($pattern);
     }
 
     /**
@@ -56,4 +77,5 @@ class Alphanumeric extends Regex {
     protected function getCheckName() {
         return 'Alphanumeric';
     }
+
 }
