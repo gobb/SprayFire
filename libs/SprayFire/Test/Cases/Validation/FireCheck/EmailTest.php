@@ -15,7 +15,7 @@ use SprayFire\Validation\Check\FireCheck as FireCheck;
 /**
  *
  * @package SprayFireTest
- * @subpackage Cases
+ * @subpackage Cases.Validation.FireCheck
  */
 class EmailTest extends \PHPUnit_Framework_TestCase {
 
