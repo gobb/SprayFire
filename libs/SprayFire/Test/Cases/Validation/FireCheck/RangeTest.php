@@ -37,7 +37,7 @@ class RangeTest extends PHPUnitTestCase {
     public function testRangeBreakingMinError() {
         $Check = new FireCheck\Range(5,10);
         $code = $Check->passesCheck(4);
-        $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
+        $this->assertSame(FireCheck\ErrorCodes::MINIMUM_LIMIT_ERROR, $code);
     }
 
 }
