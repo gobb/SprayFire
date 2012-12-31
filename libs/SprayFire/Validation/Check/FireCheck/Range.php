@@ -34,6 +34,17 @@ class Range extends Check {
     const MAXIMUM_TOKEN = 'max';
 
     /**
+     * Constant to be passed to third parameter for an exclusive check, by default
+     * this is the value if no third parameter is passed
+     */
+    const EXCLUSIVE_CHECK = 'exclusive';
+
+    /**
+     * Constant to be passed to third parameter for an inclusive check.
+     */
+    const INCLUSIVE_CHECK = 'inclusive';
+
+    /**
      * The minimum limit of the range that a $value must be greater than, or
      * with an exclusive check greater or equal than.
      *
@@ -50,12 +61,21 @@ class Range extends Check {
     protected $max = \PHP_INT_MAX;
 
     /**
+     * Used to determine whether the checking algorithm should use an exclusive or
+     * inclusive check.
+     *
+     * @property string
+     */
+    protected $checkType = self::EXCLUSIVE_CHECK;
+
+    /**
      * @param integer|float $min
      * @param integer|float $max
      */
-    public function __construct($min, $max) {
+    public function __construct($min, $max, $checkType = self::EXCLUSIVE_CHECK) {
         $this->setMin($min);
         $this->setMax($max);
+        $this->checkType = $checkType;
     }
 
     /**
@@ -94,7 +114,12 @@ class Range extends Check {
      */
     public function passesCheck($value) {
         parent::passesCheck($value);
-        $code = $this->doExclusiveCheck($value);
+        if (self::EXCLUSIVE_CHECK === $this->checkType) {
+            $code = $this->doExclusiveCheck($value);
+        } else {
+            $code = $this->doInclusiveCheck($value);
+        }
+
         return $code;
     }
 
@@ -111,6 +136,16 @@ class Range extends Check {
             } else {
                 return ErrorCodes::MAXIMUM_LIMIT_ERROR;
             }
+        }
+    }
+
+    /**
+     * @param integer|float $value
+     * @return integer
+     */
+    protected function doInclusiveCheck($value) {
+        if ($this->min < $value && $this->max > $value) {
+            return ErrorCodes::NO_ERROR;
         }
     }
 
