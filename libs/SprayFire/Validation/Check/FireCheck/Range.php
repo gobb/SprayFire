@@ -87,6 +87,10 @@ class Range extends Check {
         parent::passesCheck($value);
         if ($this->min < $value && $this->max > $value) {
             return ErrorCodes::NO_ERROR;
+        } else {
+            if ($this->min > $value) {
+                return ErrorCodes::MINIMUM_LIMIT_ERROR;
+            }
         }
     }
 
