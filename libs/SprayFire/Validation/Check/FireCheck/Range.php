@@ -103,7 +103,7 @@ class Range extends Check {
      * @return integer
      */
     protected function doExclusiveCheck($value) {
-        if ($this->min <= $value && $this->max > $value) {
+        if ($this->min <= $value && $this->max >= $value) {
             return ErrorCodes::NO_ERROR;
         } else {
             if ($this->min > $value) {
