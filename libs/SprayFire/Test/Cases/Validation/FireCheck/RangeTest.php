@@ -104,10 +104,20 @@ class RangeTest extends PHPUnitTestCase {
      * Ensures that if an invalid third parameter is passed to constructor that
      * we trigger an appropriate error with the expected message.
      */
-    public function testRangeCheckingExclusiveWhenInvalidThirdParameterPassed() {
+    public function testRangeTriggeringErrorWhenInvalidThirdParameterPassed() {
         $expectedMessage = 'Invalid check type passed to SprayFire\Validation\Check\FireCheck\Range. Exclusive check used by default.';
         $this->setExpectedException('PHPUnit_Framework_Error_Notice', $expectedMessage);
         $Check = new FireCheck\Range(0, 14, 'notvalid');
+    }
+
+    /**
+     * Ensures that we are doing a proper exclusive check when an invalid type is
+     * passed.
+     */
+    public function testRangeCheckingExlcusiveWhenInvalidThirdParameterPassed() {
+        $Check = @new FireCheck\Range(0, 14, 'notvalid');
+        $code = $Check->passesCheck(14);
+        $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
     }
 
 }
