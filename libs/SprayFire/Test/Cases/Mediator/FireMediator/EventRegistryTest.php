@@ -55,4 +55,10 @@ class EventRegistryTest extends PHPUnitTestCase {
         $this->setExpectedException('\SprayFire\Mediator\Exception\DuplicateRegisteredEvent', 'The event, foo, has already been registered.');
         $Registry->registerEvent('foo', 'baz');
     }
+
+    public function testGettingEventTargetTypeForUnregisteredEvent() {
+        $Registry = new FireMediator\EventRegistry();
+        $this->assertFalse($Registry->getEventTargetType('foo'));
+    }
+
 }
