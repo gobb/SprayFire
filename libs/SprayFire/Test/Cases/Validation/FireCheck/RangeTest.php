@@ -90,5 +90,14 @@ class RangeTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::MINIMUM_LIMIT_ERROR, $code);
     }
 
+    /**
+     * Ensures that an inclusive check properly returns MAXIMUM_LIMIT_ERROR for
+     * a value equal to the maximum limit.
+     */
+    public function testRangeCheckInclusivityOnMaximumLimit() {
+        $Check = new FireCheck\Range(0, 14, FireCheck\Range::INCLUSIVE_CHECK);
+        $code = $Check->passesCheck(14);
+        $this->assertSame(FireCheck\ErrorCodes::MAXIMUM_LIMIT_ERROR, $code);
+    }
 
 }
