@@ -94,7 +94,16 @@ class Range extends Check {
      */
     public function passesCheck($value) {
         parent::passesCheck($value);
-        if ($this->min < $value && $this->max > $value) {
+        $code = $this->doExclusiveCheck($value);
+        return $code;
+    }
+
+    /**
+     * @param integer|float $value
+     * @return integer
+     */
+    protected function doExclusiveCheck($value) {
+        if ($this->min <= $value && $this->max > $value) {
             return ErrorCodes::NO_ERROR;
         } else {
             if ($this->min > $value) {
@@ -113,4 +122,5 @@ class Range extends Check {
     protected function getCheckName() {
         return 'Range';
     }
+
 }
