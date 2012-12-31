@@ -70,4 +70,14 @@ class RangeTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
     }
 
+    /**
+     * Ensures that an inclusive check properly returns no error for value within
+     * the range.
+     */
+    public function testRangeCheckingInclusivityOnMinimumLimit() {
+        $Check = new FireCheck\Range(5, 10, FireCheck\Range::INCLUSIVE_CHECK);
+        $code = $Check->passesCheck(6);
+        $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
+    }
+
 }
