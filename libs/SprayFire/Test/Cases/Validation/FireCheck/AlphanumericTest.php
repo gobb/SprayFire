@@ -27,6 +27,18 @@ class AlphanumericTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
     }
 
+    public function testAlphanumericReturningNoErrorWithSpaces() {
+        $Check = new FireCheck\Alphanumeric(FireCheck\Alphanumeric::IGNORE_SPACES);
+        $code = $Check->passesCheck('alph4b3tic string with 4umbers and 5p4ce5');
+        $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
+    }
+
+    public function testAlphanumericReturningNotAlphanumericError() {
+        $Check = new FireCheck\Alphanumeric();
+        $code = $Check->passesCheck('alph4numericstringwith_!@invalid3$%');
+        $this->assertSame(FireCheck\ErrorCodes::NOT_ALPHANUMERIC_ERROR, $code);
+    }
+
     public function testGettingCheckNameReturnsProperValue() {
         $Check = new FireCheck\Alphanumeric();
         $this->assertSame('Alphanumeric', (string) $Check);
