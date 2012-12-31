@@ -1,7 +1,7 @@
 <?php
 
 /**
- * A registry of events used by SprayFire.Mediator.FireMediator.Mediator to determine
+ * A registry of events used by \SprayFire\Mediator\FireMediator\Mediator to determine
  * what events should store callbacks and trigger events.
  *
  * @author  Charles Sprayberry
