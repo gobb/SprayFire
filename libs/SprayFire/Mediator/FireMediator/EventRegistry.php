@@ -49,7 +49,7 @@ class EventRegistry extends SFCoreObject implements IteratorAggregate {
      * @param string $eventName
      * @param string $targetType Java or PHP style class name
      * @return void
-     * @throws InvalidArgumentException
+     * @throws \SprayFire\Mediator\Exception\DuplicateRegisteredEvent
      */
     public function registerEvent($eventName, $targetType) {
         if ($this->hasEvent($eventName)) {
