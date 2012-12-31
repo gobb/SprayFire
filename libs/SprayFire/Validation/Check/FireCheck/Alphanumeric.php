@@ -57,6 +57,7 @@ class Alphanumeric extends Regex {
      *
      * Possible error codes:
      * - ErrorCodes::NO_ERROR
+     * - ErrorCodes::NOT_ALPHANUMERIC_ERROR
      *
      * @param string $value
      * @return int
@@ -67,6 +68,7 @@ class Alphanumeric extends Regex {
         if (parent::passesCheck($value) === ErrorCodes::REGEX_NOT_MATCHED_ERROR) {
             return ErrorCodes::NO_ERROR;
         }
+        return ErrorCodes::NOT_ALPHANUMERIC_ERROR;
     }
 
     /**
