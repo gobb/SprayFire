@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation of SprayFire.Responder.OutputEscaper provided by the default
+ * Implementation of \SprayFire\Responder\OutputEscaper provided by the default
  * SprayFire install.
  *
  * @author  Charles Sprayberry

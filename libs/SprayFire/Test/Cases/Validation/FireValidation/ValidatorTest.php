@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * Test to ensure that \SprayFire\Validation\FireValidation\Validator is properly
+ * implemented and integrated with other \SprayFire\Validation modules.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -20,17 +22,31 @@ use \SprayFire\Validation\FireValidation as FireValidation,
  */
 class ValidatorTest extends \PHPUnit_Framework_TestCase {
 
+    /**
+     * @property \SprayFire\Validation\FireValidation\Validator
+     */
+    protected $Validator;
+
+    public function setUp() {
+        $MessageParser = new FireCheck\MessageParser();
+        $Validator = new FireValidation\Validator($MessageParser);
+        $this->Validator = $Validator;
+    }
+
+    /**
+     * Ensures that one field with one rule returns the appropriate
+     * \SprayFire\Validation\Result\FireResult\Set with the correct successful
+     * results.
+     */
     public function testValidatorCheckingOneFieldToOneRule() {
         $data = array(
             'foo' => 1
         );
         $Equal = new FireCheck\Equal(1);
         $Rules = new FireValidation\Rules();
-        $Rules->forField('foo')
-              ->add($Equal);
+        $Rules->forField('foo')->add($Equal);
 
-        $Validator = new FireValidation\Validator();
-        $ResultSet = $Validator->validate($data, $Rules);
+        $ResultSet = $this->Validator->validate($data, $Rules);
 
         $this->assertInstanceOf('\SprayFire\Validation\Result\Set', $ResultSet);
 
@@ -57,8 +73,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
         $Rules = new FireValidation\Rules();
         $Rules->addCheck('foo', $Equal);
 
-        $Validator = new FireValidation\Validator();
-        $ResultSet = $Validator->validate($data, $Rules);
+        $ResultSet = $this->Validator->validate($data, $Rules);
 
         $Results = $ResultSet->getResultsByFieldName('foo', $ResultSet::FAILURE_RESULTS);
         $this->assertSame($logMessage, $Results[0]->getLogMessage());
@@ -76,8 +91,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
         $Rules = new FireValidation\Rules();
         $Rules->forField('foo')->add($Equal)->add($GreaterThan)->add($LessThan);
 
-        $Validator = new FireValidation\Validator();
-        $ResultSet = $Validator->validate($data, $Rules);
+        $ResultSet = $this->Validator->validate($data, $Rules);
 
         $this->assertCount(3, $ResultSet->getResultsByFieldName('foo', $ResultSet::SUCCESSFUL_RESULTS));
         $this->assertCount(0, $ResultSet->getResultsByFieldName('foo', $ResultSet::FAILURE_RESULTS));
@@ -94,8 +108,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
         $Rules = new FireValidation\Rules();
         $Rules->forField('foo')->add($Equal)->add($GreaterThan)->add($LessThan);
 
-        $Validator = new FireValidation\Validator();
-        $ResultSet = $Validator->validate($data, $Rules);
+        $ResultSet = $this->Validator->validate($data, $Rules);
 
         $successfulResults = $ResultSet->getResultsByFieldName('foo', $ResultSet::SUCCESSFUL_RESULTS);
         $failureResults = $ResultSet->getResultsByFieldName('foo', $ResultSet::FAILURE_RESULTS);
@@ -135,8 +148,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
         $Rules = new FireValidation\Rules();
         $Rules->forField('foo')->add($Equal)->add($GreaterThan, true)->add($LessThan);
 
-        $Validator = new FireValidation\Validator();
-        $ResultSet = $Validator->validate($data, $Rules);
+        $ResultSet = $this->Validator->validate($data, $Rules);
 
         $successfulResults = $ResultSet->getResultsByFieldName('foo', $ResultSet::SUCCESSFUL_RESULTS);
         $failureResults = $ResultSet->getResultsByFieldName('foo', $ResultSet::FAILURE_RESULTS);
@@ -179,14 +191,33 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase {
         $Rules->forField('bar')->add($EqualTwo)->add($LessThanFour)->add($GreaterThanZero);
         $Rules->forField('foobar')->add($EqualThree)->add($LessThanFour)->add($GreaterThanZero);
 
-        $Validator = new FireValidation\Validator();
-        $ResultSet = $Validator->validate($data, $Rules);
+        $ResultSet = $this->Validator->validate($data, $Rules);
 
         $this->assertSame(9, $ResultSet->count($ResultSet::SUCCESSFUL_RESULTS));
         $this->assertSame(0, $ResultSet->count($ResultSet::FAILURE_RESULTS));
         $this->assertCount(3, $ResultSet->getResultsByFieldName('foo', $ResultSet::SUCCESSFUL_RESULTS));
         $this->assertCount(3, $ResultSet->getResultsByFieldName('bar', $ResultSet::SUCCESSFUL_RESULTS));
         $this->assertCount(3, $ResultSet->getResultsByFieldName('foobar', $ResultSet::SUCCESSFUL_RESULTS));
+    }
+
+    public function testValidatorParsingCheckMessages() {
+        $data = array(
+            'foo' => 1
+        );
+
+        $EqualCheck = new FireCheck\Equal(2);
+        $EqualCheck->setLogMessage('{value} !== {comparison}', FireCheck\ErrorCodes::NOT_EQUAL_TO_ERROR);
+        $EqualCheck->setDisplayMessage('{comparison} !== {value}', FireCheck\ErrorCodes::NOT_EQUAL_TO_ERROR);
+        $Rules = new FireValidation\Rules();
+        $Rules->forField('foo')->add($EqualCheck);
+
+        $ResultSet = $this->Validator->validate($data, $Rules);
+        $Results = $ResultSet->getResultsByFieldName('foo', $ResultSet::FAILURE_RESULTS);
+        /** @var \SprayFire\Validation\Result\Result $Result */
+        $Result = $Results[0];
+
+        $this->assertSame('1 !== 2', $Result->getLogMessage());
+        $this->assertSame('2 !== 1', $Result->getDisplayMessage());
     }
 
 }

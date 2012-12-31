@@ -1,43 +1,44 @@
 <?php
 
 /**
- * Check to see if a value is greater than or equal to the comparison parameter.
+ * Implementation of \SprayFire\Validation\Check\FireCheck\ComparisonCheck that
+ * will ensure a value is less than or equal to an injected comparison.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
  * @version 0.1
  * @since   0.1
  */
-
 namespace SprayFire\Validation\Check\FireCheck;
 
 /**
- * Tokens available
- * -----------------------------------------------------------------------------
+ * Tokens available to implementations
+ * --------------------------------------------------------------
  * - value => The value being checked
- * - comparison => The value being compared against
+ * - comparison => The value being checked against
  *
  * @package SprayFire
  * @subpackage Validation.Check.FireCheck
  */
-class GreaterThanEqual extends ComparisonCheck {
+class LessThanEqual extends ComparisonCheck {
 
     /**
-     * Checks to see if the $value is greater than or equal to the $comparisonParameter
+     * Ensures that an integer or float is less than or equal to the constructor
+     * injected $comparisonParameter.
      *
      * Possible error codes:
      * - ErrorCodes::NO_ERROR
-     * - ErrorCodes::LESS_THAN_ERROR
+     * - ErrorCodes::GREATER_THAN_ERROR
      *
-     * @param integer $value
+     * @param integer|float $value
      * @return integer
      */
     public function passesCheck($value) {
         parent::passesCheck($value);
-        if ($value >= $this->comparisonParameter) {
+        if ($value <= $this->comparisonParameter) {
             return ErrorCodes::NO_ERROR;
         }
-        return ErrorCodes::LESS_THAN_ERROR;
+        return ErrorCodes::GREATER_THAN_ERROR;
     }
 
     /**
@@ -46,8 +47,7 @@ class GreaterThanEqual extends ComparisonCheck {
      * @return string
      */
     protected function getCheckName() {
-        return 'GreaterThanEqual';
+        return 'LessThanEqual';
     }
-
 
 }

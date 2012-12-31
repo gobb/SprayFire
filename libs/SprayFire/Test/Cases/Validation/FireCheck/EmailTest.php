@@ -15,7 +15,7 @@ use SprayFire\Validation\Check\FireCheck as FireCheck;
 /**
  *
  * @package SprayFireTest
- * @subpackage Cases
+ * @subpackage Cases.Validation.FireCheck
  */
 class EmailTest extends \PHPUnit_Framework_TestCase {
 
@@ -27,6 +27,11 @@ class EmailTest extends \PHPUnit_Framework_TestCase {
     public function testEmailReturningProperErrorCodeWithInvalidEmail() {
         $Email = new FireCheck\Email();
         $this->assertsame(FireCheck\ErrorCodes::INVALID_EMAIL_ERROR, $Email->passesCheck('obviously not an email address'));
+    }
+
+    public function testGettingCheckNameReturnsProperValue() {
+        $Check = new FireCheck\Email();
+        $this->assertSame('Email', (string) $Check);
     }
 
 }

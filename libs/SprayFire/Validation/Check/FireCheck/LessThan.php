@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation to ensure that an integer is less than a checked $value
+ * Implementation to ensure that an integer or float is less than a checked $value
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -30,7 +30,7 @@ class LessThan extends ComparisonCheck {
      * - ErrorCodes::EQUAL_TO_ERROR
      * - ErrorCodes::GREATER_THAN_ERROR
      *
-     * @param integer $value
+     * @param integer|float $value
      * @return integer
      */
     public function passesCheck($value) {
@@ -43,6 +43,11 @@ class LessThan extends ComparisonCheck {
         return ErrorCodes::GREATER_THAN_ERROR;
     }
 
+    /**
+     * Return the name of the check that should be used when __toString() is called
+     *
+     * @return string
+     */
     protected function getCheckName() {
         return 'LessThan';
     }

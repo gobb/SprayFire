@@ -43,12 +43,6 @@ use \SprayFire\Object as SFObject;
  * @subpackage Validation.Check
  */
 interface Check extends SFObject, MessageTokenizable {
-    
-    /**
-     * In logging and display messages this token will be replaced with the value
-     * being checked against.
-     */
-    const VALUE_TOKEN = 'value';
 
     /**
      * Determine if the $value passes the rule for the given check.
