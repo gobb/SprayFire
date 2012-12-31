@@ -100,4 +100,14 @@ class RangeTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::MAXIMUM_LIMIT_ERROR, $code);
     }
 
+    /**
+     * Ensures that if an invalid third parameter is passed to constructor that
+     * we trigger an appropriate error with the expected message.
+     */
+    public function testRangeCheckingExclusiveWhenInvalidThirdParameterPassed() {
+        $expectedMessage = 'Invalid check type passed to SprayFire\Validation\Check\FireCheck\Range. Exclusive check used by default.';
+        $this->setExpectedException('PHPUnit_Framework_Error_Notice', $expectedMessage);
+        $Check = new FireCheck\Range(0, 14, 'notvalid');
+    }
+
 }
