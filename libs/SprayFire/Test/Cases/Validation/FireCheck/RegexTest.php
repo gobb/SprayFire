@@ -32,4 +32,9 @@ class RegexTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::REGEX_NOT_MATCHED_ERROR, $code);
     }
 
+    public function testGettingCheckNameReturnsProperValue() {
+        $Check = new FireCheck\Regex('');
+        $this->assertSame('Regex', (string) $Check);
+    }
+
 }

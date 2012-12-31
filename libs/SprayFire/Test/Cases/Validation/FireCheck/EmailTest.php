@@ -29,4 +29,9 @@ class EmailTest extends \PHPUnit_Framework_TestCase {
         $this->assertsame(FireCheck\ErrorCodes::INVALID_EMAIL_ERROR, $Email->passesCheck('obviously not an email address'));
     }
 
+    public function testGettingCheckNameReturnsProperValue() {
+        $Check = new FireCheck\Email();
+        $this->assertSame('Email', (string) $Check);
+    }
+
 }

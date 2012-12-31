@@ -50,4 +50,9 @@ class LessThanEqualTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::GREATER_THAN_ERROR, $code);
     }
 
+    public function testGettingCheckNameReturnsProperValue() {
+        $Check = new FireCheck\LessThanEqual(1);
+        $this->assertSame('LessThanEqual', (string) $Check);
+    }
+
 }

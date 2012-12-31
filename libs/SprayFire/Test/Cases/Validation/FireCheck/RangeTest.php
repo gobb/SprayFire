@@ -120,4 +120,9 @@ class RangeTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
     }
 
+    public function testGettingCheckNameReturnsProperValue() {
+        $Check = new FireCheck\Range(1, 1);
+        $this->assertSame('Range', (string) $Check);
+    }
+
 }

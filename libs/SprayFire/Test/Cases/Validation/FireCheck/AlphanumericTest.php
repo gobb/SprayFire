@@ -27,4 +27,9 @@ class AlphanumericTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
     }
 
+    public function testGettingCheckNameReturnsProperValue() {
+        $Check = new FireCheck\Alphanumeric();
+        $this->assertSame('Alphanumeric', (string) $Check);
+    }
+
 }

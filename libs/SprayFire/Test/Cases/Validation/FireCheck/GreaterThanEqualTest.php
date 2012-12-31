@@ -34,4 +34,9 @@ class GreaterThanEqualTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(FireCheck\ErrorCodes::LESS_THAN_ERROR, $GreaterThanEqual->passesCheck(9));
     }
 
+    public function testGettingCheckNameReturnsProperValue() {
+        $Check = new FireCheck\GreaterThanEqual(1);
+        $this->assertSame('GreaterThanEqual', (string) $Check);
+    }
+
 }
