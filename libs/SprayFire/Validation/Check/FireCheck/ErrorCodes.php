@@ -61,4 +61,20 @@ abstract class ErrorCodes {
      */
     const NOT_ALPHABETIC_ERROR = 8;
 
+    /**
+     * Code returned if a string is not properly recognized as being only alphanumeric
+     * characters A-Z, a-z and 0-9.
+     */
+    const NOT_ALPHANUMERIC_ERROR = 9;
+
+    /**
+     * Code returned if a number in a range breaks the minimum limit.
+     */
+    const MINIMUM_LIMIT_ERROR = 10;
+
+    /**
+     * Code returned if a number in a range breaks the maximum limit.
+     */
+    const MAXIMUM_LIMIT_ERROR = 11;
+
 }
