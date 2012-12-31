@@ -60,4 +60,14 @@ class RangeTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
     }
 
+    /**
+     * Ensures that with no third parameter passed to the constructor the check
+     * on the maximum side is exclusive.
+     */
+    public function testRangeCheckingExclusivityOnMaximumLimit() {
+        $Check = new FireCheck\Range(5, 10);
+        $code = $Check->passesCheck(10);
+        $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
+    }
+
 }
