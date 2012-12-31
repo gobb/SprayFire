@@ -24,6 +24,16 @@ namespace SprayFire\Validation\Check\FireCheck;
 class Range extends Check {
 
     /**
+     * Message token that is made available for the minimum limit of the range.
+     */
+    const MINIMUM_TOKEN = 'min';
+
+    /**
+     * Message token that is made available for the maximum limit of the range.
+     */
+    const MAXIMUM_TOKEN = 'max';
+
+    /**
      * The minimum limit of the range that a $value must be greater than, or
      * with an exclusive check greater or equal than.
      *
@@ -42,7 +52,6 @@ class Range extends Check {
     /**
      * @param integer|float $min
      * @param integer|float $max
-     * @param boolean $inclusive
      */
     public function __construct($min, $max) {
         $this->setMin($min);
@@ -57,7 +66,7 @@ class Range extends Check {
      */
     protected function setMin($min) {
         $this->min = $min;
-        $this->setTokenValue('min', $min);
+        $this->setTokenValue(self::MINIMUM_TOKEN, $min);
     }
 
     /**
@@ -68,7 +77,7 @@ class Range extends Check {
      */
     protected function setMax($max) {
         $this->max = $max;
-        $this->setTokenValue('max', $max);
+        $this->setTokenValue(self::MAXIMUM_TOKEN, $max);
     }
 
     /**
