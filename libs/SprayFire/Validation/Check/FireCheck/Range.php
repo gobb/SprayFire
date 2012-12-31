@@ -75,7 +75,7 @@ class Range extends Check {
     public function __construct($min, $max, $checkType = self::EXCLUSIVE_CHECK) {
         $this->setMin($min);
         $this->setMax($max);
-        $this->checkType = $checkType;
+        $this->setCheckType($checkType);
     }
 
     /**
@@ -98,6 +98,19 @@ class Range extends Check {
     protected function setMax($max) {
         $this->max = $max;
         $this->setTokenValue(self::MAXIMUM_TOKEN, $max);
+    }
+
+    protected function setCheckType($type) {
+        $validTypes = array(
+            self::INCLUSIVE_CHECK,
+            self::EXCLUSIVE_CHECK
+        );
+        $validType = $type;
+        if (!\in_array($type, $validTypes)) {
+            $message = 'Invalid check type passed to ' . __CLASS__ . '. Exclusive check used by default.';
+            \trigger_error($message, \E_USER_NOTICE);
+        }
+        $this->checkType = $validType;
     }
 
     /**
