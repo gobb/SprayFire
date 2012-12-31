@@ -30,4 +30,14 @@ class RangeTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
     }
 
+    /**
+     * Ensures that a value between the range returns a MINIMUM_LIMIT_ERROR with
+     * defaulting to an exclusive check.
+     */
+    public function testRangeBreakingMinError() {
+        $Check = new FireCheck\Range(5,10);
+        $code = $Check->passesCheck(4);
+        $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $code);
+    }
+
 }
