@@ -104,6 +104,10 @@ class CallbackStorageTest extends PHPUnitTestCase {
         $Callback1->expects($this->exactly(2))
                   ->method('getEventName')
                   ->will($this->returnValue('foo'));
+        $Callback1->expects($this->once())
+                  ->method('equals')
+                  ->with($Callback1)
+                  ->will($this->returnValue(true));
         $Callback2 = $this->getMock('\SprayFire\Mediator\Callback');
         // This doesn't get removed so only will be called once
         $Callback2->expects($this->once())
@@ -131,5 +135,5 @@ class CallbackStorageTest extends PHPUnitTestCase {
         );
         $this->assertAttributeSame($expected, 'callbackContainers', $CallbackStorage);
     }
-
+    
 }

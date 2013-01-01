@@ -80,8 +80,9 @@ class CallbackStorage extends SFCoreObject {
         $eventName = $Callback->getEventName();
         if ($this->hasContainer($eventName)) {
             foreach ($this->callbackContainers[$eventName] as $key => $StoredCallback) {
-                if ($Callback === $StoredCallback) {
+                if ($Callback->equals($StoredCallback)) {
                     unset($this->callbackContainers[$eventName][$key]);
+                    break;
                 }
             }
         }
