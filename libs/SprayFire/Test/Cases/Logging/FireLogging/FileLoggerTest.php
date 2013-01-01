@@ -115,6 +115,15 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
+    public function testExceptionThrownOnFileThatCannotBeOpened() {
+        $file = $this->readOnlyLog;
+        \touch($file);
+        \chmod($file, '0000');
+        $LogFile = new \SplFileInfo($file);
+        $this->setExpectedException('\SprayFire\Logging\Exception\FileNotWritable');
+        $Logger = new \SprayFire\Logging\FireLogging\FileLogger($LogFile);
+    }
+
     public function tearDown() {
         if (\file_exists($this->readOnlyLog)) {
             \unlink($this->readOnlyLog);
