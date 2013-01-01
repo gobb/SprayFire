@@ -71,4 +71,13 @@ class FileTemplateTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $actual);
     }
 
+    public function testGettingTemplateName() {
+        $name = 'sprayfire';
+        $filePath = $this->mockFrameworkPath . 'libs/SprayFire/Responder/html/file-template-test.php';
+
+        $FileTemplate = new FireTemplate\FileTemplate($name, $filePath);
+
+        $this->assertSame('sprayfire', $FileTemplate->getName());
+    }
+
 }
