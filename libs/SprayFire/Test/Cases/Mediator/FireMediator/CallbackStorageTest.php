@@ -75,6 +75,9 @@ class CallbackStorageTest extends PHPUnitTestCase {
         $this->assertAttributeSame($expected, 'callbackContainers', $CallbackStorage);
     }
 
+    /**
+     * Ensures that an entire container is properly removed.
+     */
     public function testRemovingContainerCreatedAndAddedTo() {
         $Callback = $this->getMock('\SprayFire\Mediator\Callback');
         $Callback->expects($this->once())
@@ -92,6 +95,38 @@ class CallbackStorageTest extends PHPUnitTestCase {
 
         $CallbackStorage->removeContainer('foo');
         $expected = array();
+        $this->assertAttributeSame($expected, 'callbackContainers', $CallbackStorage);
+    }
+
+    public function testRemovingSpecificCallbackWithoutEffectingRestOfContainer() {
+        $Callback1 = $this->getMock('\SprayFire\Mediator\Callback');
+        $Callback1->expects($this->once())
+                  ->method('getEventName')
+                  ->will($this->returnValue('foo'));
+        $Callback2 = $this->getMock('\SprayFire\Mediator\Callback');
+        $Callback2->expects($this->once())
+                  ->method('getEventName')
+                  ->will($this->returnValue('foo'));
+
+        $CallbackStorage = new FireMediator\CallbackStorage();
+        $CallbackStorage->addCallback($Callback1);
+        $CallbackStorage->addCallback($Callback2);
+
+        $expected = array(
+            'foo' => array(
+                $Callback1,
+                $Callback2
+            )
+        );
+        $this->assertAttributeSame($expected, 'callbackContainers', $CallbackStorage);
+
+        $CallbackStorage->removeCallback($Callback1);
+
+        $expected = array(
+            'foo' => array(
+                $Callback2
+            )
+        );
         $this->assertAttributeSame($expected, 'callbackContainers', $CallbackStorage);
     }
 
