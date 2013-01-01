@@ -85,8 +85,11 @@ class CallbackStorage extends SFCoreObject {
                     break;
                 }
             }
+            return true;
+        } else {
+            return false;
         }
-        return true;
+
     }
 
 }
