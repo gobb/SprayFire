@@ -89,4 +89,8 @@ class CallbackStorage extends SFCoreObject {
         return false;
     }
 
+    public function getCallbacks($eventName) {
+        return $this->callbackContainers[$eventName];
+    }
+
 }
