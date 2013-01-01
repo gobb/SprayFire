@@ -41,7 +41,7 @@ class EventStorageTest extends PHPUnitTestCase {
     public function testAddingEventToCreatedContainer() {
         $Event = $this->getMock('\SprayFire\Mediator\Event');
         $Event->expects($this->once())
-              ->method('getName')
+              ->method('getEventName')
               ->will($this->returnValue('foo'));
         $EventStorage = new FireMediator\EventStorage();
         $EventStorage->createContainer('foo');
