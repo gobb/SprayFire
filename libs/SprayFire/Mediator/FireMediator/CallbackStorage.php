@@ -21,7 +21,7 @@ use \SprayFire\Mediator as SFMediator,
  * @package SprayFire
  * @subpackage Mediator.FireMediator
  */
-class EventStorage extends SFCoreObject {
+class CallbackStorage extends SFCoreObject {
 
     /**
      * Holds arrays of events with each array associated to a key that is the
@@ -29,24 +29,24 @@ class EventStorage extends SFCoreObject {
      *
      * @property array
      */
-    protected $eventContainers = array();
+    protected $callbackContainers = array();
 
     /**
      * @param string $eventName
      * @return void
      */
     public function createContainer($eventName) {
-        if (!\array_key_exists($eventName, $this->eventContainers)) {
-            $this->eventContainers[(string) $eventName] = array();
+        if (!\array_key_exists($eventName, $this->callbackContainers)) {
+            $this->callbackContainers[(string) $eventName] = array();
         }
     }
 
     /**
-     * @param \SprayFire\Mediator\Event $Event
+     * @param \SprayFire\Mediator\Callback $Callback
      * @return void
      */
-    public function addEvent(SFMediator\Event $Event) {
-        $this->eventContainers[$Event->getEventName()][] = $Event;
+    public function addCallback(SFMediator\Callback $Callback) {
+
     }
 
 }
