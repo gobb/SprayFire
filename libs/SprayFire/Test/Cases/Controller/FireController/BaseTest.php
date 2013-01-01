@@ -48,6 +48,18 @@ class BaseTest extends PHPUnitTestCase {
         $this->assertSame($expectedJavaScript, $BaseHelper->getResponderData(SFResponder\OutputEscaper::JAVASCRIPT_CONTEXT));
     }
 
+    public function testSettingMultipleResponderDataInOneContext() {
+        $data = array(
+            'foo' => 'bar',
+            'bar' => 'foo',
+            'sprayfire' => 'framework'
+        );
+        $BaseHelper = new BaseHelper();
+        $BaseHelper->setMultipleResponderData($data);
+
+        $this->assertSame($data, $BaseHelper->getResponderData());
+    }
+
 
 }
 
