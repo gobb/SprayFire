@@ -62,6 +62,11 @@ class CallbackTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($eventName, $testData['eventName']);
     }
 
+    public function testCallbackThrowingExceptionForNotCallableParameter() {
+        $this->setExpectedException('\SprayFire\Mediator\Exception\NotCallableCallback', 'yo dog');
+        $Callback = new FireCallback('name', 'not a callable');
+    }
+
     /**
      * Will create a mock object of SprayFire.Mediator.Event interface, ensuring
      * that the appropriate methods from that interface are invoked one time with
