@@ -72,4 +72,16 @@ class EventRegistryTest extends PHPUnitTestCase {
         $this->assertAttributeSame($expected, 'callbackContainers', $this->Storage);
     }
 
+    public function testEventStorageRemovedOnEventUnregistered() {
+        $this->Registry->registerEvent('foo', 'bar');
+        $expected = array(
+            'foo' => array()
+        );
+        $this->assertAttributeSame($expected, 'callbackContainers', $this->Storage);
+
+        $this->Registry->unregisterEvent('foo');
+        $expected = array();
+        $this->assertAttributeSame($expected, 'callbackContainers', $this->Storage);
+    }
+
 }
