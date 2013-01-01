@@ -58,6 +58,9 @@ class CallbackStorage extends SFCoreObject {
     }
 
     /**
+     * Note that this will remove the entire container and all callbacks associated
+     * to the $eventName.
+     *
      * @param string $eventName
      * @return void
      */
