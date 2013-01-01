@@ -24,7 +24,7 @@ use \SprayFire\Mediator as SFMediator,
 class CallbackStorage extends SFCoreObject {
 
     /**
-     * Holds arrays of events with each array associated to a key that is the
+     * Holds arrays of callbacks with each array associated to a key that is the
      * event's name.
      *
      * @property array
