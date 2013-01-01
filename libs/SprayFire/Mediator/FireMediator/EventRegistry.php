@@ -1,7 +1,7 @@
 <?php
 
 /**
- * A registry of events used by SprayFire.Mediator.FireMediator.Mediator to determine
+ * A registry of events used by \SprayFire\Mediator\FireMediator\Mediator to determine
  * what events should store callbacks and trigger events.
  *
  * @author  Charles Sprayberry
@@ -12,10 +12,10 @@
 
 namespace SprayFire\Mediator\FireMediator;
 
-use \SprayFire\CoreObject as SFCoreObject,
+use \SprayFire\Mediator\Exception as SFMediatorException,
+    \SprayFire\CoreObject as SFCoreObject,
     \ArrayIterator as ArrayIterator,
-    \IteratorAggregate as IteratorAggregate,
-    \InvalidArgumentException as InvalidArgumentException;
+    \IteratorAggregate as IteratorAggregate;
 
 /**
  * This is a private package implementation that is designed to be used by the
@@ -49,11 +49,11 @@ class EventRegistry extends SFCoreObject implements IteratorAggregate {
      * @param string $eventName
      * @param string $targetType Java or PHP style class name
      * @return void
-     * @throws InvalidArgumentException
+     * @throws \SprayFire\Mediator\Exception\DuplicateRegisteredEvent
      */
     public function registerEvent($eventName, $targetType) {
         if ($this->hasEvent($eventName)) {
-            throw new InvalidArgumentException('The event, ' . $eventName . ', has already been registered.');
+            throw new SFMediatorException\DuplicateRegisteredEvent('The event, ' . $eventName . ', has already been registered.');
         }
         $this->registry[$eventName] = $targetType;
     }
