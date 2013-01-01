@@ -63,7 +63,7 @@ class CallbackTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testCallbackThrowingExceptionForNotCallableParameter() {
-        $this->setExpectedException('\SprayFire\Mediator\Exception\NotCallableCallback', 'yo dog');
+        $this->setExpectedException('\SprayFire\Mediator\Exception\NotCallableCallback', 'A callable value must be passed to SprayFire\Mediator\FireMediator\Callback');
         $Callback = new FireCallback('name', 'not a callable');
     }
 
