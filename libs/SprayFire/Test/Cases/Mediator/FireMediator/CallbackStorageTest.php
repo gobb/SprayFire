@@ -100,10 +100,12 @@ class CallbackStorageTest extends PHPUnitTestCase {
 
     public function testRemovingSpecificCallbackWithoutEffectingRestOfContainer() {
         $Callback1 = $this->getMock('\SprayFire\Mediator\Callback');
+        // This will be called the second time when we remove the callback
         $Callback1->expects($this->exactly(2))
                   ->method('getEventName')
                   ->will($this->returnValue('foo'));
         $Callback2 = $this->getMock('\SprayFire\Mediator\Callback');
+        // This doesn't get removed so only will be called once
         $Callback2->expects($this->once())
                   ->method('getEventName')
                   ->will($this->returnValue('foo'));
