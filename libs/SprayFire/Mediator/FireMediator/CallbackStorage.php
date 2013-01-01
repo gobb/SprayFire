@@ -33,10 +33,18 @@ class CallbackStorage extends SFCoreObject {
 
     /**
      * @param string $eventName
+     * @return boolean
+     */
+    protected function hasContainer($eventName) {
+        return \array_key_exists($eventName, $this->callbackContainers);
+    }
+
+    /**
+     * @param string $eventName
      * @return void
      */
     public function createContainer($eventName) {
-        if (!\array_key_exists($eventName, $this->callbackContainers)) {
+        if (!$this->hasContainer($eventName)) {
             $this->callbackContainers[(string) $eventName] = array();
         }
     }
@@ -47,6 +55,16 @@ class CallbackStorage extends SFCoreObject {
      */
     public function addCallback(SFMediator\Callback $Callback) {
         $this->callbackContainers[$Callback->getEventName()][] = $Callback;
+    }
+
+    /**
+     * @param string $eventName
+     * @return void
+     */
+    public function removeContainer($eventName) {
+        if ($this->hasContainer($eventName)) {
+            unset($this->callbackContainers[$eventName]);
+        }
     }
 
 }
