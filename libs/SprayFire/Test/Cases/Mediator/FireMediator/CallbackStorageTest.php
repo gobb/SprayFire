@@ -75,4 +75,24 @@ class CallbackStorageTest extends PHPUnitTestCase {
         $this->assertAttributeSame($expected, 'callbackContainers', $CallbackStorage);
     }
 
+    public function testRemovingContainerCreatedAndAddedTo() {
+        $Callback = $this->getMock('\SprayFire\Mediator\Callback');
+        $Callback->expects($this->once())
+                 ->method('getEventName')
+                 ->will($this->returnValue('foo'));
+        $CallbackStorage = new FireMediator\CallbackStorage();
+        $CallbackStorage->addCallback($Callback);
+
+        $expected = array(
+            'foo' => array(
+                $Callback
+            )
+        );
+        $this->assertAttributeSame($expected, 'callbackContainers', $CallbackStorage);
+
+        $CallbackStorage->removeContainer('foo');
+        $expected = array();
+        $this->assertAttributeSame($expected, 'callbackContainers', $CallbackStorage);
+    }
+
 }
