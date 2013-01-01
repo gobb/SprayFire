@@ -81,6 +81,7 @@ class EventRegistry extends SFCoreObject implements IteratorAggregate {
         if ($this->hasEvent($eventName)) {
             $this->registry[$eventName] = null;
             unset($this->registry[$eventName]);
+            $this->Storage->removeContainer($eventName);
         }
     }
 
