@@ -60,6 +60,18 @@ class BaseTest extends PHPUnitTestCase {
         $this->assertSame($data, $BaseHelper->getResponderData());
     }
 
+    public function testGettingDefaultResponderName() {
+        $BaseHelper = new BaseHelper();
+        $this->assertSame('SprayFire.Responder.FireResponder.Html', $BaseHelper->getResponderName());
+    }
+
+    public function testEnsureProperServiceReturnedForTemplateManager() {
+        $BaseHelper = new BaseHelper();
+        $StdClass = new \stdClass();
+        $BaseHelper->giveService('TemplateManager', $StdClass);
+
+        $this->assertSame($StdClass, $BaseHelper->getTemplateManager());
+    }
 
 }
 
