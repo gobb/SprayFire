@@ -197,4 +197,10 @@ class CallbackStorageTest extends PHPUnitTestCase {
         $this->assertSame($expectedFoo, $CallbackStorage->getCallbacks('foo'));
         $this->assertSame($expectedBar, $CallbackStorage->getCallbacks('bar'));
     }
+
+    public function testReturningEmptyCollectionForNotAddedCallback() {
+        $CallbackStorage = new FireMediator\CallbackStorage();
+        $this->assertSame(array(), $CallbackStorage->getCallbacks('no event'));
+    }
+
 }

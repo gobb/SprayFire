@@ -89,8 +89,19 @@ class CallbackStorage extends SFCoreObject {
         return false;
     }
 
+    /**
+     * Will always return an array, if no container is found for the $eventName
+     * an empty array will be returned.
+     *
+     * @param string $eventName
+     * @return array
+     */
     public function getCallbacks($eventName) {
-        return $this->callbackContainers[$eventName];
+        if ($this->hasContainer($eventName)) {
+            return $this->callbackContainers[$eventName];
+        } else {
+            return array();
+        }
     }
 
 }
