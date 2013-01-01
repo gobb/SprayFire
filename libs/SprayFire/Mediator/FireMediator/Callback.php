@@ -46,7 +46,7 @@ class Callback extends SFCoreObject implements SFMediator\Callback {
     public function __construct($eventName, $function) {
         $this->eventName = $eventName;
         if (!\is_callable($function)) {
-            throw new InvalidArgumentException('A callable function must be passed to \\SprayFire\\Mediator\\FireMediator\\Callback as the second constructor parameter.');
+            throw new SFMediator\Exception\NotCallableCallback('A callable value must be passed to ' . __CLASS__);
         }
         $this->function = $function;
     }
