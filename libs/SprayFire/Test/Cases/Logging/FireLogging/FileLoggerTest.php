@@ -120,7 +120,7 @@ class FileLoggerTest extends \PHPUnit_Framework_TestCase {
         \touch($file);
         \chmod($file, '0000');
         $LogFile = new \SplFileInfo($file);
-        $this->setExpectedException('\SprayFire\Logging\Exception\FileNotWritable');
+        $this->setExpectedException('\SprayFire\Logging\Exception\FileNotWritable', 'The file path passed could not be written to');
         $Logger = new \SprayFire\Logging\FireLogging\FileLogger($LogFile);
     }
 
