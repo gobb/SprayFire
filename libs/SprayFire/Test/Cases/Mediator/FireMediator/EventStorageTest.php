@@ -35,4 +35,21 @@ class EventStorageTest extends PHPUnitTestCase {
         $this->assertAttributeSame($expected, 'eventContainers', $EventStorage);
     }
 
+    /**
+     * Ensures that an event is added to a container that was just created.
+     */
+    public function testAddingEventToCreatedContainer() {
+        $Event = $this->getMock('\SprayFire\Mediator\Event');
+        $EventStorage = new FireMediator\EventStorage();
+        $EventStorage->createContainer('foo');
+        $EventStorage->addEvent('foo', $Event);
+
+        $expected = array(
+            'foo' => array(
+                $Event
+            )
+        );
+        $this->assertAttributeSame($expected, 'eventContainers', $EventStorage);
+    }
+
 }
