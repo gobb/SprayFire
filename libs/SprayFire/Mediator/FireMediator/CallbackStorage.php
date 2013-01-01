@@ -70,4 +70,22 @@ class CallbackStorage extends SFCoreObject {
         }
     }
 
+    /**
+     * Adding code to remove a specific callback associated to an event name.
+     *
+     * @param \SprayFire\Mediator\Callback $Callback
+     * @return boolean
+     */
+    public function removeCallback(SFMediator\Callback $Callback) {
+        $eventName = $Callback->getEventName();
+        if ($this->hasContainer($eventName)) {
+            foreach ($this->callbackContainers[$eventName] as $key => $StoredCallback) {
+                if ($Callback === $StoredCallback) {
+                    unset($this->callbackContainers[$eventName][$key]);
+                }
+            }
+        }
+        return true;
+    }
+
 }
