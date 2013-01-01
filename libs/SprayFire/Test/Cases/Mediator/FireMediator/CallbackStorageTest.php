@@ -100,7 +100,7 @@ class CallbackStorageTest extends PHPUnitTestCase {
 
     public function testRemovingSpecificCallbackWithoutEffectingRestOfContainer() {
         $Callback1 = $this->getMock('\SprayFire\Mediator\Callback');
-        $Callback1->expects($this->once())
+        $Callback1->expects($this->exactly(2))
                   ->method('getEventName')
                   ->will($this->returnValue('foo'));
         $Callback2 = $this->getMock('\SprayFire\Mediator\Callback');
@@ -120,11 +120,11 @@ class CallbackStorageTest extends PHPUnitTestCase {
         );
         $this->assertAttributeSame($expected, 'callbackContainers', $CallbackStorage);
 
-        $CallbackStorage->removeCallback($Callback1);
+        $this->assertTrue($CallbackStorage->removeCallback($Callback1));
 
         $expected = array(
             'foo' => array(
-                $Callback2
+                1 => $Callback2
             )
         );
         $this->assertAttributeSame($expected, 'callbackContainers', $CallbackStorage);
