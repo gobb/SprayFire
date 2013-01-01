@@ -136,7 +136,7 @@ class CallbackStorageTest extends PHPUnitTestCase {
         $this->assertAttributeSame($expected, 'callbackContainers', $CallbackStorage);
     }
 
-    public function testReturningFalseWhenCallbackHasNoContainer() {
+    public function testReturningFalseWhenRemovingCallbackThatHasNoContainer() {
         $Callback = $this->getMock('\SprayFire\Mediator\Callback');
         $Callback->expects($this->once())
                  ->method('getEventName')
@@ -145,5 +145,25 @@ class CallbackStorageTest extends PHPUnitTestCase {
 
         $this->assertFalse($CallbackStorage->removeCallback($Callback));
     }
-    
+
+    public function testReturningFalseWhenRemovingCallbackWithContainerButNotAdded() {
+        $Callback = $this->getMock('\SprayFire\Mediator\Callback');
+        $Callback->expects($this->once())
+                 ->method('getEventName')
+                 ->will($this->returnValue('foo'));
+
+        $RemoveCallback = $this->getMock('\SprayFire\Mediator\Callback');
+        $RemoveCallback->expects($this->once())
+                       ->method('getEventName')
+                       ->will($this->returnValue('foo'));
+        $RemoveCallback->expects($this->once())
+                       ->method('equals')
+                       ->with($Callback)
+                       ->will($this->returnValue(false));
+
+        $CallbackStorage = new FireMediator\CallbackStorage();
+        $CallbackStorage->addCallback($Callback);
+
+        $this->assertFalse($CallbackStorage->removeCallback($RemoveCallback));
+    }
 }
