@@ -12,7 +12,8 @@
  */
 namespace SprayFire\Mediator\FireMediator;
 
-use \SprayFire\CoreObject as SFCoreObject;
+use \SprayFire\Mediator as SFMediator,
+    \SprayFire\CoreObject as SFCoreObject;
 
 /**
  *
@@ -38,6 +39,14 @@ class EventStorage extends SFCoreObject {
         if (!\array_key_exists($eventName, $this->eventContainers)) {
             $this->eventContainers[(string) $eventName] = array();
         }
+    }
+
+    /**
+     * @param \SprayFire\Mediator\Event $Event
+     * @return void
+     */
+    public function addEvent(SFMediator\Event $Event) {
+        $this->eventContainers[$Event->getEventName()][] = $Event;
     }
 
 }
