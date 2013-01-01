@@ -46,7 +46,7 @@ class CallbackStorage extends SFCoreObject {
      * @return void
      */
     public function addCallback(SFMediator\Callback $Callback) {
-
+        $this->callbackContainers[$Callback->getEventName()][] = $Callback;
     }
 
 }
