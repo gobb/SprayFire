@@ -33,12 +33,18 @@ class GreaterThanEqual extends ComparisonCheck {
      * @return integer
      */
     public function passesCheck($value) {
+        parent::passesCheck($value);
         if ($value >= $this->comparisonParameter) {
             return ErrorCodes::NO_ERROR;
         }
         return ErrorCodes::LESS_THAN_ERROR;
     }
 
+    /**
+     * Return the name of the check that should be used when __toString() is called
+     *
+     * @return string
+     */
     protected function getCheckName() {
         return 'GreaterThanEqual';
     }

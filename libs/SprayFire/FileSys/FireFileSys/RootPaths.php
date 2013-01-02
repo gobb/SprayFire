@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Implementation of SprayFire.ValueObject that allows the storing of paths used
- * by SprayFire.FileSys.FireFileSys.Paths
+ * Implementation of \SprayFire\ValueObject that allows the storing of paths used
+ * by \SprayFire\FileSys\FireFileSys\Paths
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -15,8 +15,8 @@ namespace SprayFire\FileSys\FireFileSys;
 use \SprayFire\ValueObject as SFValueObject;
 
 /**
- * This is a package private implementatoin and is intended to be used by
- * SprayFire.FileSys.FireFileSys module.
+ * This is a package private implementation and is intended to be used by
+ * \SprayFire\FileSys\FireFileSys module.
  *
  * @package SprayFire
  * @subpackage FileSys.FireFileSys
@@ -73,15 +73,7 @@ class RootPaths extends SFValueObject {
      * @param string $config
      * @param string $logs
      */
-    public function __construct(
-        $install,
-        $libs = null,
-        $app = null,
-        $web = null,
-        $config =
-        null, $logs =
-        null
-    ) {
+    public function __construct($install, $libs = null, $app = null, $web = null, $config = null, $logs = null) {
         $paths = \compact('libs', 'app', 'web', 'config', 'logs');
         $install = (string) $install;
         $this->replaceNullWithDefault($paths, $install);
@@ -105,7 +97,7 @@ class RootPaths extends SFValueObject {
     }
 
     /**
-     * Required from SprayFire.ValueObject, required in case PHP array functions
+     * Required from \SprayFire\ValueObject, required in case PHP array functions
      * are needed to be performed on the value object.
      *
      * @return array
@@ -122,7 +114,7 @@ class RootPaths extends SFValueObject {
     }
 
     /**
-     * Required from SprayFire.ValueObject, provides the parent implementation
+     * Required from \SprayFire\ValueObject, provides the parent implementation
      * with details about what properties are allowed to be accessed by the
      * outside world.
      *

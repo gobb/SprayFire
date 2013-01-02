@@ -105,6 +105,14 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
         $Container->getService('SprayFire.Utils.ReflectionCache');
     }
 
+    public function testThrowingExceptionIfServiceAddedIsNotValidClass() {
+        $Container = $this->getContainer();
+        $Container->addService('This.Is.Not.Valid');
+
+        $this->setExpectedException('\SprayFire\Service\Exception\ServiceNotFound');
+        $Container->getService('This.Is.Not.Valid');
+    }
+
     protected function getContainer() {
         $JavaNameConverter = new \SprayFire\Utils\JavaNamespaceConverter();
         $this->ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaNameConverter);

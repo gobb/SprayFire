@@ -18,7 +18,6 @@ use \SprayFire\Dispatcher as SFDispatcher,
     \SprayFire\Factory as SFFactory,
     \SprayFire\Mediator as SFMediator,
     \SprayFire\Controller as SFController,
-    \SprayFire\Exception as SFException,
     \SprayFire\CoreObject as SFCoreObject,
     \SprayFire\Mediator\FireMediator as FireMediator;
 
@@ -103,7 +102,8 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * response sending.
      *
      * @param \SprayFire\Http\Request $Request
-     * @return mixed|void
+     * @return void
+     * @throws \SprayFire\Dispatcher\Exception\ActionNotFound
      */
     public function dispatchResponse(SFHttp\Request $Request) {
         $this->Mediator->triggerEvent(SFDispatcher\Events::BEFORE_ROUTING, $Request);
@@ -119,6 +119,8 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * be triggered.
      *
      * @param \SprayFire\Http\Routing\RoutedRequest $RoutedRequest
+     * @return void
+     * @throws \SprayFire\Dispatcher\Exception\ActionNotFound
      */
     protected function sendDynamicRequest(SFRouting\RoutedRequest $RoutedRequest) {
         $Controller = $this->generateController($RoutedRequest->getController(), $RoutedRequest->getAction());
@@ -170,12 +172,12 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * @param string $controllerName
      * @param string $actionName
      * @return \SprayFire\Controller\Controller
-     * @throws \SprayFire\Exception\ResourceNotFoundException
+     * @throws \SprayFire\Dispatcher\Exception\ActionNotFound
      */
     protected function generateController($controllerName, $actionName) {
         $Controller = $this->ControllerFactory->makeObject($controllerName);
         if (!\method_exists($Controller, $actionName)) {
-            throw new SFException\ResourceNotFoundException('The given object ' . $controllerName . ' does not have the requested action ' . $actionName);
+            throw new SFDispatcher\Exception\ActionNotFound('The given object ' . $controllerName . ' does not have the requested action ' . $actionName);
         }
         return $Controller;
     }

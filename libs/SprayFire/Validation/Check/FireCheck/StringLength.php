@@ -40,6 +40,7 @@ class StringLength extends ComparisonCheck {
      */
     public function passesCheck($value) {
         $checkValue = \strlen((string) $value);
+        parent::passesCheck($checkValue);
         return $this->Check->passesCheck($checkValue);
     }
 

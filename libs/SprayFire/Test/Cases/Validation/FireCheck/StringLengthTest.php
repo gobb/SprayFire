@@ -22,4 +22,9 @@ class StringLengthTest extends PHPUnitTestCase {
         $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $StringLength->passesCheck('foo'));
     }
 
+    public function testGettingCheckNameReturnsProperValue() {
+        $Check = new FireCheck\StringLength(new FireCheck\LessThan(2));
+        $this->assertSame('StringLength', (string) $Check);
+    }
+
 }

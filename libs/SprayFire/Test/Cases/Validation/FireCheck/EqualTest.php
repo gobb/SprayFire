@@ -29,4 +29,9 @@ class EqualTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(FireCheck\ErrorCodes::NO_ERROR, $Equal->passesCheck('SprayFire'));
     }
 
+    public function testGettingCheckNameReturnsProperValue() {
+        $Check = new FireCheck\Equal(1);
+        $this->assertSame('Equal', (string) $Check);
+    }
+
 }

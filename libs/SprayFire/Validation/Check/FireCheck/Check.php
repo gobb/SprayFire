@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Default implementation of SprayFire.Validation.Check.Check
+ * Default implementation of \SprayFire\Validation\Check\Check
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -23,6 +23,12 @@ use \SprayFire\Validation\Check as SFValidationCheck,
  * @subpackage Validation.Check.FireCheck
  */
 abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
+
+    /**
+     * In logging and display messages this token will be replaced with the value
+     * being checked against.
+     */
+    const VALUE_TOKEN = 'value';
 
     /**
      * Map of tokens => values that should be used when parsing log and display
@@ -55,7 +61,7 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
      * @return null
      */
     public function passesCheck($value) {
-        $this->setTokenValue('value', $value);
+        $this->setTokenValue(self::VALUE_TOKEN, $value);
     }
 
     /**

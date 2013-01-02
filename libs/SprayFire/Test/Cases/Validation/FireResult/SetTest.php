@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Ensures that a SprayFire.Validation.FireValidation.FireResult.Set implementation
- * will properly handle and return appropriate SprayFire.Validation.Result.Result
+ * Ensures that a \SprayFire\Validation\FireValidation\FireResult\Set implementation
+ * will properly handle and return appropriate \SprayFire\Validation\Result\Result
  * objects.
  *
  * @author  Charles Sprayberry
@@ -358,6 +358,13 @@ class SetTest extends \PHPUnit_Framework_TestCase {
 
         $expected = array();
         $this->assertSame($expected, @$ResultSet->getResultsByFieldName('foo', 'more gobbledygook'));
+    }
+
+    public function testReturningEmptyArrayForGettingSuccessfulResultsWithNoneForField() {
+        $ResultSet = new FireResult\Set();
+
+        $expected = array();
+        $this->assertSame($expected, $ResultSet->getResultsByFieldName('foo', $ResultSet::SUCCESSFUL_RESULTS));
     }
 
     /**

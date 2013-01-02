@@ -13,6 +13,7 @@
 namespace SprayFire\Validation\FireValidation;
 
 use \SprayFire\Validation as SFValidation,
+    \SprayFire\Validation\Check as SFValidationCheck,
     \SprayFire\Validation\Check\FireCheck as FireCheck,
     \SprayFire\Validation\Result\FireResult as FireResult,
     \SprayFire\CoreObject as SFCoreObject;
@@ -27,6 +28,18 @@ use \SprayFire\Validation as SFValidation,
 class Validator extends SFCoreObject implements SFValidation\Validator {
 
     /**
+     * @property \SprayFire\Validation\Check\MessageParser
+     */
+    protected $MessageParser;
+
+    /**
+     * @param \SprayFire\Validation\Check\MessageParser $MessageParser
+     */
+    public function __construct(SFValidationCheck\MessageParser $MessageParser) {
+        $this->MessageParser = $MessageParser;
+    }
+
+    /**
      * @param array $data
      * @param \SprayFire\Validation\Rules $Rules
      * @return \SprayFire\Validation\Result\Set
@@ -35,6 +48,7 @@ class Validator extends SFCoreObject implements SFValidation\Validator {
         $ResultSet = new FireResult\Set();
         foreach ($data as $field => $value) {
             $Checks = $Rules->getChecks($field);
+            /** @var \SprayFire\Validation\Check\Check $Check */
             foreach ($Checks as $Check) {
                 $errorCode = $Check->passesCheck($value);
                 $breakOnFailure = false;
@@ -47,6 +61,13 @@ class Validator extends SFCoreObject implements SFValidation\Validator {
                 } else {
                     $passedCheck = false;
                     $messages = $Check->getMessages($errorCode);
+                    $tokenValues = $Check->getTokenValues();
+                    $logMessage = $this->MessageParser->parseMessage($messages['log'], $tokenValues);
+                    $displayMessage = $this->MessageParser->parseMessage($messages['display'], $tokenValues);
+                    $messages = array(
+                        'log' => $logMessage,
+                        'display' => $displayMessage
+                    );
                     $breakOnFailure = $Checks[$Check];
                 }
 

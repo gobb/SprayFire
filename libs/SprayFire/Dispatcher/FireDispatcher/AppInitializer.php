@@ -38,7 +38,7 @@ class AppInitializer extends SFCoreObject implements SFDispatcher\AppInitializer
 
     /**
      * Is here to provide the bootstrap process for the application a way to setup
-     * autoloading for tapplication specific third party libraries.
+     * autoloading for application specific third party libraries.
      *
      * Also here to ensure the application we parse from the SprayFire.Http.Routing.RoutedRequest
      * gets autoloading setup properly.
@@ -85,7 +85,8 @@ class AppInitializer extends SFCoreObject implements SFDispatcher\AppInitializer
      *
      * @param \SprayFire\Http\Routing\RoutedRequest $RoutedRequest
      * @return void
-     * @throws \SprayFire\Exception\ResourceNotFoundException
+     * @throws \SprayFire\Dispatcher\Exception\BootstrapNotFound
+     * @throws \SprayFire\Dispatcher\Exception\NotBootstrapperInstance
      */
     public function initializeApp(SFRouting\RoutedRequest $RoutedRequest) {
         $appNamespace = $RoutedRequest->getAppNamespace();
@@ -101,12 +102,12 @@ class AppInitializer extends SFCoreObject implements SFDispatcher\AppInitializer
         $bootstrapName = '\\' . $appNamespace . '\\Bootstrap';
         if (!\class_exists($bootstrapName)) {
             $message = 'The application bootstrap for the RoutedRequest could not be found.  Please ensure you have created a \\' . $appNamespace . '\\Bootstrap object.';
-            throw new SFException\ResourceNotFoundException($message);
+            throw new SFDispatcher\Exception\BootstrapNotFound($message);
         }
         $Bootstrap = new $bootstrapName($this->Container, $this->ClassLoader);
         if (($Bootstrap instanceof SFBootstrap\Bootstrapper) === false) {
             $message = 'The application bootstrap, ' . $bootstrapName . ', for the RoutedRequest does not implement the appropriate interface, \\SprayFire\\Bootstrap\\Bootstrapper';
-            throw new SFException\ResourceNotFoundException($message);
+            throw new SFDispatcher\Exception\NotBootstrapperInstance($message);
         }
         $Bootstrap->runBootstrap();
     }

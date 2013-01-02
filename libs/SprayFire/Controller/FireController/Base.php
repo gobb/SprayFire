@@ -22,13 +22,13 @@ use \SprayFire\Controller as SFController,
  * Application controllers are expected to take advantage of the very basic functionality
  * provided by this object.
  *
- * The contract for SprayFire.Controller.Controller and SprayFire.Service.Consumer
+ * The contract for \SprayFire\Controller\Controller and \SprayFire\Service\Consumer
  * is satisfied by this object and can be extended in such a way that overwriting
  * properties or altering properties at runtime, either at construction, as an event
  * or during action invocation alters the behavior of the implementation.
  *
  * If you overwrite the methods in this class please ensure that you return the
- * appropriate types as defined in the documentation of SprayFire.Controller.Controller
+ * appropriate types as defined in the documentation of \SprayFire\Controller\Controller
  * and SprayFire.Service.Consumer.
  *
  * @package SprayFire
@@ -76,16 +76,34 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     }
 
     /**
+     * Does not perform any action, here to allow implementations not to have empty
+     * beforeAction methods in their implementations.
+     *
+     * Although at this point this method does not perform any action it is still
+     * advised that you call parent::beforeAction() in any implementation that
+     * overrides this for forward compatibility purposes.
+     *
      * @param \SprayFire\Mediator\Event $Event
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public function beforeAction(SFMediator\Event $Event) {
 
     }
 
     /**
+     * Does not perform any action, here to allow implementations not to have empty
+     * afterAction methods in their implementations.
+     *
+     * Although at this point this method does not perform any action it is still
+     * advised that you call parent::afterAction() in any implementation that
+     * overrides this for forward compatibility purposes.
+     *
      * @param \SprayFire\Mediator\Event $Event
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public function afterAction(SFMediator\Event $Event) {
 
@@ -137,6 +155,8 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     }
 
     /**
+     * This is a service property that, by default, holds the
+     *
      * @return \SprayFire\Responder\Template\Manager
      */
     public function getTemplateManager() {

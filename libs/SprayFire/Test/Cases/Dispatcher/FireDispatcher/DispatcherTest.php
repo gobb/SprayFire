@@ -193,6 +193,24 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(array($MockController, 'afterAction'), $FunctionValue);
     }
 
+    public function testThrowingRightExceptionWhenControllerDoesNotHaveAction() {
+        $controller = 'SprayFire.Test.Helpers.Controller.TestPages';
+        $action = 'doesNotExist';
+        $parameters = array();
+        $responderName = 'SprayFire.Responder.FireResponder.Html';
+
+        $RoutedRequest = $this->getMockRoutedRequest($controller, $action, $parameters, 1, 0);
+        $Router = $this->getMockRouter($RoutedRequest);
+        $Mediator = $this->getMock('\SprayFire\Mediator\Mediator');
+        $Controller = $this->getMock('\SprayFire\Controller\Controller');
+        $ControllerFactory = $this->getMockControllerFactory($Controller, $controller);
+        $ResponderFactory = $this->getMock('\SprayFire\Factory\Factory');
+
+        $Dispatcher = new FireDispatcher\Dispatcher($Router, $Mediator, $ControllerFactory, $ResponderFactory);
+        $this->setExpectedException('\SprayFire\Dispatcher\Exception\ActionNotFound');
+        $Dispatcher->dispatchResponse($this->getRequest(''));
+    }
+
     protected function getFunctionPropertyValue(SFMediator\Callback $Callback) {
         $ReflectedCallback = new \ReflectionObject($Callback);
         try {
@@ -281,15 +299,15 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
     }
 
 
-    protected function getMockRoutedRequest($controller, $action, $parameters) {
+    protected function getMockRoutedRequest($controller, $action, $parameters, $numGetAction = 2, $numGetParameters = 1) {
         $MockRoutedRequest = $this->getMock('\\SprayFire\\Http\\Routing\\RoutedRequest');
         $MockRoutedRequest->expects($this->once())
                           ->method('getController')
                           ->will($this->returnValue($controller));
-        $MockRoutedRequest->expects($this->exactly(2))
+        $MockRoutedRequest->expects($this->exactly($numGetAction))
                           ->method('getAction')
                           ->will($this->returnValue($action));
-        $MockRoutedRequest->expects($this->once())
+        $MockRoutedRequest->expects($this->exactly($numGetParameters))
                           ->method('getParameters')
                           ->will($this->returnValue($parameters));
         return $MockRoutedRequest;

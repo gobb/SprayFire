@@ -26,7 +26,7 @@ use \SprayFire\Service as SFService,
  * @todo
  * We should take a look making this a Builder and not a Factory.  We are too
  * reliant on implementations to not override makeObject or to properly override
- * makeObject in such a way that the ConsumerFactory::MakeObject is still invoked.
+ * makeObject in such a way that the ConsumerFactory::makeObject is still invoked.
  */
 abstract class ConsumerFactory extends FireFactory\Base {
 
@@ -63,7 +63,7 @@ abstract class ConsumerFactory extends FireFactory\Base {
      * @param string $className
      * @param array $parameters
      * @return Object
-     * @throws SprayFire.Service.Exception.ServiceNotFound
+     * @throws \SprayFire\Service\Exception\ServiceNotFound
      */
     public function makeObject($className, array $parameters = array()) {
         $Object = parent::makeObject($className, $parameters);
@@ -82,7 +82,10 @@ abstract class ConsumerFactory extends FireFactory\Base {
         if (\is_array($type) || $type instanceof \Traversable || $type instanceof \stdClass) {
             return true;
         }
+        // @codeCoverageIgnoreStart
+        // No reliable way to test this, if this is returned no services added to consumer
         return false;
+        // @codeCoverageIgnoreEnd
     }
 
     /**

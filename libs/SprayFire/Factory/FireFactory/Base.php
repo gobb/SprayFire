@@ -48,9 +48,6 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
      * The type of object that should be returned if an error is encountered with
      * the creation of the requested object.
      *
-     * This object is only returned if the error handling configuration is set
-     * to Base::RETURN_NULL_OBJECT.
-     *
      * @property Object
      */
     protected $NullObject;
@@ -64,19 +61,14 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
     protected $TypeValidator;
 
     /**
-     * @param \SprayFire\Utils\ReflectionCache $ReflectionCache
+     * @param \SprayFire\Utils\ReflectionCache $Cache
      * @param \SprayFire\Logging\LogOverseer $LogOverseer
      * @param string $returnTypeRestriction
      * @param string $nullObject
-     * @throws \InvalidArgumentException
+     * @throws \SprayFire\Factory\Exception\TypeNotFound
      */
-    public function __construct(
-        SFUtils\ReflectionCache $ReflectionCache,
-        SFLogging\LogOverseer $LogOverseer,
-        $returnTypeRestriction,
-        $nullObject
-    ) {
-        $this->ReflectionCache = $ReflectionCache;
+    public function __construct(SFUtils\ReflectionCache $Cache, SFLogging\LogOverseer $LogOverseer, $returnTypeRestriction, $nullObject) {
+        $this->ReflectionCache = $Cache;
         $this->LogOverseer = $LogOverseer;
         $this->TypeValidator = $this->createTypeValidator($returnTypeRestriction);
         $this->NullObject = $this->createNullObject($nullObject);
@@ -91,14 +83,15 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
      *
      * @param string $objectType
      * @return \SprayFire\ObjectTypeValidator
-     * @throws \InvalidArgumentException
+     * @throws \SprayFire\Factory\Exception\TypeNotFound
      */
     protected function createTypeValidator($objectType) {
         try {
             $ReflectedType = $this->ReflectionCache->getClass($objectType);
             return new ObjectTypeValidator($ReflectedType);
         } catch (ReflectionException $ReflectExc) {
-            throw new InvalidArgumentException('The injected interface or class, ' . $objectType . ', passed to ' . \get_class($this) . ' could not be loaded.', null, $ReflectExc);
+            $message = 'The injected interface or class, ' . $objectType . ', passed to ' . \get_class($this) . ' could not be loaded.';
+            throw new SFFactory\Exception\TypeNotFound($message, null, $ReflectExc);
         }
     }
 
@@ -108,7 +101,7 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
      *
      * @param string $nullObjectType
      * @return Object instanceof $this->nullObjectType
-     * @throws \InvalidArgumentException
+     * @throws  \SprayFire\Factory\Exception\TypeNotFound
      */
     protected function createNullObject($nullObjectType) {
         $NullObject = $nullObjectType;
@@ -117,7 +110,8 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
                 $ReflectedNullObject = $this->ReflectionCache->getClass($NullObject);
                 $NullObject = $ReflectedNullObject->newInstance();
             } catch (ReflectionException $ReflectExc) {
-                throw new InvalidArgumentException('The given null object, ' . $nullObjectType . ', could not be loaded.', null, $ReflectExc);
+                $message = 'The given null object, ' . $nullObjectType . ', could not be loaded.';
+                throw new SFFactory\Exception\TypeNotFound($message, null, $ReflectExc);
             }
         }
         $this->TypeValidator->throwExceptionIfObjectNotParentType($NullObject);
@@ -131,7 +125,6 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
      * @param string $className
      * @param array $parameters
      * @return Object Type restricted by Factory constructor parameters
-     * @throws \SprayFire\Exception\ResourceNotFound Only thrown if configured
      */
     public function makeObject($className, array $parameters = array()) {
         try {
@@ -144,7 +137,10 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
         } catch (InvalidArgumentException $InvalArgExc) {
             $message = 'The requested object, ' . $className . ', does not properly implement the appropriate type, ' . $this->getObjectType() . ', for this factory.';
         }
-        $this->LogOverseer->logError($message);
+        if (!empty($message)) {
+            $this->LogOverseer->logError($message);
+        }
+
         return $this->NullObject;
     }
 

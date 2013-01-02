@@ -16,7 +16,7 @@ use \SprayFire\Responder\Template as SFResponderTemplate,
 
 /**
  * @package SprayFire
- * @subpackage`Responder.FireResponder.FireTemplate
+ * @subpackage Responder.FireResponder.FireTemplate
  */
 abstract class BaseTemplate extends SFCoreObject implements SFResponderTemplate\Template {
 
