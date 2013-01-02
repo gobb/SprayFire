@@ -77,7 +77,7 @@ $RoutedRequest = $Router->getRoutedRequest($Request);
 
 $CallbackStorage = new FireMediator\CallbackStorage();
 $EventRegistry = new FireMediator\EventRegistry($CallbackStorage);
-$Mediator = new FireMediator\Mediator($EventRegistry);
+$Mediator = new FireMediator\Mediator($EventRegistry, $CallbackStorage);
 
 $OutputEscaper = new FireResponder\OutputEscaper($EnvironmentConfig->getDefaultCharset());
 $TemplateManager = new FireTemplate\Manager();
