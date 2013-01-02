@@ -68,20 +68,14 @@ class RoutedRequest extends SFCoreObject implements SFRouting\RoutedRequest {
     }
 
     /**
-     * Will return the top level namespace for a class, whether the namespace is
-     * separated by dots or back slashes
+     * Will return the top level namespace for a class, when the namespace is
+     * separated by dots.
      *
      * @param string $controller
      * @return string
      */
     protected function getTopLevelNamespace($controller) {
-        if (\strpos($controller, '.') !== false) {
-            $delimiter = '.';
-        } else {
-            $delimiter = '\\';
-        }
-
-        $namespaces = \explode($delimiter, $controller);
+        $namespaces = \explode('.', $controller);
         if (isset($namespaces[0]) && !empty($namespaces[0])) {
             return $namespaces[0];
         }

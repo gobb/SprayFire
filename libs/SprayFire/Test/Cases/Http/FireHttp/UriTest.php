@@ -26,6 +26,7 @@ class UriTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame('sprayfire-framework.local:800', $Uri->getAuthority());
         $this->assertSame('', $Uri->getPath());
         $this->assertSame('', $Uri->getQuery());
+        $this->assertSame(800, $Uri->getPort());
     }
 
     public function testHttpUriWithPathAndQueryWithWww() {
@@ -59,5 +60,29 @@ class UriTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse($ResourceOne->equals($ResourceTwo));
     }
 
+    public function testGettingHttpsScheme() {
+        $_server = array(
+            'HTTPS' => true
+        );
+        $Resource = new ResourceId($_server);
+
+        $this->assertSame('https', $Resource->getScheme());
+    }
+
+    public function testReturningFalseWhenNonUriObjectPassedToEquals() {
+        $Resource = new ResourceId();
+        $NotResource = $this->getMock('\SprayFire\Object');
+
+        $this->assertFalse($Resource->equals($NotResource));
+    }
+
+    public function testEnsureWeOnlyGetRequestUriWithoutGetParameters() {
+        $_server = array(
+            'REQUEST_URI' => '/sprayfire/?foo=bar'
+        );
+        $Resource = new ResourceId($_server);
+
+        $this->assertSame('/sprayfire/', $Resource->getPath());
+    }
 
 }

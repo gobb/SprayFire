@@ -42,6 +42,18 @@ class EventRegistry extends SFCoreObject implements IteratorAggregate {
     protected $registry = array();
 
     /**
+     * @property \SprayFire\Mediator\FireMediator\CallbackStorage
+     */
+    protected $Storage;
+
+    /**
+     * @param \SprayFire\Mediator\FireMediator\CallbackStorage $Storage
+     */
+    public function __construct(CallbackStorage $Storage) {
+        $this->Storage = $Storage;
+    }
+
+    /**
      * Adds an event and expected target type to the registry.
      *
      * An exception is thrown if the $eventName has already been registered.
@@ -56,6 +68,7 @@ class EventRegistry extends SFCoreObject implements IteratorAggregate {
             throw new SFMediatorException\DuplicateRegisteredEvent('The event, ' . $eventName . ', has already been registered.');
         }
         $this->registry[$eventName] = $targetType;
+        $this->Storage->createContainer($eventName);
     }
 
     /**
@@ -68,6 +81,7 @@ class EventRegistry extends SFCoreObject implements IteratorAggregate {
         if ($this->hasEvent($eventName)) {
             $this->registry[$eventName] = null;
             unset($this->registry[$eventName]);
+            $this->Storage->removeContainer($eventName);
         }
     }
 

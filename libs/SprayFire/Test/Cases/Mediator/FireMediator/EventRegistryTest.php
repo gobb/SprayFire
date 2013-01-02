@@ -21,44 +21,67 @@ use \SprayFire\Mediator\FireMediator as FireMediator,
  */
 class EventRegistryTest extends PHPUnitTestCase {
 
+    protected $Storage;
+
+    protected $Registry;
+
+    public function setUp() {
+        $this->Storage = new FireMediator\CallbackStorage();
+        $this->Registry = new FireMediator\EventRegistry($this->Storage);
+    }
+
     public function testAddingEventToRegistry() {
-        $Registry = new FireMediator\EventRegistry();
-        $Registry->registerEvent('foo', 'bar');
-        $this->assertTrue($Registry->hasEvent('foo'));
+        $this->Registry->registerEvent('foo', 'bar');
+        $this->assertTrue($this->Registry->hasEvent('foo'));
     }
 
     public function testGettingEventTypeAdded() {
-        $Registry = new FireMediator\EventRegistry();
-        $Registry->registerEvent('foo', 'bar');
-        $this->assertSame('bar', $Registry->getEventTargetType('foo'));
+        $this->Registry->registerEvent('foo', 'bar');
+        $this->assertSame('bar', $this->Registry->getEventTargetType('foo'));
     }
 
     public function testGettingFalseOnNotAddedEvent() {
-        $Registry = new FireMediator\EventRegistry();
-        $this->assertFalse($Registry->hasEvent('foo'));
+        $this->assertFalse($this->Registry->hasEvent('foo'));
     }
 
     public function testRemovingAddedEvent() {
-        $Registry = new FireMediator\EventRegistry();
-        $Registry->registerEvent('foo', 'bar');
+        $this->Registry->registerEvent('foo', 'bar');
 
-        $this->assertTrue($Registry->hasEvent('foo'));
+        $this->assertTrue($this->Registry->hasEvent('foo'));
 
-        $Registry->unregisterEvent('foo');
-        $this->assertFalse($Registry->hasEvent('foo'));
+        $this->Registry->unregisterEvent('foo');
+        $this->assertFalse($this->Registry->hasEvent('foo'));
     }
 
     public function testThrowingExceptionRegisteringDuplicateEvent() {
-        $Registry = new FireMediator\EventRegistry();
-        $Registry->registerEvent('foo', 'bar');
+        $this->Registry->registerEvent('foo', 'bar');
 
         $this->setExpectedException('\SprayFire\Mediator\Exception\DuplicateRegisteredEvent', 'The event, foo, has already been registered.');
-        $Registry->registerEvent('foo', 'baz');
+        $this->Registry->registerEvent('foo', 'baz');
     }
 
     public function testGettingEventTargetTypeForUnregisteredEvent() {
-        $Registry = new FireMediator\EventRegistry();
-        $this->assertFalse($Registry->getEventTargetType('foo'));
+        $this->assertFalse($this->Registry->getEventTargetType('foo'));
+    }
+
+    public function testEventStorageCreatesContainerOnEventRegistered() {
+        $this->Registry->registerEvent('foo', 'bar');
+        $expected = array(
+            'foo' => array()
+        );
+        $this->assertAttributeSame($expected, 'callbackContainers', $this->Storage);
+    }
+
+    public function testEventStorageRemovedOnEventUnregistered() {
+        $this->Registry->registerEvent('foo', 'bar');
+        $expected = array(
+            'foo' => array()
+        );
+        $this->assertAttributeSame($expected, 'callbackContainers', $this->Storage);
+
+        $this->Registry->unregisterEvent('foo');
+        $expected = array();
+        $this->assertAttributeSame($expected, 'callbackContainers', $this->Storage);
     }
 
 }

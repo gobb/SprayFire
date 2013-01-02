@@ -20,7 +20,7 @@ use \SprayFire\Logging as SFLogging,
 
 /**
  *
- * @package package
+ * @package SprayFire
  * @subpackage Logging.FireLogging
  */
 class FileLogger extends SFCoreObject implements SFLogging\Logger  {
@@ -51,7 +51,7 @@ class FileLogger extends SFCoreObject implements SFLogging\Logger  {
         try {
             $this->LogFile = $LogFile->openFile($openMode);
         } catch (RuntimeException $RuntimeException) {
-            throw new InvalidArgumentException('There was an error attempting to open a writable log file.', null, $RuntimeException);
+            throw new SFLogging\Exception\FileNotWritable('The file path passed could not be written to');
         }
     }
 

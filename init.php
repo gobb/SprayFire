@@ -75,8 +75,9 @@ $Normalizer = new FireRouting\Normalizer();
 $Router = new FireRouting\Router($RouteBag, $Normalizer, \basename($Paths->getInstallPath()));
 $RoutedRequest = $Router->getRoutedRequest($Request);
 
-$EventRegistry = new FireMediator\EventRegistry();
-$Mediator = new FireMediator\Mediator($EventRegistry);
+$CallbackStorage = new FireMediator\CallbackStorage();
+$EventRegistry = new FireMediator\EventRegistry($CallbackStorage);
+$Mediator = new FireMediator\Mediator($EventRegistry, $CallbackStorage);
 
 $OutputEscaper = new FireResponder\OutputEscaper($EnvironmentConfig->getDefaultCharset());
 $TemplateManager = new FireTemplate\Manager();
