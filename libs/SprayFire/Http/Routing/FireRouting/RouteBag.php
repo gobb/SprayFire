@@ -21,7 +21,7 @@ use \SprayFire\Http\Routing as SFRouting,
  * @package SprayFire
  * @subpackage Http.Routing.FireRouting
  */
-class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
+class RouteBag extends SFCoreObject implements SFRouting\RouteBag {
 
     /**
      * Stores a collection of routes [$routePattern => SprayFire.Http.Routing.Route]
@@ -81,12 +81,8 @@ class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
      * @param string $pattern
      */
     public function removeRouteWithPattern($pattern) {
-        foreach($this->routes as $routePattern => $Route) {
-            if ($routePattern === $pattern) {
-                $this->routes[$routePattern] = null;
-                unset($this->routes[$routePattern]);
-                break;
-            }
+        if ($this->hasRouteWithPattern($pattern)) {
+            unset($this->routes[$pattern]);
         }
     }
 
