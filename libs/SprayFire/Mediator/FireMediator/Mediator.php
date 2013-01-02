@@ -44,21 +44,16 @@ class Mediator extends SFCoreObject implements SFMediator\Mediator {
     protected $Registry;
 
     /**
-     * @param \SprayFire\Mediator\FireMediator\EventRegistry $Registry
+     * @property \SprayFire\Mediator\FireMediator\CallbackStorage
      */
-    public function __construct(EventRegistry $Registry) {
-        $this->Registry = $Registry;
-        $this->buildEventStorage();
-    }
+    protected $Storage;
 
     /**
-     * Will add the appropriate event storage containers to the primary event
-     * callback array.
+     * @param \SprayFire\Mediator\FireMediator\EventRegistry $Registry
      */
-    protected function buildEventStorage() {
-        foreach ($this->Registry as $event => $eventType) {
-            $this->eventCallbacks[$event] = array();
-        }
+    public function __construct(EventRegistry $Registry, CallbackStorage $Storage) {
+        $this->Registry = $Registry;
+        $this->Storage = $Storage;
     }
 
     /**
@@ -67,14 +62,14 @@ class Mediator extends SFCoreObject implements SFMediator\Mediator {
      *
      * @param \SprayFire\Mediator\Callback $Callback
      * @return boolean
-     * @throws \InvalidArgumentException
+     * @throws \SprayFire\Mediator\Exception\EventNotRegistered
      */
     public function addCallback(SFMediator\Callback $Callback) {
         $eventName = $Callback->getEventName();
         if (!$this->Registry->hasEvent($eventName)) {
-            throw new InvalidArgumentException('The event name, ' . $eventName . ', is not valid and cannot be used as a callback.');
+            throw new SFMediator\Exception\EventNotRegistered('The event name, ' . $eventName . ', is not valid and cannot be used as a callback.');
         }
-        $this->eventCallbacks[$eventName][] = $Callback;
+        $this->Storage->addCallback($Callback);
         return true;
     }
 
@@ -92,16 +87,7 @@ class Mediator extends SFCoreObject implements SFMediator\Mediator {
         if (!$this->Registry->hasEvent($eventName)) {
             return false;
         }
-        $callbackRemoved = false;
-        foreach($this->eventCallbacks[$eventName] as $key => $StoredCallback) {
-            if ($Callback->equals($StoredCallback)) {
-                $this->eventCallbacks[$eventName][$key] = null;
-                unset($this->eventCallbacks[$eventName][$key]);
-                $callbackRemoved = true;
-                break;
-            }
-        }
-        return $callbackRemoved;
+        return $this->Storage->removeCallback($Callback);
     }
 
     /**
@@ -113,10 +99,7 @@ class Mediator extends SFCoreObject implements SFMediator\Mediator {
      * @return array
      */
     public function getCallbacks($eventName) {
-        if (!$this->Registry->hasEvent($eventName)) {
-            return array();
-        }
-        return $this->eventCallbacks[$eventName];
+        return $this->Storage->getCallbacks($eventName);
     }
 
     /**
@@ -124,16 +107,16 @@ class Mediator extends SFCoreObject implements SFMediator\Mediator {
      * @param object $Target
      * @param array $arguments
      * @return void
-     * @throws \InvalidArgumentException
+     * @throws \SprayFire\Mediator\Exception\EventNotRegistered
      */
     public function triggerEvent($eventName, $Target, array $arguments = array()) {
         if (!$this->Registry->hasEvent($eventName)) {
-            throw new InvalidArgumentException('The event name passed, ' . $eventName . ', is not a validly registered event.');
+            throw new SFMediator\Exception\EventNotRegistered('The event name passed, ' . $eventName . ', is not a validly registered event.');
         }
         $Event = new Event($eventName, $Target, $arguments);
-        $callbacks = $this->eventCallbacks[$eventName];
-        foreach ($callbacks as $Callback) {
-            $Callback->invoke($Event, $arguments);
+        foreach ($this->Storage->getCallbacks($eventName) as $Callback) {
+            /** @var \SprayFire\Mediator\Callback $Callback */
+            $Callback->invoke($Event);
         }
     }
 
