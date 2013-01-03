@@ -126,7 +126,7 @@ class RouteBagTest extends \PHPUnit_Framework_TestCase {
         $RouteBag = new FireRouting\RouteBag();
         $RouteBag->addRoute($MockRouteOne);
 
-        $this->setExpectedException('\SprayFire\Routing\Exception\DuplicateRouteAdded');
+        $this->setExpectedException('\SprayFire\Http\Routing\Exception\DuplicateRouteAdded');
         $RouteBag->addRoute($MockRouteTwo);
     }
 
