@@ -33,10 +33,24 @@ class MatchStrategyTest extends PHPUnitTestCase {
         $this->assertSame($expected, $Strategy->removeDirectory('/some/test/'));
     }
 
-    public function testMatchStrategyReturningInstallDirectoryFromPath() {
+    /**
+     * Ensures that an install directory with no leading slash on the URI path is
+     * properly removed.
+     */
+    public function testMatchStrategyRemovingInstallDirectoryFromPath() {
         $Strategy = new MatchStrategyHelper('install');
         $expected = '/another/test/for/this/';
         $this->assertSame($expected, $Strategy->removeDirectory('install/another/test/for/this/'));
+    }
+
+    /**
+     * Ensures that an install directory with a leading slash on the URI path is
+     * properly removed.
+     */
+    public function testMatchStrategyRemovingInstallDirectoryFromPathWithSlashOnUri() {
+        $Strategy = new MatchStrategyHelper('SprayFire');
+        $expected = '/framework/test/';
+        $this->assertSame($expected, $Strategy->removeDirectory('/SprayFire/framework/test/'));
     }
 
 }
