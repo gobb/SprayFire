@@ -53,6 +53,18 @@ class MatchStrategyTest extends PHPUnitTestCase {
         $this->assertSame($expected, $Strategy->removeDirectory('/SprayFire/framework/test/'));
     }
 
+    public function testMatchStrategyRemovingMultipleInstallDirectoryWithLeadingSlashOnDirectory() {
+        $Strategy = new MatchStrategyHelper('/SprayFire/framework/');
+        $expected = '/test/';
+        $this->assertSame($expected, $Strategy->removeDirectory('/SprayFire/framework/test/'));
+    }
+
+    public function testMatchRootDirectoryWithInstallDirectory() {
+        $Strategy = new MatchStrategyHelper('SprayFire');
+        $expected = '/';
+        $this->assertSame($expected, $Strategy->removeDirectory('/SprayFire'));
+    }
+
 }
 
 class MatchStrategyHelper extends FireRouting\MatchStrategy {
