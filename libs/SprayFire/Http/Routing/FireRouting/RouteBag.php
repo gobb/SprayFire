@@ -56,7 +56,7 @@ class RouteBag extends SFCoreObject implements SFRouting\RouteBag {
         if ($this->hasRouteWithPattern($routePattern)) {
             $message = 'The given pattern, ' . $routePattern . ', has already been added to ' . __CLASS__ . ' and may not be overwritten.';
             $message .= '  Please see ' . __CLASS__ . '::removeRouteWithPattern.';
-            throw new InvalidArgumentException($message);
+            throw new SFRouting\Exception\DuplicateRouteAdded($message);
         }
         $this->routes[$routePattern] = $Route;
     }
