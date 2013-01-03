@@ -13,8 +13,7 @@ namespace SprayFire\Http\Routing\FireRouting;
 
 use \SprayFire\Http\Routing as SFRouting,
     \SprayFire\Http\Routing\FireRouting as FireRouting,
-    \SprayFire\CoreObject as SFCoreObject,
-    \InvalidArgumentException as InvalidArgumentException;
+    \SprayFire\CoreObject as SFCoreObject;
 
 /**
  *
