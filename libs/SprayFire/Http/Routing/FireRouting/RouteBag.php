@@ -49,7 +49,7 @@ class RouteBag extends SFCoreObject implements SFRouting\RouteBag {
      * Will store a $Route with the pattern for that route as the given key.
      *
      * @param \SprayFire\Http\Routing\Route $Route
-     * @throws \InvalidArgumentException
+     * @throws \SprayFire\Http\Routing\Exception\DuplicateRouteAdded
      */
     public function addRoute(SFRouting\Route $Route) {
         $routePattern = $Route->getPattern();
@@ -62,8 +62,6 @@ class RouteBag extends SFCoreObject implements SFRouting\RouteBag {
     }
 
     /**
-     *
-     *
      * @param string $pattern
      * @return mixed
      */
@@ -75,7 +73,7 @@ class RouteBag extends SFCoreObject implements SFRouting\RouteBag {
     }
 
     /**
-     * Will remove a SprayFire.Http.Routing.Route from the collection that matches
+     * Will remove a \SprayFire\Http\Routing\Route from the collection that matches
      * $pattern if it has been added.
      *
      * @param string $pattern
