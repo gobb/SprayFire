@@ -160,7 +160,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expectedParameters, $RoutedRequest->getParameters());
     }
 
-        /**
+    /**
      * Ensures that an appropriate RoutedRequest is returned when multiple matching
      * routes are found, the first match should always be the first Route added
      * to the bag.
@@ -223,13 +223,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase {
     /**
      * @param string $requestUri
      * @param string $method
-     * @return SprayFire.Http.StandardRequest
+     * @return \SprayFire\Http\Request
      */
     protected function getRequest($requestUri, $method = 'GET') {
-        $MockUri = $this->getMock('\\SprayFire\\Http\\Uri');
+        $MockUri = $this->getMock('\SprayFire\Http\Uri');
         $MockUri->expects($this->once())->method('getPath')->will($this->returnValue($requestUri));
 
-        $MockRequest = $this->getMock('\\SprayFire\\Http\\Request');
+        $MockRequest = $this->getMock('\SprayFire\Http\Request');
         $MockRequest->expects($this->once())->method('getUri')->will($this->returnValue($MockUri));
         $MockRequest->expects($this->once())->method('getMethod')->will($this->returnValue($method));
         return $MockRequest;

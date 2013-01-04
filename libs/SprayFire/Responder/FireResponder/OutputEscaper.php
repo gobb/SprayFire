@@ -17,11 +17,24 @@ use \SprayFire\Responder as SFResponder,
     \Zend\Escaper as ZendEscaper;
 
 /**
- * This implementation is intended to test the use of the Zend.Escaper.Escaper
- * integration with SprayFire.
+ * This implementation is intended to be used with the \Zend\Escaper\Escaper
+ * integration, provided in the libs folder by the default SprayFire install.
+ *
+ * Optionally this implementation will allow you to preserve boolean and numeric
+ * data types. Boolean data types, if escaped, will likely be converted to the
+ * string '1' for true or the string '' for false. In some situations this is
+ * fine, in others, for example when using Responder designed for JSON it may not
+ * be ideal. If set you can preserve boolean and/or numeric data for these types
+ * of situations. You still get the security from escaping but configurable to
+ * allow more flexible escaping without suffering security risks.
+ *
+ * We use the \Zend\Escaper\Escaper implementation because they take advantage of
+ * a lot more developers on their project and they ensure we get the best escaping
+ * as possible. We don't extend the Escaper implementation, e.g. through inheritance,
+ * to ensure the API for the module works as expected.
  *
  * @package SprayFire
- * @subpackage`Responder.FireResponder
+ * @subpackage Responder.FireResponder
  */
 class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
 
@@ -113,11 +126,11 @@ class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
      * @return mixed
      */
     protected function escapeContent($data, $context) {
-        $type = \gettype($data);
         $preserveBooleanAndNumeric = self::PRESERVE_NUMERIC | self::PRESERVE_BOOLEAN;
         $preserveBooleanOnly = self::PRESERVE_BOOLEAN;
         $preserveNumericOnly = self::PRESERVE_NUMERIC;
         $escapedData = null;
+        $type = \gettype($data);
         switch ($type) {
             case 'array':
             case 'object':
@@ -147,7 +160,7 @@ class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
 
     /**
      * Will recursively escape an array of data, the $context being the ZendEscaper
-     * method to invoke on the strings in $data.
+     * method to invoke.
      *
      * @param array $data
      * @param string $context
