@@ -48,6 +48,8 @@ class ConfigurationMatchStrategy extends MatchStrategy {
             $routePattern = '#^' .  $Route->getPattern() . '$#';
             $routeMethod = \strtoupper($Route->getMethod());
 
+            // Check for trueness in case null is returned from Route::getMethod
+            // if a falsey value is returned don't check the HTTP method
             if ($routeMethod && $routeMethod !== $method) {
                 continue;
             }
