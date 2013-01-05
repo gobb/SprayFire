@@ -47,6 +47,10 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
         $this->assertSame($expected, $Strategy->getRouteAndParameters($Bag, $Request));
     }
 
+    /**
+     * Ensure that if a Route pattern in a bag matches the Request path that the
+     * appropriate Route is returned.
+     */
     public function testMatchingRequestPathToRouteInBag() {
         $NotItRoute = $this->getMock('\SprayFire\Http\Routing\Route');
         $NotItRoute->expects($this->once())
@@ -90,6 +94,58 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
             'parameters' => array()
         );
         $actual = $Strategy->getRouteAndParameters($Bag, $Request);
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Ensures that if no matched route is in a bag the default route for that
+     * bag will be returned.
+     */
+    public function testEnsureNoMatchRouteIfNoMatchInBag() {
+        $DefaultRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+
+        $BlankRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $BlankRoute->expects($this->once())
+                   ->method('getPattern')
+                   ->will($this->returnValue(''));
+
+        $SprayFireRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $SprayFireRoute->expects($this->once())
+                       ->method('getPattern')
+                       ->will($this->returnValue('/sprayfire/'));
+
+        $FooRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $FooRoute->expects($this->once())
+                 ->method('getPattern')
+                 ->will($this->returnValue('/foo/'));
+
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag->expects($this->once())
+            ->method('count')
+            ->will($this->returnValue(3));
+        $Bag->expects($this->once())
+            ->method('getIterator')
+            ->will($this->returnValue(new \ArrayIterator(array($BlankRoute, $SprayFireRoute, $FooRoute))));
+        $Bag->expects($this->once())
+            ->method('getRoute')
+            ->with(null)
+            ->will($this->returnValue($DefaultRoute));
+
+        $Uri = $this->getMock('\SprayFire\Http\Uri');
+        $Uri->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('/bar/'));
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Request->expects($this->once())
+            ->method('getUri')
+            ->will($this->returnValue($Uri));
+
+        $Strategy = new FireRouting\ConfigurationMatchStrategy();
+        $actual = $Strategy->getRouteAndParameters($Bag, $Request);
+        $expected = array(
+            'Route' => $DefaultRoute,
+            'parameters' => array()
+        );
         $this->assertSame($expected, $actual);
     }
 
