@@ -41,9 +41,17 @@ class ConfigurationMatchStrategy extends MatchStrategy {
         }
 
         $path = $Request->getUri()->getPath();
+        $method = \strtoupper($Request->getMethod());
+
         foreach ($Bag as $Route) {
             /* @var \SprayFire\Http\Routing\Route $Route */
             $routePattern = '#^' .  $Route->getPattern() . '$#';
+            $routeMethod = \strtoupper($Route->getMethod());
+
+            if ($routeMethod && $routeMethod !== $method) {
+                continue;
+            }
+
             if (\preg_match($routePattern, $path)) {
                 return array(
                     'Route' => $Route,
@@ -57,4 +65,5 @@ class ConfigurationMatchStrategy extends MatchStrategy {
             'parameters' => array()
         );
     }
+
 }
