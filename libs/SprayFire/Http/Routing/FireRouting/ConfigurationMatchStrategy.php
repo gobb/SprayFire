@@ -51,5 +51,10 @@ class ConfigurationMatchStrategy extends MatchStrategy {
                 );
             }
         }
+
+        return array(
+            'Route' => $Bag->getRoute(),
+            'parameters' => array()
+        );
     }
 }
