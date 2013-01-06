@@ -35,8 +35,8 @@ class ConfigurationMatchStrategy extends MatchStrategy {
     public function getRouteAndParameters(SFRouting\RouteBag $Bag, SFHttp\Request $Request) {
         if (\count($Bag) === 0) {
             return array(
-                'Route' => $Bag->getRoute(),
-                'parameters' => array()
+                self::ROUTE_KEY => $Bag->getRoute(),
+                self::PARAMETER_KEY => array()
             );
         }
 
@@ -54,17 +54,24 @@ class ConfigurationMatchStrategy extends MatchStrategy {
                 continue;
             }
 
-            if (\preg_match($routePattern, $path)) {
+            if (\preg_match($routePattern, $path, $match)) {
+                foreach ($match as $key => $val) {
+                    // Ensures that numeric keys are removed from the match array
+                    // only returning the appropriate named groups.
+                    if ($key === (int) $key) {
+                        unset($match[$key]);
+                    }
+                }
                 return array(
-                    'Route' => $Route,
-                    'parameters' => array()
+                    self::ROUTE_KEY => $Route,
+                    self::PARAMETER_KEY => $match
                 );
             }
         }
 
         return array(
-            'Route' => $Bag->getRoute(),
-            'parameters' => array()
+            self::ROUTE_KEY => $Bag->getRoute(),
+            self::PARAMETER_KEY => array()
         );
     }
 
