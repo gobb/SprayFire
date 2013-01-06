@@ -44,6 +44,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
         $parameters = $data['parameters'];
 
         $this->assertSame($parameters, array());
+        $this->assertSame('/', $Route->getPattern());
         $this->assertSame('SprayFire.Controller.FireController', $Route->getControllerNamespace());
         $this->assertSame('Pages', $Route->getControllerClass());
     }
