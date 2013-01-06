@@ -49,5 +49,32 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
         $this->assertSame('Pages', $Route->getControllerClass());
     }
 
+    /**
+     * Ensures that if a root path with an install directory the appropriate
+     * default options are used for Route object.
+     */
+    public function testEnsureRootWithInstallDirectoryRemoved() {
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Uri = $this->getMock('\SprayFire\Http\Uri');
+        $Uri->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('/sprayfire'));
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Request->expects($this->once())
+            ->method('getUri')
+            ->will($this->returnValue($Uri));
+
+        $Strategy = new FireRouting\ConventionMatchStrategy(array('installDirectory' => 'sprayfire'));
+        $data = $Strategy->getRouteAndParameters($Bag, $Request);
+        /** @var \SprayFire\Http\Routing\Route $Route */
+        $Route = $data['Route'];
+        $parameters = $data['parameters'];
+
+        $this->assertSame($parameters, array());
+        $this->assertSame('/', $Route->getPattern());
+        $this->assertSame('SprayFire.Controller.FireController', $Route->getControllerNamespace());
+        $this->assertSame('Pages', $Route->getControllerClass());
+    }
+
 
 }
