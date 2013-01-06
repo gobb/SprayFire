@@ -202,4 +202,39 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
         $this->assertSame($expected, $actual);
     }
 
+    public function testEnsureInstallDirectoryIsAppropriatelyRemovedInComparison() {
+        $MatchedRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MatchedRoute->expects($this->once())
+                     ->method('getPattern')
+                     ->will($this->returnValue('/match/'));
+
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag->expects($this->once())
+            ->method('count')
+            ->will($this->returnValue(1));
+
+        $Bag->expects($this->once())
+            ->method('getIterator')
+            ->will($this->returnValue(new \ArrayIterator(array($MatchedRoute))));
+        $Bag->expects($this->never())
+            ->method('getRoute');
+
+        $Uri = $this->getMock('\SprayFire\Http\Uri');
+        $Uri->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('/install/match/'));
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Request->expects($this->once())
+                ->method('getUri')
+                ->will($this->returnValue($Uri));
+
+        $Strategy = new FireRouting\ConfigurationMatchStrategy('install');
+        $actual = $Strategy->getRouteAndParameters($Bag, $Request);
+        $expected = array(
+            'Route' => $MatchedRoute,
+            'parameters' => array()
+        );
+        $this->assertSame($expected, $actual);
+    }
+
 }
