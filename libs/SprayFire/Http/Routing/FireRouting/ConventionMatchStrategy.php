@@ -79,7 +79,8 @@ class ConventionMatchStrategy extends MatchStrategy {
      * @param array $options
      */
     public function __construct(array $options = array()) {
-        $this->options = \array_merge($this->options, $this->defaultOptions);
+        $this->options = \array_merge($this->options, $this->defaultOptions, $options);
+        parent::__construct($this->options['installDirectory']);
     }
 
     /**
@@ -98,14 +99,13 @@ class ConventionMatchStrategy extends MatchStrategy {
      * @return array
      */
     public function getRouteAndParameters(SFHttpRouting\RouteBag $Bag, SFHttp\Request $Request) {
-        if ($Request->getUri()->getPath() === '/') {
+        $path = $this->removeInstallDirectory($Request->getUri()->getPath());
+        if ($path === '/') {
             $Route = new Route('/', $this->options['namespace'], $this->options['controller'], $this->options['action']);
             return array(
-                'Route' => $Route,
-                'parameters' => array()
+                self::ROUTE_KEY => $Route,
+                self::PARAMETER_KEY => array()
             );
         }
-
-
     }
 }
