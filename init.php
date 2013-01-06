@@ -45,7 +45,11 @@ $getEnvironmentConfig = function() use($Paths) {
 };
 
 $getRouteBag = function() use ($Paths) {
-    return include $Paths->getConfigPath('SprayFire', 'routes.php');
+    $Bag = include $Paths->getConfigPath('SprayFire', 'routes.php');
+    if (!$Bag instanceof \SprayFire\Http\Routing\RouteBag) {
+        $Bag = new FireRouting\RouteBag();
+    }
+    return $Bag;
 };
 
 /**
