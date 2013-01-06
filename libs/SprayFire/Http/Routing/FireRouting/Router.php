@@ -40,12 +40,9 @@ use \SprayFire\Http as SFHttp,
 class Router extends SFCoreObject implements SFRouting\Router {
 
     /**
-     * Ensures that the appropriate controller and action name are passed to the
-     * SprayFire.Http.Routing.RoutedRequest.
-     *
-     * @property \SprayFire\Http\Routing\FireRouting\Normalizer
+     * @property \SprayFire\Http\Routing\MatchStrategy
      */
-    protected $Normalizer;
+    protected $MatchStrategy;
 
     /**
      * Holds the routes that we can match against SprayFire.Http.Request.
@@ -53,6 +50,14 @@ class Router extends SFCoreObject implements SFRouting\Router {
      * @property \SprayFire\Http\Routing\RouteBag
      */
     protected $RouteBag;
+
+    /**
+     * Ensures that the appropriate controller and action name are passed to the
+     * SprayFire.Http.Routing.RoutedRequest.
+     *
+     * @property \SprayFire\Http\Routing\FireRouting\Normalizer
+     */
+    protected $Normalizer;
 
     /**
      * Stores \SprayFire\Http\Routing\RoutedRequest objects against \SprayFire\Http\Request
@@ -63,26 +68,18 @@ class Router extends SFCoreObject implements SFRouting\Router {
     protected $RoutedRequestCache;
 
     /**
-     * This string ensures that the appropriate install directory the framework
-     * is in does not get included in routing.
-     *
-     * @property string
-     */
-    protected $installDir;
-
-    /**
      * Please see the documentation on routing configurations at
      * https://github.com/cspray/SprayFire/wiki/HTTP-and-Routing
      *
-     * @param \SprayFire\Http\Routing\FireRouting\RouteBag $RouteBag
+     * @param \SprayFire\Http\Routing\MatchStrategy $Strategy
+     * @param \SprayFire\Http\Routing\RouteBag $RouteBag
      * @param \SprayFire\Http\Routing\FireRouting\Normalizer $Normalizer
-     * @param string $installDir
      */
-    public function __construct(RouteBag $RouteBag, Normalizer $Normalizer, $installDir = '') {
-        $this->Normalizer = $Normalizer;
+    public function __construct(SFRouting\MatchStrategy $Strategy, SFRouting\RouteBag $RouteBag, Normalizer $Normalizer) {
+        $this->MatchStrategy = $Strategy;
         $this->RouteBag = $RouteBag;
+        $this->Normalizer = $Normalizer;
         $this->RoutedRequestCache = new SplObjectStorage();
-        $this->installDir = (string) $installDir;
     }
 
     /**
@@ -98,9 +95,9 @@ class Router extends SFCoreObject implements SFRouting\Router {
             return $this->RoutedRequestCache[$Request];
         }
 
-        $data = $this->getMatchedRouteAndParameters($Request);
-        $Route = $data['Route'];
-        $parameters = $data['parameters'];
+        $data = $this->MatchStrategy->getRouteAndParameters($this->RouteBag, $Request);
+        $Route = $data[SFRouting\MatchStrategy::ROUTE_KEY];
+        $parameters = $data[SFRouting\MatchStrategy::PARAMETER_KEY];
 
         $RoutedRequest = new RoutedRequest(
             $Route->getControllerNamespace() . '.' . $this->normalizeController($Route->getControllerClass()),
@@ -109,49 +106,6 @@ class Router extends SFCoreObject implements SFRouting\Router {
         );
         $this->RoutedRequestCache[$Request] = $RoutedRequest;
         return $RoutedRequest;
-    }
-
-    /**
-     * Will parse the given \SprayFire\Http\Request to determine if there is a
-     * matched routed in the configuration, if there is not a 404 route will be
-     * returned.
-     *
-     * @param \SprayFire\Http\Request $Request
-     * @return array
-     */
-    protected function getMatchedRouteAndParameters(SFHttp\Request $Request) {
-        $resourcePath = $this->cleanPath($Request->getUri()->getPath());
-
-        // Default the Route to a NoMatchRoute from the RouteBag
-        $Route = $this->RouteBag->getRoute();
-        $requestMethod = $Request->getMethod();
-        $match = array();
-
-        foreach ($this->RouteBag as $routePattern => $StoredRoute) {
-            /* @var \SprayFire\Http\Routing\Route $StoredRoute */
-            $routeMethod = $StoredRoute->getMethod();
-            if (isset($routeMethod) && $requestMethod !== $routeMethod) {
-                continue;
-            }
-
-            $routePattern = '#^' . $routePattern . '$#';
-            if (\preg_match($routePattern, $resourcePath, $match)) {
-                foreach ($match as $key => $val) {
-                    // Ensures that numeric keys are removed from the match array
-                    // only returning the appropriate named groups.
-                    if ($key === (int) $key) {
-                        unset($match[$key]);
-                    }
-                }
-                $Route = $StoredRoute;
-                break;
-            }
-        }
-
-        return array(
-            'Route' => $Route,
-            'parameters' => $match
-        );
     }
 
     /**
@@ -180,55 +134,6 @@ class Router extends SFCoreObject implements SFRouting\Router {
         } else {
             return $action;
         }
-    }
-
-    /**
-     * Will remove the leading forward slash and the install directory from the
-     * path requested.
-     *
-     * @param string $path
-     * @return string
-     */
-    protected function cleanPath($path) {
-        $path = $this->removeLeadingForwardSlash($path);
-        $path = $this->removeInstallDirectory($path);
-        $path = $this->removeLeadingForwardSlash($path);
-        $path = $this->removeTrailingForwardSlash($path);
-        $path = \strtolower($path);
-        if (empty($path)) {
-            return '/';
-        }
-        return '/' . $path . '/';
-    }
-
-    /**
-     * @param string $uri
-     * @return string
-     */
-    protected function removeLeadingForwardSlash($uri) {
-        $regex = '/^\//';
-        $nothing = '';
-        return \preg_replace($regex, $nothing, $uri);
-    }
-
-    /**
-     * @param string $uri
-     * @return string
-     */
-    protected function removeTrailingForwardSlash($uri) {
-        $regex = '/\/$/';
-        $nothing = '';
-        return \preg_replace($regex, $nothing, $uri);
-    }
-
-    /**
-     * @param string $uri
-     * @return string
-     */
-    protected function removeInstallDirectory($uri) {
-        $regex = '/^' . $this->installDir . '/';
-        $nothing = '';
-        return \preg_replace($regex, $nothing, $uri);
     }
 
 }
