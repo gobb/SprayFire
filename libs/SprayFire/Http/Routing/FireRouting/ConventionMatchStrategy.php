@@ -98,6 +98,14 @@ class ConventionMatchStrategy extends MatchStrategy {
      * @return array
      */
     public function getRouteAndParameters(SFHttpRouting\RouteBag $Bag, SFHttp\Request $Request) {
-        // TODO: Implement getRouteAndParameters() method.
+        if ($Request->getUri()->getPath() === '/') {
+            $Route = new Route('/', $this->options['namespace'], $this->options['controller'], $this->options['action']);
+            return array(
+                'Route' => $Route,
+                'parameters' => array()
+            );
+        }
+
+
     }
 }
