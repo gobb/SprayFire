@@ -41,8 +41,8 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
 
         $Strategy = new FireRouting\ConfigurationMatchStrategy();
         $expected = array(
-            'Route' => $NoMatchRoute,
-            'parameters' => array()
+            $Strategy::ROUTE_KEY => $NoMatchRoute,
+            $Strategy::PARAMETER_KEY => array()
         );
         $this->assertSame($expected, $Strategy->getRouteAndParameters($Bag, $Request));
     }
@@ -90,8 +90,8 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
 
         $Strategy = new FireRouting\ConfigurationMatchStrategy();
         $expected = array(
-            'Route' => $TheOneRoute,
-            'parameters' => array()
+            $Strategy::ROUTE_KEY => $TheOneRoute,
+            $Strategy::PARAMETER_KEY => array()
         );
         $actual = $Strategy->getRouteAndParameters($Bag, $Request);
         $this->assertSame($expected, $actual);
@@ -143,8 +143,8 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
         $Strategy = new FireRouting\ConfigurationMatchStrategy();
         $actual = $Strategy->getRouteAndParameters($Bag, $Request);
         $expected = array(
-            'Route' => $DefaultRoute,
-            'parameters' => array()
+            $Strategy::ROUTE_KEY => $DefaultRoute,
+            $Strategy::PARAMETER_KEY => array()
         );
         $this->assertSame($expected, $actual);
     }
@@ -196,8 +196,8 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
         $Strategy = new FireRouting\ConfigurationMatchStrategy();
         $actual = $Strategy->getRouteAndParameters($Bag, $Request);
         $expected = array(
-            'Route' => $DefaultRoute,
-            'parameters' => array()
+            $Strategy::ROUTE_KEY => $DefaultRoute,
+            $Strategy::PARAMETER_KEY => array()
         );
         $this->assertSame($expected, $actual);
     }
@@ -231,8 +231,44 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
         $Strategy = new FireRouting\ConfigurationMatchStrategy('install');
         $actual = $Strategy->getRouteAndParameters($Bag, $Request);
         $expected = array(
-            'Route' => $MatchedRoute,
-            'parameters' => array()
+            $Strategy::ROUTE_KEY => $MatchedRoute,
+            $Strategy::PARAMETER_KEY => array()
+        );
+        $this->assertSame($expected, $actual);
+    }
+
+    public function testParametersAreMatchedWithSubGroupRoutePattern() {
+        $MatchedRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MatchedRoute->expects($this->once())
+                     ->method('getPattern')
+                     ->will($this->returnValue('/charles/drinks/(?P<brewer>[A-Za-z_]+)/(?P<beer>[A-Za-z_]+)/'));
+
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag->expects($this->once())
+            ->method('count')
+            ->will($this->returnValue(1));
+
+        $Bag->expects($this->once())
+            ->method('getIterator')
+            ->will($this->returnValue(new \ArrayIterator(array($MatchedRoute))));
+
+        $Uri = $this->getMock('\SprayFire\Http\Uri');
+        $Uri->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('/charles/drinks/sam_adams/boston_lager/'));
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Request->expects($this->once())
+                ->method('getUri')
+                ->will($this->returnValue($Uri));
+
+        $Strategy = new FireRouting\ConfigurationMatchStrategy();
+        $actual = $Strategy->getRouteAndParameters($Bag, $Request);
+        $expected = array(
+            $Strategy::ROUTE_KEY => $MatchedRoute,
+            $Strategy::PARAMETER_KEY => array(
+                'brewer' => 'sam_adams',
+                'beer' => 'boston_lager'
+            )
         );
         $this->assertSame($expected, $actual);
     }
