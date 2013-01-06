@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Holds the route configuration that is used by SprayFire.Http.Routing.FireRouting.Router
- * to determin which controller and action should be instantiated and invoked for
+ * Holds the route configuration that is used by \SprayFire\Http\Routing\FireRouting\Router
+ * to determine which controller and action should be instantiated and invoked for
  * a request's response.
  *
  * @author  Charles Sprayberry
@@ -27,5 +27,10 @@ $RouteBag->addRoute($RootDirectoryRoute);
 $RouteBag->addRoute($DebugRoute);
 $RouteBag->addRoute($AboutRoute);
 
-// Service container definition in enivornment.php expects this file to return $RouteBag
+/**
+ * This file must ALWAYS return a \SprayFire\Http\Routing\RouteBag implementation,
+ * if an appropriate type is not returned an empty $RouteBag will be created and
+ * used for the routing process. An empty $RouteBag may result in your routing
+ * MatchStrategy not working as intended if it relies on the $RouteBag being filled.
+ */
 return $RouteBag;
