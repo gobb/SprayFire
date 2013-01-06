@@ -12,7 +12,7 @@
 namespace SprayFire\Http\Routing\FireRouting;
 
 use \SprayFire\Http as SFHttp,
-    \SprayFire\Http\Routing as SFRouting;
+    \SprayFire\Http\Routing as SFHttpRouting;
 
 /**
  * If a $Route is not matched to the request's URI path the default $Route for the
@@ -32,7 +32,7 @@ class ConfigurationMatchStrategy extends MatchStrategy {
      * @param \SprayFire\Http\Request $Request
      * @return array
      */
-    public function getRouteAndParameters(SFRouting\RouteBag $Bag, SFHttp\Request $Request) {
+    public function getRouteAndParameters(SFHttpRouting\RouteBag $Bag, SFHttp\Request $Request) {
         if (\count($Bag) === 0) {
             return array(
                 self::ROUTE_KEY => $Bag->getRoute(),

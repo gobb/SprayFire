@@ -13,7 +13,7 @@
 namespace SprayFire\Http\Routing\FireRouting;
 
 use \SprayFire\Http as SFHttp,
-    \SprayFire\Http\Routing as SFRouting,
+    \SprayFire\Http\Routing as SFHttpRouting,
     \SprayFire\CoreObject as SFCoreObject,
     \SplObjectStorage as SplObjectStorage;
 
@@ -37,7 +37,7 @@ use \SprayFire\Http as SFHttp,
  * - Convention only
  * - Configuration, fallback to Convention
  */
-class Router extends SFCoreObject implements SFRouting\Router {
+class Router extends SFCoreObject implements SFHttpRouting\Router {
 
     /**
      * @property \SprayFire\Http\Routing\MatchStrategy
@@ -75,7 +75,7 @@ class Router extends SFCoreObject implements SFRouting\Router {
      * @param \SprayFire\Http\Routing\RouteBag $RouteBag
      * @param \SprayFire\Http\Routing\FireRouting\Normalizer $Normalizer
      */
-    public function __construct(SFRouting\MatchStrategy $Strategy, SFRouting\RouteBag $RouteBag, Normalizer $Normalizer) {
+    public function __construct(SFHttpRouting\MatchStrategy $Strategy, SFHttpRouting\RouteBag $RouteBag, Normalizer $Normalizer) {
         $this->MatchStrategy = $Strategy;
         $this->RouteBag = $RouteBag;
         $this->Normalizer = $Normalizer;
@@ -96,8 +96,9 @@ class Router extends SFCoreObject implements SFRouting\Router {
         }
 
         $data = $this->MatchStrategy->getRouteAndParameters($this->RouteBag, $Request);
-        $Route = $data[SFRouting\MatchStrategy::ROUTE_KEY];
-        $parameters = $data[SFRouting\MatchStrategy::PARAMETER_KEY];
+        /* @var \SprayFire\Http\Routing\Route $Route */
+        $Route = $data[SFHttpRouting\MatchStrategy::ROUTE_KEY];
+        $parameters = $data[SFHttpRouting\MatchStrategy::PARAMETER_KEY];
 
         $RoutedRequest = new RoutedRequest(
             $Route->getControllerNamespace() . '.' . $this->normalizeController($Route->getControllerClass()),

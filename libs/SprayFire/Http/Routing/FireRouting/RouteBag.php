@@ -11,8 +11,7 @@
 
 namespace SprayFire\Http\Routing\FireRouting;
 
-use \SprayFire\Http\Routing as SFRouting,
-    \SprayFire\Http\Routing\FireRouting as FireRouting,
+use \SprayFire\Http\Routing as SFHttpRouting,
     \SprayFire\CoreObject as SFCoreObject;
 
 /**
@@ -20,7 +19,7 @@ use \SprayFire\Http\Routing as SFRouting,
  * @package SprayFire
  * @subpackage Http.Routing.FireRouting
  */
-class RouteBag extends SFCoreObject implements SFRouting\RouteBag {
+class RouteBag extends SFCoreObject implements SFHttpRouting\RouteBag {
 
     /**
      * Stores a collection of routes [$routePattern => SprayFire.Http.Routing.Route]
@@ -37,9 +36,9 @@ class RouteBag extends SFCoreObject implements SFRouting\RouteBag {
      */
     protected $NoMatchRoute;
 
-    public function __construct(SFRouting\Route $NoMatchRoute = null) {
+    public function __construct(SFHttpRouting\Route $NoMatchRoute = null) {
         if (\is_null($NoMatchRoute)) {
-            $NoMatchRoute = new FireRouting\Route('', 'SprayFire.Controller.FireController');
+            $NoMatchRoute = new Route('', 'SprayFire.Controller.FireController');
         }
         $this->NoMatchRoute = $NoMatchRoute;
     }
@@ -50,19 +49,19 @@ class RouteBag extends SFCoreObject implements SFRouting\RouteBag {
      * @param \SprayFire\Http\Routing\Route $Route
      * @throws \SprayFire\Http\Routing\Exception\DuplicateRouteAdded
      */
-    public function addRoute(SFRouting\Route $Route) {
+    public function addRoute(SFHttpRouting\Route $Route) {
         $routePattern = $Route->getPattern();
         if ($this->hasRouteWithPattern($routePattern)) {
             $message = 'The given pattern, ' . $routePattern . ', has already been added to ' . __CLASS__ . ' and may not be overwritten.';
             $message .= '  Please see ' . __CLASS__ . '::removeRouteWithPattern.';
-            throw new SFRouting\Exception\DuplicateRouteAdded($message);
+            throw new SFHttpRouting\Exception\DuplicateRouteAdded($message);
         }
         $this->routes[$routePattern] = $Route;
     }
 
     /**
      * @param string $pattern
-     * @return mixed
+     * @return \SprayFire\Http\Routing\Route
      */
     public function getRoute($pattern = null) {
         if (\is_null($pattern) || !$this->hasRouteWithPattern($pattern)) {

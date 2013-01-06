@@ -11,14 +11,14 @@
  */
 namespace SprayFire\Http\Routing\FireRouting;
 
-use \SprayFire\Http\Routing as SFRouting,
+use \SprayFire\Http\Routing as SFHttpRouting,
     \SprayFire\CoreObject as SFCoreObject;
 
 /**
  * @package SprayFire
  * @subpackage Http.Routing.FireRouting
  */
-abstract class MatchStrategy extends SFCoreObject implements SFRouting\MatchStrategy  {
+abstract class MatchStrategy extends SFCoreObject implements SFHttpRouting\MatchStrategy  {
 
     /**
      * @property string
