@@ -107,5 +107,35 @@ class ConventionMatchStrategy extends MatchStrategy {
                 self::PARAMETER_KEY => array()
             );
         }
+
+        $fragments = $this->parsePath($path);
+        $Route = new Route($path, $this->options['namespace'], $fragments['controller'], $fragments['action']);
+        return array(
+            self::ROUTE_KEY => $Route,
+            self::PARAMETER_KEY => $fragments['parameters']
+        );
     }
+
+    /**
+     * Will parse a pretty URL path into an array with the appropriate controller,
+     * action and parameters that should be used for the returned data.
+     *
+     * @param string $path
+     * @return array
+     */
+    public function parsePath($path)  {
+        $path = \trim($path, '/ ');
+        $fragments = \explode('/', $path);
+        $controller = \array_shift($fragments);
+        $action = $this->options['action'];
+        $parameters = array();
+        if (!empty($fragments)) {
+            $action = \array_shift($fragments);
+            if (!empty($fragments)) {
+                $parameters = $fragments;
+            }
+        }
+        return \compact('controller', 'action', 'parameters');
+    }
+
 }
