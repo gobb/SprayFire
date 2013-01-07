@@ -40,8 +40,8 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
         $Strategy = new FireRouting\ConventionMatchStrategy();
         $data = $Strategy->getRouteAndParameters($Bag, $Request);
         /** @var \SprayFire\Http\Routing\Route $Route */
-        $Route = $data['Route'];
-        $parameters = $data['parameters'];
+        $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
+        $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
 
         $this->assertSame($parameters, array());
         $this->assertSame('/', $Route->getPattern());
@@ -67,8 +67,8 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
         $Strategy = new FireRouting\ConventionMatchStrategy(array('installDirectory' => 'sprayfire'));
         $data = $Strategy->getRouteAndParameters($Bag, $Request);
         /** @var \SprayFire\Http\Routing\Route $Route */
-        $Route = $data['Route'];
-        $parameters = $data['parameters'];
+        $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
+        $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
 
         $this->assertSame($parameters, array());
         $this->assertSame('/', $Route->getPattern());
@@ -76,5 +76,86 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
         $this->assertSame('Pages', $Route->getControllerClass());
     }
 
+    /**
+     * Ensures that if we get a controller fragment in the path we return that
+     * fragment as the controller class from the route while still using default
+     * options where appropriate and passing the path as the pattern.
+     */
+    public function testEnsureControllerFragmentParsedCorrectlyPassingActionInOptions() {
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Uri = $this->getMock('\SprayFire\Http\Uri');
+        $Uri->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('/controller'));
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Request->expects($this->once())
+                ->method('getUri')
+                ->will($this->returnValue($Uri));
+
+        $Strategy = new FireRouting\ConventionMatchStrategy(array('action' => 'index_yo_dog'));
+        $data = $Strategy->getRouteAndParameters($Bag, $Request);
+        /** @var \SprayFire\Http\Routing\Route $Route */
+        $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
+        $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
+
+        $this->assertSame($parameters, array());
+        $this->assertSame('/controller', $Route->getPattern());
+        $this->assertSame('SprayFire.Controller.FireController', $Route->getControllerNamespace());
+        $this->assertSame('controller', $Route->getControllerClass());
+        $this->assertSame('index_yo_dog', $Route->getAction());
+    }
+
+    /**
+     * Ensures that if a controller and action are present in the path they are
+     * returned as appropriate and the namespace option can be set to a defined
+     * value.
+     */
+    public function testEnsureControllerAndActionFragmentParsedCorrectlyPassingNamespaceInOptions() {
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Uri = $this->getMock('\SprayFire\Http\Uri');
+        $Uri->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('/controller/action/'));
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Request->expects($this->once())
+            ->method('getUri')
+            ->will($this->returnValue($Uri));
+
+        $Strategy = new FireRouting\ConventionMatchStrategy(array('namespace' => 'SomeApp.Controller'));
+        $data = $Strategy->getRouteAndParameters($Bag, $Request);
+        /** @var \SprayFire\Http\Routing\Route $Route */
+        $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
+        $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
+
+        $this->assertSame($parameters, array());
+        $this->assertSame('/controller/action/', $Route->getPattern());
+        $this->assertSame('SomeApp.Controller', $Route->getControllerNamespace());
+        $this->assertSame('controller', $Route->getControllerClass());
+        $this->assertSame('action', $Route->getAction());
+    }
+
+    public function testEnsureGettingMultipleParametersIfPresent() {
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Uri = $this->getMock('\SprayFire\Http\Uri');
+        $Uri->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('/controller/action/1/2/3/'));
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Request->expects($this->once())
+            ->method('getUri')
+            ->will($this->returnValue($Uri));
+
+        $Strategy = new FireRouting\ConventionMatchStrategy();
+        $data = $Strategy->getRouteAndParameters($Bag, $Request);
+        /** @var \SprayFire\Http\Routing\Route $Route */
+        $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
+        $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
+
+        $this->assertSame($parameters, array('1', '2', '3'));
+        $this->assertSame('/controller/action/1/2/3/', $Route->getPattern());
+        $this->assertSame('SprayFire.Controller.FireController', $Route->getControllerNamespace());
+        $this->assertSame('controller', $Route->getControllerClass());
+        $this->assertSame('action', $Route->getAction());
+    }
 
 }
