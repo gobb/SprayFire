@@ -132,7 +132,15 @@ class ConventionMatchStrategy extends MatchStrategy {
         if (!empty($fragments)) {
             $action = \array_shift($fragments);
             if (!empty($fragments)) {
-                $parameters = $fragments;
+                foreach ($fragments as $param) {
+                    $paramParts = \explode(':', $param);
+                    if (\count($paramParts) === 1) {
+                        $parameters[] = $param;
+                        continue;
+                    }
+
+                    $parameters[(string) $paramParts[0]] = $paramParts[1];
+                }
             }
         }
         return \compact('controller', 'action', 'parameters');
