@@ -11,17 +11,15 @@
 
 namespace SprayFire\Http\Routing\FireRouting;
 
-use \SprayFire\Http\Routing as SFRouting,
-    \SprayFire\Http\Routing\FireRouting as FireRouting,
-    \SprayFire\CoreObject as SFCoreObject,
-    \InvalidArgumentException as InvalidArgumentException;
+use \SprayFire\Http\Routing as SFHttpRouting,
+    \SprayFire\CoreObject as SFCoreObject;
 
 /**
  *
  * @package SprayFire
  * @subpackage Http.Routing.FireRouting
  */
-class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
+class RouteBag extends SFCoreObject implements SFHttpRouting\RouteBag {
 
     /**
      * Stores a collection of routes [$routePattern => SprayFire.Http.Routing.Route]
@@ -38,9 +36,9 @@ class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
      */
     protected $NoMatchRoute;
 
-    public function __construct(SFRouting\Route $NoMatchRoute = null) {
+    public function __construct(SFHttpRouting\Route $NoMatchRoute = null) {
         if (\is_null($NoMatchRoute)) {
-            $NoMatchRoute = new FireRouting\Route('', 'SprayFire.Controller.FireController');
+            $NoMatchRoute = new Route('', 'SprayFire.Controller.FireController');
         }
         $this->NoMatchRoute = $NoMatchRoute;
     }
@@ -49,23 +47,21 @@ class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
      * Will store a $Route with the pattern for that route as the given key.
      *
      * @param \SprayFire\Http\Routing\Route $Route
-     * @throws \InvalidArgumentException
+     * @throws \SprayFire\Http\Routing\Exception\DuplicateRouteAdded
      */
-    public function addRoute(SFRouting\Route $Route) {
+    public function addRoute(SFHttpRouting\Route $Route) {
         $routePattern = $Route->getPattern();
         if ($this->hasRouteWithPattern($routePattern)) {
             $message = 'The given pattern, ' . $routePattern . ', has already been added to ' . __CLASS__ . ' and may not be overwritten.';
             $message .= '  Please see ' . __CLASS__ . '::removeRouteWithPattern.';
-            throw new InvalidArgumentException($message);
+            throw new SFHttpRouting\Exception\DuplicateRouteAdded($message);
         }
         $this->routes[$routePattern] = $Route;
     }
 
     /**
-     *
-     *
      * @param string $pattern
-     * @return mixed
+     * @return \SprayFire\Http\Routing\Route
      */
     public function getRoute($pattern = null) {
         if (\is_null($pattern) || !$this->hasRouteWithPattern($pattern)) {
@@ -75,18 +71,14 @@ class RouteBag extends SFCoreObject implements \Countable, \IteratorAggregate {
     }
 
     /**
-     * Will remove a SprayFire.Http.Routing.Route from the collection that matches
+     * Will remove a \SprayFire\Http\Routing\Route from the collection that matches
      * $pattern if it has been added.
      *
      * @param string $pattern
      */
     public function removeRouteWithPattern($pattern) {
-        foreach($this->routes as $routePattern => $Route) {
-            if ($routePattern === $pattern) {
-                $this->routes[$routePattern] = null;
-                unset($this->routes[$routePattern]);
-                break;
-            }
+        if ($this->hasRouteWithPattern($pattern)) {
+            unset($this->routes[$pattern]);
         }
     }
 

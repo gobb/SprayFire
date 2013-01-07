@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Test cases for SprayFire.Http.Routing.FireRouting.Router to ensure that the
- * appropriate SprayFire.Http.Routing.RoutedRequest
+ * Test cases for \SprayFire\Http\Routing\FireRouting\Router to ensure that the
+ * appropriate \SprayFire\Http\Routing\RoutedRequest is returned.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -24,215 +24,140 @@ use \SprayFire\Http\Routing as SFRouting,
 class RouterTest extends \PHPUnit_Framework_TestCase {
 
     /**
-     * Assures that the Router will properly use default values in configuration
-     * if there are none present in the request.
-     */
-    public function testStandardRouterGoingToRootPath() {
-        $MockRoute = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
-        $MockRoute->expects($this->once())
-                  ->method('getPattern')
-                  ->will($this->returnValue('/'));
-        $MockRoute->expects($this->once())
-                  ->method('getControllerNamespace')
-                  ->will($this->returnValue('SprayFire.Test.Helpers.Controller'));
-        $MockRoute->expects($this->once())
-                  ->method('getControllerClass')
-                  ->will($this->returnValue('test_pages'));
-        $MockRoute->expects($this->once())
-                  ->method('getAction')
-                  ->will($this->returnValue('index-yo-dog'));
-        $RouteBag = new FireRouting\RouteBag();
-        $RouteBag->addRoute($MockRoute);
-        $Normalizer = new FireRouting\Normalizer();
-        $Router = new FireRouting\Router($RouteBag, $Normalizer, 'SprayFire');
-
-        $Request = $this->getRequest('/SprayFire/');
-        $RoutedRequest = $Router->getRoutedRequest($Request);
-
-        $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
-        $this->assertSame('SprayFire', $RoutedRequest->getAppNamespace());
-        $this->assertSame('SprayFire.Test.Helpers.Controller.TestPages', $RoutedRequest->getController());
-        $this->assertSame('indexYoDog', $RoutedRequest->getAction());
-        $this->assertSame(array(), $RoutedRequest->getParameters());
-    }
-
-    /**
-     * Assures that the router will route a request when both a controller name
-     * and action are determining the routing.
-     */
-    public function testStandardRouterGoingToControllerActionWithParam() {
-        $MockRoute = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
-        $MockRoute->expects($this->once())->method('getPattern')->will($this->returnValue('/charles/roots_for/(?P<item>[A-Za-z]+)/'));
-        $MockRoute->expects($this->once())->method('getControllerNamespace')->will($this->returnValue('FourteenChamps.Controller'));
-        $MockRoute->expects($this->once())->method('getControllerClass')->will($this->returnValue('NickSaban'));
-        $MockRoute->expects($this->once())->method('getAction')->will($this->returnValue('win'));
-        $RouteBag = new FireRouting\RouteBag();
-        $RouteBag->addRoute($MockRoute);
-        $Normalizer = new FireRouting\Normalizer();
-        $Router = new FireRouting\Router($RouteBag, $Normalizer, 'college.football');
-
-        $RoutedRequest = $Router->getRoutedRequest($this->getRequest('/college.football/charles/roots_for/alabama'));
-
-        $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
-        $this->assertSame('FourteenChamps', $RoutedRequest->getAppNamespace());
-        $this->assertSame('FourteenChamps.Controller.NickSaban', $RoutedRequest->getController());
-        $this->assertSame('win', $RoutedRequest->getAction());
-        $this->assertSame(array('item' => 'alabama'), $RoutedRequest->getParameters());
-    }
-
-    /**
-     * Ensuring that a request will use values provided but the appropriate namespace
-     * is used if routed.
-     */
-    public function testStandardRouterWithTwoParams() {
-        $MockRoute = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
-        $MockRoute->expects($this->once())
-                  ->method('getPattern')
-                  ->will($this->returnValue('/charles/drinks/(?P<brewer>[A-Za-z_]+)/(?P<beer>[A-Za-z_]+)/'));
-        $MockRoute->expects($this->once())
-                  ->method('getControllerNamespace')
-                  ->will($this->returnValue('FavoriteBrew.Controller'));
-        $MockRoute->expects($this->once())
-                  ->method('getControllerClass')
-                  ->will($this->returnValue('Charles'));
-        $MockRoute->expects($this->once())
-                  ->method('getAction')
-                  ->will($this->returnValue('drinks'));
-        $RouteBag = new FireRouting\RouteBag();
-        $RouteBag->addRoute($MockRoute);
-        $Normalizer = new FireRouting\Normalizer();
-        $Router = new FireRouting\Router($RouteBag, $Normalizer, 'brewmaster');
-
-        $RoutedRequest = $Router->getRoutedRequest($this->getRequest('/brewmaster/charles/drinks/sam_adams/boston_lager'));
-
-        $this->assertInstanceOf('\\SprayFire\\Http\\Routing\\RoutedRequest', $RoutedRequest);
-        $this->assertSame('FavoriteBrew', $RoutedRequest->getAppNamespace());
-        $this->assertSame('FavoriteBrew.Controller.Charles', $RoutedRequest->getController());
-        $this->assertSame('drinks', $RoutedRequest->getAction());
-        $this->assertSame(array('brewer' => 'sam_adams', 'beer' => 'boston_lager'), $RoutedRequest->getParameters());
-    }
-
-    /**
-     * Ensures that if a SprayFire.Http.Request is passed to Router::getRoutedRequest
-     * twice the same object is returned both times.
-     */
-    public function testGettingSameRoutedRequestFromSameRequest() {
-        $MockRoute = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
-        $MockRoute->expects($this->once())
-                  ->method('getPattern')
-                  ->will($this->returnValue('/'));
-        $RouteBag = new FireRouting\RouteBag();
-        $RouteBag->addRoute($MockRoute);
-        $Normalizer = new FireRouting\Normalizer();
-        $Router = new FireRouting\Router($RouteBag, $Normalizer, '');
-        $Request = $this->getRequest('/');
-        $RoutedRequestOne = $Router->getRoutedRequest($Request);
-        $RoutedRequestTwo = $Router->getRoutedRequest($Request);
-        $this->assertSame($RoutedRequestOne, $RoutedRequestTwo);
-    }
-
-    /**
-     * Ensures that if a URI path isn't properly matched we still get an expected
-     * SprayFire.Http.Routing.RoutedRequest
-     */
-    public function testGettingRouteWithNoMatchingPattern() {
-        $MockRoute = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
-        $MockRoute->expects($this->once())
-                  ->method('getControllerNamespace')
-                  ->will($this->returnValue('SprayFire.Controller'));
-        $MockRoute->expects($this->once())
-                  ->method('getControllerClass')
-                  ->will($this->returnValue('NoRoute'));
-        $MockRoute->expects($this->once())
-                  ->method('getAction')
-                  ->will($this->returnValue('view'));
-        $RouteBag = new FireRouting\RouteBag($MockRoute);
-        $Normalizer = new FireRouting\Normalizer();
-        $Router = new FireRouting\Router($RouteBag, $Normalizer, '');
-        $Request = $this->getRequest('');
-        $RoutedRequest = $Router->getRoutedRequest($Request);
-
-        $expectedController = 'SprayFire.Controller.NoRoute';
-        $expectedAction = 'view';
-        $expectedParameters = array();
-        $this->assertSame($expectedController, $RoutedRequest->getController());
-        $this->assertSame($expectedAction, $RoutedRequest->getAction());
-        $this->assertSame($expectedParameters, $RoutedRequest->getParameters());
-    }
-
-        /**
-     * Ensures that an appropriate RoutedRequest is returned when multiple matching
-     * routes are found, the first match should always be the first Route added
-     * to the bag.
      *
-     * This test ensures coverage of bug #98.
-     * https://github.com/cspray/SprayFire/issues/98
      */
-    public function testMultipleRoutesReturnsAppropriateMatch() {
-        $MockRouteOne = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
-        $MockRouteOne->expects($this->once())
-                     ->method('getPattern')
-                     ->will($this->returnValue('/'));
-        $MockRouteOne->expects($this->once())
-                      ->method('getControllerNamespace')
-                      ->will($this->returnValue('Mock.Route.One'));
-        $MockRouteOne->expects($this->once())
-                     ->method('getControllerClass')
-                     ->will($this->returnValue('Test'));
-        $MockRouteTwo = $this->getMock('\\SprayFire\\Http\\Routing\\Route');
-        $MockRouteTwo->expects($this->once())
-                     ->method('getPattern')
-                     ->will($this->returnValue('/something'));
-        $RouteBag = new FireRouting\RouteBag();
-        $RouteBag->addRoute($MockRouteOne);
-        $RouteBag->addRoute($MockRouteTwo);
-        $Normalizer = new FireRouting\Normalizer();
-        $Router = new FireRouting\Router($RouteBag, $Normalizer, '');
+    public function testBasicIntegrationWithMatchingStrategy() {
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Route = $this->getMock('\SprayFire\Http\Routing\Route');
+        $Route->expects($this->once())
+              ->method('getControllerNamespace')
+              ->will($this->returnValue('SprayFire.Controller.FireController'));
+        $Route->expects($this->once())
+              ->method('getControllerClass')
+              ->will($this->returnValue('Pages'));
+        $Route->expects($this->once())
+              ->method('getAction')
+              ->will($this->returnValue('index'));
+        $Strategy = $this->getMock('\SprayFire\Http\Routing\MatchStrategy');
+        $Strategy->expects($this->once())
+                 ->method('getRouteAndParameters')
+                 ->with($Bag, $Request)
+                 ->will($this->returnValue(array('Route' => $Route, 'parameters' => array())));
 
-        $RoutedRequest = $Router->getRoutedRequest($this->getRequest('/'));
-        $this->assertSame('Mock.Route.One.Test', $RoutedRequest->getController());
-    }
-
-    public function testRouterCheckingAppropriateMethod() {
-        $NoMatchRoute = $this->getMock('\SprayFire\Http\Routing\Route');
-        $NoMatchRoute->expects($this->once())
-                     ->method('getControllerNamespace')
-                     ->will($this->returnValue('Mock.NoMatch.Route'));
-        $NoMatchRoute->expects($this->once())
-                     ->method('getControllerClass')
-                     ->will($this->returnValue('Test'));
-
-        $PatternMatchWrongMethod = $this->getMock('\SprayFire\Http\Routing\Route');
-        $PatternMatchWrongMethod->expects($this->once())
-                                ->method('getPattern')
-                                ->will($this->returnValue('/method_check/'));
-        $PatternMatchWrongMethod->expects($this->once())
-                                ->method('getMethod')
-                                ->will($this->returnValue('GET'));
-
-        $RouteBag = new FireRouting\RouteBag($NoMatchRoute);
-        $RouteBag->addRoute($PatternMatchWrongMethod);
-        $Normalizer = new FireRouting\Normalizer();
-        $Router = new FireRouting\Router($RouteBag, $Normalizer);
-
-        $Request = $this->getRequest('/method_check', 'POST');
+        $Normalizer = $this->getMock('\SprayFire\Http\Routing\FireRouting\Normalizer');
+        $Normalizer->expects($this->never())
+                   ->method('normalizeController');
+        $Normalizer->expects($this->never())
+                   ->method('normalizeAction');
+        $Router = new FireRouting\Router($Strategy, $Bag, $Normalizer);
         $RoutedRequest = $Router->getRoutedRequest($Request);
-        $this->assertSame('Mock.NoMatch.Route.Test', $RoutedRequest->getController());
+
+        $expected = 'SprayFire.Controller.FireController.Pages';
+
+        $this->assertSame($expected, $RoutedRequest->getController());
     }
 
-    /**
-     * @param string $requestUri
-     * @param string $method
-     * @return SprayFire.Http.StandardRequest
-     */
-    protected function getRequest($requestUri, $method = 'GET') {
-        $MockUri = $this->getMock('\\SprayFire\\Http\\Uri');
-        $MockUri->expects($this->once())->method('getPath')->will($this->returnValue($requestUri));
+    public function testEnsuringRoutedRequestsAreCachedAppropriately() {
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Route = $this->getMock('\SprayFire\Http\Routing\Route');
+        $Route->expects($this->once())
+            ->method('getControllerNamespace')
+            ->will($this->returnValue('SprayFire.Controller.FireController'));
+        $Route->expects($this->once())
+            ->method('getControllerClass')
+            ->will($this->returnValue('Pages'));
+        $Route->expects($this->once())
+            ->method('getAction')
+            ->will($this->returnValue('index'));
+        $Strategy = $this->getMock('\SprayFire\Http\Routing\MatchStrategy');
+        $Strategy->expects($this->once())
+            ->method('getRouteAndParameters')
+            ->with($Bag, $Request)
+            ->will($this->returnValue(array('Route' => $Route, 'parameters' => array())));
 
-        $MockRequest = $this->getMock('\\SprayFire\\Http\\Request');
-        $MockRequest->expects($this->once())->method('getUri')->will($this->returnValue($MockUri));
-        $MockRequest->expects($this->once())->method('getMethod')->will($this->returnValue($method));
-        return $MockRequest;
+        $Normalizer = $this->getMock('\SprayFire\Http\Routing\FireRouting\Normalizer');
+        $Normalizer->expects($this->never())
+            ->method('normalizeController');
+        $Normalizer->expects($this->never())
+            ->method('normalizeAction');
+        $Router = new FireRouting\Router($Strategy, $Bag, $Normalizer);
+        $RoutedRequest = $Router->getRoutedRequest($Request);
+
+        $expected = 'SprayFire.Controller.FireController.Pages';
+        $this->assertSame($expected, $RoutedRequest->getController());
+
+        $secondOne = $Router->getRoutedRequest($Request);
+        $this->assertSame($secondOne, $RoutedRequest);
     }
+
+    public function testEnsuringControllerIsNormalizedProperly() {
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Route = $this->getMock('\SprayFire\Http\Routing\Route');
+        $Route->expects($this->once())
+            ->method('getControllerNamespace')
+            ->will($this->returnValue('SprayFire.Controller.FireController'));
+        $Route->expects($this->once())
+            ->method('getControllerClass')
+            ->will($this->returnValue('test_pages'));
+        $Route->expects($this->once())
+            ->method('getAction')
+            ->will($this->returnValue('index'));
+        $Strategy = $this->getMock('\SprayFire\Http\Routing\MatchStrategy');
+        $Strategy->expects($this->once())
+            ->method('getRouteAndParameters')
+            ->with($Bag, $Request)
+            ->will($this->returnValue(array('Route' => $Route, 'parameters' => array())));
+
+        $Normalizer = $this->getMock('\SprayFire\Http\Routing\FireRouting\Normalizer');
+        $Normalizer->expects($this->once())
+            ->method('normalizeController')
+            ->with('test_pages')
+            ->will($this->returnValue('TestPages'));
+        $Normalizer->expects($this->never())
+            ->method('normalizeAction');
+        $Router = new FireRouting\Router($Strategy, $Bag, $Normalizer);
+        $RoutedRequest = $Router->getRoutedRequest($Request);
+
+        $expected = 'SprayFire.Controller.FireController.TestPages';
+
+        $this->assertSame($expected, $RoutedRequest->getController());
+    }
+
+    public function testNormalizingActionProperly() {
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Route = $this->getMock('\SprayFire\Http\Routing\Route');
+        $Route->expects($this->once())
+            ->method('getControllerNamespace')
+            ->will($this->returnValue('SprayFire.Controller.FireController'));
+        $Route->expects($this->once())
+              ->method('getControllerClass')
+              ->will($this->returnValue('Pages'));
+        $Route->expects($this->once())
+              ->method('getAction')
+              ->will($this->returnValue('index_yo_dog'));
+        $Strategy = $this->getMock('\SprayFire\Http\Routing\MatchStrategy');
+        $Strategy->expects($this->once())
+                 ->method('getRouteAndParameters')
+                 ->with($Bag, $Request)
+                 ->will($this->returnValue(array('Route' => $Route, 'parameters' => array())));
+
+        $Normalizer = $this->getMock('\SprayFire\Http\Routing\FireRouting\Normalizer');
+        $Normalizer->expects($this->never())
+                   ->method('normalizeController');
+        $Normalizer->expects($this->once())
+                   ->method('normalizeAction')
+                   ->with('index_yo_dog')
+                   ->will($this->returnValue('indexYoDog'));
+        $Router = new FireRouting\Router($Strategy, $Bag, $Normalizer);
+        $RoutedRequest = $Router->getRoutedRequest($Request);
+
+        $this->assertSame('SprayFire.Controller.FireController.Pages', $RoutedRequest->getController());
+        $this->assertSame('indexYoDog', $RoutedRequest->getAction());
+    }
+
 
 }

@@ -45,7 +45,11 @@ $getEnvironmentConfig = function() use($Paths) {
 };
 
 $getRouteBag = function() use ($Paths) {
-    return include $Paths->getConfigPath('SprayFire', 'routes.php');
+    $Bag = include $Paths->getConfigPath('SprayFire', 'routes.php');
+    if (!$Bag instanceof \SprayFire\Http\Routing\RouteBag) {
+        $Bag = new FireRouting\RouteBag();
+    }
+    return $Bag;
 };
 
 /**
@@ -70,9 +74,10 @@ $Uri = new FireHttp\Uri();
 $Headers = new FireHttp\RequestHeaders();
 $Request = new FireHttp\Request($Uri, $Headers);
 
+$Strategy = new FireRouting\ConfigurationMatchStrategy(\basename($Paths->getInstallPath()));
 $RouteBag = $getRouteBag();
 $Normalizer = new FireRouting\Normalizer();
-$Router = new FireRouting\Router($RouteBag, $Normalizer, \basename($Paths->getInstallPath()));
+$Router = new FireRouting\Router($Strategy, $RouteBag, $Normalizer);
 $RoutedRequest = $Router->getRoutedRequest($Request);
 
 $CallbackStorage = new FireMediator\CallbackStorage();
