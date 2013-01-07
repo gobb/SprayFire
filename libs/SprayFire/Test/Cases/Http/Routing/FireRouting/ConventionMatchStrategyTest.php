@@ -134,6 +134,9 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
         $this->assertSame('action', $Route->getAction());
     }
 
+    /**
+     * Ensures that if parameters are present after the action they are properly returned.
+     */
     public function testEnsureGettingMultipleParametersIfPresent() {
         $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
         $Uri = $this->getMock('\SprayFire\Http\Uri');
@@ -157,5 +160,35 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
         $this->assertSame('controller', $Route->getControllerClass());
         $this->assertSame('action', $Route->getAction());
     }
+
+    /**
+     * Ensures that named parameters are properly parsed and returned as associative
+     * keys.
+     */
+    public function testEnsureGettingMultipleNamedParameters() {
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Uri = $this->getMock('\SprayFire\Http\Uri');
+        $Uri->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('/controller/action/category:php/title:some-slug/'));
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Request->expects($this->once())
+                ->method('getUri')
+                ->will($this->returnValue($Uri));
+
+        $Strategy = new FireRouting\ConventionMatchStrategy();
+        $data = $Strategy->getRouteAndParameters($Bag, $Request);
+        /** @var \SprayFire\Http\Routing\Route $Route */
+        $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
+        $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
+
+        $this->assertSame($parameters, array('category' => 'php', 'title' => 'some-slug'));
+        $this->assertSame('/controller/action/category:php/title:some-slug/', $Route->getPattern());
+        $this->assertSame('SprayFire.Controller.FireController', $Route->getControllerNamespace());
+        $this->assertSame('controller', $Route->getControllerClass());
+        $this->assertSame('action', $Route->getAction());
+    }
+
+    
 
 }
