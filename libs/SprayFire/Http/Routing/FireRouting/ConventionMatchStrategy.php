@@ -123,27 +123,61 @@ class ConventionMatchStrategy extends MatchStrategy {
      * @param string $path
      * @return array
      */
-    public function parsePath($path)  {
-        $path = \trim($path, '/ ');
-        $fragments = \explode('/', $path);
-        $controller = \array_shift($fragments);
+    protected function parsePath($path)  {
+        $controller = $this->options['controller'];
         $action = $this->options['action'];
         $parameters = array();
-        if (!empty($fragments)) {
-            $action = \array_shift($fragments);
-            if (!empty($fragments)) {
-                foreach ($fragments as $param) {
-                    $paramParts = \explode(':', $param);
-                    if (\count($paramParts) === 1) {
-                        $parameters[] = $param;
-                        continue;
-                    }
 
-                    $parameters[(string) $paramParts[0]] = $paramParts[1];
+        $path = \trim($path, '/ ');
+        $fragments = \explode('/', $path);
+        if ($this->isMarkedParameter($fragments[0])) {
+            $parameters = $this->parseParameters($fragments);
+        } else {
+            $controller = \array_shift($fragments);
+            if (!empty($fragments)) {
+                $action = \array_shift($fragments);
+                if (!empty($fragments)) {
+                    $parameters = $this->parseParameters($fragments);
                 }
             }
         }
+
         return \compact('controller', 'action', 'parameters');
+    }
+
+    /**
+     * Determines whether the $param is a marked parameter by checking that the
+     * parameter separator, ':', is present in the string.
+     *
+     * @param string $param
+     * @return boolean
+     */
+    protected function isMarkedParameter($param) {
+        return (\strpos($param, ':') !== false);
+    }
+
+    /**
+     * Will parse a numeric-indexed array into an array of fragments that are
+     * to be considered parameters.
+     *
+     * The parsing will take into account whether each parameter is a marked parameter
+     * or not and whether that parameter should be considered a named parameter.
+     *
+     * @param array $params
+     * @return array
+     */
+    protected function parseParameters(array $params) {
+        $parsedParams = array();
+        foreach ($params as $param) {
+            if (!$this->isMarkedParameter($param)) {
+                $parsedParams[] = $param;
+                continue;
+            }
+            $parts = \explode(':', $param);
+            $parsedParams[(string) $parts[0]] = $parts[1];
+        }
+
+        return $parsedParams;
     }
 
 }
