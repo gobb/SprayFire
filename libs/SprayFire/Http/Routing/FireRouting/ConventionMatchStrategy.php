@@ -135,9 +135,13 @@ class ConventionMatchStrategy extends MatchStrategy {
         } else {
             $controller = \array_shift($fragments);
             if (!empty($fragments)) {
-                $action = \array_shift($fragments);
-                if (!empty($fragments)) {
+                if ($this->isMarkedParameter($fragments[0])) {
                     $parameters = $this->parseParameters($fragments);
+                } else {
+                    $action = \array_shift($fragments);
+                    if (!empty($fragments)) {
+                        $parameters = $this->parseParameters($fragments);
+                    }
                 }
             }
         }
