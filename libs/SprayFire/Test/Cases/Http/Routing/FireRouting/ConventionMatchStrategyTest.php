@@ -190,9 +190,8 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
     }
 
     /**
-     * Ensures that named parameters marked before the normal controller and action
-     * fragments are properly parsed as parameters for the default controller and
-     * action.
+     * Ensures that named parameters marked before the normal controller fragment
+     * are properly parsed as parameters.
      */
     public function testGettingMarkedParametersAsFirstFragment() {
         $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
@@ -215,6 +214,30 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
         $this->assertSame('/title:some-title/', $Route->getPattern());
         $this->assertSame('SprayFire.Controller.FireController', $Route->getControllerNamespace());
         $this->assertSame('Pages', $Route->getControllerClass());
+        $this->assertSame('index', $Route->getAction());
+    }
+
+    public function testGettingMarkedParametersAsSecondFragment() {
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Uri = $this->getMock('\SprayFire\Http\Uri');
+        $Uri->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('/controller/title:some-title/'));
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Request->expects($this->once())
+            ->method('getUri')
+            ->will($this->returnValue($Uri));
+
+        $Strategy = new FireRouting\ConventionMatchStrategy();
+        $data = $Strategy->getRouteAndParameters($Bag, $Request);
+        /** @var \SprayFire\Http\Routing\Route $Route */
+        $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
+        $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
+
+        $this->assertSame($parameters, array('title' => 'some-title'));
+        $this->assertSame('/controller/title:some-title/', $Route->getPattern());
+        $this->assertSame('SprayFire.Controller.FireController', $Route->getControllerNamespace());
+        $this->assertSame('controller', $Route->getControllerClass());
         $this->assertSame('index', $Route->getAction());
     }
 
