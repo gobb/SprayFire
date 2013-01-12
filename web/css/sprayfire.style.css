@@ -56,25 +56,17 @@ p {
 }
 
 #main-content {
-    width: 70%;
-    float: left;
-}
-
-#sidebar {
-    width: 28%;
-    float: right;
+    width: 100%;
 }
 
 #sprayfire-logo {
     margin-right: .75em;
 }
 
-#welcome-panels, #welcome-panels > div {
-    float: left;
-}
-
-#welcome-panels > div {
-    margin-left: .5em;
+#welcome-panels {
+    width: 95%;
+    margin: 0 auto;
+    overflow: auto;
 }
 
 #welcome-panels > div:first-child {
@@ -85,7 +77,8 @@ p {
     padding: 5px;
     border-radius: 4px;
     -moz-border-radius: 4px;
-    border: 2px solid rgb(240, 141, 51);
+    overflow: auto;
+    clear: both;
 }
 
 #the-team h2 {
@@ -96,8 +89,10 @@ p {
 
 #the-team > .team-member {
     overflow: auto;
-    clear: both;
     margin-bottom: 1em;
+    float: left;
+    width: 48%;
+    margin-left: 1em;
 }
 
 #the-team > .team-member .bio {
@@ -106,17 +101,17 @@ p {
 
 #the-team > .team-member .social-networking {
     margin-top: .5em;
-    height: 32px;
+    overflow: auto;
+    height: 34px;
     font-size: 32px;
     clear: both;
 }
 
-#the-team > .team-member .social-networking > a {
-    color: #686868;
+#the-team > .team-member .social-networking a {
+    margin-right: .1em;
 }
 
 #the-team > .team-member .social-networking a:hover {
-    color: black;
     text-decoration: none;
 }
 
@@ -136,23 +131,17 @@ p {
 
 
 
-.sprayfire-orange {
-    color: rgb(240, 141, 51);
-}
-
-.sprayfire-red {
-    color: rgb(187, 49, 39);
-}
-
 .icon > a, .icon > a:hover {
-    color: black;
     text-decoration: none;
 }
 
 .welcome-panel {
-    width: 28%;
+    width: 30%;
     margin-right: .5em;
     padding: .5em;
+    border: 2px solid rgb(240, 141, 51);
+    float: left;
+    margin-left: .5em;
 }
 
 .welcome-panel > .icon {
@@ -161,6 +150,11 @@ p {
 
 .welcome-panel > .summary {
     margin-top: .5em;
+    font-size: 18px;
+}
+
+.welcome-panel .btn-large {
+    font-size: 20px;
 }
 
 .sanity-success {
@@ -186,4 +180,36 @@ p {
     -moz-border-radius: 10px;
     overflow: auto;
     font-size: 1.25em;
+}
+
+.sprayfire-orange {
+    color: rgb(240, 141, 51);
+}
+
+.sprayfire-red {
+    color: rgb(187, 49, 39);
+}
+
+.doc-brown {
+    color: rgb(139, 69, 19);
+}
+
+.facebook-blue {
+    color: rgb(59, 89, 152);
+}
+
+.twitter-blue {
+    color: rgb(22, 154, 232);
+}
+
+.google-plus-red {
+    color: rgb(159, 28, 28);
+}
+
+.github-gray {
+    color: rgb(57, 57, 57);
+}
+
+.untappd-yellow {
+    color: rgb(229, 161, 9);
 }
