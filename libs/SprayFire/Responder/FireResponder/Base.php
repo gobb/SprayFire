@@ -22,6 +22,16 @@ use \SprayFire\Responder as SFResponder,
 abstract class Base extends FireService\Consumer implements SFResponder\Responder {
 
     /**
+     * Provides functionality to SprayFire.Service.FireService.Consumer implementation.
+     *
+     * @property array
+     */
+    protected $services = array(
+        'Paths' => 'SprayFire.FileSys.FireFileSys.Paths',
+        'Escaper' => 'SprayFire.Responder.FireResponder.OutputEscaper'
+    );
+
+    /**
      * Will get the appropriate data from the $Controller with the appropriate
      * contexts and return an array with that data escaped in that context.
      *
