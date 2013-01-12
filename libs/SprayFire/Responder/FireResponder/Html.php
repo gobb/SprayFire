@@ -52,7 +52,7 @@ class Html extends Base implements SFResponder\Responder {
             }
         }
 
-        echo $LayoutTemplate->getContent($data);
+        return $LayoutTemplate->getContent($data);
     }
 
     /**
