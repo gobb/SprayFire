@@ -123,7 +123,7 @@ class ConventionMatchStrategy extends MatchStrategy {
      * @param string $path
      * @return array
      */
-    protected function parsePath($path)  {
+    protected function parsePath($path) {
         $controller = $this->options['controller'];
         $action = $this->options['action'];
         $parameters = array();
@@ -178,7 +178,12 @@ class ConventionMatchStrategy extends MatchStrategy {
                 continue;
             }
             $parts = \explode(':', $param);
-            $parsedParams[(string) $parts[0]] = $parts[1];
+            if (empty($parts[0])) {
+                $parsedParams[] = $parts[1];
+            } else {
+                $parsedParams[(string) $parts[0]] = $parts[1];
+            }
+
         }
 
         return $parsedParams;
