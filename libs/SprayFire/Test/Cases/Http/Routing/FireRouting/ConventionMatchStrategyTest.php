@@ -273,4 +273,32 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
         $this->assertSame('action', $Route->getAction());
     }
 
+    /**
+     * Ensures that a mix of named and unnamed marked parameters are properly
+     * parsed.
+     */
+    public function testNamedAndUnnamedMarkedParameters() {
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Uri = $this->getMock('\SprayFire\Http\Uri');
+        $Uri->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('/controller/action/param:one/:param2/title:something/category:else/'));
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Request->expects($this->once())
+            ->method('getUri')
+            ->will($this->returnValue($Uri));
+
+        $Strategy = new FireRouting\ConventionMatchStrategy();
+        $data = $Strategy->getRouteAndParameters($Bag, $Request);
+        /** @var \SprayFire\Http\Routing\Route $Route */
+        $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
+        $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
+
+        $this->assertSame($parameters, array('param' => 'one', 'param2', 'title' => 'something', 'category' => 'else'));
+        $this->assertSame('/controller/action/param:one/:param2/title:something/category:else/', $Route->getPattern());
+        $this->assertSame('SprayFire.Controller.FireController', $Route->getControllerNamespace());
+        $this->assertSame('controller', $Route->getControllerClass());
+        $this->assertSame('action', $Route->getAction());
+    }
+
 }
