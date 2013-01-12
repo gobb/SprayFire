@@ -2,9 +2,10 @@
     <html>
         <head>
             <title>Welcome to SprayFire!</title>
-            <link href="<?php echo $Responder->Paths->getUrlPath('css', 'sprayfire.style.css'); ?>" rel="stylesheet" type="text/css" />
             <link href="<?php echo $Responder->Paths->getUrlPath('css', 'font-awesome.css'); ?>" rel="stylesheet" type="text/css" />
             <link href="<?php echo $Responder->Paths->getUrlPath('css', 'bootstrap.min.css'); ?>" rel="stylesheet" type="text/css" />
+            <link href="<?php echo $Responder->Paths->getUrlPath('css', 'sprayfire.style.css'); ?>" rel="stylesheet" type="text/css" />
+            <link href="<?php echo $Responder->Paths->getUrlPath('images', 'favicon.ico'); ?>" rel="icon" type="image/vnd.microsoft.icon" />
         </head>
         <body>
             <div id="content">
