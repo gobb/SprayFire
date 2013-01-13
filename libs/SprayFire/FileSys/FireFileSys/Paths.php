@@ -82,15 +82,23 @@ class Paths extends SFCoreObject implements SFFileSys\PathGenerator {
     protected $webPath;
 
     /**
+     * Determines whether or not the SprayFire installation is setup to use VirtualHosts.
+     *
+     * @property boolean
+     */
+    protected $virtualHost;
+
+    /**
      * @param \SprayFire\FileSys\FireFileSys\RootPaths
      */
-    public function __construct(RootPaths $RootPaths) {
+    public function __construct(RootPaths $RootPaths, $virtualHost = false) {
         $this->installPath = $RootPaths->install;
         $this->libsPath = $RootPaths->libs;
         $this->appPath = $RootPaths->app;
         $this->configPath = $RootPaths->config;
         $this->logsPath = $RootPaths->logs;
         $this->webPath = $RootPaths->web;
+        $this->virtualHost = (boolean) $virtualHost;
     }
 
     /**
@@ -144,8 +152,12 @@ class Paths extends SFCoreObject implements SFFileSys\PathGenerator {
      */
     public function getUrlPath() {
         $webRoot = \basename($this->getWebPath());
-        $installRoot = \basename($this->getInstallPath());
-        $urlPath = '/' . $installRoot . '/' . $webRoot;
+        if ($this->virtualHost) {
+            $urlPath = '/' . $webRoot;
+        } else {
+            $installRoot = \basename($this->getInstallPath());
+            $urlPath = '/' . $installRoot . '/' . $webRoot;
+        }
         $subDir = \func_get_args();
         if (\count($subDir) === 0) {
             return $urlPath;
