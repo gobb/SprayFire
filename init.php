@@ -27,15 +27,8 @@ $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 $ClassLoader->registerNamespaceDirectory('Zend', $libsPath);
 $ClassLoader->setAutoloader();
 
-$RootPaths = new FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
-$Paths = new FireFileSys\Paths($RootPaths);
-
-$JavaNameConverter = new SFUtils\JavaNamespaceConverter();
-$ReflectionCache = new SFUtils\ReflectionCache($JavaNameConverter);
-$Container = new FireService\Container($ReflectionCache);
-
-$getEnvironmentConfig = function() use($Paths) {
-    $path = $Paths->getConfigPath('SprayFire', 'environment.php');
+$getEnvironmentConfig = function() use($configPath) {
+    $path = $configPath . '/SprayFire/environment.php';
     $config = array();
     if (\file_exists($path)) {
         $config = (array) include $path;
@@ -43,6 +36,15 @@ $getEnvironmentConfig = function() use($Paths) {
 
     return new \SprayFire\EnvironmentConfig($config);
 };
+
+$EnvironmentConfig = $getEnvironmentConfig();
+
+$RootPaths = new FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
+$Paths = new FireFileSys\Paths($RootPaths, $EnvironmentConfig->useVirtualHost());
+
+$JavaNameConverter = new SFUtils\JavaNamespaceConverter();
+$ReflectionCache = new SFUtils\ReflectionCache($JavaNameConverter);
+$Container = new FireService\Container($ReflectionCache);
 
 $getRouteBag = function() use ($Paths) {
     $Bag = include $Paths->getConfigPath('SprayFire', 'routes.php');
@@ -58,8 +60,6 @@ $getRouteBag = function() use ($Paths) {
  * improves processing time and memory used.
  */
 
-$EnvironmentConfig = $getEnvironmentConfig();
-
 $EmergencyLogger = new FireLogging\SysLogLogger();
 $ErrorLogger = new FireLogging\ErrorLogLogger();
 $InfoLogger = new FireLogging\DevelopmentLogger();
@@ -74,7 +74,8 @@ $Uri = new FireHttp\Uri();
 $Headers = new FireHttp\RequestHeaders();
 $Request = new FireHttp\Request($Uri, $Headers);
 
-$Strategy = new FireRouting\ConfigurationMatchStrategy(\basename($Paths->getInstallPath()));
+$installDir = $EnvironmentConfig->useVirtualHost() ? null : \basename($Paths->getInstallPath());
+$Strategy = new FireRouting\ConfigurationMatchStrategy($installDir);
 $RouteBag = $getRouteBag();
 $Normalizer = new FireRouting\Normalizer();
 $Router = new FireRouting\Router($Strategy, $RouteBag, $Normalizer);

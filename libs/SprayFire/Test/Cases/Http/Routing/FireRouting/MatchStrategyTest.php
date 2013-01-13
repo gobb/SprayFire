@@ -29,7 +29,7 @@ class MatchStrategyTest extends PHPUnitTestCase {
      */
     public function testMatchStrategyReturningUnmanipulatedPath() {
         $Strategy = new MatchStrategyHelper();
-        $expected = '/some/test/';
+        $expected = 'some/test';
         $this->assertSame($expected, $Strategy->removeDirectory('/some/test/'));
     }
 
@@ -39,7 +39,7 @@ class MatchStrategyTest extends PHPUnitTestCase {
      */
     public function testMatchStrategyRemovingInstallDirectoryFromPath() {
         $Strategy = new MatchStrategyHelper('install');
-        $expected = '/another/test/for/this/';
+        $expected = 'another/test/for/this';
         $this->assertSame($expected, $Strategy->removeDirectory('install/another/test/for/this/'));
     }
 
@@ -49,19 +49,19 @@ class MatchStrategyTest extends PHPUnitTestCase {
      */
     public function testMatchStrategyRemovingInstallDirectoryFromPathWithSlashOnUri() {
         $Strategy = new MatchStrategyHelper('SprayFire');
-        $expected = '/framework/test/';
+        $expected = 'framework/test';
         $this->assertSame($expected, $Strategy->removeDirectory('/SprayFire/framework/test/'));
     }
 
     public function testMatchStrategyRemovingMultipleInstallDirectoryWithLeadingSlashOnDirectory() {
         $Strategy = new MatchStrategyHelper('/SprayFire/framework/');
-        $expected = '/test/';
+        $expected = 'test';
         $this->assertSame($expected, $Strategy->removeDirectory('/SprayFire/framework/test/'));
     }
 
     public function testMatchRootDirectoryWithInstallDirectory() {
         $Strategy = new MatchStrategyHelper('SprayFire');
-        $expected = '/';
+        $expected = '';
         $this->assertSame($expected, $Strategy->removeDirectory('/SprayFire'));
     }
 

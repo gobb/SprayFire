@@ -99,8 +99,9 @@ class ConventionMatchStrategy extends MatchStrategy {
      * @return array
      */
     public function getRouteAndParameters(SFHttpRouting\RouteBag $Bag, SFHttp\Request $Request) {
-        $path = $this->removeInstallDirectory($Request->getUri()->getPath());
-        if ($path === '/') {
+        $originalPath = $Request->getUri()->getPath();
+        $path = $this->removeInstallDirectory($originalPath);
+        if (empty($path)) {
             $Route = new Route('/', $this->options['namespace'], $this->options['controller'], $this->options['action']);
             return array(
                 self::ROUTE_KEY => $Route,
@@ -109,7 +110,7 @@ class ConventionMatchStrategy extends MatchStrategy {
         }
 
         $fragments = $this->parsePath($path);
-        $Route = new Route($path, $this->options['namespace'], $fragments['controller'], $fragments['action']);
+        $Route = new Route($originalPath, $this->options['namespace'], $fragments['controller'], $fragments['action']);
         return array(
             self::ROUTE_KEY => $Route,
             self::PARAMETER_KEY => $fragments['parameters']

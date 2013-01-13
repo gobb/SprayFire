@@ -38,12 +38,9 @@ abstract class MatchStrategy extends SFCoreObject implements SFHttpRouting\Match
      */
     protected function removeInstallDirectory($uriPath) {
         if (!empty($this->installDirectory)) {
-            $pattern = '#^' . \trim($this->installDirectory, '/ ') . '#';
-            $uriPath = \trim($uriPath, '/ ');
-            $path = \preg_replace($pattern, '', $uriPath);
-            return $path . '/';
+            $uriPath = \preg_replace('#^' . \trim($this->installDirectory, '/ ') . '#', '', \trim($uriPath, '/ '));
         }
-        return $uriPath;
+        return \trim($uriPath, '/');
     }
 
 }
