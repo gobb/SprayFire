@@ -293,7 +293,7 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
         $Uri = $this->getMock('\SprayFire\Http\Uri');
         $Uri->expects($this->once())
             ->method('getPath')
-            ->will($this->returnValue('/match'));
+            ->will($this->returnValue('match'));
         $Request = $this->getMock('\SprayFire\Http\Request');
         $Request->expects($this->once())
             ->method('getUri')
