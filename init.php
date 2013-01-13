@@ -80,9 +80,6 @@ $Normalizer = new FireRouting\Normalizer();
 $Router = new FireRouting\Router($Strategy, $RouteBag, $Normalizer);
 $RoutedRequest = $Router->getRoutedRequest($Request);
 
-\var_dump($Router);
-\var_dump($RoutedRequest);
-
 $CallbackStorage = new FireMediator\CallbackStorage();
 $EventRegistry = new FireMediator\EventRegistry($CallbackStorage);
 $Mediator = new FireMediator\Mediator($EventRegistry, $CallbackStorage);
