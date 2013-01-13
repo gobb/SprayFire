@@ -34,4 +34,13 @@ class PathsTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $actual);
     }
 
+    public function testUrlPathWithVirtualHost() {
+        $install = \SPRAYFIRE_ROOT . '/tests/mockframework';
+        $RootPaths = new RootPaths($install);
+        $Directory = new Paths($RootPaths, true);
+        $expected = '/web/css/main.css';
+        $actual = $Directory->getUrlPath('css', 'main.css');
+        $this->assertSame($expected, $actual);
+    }
+
 }

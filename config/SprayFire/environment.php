@@ -3,12 +3,13 @@
 use \SprayFire\Dispatcher as SFDispatcher;
 
 $developmentMode = true;
-
 $defaultCharset = 'UTF-8';
+$virtualHost = true;
 
 $environment = array(
     'developmentMode' => $developmentMode,
     'defaultCharset' => $defaultCharset,
+    'virtualHost' => $virtualHost,
     'registeredEvents' => array(
         SFDispatcher\Events::AFTER_CONTROLLER_INVOKED => '',
         SFDispatcher\Events::AFTER_RESPONSE_SENT => '',
