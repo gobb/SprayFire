@@ -1,7 +1,23 @@
+/**
+ * HTML elements
+ *
+ * Following rules apply to basic HTML elements with no other identifier to determine
+ * whether or not element matches rule.
+ */
+
 html {
     font-family: sans-serif;
     font-size: 100%;
     color: black;
+}
+
+body {
+    width: 1000px;
+    min-width: 1000px;
+    max-width: 1000px;
+    margin: 0 auto;
+    font-size: 1em;
+    line-height: 1.25em;
 }
 
 code {
@@ -18,14 +34,30 @@ a:hover {
     text-decoration: underline;
 }
 
-p {
-    line-height: 1.25em;
-}
+/**
+ * Colors
+ *
+ * HTML classes that allow organization and other specific colors to be specified.
+ * SprayFire provided colors are always provided in RGB format.
+ */
+.sprayfire-orange { color: rgb(240, 141, 51); }
+.sprayfire-red { color: rgb(187, 49, 39); }
+.doc-brown { color: rgb(139, 69, 19); }
+.facebook-blue { color: rgb(59, 89, 152); }
+.twitter-blue { color: rgb(22, 154, 232); }
+.google-plus-red { color: rgb(159, 28, 28); }
+.github-gray { color: rgb(57, 57, 57); }
+.untappd-yellow { color: rgb(229, 161, 9); }
+
+
+/**
+ * Default template layout
+ *
+ */
 
 #content {
-    margin: 0 auto;
     width: 95%;
-    font-size: 16px;
+    margin: 0 auto;
 }
 
 #header {
@@ -33,8 +65,8 @@ p {
     overflow: auto;
 }
 
-#main-header {
-    float: left;
+#sprayfire-logo {
+    margin-right: .75em;
 }
 
 #main-header h1 {
@@ -59,9 +91,9 @@ p {
     width: 100%;
 }
 
-#sprayfire-logo {
-    margin-right: .75em;
-}
+/**
+ *
+ */
 
 #welcome-panels {
     width: 95%;
@@ -69,8 +101,37 @@ p {
     overflow: auto;
 }
 
-#welcome-panels > div:first-child {
-    margin-left: 0;
+#welcome-panels > .welcome-panel:first-child { margin-left: 0; }
+#welcome-panels > .welcome-panel:last-child { margin-right: 0; }
+
+.welcome-panel {
+    width: 30%;
+    margin-right: .5em;
+    padding: .5em;
+    float: left;
+    margin-left: .5em;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+}
+
+.welcome-panel a {
+    font-size: 20px;
+}
+
+.welcome-panel i {
+    margin-right: .1em;
+    font-size: 24px;
+}
+
+.welcome-panel > div {
+    text-align: center;
+}
+
+
+
+.welcome-panel > .summary {
+    margin-top: .5em;
+    font-size: 18px;
 }
 
 #the-team {
@@ -82,9 +143,8 @@ p {
 }
 
 #the-team h2 {
-    border-bottom: 2px solid rgb(187, 49, 39);
-    margin-top: 0;
     margin-bottom: .5em;
+    border-bottom: 3px solid rgb(240, 141, 51);
 }
 
 #the-team > .team-member {
@@ -129,87 +189,12 @@ p {
     margin-bottom: .5em;
 }
 
-
+/**
+ * Vendor CSS overrides
+ *
+ *
+ */
 
 .icon > a, .icon > a:hover {
     text-decoration: none;
-}
-
-.welcome-panel {
-    width: 30%;
-    margin-right: .5em;
-    padding: .5em;
-    border: 2px solid rgb(240, 141, 51);
-    float: left;
-    margin-left: .5em;
-}
-
-.welcome-panel > .icon {
-    text-align: center;
-}
-
-.welcome-panel > .summary {
-    margin-top: .5em;
-    font-size: 18px;
-}
-
-.welcome-panel .btn-large {
-    font-size: 20px;
-}
-
-.sanity-success {
-    width: 95%;
-    margin: 0 auto;
-    border: 2px solid rgb(0, 255, 0);
-    background-color: rgba(0, 255, 0, .5);
-    padding: 5px;
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    overflow: auto;
-    font-size: 1.25em;
-}
-
-.sanity-failure {
-    width: 95%;
-    margin: 0 auto;
-    margin-bottom: .75em;
-    border: 2px solid rgb(255, 0, 0);
-    background-color: rgba(255, 0, 0, .3);
-    padding: 5px;
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    overflow: auto;
-    font-size: 1.25em;
-}
-
-.sprayfire-orange {
-    color: rgb(240, 141, 51);
-}
-
-.sprayfire-red {
-    color: rgb(187, 49, 39);
-}
-
-.doc-brown {
-    color: rgb(139, 69, 19);
-}
-
-.facebook-blue {
-    color: rgb(59, 89, 152);
-}
-
-.twitter-blue {
-    color: rgb(22, 154, 232);
-}
-
-.google-plus-red {
-    color: rgb(159, 28, 28);
-}
-
-.github-gray {
-    color: rgb(57, 57, 57);
-}
-
-.untappd-yellow {
-    color: rgb(229, 161, 9);
 }
