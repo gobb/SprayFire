@@ -11,7 +11,7 @@
             <div id="content">
                 <div id="header">
                     <div id="main-header">
-                        <h1><a href="/SprayFire"><img src="<?php echo $Responder->Paths->getUrlPath('images', 'sprayfire-logo-bar-75.png'); ?>" id="sprayfire-logo" alt="SprayFire logo" width="200" height="75" /></a> A PHP 5.3+ Framework</h1>
+                        <h1><a href="/"><img src="<?php echo $Responder->Paths->getUrlPath('images', 'sprayfire-logo-bar-75.png'); ?>" id="sprayfire-logo" alt="SprayFire logo" width="200" height="75" /></a> A PHP 5.3+ Framework</h1>
                     </div>
                 </div>
 
