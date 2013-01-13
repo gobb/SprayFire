@@ -74,7 +74,8 @@ $Uri = new FireHttp\Uri();
 $Headers = new FireHttp\RequestHeaders();
 $Request = new FireHttp\Request($Uri, $Headers);
 
-$Strategy = new FireRouting\ConfigurationMatchStrategy();
+$installDir = $EnvironmentConfig->useVirtualHost() ? null : \basename($Paths->getInstallPath());
+$Strategy = new FireRouting\ConfigurationMatchStrategy($installDir);
 $RouteBag = $getRouteBag();
 $Normalizer = new FireRouting\Normalizer();
 $Router = new FireRouting\Router($Strategy, $RouteBag, $Normalizer);
