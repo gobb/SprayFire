@@ -35,9 +35,8 @@ class Pages extends Base {
      */
     public function beforeAction(SFMediator\Event $Event) {
         parent::beforeAction($Event);
-        $layoutName = 'layoutTemplate';
         $layoutFilePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
-        $LayoutTemplate = new FireTemplate\FileTemplate($layoutName, $layoutFilePath);
+        $LayoutTemplate = new FireTemplate\FileTemplate('layoutTemplate', $layoutFilePath);
         $this->TemplateManager->setLayoutTemplate($LayoutTemplate);
     }
 
@@ -47,14 +46,12 @@ class Pages extends Base {
      * content.
      */
     public function index() {
-        $templateName = 'templateContent';
         $templateFilePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'index.php');
-        $ContentTemplate = new FireTemplate\FileTemplate($templateName, $templateFilePath);
+        $ContentTemplate = new FireTemplate\FileTemplate('templateContent', $templateFilePath);
         $this->TemplateManager->addContentTemplate($ContentTemplate);
 
-        $sidebarTemplateName = 'sidebarContent';
         $sidebarTemplateFilePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'sidebar.php');
-        $SidebarTemplate = new FireTemplate\FileTemplate($sidebarTemplateName, $sidebarTemplateFilePath);
+        $SidebarTemplate = new FireTemplate\FileTemplate('sidebarContent', $sidebarTemplateFilePath);
         $this->TemplateManager->addContentTemplate($SidebarTemplate);
 
         $csprayGravatarHash = '0fd2816e78f6a04d5f8ce0aba1cb42e6';
