@@ -15,12 +15,22 @@ namespace SprayFire\Session;
 use \SprayFire\Object as SFObject;
 
 /**
- *
- *
  * @package SprayFire
  * @subpackage Session
  */
 interface Manager extends SFObject {
+
+    /**
+     * Constant passed to Manager::regenerateId if data associated to the previous
+     * session ID should be destroyed.
+     */
+    const DELETE_SESSION_DATA = true;
+
+    /**
+     * Constant passed to Manager::regenerateId if data associated to the previous
+     * session ID should not be destroyed and associated to the newly created ID.
+     */
+    const KEEP_SESSION_DATA = false;
 
     /**
      * Call when the session should be started, makes available the $_SESSION
@@ -66,7 +76,8 @@ interface Manager extends SFObject {
     public function writeClose();
 
     /**
-     *
+     * Manually set the session ID to a specific value, return the previous ID for
+     * the session.
      *
      * @param string $id
      * @return string
@@ -74,17 +85,21 @@ interface Manager extends SFObject {
     public function setId($id);
 
     /**
-     * @return string
+     * Retrieves the current ID for the given session or null if no session has
+     * been started.
+     *
+     * @return string|null
      */
     public function getId();
 
     /**
-     *
+     * Create a new session ID, optionally deleting the data associated to the
+     * previous session ID.
      *
      * @param boolean $deleteOldSession
      * @return boolean
      */
-    public function regenerateId($deleteOldSession = true);
+    public function regenerateId($deleteOldSession = self::KEEP_SESSION_DATA);
 
     /**
      * Return the name of the session, this is used in session cookies and when
@@ -104,7 +119,5 @@ interface Manager extends SFObject {
      * @return string
      */
     public function setSessionName($name);
-
-
 
 }

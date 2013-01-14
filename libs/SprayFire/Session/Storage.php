@@ -17,8 +17,6 @@ use \SprayFire\Object as SFObject,
     \Traversable as Traversable;
 
 /**
- *
- *
  * @package SprayFire
  * @subpackage Session
  */

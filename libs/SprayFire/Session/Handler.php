@@ -15,10 +15,11 @@ use \SprayFire\Object as SFObject;
 
 /**
  * Implementations of this interface would replace the default session handling
- * provided by PHP ext/session.
+ * persistence provided by PHP ext/session.
  *
  * The primary use case for implementing this interface would be to store session
- * data outside of the normal storage, for example in a database.
+ * data outside of the normal storage, for example in a database or a custom file
+ * based session storage.
  *
  * @package SprayFire
  * @subpackage Session
@@ -86,6 +87,9 @@ interface Handler extends SFObject {
      * The $sessionData is passed in a session serializable format. When data is read
      * for $sessionId it must be returned in the same format that it was passed to
      * Handler::write.
+     *
+     * Note that the format for the serialization is not the same as the serialize
+     * and unserialize functions. Please ensure that you have
      *
      * @param string $sessionId
      * @param string $sessionData
