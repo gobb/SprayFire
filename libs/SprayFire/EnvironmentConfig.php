@@ -19,6 +19,11 @@ use \SprayFire\Dispatcher as SFDispatcher,
 class EnvironmentConfig extends SFCoreObject {
 
     /**
+     * The current version of the framework.
+     */
+    const VERSION = '0.1.0alpha';
+
+    /**
      * Default environment config if none are provided at time of construction.
      *
      * @property array
