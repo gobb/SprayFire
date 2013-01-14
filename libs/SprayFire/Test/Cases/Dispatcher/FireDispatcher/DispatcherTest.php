@@ -28,23 +28,17 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $parameters = array();
         $responderName = 'SprayFire.Responder.FireResponder.Html';
 
-        $MockRoutedRequest = $this->getMockRoutedRequest($controller, $action, $parameters);
-        $MockRouter = $this->getMockRouter($MockRoutedRequest);
-        $MockMediator = $this->getMock('\\SprayFire\\Mediator\\Mediator');
-        $MockController = $this->getMockController($action, $responderName, array($action));
-        $MockControllerFactory = $this->getMockControllerFactory($MockController, $controller);
-        $MockResponder = $this->getMockResponder($MockController, '<div>SprayFire</div>');
-        $MockResponderFactory = $this->getMockResponderFactory($MockResponder, $responderName);
+        $RoutedRequest = $this->getMockRoutedRequest($controller, $action, $parameters);
+        $Mediator = $this->getMock('\\SprayFire\\Mediator\\Mediator');
+        $Controller = $this->getMockController($action, $responderName, array($action));
+        $ControllerFactory = $this->getMockControllerFactory($Controller, $controller);
+        $Responder = $this->getMockResponder($Controller, '<div>SprayFire</div>');
+        $ResponderFactory = $this->getMockResponderFactory($Responder, $responderName);
 
-        $Dispatcher = new FireDispatcher\Dispatcher(
-            $MockRouter,
-            $MockMediator,
-            $MockControllerFactory,
-            $MockResponderFactory
-        );
+        $Dispatcher = new FireDispatcher\Dispatcher($Mediator, $ControllerFactory, $ResponderFactory);
 
         \ob_start();
-        $Dispatcher->dispatchResponse($this->getRequest(''));
+        $Dispatcher->dispatchResponse($RoutedRequest);
         $response = \ob_get_contents();
         \ob_end_clean();
         $expected = '<div>SprayFire</div>';
@@ -56,61 +50,41 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $action = 'indexYoDog';
         $parameters = array();
         $responderName = 'SprayFire.Responder.FireResponder.Html';
-
-        $Request = $this->getRequest('');
-
-
-        $MockRoutedRequest = $this->getMockRoutedRequest($controller, $action, $parameters);
-        $MockRoutedRequest->expects($this->once())
+        
+        $RoutedRequest = $this->getMockRoutedRequest($controller, $action, $parameters);
+        $RoutedRequest->expects($this->once())
                           ->method('getController')
                           ->will($this->returnValue('SprayFire.Test.Helpers.Controller.TestPages'));
-        $MockRoutedRequest->expects($this->exactly(2))
+        $RoutedRequest->expects($this->exactly(2))
                           ->method('getAction')
                           ->will($this->returnValue('indexYoDog'));
 
-        $MockRouter = $this->getMockRouter($MockRoutedRequest);
-        $MockRouter->expects($this->once())
-                   ->method('getRoutedRequest')
-                   ->with($Request)
-                   ->will($this->returnValue($MockRoutedRequest));
+        $Controller = $this->getMockController($action, $responderName, array($action));
+        $Responder = $this->getMockResponder($Controller, '<div>SprayFire</div>');
 
-        $MockController = $this->getMockController($action, $responderName, array($action));
-        $MockResponder = $this->getMockResponder($MockController, '<div>SprayFire</div>');
-
-        $MockMediator = $this->getMock('\\SprayFire\\Mediator\\Mediator');
-        $MockMediator->expects($this->exactly(6))
+        $Mediator = $this->getMock('\\SprayFire\\Mediator\\Mediator');
+        $Mediator->expects($this->exactly(4))
                      ->method('triggerEvent');
-        $MockMediator->expects($this->at(0))
+        $Mediator->expects($this->at(2))
                      ->method('triggerEvent')
-                     ->with(SFDispatcher\Events::BEFORE_ROUTING, $Request);
-        $MockMediator->expects($this->at(1))
+                     ->with(SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED, $Controller);
+        $Mediator->expects($this->at(3))
                      ->method('triggerEvent')
-                     ->with(SFDispatcher\Events::AFTER_ROUTING, $MockRoutedRequest);
-        $MockMediator->expects($this->at(4))
+                     ->with(SFDispatcher\Events::AFTER_CONTROLLER_INVOKED, $Controller);
+        $Mediator->expects($this->at(4))
                      ->method('triggerEvent')
-                     ->with(SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED, $MockController);
-        $MockMediator->expects($this->at(5))
+                     ->with(SFDispatcher\Events::BEFORE_RESPONSE_SENT, $Responder);
+        $Mediator->expects($this->at(5))
                      ->method('triggerEvent')
-                     ->with(SFDispatcher\Events::AFTER_CONTROLLER_INVOKED, $MockController);
-        $MockMediator->expects($this->at(6))
-                     ->method('triggerEvent')
-                     ->with(SFDispatcher\Events::BEFORE_RESPONSE_SENT, $MockResponder);
-        $MockMediator->expects($this->at(7))
-                     ->method('triggerEvent')
-                     ->with(SFDispatcher\Events::AFTER_RESPONSE_SENT, $MockResponder);
+                     ->with(SFDispatcher\Events::AFTER_RESPONSE_SENT, $Responder);
 
-        $MockControllerFactory = $this->getMockControllerFactory($MockController, $controller);
-        $MockResponderFactory = $this->getMockResponderFactory($MockResponder, $responderName);
+        $ControllerFactory = $this->getMockControllerFactory($Controller, $controller);
+        $ResponderFactory = $this->getMockResponderFactory($Responder, $responderName);
 
-        $Dispatcher = new FireDispatcher\Dispatcher(
-            $MockRouter,
-            $MockMediator,
-            $MockControllerFactory,
-            $MockResponderFactory
-        );
+        $Dispatcher = new FireDispatcher\Dispatcher($Mediator, $ControllerFactory, $ResponderFactory);
 
         \ob_start();
-        $Dispatcher->dispatchResponse($Request);
+        $Dispatcher->dispatchResponse($RoutedRequest);
         $response = \ob_get_contents();
         \ob_end_clean();
         $expected = '<div>SprayFire</div>';
@@ -123,36 +97,30 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $parameters = array();
         $responderName = 'SprayFire.Responder.FireResponder.Html';
 
-        $MockRoutedRequest = $this->getMockRoutedRequest($controller, $action, $parameters);
-        $MockRouter = $this->getMockRouter($MockRoutedRequest);
-        $MockMediator = $this->getMock('\\SprayFire\\Test\\Cases\\Dispatcher\\FireDispatcher\\DispatcherCallbackMediator',
+        $RoutedRequest = $this->getMockRoutedRequest($controller, $action, $parameters);
+        $Mediator = $this->getMock('\\SprayFire\\Test\\Cases\\Dispatcher\\FireDispatcher\\DispatcherCallbackMediator',
                                        array(
                                             'triggerEvent',
                                             'removeCallback'
                                        ));
-        $MockController = $this->getMockController($action, $responderName, array($action));
-        $MockControllerFactory = $this->getMockControllerFactory($MockController, $controller);
-        $MockResponder = $this->getMockResponder($MockController, '<div>SprayFire</div>');
-        $MockResponderFactory = $this->getMockResponderFactory($MockResponder, $responderName);
+        $Controller = $this->getMockController($action, $responderName, array($action));
+        $ControllerFactory = $this->getMockControllerFactory($Controller, $controller);
+        $Responder = $this->getMockResponder($Controller, '<div>SprayFire</div>');
+        $ResponderFactory = $this->getMockResponderFactory($Responder, $responderName);
 
-        $Dispatcher = new FireDispatcher\Dispatcher(
-            $MockRouter,
-            $MockMediator,
-            $MockControllerFactory,
-            $MockResponderFactory
-        );
+        $Dispatcher = new FireDispatcher\Dispatcher($Mediator, $ControllerFactory, $ResponderFactory);
 
         \ob_start();
-        $Dispatcher->dispatchResponse($this->getRequest(''));
+        $Dispatcher->dispatchResponse($RoutedRequest);
         $response = \ob_get_contents();
         \ob_end_clean();
         $expected = '<div>SprayFire</div>';
         $this->assertSame($expected, $response);
 
-        $BeforeControllerCallback = $MockMediator->getCallbacks(\SprayFire\Dispatcher\Events::BEFORE_CONTROLLER_INVOKED);
+        $BeforeControllerCallback = $Mediator->getCallbacks(\SprayFire\Dispatcher\Events::BEFORE_CONTROLLER_INVOKED);
         $this->assertInstanceOf('\SprayFire\Mediator\Callback', $BeforeControllerCallback);
         $FunctionValue = $this->getFunctionPropertyValue($BeforeControllerCallback);
-        $this->assertSame(array($MockController, 'beforeAction'), $FunctionValue);
+        $this->assertSame(array($Controller, 'beforeAction'), $FunctionValue);
     }
 
     public function testAddingControllerAfterActionCallbackToMediator() {
@@ -161,54 +129,46 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
         $parameters = array();
         $responderName = 'SprayFire.Responder.FireResponder.Html';
 
-        $MockRoutedRequest = $this->getMockRoutedRequest($controller, $action, $parameters);
-        $MockRouter = $this->getMockRouter($MockRoutedRequest);
-        $MockMediator = $this->getMock('\\SprayFire\\Test\\Cases\\Dispatcher\\FireDispatcher\\DispatcherCallbackMediator',
+        $RoutedRequest = $this->getMockRoutedRequest($controller, $action, $parameters);
+        $Mediator = $this->getMock('\\SprayFire\\Test\\Cases\\Dispatcher\\FireDispatcher\\DispatcherCallbackMediator',
                                        array(
                                             'triggerEvent',
                                             'removeCallback'
                                        ));
-        $MockController = $this->getMockController($action, $responderName, array($action));
-        $MockControllerFactory = $this->getMockControllerFactory($MockController, $controller);
-        $MockResponder = $this->getMockResponder($MockController, '<div>SprayFire</div>');
-        $MockResponderFactory = $this->getMockResponderFactory($MockResponder, $responderName);
+        $Controller = $this->getMockController($action, $responderName, array($action));
+        $ControllerFactory = $this->getMockControllerFactory($Controller, $controller);
+        $Responder = $this->getMockResponder($Controller, '<div>SprayFire</div>');
+        $ResponderFactory = $this->getMockResponderFactory($Responder, $responderName);
 
-        $Dispatcher = new FireDispatcher\Dispatcher(
-            $MockRouter,
-            $MockMediator,
-            $MockControllerFactory,
-            $MockResponderFactory
-        );
+        $Dispatcher = new FireDispatcher\Dispatcher($Mediator, $ControllerFactory, $ResponderFactory);
 
         \ob_start();
-        $Dispatcher->dispatchResponse($this->getRequest(''));
+        $Dispatcher->dispatchResponse($RoutedRequest);
         $response = \ob_get_contents();
         \ob_end_clean();
         $expected = '<div>SprayFire</div>';
         $this->assertSame($expected, $response);
 
-        $AfterControllerCallback = $MockMediator->getCallbacks(\SprayFire\Dispatcher\Events::AFTER_CONTROLLER_INVOKED);
+        $AfterControllerCallback = $Mediator->getCallbacks(\SprayFire\Dispatcher\Events::AFTER_CONTROLLER_INVOKED);
         $this->assertInstanceOf('\SprayFire\Mediator\Callback', $AfterControllerCallback);
         $FunctionValue = $this->getFunctionPropertyValue($AfterControllerCallback);
-        $this->assertSame(array($MockController, 'afterAction'), $FunctionValue);
+        $this->assertSame(array($Controller, 'afterAction'), $FunctionValue);
     }
 
     public function testThrowingRightExceptionWhenControllerDoesNotHaveAction() {
         $controller = 'SprayFire.Test.Helpers.Controller.TestPages';
         $action = 'doesNotExist';
         $parameters = array();
-        $responderName = 'SprayFire.Responder.FireResponder.Html';
 
         $RoutedRequest = $this->getMockRoutedRequest($controller, $action, $parameters, 1, 0);
-        $Router = $this->getMockRouter($RoutedRequest);
         $Mediator = $this->getMock('\SprayFire\Mediator\Mediator');
         $Controller = $this->getMock('\SprayFire\Controller\Controller');
         $ControllerFactory = $this->getMockControllerFactory($Controller, $controller);
         $ResponderFactory = $this->getMock('\SprayFire\Factory\Factory');
 
-        $Dispatcher = new FireDispatcher\Dispatcher($Router, $Mediator, $ControllerFactory, $ResponderFactory);
+        $Dispatcher = new FireDispatcher\Dispatcher($Mediator, $ControllerFactory, $ResponderFactory);
         $this->setExpectedException('\SprayFire\Dispatcher\Exception\ActionNotFound');
-        $Dispatcher->dispatchResponse($this->getRequest(''));
+        $Dispatcher->dispatchResponse($RoutedRequest);
     }
 
     protected function getFunctionPropertyValue(SFMediator\Callback $Callback) {
@@ -311,21 +271,6 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
                           ->method('getParameters')
                           ->will($this->returnValue($parameters));
         return $MockRoutedRequest;
-    }
-
-    protected function getMockRouter(SFRouting\RoutedRequest $MockRoutedRequest) {
-        $MockRouter = $this->getMock('\\SprayFire\\Http\\Routing\\Router');
-        $MockRouter->expects($this->once())->method('getRoutedRequest')->will($this->returnValue($MockRoutedRequest));
-        return $MockRouter;
-    }
-
-    protected function getRequest($uri) {
-        $_server = array();
-        $_server['REQUEST_URI'] = $uri;
-        $Uri = new \SprayFire\Http\FireHttp\Uri($_server);
-        $Headers = new \SprayFire\Http\FireHttp\RequestHeaders();
-        $Request = new \SprayFire\Http\FireHttp\Request($Uri, $Headers);
-        return $Request;
     }
 
 }
