@@ -39,12 +39,12 @@ interface Request extends SFObject {
     const METHOD_TRACE = 'TRACE';
 
     /**
-     * @return SprayFire.Http.Uri
+     * @return \SprayFire\Http\Uri
      */
     public function getUri();
 
     /**
-     * @return SprayFire.Http.RequestHeaders
+     * @return \SprayFire\Http\RequestHeaders
      */
     public function getHeaders();
 

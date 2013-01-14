@@ -19,6 +19,11 @@ use \SprayFire\Dispatcher as SFDispatcher,
 class EnvironmentConfig extends SFCoreObject {
 
     /**
+     * The current version of the framework.
+     */
+    const VERSION = '0.1.0alpha';
+
+    /**
      * Default environment config if none are provided at time of construction.
      *
      * @property array
@@ -33,7 +38,8 @@ class EnvironmentConfig extends SFCoreObject {
             SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED => '',
             SFDispatcher\Events::BEFORE_RESPONSE_SENT => '',
             SFDispatcher\Events::BEFORE_ROUTING => ''
-        )
+        ),
+        'virtualHost' => true
     );
 
     /**
@@ -69,6 +75,13 @@ class EnvironmentConfig extends SFCoreObject {
      */
     public function isDevelopmentMode() {
         return (boolean) $this->options['developmentMode'];
+    }
+
+    /**
+     * @return boolean
+     */
+    public function useVirtualHost() {
+        return (boolean) $this->options['virtualHost'];
     }
 
 }

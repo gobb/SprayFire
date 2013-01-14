@@ -12,7 +12,7 @@
 
 namespace SprayFire\Http\Routing\FireRouting;
 
-use \SprayFire\Http\Routing as SFRouting,
+use \SprayFire\Http\Routing as SFHttpRouting,
     \SprayFire\CoreObject as SFCoreObject;
 
 /**
@@ -30,7 +30,7 @@ use \SprayFire\Http\Routing as SFRouting,
  * @package SprayFire
  * @subpackage Http.Routing.FireRouting
  */
-class RoutedRequest extends SFCoreObject implements SFRouting\RoutedRequest {
+class RoutedRequest extends SFCoreObject implements SFHttpRouting\RoutedRequest {
 
     /**
      * @property string

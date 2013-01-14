@@ -22,12 +22,6 @@ use \SprayFire\Responder as SFResponder,
  *
  * @property \SprayFire\FileSys\FireFileSys\Paths $Paths
  * @property \SprayFire\Responder\FireResponder\OutputEscaper $Escaper
- *
- * @todo
- * We should take a look at abstracting out the services aspect of this into a
- * base Responder that should be available to all SprayFire.Responder.Responder
- * implementations.
- *
  */
 class Html extends Base implements SFResponder\Responder {
 
@@ -38,15 +32,7 @@ class Html extends Base implements SFResponder\Responder {
      */
     protected $response = '';
 
-    /**
-     * Provides functionality to SprayFire.Service.FireService.Consumer implementation.
-     *
-     * @property array
-     */
-    protected $services = array(
-        'Paths' => 'SprayFire.FileSys.FireFileSys.Paths',
-        'Escaper' => 'SprayFire.Responder.FireResponder.OutputEscaper'
-    );
+
 
     /**
      *
@@ -66,7 +52,7 @@ class Html extends Base implements SFResponder\Responder {
             }
         }
 
-        echo $LayoutTemplate->getContent($data);
+        return $LayoutTemplate->getContent($data);
     }
 
     /**

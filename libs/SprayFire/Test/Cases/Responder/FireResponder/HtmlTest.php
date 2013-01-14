@@ -48,10 +48,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        \ob_start();
-        $Responder->generateDynamicResponse($Controller);
-        $actual = \ob_get_contents();
-        \ob_end_clean();
+        $actual = $Responder->generateDynamicResponse($Controller);
 
         $expected = '<div>SprayFire</div>';
 
@@ -99,10 +96,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        \ob_start();
-        $Responder->generateDynamicResponse($Controller);
-        $actual = \ob_get_contents();
-        \ob_end_clean();
+        $actual = $Responder->generateDynamicResponse($Controller);
 
         $expected = '<div><p>Template content</p></div>';
         $this->assertSame($expected, $actual);
@@ -173,10 +167,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
                        'bar' => 'foo'
                    )));
 
-        \ob_start();
-        $Responder->generateDynamicResponse($Controller);
-        $actual = \ob_get_contents();
-        \ob_end_clean();
+        $actual = $Responder->generateDynamicResponse($Controller);
 
         $expected = '<div>SprayFire</div>';
         $this->assertSame($expected, $actual);
@@ -216,10 +207,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        \ob_start();
-        $Responder->generateDynamicResponse($Controller);
-        $actual = \ob_get_contents();
-        \ob_end_clean();
+        $actual = $Responder->generateDynamicResponse($Controller);
 
         $this->assertSame('<div>&gt;&lt;&amp;</div>', $actual);
     }
@@ -258,10 +246,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        \ob_start();
-        $Responder->generateDynamicResponse($Controller);
-        $actual = \ob_get_contents();
-        \ob_end_clean();
+        $actual = $Responder->generateDynamicResponse($Controller);
 
         $this->assertSame('<div>&#x20;&&#x09;&#xFFFD;</div>', $actual);
     }
@@ -300,10 +285,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        \ob_start();
-        $Responder->generateDynamicResponse($Controller);
-        $actual = \ob_get_contents();
-        \ob_end_clean();
+        $actual = $Responder->generateDynamicResponse($Controller);
 
         $this->assertSame('<div>\\2C\\2E\\5F</div>', $actual);
     }
@@ -342,10 +324,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        \ob_start();
-        $Responder->generateDynamicResponse($Controller);
-        $actual = \ob_get_contents();
-        \ob_end_clean();
+        $actual = $Responder->generateDynamicResponse($Controller);
 
         $this->assertSame('<div>\\x27\\x22\\x26</div>', $actual);
     }

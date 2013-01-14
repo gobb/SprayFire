@@ -27,15 +27,8 @@ $ClassLoader->registerNamespaceDirectory('SprayFire', $libsPath);
 $ClassLoader->registerNamespaceDirectory('Zend', $libsPath);
 $ClassLoader->setAutoloader();
 
-$RootPaths = new FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
-$Paths = new FireFileSys\Paths($RootPaths);
-
-$JavaNameConverter = new SFUtils\JavaNamespaceConverter();
-$ReflectionCache = new SFUtils\ReflectionCache($JavaNameConverter);
-$Container = new FireService\Container($ReflectionCache);
-
-$getEnvironmentConfig = function() use($Paths) {
-    $path = $Paths->getConfigPath('SprayFire', 'environment.php');
+$getEnvironmentConfig = function() use($configPath) {
+    $path = $configPath . '/SprayFire/environment.php';
     $config = array();
     if (\file_exists($path)) {
         $config = (array) include $path;
@@ -44,8 +37,21 @@ $getEnvironmentConfig = function() use($Paths) {
     return new \SprayFire\EnvironmentConfig($config);
 };
 
+$EnvironmentConfig = $getEnvironmentConfig();
+
+$RootPaths = new FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
+$Paths = new FireFileSys\Paths($RootPaths, $EnvironmentConfig->useVirtualHost());
+
+$JavaNameConverter = new SFUtils\JavaNamespaceConverter();
+$ReflectionCache = new SFUtils\ReflectionCache($JavaNameConverter);
+$Container = new FireService\Container($ReflectionCache);
+
 $getRouteBag = function() use ($Paths) {
-    return include $Paths->getConfigPath('SprayFire', 'routes.php');
+    $Bag = include $Paths->getConfigPath('SprayFire', 'routes.php');
+    if (!$Bag instanceof \SprayFire\Http\Routing\RouteBag) {
+        $Bag = new FireRouting\RouteBag();
+    }
+    return $Bag;
 };
 
 /**
@@ -53,8 +59,6 @@ $getRouteBag = function() use ($Paths) {
  * components of the framework that are highly unlikely to change. This drastically
  * improves processing time and memory used.
  */
-
-$EnvironmentConfig = $getEnvironmentConfig();
 
 $EmergencyLogger = new FireLogging\SysLogLogger();
 $ErrorLogger = new FireLogging\ErrorLogLogger();
@@ -70,9 +74,11 @@ $Uri = new FireHttp\Uri();
 $Headers = new FireHttp\RequestHeaders();
 $Request = new FireHttp\Request($Uri, $Headers);
 
+$installDir = $EnvironmentConfig->useVirtualHost() ? null : \basename($Paths->getInstallPath());
+$Strategy = new FireRouting\ConfigurationMatchStrategy($installDir);
 $RouteBag = $getRouteBag();
 $Normalizer = new FireRouting\Normalizer();
-$Router = new FireRouting\Router($RouteBag, $Normalizer, \basename($Paths->getInstallPath()));
+$Router = new FireRouting\Router($Strategy, $RouteBag, $Normalizer);
 $RoutedRequest = $Router->getRoutedRequest($Request);
 
 $CallbackStorage = new FireMediator\CallbackStorage();

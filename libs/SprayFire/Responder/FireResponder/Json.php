@@ -23,13 +23,14 @@ use \SprayFire\Responder as SFResponder,
 class Json extends Base implements SFResponder\Responder {
 
     /**
-     * 
+     *
      *
      * @param \SprayFire\Controller\Controller $Controller
+     * @return string
      */
     public function generateDynamicResponse(SFController\Controller $Controller) {
         $data = $this->getEscapedData($Controller);
-        echo \json_encode($data);
+        return \json_encode($data);
     }
 
 }

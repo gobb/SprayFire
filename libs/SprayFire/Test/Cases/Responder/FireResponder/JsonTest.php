@@ -30,10 +30,8 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $Responder->giveService('Escaper', $Escaper);
 
-        \ob_start();
-        $Responder->generateDynamicResponse($Controller);
-        $actual = \ob_get_contents();
-        \ob_end_clean();
+        $actual = $Responder->generateDynamicResponse($Controller);
+
         $this->assertSame(\json_encode(array()), $actual);
     }
 
@@ -54,10 +52,8 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $Responder->giveService('Escaper', $Escaper);
 
-        \ob_start();
-        $Responder->generateDynamicResponse($Controller);
-        $actual = \ob_get_contents();
-        \ob_end_clean();
+        $actual  = $Responder->generateDynamicResponse($Controller);
+
         $this->assertSame(\json_encode($data), $actual);
     }
 
