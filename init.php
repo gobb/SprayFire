@@ -98,14 +98,10 @@ $Container->addService($JavaNameConverter);
 $Container->addService($ReflectionCache);
 $Container->addService($EventRegistry);
 $Container->addService($Mediator);
-$Container->addService($RouteBag);
-$Container->addService($Router);
 $Container->addService($RoutedRequest);
 $Container->addService($OutputEscaper);
 $Container->addService($TemplateManager);
 $Container->addService($LogOverseer);
-$Container->addService($ControllerFactory);
-$Container->addService($ResponderFactory);
 $Container->addService($EnvironmentConfig);
 
 foreach ($EnvironmentConfig->getRegisteredEvents() as $eventName => $eventType) {
