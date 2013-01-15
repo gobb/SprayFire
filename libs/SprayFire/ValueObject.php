@@ -84,7 +84,8 @@ abstract class ValueObject extends CoreObject {
      * @throws \SprayFire\Exception\UnsupportedOperationException
      */
     public final function __unset($property) {
-        throw new SFException\UnsupportedOperationException('');
+        $message = \sprintf($this->errorMessage, \get_class($this));
+        throw new SFException\UnsupportedOperationException($message);
     }
 
     /**

@@ -13,8 +13,7 @@
 namespace SprayFire\Dispatcher\FireDispatcher;
 
 use \SprayFire\Dispatcher as SFDispatcher,
-    \SprayFire\Http as SFHttp,
-    \SprayFire\Http\Routing as SFRouting,
+    \SprayFire\Http\Routing as SFHttpRouting,
     \SprayFire\Factory as SFFactory,
     \SprayFire\Mediator as SFMediator,
     \SprayFire\Controller as SFController,
@@ -43,14 +42,6 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * @property \SprayFire\Dispatcher\AppInitializer
      */
     protected $AppInitializer;
-
-    /**
-     * Is used to get an appropriate \SprayFire\Http\Routing\RoutedRequest to
-     * know what controller/action to process.
-     *
-     * @property \SprayFire\Http\Routing\Router
-     */
-    protected $Router;
 
     /**
      * Is used to ensure that appropriate events for the dispatching process are
@@ -89,8 +80,7 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * @param \SprayFire\Factory\Factory $ControllerFactory
      * @param \SprayFire\Factory\Factory $ResponderFactory
      */
-    public function __construct(SFRouting\Router $Router, SFMediator\Mediator $Mediator, SFFactory\Factory $ControllerFactory, SFFactory\Factory $ResponderFactory) {
-        $this->Router = $Router;
+    public function __construct(SFMediator\Mediator $Mediator, SFFactory\Factory $ControllerFactory, SFFactory\Factory $ResponderFactory) {
         $this->Mediator = $Mediator;
         $this->ControllerFactory = $ControllerFactory;
         $this->ResponderFactory = $ResponderFactory;
@@ -101,28 +91,11 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * events along the way, and start the invocation of the static or dynamic
      * response sending.
      *
-     * @param \SprayFire\Http\Request $Request
-     * @return void
-     * @throws \SprayFire\Dispatcher\Exception\ActionNotFound
-     */
-    public function dispatchResponse(SFHttp\Request $Request) {
-        $this->Mediator->triggerEvent(SFDispatcher\Events::BEFORE_ROUTING, $Request);
-        $RoutedRequest = $this->Router->getRoutedRequest($Request);
-        $this->Mediator->triggerEvent(SFDispatcher\Events::AFTER_ROUTING, $RoutedRequest);
-        $this->sendDynamicRequest($RoutedRequest);
-    }
-
-    /**
-     * Will generate the appropriate Controller, invoke the appropriate actions
-     * on that controller, generate the appropriate Responder and finally send
-     * the response to the user; along the way appropriate SprayFire events will
-     * be triggered.
-     *
      * @param \SprayFire\Http\Routing\RoutedRequest $RoutedRequest
      * @return void
      * @throws \SprayFire\Dispatcher\Exception\ActionNotFound
      */
-    protected function sendDynamicRequest(SFRouting\RoutedRequest $RoutedRequest) {
+    public function dispatchResponse(SFHttpRouting\RoutedRequest $RoutedRequest) {
         $Controller = $this->generateController($RoutedRequest->getController(), $RoutedRequest->getAction());
         $this->addControllerBeforeActionEventToMediator($Controller);
         $this->addControllerAfterActionEventToMediator($Controller);
@@ -190,7 +163,7 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      * @param \SprayFire\Http\Routing\RoutedRequest $RoutedRequest
      * @return void
      */
-    protected function invokeController(SFController\Controller $Controller, SFRouting\RoutedRequest $RoutedRequest) {
+    protected function invokeController(SFController\Controller $Controller, SFHttpRouting\RoutedRequest $RoutedRequest) {
         $this->Mediator->triggerEvent(SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED, $Controller);
         $actionName = $RoutedRequest->getAction();
         $parameters = $RoutedRequest->getParameters();

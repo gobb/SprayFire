@@ -13,7 +13,7 @@
 namespace SprayFire\Dispatcher;
 
 use \SprayFire\Object as SFObject,
-    \SprayFire\Http as SFHttp;
+    \SprayFire\Http\Routing as SFHttpRouting;
 
 /**
  * Implementations of this interface should be able to handle routing the given
@@ -34,9 +34,9 @@ interface Dispatcher extends SFObject {
      * At some point during the execution of this method the response appropriate
      * for the passed $Request should be sent to the user.
      *
-     * @param \SprayFire\Http\Request $Request
+     * @param \SprayFire\Http\Routing\RoutedRequest $RoutedRequest
      * @return mixed
      */
-    public function dispatchResponse(SFHttp\Request $Request);
+    public function dispatchResponse(SFHttpRouting\RoutedRequest $RoutedRequest);
 
 }
