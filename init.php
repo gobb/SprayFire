@@ -115,11 +115,10 @@ foreach ($EnvironmentConfig->getRegisteredEvents() as $eventName => $eventType) 
 $AppInitializer = new FireDispatcher\AppInitializer($Container, $Paths, $ClassLoader);
 $AppInitializer->initializeApp($RoutedRequest);
 
-$Dispatcher = new FireDispatcher\Dispatcher($Router, $Mediator, $ControllerFactory, $ResponderFactory);
-$Dispatcher->dispatchResponse($Request);
+$Dispatcher = new FireDispatcher\Dispatcher($Mediator, $ControllerFactory, $ResponderFactory);
+$Dispatcher->dispatchResponse($RoutedRequest);
 
 if ($EnvironmentConfig->isDevelopmentMode()) {
-    echo '<pre>Request time ' . (\microtime(true) - $requestStartTime) . '</pre>';
-    \var_dump(\memory_get_peak_usage(true));
-    \var_dump(new \stdClass());
+    echo '<pre>Request time ', (\microtime(true) - $requestStartTime), '</pre>';
+    echo '<pre>Memory usage ', \memory_get_peak_usage(true) / 1048576, ' MB</pre>';
 }
