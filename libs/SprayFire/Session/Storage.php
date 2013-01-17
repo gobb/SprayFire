@@ -14,13 +14,14 @@ namespace SprayFire\Session;
 use \SprayFire\Object as SFObject,
     \ArrayAccess as ArrayAccess,
     \Countable as Countable,
+    \Serializable as Serializable,
     \Traversable as Traversable;
 
 /**
  * @package SprayFire
  * @subpackage Session
  */
-interface Storage extends SFObject, ArrayAccess, Countable, Traversable {
+interface Storage extends SFObject, ArrayAccess, Countable, Serializable, Traversable {
 
     /**
      * Should ensure that the $_SESSION superglobal is properly reset back to an
