@@ -24,12 +24,6 @@ use \SprayFire\Object as SFObject,
 interface Storage extends SFObject, ArrayAccess, Countable, Serializable, Traversable {
 
     /**
-     * Should ensure that the $_SESSION superglobal is properly reset back to an
-     * array for proper serialization.
-     */
-    public function __destruct();
-
-    /**
      * Clear all data out of the session storage.
      *
      * @return void
