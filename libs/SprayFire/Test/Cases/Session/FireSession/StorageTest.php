@@ -16,8 +16,8 @@ use \SprayFire\Session\FireSession as FireSession,
 /**
  *
  *
- * @package SprayFire
- * @subpackage
+ * @package SprayFireTest
+ * @subpackage Cases.Session.FireSession
  */
 class StorageTest extends PHPUnitTestCase {
 
@@ -37,6 +37,27 @@ class StorageTest extends PHPUnitTestCase {
 
     public function testOffsetExistsWhenNoKeysSet() {
         $this->assertFalse($this->Storage->offsetExists('SprayFire'));
+    }
+
+    public function testOffsetExistsAfterKeySet() {
+        $this->Storage['SprayFire'] = 'framework';
+        $this->assertTrue($this->Storage->offsetExists('SprayFire'));
+    }
+
+    public function testOffsetGetWithNoSetKey() {
+        $this->assertNull($this->Storage['SprayFire']);
+    }
+
+    public function testOffsetGetWithKeySet() {
+        $this->Storage['foo'] = 'SprayFire';
+        $this->assertSame('SprayFire', $this->Storage['foo']);
+    }
+
+    public function testOffsetUnsetAfterKeySet() {
+        $this->Storage['foo'] = 'bar';
+        $this->assertSame('bar', $this->Storage['foo']);
+        unset($this->Storage['foo']);
+        $this->assertNull($this->Storage['foo']);
     }
 
 }
