@@ -13,7 +13,8 @@ namespace SprayFire\Session\FireSession;
 
 use \SprayFire\Session as SFSession,
     \SprayFire\CoreObject as SFCoreObject,
-    \IteratorAggregate as IteratorAggregate;
+    \IteratorAggregate as IteratorAggregate,
+    \ArrayIterator as ArrayIterator;
 
 /**
  * @package SprayFire
@@ -142,7 +143,7 @@ class Storage extends SFCoreObject implements IteratorAggregate, SFSession\Stora
      * @return string
      */
     public function serialize() {
-
+        return \serialize($this->data);
     }
 
     /**
@@ -152,7 +153,11 @@ class Storage extends SFCoreObject implements IteratorAggregate, SFSession\Stora
      * @return void
      */
     public function unserialize($data) {
-
+        $data = \unserialize($data);
+        if ($data === false) {
+            $data = array();
+        }
+        $this->data = $data;
     }
 
     /**
@@ -161,7 +166,7 @@ class Storage extends SFCoreObject implements IteratorAggregate, SFSession\Stora
      * @return ArrayIterator
      */
     public function getIterator() {
-
+        return new ArrayIterator($this->data);
     }
 
 }
