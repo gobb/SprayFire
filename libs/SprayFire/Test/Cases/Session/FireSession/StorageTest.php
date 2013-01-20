@@ -101,8 +101,21 @@ class StorageTest extends PHPUnitTestCase {
 
     public function testSettingDataAfterMakeImmutableThrowsException() {
         $this->Storage->makeImmutable();
-        $this->asserTrue($this->Storage->isImmutable());
+        $this->assertTrue($this->Storage->isImmutable());
         $this->setExpectedException('\SprayFire\Session\Exception\WritingToImmutableStorage');
+        $this->Storage['SprayFire'] = 'foo';
+    }
+
+    public function testSettingDataAfterMakeImmutableKeepsKeyNotWrittenTo() {
+        $this->Storage['SprayFire'] = 'foo';
+        $this->assertSame('foo', $this->Storage['SprayFire']);
+        $this->Storage->makeImmutable();
+        $this->assertTrue($this->Storage->isImmutable());
+        try {
+            $this->Storage['SprayFire'] = 'bar';
+        } catch(\SprayFire\Session\Exception\WritingToImmutableStorage $Exception) {
+        }
+        $this->assertSame('foo', $this->Storage['SprayFire']);
     }
 
 
