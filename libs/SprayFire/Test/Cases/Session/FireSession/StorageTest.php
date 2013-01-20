@@ -118,5 +118,45 @@ class StorageTest extends PHPUnitTestCase {
         $this->assertSame('foo', $this->Storage['SprayFire']);
     }
 
+    public function testSerializingSetData() {
+        $this->Storage['SprayFire'] = 'foo';
+        $this->Storage['foo'] = 'bar';
+        $this->Storage['bar'] = 'foobar';
+
+        $data = array(
+            'SprayFire' => 'foo',
+            'foo' => 'bar',
+            'bar' => 'foobar'
+        );
+
+        $this->assertSame(\serialize($data), $this->Storage->serialize());
+    }
+
+    public function testUnserializingData() {
+        $data = array(
+            'SprayFire' => 'foo',
+            'foo' => 'bar',
+            'bar' => 'foobar'
+        );
+        $serializedData = \serialize($data);
+        $this->Storage->unserialize($serializedData);
+        $this->assertSame('foo', $this->Storage['SprayFire']);
+        $this->assertSame('bar', $this->Storage['foo']);
+        $this->assertSame('foobar', $this->Storage['bar']);
+    }
+
+    public function testGettingIterator() {
+        $data = array(
+            'SprayFire' => 'foo',
+            'foo' => 'bar',
+            'bar' => 'foobar'
+        );
+        $Iterator = new \ArrayIterator($data);
+
+        $this->Storage['SprayFire'] = 'foo';
+        $this->Storage['foo'] = 'bar';
+        $this->Storage['bar'] = 'foobar';
+        $this->assertEquals($Iterator, $this->Storage->getIterator());
+    }
 
 }
