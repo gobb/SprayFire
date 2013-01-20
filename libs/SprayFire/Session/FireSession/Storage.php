@@ -61,13 +61,18 @@ class Storage extends SFCoreObject implements IteratorAggregate, SFSession\Stora
     }
 
     /**
-     * Will set a $value against
+     * Will set a $value against the given $offset unless the Storage instance
+     * has been marked immutable, in which case the
      *
      * @param string $offset
      * @param mixed $value
      * @return void
+     * @throws \SprayFire\Session\Exception\WritingToImmutableStorage
      */
     public function offsetSet($offset, $value) {
+        if ($this->isImmutable()) {
+            throw new SFSession\Exception\WritingToImmutableStorage('Session storage has been made immutable and may not be written to');
+        }
         $this->data[(string) $offset] = $value;
     }
 
