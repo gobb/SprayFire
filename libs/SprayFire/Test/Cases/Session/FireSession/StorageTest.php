@@ -60,4 +60,50 @@ class StorageTest extends PHPUnitTestCase {
         $this->assertNull($this->Storage['foo']);
     }
 
+    public function testCountingWithNoElementsInStorage() {
+        $this->assertSame(0, \count($this->Storage));
+    }
+
+    public function testCountingWithThreeElementsInStorage() {
+        $this->Storage['foo'] = 0;
+        $this->Storage['bar'] = 1;
+        $this->Storage['foobar'] = 2;
+        $this->assertSame(3, \count($this->Storage));
+    }
+
+    public function testClearSessionStorageDataAfterSet() {
+        $this->Storage['foo'] = 0;
+        $this->Storage['bar'] = 1;
+        $this->Storage['foobar'] = 2;
+        $this->assertSame(3, \count($this->Storage));
+        $this->Storage->clear();
+        $this->assertSame(0, \count($this->Storage));
+    }
+
+    public function testClearingSpecificKeyFromStorage() {
+        $this->Storage['SprayFire'] = 'foo';
+        $this->Storage['foo'] = 'bar';
+        $this->assertSame('foo', $this->Storage['SprayFire']);
+        $this->assertSame('bar', $this->Storage['foo']);
+        $this->Storage->clearKey('SprayFire');
+        $this->assertSame(null, $this->Storage['SprayFire']);
+        $this->assertSame('bar', $this->Storage['foo']);
+    }
+
+    public function testIsImmutableNotSetIfNotExplicitlySet() {
+        $this->assertFalse($this->Storage->isImmutable());
+    }
+
+    public function testIsImmutableAfterExplicitlySet() {
+        $this->Storage->makeImmutable();
+        $this->assertTrue($this->Storage->isImmutable());
+    }
+
+    public function testSettingDataAfterMakeImmutableThrowsException() {
+        $this->Storage->makeImmutable();
+        $this->asserTrue($this->Storage->isImmutable());
+        $this->setExpectedException('\SprayFire\Session\Exception\WritingToImmutableStorage');
+    }
+
+
 }
