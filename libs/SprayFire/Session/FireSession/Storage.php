@@ -22,33 +22,53 @@ use \SprayFire\Session as SFSession,
 class Storage extends SFCoreObject implements IteratorAggregate, SFSession\Storage {
 
     /**
+     * Key/value pairs stored.
+     *
+     * @property array
+     */
+    protected $data = array();
+
+    /**
+     * Flag to determine if the session storage is allowed to be written to.
+     *
+     * True will cause the session storage not to be able to be written to.
+     *
+     * @property boolean
+     */
+    protected $isImmutable = false;
+
+    /**
      * Determine whether a key identified by $offset exists in the storage or not.
      *
      * @param string $offset
      * @return boolean
      */
     public function offsetExists($offset) {
-
+        return isset($this->data[(string) $offset]);
     }
 
     /**
      * Will return the value stored against $offset or null if no value exists.
      *
+     * @param string $offset
      * @return mixed
      */
     public function offsetGet($offset) {
-        // TODO: Implement offsetGet() method.
+        if ($this->offsetExists($offset)) {
+            return $this->data[(string) $offset];
+        }
+        return null;
     }
 
     /**
      * Will set a $value against
      *
-     * @param mixed $offset
+     * @param string $offset
      * @param mixed $value
      * @return void
      */
     public function offsetSet($offset, $value) {
-        // TODO: Implement offsetSet() method.
+        $this->data[(string) $offset] = $value;
     }
 
     /**
@@ -59,7 +79,9 @@ class Storage extends SFCoreObject implements IteratorAggregate, SFSession\Stora
      * @return void
      */
     public function offsetUnset($offset) {
-        // TODO: Implement offsetUnset() method.
+        $offset = (string) $offset;
+        $this->data[$offset] = null;
+        unset($this->data[$offset]);
     }
 
     /**
@@ -68,7 +90,7 @@ class Storage extends SFCoreObject implements IteratorAggregate, SFSession\Stora
      * @return integer
      */
     public function count() {
-        // TODO: Implement count() method.
+        return \count($this->data);
     }
 
     /**
@@ -77,7 +99,7 @@ class Storage extends SFCoreObject implements IteratorAggregate, SFSession\Stora
      * @return void
      */
     public function clear() {
-        // TODO: Implement clear() method.
+        $this->data = array();
     }
 
     /**
@@ -87,7 +109,7 @@ class Storage extends SFCoreObject implements IteratorAggregate, SFSession\Stora
      * @return void
      */
     public function clearKey($key) {
-        // TODO: Implement clearKey() method.
+        $this->offsetUnset($key);
     }
 
     /**
@@ -96,7 +118,7 @@ class Storage extends SFCoreObject implements IteratorAggregate, SFSession\Stora
      * @return boolean
      */
     public function isImmutable() {
-        // TODO: Implement isImmutable() method.
+        return $this->isImmutable;
     }
 
     /**
@@ -106,7 +128,7 @@ class Storage extends SFCoreObject implements IteratorAggregate, SFSession\Stora
      * @return void
      */
     public function makeImmutable() {
-        // TODO: Implement makeImmutable() method.
+        $this->isImmutable = true;
     }
 
     /**
