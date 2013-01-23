@@ -38,6 +38,10 @@ class Storage extends SFCoreObject implements IteratorAggregate, SFSession\Stora
      */
     protected $isImmutable = false;
 
+    public function __construct() {
+        $_SESSION = $this;
+    }
+
     /**
      * Determine whether a key identified by $offset exists in the storage or not.
      *
@@ -154,7 +158,7 @@ class Storage extends SFCoreObject implements IteratorAggregate, SFSession\Stora
      */
     public function unserialize($data) {
         $data = \unserialize($data);
-        if ($data === false) {
+        if (!$data) {
             $data = array();
         }
         $this->data = $data;
