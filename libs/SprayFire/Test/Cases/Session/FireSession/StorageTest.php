@@ -35,6 +35,15 @@ class StorageTest extends PHPUnitTestCase {
         $_SESSION = array();
     }
 
+    public function testStorageObjectAttachedToSessionSuperglobal() {
+        $this->assertSame($this->Storage, $_SESSION);
+    }
+
+    public function testChangingSessionSuperglobalChangesObject() {
+        $_SESSION['foo'] = 'bar';
+        $this->assertSame('bar', $this->Storage->offsetGet('foo'));
+    }
+
     public function testOffsetExistsWhenNoKeysSet() {
         $this->assertFalse($this->Storage->offsetExists('SprayFire'));
     }
@@ -143,6 +152,11 @@ class StorageTest extends PHPUnitTestCase {
         $this->assertSame('foo', $this->Storage['SprayFire']);
         $this->assertSame('bar', $this->Storage['foo']);
         $this->assertSame('foobar', $this->Storage['bar']);
+    }
+
+    public function testUnserializingFalseData() {
+        $this->Storage->unserialize(null);
+        $this->assertAttributeEquals(array(), 'data', $this->Storage);
     }
 
     public function testGettingIterator() {
