@@ -3,6 +3,13 @@
 - master branch: [![Build Status](https://secure.travis-ci.org/cspray/SprayFire.png?branch=master)](https://travis-ci.org/cspray/SprayFire)
 - development branch: [![Build Status](https://travis-ci.org/cspray/SprayFire.png?branch=development)](https://travis-ci.org/cspray/SprayFire)
 
+## Requirements
+
+- PHP 5.4+
+> With the recent RFC to EOL PHP 5.3 in a way that only security fixes get in the team felt it was prudent to go ahead and start transitioning to 5.4. There are several improvements we'll be taking advantage of, if you were running 5.3 SprayFire code you will need to upgrade your install as that language version will no longer be supported.
+- The [`ClassLoader`](https://github.com/cspray/ClassLoader) library.
+- The [`Zend\Escaper`](https://github.com/zendframework/zf2/tree/master/library/Zend/Escaper) module from the [`Zend Framework 2`](https://github.com/zendframework/zf2) project.
+
 ## Installation and configuration
 
 A key priority in the development of SprayFire has been that it should be easy to install, configure and deploy. We have been focusing on the API and implementations provided by the framework at this point so there are some manual steps that we plan on automating at some point in the future.
