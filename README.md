@@ -62,6 +62,16 @@ This allows you to add whatever services your Model, Controller or Responder lay
 may use and to setup autoloading for whatever third-party plugins or libraries
 you may be using.
 
+If you're interested in setting up explicit routes you should [check out the Routing
+docs](https://github.com/cspray/SprayFire/wiki/Routing) and take a look at [`/sprayfire_apps/config/SprayFire/routes.php`](https://github.com/cspray/SprayFire/blob/master/config/SprayFire/routes.php).
+You can also take a look at the [`/sprayfire_apps/config/SprayFire/environment.php`](https://github.com/cspray/SprayFire/blob/master/config/SprayFire/environment.php)
+to adjust certain aspects of how the framework operates at runtime. You can also
+check out the [Configuration docs](https://github.com/cspray/SprayFire/wiki/Configuration) for more information.
+
+## Writing your first app
+
+
+
 ## Team
 
 ### Charles Sprayberry
