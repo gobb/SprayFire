@@ -96,7 +96,8 @@ abstract class ConsumerFactory extends FireFactory\Base {
         $services = $Object->getRequestedServices();
         if ($this->isTraversable($services)) {
             foreach ($services as $property => $service) {
-                $Object->giveService($property, $this->Container->getService($service));
+                $ServiceObject = $this->Container->getService($service);
+                $Object->giveService($property, $ServiceObject);
             }
         }
     }
