@@ -72,6 +72,24 @@ The parent class is an abstract [`\SprayFire\Bootstrap\Bootstrapper`](https://gi
 
 At this point you can start creating Model, Controller and Responder directories and start wiring up your application.
 
+## Resources
+
+### [Wiki](https://github.com/cspray/SprayFire/wiki)
+
+This is the primary source for all the detailed information regarding SprayFire provided modules and the inner workings of the framework. The user guide is stored in the wiki. It is intended to be used as a wiki, if you find some cool information that you think would be useful to other SprayFire users update the wiki!
+
+### API Documentation
+
+Look at all the public and protected methods provided by SprayFire, what they can do and how to use them. While we strive for a clean API that doesn't require much documentation reading we strive to have a thoroughly documented codebase. We are still coming up with a solution for hosting this documentation. But it should be available before the 0.2.0a release.
+
+### [Issues](https://github.com/cspray/SprayFire/issues) and [Milestones](https://github.com/cspray/SprayFire/issues/milestones)
+
+SprayFire makes extensive use of issues and milestones to manage what needs to get done and to set goals for getting those things done. If a bug or feature request is needed please raise an issue. The labeling system is designed so that you can communicate to the SprayFire development team whether your issue is a bug, feature request or related to docs. Please use them. We will use the labels to communicate to you the status of your issue.
+
+### [Trello](https://trello.com/board/sprayfire-todo/51097d06bce28e4a3800006d)
+
+While Issues and Milestones make a great way to keep up with who and what should be done it doesn't provide the proper tools to determine when or in what priority things should be done. Trello does provide this functionality. Come see what it is the development team is working on at any given moment.
+
 ## Team
 
 ### Charles Sprayberry
