@@ -29,7 +29,7 @@ class CallbackStorage extends SFCoreObject {
      *
      * @property array
      */
-    protected $callbackContainers = array();
+    protected $callbackContainers = [];
 
     /**
      * @param string $eventName
@@ -45,7 +45,7 @@ class CallbackStorage extends SFCoreObject {
      */
     public function createContainer($eventName) {
         if (!$this->hasContainer($eventName)) {
-            $this->callbackContainers[(string) $eventName] = array();
+            $this->callbackContainers[(string) $eventName] = [];
         }
     }
 
@@ -100,7 +100,7 @@ class CallbackStorage extends SFCoreObject {
         if ($this->hasContainer($eventName)) {
             return $this->callbackContainers[$eventName];
         } else {
-            return array();
+            return [];
         }
     }
 

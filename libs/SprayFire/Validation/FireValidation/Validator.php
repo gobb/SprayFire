@@ -54,20 +54,20 @@ class Validator extends SFCoreObject implements SFValidation\Validator {
                 $breakOnFailure = false;
                 if ($errorCode === FireCheck\ErrorCodes::NO_ERROR) {
                     $passedCheck = true;
-                    $messages = array(
+                    $messages = [
                         'log' => '',
                         'display' => ''
-                    );
+                    ];
                 } else {
                     $passedCheck = false;
                     $messages = $Check->getMessages($errorCode);
                     $tokenValues = $Check->getTokenValues();
                     $logMessage = $this->MessageParser->parseMessage($messages['log'], $tokenValues);
                     $displayMessage = $this->MessageParser->parseMessage($messages['display'], $tokenValues);
-                    $messages = array(
+                    $messages = [
                         'log' => $logMessage,
                         'display' => $displayMessage
-                    );
+                    ];
                     $breakOnFailure = $Checks[$Check];
                 }
 

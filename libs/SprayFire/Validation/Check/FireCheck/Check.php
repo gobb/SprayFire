@@ -36,21 +36,21 @@ abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
      *
      * @property array
      */
-    protected $tokenValues = array();
+    protected $tokenValues = [];
 
     /**
      * Map of errorCode => logMessage values.
      *
      * @property array
      */
-    protected $logMessages = array();
+    protected $logMessages = [];
 
     /**
      * Map of errorCode => displayMessage values
      *
      * @property array
      */
-    protected $displayMessages = array();
+    protected $displayMessages = [];
 
     /**
      * Only here to provide a convenient way to set token value parameter.

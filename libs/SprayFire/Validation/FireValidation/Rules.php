@@ -32,7 +32,7 @@ class Rules extends SFCoreObject implements SFValidation\Rules {
      *
      * @property array
      */
-    protected $fieldRules = array();
+    protected $fieldRules = [];
 
     /**
      * For the Fluent API section of this implementation determines what field

@@ -39,7 +39,7 @@ class EventRegistry extends SFCoreObject implements IteratorAggregate {
      *
      * @property array
      */
-    protected $registry = array();
+    protected $registry = [];
 
     /**
      * @property \SprayFire\Mediator\FireMediator\CallbackStorage

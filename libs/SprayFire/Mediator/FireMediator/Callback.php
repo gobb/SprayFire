@@ -66,7 +66,7 @@ class Callback extends SFCoreObject implements SFMediator\Callback {
      * @return mixed
      */
     public function invoke(SFMediator\Event $Event) {
-        return \call_user_func_array($this->function, array($Event));
+        return \call_user_func_array($this->function, [$Event]);
     }
 
 }

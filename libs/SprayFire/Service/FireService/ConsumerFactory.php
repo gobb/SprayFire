@@ -65,7 +65,7 @@ abstract class ConsumerFactory extends FireFactory\Base {
      * @return Object
      * @throws \SprayFire\Service\Exception\ServiceNotFound
      */
-    public function makeObject($className, array $parameters = array()) {
+    public function makeObject($className, array $parameters = []) {
         $Object = parent::makeObject($className, $parameters);
         $this->addServices($Object);
         return $Object;

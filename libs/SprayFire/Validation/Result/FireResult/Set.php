@@ -29,7 +29,7 @@ class Set extends SFCoreObject implements SFValidationResult\Set {
      *
      * @property array
      */
-    private $successfulResults = array();
+    private $successfulResults = [];
 
     /**
      * Holds the number of successful results added to the set.
@@ -48,7 +48,7 @@ class Set extends SFCoreObject implements SFValidationResult\Set {
      *
      * @property array
      */
-    private $failureResults = array();
+    private $failureResults = [];
 
     /**
      * Holds the number of failure results added to the set.
@@ -92,7 +92,7 @@ class Set extends SFCoreObject implements SFValidationResult\Set {
     protected function addSuccessfulResult(SFValidationResult\Result $Result) {
         $field = (string) $Result->getFieldName();
         if (!isset($this->successfulResults[$field])) {
-            $this->successfulResults[$field] = array();
+            $this->successfulResults[$field] = [];
         }
         $this->successfulResults[$field][] = $Result;
         $this->numSuccessfulResults++;
@@ -104,7 +104,7 @@ class Set extends SFCoreObject implements SFValidationResult\Set {
     protected function addFailedResult(SFValidationResult\Result $Result) {
         $field = (string) $Result->getFieldName();
         if (!isset($this->failureResults[$field])) {
-            $this->failureResults[$field] = array();
+            $this->failureResults[$field] = [];
         }
         $this->failureResults[$field][] = $Result;
         $this->numFailureResults++;
@@ -165,7 +165,7 @@ class Set extends SFCoreObject implements SFValidationResult\Set {
         if (isset($this->successfulResults[$field])) {
             return $this->successfulResults[$field];
         }
-        return array();
+        return [];
     }
 
     /**
@@ -176,7 +176,7 @@ class Set extends SFCoreObject implements SFValidationResult\Set {
         if (isset($this->failureResults[$field])) {
             return $this->failureResults[$field];
         }
-        return array();
+        return [];
     }
 
     /**
@@ -200,7 +200,7 @@ class Set extends SFCoreObject implements SFValidationResult\Set {
             return \array_merge($this->getSuccessfulResultsByFieldName($field), $this->getFailedResultsByFieldName($field));
         }
         \trigger_error(\sprintf($this->errorMessage, $resultType, __METHOD__), \E_USER_NOTICE);
-        return array();
+        return [];
     }
 
 }

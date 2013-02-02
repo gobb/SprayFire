@@ -167,7 +167,7 @@ class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
      * @return array
      */
     protected function escapeMultipleContent(array $data, $context) {
-        $escapedData = array();
+        $escapedData = [];
         foreach ($data as $key => $value) {
             $escapedData[$key] = $this->escapeContent($value, $context);
         }

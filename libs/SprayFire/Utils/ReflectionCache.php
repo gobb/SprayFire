@@ -35,7 +35,7 @@ class ReflectionCache extends SFCoreObject {
      *
      * @property array
      */
-    protected $cache = array();
+    protected $cache = [];
 
     /**
      * @param \SprayFire\Utils\JavaNamespaceConverter $JavaNameConverter
