@@ -13,10 +13,8 @@ $environment = array(
     'registeredEvents' => array(
         SFDispatcher\Events::AFTER_CONTROLLER_INVOKED => '',
         SFDispatcher\Events::AFTER_RESPONSE_SENT => '',
-        SFDispatcher\Events::AFTER_ROUTING => '',
         SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED => '',
         SFDispatcher\Events::BEFORE_RESPONSE_SENT => '',
-        SFDispatcher\Events::BEFORE_ROUTING => ''
     )
 );
 
