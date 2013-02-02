@@ -59,7 +59,7 @@ namespace YourAppName;
 
 // Note the top level namespace is the same name of your app
 // Note that the name of the class is 'Bootstrap' and its parent class
-class Bootstrap extends \SprayFire\Bootstrap\FireBootstrap\App {
+class Bootstrap extends \SprayFire\Bootstrap\FireBootstrap\Pluggable {
 
     public function runBootstrap() {
 
