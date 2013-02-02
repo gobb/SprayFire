@@ -1,6 +1,6 @@
 <div id="sprayfire-install-welcome">
     <h2>Welcome to <span class="sprayfire-orange">Spray</span><span class="sprayfire-red">Fire</span>!</h2>
-    <p>Thanks for installing SprayFire, a fully unit tested framework designed to work with PHP 5.3.  Originally starting out as an academic project SprayFire has grown to include the following features.</p>
+    <p>Thanks for installing SprayFire! SprayFire is a modular, fully unit tested framework designed to work with PHP 5.4.  Originally starting out as an academic project SprayFire has grown to include the following features.</p>
     <ul>
         <li>Fully unit tested source code</li>
         <li>Easily integrate PHP 5.3+ compliant libraries</li>
