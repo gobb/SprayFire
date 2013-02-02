@@ -58,7 +58,7 @@ abstract class Consumer extends SFCoreObject implements SFService\Consumer {
     public function giveService($key, $Service) {
         $key = (string) $key;
         if (!\is_object($Service)) {
-            throw new \InvalidArgumentException('Services added must be an object.');
+            throw new InvalidArgumentException('Services given must be an object.');
         }
         $this->storedServices[$key] = $Service;
     }
