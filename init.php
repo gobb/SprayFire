@@ -48,8 +48,11 @@ function startProcessing() {
     $Container = new FireService\Container($ReflectionCache);
 
     $getRouteBag = function() use ($Paths) {
-        $Bag = include $Paths->getConfigPath('SprayFire', 'routes.php');
+        $path = $Paths->getConfigPath('SprayFire', 'routes.php');
+        $Bag = include $path;
         if (!$Bag instanceof \SprayFire\Http\Routing\RouteBag) {
+            $message = 'The return value from %s must be a \SprayFire\Http\Routing\RouteBag implementation.';
+            \trigger_error(\sprintf($message, $path), \E_USER_NOTICE);
             $Bag = new FireRouting\RouteBag();
         }
         return $Bag;
@@ -62,7 +65,7 @@ function startProcessing() {
      */
 
     $EmergencyLogger = new FireLogging\SysLogLogger();
-    $ErrorLogger = new FireLogging\ErrorLogLogger();
+    $ErrorLogger = new FireLogging\DevelopmentLogger();
     $InfoLogger = new FireLogging\DevelopmentLogger();
     $DebugLogger = new FireLogging\DevelopmentLogger();
     $LogOverseer = new FireLogging\LogOverseer($EmergencyLogger, $ErrorLogger, $DebugLogger, $InfoLogger);
@@ -118,6 +121,7 @@ function startProcessing() {
     if ($EnvironmentConfig->isDevelopmentMode()) {
         echo '<pre>Request time ', (\microtime(true) - $requestStartTime), '</pre>';
         echo '<pre>Memory usage ', \memory_get_peak_usage(true) / 1048576, ' MB</pre>';
+        \var_dump($ErrorLogger->getLoggedMessages());
     }
 }
 
