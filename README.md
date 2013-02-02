@@ -1,53 +1,94 @@
+## Release Info
 
-[![Build Status](https://secure.travis-ci.org/cspray/SprayFire.png?branch=master)](https://travis-ci.org/cspray/SprayFire)
+*SprayFire 0.1.0a*
 
-## Introduction
+master branch: [![Build Status](https://secure.travis-ci.org/cspray/SprayFire.png?branch=master)](https://travis-ci.org/cspray/SprayFire) development branch: [![Build Status](https://travis-ci.org/cspray/SprayFire.png?branch=development)](https://travis-ci.org/cspray/SprayFire)
 
-SprayFire is a modular, unit-tested, MVC-inspired approach to developing web applications using PHP 5.3+.
+## Requirements
 
-The primary purpose of SprayFire is to serve as a test-bed for learning more about PHP and the problems tackled by PHP frameworks.  We want to experiment, think outside of the box, and hopefully come up with a solution that we not only learn from but can produce great, sustainable apps with.
+> With the recent RFC to EOL PHP 5.3 in a way that only security fixes get in the team felt it was prudent to go ahead and start transitioning to 5.4. There are several improvements we'll be taking advantage of, if you were running 5.3 SprayFire code you will need to upgrade your install as that language version will no longer be supported.
 
-SprayFire is currently in development stage.  The API and implementations provided by the framework are completely subject to change and should not be relied upon at this point.
+- PHP 5.4+
+- The [`ClassLoader`](https://github.com/cspray/ClassLoader) library.
+- The [`Zend\Escaper`](https://github.com/zendframework/zf2/tree/master/library/Zend/Escaper) module from the [`Zend Framework 2`](https://github.com/zendframework/zf2) project.
 
-The [framework wiki](http://www.github.com/cspray/SprayFire/wiki/) is a more reliable, stable source for information on the current state of the framework and the future of SprayFire.
+## Installation and configuration
 
-## Initial Features
+A key priority in the development of SprayFire has been that it should be easy to install, configure and deploy. We have been focusing on the API and implementations provided by the framework at this point so there are some manual steps that we plan on automating at some point in the future.
 
-- System built upon routing an HTTP request to a Controller and action.  That action gathers data for a Responder that generates and sends the response.
-- Simple, easy-to-learn templating using built-in PHP functionality.
-- HTML templating system ensuring that XSS attacks are not possible by escaping all output.
-- Support for a wide-variety of PHP 5.3+ capable libraries.
-- A version with a variety of popular ORMs to act as data source while you still roll-your-own Model.
-- A command-line utility to set up your basic app directory structure and files; note that this is *not* scaffolding but simply creating a default SprayFire installation.
-- Support for the [Composer](https://github.com/composer/composer) dependency manager tool
+### Installing SprayFire
 
-## Features to Come
+```plain
+mkdir sprayfire_apps && cd sprayfire_apps
+git clone git://github.com/cspray/SprayFire.git
+cd sprayfire_apps
+git submodule init
+git submodule update
+```
 
-- SprayFire DataAccess layer as an additional data abstraction system.
-- A base Model class to allow for generic functionality.  Note, this is different than the Model layer as a whole.  For more info, please read [this blog post about the subject](http://cspray.github.com/2012/07/07/the-model-layer-and-class.html).
+> The rest of this document will refer to the directory you installed the framework in as 'sprayfire_apps'. This may be something different depending on the directory you chose for the installation.
 
-## Dependencies
 
-- PHP 5.3+ and up.  Note that the bulk of development and testing has been on 5.3.8, 5.3.9 and 5.3.10.
-- Out-of-the-box support for clean URLs using [Apache](http://httpd.apache.org/) [mod_rewrite](http://httpd.apache.org/docs/current/mod/mod_rewrite.html).  If this is not available to you then you will need to implement your own system of pretty URLs.
-- SprayFire uses [SPL](http://www.php.net/manual/en/book.spl.php) exceptions and data structures so this extension will need to be enabled.
-- Some of SprayFire required  configuration is done in [JSON](http://www.json.org/) and you will need the [appropriate PHP extension](http://www.php.net/manual/en/book.json.php).
-- Unit tests are written with [PHPUnit](https://github.com/sebastianbergmann/phpunit).
-- Class autoloading is taken care of by [ClassLoader](http://github.com/cspray/ClassLoader)
+If the install was successful you should have the [`cspray\ClassLoader`](https://github.com/cspray/ClassLoader) library in your libs folder. At this point the install process is complete. Check out the details below for configuration and setting up your app.
 
-## github
+### Configuring SprayFire
 
-SprayFire takes tremendous advantage of the simple, quality tools for project management provided by [github](http://www.github.com).  Below we discuss how SprayFire utilizes these tools and how you can gather the best information possible from those tools.
+There are 2 critical files when wanting to configure SprayFire's runtime behavior. The first is [`/sprayfire_apps/config/SprayFire/routes.php`]() which controls how URLs are converted into the appropriate controllers and actions. You can read more about that configuration file and routing by looking at the [Routing docs](https://github.com/cspray/SprayFire/wiki/HTTP-and-Routing).
 
-### The Wiki
+The second is [`/sprayfire_apps/config/SprayFire/environment.php`]() which controls how SprayFire's runtime behavior. Various aspects of the framework are directly controlled from this file including things like: setting development or production environment modes, the default charset to use, whether to use Virtual Host support and what framework provided bootstraps should be ran.
 
-[SprayFire Wiki](http://www.github.com/cspray/SprayFire/wiki/) is the absolute best source for all the information you could possibly want to know about the project.  Things like conventions, coding and documentation guidelines, how various aspects of SprayFire work and pretty much everything about the project.
+Initially the most important of the environment configuration values is whether or not Virtual Host support is enabled. For the [`\SprayFire\FileSys\PathGenerator`](https://github.com/cspray/SprayFire/blob/master/libs/SprayFire/FileSys/PathGenerator.php) implementations to provide the appropriate URL path used for JavaScript and CSS resources in HTML we have to know whether or not the framework has been setup to not require the install directory to load the framework. For more information check out the [Configuration guide docs]().
 
-Of particular note in the wiki are the [Conventions](http://www.github.com/cspray/SprayFire/wiki/Conventions/) page and the [Coding and Documentation Guideline](https://github.com/cspray/SprayFire/wiki/Coding-and-Documentation-Guideline), although you really should check out the entire thing.
+## Writing SprayFire driven Apps
 
-### Issues and Milestones
+Now that you've installed SprayFire you probably wanna start writing apps with it. First thing you should do is determine what name you want the top-level namespace of your app to be. Once you've decided on a name...
 
-The [issues](https://github.com/cspray/SprayFire/issues) and [milestones](https://github.com/cspray/SprayFire/issues/milestones) are the pulse and vision of the framework.  If you want to contribute to the project, after you've read through the wiki, then solving issues and completing milestones is the best place to start.
+```plain
+# expect you to be in the same SprayFire install path
+cd app
+mkdir YourAppName && cd YourAppName
+touch Bootstrap.php
+```
+
+Now, open up `/sprayfire_apps/app/YourAppName/Bootstrap.php` and create a class similar to the following:
+
+```php
+<?php
+
+namespace YourAppName;
+
+// Note the top level namespace is the same name of your app
+// Note that the name of the class is 'Bootstrap' and its parent class
+class Bootstrap extends \SprayFire\Bootstrap\FireBootstrap\Pluggable {
+
+    public function runBootstrap() {
+
+    }
+
+}
+```
+
+The parent class is an abstract [`\SprayFire\Bootstrap\Bootstrapper`](https://github.com/cspray/SprayFire/blob/master/libs/SprayFire/Bootstrap/Bootstrapper.php) that provides two protected properties: `Container` and `ClassLoader`. `Container` will be type [`\SprayFire\Service\Container`](https://github.com/cspray/SprayFire/blob/master/libs/SprayFire/Service/Container.php) and `ClassLoader` will be type [`\ClassLoader\Loader`](https://github.com/cspray/ClassLoader/blob/master/Loader.php). This allows you to add whatever services your Model, Controller or Responder layers may use and to setup autoloading for whatever third-party plugins or libraries you may be using.
+
+At this point you can start creating Model, Controller and Responder directories and start wiring up your application.
+
+## Resources
+
+### [Wiki](https://github.com/cspray/SprayFire/wiki)
+
+This is the primary source for all the detailed information regarding SprayFire provided modules and the inner workings of the framework. The user guide is stored in the wiki. It is intended to be used as a wiki, if you find some cool information that you think would be useful to other SprayFire users update the wiki!
+
+### API Documentation
+
+Look at all the public and protected methods provided by SprayFire, what they can do and how to use them. While we strive for a clean API that doesn't require much documentation reading we strive to have a thoroughly documented codebase. We are still coming up with a solution for hosting this documentation. But it should be available before the 0.2.0a release.
+
+### [Issues](https://github.com/cspray/SprayFire/issues) and [Milestones](https://github.com/cspray/SprayFire/issues/milestones)
+
+SprayFire makes extensive use of issues and milestones to manage what needs to get done and to set goals for getting those things done. If a bug or feature request is needed please raise an issue. The labeling system is designed so that you can communicate to the SprayFire development team whether your issue is a bug, feature request or related to docs. Please use them. We will use the labels to communicate to you the status of your issue.
+
+### [Trello](https://trello.com/board/sprayfire-todo/51097d06bce28e4a3800006d)
+
+While Issues and Milestones make a great way to keep up with who and what should be done it doesn't provide the proper tools to determine when or in what priority things should be done. Trello does provide this functionality. Come see what it is the development team is working on at any given moment.
 
 ## Team
 

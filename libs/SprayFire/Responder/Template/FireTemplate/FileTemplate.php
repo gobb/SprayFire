@@ -12,7 +12,9 @@
 
 namespace SprayFire\Responder\Template\FireTemplate;
 
-use \SprayFire\Responder\Template as SFResponderTemplate;
+use \SprayFire\Responder\Template as SFResponderTemplate,
+    \SplFileObject as SplFileObject,
+    \SplFileInfo as SplFileInfo;
 
 /**
  * @package SprayFire
@@ -34,14 +36,15 @@ class FileTemplate extends BaseTemplate {
      */
     public function __construct($name, $filePath) {
         parent::__construct($name);
-        if ($filePath instanceof \SplFileObject) {
+        if ($filePath instanceof SplFileObject) {
+            $this->File = $filePath->getFileInfo();
+        } elseif ($filePath instanceof SplFileInfo) {
             $this->File = $filePath;
         } elseif (\is_string($filePath)) {
-            try {
-                $this->File = new \SplFileObject($filePath);
-            } catch(\RuntimeException $RuntimeException) {
-                $message = 'The file path, ' . $filePath . ', could not be found or opened properly';
-                throw new SFResponderTemplate\Exception\FileNotFound($message, null, $RuntimeException);
+            $this->File = new \SplFileInfo($filePath);
+            if (!$this->File->isReadable()) {
+                $message = 'The file path, ' . $filePath . ', is not readable';
+                throw new SFResponderTemplate\Exception\FileNotFound($message);
             }
         }
     }

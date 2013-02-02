@@ -68,6 +68,15 @@ abstract class Base extends FireService\Consumer implements SFController\Control
         'TemplateManager' => 'SprayFire.Responder.Template.FireTemplate.Manager'
     );
 
+    /**
+     * Holds the parameters that were parsed from the Request and stored in the
+     * RoutedRequest object; serves as a helper property to easily retrieve named
+     * properties.
+     *
+     * @property array
+     */
+    protected $parameters = array();
+
     public function __construct() {
         $this->responderData[SFResponder\OutputEscaper::CSS_CONTEXT] = array();
         $this->responderData[SFResponder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT] = array();
@@ -89,7 +98,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      * @codeCoverageIgnore
      */
     public function beforeAction(SFMediator\Event $Event) {
-
+        $this->parameters = $this->RoutedRequest->getParameters();
     }
 
     /**
