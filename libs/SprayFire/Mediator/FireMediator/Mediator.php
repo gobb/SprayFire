@@ -34,7 +34,7 @@ class Mediator extends SFCoreObject implements SFMediator\Mediator {
      *
      * @property array
      */
-    protected $eventCallbacks = array();
+    protected $eventCallbacks = [];
 
     /**
      * Stores the events that are able to be triggered by this implementation.
@@ -109,7 +109,7 @@ class Mediator extends SFCoreObject implements SFMediator\Mediator {
      * @return void
      * @throws \SprayFire\Mediator\Exception\EventNotRegistered
      */
-    public function triggerEvent($eventName, $Target, array $arguments = array()) {
+    public function triggerEvent($eventName, $Target, array $arguments = []) {
         if (!$this->Registry->hasEvent($eventName)) {
             throw new SFMediator\Exception\EventNotRegistered('The event name passed, ' . $eventName . ', is not a validly registered event.');
         }

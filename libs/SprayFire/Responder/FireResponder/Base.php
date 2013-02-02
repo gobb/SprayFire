@@ -26,10 +26,10 @@ abstract class Base extends FireService\Consumer implements SFResponder\Responde
      *
      * @property array
      */
-    protected $services = array(
+    protected $services = [
         'Paths' => 'SprayFire.FileSys.FireFileSys.Paths',
         'Escaper' => 'SprayFire.Responder.FireResponder.OutputEscaper'
-    );
+    ];
 
     /**
      * Will get the appropriate data from the $Controller with the appropriate
@@ -48,7 +48,7 @@ abstract class Base extends FireService\Consumer implements SFResponder\Responde
         $cleanHtmlAttribute = $this->Escaper->escapeHtmlAttribute($dirtyHtmlAttribute);
         $cleanCss = $this->Escaper->escapeCss($dirtyCss);
         $cleanJavaScript = $this->Escaper->escapeJavaScript($dirtyJavaScript);
-        return \array_merge(array(), $cleanHtmlContent, $cleanHtmlAttribute, $cleanCss, $cleanJavaScript);
+        return \array_merge([], $cleanHtmlContent, $cleanHtmlAttribute, $cleanCss, $cleanJavaScript);
     }
 
 }

@@ -49,7 +49,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      *
      * @property array
      */
-    protected $responderData = array();
+    protected $responderData = [];
 
     /**
      * Services that are provided by default to all implementations extending
@@ -60,13 +60,13 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      *
      * @property array
      */
-    protected $services = array(
+    protected $services = [
         'Paths' => 'SprayFire.FileSys.FireFileSys.Paths',
         'Request' => 'SprayFire.Http.FireHttp.Request',
         'RoutedRequest' => 'SprayFire.Http.Routing.FireRouting.RoutedRequest',
         'Logging' => 'SprayFire.Logging.FireLogging.LogOverseer',
         'TemplateManager' => 'SprayFire.Responder.Template.FireTemplate.Manager'
-    );
+    ];
 
     /**
      * Holds the parameters that were parsed from the Request and stored in the
@@ -75,13 +75,13 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      *
      * @property array
      */
-    protected $parameters = array();
+    protected $parameters = [];
 
     public function __construct() {
-        $this->responderData[SFResponder\OutputEscaper::CSS_CONTEXT] = array();
-        $this->responderData[SFResponder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT] = array();
-        $this->responderData[SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT] = array();
-        $this->responderData[SFResponder\OutputEscaper::JAVASCRIPT_CONTEXT] = array();
+        $this->responderData[SFResponder\OutputEscaper::CSS_CONTEXT] = [];
+        $this->responderData[SFResponder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT] = [];
+        $this->responderData[SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT] = [];
+        $this->responderData[SFResponder\OutputEscaper::JAVASCRIPT_CONTEXT] = [];
     }
 
     /**

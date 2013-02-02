@@ -36,9 +36,8 @@ class About extends Base implements SFController\Controller {
      * @return void
      */
     public function beforeAction(SFMediator\Event $Event) {
-        $templateName = 'layoutContent';
-        $filePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
-        $LayoutTemplate = new SFResponderTemplate\FireTemplate\FileTemplate($templateName, $filePath);
+        $filePath = $this->Paths->getLibsPath('SprayFire/Responder/html/layout/default.php');
+        $LayoutTemplate = new SFResponderTemplate\FireTemplate\FileTemplate('layoutContent', $filePath);
         $this->TemplateManager->setLayoutTemplate($LayoutTemplate);
     }
 
@@ -53,11 +52,11 @@ class About extends Base implements SFController\Controller {
         $BodyTemplate = new SFResponderTemplate\FireTemplate\FileTemplate($templateName, $filePath);
         $this->TemplateManager->addContentTemplate($BodyTemplate);
 
-        $messages = array(
+        $messages = [
             'PHP 5.3 framework',
             'Developed by Charles Sprayberry',
             'Graphic Design by Dyana Stewart'
-        );
+        ];
         $this->setResponderData('messages', $messages);
     }
 
