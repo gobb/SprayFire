@@ -35,7 +35,7 @@ class Pages extends Base {
      */
     public function beforeAction(SFMediator\Event $Event) {
         parent::beforeAction($Event);
-        $layoutFilePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'layout', 'default.php');
+        $layoutFilePath = $this->Paths->getLibsPath('SprayFire/Responder/html/layout/default.php');
         $LayoutTemplate = new FireTemplate\FileTemplate('layoutTemplate', $layoutFilePath);
         $this->TemplateManager->setLayoutTemplate($LayoutTemplate);
     }
@@ -68,14 +68,16 @@ class Pages extends Base {
      * dumps that information out.
      */
     public function debug() {
-        $templateName = 'templateContent';
-        $templateFilePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'debug-content.php');
-        $ContentTemplate = new FireTemplate\FileTemplate($templateName, $templateFilePath);
+        $templateFilePath = $this->Paths->getLibsPath('SprayFire/Responder/html/debug-content.php');
+        $ContentTemplate = new FireTemplate\FileTemplate('templateContent', $templateFilePath);
         $this->TemplateManager->addContentTemplate($ContentTemplate);
 
         $serverData = \print_r($_SERVER, true);
         $sessionActive = (\session_id() === '') ? 'No' : 'Yes';
-        $sessionData = \print_r($_SESSION, true);
+        $sessionData = '';
+        if (isset($_SESSION)) {
+            $sessionData = \print_r($_SESSION, true);
+        }
         $postData = \print_r($_POST, true);
         $getData = \print_r($_GET, true);
         $controller = \get_class();

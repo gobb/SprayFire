@@ -32,8 +32,6 @@ class Html extends Base implements SFResponder\Responder {
      */
     protected $response = '';
 
-
-
     /**
      *
      * @param \SprayFire\Controller\Controller $Controller
@@ -42,12 +40,13 @@ class Html extends Base implements SFResponder\Responder {
     public function generateDynamicResponse(SFController\Controller $Controller) {
         $TemplateManager = $Controller->getTemplateManager();
         $LayoutTemplate = $TemplateManager->getLayoutTemplate();
-        $data = array();
+        $data = [];
         $data['Responder'] = $this;
         $data = \array_merge($data, $this->getEscapedData($Controller));
         $contentTemplates = $TemplateManager->getContentTemplates();
         if ($this->isTraversable($contentTemplates)) {
             foreach ($contentTemplates as $name => $Template) {
+                /* @var \SprayFire\Responder\Template\Template $Template */
                 $data[$name] = $Template->getContent($data);
             }
         }

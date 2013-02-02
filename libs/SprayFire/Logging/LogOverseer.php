@@ -51,25 +51,25 @@ interface LogOverseer extends SFObject {
      * @param string $message
      * @param array $options
      */
-    public function logEmergency($message, array $options = array());
+    public function logEmergency($message, array $options = []);
 
     /**
      * @param string $message
      * @param array $options
      */
-    public function logError($message, array $options = array());
+    public function logError($message, array $options = []);
 
     /**
      * @param string $message
      * @param array $options
      */
-    public function logDebug($message, array $options = array());
+    public function logDebug($message, array $options = []);
 
     /**
      * @param string $message
      * @param array $options
      */
-    public function logInfo($message, array $options = array());
+    public function logInfo($message, array $options = []);
 
     /**
      * For compatibility purposes you should implement this function to accept a

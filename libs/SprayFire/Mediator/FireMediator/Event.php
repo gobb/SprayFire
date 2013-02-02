@@ -20,7 +20,7 @@ class Event extends CoreObject implements MediatorEvent {
 
     protected $arguments;
 
-    public function __construct($event, $Target, array $arguments = array()) {
+    public function __construct($event, $Target, array $arguments = []) {
         $this->event = $event;
         $this->Target = $Target;
         $this->arguments = $arguments;

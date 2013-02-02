@@ -82,7 +82,7 @@ class LogOverseer extends SFCoreObject implements SFLogging\LogOverseer {
      * @param array $options
      * @return mixed
      */
-    public function logDebug($message, array $options = array()) {
+    public function logDebug($message, array $options = []) {
         return $this->DebugLogger->log($message, $options);
     }
 

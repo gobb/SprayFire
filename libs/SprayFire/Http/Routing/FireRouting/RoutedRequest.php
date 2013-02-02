@@ -50,7 +50,7 @@ class RoutedRequest extends SFCoreObject implements SFHttpRouting\RoutedRequest 
     /**
      * @property array
      */
-    protected $parameters = array();
+    protected $parameters = [];
 
     /**
      * Will parse the app namespace for this RoutedRequest based on the top level

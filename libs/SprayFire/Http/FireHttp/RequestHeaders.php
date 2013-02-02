@@ -82,7 +82,7 @@ class RequestHeaders extends SFCoreObject implements SFHttp\RequestHeaders {
     /**
      * @property array
      */
-    protected $serverToHeadersMap = array(
+    protected $serverToHeadersMap = [
         'HTTP_HOST' => 'host',
         'HTTP_CONNECTION' => 'connectionType',
         'HTTP_CACHE_CONTROL' => 'cacheControl',
@@ -93,7 +93,7 @@ class RequestHeaders extends SFCoreObject implements SFHttp\RequestHeaders {
         'HTTP_ACCEPT_LANGUAGE' => 'acceptLanguage',
         'HTTP_REFERER' => 'referer',
         'HTTP_X_REQUESTED_WITH' => 'xRequestedWith'
-    );
+    ];
 
 
     /**
