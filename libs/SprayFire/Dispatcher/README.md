@@ -1,5 +1,9 @@
 ## SprayFire\Dispatcher
 
+**Dependencies**
+- SprayFire\Http\Routing
+- SprayFire\Object
+
 The Dispatcher module's responsibility is ensuring that apps are initialized and that the appropriate objects are created and methods invoked to generate the appropriate response based on a `SprayFire\Http\Routing\RoutedRequest`. The module is split into 2 interfaces, one for taking care of initializing the app and the other for processing the response.
 
 If the framework were a living being this would be its brain. This is what ties everything together and gets the stuff you see on the browser to show up. To say this is a critical component of the framework is an understatement.
@@ -7,6 +11,15 @@ If the framework were a living being this would be its brain. This is what ties 
 ---
 
 ## SprayFire\Dispatcher\FireDispatcher
+
+**Dependencies**
+- SprayFire\Controller
+- SprayFire\Dispatcher
+- SprayFire\Factory
+- SprayFire\HttpRouting
+- SprayFire\Mediator
+- SprayFire\Mediator\FireMediator
+- SprayFire\CoreObject
 
 ### AppInitializer
 
@@ -29,4 +42,4 @@ This implementation is responsible for creating, through factories, the appropri
 - `SprayFire\Dispatcher\Events::AFTER_RESPONSES_SENT`
     This event is called after the Responder has generated the appropriate response. The target is the Responder used. No default Callback is provided for this event.
 
-> Right now there are implications in the way the `SprayFire\Responder\FireResponder` implementations work. The callbacks BEFORE_RESPONSE_SENT and AFTER_RESPONSE_SENT aren't really all that useful. There is no API for getting or setting the response so not a lot can be done in either event. There is an issue for 0.2.0a that is looking at addressing this issue.
+> Right now there are implications in the way the `SprayFire\Responder\FireResponder` implementations work. The callbacks BEFORE_RESPONSE_SENT and AFTER_RESPONSE_SENT aren't really all that useful. There is no API for getting or setting the response so not a lot can be done in either event. There is an issue for 0.2.0a that is looking at addressing this problem (https://github.com/cspray/SprayFire/issues/125)

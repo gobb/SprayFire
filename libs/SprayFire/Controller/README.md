@@ -1,5 +1,12 @@
 ## SprayFire\Controller
 
+**Dependencies**
+- SprayFire\Mediator
+- SprayFire\Responder
+- SprayFire\Responder\Template
+- SprayFire\Service
+- SprayFire\Object
+
 This module is a core piece of the framework and determines what data, Responder and Templates will be used for a given request. Data is set in a context sensitive manner that will allow context sensitive escaping by the `SprayFire\Responder` module. It is also the responsibility of implementations to provide a `SprayFire\Responder\Template\Manager` that will be used to determine what templates should be rendered in which order.
 
 Additionally implementation are also `SprayFire\Service\Consumer` implementations. You should take a look at the `SprayFire\Service` module to see how this works in SprayFire.
@@ -7,6 +14,14 @@ Additionally implementation are also `SprayFire\Service\Consumer` implementation
 ---
 
 ## SprayFire\Controller\FireController
+
+**Dependencies**
+- SprayFire\Controller
+- SprayFire\Mediator
+- SprayFire\Responder
+- SprayFire\Responder\Template
+- SprayFire\Service\FireService
+- SprayFire\CoreObject
 
 Primarily your apps should be concerned with `SprayFire\Controller\FireController\Base`. The other Controllers provided are used to show the installation welcome, SprayFire about pages and other browser viewable content provided during installation. You can change these around if you want, I just wouldn't recommend it.
 
