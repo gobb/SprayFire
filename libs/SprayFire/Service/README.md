@@ -89,4 +89,53 @@ class Bootstrap extends \SprayFire\Bootstrap\FireBootstrap\Pluggable {
 ?>
 ```
 
-Now passing the strings `'\YourApp\Helper\Foo'` or `'Yourapp.Helper.Foo'` to `Container::getService()` will return a freshly created instance of type `\YourApp\Helper\Foo`. Services added as string names are lazy loaded and only created when the service is first retrieved. After first retrieval a cached copy of the service is returned ensuring all service Consumers are using the appropriate object.
+Now passing the strings `'\YourApp\Helper\Foo'` or `'YourApp.Helper.Foo'` to `Container::getService()` will return a freshly created instance of type `\YourApp\Helper\Foo`. Services added as string names are lazy loaded and only created when the service is first retrieved. After first retrieval a cached copy of the service is returned ensuring all service Consumers are using the appropriate object.
+
+**Adding basic class with some dependencies in constructor, passing service as string name**
+
+---
+
+**YourApp/Helper/BetterFoo.php**
+
+```php
+<?php
+
+namespace YourApp\Helper;
+
+class BetterFoo extends Foo {
+
+    public function __construct(YourApp\Helper\DooHickey $DooHickey, $bar = null) {
+
+    }
+
+}
+
+?>
+```
+
+**YourApp/Bootstrap.php**
+
+```php
+<?php
+
+namespace YourApp;
+
+class Bootstrap extends \SprayFire\Bootstrap\FireBootstrap\Pluggable {
+
+    public function runBootstrap() {
+        $this->Container->addService('YourApp.Helper.Foo', function() {
+            // It is your responsibility to ensure the appropriate object
+            // dependencies are created!
+            $DooHickey = new YourApp\Helper\DooHickey();
+            $bar = 'foobar';
+            return [$DooHickey, $bar];
+        });
+    }
+
+}
+
+?>
+```
+
+Now when you retrieve the service the closure passed will use the returned array to pass as arguments to the constructor. The index order of the array should match the index order of the constructor. Like before everything is lazy loaded, so the dependencies won't be created until the first object is created and then the function will not be invoked again.
+
