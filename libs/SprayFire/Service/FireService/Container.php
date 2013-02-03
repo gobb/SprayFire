@@ -89,10 +89,8 @@ class Container extends SFCoreObject implements SFService\Container {
      */
     public function addService($serviceName, $callableParameters = null, $factoryKey = null) {
         if (\is_object($serviceName)) {
-            $service = $serviceName;
-            $serviceName = '\\' . \get_class($service);
-            $serviceKey = $this->getServiceKey($serviceName);
-            $this->storedServices[$serviceKey] = $service;
+            $serviceKey = $this->getServiceKey('\\' . \get_class($serviceName));
+            $this->storedServices[$serviceKey] = $serviceName;
         } else {
             if (\is_null($callableParameters)) {
                 $callableParameters = $this->emptyCallback;
