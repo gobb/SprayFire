@@ -23,6 +23,8 @@ use \SprayFire\Service as SFService,
  * @package SprayFire
  * @subpackage Service.FireService
  *
+ * @deprecated
+ *
  * @todo
  * We should take a look making this a Builder and not a Factory.  We are too
  * reliant on implementations to not override makeObject or to properly override
