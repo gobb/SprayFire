@@ -141,6 +141,8 @@ Now when you retrieve the service the closure passed will use the returned array
 
 **Adding service as object**
 
+---
+
 Let's use the example before with `YourApp\Helper\BetterFoo`. Extending on that class and replacing bootstrap with...
 
 **YourApp/Bootstrap.php**
@@ -163,4 +165,36 @@ class Bootstrap extends \SprayFire\Bootstrap\FireBootstrap\Pluggable {
 ?>
 ```
 
-Like before you can access this object by passing either `'YourApp.Helper.BetterFoo` or `\YourApp\Helper\BetterFoo`. If you're pretty sure that the service will be used throughout the normal course of the application processing this is the recommended method for adding services. By manually instantiating services that are highly used you skip a Reflection step in creating them dynamically.
+Like before you can access this object by passing either `'YourApp.Helper.BetterFoo` or `\YourApp\Helper\BetterFoo` to `Container::getService()`. If you're pretty sure that the service will be used throughout the normal course of the application processing this is the recommended method for adding services. By manually instantiating services that are highly used you skip a Reflection step in creating them dynamically.
+
+**Adding service to be created by Factory**
+
+---
+
+Let's use the previous `BetterFoo` class from 'Adding service with some dependencies in constructor'. We're gonna have this service created by a Factory.
+
+**YourApp/Bootstrap.php**
+
+```php
+<?php
+
+namespace YourApp;
+
+class Bootstrap extends \SprayFire\Bootstrap\FireBootstrap\Pluggable {
+
+    public function runBootstrap() {
+        // This should be of type \SprayFire\Factory\Factory
+        $FooFactory = new \YourApp\Helper\FooFactory();
+        $this->Container->registerFactory('fooFactory', $FooFactory);
+        $parameters = function() {
+            return [new \YourApp\Helper\DooHickey(), 'bar'];
+        };
+        $this->Container->addService('BetterFoo', $parameters, 'fooFactory');
+    }
+
+}
+
+?>
+```
+
+Now when you pass `'BetterFoo'` to `Container::getService()` the returned object will be created by `$FooFactory`. This also provides some interesting behavior in regards to the service name. Previous examples passed some string that can be mapped by the container back to a class name. This is not the case with objects created by Factory based on behavior of the Factory. This is an intentional design decision to allow you flexibility in how services are added to the container.
