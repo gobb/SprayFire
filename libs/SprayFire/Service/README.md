@@ -48,9 +48,9 @@ The responsibilities for the implementation were detailed in the parent module, 
 
 > A word about namespaces. The framework typically passes class names as strings in dot-separated syntax instead of the normal PHP backslash namespace separator. For example, `\SprayFire\Service\Foo` could be requested from the container with the string `SprayFire.Service.Foo`, both are equivalent and result in same output.
 
-**Adding service with no dependencies, passing service as string name**
-
 ---
+
+**Adding service with no dependencies, passing service as string name**
 
 **YourApp/Helper/Foo.php**
 
@@ -91,9 +91,9 @@ class Bootstrap extends \SprayFire\Bootstrap\FireBootstrap\Pluggable {
 
 Now passing the strings `'\YourApp\Helper\Foo'` or `'YourApp.Helper.Foo'` to `Container::getService()` will return a freshly created instance of type `\YourApp\Helper\Foo`. Services added as string names are lazy loaded and only created when the service is first retrieved. After first retrieval a cached copy of the service is returned ensuring all service Consumers are using the appropriate object.
 
-**Adding service with some dependencies in constructor, passing service as string name**
-
 ---
+
+**Adding service with some dependencies in constructor, passing service as string name**
 
 **YourApp/Helper/BetterFoo.php**
 
@@ -139,9 +139,9 @@ class Bootstrap extends \SprayFire\Bootstrap\FireBootstrap\Pluggable {
 
 Now when you retrieve the service the closure passed will use the returned array to pass as arguments to the constructor. The index order of the array should match the index order of the constructor. Like before everything is lazy loaded, so the dependencies won't be created until the first object is created and then the function will not be invoked again.
 
-**Adding service as object**
-
 ---
+
+**Adding service as object**
 
 Let's use the example before with `YourApp\Helper\BetterFoo`. Extending on that class and replacing bootstrap with...
 
@@ -167,9 +167,9 @@ class Bootstrap extends \SprayFire\Bootstrap\FireBootstrap\Pluggable {
 
 Like before you can access this object by passing either `'YourApp.Helper.BetterFoo` or `\YourApp\Helper\BetterFoo` to `Container::getService()`. If you're pretty sure that the service will be used throughout the normal course of the application processing this is the recommended method for adding services. By manually instantiating services that are highly used you skip a Reflection step in creating them dynamically.
 
-**Adding service to be created by Factory**
-
 ---
+
+**Adding service to be created by Factory**
 
 Let's use the previous `BetterFoo` class from 'Adding service with some dependencies in constructor'. We're gonna have this service created by a Factory.
 
@@ -198,3 +198,42 @@ class Bootstrap extends \SprayFire\Bootstrap\FireBootstrap\Pluggable {
 ```
 
 Now when you pass `'BetterFoo'` to `Container::getService()` the returned object will be created by `$FooFactory`. This also provides some interesting behavior in regards to the service name. Previous examples passed some string that can be mapped by the container back to a class name. This is not the case with objects created by Factory based on behavior of the Factory. This is an intentional design decision to allow you flexibility in how services are added to the container.
+
+### SprayFire\Service\FireService\Consumer
+
+This abstract class provides basic functionality to easily allow extended classes to set the services requested and then easily access those services after construction. The code below talks about what you can expect when you inherit this object.
+
+This is an example of how to extend the class and add your own services.
+
+**YourApp\Helper\ServiceConsumer**
+
+```php
+<?php
+
+namespace YourApp\Helper;
+
+class ServiceConsumer extends \SprayFire\Service\FireService\Consumer {
+
+    public function __construct() {
+        $this->services['YourAppModel'] = 'YourApp.Model.FooApi';
+        $this->services['Stuff'] = 'YourApp.DoStuff';
+    }
+
+    // After construct you can do the following:
+    // $this->YourAppModel
+    // OR
+    // $this->service('YourAppModel')
+    // to get the appropriate service.
+
+}
+
+?>
+```
+
+Extending the object is quite simple and allows you to just add the services you need for extending implementation and easily gain access to those services. The Consumer doesn't provide any other functionality.
+
+---
+
+### SprayFire\Service\FireService\ConsumerFactory
+
+This is an abstract implementation of `SprayFire\Factory\FireFactory\Base` that will create objects and then provide appropriate services to consumers. This object is officially deprecated. It will be removed in 0.2.0a and replaced with a more flexible solution that does not require inheritance.
