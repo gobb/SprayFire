@@ -26,12 +26,12 @@ abstract class Consumer extends SFCoreObject implements SFService\Consumer {
     /**
      * @property array
      */
-    protected $services = array();
+    protected $services = [];
 
     /**
      * @property array
      */
-    protected $storedServices = array();
+    protected $storedServices = [];
 
     /**
      * Returns an array of $this->services set
