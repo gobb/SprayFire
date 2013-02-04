@@ -75,5 +75,5 @@ Please note, that Controller implementations, **by design**, do not have access 
 - `Paths => \SprayFire\FileSys\FireFileSys\Paths`
 - `Request => \SprayFire\Http\FireHttp\Request`
 - `RoutedRequest => \SprayFire\Http\Routing\FireRouting\RoutedRequest`
-- `Logging - \SprayFire\Logging\FireLogging\LogOverseer`
-- `TemplateManager - \SprayFire\Responder\Template\FireTemplate\Manager`
+- `Logging => \SprayFire\Logging\FireLogging\LogOverseer`
+- `TemplateManager => \SprayFire\Responder\Template\FireTemplate\Manager`
