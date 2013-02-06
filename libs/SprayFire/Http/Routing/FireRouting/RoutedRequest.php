@@ -60,7 +60,7 @@ class RoutedRequest extends SFCoreObject implements SFHttpRouting\RoutedRequest 
      * @param string $action
      * @param array $parameters
      */
-    public function __construct($controller, $action, array $parameters = array()) {
+    public function __construct($controller, $action, array $parameters = []) {
         $this->appNamespace = $this->getTopLevelNamespace($controller);
         $this->controller = (string) $controller;
         $this->action = (string) $action;

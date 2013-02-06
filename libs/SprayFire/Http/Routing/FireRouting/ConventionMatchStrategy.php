@@ -105,16 +105,16 @@ class ConventionMatchStrategy extends MatchStrategy {
             $Route = new Route('/', $this->options['namespace'], $this->options['controller'], $this->options['action']);
             return [
                 self::ROUTE_KEY => $Route,
-                self::PARAMETER_KEY => array()
+                self::PARAMETER_KEY => []
             ];
         }
 
         $fragments = $this->parsePath($path);
         $Route = new Route($originalPath, $this->options['namespace'], $fragments['controller'], $fragments['action']);
-        return array(
+        return [
             self::ROUTE_KEY => $Route,
             self::PARAMETER_KEY => $fragments['parameters']
-        );
+        ];
     }
 
     /**
@@ -127,7 +127,7 @@ class ConventionMatchStrategy extends MatchStrategy {
     protected function parsePath($path) {
         $controller = $this->options['controller'];
         $action = $this->options['action'];
-        $parameters = array();
+        $parameters = [];
 
         $path = \trim($path, '/ ');
         $fragments = \explode('/', $path);
@@ -172,7 +172,7 @@ class ConventionMatchStrategy extends MatchStrategy {
      * @return array
      */
     protected function parseParameters(array $params) {
-        $parsedParams = array();
+        $parsedParams = [];
         foreach ($params as $param) {
             if (!$this->isMarkedParameter($param)) {
                 $parsedParams[] = $param;
