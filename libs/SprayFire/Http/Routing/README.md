@@ -72,6 +72,45 @@ $RouteBag->addRoute($Route);
 
 ### SprayFire\Http\Routing\FireRouting\ConfigurationMatchStrategy
 
+This is the MatchStrategy implementation the framework provides as default for v0.1.0a. This strategy relies on the Route objects in the passed RouteBag. Check out the code examples above for the Route & RouteBag. The examples below are really more about the particular patterns that might be put into a Route and how this MatchStrategy matches it. If no Route is stored with a pattern that matches the Request the RouteBag's default Route is returned.
+
+```php
+<?php
+
+use \SprayFire\Http\Routing\FireRouting as FireRouting;
+
+// ConfigurationMatchStrategy takes a look at the HTTP request URI and the pattern
+// associated to each Route int he RouteBag
+
+$uri = '/';
+$Root = new FireRouting\Route('/', 'YourApp.Controller');
+$About = new FireRouting\Route('/about/', 'YourApp.Controller', 'Pages', 'about');
+
+// The $uri would match $Root in this example.
+
+$uri = '/about';
+$Root = new FireRouting\Route('/', 'YourApp.Controller');
+$RightAbout = new FireRouting\Route('/about/', 'YourApp.Controller', 'Pages', 'about');
+$WrongAbout = new FireRouting\Route('/about', 'YourApp.Controller', 'Pages', 'about');
+
+// Internally the ConfigurationMatchStrategy will always (1) prepend and append a '/'
+// to the end of the URI path. So, even if the URI was requested with no trailing '/' it
+// WILL have one when matching against your pattern. Additionally, the entire pattern
+// '/^{$pattern}$/' is checked against. For this reason $RightAbout will be returned and
+// not $WrongAbout in this example.
+
+$uri = '/blog/posts/blog-title';
+$Root = new FireRouting\Route('/', 'YourApp.Controller');
+$BlogPosts  = new FireRouting\Route('/blog/posts/(?P<title>[A-Za-z_-]+)/', 'YourApp.Controller', 'Blog', 'posts');
+
+// The URI would match $BlogPosts here, additionally the use of a named subgroup in the
+// regex pattern allows us to capture named parameters in the URL and outside of GET or
+// POST. The named parameter can be found in RoutedRequest::getParameters() which will
+// return an associative array ['title' => 'blog-title'].
+
+?>
+```
+
 ### SprayFire\Http\Routing\FireRouting\ConventionMatchStrategy
 
 ### SprayFire\Http\Routing\FireRouting\Router
