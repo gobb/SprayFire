@@ -80,7 +80,7 @@ This is the MatchStrategy implementation the framework provides as default for v
 use \SprayFire\Http\Routing\FireRouting as FireRouting;
 
 // ConfigurationMatchStrategy takes a look at the HTTP request URI and the pattern
-// associated to each Route int he RouteBag
+// associated to each Route in the RouteBag
 
 $uri = '/';
 $Root = new FireRouting\Route('/', 'YourApp.Controller');
@@ -91,7 +91,7 @@ $About = new FireRouting\Route('/about/', 'YourApp.Controller', 'Pages', 'about'
 $uri = '/about';
 $Root = new FireRouting\Route('/', 'YourApp.Controller');
 $RightAbout = new FireRouting\Route('/about/', 'YourApp.Controller', 'Pages', 'about');
-$WrongAbout = new FireRouting\Route('/about', 'YourApp.Controller', 'Pages', 'about');
+$WrongAbout = new FireRouting\Route('/about', 'YourApp.Controller', 'Pages', 'wrongAbout');
 
 // Internally the ConfigurationMatchStrategy will always (1) prepend and append a '/'
 // to the end of the URI path. So, even if the URI was requested with no trailing '/' it
@@ -113,7 +113,26 @@ $BlogPosts  = new FireRouting\Route('/blog/posts/(?P<title>[A-Za-z_-]+)/', 'Your
 
 ### SprayFire\Http\Routing\FireRouting\ConventionMatchStrategy
 
+```php
+<?php
+
+// You can pass options into the match strategy dictating default namespaces and
+
+$strategyOptions = [
+    'namespace' => 'YourApp.Controller', // default SprayFire.Controller.FireController
+    'controller' => 'Pages', // default Pages
+    'action' => 'index', // default index
+    'installDirectory' => '' // if you expect install directory name in URL include that directory name here. default ''
+];
+
+$MatchStrategy = new FireRouting\ConventionMatchStrategy($strategyOptions);
+
+?>
+````
+
 ### SprayFire\Http\Routing\FireRouting\Router
+
+
 
 ### SprayFire\Http\Routing\FireRouting\RoutedRequest
 
