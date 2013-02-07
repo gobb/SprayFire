@@ -80,7 +80,8 @@ This is the MatchStrategy implementation the framework provides as default for v
 use \SprayFire\Http\Routing\FireRouting as FireRouting;
 
 // ConfigurationMatchStrategy takes a look at the HTTP request URI and the pattern
-// associated to each Route in the RouteBag
+// associated to each Route in the RouteBag. The Routes created in each example are
+// assumed to be stored in the RouteBag passed to the ConventionMatchStrategy
 
 $uri = '/';
 $Root = new FireRouting\Route('/', 'YourApp.Controller');
@@ -111,12 +112,20 @@ $BlogPosts  = new FireRouting\Route('/blog/posts/(?P<title>[A-Za-z_-]+)/', 'Your
 ?>
 ```
 
+> If you extend from `SprayFire\Controller\FireController\Base` you can alias the `RoutedRequest::getParameters()` function by `$this->parameters` in your controller methods.
+
 ### SprayFire\Http\Routing\FireRouting\ConventionMatchStrategy
+
+> Note, as of v0.1.0a there is a flaw in how the Router implementation utilizes the MatchStrategy objects that would cause the controller and action to not be normalized properly in some situations. This could potentially cause the framework to not recognize the URI as a valid resource although it is. This is an issue with how MatchStrategy was implemented in the module late in development. There is a [github issue](https://github.com/cspray/SprayFire/issues/131) for v0.2.0a milestone that will resolve this.
+
+This is an optional MatchStrategy provided by the framework that will turn a pretty URL into the appropriate action and parameters based on a commonly used convention in the PHP framework world. This MatchStrategy completely ignores the passed RouteBag and simply parses the URI for the Request. Check out how to pass default value options to the strategy and what happens with certain URIs.
 
 ```php
 <?php
 
-// You can pass options into the match strategy dictating default namespaces and
+// You can pass options into the match strategy dictating default values to use if
+// none were provided in the URI. It is good practice to always provide the namespace
+// you expect your Controller implementations to fall into.
 
 $strategyOptions = [
     'namespace' => 'YourApp.Controller', // default SprayFire.Controller.FireController
@@ -130,9 +139,49 @@ $MatchStrategy = new FireRouting\ConventionMatchStrategy($strategyOptions);
 ?>
 ````
 
+```php
+<?php
+
+// all examples will use defaults listed above
+
+$uri = '/controller/action/params';
+// $namespace = 'YourApp.Controller'
+// $controller = 'controller'
+// $action = 'action'
+// $params = ['params']
+
+$uri = '/controller/';
+// $namespace = 'YourApp.Controller'
+// $controller = 'controller'
+// $action = 'index'
+// $params = []
+
+// You can mark a fragment as a parameter by preceding it with a ':'
+$uri = '/controller/:param1/:param2';
+// $namespace = 'YourApp.Controller'
+// $controller = 'controller'
+// $action = 'index'
+// $params = ['param2', 'param2']
+
+// As soon as one marked parameter is encountered all preceding fragments are
+// considered to be parameters as well
+$uri = '/:param1/param2/param3';  // notice only first param is marked
+// $namespace = 'YourApp.Controller'
+// $controller = 'Pages'
+// $action = 'index'
+// $params = ['param1', 'param2', 'param3']
+
+// You can also have named parameters, just put the label on the left side of the ':'
+$uri = '/blog/posts/title:some-title';
+// $namespace = 'YourApp.Controller'
+// $controller = 'blog'
+// $action = 'posts'
+// $params = ['title' => 'some-title']
+
+?>
+```
+
 ### SprayFire\Http\Routing\FireRouting\Router
-
-
 
 ### SprayFire\Http\Routing\FireRouting\RoutedRequest
 
