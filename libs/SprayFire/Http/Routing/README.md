@@ -23,7 +23,7 @@ This interface holds the information determined to be routed. It allows us acces
 
 ### SprayFire\Http\Routing\MatchStrategy
 
-This interface holds an API to allow easily plugging in your own algorithm to determine what Route should be returned as matching the Request. The interface only provides one method `MatchStrategy::getRouteAndParameters()` that has two arguments a RouteBag and a `SprayFire\Http\Request`. An array should be returned with the keys 'Route' and 'parameters'. The interface provides constants for these values: `MatchStrategy::ROUTE_KEY` and `MatchStrategy::PARAMETER_KEY`.
+This interface holds an API to allow easily plugging in your own algorithm to determine what Route should be returned as matching the Request. The interface only provides one method `MatchStrategy::getRouteAndParameters()` that has two arguments a RouteBag and a `SprayFire\Http\Request`. An array should be returned with the keys 'Route', holding a 'Route' implementation, and 'parameters', holding a numeric or associative indexed array. The interface provides constants for these key values: `MatchStrategy::ROUTE_KEY` and `MatchStrategy::PARAMETER_KEY`.
 
 ### SprayFire\Http\Routing\Router
 
@@ -72,7 +72,7 @@ $RouteBag->addRoute($Route);
 
 ### SprayFire\Http\Routing\FireRouting\ConfigurationMatchStrategy
 
-This is the MatchStrategy implementation the framework provides as default for v0.1.0a. This strategy relies on the Route objects in the passed RouteBag. Check out the code examples above for the Route & RouteBag. The examples below are really more about the particular patterns that might be put into a Route and how this MatchStrategy matches it. If no Route is stored with a pattern that matches the Request the RouteBag's default Route is returned.
+This is the MatchStrategy implementation the framework provides as default for v0.1.0a. This strategy relies on the Route objects in the passed RouteBag. Check out the code examples above for the Route & RouteBag. The examples below are really more about the particular patterns that might match a Route and how this MatchStrategy matches it. If no Route is stored with a pattern that matches the Request the RouteBag's default Route is returned.
 
 ```php
 <?php
@@ -182,6 +182,8 @@ $uri = '/blog/posts/title:some-title';
 ```
 
 ### SprayFire\Http\Routing\FireRouting\Router
+
+
 
 ### SprayFire\Http\Routing\FireRouting\RoutedRequest
 
