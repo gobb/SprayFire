@@ -183,8 +183,6 @@ $uri = '/blog/posts/title:some-title';
 
 ### SprayFire\Http\Routing\FireRouting\Router
 
-
-
 ### SprayFire\Http\Routing\FireRouting\RoutedRequest
 
 ### SprayFire\Http\Routing\FireRouting\Normalizer
