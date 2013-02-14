@@ -149,6 +149,26 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
         $this->assertSame($expected, $actual);
     }
 
+    public function testStrategyHandlesEmptyPath() {
+        $Route = $this->getMock('\SprayFire\Http\Routing\Route');
+        $Route->expects($this->once())->method('getPattern')->will($this->returnValue('/'));
+
+        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag->expects($this->once())->method('count')->will($this->returnValue(1));
+
+        $Bag->expects($this->once())->method('getIterator')->will($this->returnValue(new \ArrayIterator([$Route])));
+
+        $Uri = $this->getMock('\SprayFire\Http\Uri');
+        $Uri->expects($this->once())->method('getPath')->will($this->returnValue('/'));
+        $Request = $this->getMock('\SprayFire\Http\Request');
+        $Request->expects($this->once())->method('getUri')->will($this->returnValue($Uri));
+
+        $Strategy = new FireRouting\ConfigurationMatchStrategy();
+        $actual = $Strategy->getRouteAndParameters($Bag, $Request);
+        $expected = [$Strategy::ROUTE_KEY => $Route, $Strategy::PARAMETER_KEY => []];
+        $this->assertSame($expected, $actual, 'Failed asserting that root URI path is handled appropriately');
+    }
+
     public function testRouteNotBeingMatchedBecauseOfMethod() {
         $DefaultRoute = $this->getMock('\SprayFire\Http\Routing\Route');
 
