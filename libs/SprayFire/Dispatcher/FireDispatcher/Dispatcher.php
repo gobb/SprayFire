@@ -117,7 +117,7 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      */
     protected function addControllerBeforeActionEventToMediator(SFController\Controller $Controller) {
         $event = SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED;
-        $function = array($Controller, 'beforeAction');
+        $function = [$Controller, 'beforeAction'];
         $Callback = new FireMediator\Callback($event, $function);
         $this->Mediator->addCallback($Callback);
     }
@@ -130,7 +130,7 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
      */
     protected function addControllerAfterActionEventToMediator(SFController\Controller $Controller) {
         $event = SFDispatcher\Events::AFTER_CONTROLLER_INVOKED;
-        $function = array($Controller, 'afterAction');
+        $function = [$Controller, 'afterAction'];
         $Callback = new FireMediator\Callback($event, $function);
         $this->Mediator->addCallback($Callback);
     }
@@ -167,7 +167,7 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
         $this->Mediator->triggerEvent(SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED, $Controller);
         $actionName = $RoutedRequest->getAction();
         $parameters = $RoutedRequest->getParameters();
-        \call_user_func_array(array($Controller, $actionName), $parameters);
+        \call_user_func_array([$Controller, $actionName], $parameters);
         $this->Mediator->triggerEvent(SFDispatcher\Events::AFTER_CONTROLLER_INVOKED, $Controller);
     }
 

@@ -60,9 +60,7 @@ class Uri extends SFCoreObject implements SFHttp\Uri {
      * @param array $_server
      */
     public function __construct(array $_server = null) {
-        if (empty($_server)) {
-            $_server = $_SERVER;
-        }
+        $_server = $_server ?: $_SERVER;
         $this->parseParameters($_server);
     }
 

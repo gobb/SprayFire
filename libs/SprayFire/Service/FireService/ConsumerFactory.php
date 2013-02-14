@@ -23,6 +23,8 @@ use \SprayFire\Service as SFService,
  * @package SprayFire
  * @subpackage Service.FireService
  *
+ * @deprecated
+ *
  * @todo
  * We should take a look making this a Builder and not a Factory.  We are too
  * reliant on implementations to not override makeObject or to properly override
@@ -65,7 +67,7 @@ abstract class ConsumerFactory extends FireFactory\Base {
      * @return Object
      * @throws \SprayFire\Service\Exception\ServiceNotFound
      */
-    public function makeObject($className, array $parameters = array()) {
+    public function makeObject($className, array $parameters = []) {
         $Object = parent::makeObject($className, $parameters);
         $this->addServices($Object);
         return $Object;

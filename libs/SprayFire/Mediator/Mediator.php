@@ -47,7 +47,7 @@ interface Mediator {
      * @param array $arguments
      * @return boolean
      */
-    public function triggerEvent($eventName, $Target, array $arguments = array());
+    public function triggerEvent($eventName, $Target, array $arguments = []);
 
     /**
      * Will return an array of SprayFire.Mediator.Callback objects or an empty

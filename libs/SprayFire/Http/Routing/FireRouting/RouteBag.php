@@ -26,7 +26,7 @@ class RouteBag extends SFCoreObject implements SFHttpRouting\RouteBag {
      *
      * @property array
      */
-    protected $routes = array();
+    protected $routes = [];
 
     /**
      * Stores a route that is returned if a route is attempted to be retrieved

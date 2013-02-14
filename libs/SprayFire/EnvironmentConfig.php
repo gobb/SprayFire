@@ -28,19 +28,17 @@ class EnvironmentConfig extends SFCoreObject {
      *
      * @property array
      */
-    protected $defaultOptions = array(
+    protected $defaultOptions = [
         'developmentMode' => false,
         'defaultCharset' => 'UTF-8',
-        'registeredEvents' => array(
+        'registeredEvents' => [
             SFDispatcher\Events::AFTER_CONTROLLER_INVOKED => '',
             SFDispatcher\Events::AFTER_RESPONSE_SENT => '',
-            SFDispatcher\Events::AFTER_ROUTING => '',
             SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED => '',
-            SFDispatcher\Events::BEFORE_RESPONSE_SENT => '',
-            SFDispatcher\Events::BEFORE_ROUTING => ''
-        ),
+            SFDispatcher\Events::BEFORE_RESPONSE_SENT => ''
+        ],
         'virtualHost' => true
-    );
+    ];
 
     /**
      * The actual options used to return appropriate configuration values
@@ -52,7 +50,7 @@ class EnvironmentConfig extends SFCoreObject {
     /**
      * @param array $options
      */
-    public function __construct(array $options = array()) {
+    public function __construct(array $options = []) {
         $this->options = \array_merge($this->defaultOptions, $options);
     }
 

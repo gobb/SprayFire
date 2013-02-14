@@ -48,6 +48,7 @@ a:hover {
 .google-plus-red { color: rgb(159, 28, 28); }
 .github-gray { color: rgb(57, 57, 57); }
 .untappd-yellow { color: rgb(229, 161, 9); }
+.pinterest-red { color: rgb(231, 79, 96); }
 
 
 /**
@@ -105,11 +106,8 @@ a:hover {
 #welcome-panels > .welcome-panel:last-child { margin-right: 0; }
 
 .welcome-panel {
-    width: 30%;
-    margin-right: .5em;
+    width: 45%;
     padding: .5em;
-    float: left;
-    margin-left: .5em;
     border-radius: 4px;
     -moz-border-radius: 4px;
 }

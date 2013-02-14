@@ -30,7 +30,7 @@ interface Factory extends SFObject {
      * @param array $options
      * @return object
      */
-    public function makeObject($objectName, array $options = array());
+    public function makeObject($objectName, array $options = []);
 
     /**
      * Should return the Java or PHP style name for the type of object the factory

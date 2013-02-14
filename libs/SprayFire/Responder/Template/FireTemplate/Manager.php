@@ -34,7 +34,7 @@ class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
      *
      * @property array
      */
-    protected $contentTemplates = array();
+    protected $contentTemplates = [];
 
     /**
      * Stores a $Template against the name returned from $Template::getName.

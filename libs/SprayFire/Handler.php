@@ -63,7 +63,7 @@ class Handler extends SFCoreObject {
         $message = \implode(';', \compact('message', 'file', 'line'));
         $this->Logger->logError($message);
         // this is here to ensure that compile errors passing the wrong object type occur as appropriate
-        $unHandledSeverity = array(E_RECOVERABLE_ERROR);
+        $unHandledSeverity = [E_RECOVERABLE_ERROR];
         if (\in_array($severity, $unHandledSeverity)) {
             return false;
         }

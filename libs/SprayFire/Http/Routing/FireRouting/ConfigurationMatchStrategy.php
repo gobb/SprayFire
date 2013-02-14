@@ -34,13 +34,18 @@ class ConfigurationMatchStrategy extends MatchStrategy {
      */
     public function getRouteAndParameters(SFHttpRouting\RouteBag $Bag, SFHttp\Request $Request) {
         if (\count($Bag) === 0) {
-            return array(
+            return [
                 self::ROUTE_KEY => $Bag->getRoute(),
-                self::PARAMETER_KEY => array()
-            );
+                self::PARAMETER_KEY => []
+            ];
         }
 
-        $path = '/' . $this->removeInstallDirectory($Request->getUri()->getPath()) . '/';
+        $path = $this->removeInstallDirectory($Request->getUri()->getPath());
+        if (empty($path)) {
+            $path = '/';
+        } else {
+            $path = '/' . $path . '/';
+        }
         $method = \strtoupper($Request->getMethod());
 
         foreach ($Bag as $Route) {
@@ -62,17 +67,17 @@ class ConfigurationMatchStrategy extends MatchStrategy {
                         unset($match[$key]);
                     }
                 }
-                return array(
+                return [
                     self::ROUTE_KEY => $Route,
                     self::PARAMETER_KEY => $match
-                );
+                ];
             }
         }
 
-        return array(
+        return [
             self::ROUTE_KEY => $Bag->getRoute(),
-            self::PARAMETER_KEY => array()
-        );
+            self::PARAMETER_KEY => []
+        ];
     }
 
 }

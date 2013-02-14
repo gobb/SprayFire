@@ -29,7 +29,7 @@ class DevelopmentLogger extends SFCoreObject implements SFLogging\Logger {
      *
      * @property array
      */
-    protected $loggedMessages = array();
+    protected $loggedMessages = [];
 
     /**
      * Will store the $message and $options passed to be retrieved later by
@@ -44,7 +44,7 @@ class DevelopmentLogger extends SFCoreObject implements SFLogging\Logger {
      */
     public function log($message, $options = null) {
         $index = \count($this->loggedMessages);
-        $this->loggedMessages[$index] = array();
+        $this->loggedMessages[$index] = [];
         $this->loggedMessages[$index]['message'] = $message;
         $this->loggedMessages[$index]['options'] = $options;
         return true;

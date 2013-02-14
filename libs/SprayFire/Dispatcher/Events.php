@@ -19,18 +19,6 @@ namespace SprayFire\Dispatcher;
 abstract class Events {
 
     /**
-     * Should be invoked before any routing takes place and should set the target
-     * as a SprayFire.Http.Request.
-     */
-    const BEFORE_ROUTING = 'request.before_routing';
-
-    /**
-     * Should be invoked after any routing takes place and should set the target
-     * as a SprayFire.Http.Routing.RoutedRequest.
-     */
-    const AFTER_ROUTING = 'routedrequest.after_routing';
-
-    /**
      * Should be invoked before the routed controller is invoked and should set
      * the target as a SprayFire.Controller.Controller.
      */
@@ -43,7 +31,7 @@ abstract class Events {
     const AFTER_CONTROLLER_INVOKED = 'controller.after_invoked';
 
     /**
-     * Should be invoked before a responder has generatd and sent the response
+     * Should be invoked before a responder has generated and sent the response
      * with the SprayFire.Responder.Responder being used set as the target.
      */
     const BEFORE_RESPONSE_SENT = 'responder.before_responder_sent';

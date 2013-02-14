@@ -41,14 +41,14 @@ class Container extends SFCoreObject implements SFService\Container {
      *
      * @property array
      */
-    protected $addedServices = array();
+    protected $addedServices = [];
 
     /**
      * Services that have already been instantiated from a call to getService()
      *
      * @property array
      */
-    protected $storedServices = array();
+    protected $storedServices = [];
 
     /**
      * Stores SprayFire.Factory.Factory objects that are to be used for services
@@ -56,7 +56,7 @@ class Container extends SFCoreObject implements SFService\Container {
      *
      * @property array
      */
-    protected $registeredFactories = array();
+    protected $registeredFactories = [];
 
     /**
      * We are storing the empty callback for null parameters as a class property
@@ -73,7 +73,7 @@ class Container extends SFCoreObject implements SFService\Container {
     public function __construct(SFUtils\ReflectionCache $ReflectionCache) {
         $this->ReflectionCache = $ReflectionCache;
         $this->emptyCallback = function() {
-            return array();
+            return [];
         };
     }
 
@@ -89,10 +89,8 @@ class Container extends SFCoreObject implements SFService\Container {
      */
     public function addService($serviceName, $callableParameters = null, $factoryKey = null) {
         if (\is_object($serviceName)) {
-            $service = $serviceName;
-            $serviceName = '\\' . \get_class($service);
-            $serviceKey = $this->getServiceKey($serviceName);
-            $this->storedServices[$serviceKey] = $service;
+            $serviceKey = $this->getServiceKey('\\' . \get_class($serviceName));
+            $this->storedServices[$serviceKey] = $serviceName;
         } else {
             if (\is_null($callableParameters)) {
                 $callableParameters = $this->emptyCallback;
@@ -103,10 +101,10 @@ class Container extends SFCoreObject implements SFService\Container {
             }
             $serviceKey = $this->getServiceKey($serviceName);
             $factoryKey = ($factoryKey === null) ? false : $factoryKey;
-            $serviceSignature = array(
+            $serviceSignature = [
                 'parameterCallback' => $callableParameters,
                 'factoryKey' => $factoryKey
-            );
+            ];
 
             $this->addedServices[$serviceKey] = $serviceSignature;
         }
