@@ -40,7 +40,12 @@ class ConfigurationMatchStrategy extends MatchStrategy {
             ];
         }
 
-        $path = '/' . $this->removeInstallDirectory($Request->getUri()->getPath()) . '/';
+        $path = $this->removeInstallDirectory($Request->getUri()->getPath());
+        if (empty($path)) {
+            $path = '/';
+        } else {
+            $path = '/' . $path . '/';
+        }
         $method = \strtoupper($Request->getMethod());
 
         foreach ($Bag as $Route) {
