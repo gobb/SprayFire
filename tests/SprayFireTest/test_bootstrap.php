@@ -2,7 +2,7 @@
 
 // This is a convenience mechanism for testing to get the directory that libs, app
 // and web directory is stored in
-defined('SPRAYFIRE_ROOT') or define('SPRAYFIRE_ROOT', \dirname(__DIR__));
+defined('SPRAYFIRE_ROOT') or define('SPRAYFIRE_ROOT', \dirname(\dirname(__DIR__)));
 
 
 include \SPRAYFIRE_ROOT . '/libs/ClassLoader/Loader.php';
