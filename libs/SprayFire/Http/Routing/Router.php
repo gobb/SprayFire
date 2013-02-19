@@ -21,11 +21,6 @@ use \SprayFire\Http as SFHttp;
  *
  * @package SprayFire
  * @subpackage Http.Routing
- *
- * @todo
- * We should take a look at how we are dealing with static file paths.  Perhaps
- * we should abstract routes out into a series of interfaces.  We need some more
- * thought on how to deal with the problem of static versus dynamic requests.
  */
 interface Router {
 
