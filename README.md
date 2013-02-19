@@ -66,6 +66,7 @@ class Bootstrap extends \SprayFire\Bootstrap\FireBootstrap\Pluggable {
     }
 
 }
+?>
 ```
 
 The parent class is an abstract [`\SprayFire\Bootstrap\Bootstrapper`](https://github.com/cspray/SprayFire/blob/master/libs/SprayFire/Bootstrap/Bootstrapper.php) that provides two protected properties: `Container` and `ClassLoader`. `Container` will be type [`\SprayFire\Service\Container`](https://github.com/cspray/SprayFire/blob/master/libs/SprayFire/Service/Container.php) and `ClassLoader` will be type [`\ClassLoader\Loader`](https://github.com/cspray/ClassLoader/blob/master/Loader.php). This allows you to add whatever services your Model, Controller or Responder layers may use and to setup autoloading for whatever third-party plugins or libraries you may be using.
@@ -74,13 +75,17 @@ At this point you can start creating Model, Controller and Responder directories
 
 ## Resources
 
+### Module README
+
+As SprayFire evolves so does the documentation. Gone are the days of relying on the Wiki to be up to date with Modules. Now the documentation for each Module is right there in the source code under the README.md files. Each "interface" namespace, that is a namespace that does not hold implementations and is meant to be the interface driven API for the Module has a README in it. That README details the idea behind the API provided and alo provides some usage for the implementations SprayFire provides for that API.
+
 ### [Wiki](https://github.com/cspray/SprayFire/wiki)
 
-This is the primary source for all the detailed information regarding SprayFire provided modules and the inner workings of the framework. The user guide is stored in the wiki. It is intended to be used as a wiki, if you find some cool information that you think would be useful to other SprayFire users update the wiki!
+This is the place to go for organizational information and details about the project itself, not necessarily the codebase. Things like the roadmap, how to contribute, some conventions and coding guidelines live here.
 
-### API Documentation
+### [API Documentation](http://cspray.github.com/SprayFire/)
 
-Look at all the public and protected methods provided by SprayFire, what they can do and how to use them. While we strive for a clean API that doesn't require much documentation reading we strive to have a thoroughly documented codebase. We are still coming up with a solution for hosting this documentation. But it should be available before the 0.2.0a release.
+Look at all the public and protected methods provided by SprayFire, what they can do and how to use them. While we strive for a clean API that doesn't require much documentation reading we strive to have a thoroughly documented codebase.
 
 ### [Issues](https://github.com/cspray/SprayFire/issues) and [Milestones](https://github.com/cspray/SprayFire/issues/milestones)
 
