@@ -1,0 +1,491 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>SprayFire » \SprayFire\Responder\FireResponder\Json</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">SprayFire</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/SprayFire.html"><i class="icon-th"></i> SprayFire</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/SprayFire.html"><i class="icon-folder-open"></i> SprayFire</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">261</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">6</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">1</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public inherited"><a href="#method___get" title="__get :: "><span class="description">__get()
+        </span><pre>__get()</pre></a></li>
+<li class="method public inherited"><a href="#method___isset" title="__isset :: "><span class="description">__isset()
+        </span><pre>__isset()</pre></a></li>
+<li class="method public inherited"><a href="#method___set" title="__set :: "><span class="description">__set()
+        </span><pre>__set()</pre></a></li>
+<li class="method public inherited"><a href="#method___toString" title="__toString :: Returns the fully namespaced class name."><span class="description">Returns the fully namespaced class name.</span><pre>__toString()</pre></a></li>
+<li class="method public inherited"><a href="#method___unset" title="__unset :: "><span class="description">__unset()
+        </span><pre>__unset()</pre></a></li>
+<li class="method public inherited"><a href="#method_equals" title="equals :: Should return true or false for whether or not the given $Object is equal
+to the object invoking equals."><span class="description">Should return true or false for whether or not the given $Object is equal
+to the object invoking equals.</span><pre>equals()</pre></a></li>
+<li class="method public "><a href="#method_generateDynamicResponse" title="generateDynamicResponse :: Should sanitize the appropriate data and generate a response based on the
+$Controller data provided."><span class="description">Should sanitize the appropriate data and generate a response based on the
+$Controller data provided.</span><pre>generateDynamicResponse()</pre></a></li>
+<li class="method public inherited"><a href="#method_getRequestedServices" title="getRequestedServices :: Returns an array of $this-&gt;services set"><span class="description">Returns an array of $this-&gt;services set</span><pre>getRequestedServices()</pre></a></li>
+<li class="method public inherited"><a href="#method_giveService" title="giveService :: Provides a requested service to the consumer, the service will be stored
+in Consumer::storedServices with the $key passed."><span class="description">Provides a requested service to the consumer, the service will be stored
+in Consumer::storedServices with the $key passed.</span><pre>giveService()</pre></a></li>
+<li class="method public inherited"><a href="#method_hashCode" title="hashCode :: Should return some unique identifier for the object."><span class="description">Should return some unique identifier for the object.</span><pre>hashCode()</pre></a></li>
+<li class="method public inherited"><a href="#method_service" title="service :: Method provided to easily retrieve a service based on the key stored in
+Consumer::services"><span class="description">Method provided to easily retrieve a service based on the key stored in
+Consumer::services</span><pre>service()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul><li class="method protected inherited"><a href="#method_getEscapedData" title="getEscapedData :: Will get the appropriate data from the $Controller with the appropriate
+contexts and return an array with that data escaped in that context."><span class="description">Will get the appropriate data from the $Controller with the appropriate
+contexts and return an array with that data escaped in that context.</span><pre>getEscapedData()</pre></a></li></ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected inherited"><a href="#property_services" title="$services :: Provides functionality to SprayFire.Service.FireService.Consumer implementation."><span class="description"></span><pre>$services</pre></a></li>
+<li class="property protected inherited"><a href="#property_storedServices" title="$storedServices :: "><span class="description"></span><pre>$storedServices</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\SprayFire\Responder\FireResponder\Json"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.html">Responder</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.FireResponder.html">FireResponder</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/SprayFire.Responder.FireResponder.Json.html">Json</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details">
+<div class="long_description"><p>This class will never implement any functionality not specified in the SprayFire.Object
+interface.  It is explicitly designed in such a way that it should be reasonable
+for all objects to trace their inheritance back through this object if interfaces
+they implement require \SprayFire\Object.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>package</th>
+<td><a href="../packages/SprayFire.Responder.FireResponder.html">SprayFire</a></td>
+</tr>
+<tr>
+<th>subpackage</th>
+<td>Responder.FireResponder</td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___get"></a><div class="element clickable method public method___get" data-toggle="collapse" data-target=".method___get .collapse">
+<h2>__get()
+        </h2>
+<pre>__get(string $serviceName) : object | false</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Service\FireService\Consumer::__get()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\FireResponder\Base::__get()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$serviceName</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>object</code><code>false</code>
+</div>
+</div></div>
+</div>
+<a id="method___isset"></a><div class="element clickable method public method___isset" data-toggle="collapse" data-target=".method___isset .collapse">
+<h2>__isset()
+        </h2>
+<pre>__isset(string $serviceName) : boolean</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Service\FireService\Consumer::__isset()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\FireResponder\Base::__isset()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$serviceName</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a id="method___set"></a><div class="element clickable method public method___set" data-toggle="collapse" data-target=".method___set .collapse">
+<h2>__set()
+        </h2>
+<pre>__set(string $serviceName, object $Service) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Service\FireService\Consumer::__set()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\FireResponder\Base::__set()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$serviceName</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$Service</h4>
+<code>object</code>
+</div>
+</div></div>
+</div>
+<a id="method___toString"></a><div class="element clickable method public method___toString" data-toggle="collapse" data-target=".method___toString .collapse">
+<h2>Returns the fully namespaced class name.</h2>
+<pre>__toString() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>We are using get_class() over the <strong>CLASS</strong> magic constant as the constant
+will return the name of the class this method is implemented in and not
+the name of the class we are invoking the object on.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Object::__toString()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\Responder::__toString()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method___unset"></a><div class="element clickable method public method___unset" data-toggle="collapse" data-target=".method___unset .collapse">
+<h2>__unset()
+        </h2>
+<pre>__unset(string $serviceName) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Service\FireService\Consumer::__unset()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\FireResponder\Base::__unset()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$serviceName</h4>
+<code>string</code>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="http://php.net/manual/en/class.badmethodcallexception.php">\BadMethodCallException</a></code></th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_equals"></a><div class="element clickable method public method_equals" data-toggle="collapse" data-target=".method_equals .collapse">
+<h2>Should return true or false for whether or not the given $Object is equal
+to the object invoking equals.</h2>
+<pre>equals(\SprayFire\Object $Object) : boolean</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>If your objects need to implement a Comparator be sure to override this
+implementation.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Object::equals()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\Responder::equals()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$Object</h4>
+<code><a href="../classes/SprayFire.Object.html">\SprayFire\Object</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a id="method_generateDynamicResponse"></a><div class="element clickable method public method_generateDynamicResponse" data-toggle="collapse" data-target=".method_generateDynamicResponse .collapse">
+<h2>Should sanitize the appropriate data and generate a response based on the
+$Controller data provided.</h2>
+<pre>generateDynamicResponse(\SprayFire\Controller\Controller $Controller) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$Controller</h4>
+<code><a href="../classes/SprayFire.Controller.Controller.html">\SprayFire\Controller\Controller</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getRequestedServices"></a><div class="element clickable method public method_getRequestedServices" data-toggle="collapse" data-target=".method_getRequestedServices .collapse">
+<h2>Returns an array of $this-&gt;services set</h2>
+<pre>getRequestedServices() : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Service\FireService\Consumer::getRequestedServices()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\FireResponder\Base::getRequestedServices()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method_giveService"></a><div class="element clickable method public method_giveService" data-toggle="collapse" data-target=".method_giveService .collapse">
+<h2>Provides a requested service to the consumer, the service will be stored
+in Consumer::storedServices with the $key passed.</h2>
+<pre>giveService(string $key, object $Service) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>If the $Service is not an object of some type an exception will be thrown.</p>
+
+<p>If the $key passed has already been stored its value will be overwritten
+by the $Service passed.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Service\FireService\Consumer::giveService()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\FireResponder\Base::giveService()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$key</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$Service</h4>
+<code>object</code>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="http://php.net/manual/en/class.invalidargumentexception.php">\InvalidArgumentException</a></code></th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_hashCode"></a><div class="element clickable method public method_hashCode" data-toggle="collapse" data-target=".method_hashCode .collapse">
+<h2>Should return some unique identifier for the object.</h2>
+<pre>hashCode() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Object::hashCode()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\Responder::hashCode()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_service"></a><div class="element clickable method public method_service" data-toggle="collapse" data-target=".method_service .collapse">
+<h2>Method provided to easily retrieve a service based on the key stored in
+Consumer::services</h2>
+<pre>service(string $serviceName) : mixed</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Service\FireService\Consumer::service()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\FireResponder\Base::service()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$serviceName</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<a id="method_getEscapedData"></a><div class="element clickable method protected method_getEscapedData" data-toggle="collapse" data-target=".method_getEscapedData .collapse">
+<h2>Will get the appropriate data from the $Controller with the appropriate
+contexts and return an array with that data escaped in that context.</h2>
+<pre>getEscapedData(\SprayFire\Controller\Controller $Controller) : array</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\FireResponder\Base::getEscapedData()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$Controller</h4>
+<code><a href="../classes/SprayFire.Controller.Controller.html">\SprayFire\Controller\Controller</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_services"> </a><div class="element clickable property protected property_services" data-toggle="collapse" data-target=".property_services .collapse">
+<h2></h2>
+<pre>$services </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>property</th>
+<td></td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\FireResponder\Base::$$services</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a id="property_storedServices"> </a><div class="element clickable property protected property_storedServices" data-toggle="collapse" data-target=".property_storedServices .collapse">
+<h2></h2>
+<pre>$storedServices </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>property</th>
+<td></td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Service\FireService\Consumer::$$storedServices</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\FireResponder\Base::$$storedServices</td>
+</tr>
+</table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-02-18T23:33:45-05:00.<br></footer></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>SprayFire » \SprayFire\Validation\FireValidation\Rules</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">SprayFire</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/SprayFire.html"><i class="icon-th"></i> SprayFire</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/SprayFire.html"><i class="icon-folder-open"></i> SprayFire</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">261</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">6</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">1</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public inherited"><a href="#method___toString" title="__toString :: Returns the fully namespaced class name."><span class="description">Returns the fully namespaced class name.</span><pre>__toString()</pre></a></li>
+<li class="method public "><a href="#method_add" title="add :: Adds a Check to the storage for the field set by the last call to Rules::forField"><span class="description">Adds a Check to the storage for the field set by the last call to Rules::forField</span><pre>add()</pre></a></li>
+<li class="method public "><a href="#method_addCheck" title="addCheck :: Will add the passed $Check as the next in order to be ran for $field."><span class="description">Will add the passed $Check as the next in order to be ran for $field.</span><pre>addCheck()</pre></a></li>
+<li class="method public inherited"><a href="#method_equals" title="equals :: Should return true or false for whether or not the given $Object is equal
+to the object invoking equals."><span class="description">Should return true or false for whether or not the given $Object is equal
+to the object invoking equals.</span><pre>equals()</pre></a></li>
+<li class="method public "><a href="#method_forField" title="forField :: Sets the field that all successive add() calls will store the $Check against."><span class="description">Sets the field that all successive add() calls will store the $Check against.</span><pre>forField()</pre></a></li>
+<li class="method public "><a href="#method_getChecks" title="getChecks :: Return the storage of $Check added against $field"><span class="description">Return the storage of $Check added against $field</span><pre>getChecks()</pre></a></li>
+<li class="method public inherited"><a href="#method_hashCode" title="hashCode :: Should return some unique identifier for the object."><span class="description">Should return some unique identifier for the object.</span><pre>hashCode()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul><li class="method protected "><a href="#method_createFieldStorage" title="createFieldStorage :: If the $field does not have a SplObjectStorage created for it one will be
+added to $fieldRules"><span class="description">If the $field does not have a SplObjectStorage created for it one will be
+added to $fieldRules</span><pre>createFieldStorage()</pre></a></li></ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected "><a href="#property_activeField" title="$activeField :: For the Fluent API section of this implementation determines what field
+to associate calls to Rules::add()"><span class="description"></span><pre>$activeField</pre></a></li>
+<li class="property protected "><a href="#property_fieldRules" title="$fieldRules :: Array of [field =&gt; SplObjectStorage[Check =&gt; breakOnFailure]]"><span class="description"></span><pre>$fieldRules</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\SprayFire\Validation\FireValidation\Rules"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.html">Validation</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.FireValidation.html">FireValidation</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/SprayFire.Validation.FireValidation.Rules.html">Rules</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">This implementation allows for the use of a Fluent API to add SprayFire.Validation.Check.Check
+objects against a given field; this Fluent API is completely optional and the
+same actions can be performed in a non-fluent manner.</p>
+<div class="details">
+<div class="long_description"><p>This class will never implement any functionality not specified in the SprayFire.Object
+interface.  It is explicitly designed in such a way that it should be reasonable
+for all objects to trace their inheritance back through this object if interfaces
+they implement require \SprayFire\Object.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>package</th>
+<td><a href="../packages/SprayFire.Validaiton.FireValidation.html">SprayFire</a></td>
+</tr>
+<tr>
+<th>subpackage</th>
+<td>Validaiton.FireValidation</td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___toString"></a><div class="element clickable method public method___toString" data-toggle="collapse" data-target=".method___toString .collapse">
+<h2>Returns the fully namespaced class name.</h2>
+<pre>__toString() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>We are using get_class() over the <strong>CLASS</strong> magic constant as the constant
+will return the name of the class this method is implemented in and not
+the name of the class we are invoking the object on.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Object::__toString()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Validation\Rules::__toString()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_add"></a><div class="element clickable method public method_add" data-toggle="collapse" data-target=".method_add .collapse">
+<h2>Adds a Check to the storage for the field set by the last call to Rules::forField</h2>
+<pre>add(\SprayFire\Validation\Check\Check $Check, boolean $breakOnFailure) : <a href="../classes/SprayFire.Validation.FireValidation.Rules.html">\SprayFire\Validation\FireValidation\Rules</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$Check</h4>
+<code><a href="../classes/SprayFire.Validation.Check.Check.html">\SprayFire\Validation\Check\Check</a></code>
+</div>
+<div class="subelement argument">
+<h4>$breakOnFailure</h4>
+<code>boolean</code>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="../classes/SprayFire.Validation.Exception.InvalidMethodChain.html">\SprayFire\Validation\Exception\InvalidMethodChain</a></code></th>
+<td></td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/SprayFire.Validation.FireValidation.Rules.html">\SprayFire\Validation\FireValidation\Rules</a></code></div>
+</div></div>
+</div>
+<a id="method_addCheck"></a><div class="element clickable method public method_addCheck" data-toggle="collapse" data-target=".method_addCheck .collapse">
+<h2>Will add the passed $Check as the next in order to be ran for $field.</h2>
+<pre>addCheck(string $field, \SprayFire\Validation\Check\Check $Check, boolean $breakOnFailure) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>$Check should be ran in the order they are added to the Rules</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$field</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$Check</h4>
+<code><a href="../classes/SprayFire.Validation.Check.Check.html">\SprayFire\Validation\Check\Check</a></code>
+</div>
+<div class="subelement argument">
+<h4>$breakOnFailure</h4>
+<code>boolean</code>
+</div>
+</div></div>
+</div>
+<a id="method_equals"></a><div class="element clickable method public method_equals" data-toggle="collapse" data-target=".method_equals .collapse">
+<h2>Should return true or false for whether or not the given $Object is equal
+to the object invoking equals.</h2>
+<pre>equals(\SprayFire\Object $Object) : boolean</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>If your objects need to implement a Comparator be sure to override this
+implementation.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Object::equals()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Validation\Rules::equals()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$Object</h4>
+<code><a href="../classes/SprayFire.Object.html">\SprayFire\Object</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a id="method_forField"></a><div class="element clickable method public method_forField" data-toggle="collapse" data-target=".method_forField .collapse">
+<h2>Sets the field that all successive add() calls will store the $Check against.</h2>
+<pre>forField(string $field) : <a href="../classes/SprayFire.Validation.FireValidation.Rules.html">\SprayFire\Validation\FireValidation\Rules</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$field</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/SprayFire.Validation.FireValidation.Rules.html">\SprayFire\Validation\FireValidation\Rules</a></code></div>
+</div></div>
+</div>
+<a id="method_getChecks"></a><div class="element clickable method public method_getChecks" data-toggle="collapse" data-target=".method_getChecks .collapse">
+<h2>Return the storage of $Check added against $field</h2>
+<pre>getChecks(string $field) : <a href="http://php.net/manual/en/class.splobjectstorage.php">\SplObjectStorage</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$field</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="http://php.net/manual/en/class.splobjectstorage.php">\SplObjectStorage</a></code></div>
+</div></div>
+</div>
+<a id="method_hashCode"></a><div class="element clickable method public method_hashCode" data-toggle="collapse" data-target=".method_hashCode .collapse">
+<h2>Should return some unique identifier for the object.</h2>
+<pre>hashCode() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Object::hashCode()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Validation\Rules::hashCode()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_createFieldStorage"></a><div class="element clickable method protected method_createFieldStorage" data-toggle="collapse" data-target=".method_createFieldStorage .collapse">
+<h2>If the $field does not have a SplObjectStorage created for it one will be
+added to $fieldRules</h2>
+<pre>createFieldStorage(string $field) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$field</h4>
+<code>string</code>
+</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_activeField"> </a><div class="element clickable property protected property_activeField" data-toggle="collapse" data-target=".property_activeField .collapse">
+<h2></h2>
+<pre>$activeField </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_fieldRules"> </a><div class="element clickable property protected property_fieldRules" data-toggle="collapse" data-target=".property_fieldRules .collapse">
+<h2></h2>
+<pre>$fieldRules </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-02-18T23:33:45-05:00.<br></footer></div>
+</div>
+</body>
+</html>

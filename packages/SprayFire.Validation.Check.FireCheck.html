@@ -1,0 +1,280 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>SprayFire » SprayFire\Validation\Check\FireCheck</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">SprayFire</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/SprayFire.html"><i class="icon-th"></i> SprayFire</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/SprayFire.html"><i class="icon-folder-open"></i> SprayFire</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">261</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">6</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">1</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-map-marker"></i> Packages</li>
+<li>
+<a href="../packages/SprayFire.Validation.Check.FireCheck.html" title="FireCheck"><i class="icon-folder-open"></i>FireCheck</a><ul class="nav nav-list nav-packages"></ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-class"></i> Classes</li>
+<li><a href="#Alphabetic" title="Tokens available
+-----------------------------------------------------------------------------
+- value =&gt; The value checked against">Alphabetic</a></li>
+<li><a href="#Alphanumeric" title="Tokens available
+-----------------------------------------------------------------------------
+- value =&gt; The value checked against">Alphanumeric</a></li>
+<li><a href="#Check" title="Tokens available to this implementation
+-----------------------------------------------------------------------------
+- value =&gt; The value being checked">Check</a></li>
+<li><a href="#ComparisonCheck" title="Tokens available to implementations
+--------------------------------------------------------------
+- value =&gt; The value being checked
+- comparison =&gt; The value being checked against">ComparisonCheck</a></li>
+<li><a href="#Email" title="This implementation will use the filter_var functionality to ensure we are
+checking values against the RFC for email address format.">Email</a></li>
+<li><a href="#Equal" title="This implementation will compare on a strict '===' check.">Equal</a></li>
+<li><a href="#ErrorCodes" title="This implementation is here because error codes should be unique and you can
+have multiple checks returning similar errors.">ErrorCodes</a></li>
+<li><a href="#GreaterThan" title="Tokens available
+-----------------------------------------------------------------------------
+- value =&gt; The value being checked
+- comparison =&gt; The value being checked against">GreaterThan</a></li>
+<li><a href="#GreaterThanEqual" title="Tokens available
+-----------------------------------------------------------------------------
+- value =&gt; The value being checked
+- comparison =&gt; The value being compared against">GreaterThanEqual</a></li>
+<li><a href="#LessThan" title="Tokens available
+-----------------------------------------------------------------------------
+- value =&gt; The value checked against
+- comparison =&gt; The value being compared against">LessThan</a></li>
+<li><a href="#LessThanEqual" title="Tokens available to implementations
+--------------------------------------------------------------
+- value =&gt; The value being checked
+- comparison =&gt; The value being checked against">LessThanEqual</a></li>
+<li><a href="#MessageParser" title="It is recommended that classes needing to implement \SprayFire\Object extend
+this class.">MessageParser</a></li>
+<li><a href="#Range" title="Tokens available
+--------------------------------------------------------------
+- value =&gt; The value being checked
+- min =&gt; The minimum number of the range
+- max =&gt; The maximum number of the range">Range</a></li>
+<li><a href="#Regex" title="Tokens available
+-----------------------------------------------------------------------------
+- value =&gt; The value checked against">Regex</a></li>
+<li><a href="#StringLength" title="Tokens available to implementations
+--------------------------------------------------------------
+- value =&gt; The value being checked
+- comparison =&gt; The value being checked against">StringLength</a></li>
+</ul>
+</div>
+<div class="span8 package-contents">
+<ul class="breadcrumb"><li>
+<a href="../index.html"><i class="icon-folder-open"></i></a><span class="divider">\</span><li><a href="../packages/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../packages/SprayFire.Validation.html">Validation</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../packages/SprayFire.Validation.Check.html">Check</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../packages/SprayFire.Validation.Check.FireCheck.html">FireCheck</a>
+</li>
+</li></ul>
+<div class="package-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Alphabetic" class="element ajax clickable class">
+<h1>Alphabetic<a href="../classes/SprayFire.Validation.Check.FireCheck.Alphabetic.html">¶</a>
+</h1>
+<p class="short_description">Tokens available
+-----------------------------------------------------------------------------
+- value => The value checked against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.Alphabetic.html" class="more">« More »</a>
+</div>
+<div id="Alphanumeric" class="element ajax clickable class">
+<h1>Alphanumeric<a href="../classes/SprayFire.Validation.Check.FireCheck.Alphanumeric.html">¶</a>
+</h1>
+<p class="short_description">Tokens available
+-----------------------------------------------------------------------------
+- value => The value checked against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.Alphanumeric.html" class="more">« More »</a>
+</div>
+<div id="Check" class="element ajax clickable class">
+<h1>Check<a href="../classes/SprayFire.Validation.Check.FireCheck.Check.html">¶</a>
+</h1>
+<p class="short_description">Tokens available to this implementation
+-----------------------------------------------------------------------------
+- value => The value being checked</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.Check.html" class="more">« More »</a>
+</div>
+<div id="ComparisonCheck" class="element ajax clickable class">
+<h1>ComparisonCheck<a href="../classes/SprayFire.Validation.Check.FireCheck.ComparisonCheck.html">¶</a>
+</h1>
+<p class="short_description">Tokens available to implementations
+--------------------------------------------------------------
+- value => The value being checked
+- comparison => The value being checked against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.ComparisonCheck.html" class="more">« More »</a>
+</div>
+<div id="Email" class="element ajax clickable class">
+<h1>Email<a href="../classes/SprayFire.Validation.Check.FireCheck.Email.html">¶</a>
+</h1>
+<p class="short_description">This implementation will use the filter_var functionality to ensure we are
+checking values against the RFC for email address format.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.Email.html" class="more">« More »</a>
+</div>
+<div id="Equal" class="element ajax clickable class">
+<h1>Equal<a href="../classes/SprayFire.Validation.Check.FireCheck.Equal.html">¶</a>
+</h1>
+<p class="short_description">This implementation will compare on a strict '===' check.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.Equal.html" class="more">« More »</a>
+</div>
+<div id="ErrorCodes" class="element ajax clickable class">
+<h1>ErrorCodes<a href="../classes/SprayFire.Validation.Check.FireCheck.ErrorCodes.html">¶</a>
+</h1>
+<p class="short_description">This implementation is here because error codes should be unique and you can
+have multiple checks returning similar errors.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.ErrorCodes.html" class="more">« More »</a>
+</div>
+<div id="GreaterThan" class="element ajax clickable class">
+<h1>GreaterThan<a href="../classes/SprayFire.Validation.Check.FireCheck.GreaterThan.html">¶</a>
+</h1>
+<p class="short_description">Tokens available
+-----------------------------------------------------------------------------
+- value => The value being checked
+- comparison => The value being checked against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.GreaterThan.html" class="more">« More »</a>
+</div>
+<div id="GreaterThanEqual" class="element ajax clickable class">
+<h1>GreaterThanEqual<a href="../classes/SprayFire.Validation.Check.FireCheck.GreaterThanEqual.html">¶</a>
+</h1>
+<p class="short_description">Tokens available
+-----------------------------------------------------------------------------
+- value => The value being checked
+- comparison => The value being compared against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.GreaterThanEqual.html" class="more">« More »</a>
+</div>
+<div id="LessThan" class="element ajax clickable class">
+<h1>LessThan<a href="../classes/SprayFire.Validation.Check.FireCheck.LessThan.html">¶</a>
+</h1>
+<p class="short_description">Tokens available
+-----------------------------------------------------------------------------
+- value => The value checked against
+- comparison => The value being compared against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.LessThan.html" class="more">« More »</a>
+</div>
+<div id="LessThanEqual" class="element ajax clickable class">
+<h1>LessThanEqual<a href="../classes/SprayFire.Validation.Check.FireCheck.LessThanEqual.html">¶</a>
+</h1>
+<p class="short_description">Tokens available to implementations
+--------------------------------------------------------------
+- value => The value being checked
+- comparison => The value being checked against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.LessThanEqual.html" class="more">« More »</a>
+</div>
+<div id="MessageParser" class="element ajax clickable class">
+<h1>MessageParser<a href="../classes/SprayFire.Validation.Check.FireCheck.MessageParser.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.MessageParser.html" class="more">« More »</a>
+</div>
+<div id="Range" class="element ajax clickable class">
+<h1>Range<a href="../classes/SprayFire.Validation.Check.FireCheck.Range.html">¶</a>
+</h1>
+<p class="short_description">Tokens available
+--------------------------------------------------------------
+- value => The value being checked
+- min => The minimum number of the range
+- max => The maximum number of the range</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.Range.html" class="more">« More »</a>
+</div>
+<div id="Regex" class="element ajax clickable class">
+<h1>Regex<a href="../classes/SprayFire.Validation.Check.FireCheck.Regex.html">¶</a>
+</h1>
+<p class="short_description">Tokens available
+-----------------------------------------------------------------------------
+- value => The value checked against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.Regex.html" class="more">« More »</a>
+</div>
+<div id="StringLength" class="element ajax clickable class">
+<h1>StringLength<a href="../classes/SprayFire.Validation.Check.FireCheck.StringLength.html">¶</a>
+</h1>
+<p class="short_description">Tokens available to implementations
+--------------------------------------------------------------
+- value => The value being checked
+- comparison => The value being checked against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.StringLength.html" class="more">« More »</a>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-02-18T23:33:44-05:00.<br></footer></div>
+</div>
+</body>
+</html>

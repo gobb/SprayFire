@@ -1,0 +1,477 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>SprayFire » \SprayFire\Http\FireHttp\RequestHeaders</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">SprayFire</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/SprayFire.html"><i class="icon-th"></i> SprayFire</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/SprayFire.html"><i class="icon-folder-open"></i> SprayFire</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">261</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">6</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">1</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method___construct" title="__construct :: The $_server parameter is optional, if it is not provided the superglobal
+$_SERVER will be used to parse the various pieces of information."><span class="description">The $_server parameter is optional, if it is not provided the superglobal
+$_SERVER will be used to parse the various pieces of information.</span><pre>__construct()</pre></a></li>
+<li class="method public inherited"><a href="#method___toString" title="__toString :: Returns the fully namespaced class name."><span class="description">Returns the fully namespaced class name.</span><pre>__toString()</pre></a></li>
+<li class="method public inherited"><a href="#method_equals" title="equals :: Default implementation, compares the \SprayFire\CoreObject::hashCode()
+return value to the passed $CompareObject."><span class="description">Default implementation, compares the \SprayFire\CoreObject::hashCode()
+return value to the passed $CompareObject.</span><pre>equals()</pre></a></li>
+<li class="method public "><a href="#method_getAcceptCharset" title="getAcceptCharset :: "><span class="description">getAcceptCharset()
+        </span><pre>getAcceptCharset()</pre></a></li>
+<li class="method public "><a href="#method_getAcceptEncoding" title="getAcceptEncoding :: "><span class="description">getAcceptEncoding()
+        </span><pre>getAcceptEncoding()</pre></a></li>
+<li class="method public "><a href="#method_getAcceptLanguage" title="getAcceptLanguage :: "><span class="description">getAcceptLanguage()
+        </span><pre>getAcceptLanguage()</pre></a></li>
+<li class="method public "><a href="#method_getAcceptType" title="getAcceptType :: "><span class="description">getAcceptType()
+        </span><pre>getAcceptType()</pre></a></li>
+<li class="method public "><a href="#method_getCacheControl" title="getCacheControl :: "><span class="description">getCacheControl()
+        </span><pre>getCacheControl()</pre></a></li>
+<li class="method public "><a href="#method_getConnectionType" title="getConnectionType :: "><span class="description">getConnectionType()
+        </span><pre>getConnectionType()</pre></a></li>
+<li class="method public "><a href="#method_getHost" title="getHost :: "><span class="description">getHost()
+        </span><pre>getHost()</pre></a></li>
+<li class="method public "><a href="#method_getReferer" title="getReferer :: "><span class="description">getReferer()
+        </span><pre>getReferer()</pre></a></li>
+<li class="method public "><a href="#method_getUserAgent" title="getUserAgent :: "><span class="description">getUserAgent()
+        </span><pre>getUserAgent()</pre></a></li>
+<li class="method public inherited"><a href="#method_hashCode" title="hashCode :: Returns a unique identifier for the object that will be the same for objects
+referencing the same spot in memory."><span class="description">Returns a unique identifier for the object that will be the same for objects
+referencing the same spot in memory.</span><pre>hashCode()</pre></a></li>
+<li class="method public "><a href="#method_isAjaxRequest" title="isAjaxRequest :: "><span class="description">isAjaxRequest()
+        </span><pre>isAjaxRequest()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected "><a href="#property_acceptCharset" title="$acceptCharset :: "><span class="description"></span><pre>$acceptCharset</pre></a></li>
+<li class="property protected "><a href="#property_acceptEncoding" title="$acceptEncoding :: "><span class="description"></span><pre>$acceptEncoding</pre></a></li>
+<li class="property protected "><a href="#property_acceptLanguage" title="$acceptLanguage :: "><span class="description"></span><pre>$acceptLanguage</pre></a></li>
+<li class="property protected "><a href="#property_acceptType" title="$acceptType :: "><span class="description"></span><pre>$acceptType</pre></a></li>
+<li class="property protected "><a href="#property_cacheControl" title="$cacheControl :: "><span class="description"></span><pre>$cacheControl</pre></a></li>
+<li class="property protected "><a href="#property_connectionType" title="$connectionType :: "><span class="description"></span><pre>$connectionType</pre></a></li>
+<li class="property protected "><a href="#property_host" title="$host :: "><span class="description"></span><pre>$host</pre></a></li>
+<li class="property protected "><a href="#property_referer" title="$referer :: "><span class="description"></span><pre>$referer</pre></a></li>
+<li class="property protected "><a href="#property_serverToHeadersMap" title="$serverToHeadersMap :: "><span class="description"></span><pre>$serverToHeadersMap</pre></a></li>
+<li class="property protected "><a href="#property_userAgent" title="$userAgent :: "><span class="description"></span><pre>$userAgent</pre></a></li>
+<li class="property protected "><a href="#property_xRequestedWith" title="$xRequestedWith :: "><span class="description"></span><pre>$xRequestedWith</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\SprayFire\Http\FireHttp\RequestHeaders"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.html">Http</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.FireHttp.html">FireHttp</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/SprayFire.Http.FireHttp.RequestHeaders.html">RequestHeaders</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">Will determine the appropriate HTTP request headers based on common indices
+found in the superglobal $_SERVER.</p>
+<div class="details">
+<div class="long_description"><p>This implementation is known to work with Apache servers but may not work with
+others if that server does not properly populate the $_SERVER superglobal with
+the appropriate indices.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>package</th>
+<td><a href="../packages/SprayFire.Http.FireHttp.html">SprayFire</a></td>
+</tr>
+<tr>
+<th>subpackage</th>
+<td>Http.FireHttp</td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>The $_server parameter is optional, if it is not provided the superglobal
+$_SERVER will be used to parse the various pieces of information.</h2>
+<pre>__construct(array $_server) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$_server</h4>
+<code>array</code>
+</div>
+</div></div>
+</div>
+<a id="method___toString"></a><div class="element clickable method public method___toString" data-toggle="collapse" data-target=".method___toString .collapse">
+<h2>Returns the fully namespaced class name.</h2>
+<pre>__toString() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>We are using get_class() over the <strong>CLASS</strong> magic constant as the constant
+will return the name of the class this method is implemented in and not
+the name of the class we are invoking the object on.</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\SprayFire\CoreObject::__toString()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_equals"></a><div class="element clickable method public method_equals" data-toggle="collapse" data-target=".method_equals .collapse">
+<h2>Default implementation, compares the \SprayFire\CoreObject::hashCode()
+return value to the passed $CompareObject.</h2>
+<pre>equals(\SprayFire\Object $CompareObject) : boolean</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>If your objects need to implement a Comparator be sure to override this
+implementation.</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\SprayFire\CoreObject::equals()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$CompareObject</h4>
+<code><a href="../classes/SprayFire.Object.html">\SprayFire\Object</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a id="method_getAcceptCharset"></a><div class="element clickable method public method_getAcceptCharset" data-toggle="collapse" data-target=".method_getAcceptCharset .collapse">
+<h2>getAcceptCharset()
+        </h2>
+<pre>getAcceptCharset() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getAcceptEncoding"></a><div class="element clickable method public method_getAcceptEncoding" data-toggle="collapse" data-target=".method_getAcceptEncoding .collapse">
+<h2>getAcceptEncoding()
+        </h2>
+<pre>getAcceptEncoding() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getAcceptLanguage"></a><div class="element clickable method public method_getAcceptLanguage" data-toggle="collapse" data-target=".method_getAcceptLanguage .collapse">
+<h2>getAcceptLanguage()
+        </h2>
+<pre>getAcceptLanguage() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getAcceptType"></a><div class="element clickable method public method_getAcceptType" data-toggle="collapse" data-target=".method_getAcceptType .collapse">
+<h2>getAcceptType()
+        </h2>
+<pre>getAcceptType() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getCacheControl"></a><div class="element clickable method public method_getCacheControl" data-toggle="collapse" data-target=".method_getCacheControl .collapse">
+<h2>getCacheControl()
+        </h2>
+<pre>getCacheControl() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getConnectionType"></a><div class="element clickable method public method_getConnectionType" data-toggle="collapse" data-target=".method_getConnectionType .collapse">
+<h2>getConnectionType()
+        </h2>
+<pre>getConnectionType() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getHost"></a><div class="element clickable method public method_getHost" data-toggle="collapse" data-target=".method_getHost .collapse">
+<h2>getHost()
+        </h2>
+<pre>getHost() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getReferer"></a><div class="element clickable method public method_getReferer" data-toggle="collapse" data-target=".method_getReferer .collapse">
+<h2>getReferer()
+        </h2>
+<pre>getReferer() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getUserAgent"></a><div class="element clickable method public method_getUserAgent" data-toggle="collapse" data-target=".method_getUserAgent .collapse">
+<h2>getUserAgent()
+        </h2>
+<pre>getUserAgent() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_hashCode"></a><div class="element clickable method public method_hashCode" data-toggle="collapse" data-target=".method_hashCode .collapse">
+<h2>Returns a unique identifier for the object that will be the same for objects
+referencing the same spot in memory.</h2>
+<pre>hashCode() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td><a href="">\SprayFire\http://us3.php.net/manual/en/function.spl-object-hash.php</a></td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\CoreObject::hashCode()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_isAjaxRequest"></a><div class="element clickable method public method_isAjaxRequest" data-toggle="collapse" data-target=".method_isAjaxRequest .collapse">
+<h2>isAjaxRequest()
+        </h2>
+<pre>isAjaxRequest() : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_acceptCharset"> </a><div class="element clickable property protected property_acceptCharset" data-toggle="collapse" data-target=".property_acceptCharset .collapse">
+<h2></h2>
+<pre>$acceptCharset </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_acceptEncoding"> </a><div class="element clickable property protected property_acceptEncoding" data-toggle="collapse" data-target=".property_acceptEncoding .collapse">
+<h2></h2>
+<pre>$acceptEncoding </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_acceptLanguage"> </a><div class="element clickable property protected property_acceptLanguage" data-toggle="collapse" data-target=".property_acceptLanguage .collapse">
+<h2></h2>
+<pre>$acceptLanguage </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_acceptType"> </a><div class="element clickable property protected property_acceptType" data-toggle="collapse" data-target=".property_acceptType .collapse">
+<h2></h2>
+<pre>$acceptType </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_cacheControl"> </a><div class="element clickable property protected property_cacheControl" data-toggle="collapse" data-target=".property_cacheControl .collapse">
+<h2></h2>
+<pre>$cacheControl </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_connectionType"> </a><div class="element clickable property protected property_connectionType" data-toggle="collapse" data-target=".property_connectionType .collapse">
+<h2></h2>
+<pre>$connectionType </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_host"> </a><div class="element clickable property protected property_host" data-toggle="collapse" data-target=".property_host .collapse">
+<h2></h2>
+<pre>$host </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_referer"> </a><div class="element clickable property protected property_referer" data-toggle="collapse" data-target=".property_referer .collapse">
+<h2></h2>
+<pre>$referer </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_serverToHeadersMap"> </a><div class="element clickable property protected property_serverToHeadersMap" data-toggle="collapse" data-target=".property_serverToHeadersMap .collapse">
+<h2></h2>
+<pre>$serverToHeadersMap </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_userAgent"> </a><div class="element clickable property protected property_userAgent" data-toggle="collapse" data-target=".property_userAgent .collapse">
+<h2></h2>
+<pre>$userAgent </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_xRequestedWith"> </a><div class="element clickable property protected property_xRequestedWith" data-toggle="collapse" data-target=".property_xRequestedWith .collapse">
+<h2></h2>
+<pre>$xRequestedWith </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-02-18T23:33:44-05:00.<br></footer></div>
+</div>
+</body>
+</html>

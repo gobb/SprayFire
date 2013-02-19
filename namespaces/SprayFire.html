@@ -1,0 +1,1804 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>SprayFire » SprayFire</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">SprayFire</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/SprayFire.html"><i class="icon-th"></i> SprayFire</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/SprayFire.html"><i class="icon-folder-open"></i> SprayFire</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">261</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">6</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">1</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-map-marker"></i> Namespaces</li>
+<li>
+<a href="../namespaces/SprayFire.html" title="SprayFire"><i class="icon-th"></i>SprayFire</a><ul class="nav nav-list nav-namespaces">
+<li>
+<a href="../namespaces/SprayFire.Bootstrap.html" title="Bootstrap"><i class="icon-th"></i>Bootstrap</a><ul class="nav nav-list nav-namespaces"><li>
+<a href="../namespaces/SprayFire.Bootstrap.FireBootstrap.html" title="FireBootstrap"><i class="icon-th"></i>FireBootstrap</a><ul class="nav nav-list nav-namespaces"></ul>
+</li></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Controller.html" title="Controller"><i class="icon-th"></i>Controller</a><ul class="nav nav-list nav-namespaces"><li>
+<a href="../namespaces/SprayFire.Controller.FireController.html" title="FireController"><i class="icon-th"></i>FireController</a><ul class="nav nav-list nav-namespaces"></ul>
+</li></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Dispatcher.html" title="Dispatcher"><i class="icon-th"></i>Dispatcher</a><ul class="nav nav-list nav-namespaces">
+<li>
+<a href="../namespaces/SprayFire.Dispatcher.Exception.html" title="Exception"><i class="icon-th"></i>Exception</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Dispatcher.FireDispatcher.html" title="FireDispatcher"><i class="icon-th"></i>FireDispatcher</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Exception.html" title="Exception"><i class="icon-th"></i>Exception</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Factory.html" title="Factory"><i class="icon-th"></i>Factory</a><ul class="nav nav-list nav-namespaces">
+<li>
+<a href="../namespaces/SprayFire.Factory.Exception.html" title="Exception"><i class="icon-th"></i>Exception</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Factory.FireFactory.html" title="FireFactory"><i class="icon-th"></i>FireFactory</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.FileSys.html" title="FileSys"><i class="icon-th"></i>FileSys</a><ul class="nav nav-list nav-namespaces"><li>
+<a href="../namespaces/SprayFire.FileSys.FireFileSys.html" title="FireFileSys"><i class="icon-th"></i>FireFileSys</a><ul class="nav nav-list nav-namespaces"></ul>
+</li></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Http.html" title="Http"><i class="icon-th"></i>Http</a><ul class="nav nav-list nav-namespaces">
+<li>
+<a href="../namespaces/SprayFire.Http.FireHttp.html" title="FireHttp"><i class="icon-th"></i>FireHttp</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Http.Routing.html" title="Routing"><i class="icon-th"></i>Routing</a><ul class="nav nav-list nav-namespaces">
+<li>
+<a href="../namespaces/SprayFire.Http.Routing.Exception.html" title="Exception"><i class="icon-th"></i>Exception</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Http.Routing.FireRouting.html" title="FireRouting"><i class="icon-th"></i>FireRouting</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Logging.html" title="Logging"><i class="icon-th"></i>Logging</a><ul class="nav nav-list nav-namespaces">
+<li>
+<a href="../namespaces/SprayFire.Logging.Exception.html" title="Exception"><i class="icon-th"></i>Exception</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Logging.FireLogging.html" title="FireLogging"><i class="icon-th"></i>FireLogging</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Mediator.html" title="Mediator"><i class="icon-th"></i>Mediator</a><ul class="nav nav-list nav-namespaces">
+<li>
+<a href="../namespaces/SprayFire.Mediator.Exception.html" title="Exception"><i class="icon-th"></i>Exception</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Mediator.FireMediator.html" title="FireMediator"><i class="icon-th"></i>FireMediator</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Responder.html" title="Responder"><i class="icon-th"></i>Responder</a><ul class="nav nav-list nav-namespaces">
+<li>
+<a href="../namespaces/SprayFire.Responder.FireResponder.html" title="FireResponder"><i class="icon-th"></i>FireResponder</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Responder.Template.html" title="Template"><i class="icon-th"></i>Template</a><ul class="nav nav-list nav-namespaces">
+<li>
+<a href="../namespaces/SprayFire.Responder.Template.Exception.html" title="Exception"><i class="icon-th"></i>Exception</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Responder.Template.FireTemplate.html" title="FireTemplate"><i class="icon-th"></i>FireTemplate</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Service.html" title="Service"><i class="icon-th"></i>Service</a><ul class="nav nav-list nav-namespaces">
+<li>
+<a href="../namespaces/SprayFire.Service.Exception.html" title="Exception"><i class="icon-th"></i>Exception</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Service.FireService.html" title="FireService"><i class="icon-th"></i>FireService</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Utils.html" title="Utils"><i class="icon-th"></i>Utils</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Validation.html" title="Validation"><i class="icon-th"></i>Validation</a><ul class="nav nav-list nav-namespaces">
+<li>
+<a href="../namespaces/SprayFire.Validation.Check.html" title="Check"><i class="icon-th"></i>Check</a><ul class="nav nav-list nav-namespaces"><li>
+<a href="../namespaces/SprayFire.Validation.Check.FireCheck.html" title="FireCheck"><i class="icon-th"></i>FireCheck</a><ul class="nav nav-list nav-namespaces"></ul>
+</li></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Validation.Exception.html" title="Exception"><i class="icon-th"></i>Exception</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Validation.FireValidation.html" title="FireValidation"><i class="icon-th"></i>FireValidation</a><ul class="nav nav-list nav-namespaces"></ul>
+</li>
+<li>
+<a href="../namespaces/SprayFire.Validation.Result.html" title="Result"><i class="icon-th"></i>Result</a><ul class="nav nav-list nav-namespaces"><li>
+<a href="../namespaces/SprayFire.Validation.Result.FireResult.html" title="FireResult"><i class="icon-th"></i>FireResult</a><ul class="nav nav-list nav-namespaces"></ul>
+</li></ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8 namespace-contents">
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li class="active"><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Object" class="element ajax clickable interface">
+<h1>Object<a href="../classes/SprayFire.Object.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Object.html" class="more">« More »</a>
+</div>
+<div id="CoreObject" class="element ajax clickable class">
+<h1>CoreObject<a href="../classes/SprayFire.CoreObject.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.CoreObject.html" class="more">« More »</a>
+</div>
+<div id="EnvironmentConfig" class="element ajax clickable class">
+<h1>EnvironmentConfig<a href="../classes/SprayFire.EnvironmentConfig.html">¶</a>
+</h1>
+<p class="short_description">Object representing SprayFire's environment configuration and controls how
+the framework operates at runtime.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.EnvironmentConfig.html" class="more">« More »</a>
+</div>
+<div id="Handler" class="element ajax clickable class">
+<h1>Handler<a href="../classes/SprayFire.Handler.html">¶</a>
+</h1>
+<p class="short_description">A universal error and exception handler designed to log various error messages and
+display the appropriate 500 response when an uncaught exception occurs.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Handler.html" class="more">« More »</a>
+</div>
+<div id="ValueObject" class="element ajax clickable class">
+<h1>ValueObject<a href="../classes/SprayFire.ValueObject.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.ValueObject.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Bootstrap.html">Bootstrap</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Bootstrapper" class="element ajax clickable interface">
+<h1>Bootstrapper<a href="../classes/SprayFire.Bootstrap.Bootstrapper.html">¶</a>
+</h1>
+<p class="short_description">Your application specific bootstraps should implement this interface to ensure
+that any initialization scripts are ran at start up time.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Bootstrap.Bootstrapper.html" class="more">« More »</a>
+</div>
+<div id="NullObject" class="element ajax clickable class">
+<h1>NullObject<a href="../classes/SprayFire.Bootstrap.NullObject.html">¶</a>
+</h1>
+<p class="short_description">Provided so that SprayFire.Factory.Factory objects creating objects implementing
+SprayFire.Bootstrap.Bootstrapper can return an appropriate null object if so
+configured.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Bootstrap.NullObject.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Bootstrap.html">Bootstrap</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Bootstrap.FireBootstrap.html">FireBootstrap</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="IniSetting" class="element ajax clickable class">
+<h1>IniSetting<a href="../classes/SprayFire.Bootstrap.FireBootstrap.IniSetting.html">¶</a>
+</h1>
+<p class="short_description">This bootstrap should be ran by init.php during framework initialization; to alter
+the ini values that are set please reference install_dir/config/SprayFire/environment.php.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Bootstrap.FireBootstrap.IniSetting.html" class="more">« More »</a>
+</div>
+<div id="Pluggable" class="element ajax clickable class">
+<h1>Pluggable<a href="../classes/SprayFire.Bootstrap.FireBootstrap.Pluggable.html">¶</a>
+</h1>
+<p class="short_description">Provides a generic Bootstrapper that will allow applications, plugins and third
+party libraries to easily integrate their own startup procedures into the
+framework.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Bootstrap.FireBootstrap.Pluggable.html" class="more">« More »</a>
+</div>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Controller.html">Controller</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Controller" class="element ajax clickable interface">
+<h1>Controller<a href="../classes/SprayFire.Controller.Controller.html">¶</a>
+</h1>
+<p class="short_description">Designed to serve as a data conduit to the chose SprayFire.Responder.Responder
+providing the chosen Responder with the appropriate information needed to send
+the correct resource to the user.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Controller.Controller.html" class="more">« More »</a>
+</div>
+<div id="NullObject" class="element ajax clickable class">
+<h1>NullObject<a href="../classes/SprayFire.Controller.NullObject.html">¶</a>
+</h1>
+<p class="short_description">By default this object is returned from the SprayFire.Controller.FireController.Factory
+implementation and can be used as a 404 object, controlling what is displayed
+when the appropriate resource could not be found.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Controller.NullObject.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Controller.html">Controller</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Controller.FireController.html">FireController</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="About" class="element ajax clickable class">
+<h1>About<a href="../classes/SprayFire.Controller.FireController.About.html">¶</a>
+</h1>
+<p class="short_description">This implementation is intended to provide the user some more detailed info on
+SprayFire as well as its creator and contributors.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Controller.FireController.About.html" class="more">« More »</a>
+</div>
+<div id="Base" class="element ajax clickable class">
+<h1>Base<a href="../classes/SprayFire.Controller.FireController.Base.html">¶</a>
+</h1>
+<p class="short_description">Application controllers are expected to take advantage of the very basic functionality
+provided by this object.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Controller.FireController.Base.html" class="more">« More »</a>
+</div>
+<div id="Factory" class="element ajax clickable class">
+<h1>Factory<a href="../classes/SprayFire.Controller.FireController.Factory.html">¶</a>
+</h1>
+<p class="short_description">Will ensure that a SprayFire.Controller.Controller is created with the appropriate
+services added.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Controller.FireController.Factory.html" class="more">« More »</a>
+</div>
+<div id="Pages" class="element ajax clickable class">
+<h1>Pages<a href="../classes/SprayFire.Controller.FireController.Pages.html">¶</a>
+</h1>
+<p class="short_description">This controller is responsible for the default SprayFire install pages, other
+than the about page.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Controller.FireController.Pages.html" class="more">« More »</a>
+</div>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Dispatcher.html">Dispatcher</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="AppInitializer" class="element ajax clickable interface">
+<h1>AppInitializer<a href="../classes/SprayFire.Dispatcher.AppInitializer.html">¶</a>
+</h1>
+<p class="short_description">Implementations of this interface should take care of whatever is needed to
+get an application booted up so that it may take whatever actions are necessary
+to process a request.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Dispatcher.AppInitializer.html" class="more">« More »</a>
+</div>
+<div id="Dispatcher" class="element ajax clickable interface">
+<h1>Dispatcher<a href="../classes/SprayFire.Dispatcher.Dispatcher.html">¶</a>
+</h1>
+<p class="short_description">Implementations of this interface should be able to handle routing the given
+SprayFire.Http.Request, creation and invocation of SprayFire.Controller.Controller,
+creation of SprayFire.Responder.Responder and the sending of the response to
+the user.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Dispatcher.Dispatcher.html" class="more">« More »</a>
+</div>
+<div id="Events" class="element ajax clickable class">
+<h1>Events<a href="../classes/SprayFire.Dispatcher.Events.html">¶</a>
+</h1>
+<p class="short_description">Each constant represents a target type and event name that should be triggered
+at some point during the dispatching process.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Dispatcher.Events.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Dispatcher.html">Dispatcher</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Dispatcher.Exception.html">Exception</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="ActionNotFound" class="element ajax clickable class">
+<h1>ActionNotFound<a href="../classes/SprayFire.Dispatcher.Exception.ActionNotFound.html">¶</a>
+</h1>
+<p class="short_description">Exception thrown if the controller for a route does not have the appropriate
+action requested.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Dispatcher.Exception.ActionNotFound.html" class="more">« More »</a>
+</div>
+<div id="BootstrapNotFound" class="element ajax clickable class">
+<h1>BootstrapNotFound<a href="../classes/SprayFire.Dispatcher.Exception.BootstrapNotFound.html">¶</a>
+</h1>
+<p class="short_description">Thrown if an application's bootstrap could not be appropriately found.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Dispatcher.Exception.BootstrapNotFound.html" class="more">« More »</a>
+</div>
+<div id="NotBootstrapperInstance" class="element ajax clickable class">
+<h1>NotBootstrapperInstance<a href="../classes/SprayFire.Dispatcher.Exception.NotBootstrapperInstance.html">¶</a>
+</h1>
+<p class="short_description">Exception thrown if the application's bootstrap does not appropriately implement
+\SprayFire\Bootstrap\Bootstrapper</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Dispatcher.Exception.NotBootstrapperInstance.html" class="more">« More »</a>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Dispatcher.html">Dispatcher</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Dispatcher.FireDispatcher.html">FireDispatcher</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="AppInitializer" class="element ajax clickable class">
+<h1>AppInitializer<a href="../classes/SprayFire.Dispatcher.FireDispatcher.AppInitializer.html">¶</a>
+</h1>
+<p class="short_description">During framework initialization, after the Request has been routed, this class
+will ensure that your app's bootstrap has been instantiated and invoked so that
+you may run whatever startup scripts your app needs.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Dispatcher.FireDispatcher.AppInitializer.html" class="more">« More »</a>
+</div>
+<div id="Dispatcher" class="element ajax clickable class">
+<h1>Dispatcher<a href="../classes/SprayFire.Dispatcher.FireDispatcher.Dispatcher.html">¶</a>
+</h1>
+<p class="short_description">This class is the primary workhorse of the framework and is responsible for
+the overall resource processing logic including:</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Dispatcher.FireDispatcher.Dispatcher.html" class="more">« More »</a>
+</div>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Exception.html">Exception</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="UnsupportedOperationException" class="element ajax clickable class">
+<h1>UnsupportedOperationException<a href="../classes/SprayFire.Exception.UnsupportedOperationException.html">¶</a>
+</h1>
+<p class="short_description">Thrown if a method implemented by an interface should not be callable for a
+specific implementation.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Exception.UnsupportedOperationException.html" class="more">« More »</a>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Factory.html">Factory</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Factory" class="element ajax clickable interface">
+<h1>Factory<a href="../classes/SprayFire.Factory.Factory.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Factory.Factory.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Factory.html">Factory</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Factory.Exception.html">Exception</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="TypeNotFound" class="element ajax clickable class">
+<h1>TypeNotFound<a href="../classes/SprayFire.Factory.Exception.TypeNotFound.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Factory.Exception.TypeNotFound.html" class="more">« More »</a>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Factory.html">Factory</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Factory.FireFactory.html">FireFactory</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Base" class="element ajax clickable class">
+<h1>Base<a href="../classes/SprayFire.Factory.FireFactory.Base.html">¶</a>
+</h1>
+<p class="short_description">All Factory implementations provided by the default SprayFire install will
+extend from this Factory.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Factory.FireFactory.Base.html" class="more">« More »</a>
+</div>
+<div id="ObjectTypeValidator" class="element ajax clickable class">
+<h1>ObjectTypeValidator<a href="../classes/SprayFire.Factory.FireFactory.ObjectTypeValidator.html">¶</a>
+</h1>
+<p class="short_description">This is a package private class and is intended to be used only by implementations
+in module SprayFire.Factory.FireFactory</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Factory.FireFactory.ObjectTypeValidator.html" class="more">« More »</a>
+</div>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.FileSys.html">FileSys</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="PathGenerator" class="element ajax clickable interface">
+<h1>PathGenerator<a href="../classes/SprayFire.FileSys.PathGenerator.html">¶</a>
+</h1>
+<p class="short_description">It is expected that implementations of this interface will accept a variety of
+arguments for each method; it is intended that implementations will determine
+the appropriate way to allow the passing of sub-directory paths needed to
+each method.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.FileSys.PathGenerator.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.FileSys.html">FileSys</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.FileSys.FireFileSys.html">FireFileSys</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Paths" class="element ajax clickable class">
+<h1>Paths<a href="../classes/SprayFire.FileSys.FireFileSys.Paths.html">¶</a>
+</h1>
+<p class="short_description">All of the getter methods in this class allow a variable number of parameters
+passed to it.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.FileSys.FireFileSys.Paths.html" class="more">« More »</a>
+</div>
+<div id="RootPaths" class="element ajax clickable class">
+<h1>RootPaths<a href="../classes/SprayFire.FileSys.FireFileSys.RootPaths.html">¶</a>
+</h1>
+<p class="short_description">This is a package private implementation and is intended to be used by
+\SprayFire\FileSys\FireFileSys module.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.FileSys.FireFileSys.RootPaths.html" class="more">« More »</a>
+</div>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.html">Http</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Request" class="element ajax clickable interface">
+<h1>Request<a href="../classes/SprayFire.Http.Request.html">¶</a>
+</h1>
+<p class="short_description">It is important to note that implementations of this interface need to return
+other interfaces in the SprayFire.Http module; please check out the rest of
+this module if you intend on implementing this interface yourself.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Request.html" class="more">« More »</a>
+</div>
+<div id="RequestHeaders" class="element ajax clickable interface">
+<h1>RequestHeaders<a href="../classes/SprayFire.Http.RequestHeaders.html">¶</a>
+</h1>
+<p class="short_description">Implementations of this interface should be returned from
+SprayFire.Http.Request::getHeaders.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.RequestHeaders.html" class="more">« More »</a>
+</div>
+<div id="Uri" class="element ajax clickable interface">
+<h1>Uri<a href="../classes/SprayFire.Http.Uri.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Uri.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.html">Http</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.FireHttp.html">FireHttp</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Request" class="element ajax clickable class">
+<h1>Request<a href="../classes/SprayFire.Http.FireHttp.Request.html">¶</a>
+</h1>
+<p class="short_description">This implementation is specifically designed to work with common indexes available
+to the superglobal $_SERVER.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.FireHttp.Request.html" class="more">« More »</a>
+</div>
+<div id="RequestHeaders" class="element ajax clickable class">
+<h1>RequestHeaders<a href="../classes/SprayFire.Http.FireHttp.RequestHeaders.html">¶</a>
+</h1>
+<p class="short_description">Will determine the appropriate HTTP request headers based on common indices
+found in the superglobal $_SERVER.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.FireHttp.RequestHeaders.html" class="more">« More »</a>
+</div>
+<div id="Uri" class="element ajax clickable class">
+<h1>Uri<a href="../classes/SprayFire.Http.FireHttp.Uri.html">¶</a>
+</h1>
+<p class="short_description">This implementation is designed to gather information about the HTTP URI from
+the superglobal $_SERVER variable.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.FireHttp.Uri.html" class="more">« More »</a>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.html">Http</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.Routing.html">Routing</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="MatchStrategy" class="element ajax clickable interface">
+<h1>MatchStrategy<a href="../classes/SprayFire.Http.Routing.MatchStrategy.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Routing.MatchStrategy.html" class="more">« More »</a>
+</div>
+<div id="Route" class="element ajax clickable interface">
+<h1>Route<a href="../classes/SprayFire.Http.Routing.Route.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Routing.Route.html" class="more">« More »</a>
+</div>
+<div id="RouteBag" class="element ajax clickable interface">
+<h1>RouteBag<a href="../classes/SprayFire.Http.Routing.RouteBag.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Routing.RouteBag.html" class="more">« More »</a>
+</div>
+<div id="RoutedRequest" class="element ajax clickable interface">
+<h1>RoutedRequest<a href="../classes/SprayFire.Http.Routing.RoutedRequest.html">¶</a>
+</h1>
+<p class="short_description">This is, in effect, a Data Transfer Object intended to provide pertinent information
+about the routed resource to SprayFire.Dispatcher.Dispatcher implementations.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Routing.RoutedRequest.html" class="more">« More »</a>
+</div>
+<div id="Router" class="element ajax clickable interface">
+<h1>Router<a href="../classes/SprayFire.Http.Routing.Router.html">¶</a>
+</h1>
+<p class="short_description">Implementations should accept some configuration that dictates what information
+should be passed in a \SprayFire\Http\Routing\RoutedRequest when routing is
+processed.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Routing.Router.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.html">Http</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.Routing.html">Routing</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.Routing.Exception.html">Exception</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="DuplicateRouteAdded" class="element ajax clickable class">
+<h1>DuplicateRouteAdded<a href="../classes/SprayFire.Http.Routing.Exception.DuplicateRouteAdded.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Routing.Exception.DuplicateRouteAdded.html" class="more">« More »</a>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.html">Http</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.Routing.html">Routing</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.Routing.FireRouting.html">FireRouting</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="ConfigurationMatchStrategy" class="element ajax clickable class">
+<h1>ConfigurationMatchStrategy<a href="../classes/SprayFire.Http.Routing.FireRouting.ConfigurationMatchStrategy.html">¶</a>
+</h1>
+<p class="short_description">If a $Route is not matched to the request's URI path the default $Route for the
+bag passed will be used.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Routing.FireRouting.ConfigurationMatchStrategy.html" class="more">« More »</a>
+</div>
+<div id="ConventionMatchStrategy" class="element ajax clickable class">
+<h1>ConventionMatchStrategy<a href="../classes/SprayFire.Http.Routing.FireRouting.ConventionMatchStrategy.html">¶</a>
+</h1>
+<p class="short_description">This implementation will take a pretty URL and split it into the appropriate
+controller, action and parameters to use for a returned \SprayFire\Http\Routing\Route.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Routing.FireRouting.ConventionMatchStrategy.html" class="more">« More »</a>
+</div>
+<div id="MatchStrategy" class="element ajax clickable class">
+<h1>MatchStrategy<a href="../classes/SprayFire.Http.Routing.FireRouting.MatchStrategy.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Routing.FireRouting.MatchStrategy.html" class="more">« More »</a>
+</div>
+<div id="Normalizer" class="element ajax clickable class">
+<h1>Normalizer<a href="../classes/SprayFire.Http.Routing.FireRouting.Normalizer.html">¶</a>
+</h1>
+<p class="short_description">This is a package private class and is intended to be used by other implementations
+in the SprayFire.Http.Routing.FireRouting module.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Routing.FireRouting.Normalizer.html" class="more">« More »</a>
+</div>
+<div id="Route" class="element ajax clickable class">
+<h1>Route<a href="../classes/SprayFire.Http.Routing.FireRouting.Route.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Routing.FireRouting.Route.html" class="more">« More »</a>
+</div>
+<div id="RouteBag" class="element ajax clickable class">
+<h1>RouteBag<a href="../classes/SprayFire.Http.Routing.FireRouting.RouteBag.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Routing.FireRouting.RouteBag.html" class="more">« More »</a>
+</div>
+<div id="RoutedRequest" class="element ajax clickable class">
+<h1>RoutedRequest<a href="../classes/SprayFire.Http.Routing.FireRouting.RoutedRequest.html">¶</a>
+</h1>
+<p class="short_description">This implementation is a Data Transfer Object to provide data from the
+SprayFire.Http.Routing to the SprayFire.Dispatcher module.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Routing.FireRouting.RoutedRequest.html" class="more">« More »</a>
+</div>
+<div id="Router" class="element ajax clickable class">
+<h1>Router<a href="../classes/SprayFire.Http.Routing.FireRouting.Router.html">¶</a>
+</h1>
+<p class="short_description">At the moment this implementation is a configuration strict implementation,
+meaning that if the route requested is not in the configuration passed to the
+router then a \SprayFire\Http\Routing\RoutedRequest representing a 404 response
+will be returned.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Http.Routing.FireRouting.Router.html" class="more">« More »</a>
+</div>
+</div>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Logging.html">Logging</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="LogOverseer" class="element ajax clickable interface">
+<h1>LogOverseer<a href="../classes/SprayFire.Logging.LogOverseer.html">¶</a>
+</h1>
+<p class="short_description">Implementations should use the SprayFire.Logging.Logger interface in some
+capacity to provide the appropriate services for logging to at least 4 different
+levels: Emergency, Error, Debug and Info.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Logging.LogOverseer.html" class="more">« More »</a>
+</div>
+<div id="Logger" class="element ajax clickable interface">
+<h1>Logger<a href="../classes/SprayFire.Logging.Logger.html">¶</a>
+</h1>
+<p class="short_description">Implementations should be used by SprayFire.Logging.LogOverseer to store information
+to a specific source.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Logging.Logger.html" class="more">« More »</a>
+</div>
+<div id="NullLogger" class="element ajax clickable class">
+<h1>NullLogger<a href="../classes/SprayFire.Logging.NullLogger.html">¶</a>
+</h1>
+<p class="short_description">Primary use case for this object is as a return value to an implementation of
+a Logger factory.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Logging.NullLogger.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Logging.html">Logging</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Logging.Exception.html">Exception</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="FileNotWritable" class="element ajax clickable class">
+<h1>FileNotWritable<a href="../classes/SprayFire.Logging.Exception.FileNotWritable.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Logging.Exception.FileNotWritable.html" class="more">« More »</a>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Logging.html">Logging</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Logging.FireLogging.html">FireLogging</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="DevelopmentLogger" class="element ajax clickable class">
+<h1>DevelopmentLogger<a href="../classes/SprayFire.Logging.FireLogging.DevelopmentLogger.html">¶</a>
+</h1>
+<p class="short_description">Be aware that this implementation does not persist the data and any messages
+logged will be lost after the request is finished processing.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Logging.FireLogging.DevelopmentLogger.html" class="more">« More »</a>
+</div>
+<div id="ErrorLogLogger" class="element ajax clickable class">
+<h1>ErrorLogLogger<a href="../classes/SprayFire.Logging.FireLogging.ErrorLogLogger.html">¶</a>
+</h1>
+<p class="short_description">This implementation will log messages to the PHP provided error_log function.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Logging.FireLogging.ErrorLogLogger.html" class="more">« More »</a>
+</div>
+<div id="FileLogger" class="element ajax clickable class">
+<h1>FileLogger<a href="../classes/SprayFire.Logging.FireLogging.FileLogger.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Logging.FireLogging.FileLogger.html" class="more">« More »</a>
+</div>
+<div id="LogOverseer" class="element ajax clickable class">
+<h1>LogOverseer<a href="../classes/SprayFire.Logging.FireLogging.LogOverseer.html">¶</a>
+</h1>
+<p class="short_description">Provides the ability to log information at a variety of levels and sources.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Logging.FireLogging.LogOverseer.html" class="more">« More »</a>
+</div>
+<div id="SysLogLogger" class="element ajax clickable class">
+<h1>SysLogLogger<a href="../classes/SprayFire.Logging.FireLogging.SysLogLogger.html">¶</a>
+</h1>
+<p class="short_description">There are a variety of options that can be passed to the constructor and
+log() methods, these options are passed as PHP syslog constants.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Logging.FireLogging.SysLogLogger.html" class="more">« More »</a>
+</div>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Mediator.html">Mediator</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Callback" class="element ajax clickable interface">
+<h1>Callback<a href="../classes/SprayFire.Mediator.Callback.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Mediator.Callback.html" class="more">« More »</a>
+</div>
+<div id="Event" class="element ajax clickable interface">
+<h1>Event<a href="../classes/SprayFire.Mediator.Event.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Mediator.Event.html" class="more">« More »</a>
+</div>
+<div id="Mediator" class="element ajax clickable interface">
+<h1>Mediator<a href="../classes/SprayFire.Mediator.Mediator.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Mediator.Mediator.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Mediator.html">Mediator</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Mediator.Exception.html">Exception</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="DuplicateRegisteredEvent" class="element ajax clickable class">
+<h1>DuplicateRegisteredEvent<a href="../classes/SprayFire.Mediator.Exception.DuplicateRegisteredEvent.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Mediator.Exception.DuplicateRegisteredEvent.html" class="more">« More »</a>
+</div>
+<div id="EventNotRegistered" class="element ajax clickable class">
+<h1>EventNotRegistered<a href="../classes/SprayFire.Mediator.Exception.EventNotRegistered.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Mediator.Exception.EventNotRegistered.html" class="more">« More »</a>
+</div>
+<div id="NotCallableCallback" class="element ajax clickable class">
+<h1>NotCallableCallback<a href="../classes/SprayFire.Mediator.Exception.NotCallableCallback.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Mediator.Exception.NotCallableCallback.html" class="more">« More »</a>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Mediator.html">Mediator</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Mediator.FireMediator.html">FireMediator</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Callback" class="element ajax clickable class">
+<h1>Callback<a href="../classes/SprayFire.Mediator.FireMediator.Callback.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Mediator.FireMediator.Callback.html" class="more">« More »</a>
+</div>
+<div id="CallbackStorage" class="element ajax clickable class">
+<h1>CallbackStorage<a href="../classes/SprayFire.Mediator.FireMediator.CallbackStorage.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Mediator.FireMediator.CallbackStorage.html" class="more">« More »</a>
+</div>
+<div id="Event" class="element ajax clickable class">
+<h1>Event<a href="../classes/SprayFire.Mediator.FireMediator.Event.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Mediator.FireMediator.Event.html" class="more">« More »</a>
+</div>
+<div id="EventRegistry" class="element ajax clickable class">
+<h1>EventRegistry<a href="../classes/SprayFire.Mediator.FireMediator.EventRegistry.html">¶</a>
+</h1>
+<p class="short_description">This is a private package implementation that is designed to be used by the
+SprayFire.Mediator.FireMediator implementations.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Mediator.FireMediator.EventRegistry.html" class="more">« More »</a>
+</div>
+<div id="Mediator" class="element ajax clickable class">
+<h1>Mediator<a href="../classes/SprayFire.Mediator.FireMediator.Mediator.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Mediator.FireMediator.Mediator.html" class="more">« More »</a>
+</div>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.html">Responder</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="OutputEscaper" class="element ajax clickable interface">
+<h1>OutputEscaper<a href="../classes/SprayFire.Responder.OutputEscaper.html">¶</a>
+</h1>
+<p class="short_description">All escape* methods should accept a piece of data in the form of a string or
+an array of strings, if an array is passed the escaping should be done
+recursively.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Responder.OutputEscaper.html" class="more">« More »</a>
+</div>
+<div id="Responder" class="element ajax clickable interface">
+<h1>Responder<a href="../classes/SprayFire.Responder.Responder.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Responder.Responder.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.html">Responder</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.FireResponder.html">FireResponder</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Base" class="element ajax clickable class">
+<h1>Base<a href="../classes/SprayFire.Responder.FireResponder.Base.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Responder.FireResponder.Base.html" class="more">« More »</a>
+</div>
+<div id="Factory" class="element ajax clickable class">
+<h1>Factory<a href="../classes/SprayFire.Responder.FireResponder.Factory.html">¶</a>
+</h1>
+<p class="short_description">All Factory implementations provided by the default SprayFire install will
+extend from this Factory.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Responder.FireResponder.Factory.html" class="more">« More »</a>
+</div>
+<div id="Html" class="element ajax clickable class">
+<h1>Html<a href="../classes/SprayFire.Responder.FireResponder.Html.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Responder.FireResponder.Html.html" class="more">« More »</a>
+</div>
+<div id="Json" class="element ajax clickable class">
+<h1>Json<a href="../classes/SprayFire.Responder.FireResponder.Json.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Responder.FireResponder.Json.html" class="more">« More »</a>
+</div>
+<div id="OutputEscaper" class="element ajax clickable class">
+<h1>OutputEscaper<a href="../classes/SprayFire.Responder.FireResponder.OutputEscaper.html">¶</a>
+</h1>
+<p class="short_description">This implementation is intended to be used with the \Zend\Escaper\Escaper
+integration, provided in the libs folder by the default SprayFire install.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Responder.FireResponder.OutputEscaper.html" class="more">« More »</a>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.html">Responder</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.Template.html">Template</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Manager" class="element ajax clickable interface">
+<h1>Manager<a href="../classes/SprayFire.Responder.Template.Manager.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Responder.Template.Manager.html" class="more">« More »</a>
+</div>
+<div id="Template" class="element ajax clickable interface">
+<h1>Template<a href="../classes/SprayFire.Responder.Template.Template.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Responder.Template.Template.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.html">Responder</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.Template.html">Template</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.Template.Exception.html">Exception</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="FileNotFound" class="element ajax clickable class">
+<h1>FileNotFound<a href="../classes/SprayFire.Responder.Template.Exception.FileNotFound.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Responder.Template.Exception.FileNotFound.html" class="more">« More »</a>
+</div>
+<div id="LayoutNotSet" class="element ajax clickable class">
+<h1>LayoutNotSet<a href="../classes/SprayFire.Responder.Template.Exception.LayoutNotSet.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Responder.Template.Exception.LayoutNotSet.html" class="more">« More »</a>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.html">Responder</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.Template.html">Template</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.Template.FireTemplate.html">FireTemplate</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="BaseTemplate" class="element ajax clickable class">
+<h1>BaseTemplate<a href="../classes/SprayFire.Responder.Template.FireTemplate.BaseTemplate.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Responder.Template.FireTemplate.BaseTemplate.html" class="more">« More »</a>
+</div>
+<div id="FileTemplate" class="element ajax clickable class">
+<h1>FileTemplate<a href="../classes/SprayFire.Responder.Template.FireTemplate.FileTemplate.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Responder.Template.FireTemplate.FileTemplate.html" class="more">« More »</a>
+</div>
+<div id="Manager" class="element ajax clickable class">
+<h1>Manager<a href="../classes/SprayFire.Responder.Template.FireTemplate.Manager.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Responder.Template.FireTemplate.Manager.html" class="more">« More »</a>
+</div>
+</div>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Service.html">Service</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Consumer" class="element ajax clickable interface">
+<h1>Consumer<a href="../classes/SprayFire.Service.Consumer.html">¶</a>
+</h1>
+<p class="short_description">Implementations of this object are expected to provide a mechanism for retrieving
+a list of services needed from a Container and to provide storage for those
+services if they are property stored by the container.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Service.Consumer.html" class="more">« More »</a>
+</div>
+<div id="Container" class="element ajax clickable interface">
+<h1>Container<a href="../classes/SprayFire.Service.Container.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Service.Container.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Service.html">Service</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Service.Exception.html">Exception</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="FactoryNotRegistered" class="element ajax clickable class">
+<h1>FactoryNotRegistered<a href="../classes/SprayFire.Service.Exception.FactoryNotRegistered.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Service.Exception.FactoryNotRegistered.html" class="more">« More »</a>
+</div>
+<div id="ServiceNotFound" class="element ajax clickable class">
+<h1>ServiceNotFound<a href="../classes/SprayFire.Service.Exception.ServiceNotFound.html">¶</a>
+</h1>
+<p class="short_description">Should be thrown by implementations of SprayFire.Service.Container when a service
+is attempted to be retrieved that was not properly added to the container.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Service.Exception.ServiceNotFound.html" class="more">« More »</a>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Service.html">Service</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Service.FireService.html">FireService</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Consumer" class="element ajax clickable class">
+<h1>Consumer<a href="../classes/SprayFire.Service.FireService.Consumer.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Service.FireService.Consumer.html" class="more">« More »</a>
+</div>
+<div id="ConsumerFactory" class="element ajax clickable class">
+<h1>ConsumerFactory<a href="../classes/SprayFire.Service.FireService.ConsumerFactory.html">¶</a>
+</h1>
+<p class="short_description">All Factory implementations provided by the default SprayFire install will
+extend from this Factory.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Service.FireService.ConsumerFactory.html" class="more">« More »</a>
+</div>
+<div id="Container" class="element ajax clickable class">
+<h1>Container<a href="../classes/SprayFire.Service.FireService.Container.html">¶</a>
+</h1>
+<p class="short_description">A very simple implementation designed to lazy-load services needed and provide
+all consumers of services the same service.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Service.FireService.Container.html" class="more">« More »</a>
+</div>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Utils.html">Utils</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="JavaNamespaceConverter" class="element ajax clickable class">
+<h1>JavaNamespaceConverter<a href="../classes/SprayFire.Utils.JavaNamespaceConverter.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Utils.JavaNamespaceConverter.html" class="more">« More »</a>
+</div>
+<div id="ReflectionCache" class="element ajax clickable class">
+<h1>ReflectionCache<a href="../classes/SprayFire.Utils.ReflectionCache.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Utils.ReflectionCache.html" class="more">« More »</a>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.html">Validation</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Rules" class="element ajax clickable interface">
+<h1>Rules<a href="../classes/SprayFire.Validation.Rules.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Rules.html" class="more">« More »</a>
+</div>
+<div id="Validator" class="element ajax clickable interface">
+<h1>Validator<a href="../classes/SprayFire.Validation.Validator.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Validator.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.html">Validation</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.Check.html">Check</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Check" class="element ajax clickable interface">
+<h1>Check<a href="../classes/SprayFire.Validation.Check.Check.html">¶</a>
+</h1>
+<p class="short_description">The primary responsibilities for objects implementing this interface are to
+ensure a value passes a specific rule and to provide a means to retrieve
+customizable, detailed information on how the value does not match the specific
+rule.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.Check.html" class="more">« More »</a>
+</div>
+<div id="MessageParser" class="element ajax clickable interface">
+<h1>MessageParser<a href="../classes/SprayFire.Validation.Check.MessageParser.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.MessageParser.html" class="more">« More »</a>
+</div>
+<div id="MessageTokenizable" class="element ajax clickable interface">
+<h1>MessageTokenizable<a href="../classes/SprayFire.Validation.Check.MessageTokenizable.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.MessageTokenizable.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.html">Validation</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.Check.html">Check</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.Check.FireCheck.html">FireCheck</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Alphabetic" class="element ajax clickable class">
+<h1>Alphabetic<a href="../classes/SprayFire.Validation.Check.FireCheck.Alphabetic.html">¶</a>
+</h1>
+<p class="short_description">Tokens available
+-----------------------------------------------------------------------------
+- value => The value checked against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.Alphabetic.html" class="more">« More »</a>
+</div>
+<div id="Alphanumeric" class="element ajax clickable class">
+<h1>Alphanumeric<a href="../classes/SprayFire.Validation.Check.FireCheck.Alphanumeric.html">¶</a>
+</h1>
+<p class="short_description">Tokens available
+-----------------------------------------------------------------------------
+- value => The value checked against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.Alphanumeric.html" class="more">« More »</a>
+</div>
+<div id="Check" class="element ajax clickable class">
+<h1>Check<a href="../classes/SprayFire.Validation.Check.FireCheck.Check.html">¶</a>
+</h1>
+<p class="short_description">Tokens available to this implementation
+-----------------------------------------------------------------------------
+- value => The value being checked</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.Check.html" class="more">« More »</a>
+</div>
+<div id="ComparisonCheck" class="element ajax clickable class">
+<h1>ComparisonCheck<a href="../classes/SprayFire.Validation.Check.FireCheck.ComparisonCheck.html">¶</a>
+</h1>
+<p class="short_description">Tokens available to implementations
+--------------------------------------------------------------
+- value => The value being checked
+- comparison => The value being checked against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.ComparisonCheck.html" class="more">« More »</a>
+</div>
+<div id="Email" class="element ajax clickable class">
+<h1>Email<a href="../classes/SprayFire.Validation.Check.FireCheck.Email.html">¶</a>
+</h1>
+<p class="short_description">This implementation will use the filter_var functionality to ensure we are
+checking values against the RFC for email address format.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.Email.html" class="more">« More »</a>
+</div>
+<div id="Equal" class="element ajax clickable class">
+<h1>Equal<a href="../classes/SprayFire.Validation.Check.FireCheck.Equal.html">¶</a>
+</h1>
+<p class="short_description">This implementation will compare on a strict '===' check.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.Equal.html" class="more">« More »</a>
+</div>
+<div id="ErrorCodes" class="element ajax clickable class">
+<h1>ErrorCodes<a href="../classes/SprayFire.Validation.Check.FireCheck.ErrorCodes.html">¶</a>
+</h1>
+<p class="short_description">This implementation is here because error codes should be unique and you can
+have multiple checks returning similar errors.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.ErrorCodes.html" class="more">« More »</a>
+</div>
+<div id="GreaterThan" class="element ajax clickable class">
+<h1>GreaterThan<a href="../classes/SprayFire.Validation.Check.FireCheck.GreaterThan.html">¶</a>
+</h1>
+<p class="short_description">Tokens available
+-----------------------------------------------------------------------------
+- value => The value being checked
+- comparison => The value being checked against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.GreaterThan.html" class="more">« More »</a>
+</div>
+<div id="GreaterThanEqual" class="element ajax clickable class">
+<h1>GreaterThanEqual<a href="../classes/SprayFire.Validation.Check.FireCheck.GreaterThanEqual.html">¶</a>
+</h1>
+<p class="short_description">Tokens available
+-----------------------------------------------------------------------------
+- value => The value being checked
+- comparison => The value being compared against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.GreaterThanEqual.html" class="more">« More »</a>
+</div>
+<div id="LessThan" class="element ajax clickable class">
+<h1>LessThan<a href="../classes/SprayFire.Validation.Check.FireCheck.LessThan.html">¶</a>
+</h1>
+<p class="short_description">Tokens available
+-----------------------------------------------------------------------------
+- value => The value checked against
+- comparison => The value being compared against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.LessThan.html" class="more">« More »</a>
+</div>
+<div id="LessThanEqual" class="element ajax clickable class">
+<h1>LessThanEqual<a href="../classes/SprayFire.Validation.Check.FireCheck.LessThanEqual.html">¶</a>
+</h1>
+<p class="short_description">Tokens available to implementations
+--------------------------------------------------------------
+- value => The value being checked
+- comparison => The value being checked against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.LessThanEqual.html" class="more">« More »</a>
+</div>
+<div id="MessageParser" class="element ajax clickable class">
+<h1>MessageParser<a href="../classes/SprayFire.Validation.Check.FireCheck.MessageParser.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.MessageParser.html" class="more">« More »</a>
+</div>
+<div id="Range" class="element ajax clickable class">
+<h1>Range<a href="../classes/SprayFire.Validation.Check.FireCheck.Range.html">¶</a>
+</h1>
+<p class="short_description">Tokens available
+--------------------------------------------------------------
+- value => The value being checked
+- min => The minimum number of the range
+- max => The maximum number of the range</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.Range.html" class="more">« More »</a>
+</div>
+<div id="Regex" class="element ajax clickable class">
+<h1>Regex<a href="../classes/SprayFire.Validation.Check.FireCheck.Regex.html">¶</a>
+</h1>
+<p class="short_description">Tokens available
+-----------------------------------------------------------------------------
+- value => The value checked against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.Regex.html" class="more">« More »</a>
+</div>
+<div id="StringLength" class="element ajax clickable class">
+<h1>StringLength<a href="../classes/SprayFire.Validation.Check.FireCheck.StringLength.html">¶</a>
+</h1>
+<p class="short_description">Tokens available to implementations
+--------------------------------------------------------------
+- value => The value being checked
+- comparison => The value being checked against</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Check.FireCheck.StringLength.html" class="more">« More »</a>
+</div>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.html">Validation</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.Exception.html">Exception</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="InvalidMethodChain" class="element ajax clickable class">
+<h1>InvalidMethodChain<a href="../classes/SprayFire.Validation.Exception.InvalidMethodChain.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Exception.InvalidMethodChain.html" class="more">« More »</a>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.html">Validation</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.FireValidation.html">FireValidation</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Rules" class="element ajax clickable class">
+<h1>Rules<a href="../classes/SprayFire.Validation.FireValidation.Rules.html">¶</a>
+</h1>
+<p class="short_description">This implementation allows for the use of a Fluent API to add SprayFire.Validation.Check.Check
+objects against a given field; this Fluent API is completely optional and the
+same actions can be performed in a non-fluent manner.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.FireValidation.Rules.html" class="more">« More »</a>
+</div>
+<div id="Validator" class="element ajax clickable class">
+<h1>Validator<a href="../classes/SprayFire.Validation.FireValidation.Validator.html">¶</a>
+</h1>
+<p class="short_description">Validates a set of data, passed as an associative array, checks against the
+Checks stored against the field for those Rules.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.FireValidation.Validator.html" class="more">« More »</a>
+</div>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.html">Validation</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.Result.html">Result</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Result" class="element ajax clickable interface">
+<h1>Result<a href="../classes/SprayFire.Validation.Result.Result.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Result.Result.html" class="more">« More »</a>
+</div>
+<div id="Set" class="element ajax clickable interface">
+<h1>Set<a href="../classes/SprayFire.Validation.Result.Set.html">¶</a>
+</h1>
+<p class="short_description"></p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Result.Set.html" class="more">« More »</a>
+</div>
+<ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-th"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.html">Validation</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.Result.html">Result</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../namespaces/SprayFire.Validation.Result.FireResult.html">FireResult</a>
+</li>
+</ul>
+<div class="namespace-indent">
+<h3>
+<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
+<div id="Result" class="element ajax clickable class">
+<h1>Result<a href="../classes/SprayFire.Validation.Result.FireResult.Result.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Result.FireResult.Result.html" class="more">« More »</a>
+</div>
+<div id="Set" class="element ajax clickable class">
+<h1>Set<a href="../classes/SprayFire.Validation.Result.FireResult.Set.html">¶</a>
+</h1>
+<p class="short_description">It is recommended that classes needing to implement \SprayFire\Object extend
+this class.</p>
+<div class="details collapse"></div>
+<a href="../classes/SprayFire.Validation.Result.FireResult.Set.html" class="more">« More »</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-02-18T23:33:43-05:00.<br></footer></div>
+</div>
+</body>
+</html>

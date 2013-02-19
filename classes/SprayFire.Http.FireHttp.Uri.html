@@ -1,0 +1,347 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>SprayFire » \SprayFire\Http\FireHttp\Uri</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">SprayFire</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/SprayFire.html"><i class="icon-th"></i> SprayFire</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/SprayFire.html"><i class="icon-folder-open"></i> SprayFire</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">261</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">6</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">1</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method___construct" title="__construct :: If $_server is null then the $_SERVER superglobal will be used to parse the
+URI fragments."><span class="description">If $_server is null then the $_SERVER superglobal will be used to parse the
+URI fragments.</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method___toString" title="__toString :: Overridden from SprayFire.CoreObject to ensure that the string version of
+the parsed HTTP URI is returned and not an object hash code."><span class="description">Overridden from SprayFire.CoreObject to ensure that the string version of
+the parsed HTTP URI is returned and not an object hash code.</span><pre>__toString()</pre></a></li>
+<li class="method public "><a href="#method_equals" title="equals :: Overrides \SprayFire\CoreObject to ensure that objects compared to this
+implementation for equality does not care if they are the same object
+but whether or not the appropriate stringified URI is the same as the object
+being compared to."><span class="description">Overrides \SprayFire\CoreObject to ensure that objects compared to this
+implementation for equality does not care if they are the same object
+but whether or not the appropriate stringified URI is the same as the object
+being compared to.</span><pre>equals()</pre></a></li>
+<li class="method public "><a href="#method_getAuthority" title="getAuthority :: Will return the HTTP host and port used for the given request."><span class="description">Will return the HTTP host and port used for the given request.</span><pre>getAuthority()</pre></a></li>
+<li class="method public "><a href="#method_getPath" title="getPath :: Returns any path associated with the URI"><span class="description">Returns any path associated with the URI</span><pre>getPath()</pre></a></li>
+<li class="method public "><a href="#method_getPort" title="getPort :: Returns the port used for the request, a convenience method to easily
+gather the port without having to parse the authority."><span class="description">Returns the port used for the request, a convenience method to easily
+gather the port without having to parse the authority.</span><pre>getPort()</pre></a></li>
+<li class="method public "><a href="#method_getQuery" title="getQuery :: Returns any query string associated with the URI"><span class="description">Returns any query string associated with the URI</span><pre>getQuery()</pre></a></li>
+<li class="method public "><a href="#method_getScheme" title="getScheme :: Will return the HTTP protocol for the given request"><span class="description">Will return the HTTP protocol for the given request</span><pre>getScheme()</pre></a></li>
+<li class="method public inherited"><a href="#method_hashCode" title="hashCode :: Returns a unique identifier for the object that will be the same for objects
+referencing the same spot in memory."><span class="description">Returns a unique identifier for the object that will be the same for objects
+referencing the same spot in memory.</span><pre>hashCode()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul><li class="method protected "><a href="#method_parseParameters" title="parseParameters :: After calling this method all class properties will be properly set to the
+values, if present, in $_server."><span class="description">After calling this method all class properties will be properly set to the
+values, if present, in $_server.</span><pre>parseParameters()</pre></a></li></ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected "><a href="#property_authority" title="$authority :: "><span class="description"></span><pre>$authority</pre></a></li>
+<li class="property protected "><a href="#property_path" title="$path :: "><span class="description"></span><pre>$path</pre></a></li>
+<li class="property protected "><a href="#property_port" title="$port :: "><span class="description"></span><pre>$port</pre></a></li>
+<li class="property protected "><a href="#property_query" title="$query :: "><span class="description"></span><pre>$query</pre></a></li>
+<li class="property protected "><a href="#property_scheme" title="$scheme :: "><span class="description"></span><pre>$scheme</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\SprayFire\Http\FireHttp\Uri"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.html">Http</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Http.FireHttp.html">FireHttp</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/SprayFire.Http.FireHttp.Uri.html">Uri</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">This implementation is designed to gather information about the HTTP URI from
+the superglobal $_SERVER variable.</p>
+<div class="details">
+<div class="long_description"><p>This implementation is known to work with Apache servers but may not work on
+servers that do not properly populate the $_SERVER superglobal with the appropriate
+values.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>package</th>
+<td><a href="../packages/SprayFire.Http.FireHttp.html">SprayFire</a></td>
+</tr>
+<tr>
+<th>subpackage</th>
+<td>Http.FireHttp</td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>If $_server is null then the $_SERVER superglobal will be used to parse the
+URI fragments.</h2>
+<pre>__construct(array $_server) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$_server</h4>
+<code>array</code>
+</div>
+</div></div>
+</div>
+<a id="method___toString"></a><div class="element clickable method public method___toString" data-toggle="collapse" data-target=".method___toString .collapse">
+<h2>Overridden from SprayFire.CoreObject to ensure that the string version of
+the parsed HTTP URI is returned and not an object hash code.</h2>
+<pre>__toString() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>We are using get_class() over the <strong>CLASS</strong> magic constant as the constant
+will return the name of the class this method is implemented in and not
+the name of the class we are invoking the object on.</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_equals"></a><div class="element clickable method public method_equals" data-toggle="collapse" data-target=".method_equals .collapse">
+<h2>Overrides \SprayFire\CoreObject to ensure that objects compared to this
+implementation for equality does not care if they are the same object
+but whether or not the appropriate stringified URI is the same as the object
+being compared to.</h2>
+<pre>equals(\SprayFire\Object $Object) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>If your objects need to implement a Comparator be sure to override this
+implementation.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$Object</h4>
+<code><a href="../classes/SprayFire.Object.html">\SprayFire\Object</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a id="method_getAuthority"></a><div class="element clickable method public method_getAuthority" data-toggle="collapse" data-target=".method_getAuthority .collapse">
+<h2>Will return the HTTP host and port used for the given request.</h2>
+<pre>getAuthority() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getPath"></a><div class="element clickable method public method_getPath" data-toggle="collapse" data-target=".method_getPath .collapse">
+<h2>Returns any path associated with the URI</h2>
+<pre>getPath() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getPort"></a><div class="element clickable method public method_getPort" data-toggle="collapse" data-target=".method_getPort .collapse">
+<h2>Returns the port used for the request, a convenience method to easily
+gather the port without having to parse the authority.</h2>
+<pre>getPort() : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>int</code></div>
+</div></div>
+</div>
+<a id="method_getQuery"></a><div class="element clickable method public method_getQuery" data-toggle="collapse" data-target=".method_getQuery .collapse">
+<h2>Returns any query string associated with the URI</h2>
+<pre>getQuery() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_getScheme"></a><div class="element clickable method public method_getScheme" data-toggle="collapse" data-target=".method_getScheme .collapse">
+<h2>Will return the HTTP protocol for the given request</h2>
+<pre>getScheme() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_hashCode"></a><div class="element clickable method public method_hashCode" data-toggle="collapse" data-target=".method_hashCode .collapse">
+<h2>Returns a unique identifier for the object that will be the same for objects
+referencing the same spot in memory.</h2>
+<pre>hashCode() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td><a href="">\SprayFire\http://us3.php.net/manual/en/function.spl-object-hash.php</a></td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\CoreObject::hashCode()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_parseParameters"></a><div class="element clickable method protected method_parseParameters" data-toggle="collapse" data-target=".method_parseParameters .collapse">
+<h2>After calling this method all class properties will be properly set to the
+values, if present, in $_server.</h2>
+<pre>parseParameters(array $_server) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$_server</h4>
+<code>array</code>
+</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_authority"> </a><div class="element clickable property protected property_authority" data-toggle="collapse" data-target=".property_authority .collapse">
+<h2></h2>
+<pre>$authority </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_path"> </a><div class="element clickable property protected property_path" data-toggle="collapse" data-target=".property_path .collapse">
+<h2></h2>
+<pre>$path </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_port"> </a><div class="element clickable property protected property_port" data-toggle="collapse" data-target=".property_port .collapse">
+<h2></h2>
+<pre>$port </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_query"> </a><div class="element clickable property protected property_query" data-toggle="collapse" data-target=".property_query .collapse">
+<h2></h2>
+<pre>$query </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_scheme"> </a><div class="element clickable property protected property_scheme" data-toggle="collapse" data-target=".property_scheme .collapse">
+<h2></h2>
+<pre>$scheme </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-02-18T23:33:44-05:00.<br></footer></div>
+</div>
+</body>
+</html>

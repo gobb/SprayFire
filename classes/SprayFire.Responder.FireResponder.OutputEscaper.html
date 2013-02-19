@@ -1,0 +1,493 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>SprayFire » \SprayFire\Responder\FireResponder\OutputEscaper</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">SprayFire</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/SprayFire.html"><i class="icon-th"></i> SprayFire</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/SprayFire.html"><i class="icon-folder-open"></i> SprayFire</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">261</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">6</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">1</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method___construct" title="__construct :: "><span class="description">__construct()
+        </span><pre>__construct()</pre></a></li>
+<li class="method public inherited"><a href="#method___toString" title="__toString :: Returns the fully namespaced class name."><span class="description">Returns the fully namespaced class name.</span><pre>__toString()</pre></a></li>
+<li class="method public inherited"><a href="#method_equals" title="equals :: Should return true or false for whether or not the given $Object is equal
+to the object invoking equals."><span class="description">Should return true or false for whether or not the given $Object is equal
+to the object invoking equals.</span><pre>equals()</pre></a></li>
+<li class="method public "><a href="#method_escapeCss" title="escapeCss :: Pass a string or string[] that should be escaped in a CSS context."><span class="description">Pass a string or string[] that should be escaped in a CSS context.</span><pre>escapeCss()</pre></a></li>
+<li class="method public "><a href="#method_escapeHtmlAttribute" title="escapeHtmlAttribute :: Pass a string or string[] that should be escape in a HTML attribute context."><span class="description">Pass a string or string[] that should be escape in a HTML attribute context.</span><pre>escapeHtmlAttribute()</pre></a></li>
+<li class="method public "><a href="#method_escapeHtmlContent" title="escapeHtmlContent :: Pass a string or string[] that should be escaped in a HTML content context."><span class="description">Pass a string or string[] that should be escaped in a HTML content context.</span><pre>escapeHtmlContent()</pre></a></li>
+<li class="method public "><a href="#method_escapeJavaScript" title="escapeJavaScript :: Pass a string or string[] that should be escaped in a JavaScript context."><span class="description">Pass a string or string[] that should be escaped in a JavaScript context.</span><pre>escapeJavaScript()</pre></a></li>
+<li class="method public inherited"><a href="#method_hashCode" title="hashCode :: Should return some unique identifier for the object."><span class="description">Should return some unique identifier for the object.</span><pre>hashCode()</pre></a></li>
+<li class="method public "><a href="#method_preserveDataType" title="preserveDataType :: Indicate whether or not boolean and numeric data types should be preserved
+and not escaped."><span class="description">Indicate whether or not boolean and numeric data types should be preserved
+and not escaped.</span><pre>preserveDataType()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="method protected "><a href="#method_escapeContent" title="escapeContent :: Will escape the appropriate data, be it a string or array, with the
+$context passed being the name of the ZendEscaper method to invoke."><span class="description">Will escape the appropriate data, be it a string or array, with the
+$context passed being the name of the ZendEscaper method to invoke.</span><pre>escapeContent()</pre></a></li>
+<li class="method protected "><a href="#method_escapeMultipleContent" title="escapeMultipleContent :: Will recursively escape an array of data, the $context being the ZendEscaper
+method to invoke."><span class="description">Will recursively escape an array of data, the $context being the ZendEscaper
+method to invoke.</span><pre>escapeMultipleContent()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected "><a href="#property_ZendEscaper" title="$ZendEscaper :: "><span class="description"></span><pre>$ZendEscaper</pre></a></li>
+<li class="property protected "><a href="#property_typePreservation" title="$typePreservation :: The property that controls whether or not numeric and/or boolean data should
+be preserved during escaping."><span class="description"></span><pre>$typePreservation</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-constant"></i> Constants
+                    <ul>
+<li class="constant  inherited"><a href="#constant_CSS_CONTEXT" title="CSS_CONTEXT :: Constant that can be used by other modules to signify data or escaping in
+a CSS context."><span class="description">Constant that can be used by other modules to signify data or escaping in
+a CSS context.</span><pre>CSS_CONTEXT</pre></a></li>
+<li class="constant  inherited"><a href="#constant_HTML_ATTRIBUTE_CONTEXT" title="HTML_ATTRIBUTE_CONTEXT :: Constant that can be used by other modules to signify data or escaping in
+a HTML attribute context."><span class="description">Constant that can be used by other modules to signify data or escaping in
+a HTML attribute context.</span><pre>HTML_ATTRIBUTE_CONTEXT</pre></a></li>
+<li class="constant  inherited"><a href="#constant_HTML_CONTENT_CONTEXT" title="HTML_CONTENT_CONTEXT :: Constant that can be used by other modules to signify data or escaping in
+a HTML content context."><span class="description">Constant that can be used by other modules to signify data or escaping in
+a HTML content context.</span><pre>HTML_CONTENT_CONTEXT</pre></a></li>
+<li class="constant  inherited"><a href="#constant_JAVASCRIPT_CONTEXT" title="JAVASCRIPT_CONTEXT :: Constant that can be used by other modules to signify data or escaping in
+a JavaScript context."><span class="description">Constant that can be used by other modules to signify data or escaping in
+a JavaScript context.</span><pre>JAVASCRIPT_CONTEXT</pre></a></li>
+<li class="constant  "><a href="#constant_NO_PRESERVATION" title="NO_PRESERVATION :: Used in conjunction with preserveDataType to indicate that boolean and
+numeric types should be escaped."><span class="description">Used in conjunction with preserveDataType to indicate that boolean and
+numeric types should be escaped.</span><pre>NO_PRESERVATION</pre></a></li>
+<li class="constant  "><a href="#constant_PRESERVE_BOOLEAN" title="PRESERVE_BOOLEAN :: Used in conjunction with preserveDataType to indicate that boolean data
+should be preserved and not escaped."><span class="description">Used in conjunction with preserveDataType to indicate that boolean data
+should be preserved and not escaped.</span><pre>PRESERVE_BOOLEAN</pre></a></li>
+<li class="constant  "><a href="#constant_PRESERVE_NUMERIC" title="PRESERVE_NUMERIC :: Used in conjunction with preserveDataType to indicate that numeric data,
+integers and floats, should be preserved and not escaped."><span class="description">Used in conjunction with preserveDataType to indicate that numeric data,
+integers and floats, should be preserved and not escaped.</span><pre>PRESERVE_NUMERIC</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\SprayFire\Responder\FireResponder\OutputEscaper"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/SprayFire.html">SprayFire</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.html">Responder</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/SprayFire.Responder.FireResponder.html">FireResponder</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/SprayFire.Responder.FireResponder.OutputEscaper.html">OutputEscaper</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">This implementation is intended to be used with the \Zend\Escaper\Escaper
+integration, provided in the libs folder by the default SprayFire install.</p>
+<div class="details">
+<div class="long_description"><p>Optionally this implementation will allow you to preserve boolean and numeric
+data types. Boolean data types, if escaped, will likely be converted to the
+string '1' for true or the string '' for false. In some situations this is
+fine, in others, for example when using Responder designed for JSON it may not
+be ideal. If set you can preserve boolean and/or numeric data for these types
+of situations. You still get the security from escaping but configurable to
+allow more flexible escaping without suffering security risks.</p>
+
+<p>We use the \Zend\Escaper\Escaper implementation because they take advantage of
+a lot more developers on their project and they ensure we get the best escaping
+as possible. We don't extend the Escaper implementation, e.g. through inheritance,
+to ensure the API for the module works as expected.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>package</th>
+<td><a href="../packages/SprayFire.Responder.FireResponder.html">SprayFire</a></td>
+</tr>
+<tr>
+<th>subpackage</th>
+<td>Responder.FireResponder</td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>__construct()
+        </h2>
+<pre>__construct(string $encoding) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$encoding</h4>
+<code>string</code>
+</div>
+</div></div>
+</div>
+<a id="method___toString"></a><div class="element clickable method public method___toString" data-toggle="collapse" data-target=".method___toString .collapse">
+<h2>Returns the fully namespaced class name.</h2>
+<pre>__toString() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>We are using get_class() over the <strong>CLASS</strong> magic constant as the constant
+will return the name of the class this method is implemented in and not
+the name of the class we are invoking the object on.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Object::__toString()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\OutputEscaper::__toString()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_equals"></a><div class="element clickable method public method_equals" data-toggle="collapse" data-target=".method_equals .collapse">
+<h2>Should return true or false for whether or not the given $Object is equal
+to the object invoking equals.</h2>
+<pre>equals(\SprayFire\Object $Object) : boolean</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>If your objects need to implement a Comparator be sure to override this
+implementation.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Object::equals()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\OutputEscaper::equals()</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$Object</h4>
+<code><a href="../classes/SprayFire.Object.html">\SprayFire\Object</a></code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a id="method_escapeCss"></a><div class="element clickable method public method_escapeCss" data-toggle="collapse" data-target=".method_escapeCss .collapse">
+<h2>Pass a string or string[] that should be escaped in a CSS context.</h2>
+<pre>escapeCss(mixed $data) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>mixed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<a id="method_escapeHtmlAttribute"></a><div class="element clickable method public method_escapeHtmlAttribute" data-toggle="collapse" data-target=".method_escapeHtmlAttribute .collapse">
+<h2>Pass a string or string[] that should be escape in a HTML attribute context.</h2>
+<pre>escapeHtmlAttribute(mixed $data) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>mixed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<a id="method_escapeHtmlContent"></a><div class="element clickable method public method_escapeHtmlContent" data-toggle="collapse" data-target=".method_escapeHtmlContent .collapse">
+<h2>Pass a string or string[] that should be escaped in a HTML content context.</h2>
+<pre>escapeHtmlContent(mixed $data) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>mixed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<a id="method_escapeJavaScript"></a><div class="element clickable method public method_escapeJavaScript" data-toggle="collapse" data-target=".method_escapeJavaScript .collapse">
+<h2>Pass a string or string[] that should be escaped in a JavaScript context.</h2>
+<pre>escapeJavaScript(mixed $data) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>mixed</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<a id="method_hashCode"></a><div class="element clickable method public method_hashCode" data-toggle="collapse" data-target=".method_hashCode .collapse">
+<h2>Should return some unique identifier for the object.</h2>
+<pre>hashCode() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Object::hashCode()</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\OutputEscaper::hashCode()</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_preserveDataType"></a><div class="element clickable method public method_preserveDataType" data-toggle="collapse" data-target=".method_preserveDataType .collapse">
+<h2>Indicate whether or not boolean and numeric data types should be preserved
+and not escaped.</h2>
+<pre>preserveDataType($typeBitMask) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>It is strongly advised that you make use of the OutputEscaper constants
+to ensure the appropriate data types are preserved.</p>
+
+<h2>Preserve boolean and numeric data</h2>
+
+<p>$typeBitMask = OutputEscaper::PRESERVE_NUMERIC | OutputEscaper::PRESERVE_BOOLEAN</p>
+
+<h2>Preserve boolean data only</h2>
+
+<p>$typeBitMask = OutputEscaper::PRESERVE_BOOLEAN</p>
+
+<h2>Preserve numeric data only</h2>
+
+<p>$typeBitMask = OutputEscaper::PRESERVE_NUMERIC</p>
+
+<p>Any other value will result in no preservation taking place and all values
+being escaped.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$typeBitMask</h4></div>
+</div></div>
+</div>
+<a id="method_escapeContent"></a><div class="element clickable method protected method_escapeContent" data-toggle="collapse" data-target=".method_escapeContent .collapse">
+<h2>Will escape the appropriate data, be it a string or array, with the
+$context passed being the name of the ZendEscaper method to invoke.</h2>
+<pre>escapeContent(mixed $data, string $context) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>mixed</code>
+</div>
+<div class="subelement argument">
+<h4>$context</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<a id="method_escapeMultipleContent"></a><div class="element clickable method protected method_escapeMultipleContent" data-toggle="collapse" data-target=".method_escapeMultipleContent .collapse">
+<h2>Will recursively escape an array of data, the $context being the ZendEscaper
+method to invoke.</h2>
+<pre>escapeMultipleContent(array $data, string $context) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>array</code>
+</div>
+<div class="subelement argument">
+<h4>$context</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_ZendEscaper"> </a><div class="element clickable property protected property_ZendEscaper" data-toggle="collapse" data-target=".property_ZendEscaper .collapse">
+<h2></h2>
+<pre>$ZendEscaper </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_typePreservation"> </a><div class="element clickable property protected property_typePreservation" data-toggle="collapse" data-target=".property_typePreservation .collapse">
+<h2></h2>
+<pre>$typePreservation </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>property</th>
+<td></td>
+</tr></table>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-constant"></i> Constants</h3>
+<a id="constant_CSS_CONTEXT"> </a><div class="element clickable constant  constant_CSS_CONTEXT" data-toggle="collapse" data-target=".constant_CSS_CONTEXT .collapse">
+<h2>Constant that can be used by other modules to signify data or escaping in
+a CSS context.</h2>
+<pre>CSS_CONTEXT </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\OutputEscaper::CSS_CONTEXT</td>
+</tr></table>
+</div></div>
+</div>
+<a id="constant_HTML_ATTRIBUTE_CONTEXT"> </a><div class="element clickable constant  constant_HTML_ATTRIBUTE_CONTEXT" data-toggle="collapse" data-target=".constant_HTML_ATTRIBUTE_CONTEXT .collapse">
+<h2>Constant that can be used by other modules to signify data or escaping in
+a HTML attribute context.</h2>
+<pre>HTML_ATTRIBUTE_CONTEXT </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT</td>
+</tr></table>
+</div></div>
+</div>
+<a id="constant_HTML_CONTENT_CONTEXT"> </a><div class="element clickable constant  constant_HTML_CONTENT_CONTEXT" data-toggle="collapse" data-target=".constant_HTML_CONTENT_CONTEXT .collapse">
+<h2>Constant that can be used by other modules to signify data or escaping in
+a HTML content context.</h2>
+<pre>HTML_CONTENT_CONTEXT </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\OutputEscaper::HTML_CONTENT_CONTEXT</td>
+</tr></table>
+</div></div>
+</div>
+<a id="constant_JAVASCRIPT_CONTEXT"> </a><div class="element clickable constant  constant_JAVASCRIPT_CONTEXT" data-toggle="collapse" data-target=".constant_JAVASCRIPT_CONTEXT .collapse">
+<h2>Constant that can be used by other modules to signify data or escaping in
+a JavaScript context.</h2>
+<pre>JAVASCRIPT_CONTEXT </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\SprayFire\Responder\OutputEscaper::JAVASCRIPT_CONTEXT</td>
+</tr></table>
+</div></div>
+</div>
+<a id="constant_NO_PRESERVATION"> </a><div class="element clickable constant  constant_NO_PRESERVATION" data-toggle="collapse" data-target=".constant_NO_PRESERVATION .collapse">
+<h2>Used in conjunction with preserveDataType to indicate that boolean and
+numeric types should be escaped.</h2>
+<pre>NO_PRESERVATION </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_PRESERVE_BOOLEAN"> </a><div class="element clickable constant  constant_PRESERVE_BOOLEAN" data-toggle="collapse" data-target=".constant_PRESERVE_BOOLEAN .collapse">
+<h2>Used in conjunction with preserveDataType to indicate that boolean data
+should be preserved and not escaped.</h2>
+<pre>PRESERVE_BOOLEAN </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="constant_PRESERVE_NUMERIC"> </a><div class="element clickable constant  constant_PRESERVE_NUMERIC" data-toggle="collapse" data-target=".constant_PRESERVE_NUMERIC .collapse">
+<h2>Used in conjunction with preserveDataType to indicate that numeric data,
+integers and floats, should be preserved and not escaped.</h2>
+<pre>PRESERVE_NUMERIC </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-02-18T23:33:45-05:00.<br></footer></div>
+</div>
+</body>
+</html>
