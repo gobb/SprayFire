@@ -18,7 +18,7 @@ use \SprayFire\Object as SFObject;
  * that any initialization scripts are ran at start up time.
  *
  * @package SprayFire
- * @package Bootstrap
+ * @subpackage Bootstrap
  */
 interface Bootstrapper extends SFObject {
 
