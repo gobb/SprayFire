@@ -26,11 +26,17 @@ use \SprayFire\Controller as SFController,
  *
  * @package SprayFire
  * @subpackage Controller.FireController
+ *
+ * @property \SprayFire\FileSys\FireFileSys\Paths $Paths
+ * @property \SprayFire\Http\FireHttp\Request $Request
+ * @property \SprayFire\Http\Routing\FireRouting\RoutedRequest $RoutedRequest
+ * @property \SprayFire\Responder\Template\FireTemplate\Manager $TemplateManager
+ * @property \SprayFire\Logging\FireLogging\LogOverseer $Logging
  */
 class About extends Base implements SFController\Controller {
 
     /**
-     * Takes care of some generic actions that may be used by multiple actions
+     * Ensures that the default layout template is set in the $TemplateManager
      *
      * @param \SprayFire\Mediator\Event $Event
      * @return void

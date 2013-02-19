@@ -36,6 +36,9 @@ use \SprayFire\Controller as SFController,
 class NullObject extends SFCoreObject implements SFController\Controller {
 
     /**
+     * Returned from self::getTemplateManager to allow the controller to determine
+     * what layout and content templates are provided.
+     *
      * @property \SprayFire\Responder\Template\Manager
      */
     protected $TemplateManager;
@@ -98,6 +101,7 @@ class NullObject extends SFCoreObject implements SFController\Controller {
      * No operation performed
      *
      * @param array $data
+     * @param string $context
      * @return void
      */
     public function setMultipleResponderData(array $data, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
@@ -109,18 +113,20 @@ class NullObject extends SFCoreObject implements SFController\Controller {
      *
      * @param string $name
      * @param mixed $value
+     * @param string $context
      */
     public function setResponderData($name, $value, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
 
     }
 
     /**
-     * No operation performed
+     * No operation performed; will always return an empty array
      *
+     * @param string $context
      * @return array
      */
     public function getResponderData($context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
-        return array();
+        return [];
     }
 
     /**
@@ -138,7 +144,7 @@ class NullObject extends SFCoreObject implements SFController\Controller {
      * @return array
      */
     public function getRequestedServices() {
-        return array();
+        return [];
     }
 
     /**

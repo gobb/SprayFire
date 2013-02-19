@@ -74,9 +74,7 @@ class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
     protected $environmentConfig;
 
     /**
-     * @param \SprayFire\Http\Routing\Router $Router
      * @param \SprayFire\Mediator\Mediator $Mediator
-     * @param \SprayFire\Dispatcher\AppInitializer $AppInitializer
      * @param \SprayFire\Factory\Factory $ControllerFactory
      * @param \SprayFire\Factory\Factory $ResponderFactory
      */

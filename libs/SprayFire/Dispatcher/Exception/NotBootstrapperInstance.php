@@ -14,6 +14,9 @@ namespace SprayFire\Dispatcher\Exception;
 use \RuntimeException as RuntimeException;
 
 /**
+ * Exception thrown if the application's bootstrap does not appropriately implement
+ * \SprayFire\Bootstrap\Bootstrapper
+ *
  * @package SprayFire
  * @subpackage Dispatcher.Exception
  */

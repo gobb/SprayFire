@@ -14,6 +14,9 @@ use \SprayFire\Dispatcher as SFDispatcher,
     \SprayFire\CoreObject as SFCoreObject;
 
 /**
+ * Object representing SprayFire's environment configuration and controls how
+ * the framework operates at runtime.
+ *
  * @package SprayFire
  */
 class EnvironmentConfig extends SFCoreObject {
@@ -48,6 +51,22 @@ class EnvironmentConfig extends SFCoreObject {
     protected $options;
 
     /**
+     * If no $options are passed the $defaultOptions are used; please see chart
+     * in details for more information on the keys available in options.
+     *
+     * Options:
+     *
+     * Key                | Value
+     * -----------------------------------------------
+     * developmentMode    | boolean (default: true)
+     * -----------------------------------------------
+     * defaultCharset     | string (default: utf-8)
+     * -----------------------------------------------
+     * registeredEvents   | array (default: constants in Dispatcher\Events)
+     * -----------------------------------------------
+     * virtualHost        | boolean (default: true)
+     * -----------------------------------------------
+     *
      * @param array $options
      */
     public function __construct(array $options = []) {
