@@ -33,6 +33,12 @@ use \SprayFire\Controller as SFController,
  *
  * @package SprayFire
  * @subpackage Controller.FireController
+ *
+ * @property \SprayFire\FileSys\FireFileSys\Paths $Paths
+ * @property \SprayFire\Http\FireHttp\Request $Request
+ * @property \SprayFire\Http\Routing\FireRouting\RoutedRequest $RoutedRequest
+ * @property \SprayFire\Responder\Template\FireTemplate\Manager $TemplateManager
+ * @property \SprayFire\Logging\FireLogging\LogOverseer $Logging
  */
 abstract class Base extends FireService\Consumer implements SFController\Controller {
 
@@ -77,6 +83,9 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      */
     protected $parameters = [];
 
+    /**
+     * Ensures that the appropriate storage for each escaping context is provided.
+     */
     public function __construct() {
         $this->responderData[SFResponder\OutputEscaper::CSS_CONTEXT] = [];
         $this->responderData[SFResponder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT] = [];
@@ -85,17 +94,10 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     }
 
     /**
-     * Does not perform any action, here to allow implementations not to have empty
-     * beforeAction methods in their implementations.
-     *
-     * Although at this point this method does not perform any action it is still
-     * advised that you call parent::beforeAction() in any implementation that
-     * overrides this for forward compatibility purposes.
+     * Sets the parameters from the RoutedRequest into the $parameters property.
      *
      * @param \SprayFire\Mediator\Event $Event
      * @return void
-     *
-     * @codeCoverageIgnore
      */
     public function beforeAction(SFMediator\Event $Event) {
         $this->parameters = $this->RoutedRequest->getParameters();
@@ -128,8 +130,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     }
 
     /**
-     * Provide a set of data to the responder, should be in the format
-     * [$varName => $varValue]
+     * Provide a set of data to the responder, should be in the format [$varName => $varValue]
      *
      * @param array $data
      * @param string $context

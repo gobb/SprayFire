@@ -17,6 +17,10 @@ use \SprayFire\Bootstrap as SFBootstrap,
     \ClassLoader\Loader as ClassLoader;
 
 /**
+ * Provides a generic Bootstrapper that will allow applications, plugins and third
+ * party libraries to easily integrate their own startup procedures into the
+ * framework.
+ *
  * @package SprayFire
  * @subpackage Bootstrap.FireBootstrap
  */
@@ -39,6 +43,8 @@ abstract class Pluggable extends SFCoreObject implements SFBootstrap\Bootstrappe
     protected $ClassLoader;
 
     /**
+     *
+     *
      * @param \SprayFire\Service\Container $Container
      * @param \ClassLoader\Loader $ClassLoader
      */
