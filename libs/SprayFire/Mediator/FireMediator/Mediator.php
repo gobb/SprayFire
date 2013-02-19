@@ -20,12 +20,6 @@ use \SprayFire\Mediator as SFMediator,
 /**
  * @package SprayFire
  * @subpackage Mediator.FireMediator
- *
- * @todo
- * We have a serious disconnect between this implementation and
- * \SprayFire\Mediator\FireMediator\EventRegistry.  We need to ensure the Mediator
- * is properly updated when events are registered and unregistered on the fly.
- *
  */
 class Mediator extends SFCoreObject implements SFMediator\Mediator {
 
