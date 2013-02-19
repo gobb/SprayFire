@@ -12,6 +12,10 @@ namespace SprayFire\Mediator\FireMediator;
 use \SprayFire\Mediator\Event as MediatorEvent,
     \SprayFire\CoreObject as CoreObject;
 
+/**
+ * @package SprayFire
+ * @subpackage Mediator.FireMediator
+ */
 class Event extends CoreObject implements MediatorEvent {
 
     protected $event;
