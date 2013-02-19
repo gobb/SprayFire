@@ -65,7 +65,8 @@ $Route = new FireRouting\Route($pattern, $namespace, $controller, $action, $meth
 $RouteBag = new FireRouting\RouteBag($NoMatchRoute);
 $RouteBag->addRoute($Route);
 
-// $RouteBag->getRoutes() would return [$Route]
+// When we iterate over $RouteBag we would get [0 => $Route]
+// If we call $RouteBag->getRoute() with no pattern we get $NoMatchRoute
 
 ?>
 ```
@@ -183,7 +184,11 @@ $uri = '/blog/posts/title:some-title';
 
 ### SprayFire\Http\Routing\FireRouting\Router
 
+This class takes a `SprayFire\Http\Request` and converts it into a `SprayFire\Http\Routing\RoutedRequest`. Much of the algorithm that determines how a Request is converted into a RoutedRequest lies in the `MatchStrategy` implementations and the `RouteBag`. Typically userland SprayFire applications won't make use of the Router and when it does there's only one method `Router::getRoutedRequest(\SprayFire\Http\Request $Request)`, ensure you return a `SprayFire\Http\Routing\RoutedRequest` and you're golden.
+
 ### SprayFire\Http\Routing\FireRouting\RoutedRequest
+
+
 
 ### SprayFire\Http\Routing\FireRouting\Normalizer
 
