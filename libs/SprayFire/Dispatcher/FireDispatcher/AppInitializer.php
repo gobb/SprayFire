@@ -22,17 +22,12 @@ use \SprayFire\Dispatcher as SFDispatcher,
     \ClassLoader\Loader as ClassLoader;
 
 /**
- * During the dispatching step, after the request is routed, this implementation
- * will be ran to ensure the application is autoloaded and runs the application
- * bootstrap.
+ * During framework initialization, after the Request has been routed, this class
+ * will ensure that your app's bootstrap has been instantiated and invoked so that
+ * you may run whatever startup scripts your app needs.
  *
  * @package SprayFire
  * @subpackage Dispatcher.FireDispatcher
- *
- * @todo
- * Take a look at whether or not we should allow some configuration value
- * that determines whether or not to throw an exception if a boostrap does not
- * exist or just should continue processing.
  */
 class AppInitializer extends SFCoreObject implements SFDispatcher\AppInitializer {
 

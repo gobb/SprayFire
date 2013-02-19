@@ -13,6 +13,8 @@ namespace SprayFire\Dispatcher\Exception;
 use \RuntimeException as RuntimeException;
 
 /**
+ * Thrown if an application's bootstrap could not be appropriately found.
+ *
  * @package SprayFire
  * @subpackage Dispatcher.Exception
  */

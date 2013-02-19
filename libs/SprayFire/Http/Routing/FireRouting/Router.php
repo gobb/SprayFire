@@ -28,14 +28,6 @@ use \SprayFire\Http as SFHttp,
  *
  * @package SprayFire
  * @subpackage Http.Routing.FireRouting
- *
- * @todo
- * We need to take a look at implementing a series of strategies for this implementation
- * that allows a user to set the Router to be one of three processing types:
- *
- * - Configuration only
- * - Convention only
- * - Configuration, fallback to Convention
  */
 class Router extends SFCoreObject implements SFHttpRouting\Router {
 

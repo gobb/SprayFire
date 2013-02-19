@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * An "enum" abstract class that holds constants representing the different events
+ * that should be fired off by the Dispatching process.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -11,10 +13,11 @@
 namespace SprayFire\Dispatcher;
 
 /**
- *
+ * Each constant represents a target type and event name that should be triggered
+ * at some point during the dispatching process.
  *
  * @package SprayFire
- * @subpackage`
+ * @subpackage Dispatcher
  */
 abstract class Events {
 

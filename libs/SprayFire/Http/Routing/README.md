@@ -23,7 +23,7 @@ This interface holds the information determined to be routed. It allows us acces
 
 ### SprayFire\Http\Routing\MatchStrategy
 
-This interface holds an API to allow easily plugging in your own algorithm to determine what Route should be returned as matching the Request. The interface only provides one method `MatchStrategy::getRouteAndParameters()` that has two arguments a RouteBag and a `SprayFire\Http\Request`. An array should be returned with the keys 'Route' and 'parameters'. The interface provides constants for these values: `MatchStrategy::ROUTE_KEY` and `MatchStrategy::PARAMETER_KEY`.
+This interface holds an API to allow easily plugging in your own algorithm to determine what Route should be returned as matching the Request. The interface only provides one method `MatchStrategy::getRouteAndParameters()` that has two arguments a RouteBag and a `SprayFire\Http\Request`. An array should be returned with the keys 'Route', holding a 'Route' implementation, and 'parameters', holding a numeric or associative indexed array. The interface provides constants for these key values: `MatchStrategy::ROUTE_KEY` and `MatchStrategy::PARAMETER_KEY`.
 
 ### SprayFire\Http\Routing\Router
 
@@ -65,18 +65,130 @@ $Route = new FireRouting\Route($pattern, $namespace, $controller, $action, $meth
 $RouteBag = new FireRouting\RouteBag($NoMatchRoute);
 $RouteBag->addRoute($Route);
 
-// $RouteBag->getRoutes() would return [$Route]
+// When we iterate over $RouteBag we would get [0 => $Route]
+// If we call $RouteBag->getRoute() with no pattern we get $NoMatchRoute
 
 ?>
 ```
 
 ### SprayFire\Http\Routing\FireRouting\ConfigurationMatchStrategy
 
+This is the MatchStrategy implementation the framework provides as default for v0.1.0a. This strategy relies on the Route objects in the passed RouteBag. Check out the code examples above for the Route & RouteBag. The examples below are really more about the particular patterns that might match a Route and how this MatchStrategy matches it. If no Route is stored with a pattern that matches the Request the RouteBag's default Route is returned.
+
+```php
+<?php
+
+use \SprayFire\Http\Routing\FireRouting as FireRouting;
+
+// ConfigurationMatchStrategy takes a look at the HTTP request URI and the pattern
+// associated to each Route in the RouteBag. The Routes created in each example are
+// assumed to be stored in the RouteBag passed to the ConventionMatchStrategy
+
+$uri = '/';
+$Root = new FireRouting\Route('/', 'YourApp.Controller');
+$About = new FireRouting\Route('/about/', 'YourApp.Controller', 'Pages', 'about');
+
+// The $uri would match $Root in this example.
+
+$uri = '/about';
+$Root = new FireRouting\Route('/', 'YourApp.Controller');
+$RightAbout = new FireRouting\Route('/about/', 'YourApp.Controller', 'Pages', 'about');
+$WrongAbout = new FireRouting\Route('/about', 'YourApp.Controller', 'Pages', 'wrongAbout');
+
+// Internally the ConfigurationMatchStrategy will always (1) prepend and append a '/'
+// to the end of the URI path. So, even if the URI was requested with no trailing '/' it
+// WILL have one when matching against your pattern. Additionally, the entire pattern
+// '/^{$pattern}$/' is checked against. For this reason $RightAbout will be returned and
+// not $WrongAbout in this example.
+
+$uri = '/blog/posts/blog-title';
+$Root = new FireRouting\Route('/', 'YourApp.Controller');
+$BlogPosts  = new FireRouting\Route('/blog/posts/(?P<title>[A-Za-z_-]+)/', 'YourApp.Controller', 'Blog', 'posts');
+
+// The URI would match $BlogPosts here, additionally the use of a named subgroup in the
+// regex pattern allows us to capture named parameters in the URL and outside of GET or
+// POST. The named parameter can be found in RoutedRequest::getParameters() which will
+// return an associative array ['title' => 'blog-title'].
+
+?>
+```
+
+> If you extend from `SprayFire\Controller\FireController\Base` you can alias the `RoutedRequest::getParameters()` function by `$this->parameters` in your controller methods.
+
 ### SprayFire\Http\Routing\FireRouting\ConventionMatchStrategy
+
+> Note, as of v0.1.0a there is a flaw in how the Router implementation utilizes the MatchStrategy objects that would cause the controller and action to not be normalized properly in some situations. This could potentially cause the framework to not recognize the URI as a valid resource although it is. This is an issue with how MatchStrategy was implemented in the module late in development. There is a [github issue](https://github.com/cspray/SprayFire/issues/131) for v0.2.0a milestone that will resolve this.
+
+This is an optional MatchStrategy provided by the framework that will turn a pretty URL into the appropriate action and parameters based on a commonly used convention in the PHP framework world. This MatchStrategy completely ignores the passed RouteBag and simply parses the URI for the Request. Check out how to pass default value options to the strategy and what happens with certain URIs.
+
+```php
+<?php
+
+// You can pass options into the match strategy dictating default values to use if
+// none were provided in the URI. It is good practice to always provide the namespace
+// you expect your Controller implementations to fall into.
+
+$strategyOptions = [
+    'namespace' => 'YourApp.Controller', // default SprayFire.Controller.FireController
+    'controller' => 'Pages', // default Pages
+    'action' => 'index', // default index
+    'installDirectory' => '' // if you expect install directory name in URL include that directory name here. default ''
+];
+
+$MatchStrategy = new FireRouting\ConventionMatchStrategy($strategyOptions);
+
+?>
+````
+
+```php
+<?php
+
+// all examples will use defaults listed above
+
+$uri = '/controller/action/params';
+// $namespace = 'YourApp.Controller'
+// $controller = 'controller'
+// $action = 'action'
+// $params = ['params']
+
+$uri = '/controller/';
+// $namespace = 'YourApp.Controller'
+// $controller = 'controller'
+// $action = 'index'
+// $params = []
+
+// You can mark a fragment as a parameter by preceding it with a ':'
+$uri = '/controller/:param1/:param2';
+// $namespace = 'YourApp.Controller'
+// $controller = 'controller'
+// $action = 'index'
+// $params = ['param2', 'param2']
+
+// As soon as one marked parameter is encountered all preceding fragments are
+// considered to be parameters as well
+$uri = '/:param1/param2/param3';  // notice only first param is marked
+// $namespace = 'YourApp.Controller'
+// $controller = 'Pages'
+// $action = 'index'
+// $params = ['param1', 'param2', 'param3']
+
+// You can also have named parameters, just put the label on the left side of the ':'
+$uri = '/blog/posts/title:some-title';
+// $namespace = 'YourApp.Controller'
+// $controller = 'blog'
+// $action = 'posts'
+// $params = ['title' => 'some-title']
+
+?>
+```
 
 ### SprayFire\Http\Routing\FireRouting\Router
 
+This class takes a `SprayFire\Http\Request` and converts it into a `SprayFire\Http\Routing\RoutedRequest`. Much of the algorithm that determines how a Request is converted into a RoutedRequest lies in the `MatchStrategy` implementations and the `RouteBag`. Typically userland SprayFire applications won't make use of the Router and when it does there's only one method `Router::getRoutedRequest(\SprayFire\Http\Request $Request)`, ensure you return a `SprayFire\Http\Routing\RoutedRequest` and you're golden.
+
 ### SprayFire\Http\Routing\FireRouting\RoutedRequest
+
+
 
 ### SprayFire\Http\Routing\FireRouting\Normalizer
 

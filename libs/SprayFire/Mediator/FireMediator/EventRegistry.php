@@ -26,11 +26,6 @@ use \SprayFire\Mediator\Exception as SFMediatorException,
  *
  * @package SprayFire
  * @subpackage Mediator.FireMediator
- *
- * @todo
- * We need to take a look at some way we can hook into this object from SprayFire.Mediator.Mediator
- * so that we may take the appropriate steps when events are removed and added
- * to the registry.
  */
 class EventRegistry extends SFCoreObject implements IteratorAggregate {
 

@@ -13,6 +13,13 @@ namespace SprayFire\Exception;
 
 use \RuntimeException as RuntimeException;
 
+/**
+ * Thrown if a method implemented by an interface should not be callable for a
+ * specific implementation.
+ *
+ * @package SprayFire
+ * @subpackage Exception
+ */
 class UnsupportedOperationException extends RuntimeException {
 
 }

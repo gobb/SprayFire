@@ -28,12 +28,6 @@ class ErrorLogLogger extends SFCoreObject implements SFLogging\Logger {
      * @param string $message
      * @param null $options
      * @return boolean
-     *
-     * @todo
-     * We need to take a look at having this method accept options as additional
-     * parameters are availble to the underlying implementation that should be
-     * exposed to calling code.  Perhaps an array of additional parameters that
-     * can be used with a call_user_func_array
      */
     public function log($message, $options = null) {
         return \error_log($message);
