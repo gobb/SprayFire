@@ -138,8 +138,8 @@ class CallbackClass {
 
 }
 
-$FooStaticFunc = new SFMediator\Callback('fooEvent', 'CallbackClass::staticFoo');
-$FooObjectFunc = new SFMediator\Callback('fooEvent', [(new CallbackClass), 'foo']);
+$FooStaticFunc = new FireMediator\Callback('fooEvent', 'CallbackClass::staticFoo');
+$FooObjectFunc = new FireMediator\Callback('fooEvent', [(new CallbackClass), 'foo']);
 ?>
 ```
 
