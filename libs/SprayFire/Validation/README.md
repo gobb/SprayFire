@@ -19,3 +19,42 @@ The Validator doesn't hold algorithms to check the validity for a set of data. R
 The Rules hold a series Validation\Check\Check objects that should be ran against a field in the data set. You can think of Rules as a "container of chains", checks are ran against a field in the order they are added to the chain and you should be able to break out of a field's chain anytime you want. Each field is its own chain, this is important to remember.
 
 > Currently there is a design flaw in `Rules::getChecks($field)` in that the Validator instance must be aware of the arbitrary internal structure returned from this method. This is necessary to determine whether or not the check at that point in the chain should break the rest of the chain for that field. In addition it is highly likely that we will need to add more arbitrary structure to the element causing even more coupling between the Rules and the Validator. A better design could include returning a specific interface but that may be increasing object creation for a module already heavy in object creation.
+
+## SprayFire\Validation\FireValidation
+
+**Dependencies:**
+
+- SprayFire\Validation\Check
+- SprayFire\Validation\Check\FireCheck
+- SprayFire\CoreObject
+- SplObjectStorage
+
+### SprayFire\Validation\FireValidation\Rules
+
+We're gonna talk about the Rules implementation first. Ultimately the Validator from a user's perspective is incredibly simple to use once you have the rules set up. Rules are just a series of checks, so we're going to move forward assuming that you have read over the Validation\Check\FireCheck module and know how to use the implemented checks.
+
+We're going to go over a somewhat close to real life example. Ensuring that a string, a `username`, is an alphanumeric string greater than 3 characters and less than 25 characters. We'll use the created Rules in the Validator examples.
+
+```php
+<?php
+
+use \SprayFire\Validation\Check\FireCheck as FireCheck;
+
+// First, let's create the Checks we'll need
+
+$Alphanumeric = new FireCheck\Alphanumeric();
+$Range = new FireCheck\Range(3, 25);
+
+// you can set your own customizable, templated validation messages here if you wanted
+// check out the Validation\Check and Validation\Check\FireCheck README docs for more info
+
+$Rules->addCheck('username', $Alphanumeric);
+$Rules->addCheck('username', $Range);
+
+// If you have a lot of checks the Rules object also supports a "fluent" API to
+// add checks to specific fields. Following code is equivalent to above
+
+$Rules->forField('username')->add($Alphanumeric)->add($Range);
+
+?>
+```
