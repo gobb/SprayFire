@@ -56,5 +56,30 @@ $Rules->addCheck('username', $Range);
 
 $Rules->forField('username')->add($Alphanumeric)->add($Range);
 
+// Now that we have our Rules setup check the Validator example below to see them get used
+
+?>
+```
+
+### SprayFire\Validation\FireValidation\Validator
+
+The Validator, as of v0.1.0a, only checks a set of data for validity. So, even if you're only checking 1 field, you need to pass in an associative array with the key representing the field to check and the value being, well, the value.
+
+```php
+<?php
+
+use \SprayFire\Validation\FireValidation as FireValidation;
+
+$data = ['username' => 'Charles'];
+// $Rules is same from example above
+
+$Validator = new FireValidation\Validator();
+
+$Results = $Validator->validate($data, $Rules);
+
+// $Results is a Validation\Result\Set that gives detailed information on each check
+// ran against each field in the data set. Check out the Validation\Result module for
+// more information.
+
 ?>
 ```
