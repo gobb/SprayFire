@@ -18,15 +18,9 @@ use \ReflectionClass as ReflectionClass;
  * @package SprayFire
  * @subpackage StdLib
  */
-class ReflectionCache extends CoreObject {
+class ReflectionCache extends CoreObject implements JavaNamespaceConverter {
 
-    /**
-     * Used to ensure that we can handle creating Reflection objects with both
-     * Java and PHP style class names.
-     *
-     * @property \SprayFire\StdLib\JavaNamespaceConverter
-     */
-    protected $JavaNameConverter;
+    use JavaConverterTrait;
 
     /**
      * Key value storing [$className => Reflection] for each Reflection object
@@ -37,13 +31,6 @@ class ReflectionCache extends CoreObject {
     protected $cache = [];
 
     /**
-     * @param \SprayFire\StdLib\JavaNamespaceConverter $JavaNameConverter
-     */
-    public function __construct(JavaNamespaceConverter $JavaNameConverter) {
-        $this->JavaNameConverter = $JavaNameConverter;
-    }
-
-    /**
      * Will return a Reflection of the given $className or throw an exception
      * if there was an error.
      *
@@ -52,7 +39,7 @@ class ReflectionCache extends CoreObject {
      * @throws \ReflectionException
      */
     public function getClass($className) {
-        $className = $this->JavaNameConverter->convertJavaClassToPhpClass($className);
+        $className = $this->convertJavaClassToPhpClass($className);
         if (isset($this->cache[$className])) {
             return $this->cache[$className];
         }

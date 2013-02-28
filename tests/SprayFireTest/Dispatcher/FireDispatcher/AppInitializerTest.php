@@ -59,8 +59,7 @@ class AppInitializerTest extends PHPUnitTestCase {
     }
 
     protected function getServiceContainer() {
-        $JavaNameConverter = new \SprayFire\StdLib\JavaNamespaceConverter();
-        $ReflectionCache = new \SprayFire\StdLib\ReflectionCache($JavaNameConverter);
+        $ReflectionCache = new \SprayFire\StdLib\ReflectionCache();
         return new \SprayFire\Service\FireService\Container($ReflectionCache);
     }
 

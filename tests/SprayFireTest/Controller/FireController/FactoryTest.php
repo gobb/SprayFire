@@ -31,8 +31,7 @@ class FactoryTest extends PHPUnitTestCase {
     protected $ErrorLogger;
 
     public function setUp() {
-        $this->JavaNameConverter = new SFStdLib\JavaNamespaceConverter();
-        $this->ReflectionCache = new SFStdLib\ReflectionCache($this->JavaNameConverter);
+        $this->ReflectionCache = new SFStdLib\ReflectionCache();
         $this->Container = new FireService\Container($this->ReflectionCache);
         $this->ErrorLogger = new FireTestHelpers\DevelopmentLogger();
     }

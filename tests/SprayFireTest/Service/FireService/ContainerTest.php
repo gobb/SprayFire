@@ -118,8 +118,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     }
 
     protected function getContainer() {
-        $JavaNameConverter = new \SprayFire\StdLib\JavaNamespaceConverter();
-        $this->ReflectionCache = new \SprayFire\StdLib\ReflectionCache($JavaNameConverter);
+        $this->ReflectionCache = new \SprayFire\StdLib\ReflectionCache();
         return new \SprayFire\Service\FireService\Container($this->ReflectionCache);
     }
 
@@ -132,7 +131,7 @@ class FactoryKeyTester implements SFFactory\Factory {
     const CONTAINER_KEY = 'factory_key_tester';
 
     public function __toString() {
-
+        return '';
     }
 
     public function equals(\SprayFire\Object $Object) {

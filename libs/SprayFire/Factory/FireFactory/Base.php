@@ -32,7 +32,7 @@ abstract class Base extends SFStdLib\CoreObject implements SFFactory\Factory {
     /**
      * Cache to help prevent unneeded ReflectionClass from being created.
      *
-     * @property \SprayFire\ReflectionCache
+     * @property \SprayFire\StdLib\ReflectionCache
      */
     protected $ReflectionCache;
 
@@ -81,7 +81,7 @@ abstract class Base extends SFStdLib\CoreObject implements SFFactory\Factory {
      * validating types correctly.
      *
      * @param string $objectType
-     * @return \SprayFire\ObjectTypeValidator
+     * @return \SprayFire\Factory\FireFactory\ObjectTypeValidator
      * @throws \SprayFire\Factory\Exception\TypeNotFound
      */
     protected function createTypeValidator($objectType) {

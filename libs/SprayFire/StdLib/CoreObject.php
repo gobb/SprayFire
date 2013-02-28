@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Abstract implementation of SprayFire.Object designed to provide basic functionality
+ * Abstract implementation of \SprayFire\Object designed to provide basic functionality
  * across a variety of objects, both in the framework and your applications.
  *
  * @author  Charles Sprayberry
@@ -22,6 +22,7 @@ namespace SprayFire\StdLib;
  * they implement require \SprayFire\Object.
  *
  * @package SprayFire
+ * @subpackage StdLib
  *
  * @codeCoverageIgnore
  */

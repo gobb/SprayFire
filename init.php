@@ -44,8 +44,7 @@ function startProcessing() {
     $RootPaths = new FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
     $Paths = new FireFileSys\Paths($RootPaths, $EnvironmentConfig->useVirtualHost());
 
-    $JavaNameConverter = new SFStdLib\JavaNamespaceConverter();
-    $ReflectionCache = new SFStdLib\ReflectionCache($JavaNameConverter);
+    $ReflectionCache = new SFStdLib\ReflectionCache();
     $Container = new FireService\Container($ReflectionCache);
 
     $getRouteBag = function() use ($Paths) {
@@ -99,7 +98,6 @@ function startProcessing() {
     $Container->addService($Request);
     $Container->addService($ClassLoader);
     $Container->addService($Paths);
-    $Container->addService($JavaNameConverter);
     $Container->addService($ReflectionCache);
     $Container->addService($EventRegistry);
     $Container->addService($Mediator);
