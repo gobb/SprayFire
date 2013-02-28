@@ -10,7 +10,7 @@ use \SprayFire\FileSys\FireFileSys as FireFileSys,
     \SprayFire\Responder\FireResponder as FireResponder,
     \SprayFire\Responder\Template\FireTemplate as FireTemplate,
     \SprayFire\Logging\FireLogging as FireLogging,
-    \SprayFire\Utils as SFUtils;
+    \SprayFire\StdLib as SFStdLib;
 
 function startProcessing() {
     $requestStartTime = \microtime(true);
@@ -38,13 +38,14 @@ function startProcessing() {
         return new \SprayFire\EnvironmentConfig($config);
     };
 
+    /** @var \SprayFire\EnvironmentConfig $EnvironmentConfig */
     $EnvironmentConfig = $getEnvironmentConfig();
 
     $RootPaths = new FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
     $Paths = new FireFileSys\Paths($RootPaths, $EnvironmentConfig->useVirtualHost());
 
-    $JavaNameConverter = new SFUtils\JavaNamespaceConverter();
-    $ReflectionCache = new SFUtils\ReflectionCache($JavaNameConverter);
+    $JavaNameConverter = new SFStdLib\JavaNamespaceConverter();
+    $ReflectionCache = new SFStdLib\ReflectionCache($JavaNameConverter);
     $Container = new FireService\Container($ReflectionCache);
 
     $getRouteBag = function() use ($Paths) {

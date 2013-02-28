@@ -10,11 +10,11 @@
  * @since   0.1
  */
 
-namespace SprayFire\Utils;
+namespace SprayFire\StdLib;
 
 /**
  * @package SprayFire
- * @subpackage Utils
+ * @subpackage StdLib
  */
 class JavaNamespaceConverter {
 

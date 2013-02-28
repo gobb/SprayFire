@@ -14,7 +14,7 @@ namespace SprayFire\Controller\FireController;
 
 use \SprayFire\Service as SFService,
     \SprayFire\Logging as SFLogging,
-    \SprayFire\Utils as SFUtils,
+    \SprayFire\StdLib as SFStdLib,
     \SprayFire\Service\FireService as FireService;
 
 
@@ -34,14 +34,14 @@ use \SprayFire\Service as SFService,
 class Factory extends FireService\ConsumerFactory {
 
     /**
-     * @param \SprayFire\Utils\ReflectionCache $Cache
+     * @param \SprayFire\StdLib\ReflectionCache $Cache
      * @param \SprayFire\Service\Container $Container
      * @param \SprayFire\Logging\LogOverseer $LogOverseer
      * @param string $type
      * @param string $nullType
      */
     public function __construct(
-        SFUtils\ReflectionCache $Cache,
+        SFStdLib\ReflectionCache $Cache,
         SFService\Container $Container,
         SFLogging\LogOverseer $LogOverseer,
         $type = 'SprayFire.Controller.Controller',

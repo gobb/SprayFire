@@ -10,14 +10,14 @@
  * @since   0.1
  */
 
-namespace SprayFire\Utils;
+namespace SprayFire\StdLib;
 
 use \SprayFire\CoreObject as SFCoreObject,
     \ReflectionClass as ReflectionClass;
 
 /**
  * @package SprayFire
- * @subpackage Utils
+ * @subpackage StdLib
  */
 class ReflectionCache extends SFCoreObject {
 
@@ -25,7 +25,7 @@ class ReflectionCache extends SFCoreObject {
      * Used to ensure that we can handle creating Reflection objects with both
      * Java and PHP style class names.
      *
-     * @property SprayFire.Utils.JavaNamespaceConverter
+     * @property \SprayFire\StdLib\JavaNamespaceConverter
      */
     protected $JavaNameConverter;
 
@@ -38,7 +38,7 @@ class ReflectionCache extends SFCoreObject {
     protected $cache = [];
 
     /**
-     * @param \SprayFire\Utils\JavaNamespaceConverter $JavaNameConverter
+     * @param \SprayFire\StdLib\JavaNamespaceConverter $JavaNameConverter
      */
     public function __construct(JavaNamespaceConverter $JavaNameConverter) {
         $this->JavaNameConverter = $JavaNameConverter;

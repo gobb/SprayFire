@@ -14,7 +14,7 @@ namespace SprayFire\Service\FireService;
 
 use \SprayFire\Service as SFService,
     \SprayFire\Factory as SFFactory,
-    \SprayFire\Utils as SFUtils,
+    \SprayFire\StdLib as SFStdLib,
     \SprayFire\Service\Exception as SFServiceException,
     \SprayFire\CoreObject as SFCoreObject,
     \InvalidArgumentException as InvalidArgumentException;
@@ -32,7 +32,7 @@ class Container extends SFCoreObject implements SFService\Container {
      * Ensures that we are not creating unneeded Reflection objects when creating
      * services.
      *
-     * @property \SprayFire\Utils\ReflectionCache
+     * @property \SprayFire\StdLib\ReflectionCache
      */
     protected $ReflectionCache;
 
@@ -51,7 +51,7 @@ class Container extends SFCoreObject implements SFService\Container {
     protected $storedServices = [];
 
     /**
-     * Stores SprayFire.Factory.Factory objects that are to be used for services
+     * Stores \SprayFire\Factory\Factory objects that are to be used for services
      * requested
      *
      * @property array
@@ -68,9 +68,9 @@ class Container extends SFCoreObject implements SFService\Container {
     protected $emptyCallback;
 
     /**
-     * @param \SprayFire\Utils\ReflectionCache $ReflectionCache
+     * @param \SprayFire\StdLib\ReflectionCache $ReflectionCache
      */
-    public function __construct(SFUtils\ReflectionCache $ReflectionCache) {
+    public function __construct(SFStdLib\ReflectionCache $ReflectionCache) {
         $this->ReflectionCache = $ReflectionCache;
         $this->emptyCallback = function() {
             return [];
