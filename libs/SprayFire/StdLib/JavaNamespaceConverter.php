@@ -6,8 +6,8 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
- * @since   0.1
+ * @version 0.2
+ * @since   0.2
  */
 
 namespace SprayFire\StdLib;
@@ -16,26 +16,15 @@ namespace SprayFire\StdLib;
  * @package SprayFire
  * @subpackage StdLib
  */
-class JavaNamespaceConverter {
+interface JavaNamespaceConverter {
 
     /**
-     * Will convert a dot separated, Java style $className into its PHP equivalent
-     * with the appropriate namespace separator.
+     * Ensure that the string returned has had all dot separators converted into
+     * PHP's normal backslash namespace separator.
      *
-     * @param string $className
+     * @param string $class
      * @return string
      */
-    public function convertJavaClassToPhpClass($className) {
-        if (!\is_string($className)) {
-            return $className;
-        }
-
-        $backSlash = '\\';
-        $dot = '.';
-        if (\strpos($className, $dot) !== false) {
-            $className = \str_replace($dot, $backSlash, $className);
-        }
-        return $backSlash . \trim($className, '\\ ');
-    }
+    public function convertJavaClassToPhpClass($class);
 
 }
