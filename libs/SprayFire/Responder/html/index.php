@@ -13,7 +13,7 @@
 <div id="welcome-panels">
     <div class="welcome-panel pull-left">
          <div>
-            <a class="btn btn-large" href="#"><i title="View the project's documentation" class="icon-book doc-brown"></i> API Docs</a>
+            <a class="btn btn-large" href="http://cspray.github.com/SprayFire"><i title="View the project's documentation" class="icon-book doc-brown"></i> API Docs</a>
         </div>
         <p class="summary">Read up on the API documentation.  Figure out what SprayFire is capable of and how your apps can take advantage of all that the framework has to offer.</p>
     </div>
