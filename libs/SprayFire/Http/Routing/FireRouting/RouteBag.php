@@ -12,14 +12,14 @@
 namespace SprayFire\Http\Routing\FireRouting;
 
 use \SprayFire\Http\Routing as SFHttpRouting,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  *
  * @package SprayFire
  * @subpackage Http.Routing.FireRouting
  */
-class RouteBag extends SFCoreObject implements SFHttpRouting\RouteBag {
+class RouteBag extends SFStdLib\CoreObject implements SFHttpRouting\RouteBag {
 
     /**
      * Stores a collection of routes [$routePattern => SprayFire.Http.Routing.Route]

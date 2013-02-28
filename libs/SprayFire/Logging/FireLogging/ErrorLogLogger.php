@@ -12,7 +12,7 @@
 namespace SprayFire\Logging\FireLogging;
 
 use \SprayFire\Logging as SFLogging,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * This implementation will log messages to the PHP provided error_log function.
@@ -22,7 +22,7 @@ use \SprayFire\Logging as SFLogging,
  *
  * @see http://us.php.net/manual/en/function.error-log.php
  */
-class ErrorLogLogger extends SFCoreObject implements SFLogging\Logger {
+class ErrorLogLogger extends SFStdLib\CoreObject implements SFLogging\Logger {
 
     /**
      * @param string $message

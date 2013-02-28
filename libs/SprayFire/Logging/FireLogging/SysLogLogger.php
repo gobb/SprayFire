@@ -12,7 +12,7 @@
 namespace SprayFire\Logging\FireLogging;
 
 use \SprayFire\Logging as SFLogging,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * There are a variety of options that can be passed to the constructor and
@@ -27,7 +27,7 @@ use \SprayFire\Logging as SFLogging,
  * @package SprayFire
  * @subpackage Logging.FireLogging
  */
-class SysLogLogger extends SFCoreObject implements SFLogging\Logger {
+class SysLogLogger extends SFStdLib\CoreObject implements SFLogging\Logger {
 
     /**
      * Will open the syslog with the appropriate options, preparing it for use.

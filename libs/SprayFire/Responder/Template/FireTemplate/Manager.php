@@ -14,13 +14,13 @@
 namespace SprayFire\Responder\Template\FireTemplate;
 
 use \SprayFire\Responder\Template as SFResponderTemplate,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * @package SprayFire
  * @subpackage Responder.FireResponder.FireTemplate
  */
-class Manager extends SFCoreObject implements SFResponderTemplate\Manager {
+class Manager extends SFStdLib\CoreObject implements SFResponderTemplate\Manager {
 
     /**
      * Represents the primary template for a given response.

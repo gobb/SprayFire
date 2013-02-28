@@ -12,7 +12,7 @@
 namespace SprayFire\Http\FireHttp;
 
 use \SprayFire\Http as SFHttp,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * This implementation is specifically designed to work with common indexes available
@@ -24,7 +24,7 @@ use \SprayFire\Http as SFHttp,
  * @package SprayFire
  * @subpackage Http.FireHttp
  */
-class Request extends SFCoreObject implements SFHttp\Request {
+class Request extends SFStdLib\CoreObject implements SFHttp\Request {
 
     /**
      * @property SprayFire.Http.Uri

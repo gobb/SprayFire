@@ -17,7 +17,7 @@ use \SprayFire\Dispatcher as SFDispatcher,
     \SprayFire\Factory as SFFactory,
     \SprayFire\Mediator as SFMediator,
     \SprayFire\Controller as SFController,
-    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\StdLib as SFStdLib,
     \SprayFire\Mediator\FireMediator as FireMediator;
 
 /**
@@ -34,7 +34,7 @@ use \SprayFire\Dispatcher as SFDispatcher,
  * @package SprayFire
  * @subpackage Dispatcher.FireDispatcher
  */
-class Dispatcher extends SFCoreObject implements SFDispatcher\Dispatcher {
+class Dispatcher extends SFStdLib\CoreObject implements SFDispatcher\Dispatcher {
 
     /**
      * Used to ensure the appropriate applications gets autoloaded and bootstrapped.

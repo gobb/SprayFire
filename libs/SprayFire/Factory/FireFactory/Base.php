@@ -15,7 +15,6 @@ namespace SprayFire\Factory\FireFactory;
 use \SprayFire\Factory as SFFactory,
     \SprayFire\Logging as SFLogging,
     \SprayFire\StdLib as SFStdLib,
-    \SprayFire\CoreObject as SFCoreObject,
     \ReflectionException as ReflectionException,
     \InvalidArgumentException as InvalidArgumentException;
 
@@ -29,7 +28,7 @@ use \SprayFire\Factory as SFFactory,
  * @todo
  * Look at implementing a strategy pattern for dealing with Factory error handling.
  */
-abstract class Base extends SFCoreObject implements SFFactory\Factory {
+abstract class Base extends SFStdLib\CoreObject implements SFFactory\Factory {
     /**
      * Cache to help prevent unneeded ReflectionClass from being created.
      *

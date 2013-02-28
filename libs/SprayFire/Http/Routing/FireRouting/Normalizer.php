@@ -12,7 +12,7 @@
 
 namespace SprayFire\Http\Routing\FireRouting;
 
-use \SprayFire\CoreObject as SFCoreObject;
+use \SprayFire\StdLib as SFStdLib;
 
 /**
  * This is a package private class and is intended to be used by other implementations
@@ -21,7 +21,7 @@ use \SprayFire\CoreObject as SFCoreObject;
  * @package SprayFire
  * @subpackage Http.Routing.FireRouting
  */
-class Normalizer extends SFCoreObject {
+class Normalizer extends SFStdLib\CoreObject {
 
     /**
      * PCRE regex pattern used to remove all non-alphabetic/space characters

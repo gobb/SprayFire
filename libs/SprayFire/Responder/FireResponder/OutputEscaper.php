@@ -13,7 +13,7 @@
 namespace SprayFire\Responder\FireResponder;
 
 use \SprayFire\Responder as SFResponder,
-    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\StdLib as SFStdLib,
     \Zend\Escaper as ZendEscaper;
 
 /**
@@ -36,7 +36,7 @@ use \SprayFire\Responder as SFResponder,
  * @package SprayFire
  * @subpackage Responder.FireResponder
  */
-class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
+class OutputEscaper extends SFStdLib\CoreObject implements SFResponder\OutputEscaper {
 
     /**
      * Used in conjunction with preserveDataType to indicate that boolean and

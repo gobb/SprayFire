@@ -12,13 +12,13 @@
 namespace SprayFire\Responder\Template\FireTemplate;
 
 use \SprayFire\Responder\Template as SFResponderTemplate,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * @package SprayFire
  * @subpackage Responder.FireResponder.FireTemplate
  */
-abstract class BaseTemplate extends SFCoreObject implements SFResponderTemplate\Template {
+abstract class BaseTemplate extends SFStdLib\CoreObject implements SFResponderTemplate\Template {
 
     /**
      * The name for the template

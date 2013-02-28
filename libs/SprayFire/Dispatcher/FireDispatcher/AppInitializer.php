@@ -17,8 +17,8 @@ use \SprayFire\Dispatcher as SFDispatcher,
     \SprayFire\FileSys as SFFileSys,
     \SprayFire\Http\Routing as SFRouting,
     \SprayFire\Bootstrap as SFBootstrap,
+    \SprayFire\StdLib as SFStdLib,
     \SprayFire\Exception as SFException,
-    \SprayFire\CoreObject as SFCoreObject,
     \ClassLoader\Loader as ClassLoader;
 
 /**
@@ -29,7 +29,7 @@ use \SprayFire\Dispatcher as SFDispatcher,
  * @package SprayFire
  * @subpackage Dispatcher.FireDispatcher
  */
-class AppInitializer extends SFCoreObject implements SFDispatcher\AppInitializer {
+class AppInitializer extends SFStdLib\CoreObject implements SFDispatcher\AppInitializer {
 
     /**
      * Is here to provide the bootstrap process for the application a way to setup

@@ -13,7 +13,7 @@ namespace SprayFire\Http\FireHttp;
 
 use \SprayFire\Http as SFHttp,
     \SprayFire\Object as SFObject,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * This implementation is designed to gather information about the HTTP URI from
@@ -26,7 +26,7 @@ use \SprayFire\Http as SFHttp,
  * @package SprayFire
  * @subpackage Http.FireHttp
  */
-class Uri extends SFCoreObject implements SFHttp\Uri {
+class Uri extends SFStdLib\CoreObject implements SFHttp\Uri {
 
     /**
      * @property string

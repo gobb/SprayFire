@@ -9,7 +9,7 @@
  * @since   0.1
  */
 
-namespace SprayFire;
+namespace SprayFire\StdLib;
 
 use \SprayFire\Exception as SFException;
 
@@ -95,7 +95,7 @@ abstract class ValueObject extends CoreObject {
      * @param \SprayFire\Object $Object
      * @return boolean
      */
-    public function equals(Object $Object) {
+    public function equals(\SprayFire\Object $Object) {
         foreach ($this->accessibleProperties as $property => $type) {
             if ($this->$property !== $Object->$property) {
                 return false;

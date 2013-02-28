@@ -13,7 +13,7 @@
 namespace SprayFire\Logging\FireLogging;
 
 use \SprayFire\Logging as SFLogging,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * Be aware that this implementation does not persist the data and any messages
@@ -22,7 +22,7 @@ use \SprayFire\Logging as SFLogging,
  * @package SprayFire
  * @subpackage Logging.FireLogging
  */
-class DevelopmentLogger extends SFCoreObject implements SFLogging\Logger {
+class DevelopmentLogger extends SFStdLib\CoreObject implements SFLogging\Logger {
 
     /**
      * Stores the messages and options passed to DevelopmentLogger::log

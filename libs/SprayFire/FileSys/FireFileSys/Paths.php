@@ -13,7 +13,7 @@
 namespace SprayFire\FileSys\FireFileSys;
 
 use \SprayFire\FileSys as SFFileSys,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * All of the getter methods in this class allow a variable number of parameters
@@ -30,7 +30,7 @@ use \SprayFire\FileSys as SFFileSys,
  * @package SprayFire
  * @subpackage FileSys.FireFileSys
  */
-class Paths extends SFCoreObject implements SFFileSys\PathGenerator {
+class Paths extends SFStdLib\CoreObject implements SFFileSys\PathGenerator {
 
     /**
      * The full, absolute path to the directory the SprayFire source was installed

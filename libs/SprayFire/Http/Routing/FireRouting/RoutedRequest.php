@@ -13,7 +13,7 @@
 namespace SprayFire\Http\Routing\FireRouting;
 
 use \SprayFire\Http\Routing as SFHttpRouting,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * This implementation is a Data Transfer Object to provide data from the
@@ -30,7 +30,7 @@ use \SprayFire\Http\Routing as SFHttpRouting,
  * @package SprayFire
  * @subpackage Http.Routing.FireRouting
  */
-class RoutedRequest extends SFCoreObject implements SFHttpRouting\RoutedRequest {
+class RoutedRequest extends SFStdLib\CoreObject implements SFHttpRouting\RoutedRequest {
 
     /**
      * @property string

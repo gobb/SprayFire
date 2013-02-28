@@ -12,14 +12,13 @@
 
 namespace SprayFire\StdLib;
 
-use \SprayFire\CoreObject as SFCoreObject,
-    \ReflectionClass as ReflectionClass;
+use \ReflectionClass as ReflectionClass;
 
 /**
  * @package SprayFire
  * @subpackage StdLib
  */
-class ReflectionCache extends SFCoreObject {
+class ReflectionCache extends CoreObject {
 
     /**
      * Used to ensure that we can handle creating Reflection objects with both

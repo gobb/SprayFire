@@ -12,7 +12,7 @@
 namespace SprayFire\Validation\Check\FireCheck;
 
 use \SprayFire\Validation\Check as SFValidationCheck,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * Tokens available to this implementation
@@ -22,7 +22,7 @@ use \SprayFire\Validation\Check as SFValidationCheck,
  * @package SprayFire
  * @subpackage Validation.Check.FireCheck
  */
-abstract class Check extends SFCoreObject implements SFValidationCheck\Check {
+abstract class Check extends SFStdLib\CoreObject implements SFValidationCheck\Check {
 
     /**
      * In logging and display messages this token will be replaced with the value

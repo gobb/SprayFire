@@ -16,7 +16,6 @@ use \SprayFire\Service as SFService,
     \SprayFire\Factory as SFFactory,
     \SprayFire\StdLib as SFStdLib,
     \SprayFire\Service\Exception as SFServiceException,
-    \SprayFire\CoreObject as SFCoreObject,
     \InvalidArgumentException as InvalidArgumentException;
 
 /**
@@ -26,7 +25,7 @@ use \SprayFire\Service as SFService,
  * @package SprayFire
  * @subpackage Service.FireService
  */
-class Container extends SFCoreObject implements SFService\Container {
+class Container extends SFStdLib\CoreObject implements SFService\Container {
 
     /**
      * Ensures that we are not creating unneeded Reflection objects when creating

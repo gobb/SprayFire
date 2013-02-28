@@ -8,13 +8,13 @@
 namespace SprayFireTest\Helpers;
 
 use \SprayFire\Logging as SFLogging,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * @package SprayFireTest
  * @subpackage Helpers
  */
-class DevelopmentLogger extends SFCoreObject implements SFLogging\Logger {
+class DevelopmentLogger extends SFStdLib\CoreObject implements SFLogging\Logger {
 
     protected $loggedMessages = array();
 
