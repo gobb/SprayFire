@@ -11,11 +11,23 @@
         </div>
         <p class="summary">Fork, change, make a pull request.  Raise an issue, check up on the wiki or view the Readme. Module overview and usage are easily viewed here.</p>
     </div>
+    <div class="welcome-panel pull-left">
+        <div>
+            <a class="btn btn-large" href="https://github.com/cspray/SprayFire/wiki/Roadmap"><i title="Check out the roadmap" class="icon-road"></i> Roadmap</a>
+        </div>
+        <p class="summary">SprayFire is a versioned project with a clear path for the short-term future. Check out what the project has implemented and what we're going to.</p>
+    </div>
+    <div class="welcome-panel pull-right">
+        <div>
+            <a class="btn btn-large" href="/about">About</a>
+        </div>
+        <p class="summary">Learn more about the framework like how it came about and what it wants to accomplish.</p>
+    </div>
 </div>
 
 <div id="sprayfire-install-welcome">
     <p>Thanks for installing SprayFire, a modular, fully unit tested framework designed to work with PHP 5.4.  Originally starting out as an academic project SprayFire has grown to include the following features.</p>
-    <ul>
+    <ul id="features">
         <li>Fully unit tested source code</li>
         <li>Easily integrate PHP 5.3+ compliant libraries</li>
         <li>Interface driven APIs and modules as implementations of those APIs</li>
