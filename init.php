@@ -1,6 +1,7 @@
 <?php
 
-use \SprayFire\FileSys\FireFileSys as FireFileSys,
+use \SprayFire\StdLib as SFStdLib,
+    \SprayFire\FileSys\FireFileSys as FireFileSys,
     \SprayFire\Service\FireService as FireService,
     \SprayFire\Dispatcher\FireDispatcher as FireDispatcher,
     \SprayFire\Http\FireHttp as FireHttp,
@@ -9,8 +10,8 @@ use \SprayFire\FileSys\FireFileSys as FireFileSys,
     \SprayFire\Controller\FireController as FireController,
     \SprayFire\Responder\FireResponder as FireResponder,
     \SprayFire\Responder\Template\FireTemplate as FireTemplate,
-    \SprayFire\Logging\FireLogging as FireLogging,
-    \SprayFire\StdLib as SFStdLib;
+    \SprayFire\Logging\FireLogging as FireLogging;
+
 
 function startProcessing() {
     $requestStartTime = \microtime(true);
