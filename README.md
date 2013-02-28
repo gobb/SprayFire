@@ -33,9 +33,9 @@ If the install was successful you should have the [`cspray\ClassLoader`](https:/
 
 ### Configuring SprayFire
 
-There are 2 critical files when wanting to configure SprayFire's runtime behavior. The first is [`/sprayfire_apps/config/SprayFire/routes.php`]() which controls how URLs are converted into the appropriate controllers and actions. You can read more about that configuration file and routing by looking at the [Routing docs](https://github.com/cspray/SprayFire/wiki/HTTP-and-Routing).
+There are 2 critical files when wanting to configure SprayFire's runtime behavior. The first is [`/sprayfire_apps/config/SprayFire/routes.php`](https://github.com/cspray/SprayFire/blob/master/config/SprayFire/routes.php) which controls how URLs are converted into the appropriate controllers and actions. You can read more about that configuration file and routing by looking at the README in the SprayFire\Http\Routing module).
 
-The second is [`/sprayfire_apps/config/SprayFire/environment.php`]() which controls how SprayFire's runtime behavior. Various aspects of the framework are directly controlled from this file including things like: setting development or production environment modes, the default charset to use, whether to use Virtual Host support and what framework provided bootstraps should be ran.
+The second is [`/sprayfire_apps/config/SprayFire/environment.php`](https://github.com/cspray/SprayFire/blob/master/config/SprayFire/environment.php) which controls how SprayFire's runtime behavior works. Various aspects of the framework are directly controlled from this file including things like: setting development or production environment modes, the default charset to use, whether to use Virtual Host support and what framework provided bootstraps should be ran.
 
 Initially the most important of the environment configuration values is whether or not Virtual Host support is enabled. For the [`\SprayFire\FileSys\PathGenerator`](https://github.com/cspray/SprayFire/blob/master/libs/SprayFire/FileSys/PathGenerator.php) implementations to provide the appropriate URL path used for JavaScript and CSS resources in HTML we have to know whether or not the framework has been setup to not require the install directory to load the framework. For more information check out the [Configuration guide docs]().
 
