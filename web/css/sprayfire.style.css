@@ -99,6 +99,7 @@ a:hover {
 #welcome-panels {
     width: 95%;
     margin: 0 auto;
+    margin-bottom: 1.5em;
     overflow: auto;
 }
 
@@ -107,6 +108,7 @@ a:hover {
 
 .welcome-panel {
     width: 45%;
+    margin-top: 1em;
     padding: .5em;
     border-radius: 4px;
     -moz-border-radius: 4px;
@@ -185,6 +187,20 @@ a:hover {
 
 #the-team > .team-member li {
     margin-bottom: .5em;
+    padding:  .5em;
+}
+
+#sprayfire-install-welcome {
+    width: 95%;
+    margin: 0 auto;
+}
+
+#features {
+    margin-top: 1em;
+}
+
+#features > li {
+    margin-bottom: 1em;
 }
 
 /**

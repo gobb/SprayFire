@@ -119,9 +119,11 @@ function startProcessing() {
     $Dispatcher->dispatchResponse($RoutedRequest);
 
     if ($EnvironmentConfig->isDevelopmentMode()) {
-        echo '<pre>Request time ', (\microtime(true) - $requestStartTime), '</pre>';
+        echo '<pre>Request time ', (\microtime(true) - $requestStartTime) , ' ms</pre>';
         echo '<pre>Memory usage ', \memory_get_peak_usage(true) / 1048576, ' MB</pre>';
-        \var_dump($ErrorLogger->getLoggedMessages());
+        echo '<pre>Errors: ', \var_dump($ErrorLogger->getLoggedMessages()), '</pre>';
+        echo '<pre>Info: ', \var_dump($InfoLogger->getLoggedMessages()), '</pre>';
+        echo '<pre>Debug: ', \var_dump($DebugLogger->getLoggedMessages()), '</pre>';
     }
 }
 

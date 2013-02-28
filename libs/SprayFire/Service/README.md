@@ -33,6 +33,8 @@ So, that's what the module does. Here's why we did it:
 
 ## SprayFire\Service\FireService
 
+I've written a [blog article about the rationale behind this design](http://cspray.github.com/2013/02/12/sprayfire-services), you should check it out for more information.
+
 **Dependencies**
 - SprayFire\Factory\FireFactory
 - SprayFire\Logging
