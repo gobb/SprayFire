@@ -13,10 +13,25 @@ This is the interface that takes care of the bulk of the work and it, well, mana
 
 ### SprayFire\Plugin\PluginSignature
 
-This is how you tell the `Plugin\Manager` the information about your plugin; things like the name, directory to load classes from and what callbacks should be added to the Mediator. This is really a simple, dumb object that only passes along data about the plugin to the Manager.
+This is how you tell the `Plugin\Manager` the information about your plugin; things like the name, directory to load classes from, what callbacks should be added to the Mediator and whether the app should be ran through the `FirePlugin\PluginInitializer`. This is really a simple, dumb object that only passes along data about the plugin to the Manager.
 
-## SprayFire\Plugin Events
+## SprayFire\Plugin\FirePlugin
 
-To facilitate the bootstrapping of plugins and allow a clear, concise method for getting plugins started up the module will be adding two new events to the normal processing of the implemented SprayFire modules. The first event will be the `plugin_manager.app_load` event that will be triggered after the request is routed and we have determined the app to load but before any dispatching has taken place. The second event will be `plugin_manager.dispatch_started` that will be triggered after the app load event has taken place but before the dispatcher has done any processing.
+**Dependencies:**
+- SprayFire\Bootstrap
+- SprayFire\Dispatcher\Exception
+- SprayFire\Plugin
+- SprayFire\Service
+- SprayFire\StdLib
+- SprayFire\Mediator\FireMediator
+- ClassLoader\Loader
 
-The first event will be primarily used to get your app loaded. By default the SprayFire init file will create a PluginSignature for your app based off the normal conventions we have for retrieving app name and directory. The PluginSignature created by SprayFire for your app will only have 1 event callback, the `plugin_manager.app_load` event. This callback will initialize your application by looking for an expected app bootstrap. The `plugin_manager.dispatch_started` is to be used by your app's bootstrap to register app-specific plugins, this event will be triggered almost directly after the app load event is triggered and is the best way to ensure your plugins get started up.
+> The dependency on `SprayFire\Dispatcher\Exception` is an artifact relating back to when the PluginInitializer was a part of that module. This will be removed eventually once it is determined the appropriate exception that should be used in place of the ones currently being utilized.
+
+### SprayFire\Plugin\FirePlugin\PluginSignature
+
+### SprayFire\Plugin\FirePlugin\AppPluginSignature
+
+### SprayFire\Plugin\FirePlugin\PluginInitializer
+
+### SprayFire\Plugin\FirePlugin\Manager
