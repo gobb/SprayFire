@@ -22,6 +22,14 @@ use \SprayFire\Plugin as SFPlugin,
 class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
 
     /**
+     * A collection of \SprayFire\Plugin\PluginSignature objects that have been
+     * registered by this Manager.
+     *
+     * @property array
+     */
+    protected $registeredPlugins = [];
+
+    /**
      * Registering a plugin should involve any tasks the plugin needs to be setup
      * and start working.
      *
@@ -57,7 +65,7 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
      * @return array|Traversable
      */
     public function getRegisteredPlugins() {
-        // TODO: Implement getRegisteredPlugins() method.
+        return $this->registeredPlugins;
     }
-    
+
 }
