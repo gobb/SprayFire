@@ -13,7 +13,9 @@
 namespace SprayFire\Plugin\FirePlugin;
 
 use \SprayFire\Plugin as SFPlugin,
-    \SprayFire\StdLib as SFStdLib;
+    \SprayFire\Mediator as SFMediator,
+    \SprayFire\StdLib as SFStdLib,
+    \ClassLoader\Loader as ClassLoader;
 
 /**
  * @package SprayFire
@@ -22,12 +24,28 @@ use \SprayFire\Plugin as SFPlugin,
 class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
 
     /**
+     * Holds a ClassLoader\Loader implementation to allow the Manager the ability
+     * to easily setup autoloading for a given plugin.
+     *
+     * @property \ClassLoader\Loader
+     */
+    protected $Loader;
+
+    /**
      * A collection of \SprayFire\Plugin\PluginSignature objects that have been
      * registered by this Manager.
      *
      * @property array
      */
     protected $registeredPlugins = [];
+
+    /**
+     * @param \ClassLoader\Loader $Loader
+     * @param \SprayFire\Mediator\Mediator $Mediator
+     */
+    public function __construct(ClassLoader $Loader, SFMediator\Mediator $Mediator) {
+        $this->Loader = $Loader;
+    }
 
     /**
      * Registering a plugin should involve any tasks the plugin needs to be setup
@@ -40,8 +58,10 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
      * @param \SprayFire\Plugin\PluginSignature $PluginSignature
      * @return \SprayFire\Plugin\FirePlugin\Manager
      */
-    public function registerPlugin(SFPlugin\PluginSignature $PluginSignature) {
-        $this->registeredPlugins[] = $PluginSignature;
+    public function registerPlugin(SFPlugin\PluginSignature $Signature) {
+        $this->Loader->registerNamespaceDirectory($Signature->getName(), $Signature->getDirectory());
+
+        $this->registeredPlugins[] = $Signature;
         return $this;
     }
 

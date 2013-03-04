@@ -57,6 +57,24 @@ class ManagerTest extends PHPUnitTestCase {
     }
 
     /**
+     * Ensures that if a plugin is registered the name of the plugin and directory
+     * for that plugin are properly registered with the framework's autoloading
+     * solution.
+     */
+    public function testRegisteringPluginCausesNameAndDirToBeAddedToClassLoader() {
+        $Loader = $this->getClassLoader();
+        $Loader->expects($this->once())
+               ->method('registerNamespaceDirectory')
+               ->with('SprayFire', '/');
+        $Mediator = $this->getMediator();
+        $Manager = new FirePlugin\Manager($Loader, $Mediator);
+
+        $SprayFire = new FirePlugin\PluginSignature('SprayFire', '/', function() { return []; });
+
+        $Manager->registerPlugin($SprayFire);
+    }
+
+    /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function getClassLoader() {
