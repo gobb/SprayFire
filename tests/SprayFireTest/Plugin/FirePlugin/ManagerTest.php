@@ -31,6 +31,8 @@ class ManagerTest extends PHPUnitTestCase {
         $Loader = $this->getClassLoader();
         $Mediator = $this->getMediator();
         $Manager = $this->getManager($Loader, $Mediator);
+
+        $this->assertSame([], $Manager->getRegisteredPlugins(), 'When no plugins registered an empty array is not returned');
     }
 
     /**
