@@ -1,25 +1,28 @@
 <?php
 
 /**
- * An "enum" abstract class that holds constants representing the different events
- * that should be fired off by the Dispatching process.
+ *
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
  * @version 0.2
- * @since   0.1
+ * @since   0.2
  */
-
-namespace SprayFire\Dispatcher;
+namespace SprayFire;
 
 /**
- * Each constant represents a target type and event name that should be triggered
- * at some point during the dispatching process.
+ *
  *
  * @package SprayFire
- * @subpackage Dispatcher
+ * @subpackage
  */
 abstract class Events {
+
+    /**
+     * Should be invoked before any kind of dispatching is done and after all
+     * framework provided services have been added to the Container.
+     */
+    const APP_LOAD = 'plugin_manager.app_load';
 
     /**
      * Should be invoked before the routed controller is invoked and should set
@@ -44,5 +47,6 @@ abstract class Events {
      * with the SprayFire.Responder.Responder that was used set as the target.
      */
     const AFTER_RESPONSE_SENT = 'responder.after_responder_sent';
+
 
 }

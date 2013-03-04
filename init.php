@@ -1,16 +1,17 @@
 <?php
 
 use \SprayFire\StdLib as SFStdLib,
+    \SprayFire\Controller\FireController as FireController,
+    \SprayFire\Http\FireHttp as FireHttp,
     \SprayFire\FileSys\FireFileSys as FireFileSys,
     \SprayFire\Service\FireService as FireService,
     \SprayFire\Dispatcher\FireDispatcher as FireDispatcher,
-    \SprayFire\Http\FireHttp as FireHttp,
     \SprayFire\Http\Routing\FireRouting as FireRouting,
     \SprayFire\Mediator\FireMediator as FireMediator,
-    \SprayFire\Controller\FireController as FireController,
     \SprayFire\Responder\FireResponder as FireResponder,
     \SprayFire\Responder\Template\FireTemplate as FireTemplate,
-    \SprayFire\Logging\FireLogging as FireLogging;
+    \SprayFire\Logging\FireLogging as FireLogging,
+    \SprayFire\Plugin\FirePlugin as FirePlugin;
 
 
 function startProcessing() {

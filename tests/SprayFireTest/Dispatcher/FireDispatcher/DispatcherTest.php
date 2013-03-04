@@ -68,16 +68,16 @@ class DispatcherTest extends PHPUnitTestCase {
                      ->method('triggerEvent');
         $Mediator->expects($this->at(2))
                      ->method('triggerEvent')
-                     ->with(SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED, $Controller);
+                     ->with(\SprayFire\Events::BEFORE_CONTROLLER_INVOKED, $Controller);
         $Mediator->expects($this->at(3))
                      ->method('triggerEvent')
-                     ->with(SFDispatcher\Events::AFTER_CONTROLLER_INVOKED, $Controller);
+                     ->with(\SprayFire\Events::AFTER_CONTROLLER_INVOKED, $Controller);
         $Mediator->expects($this->at(4))
                      ->method('triggerEvent')
-                     ->with(SFDispatcher\Events::BEFORE_RESPONSE_SENT, $Responder);
+                     ->with(\SprayFire\Events::BEFORE_RESPONSE_SENT, $Responder);
         $Mediator->expects($this->at(5))
                      ->method('triggerEvent')
-                     ->with(SFDispatcher\Events::AFTER_RESPONSE_SENT, $Responder);
+                     ->with(\SprayFire\Events::AFTER_RESPONSE_SENT, $Responder);
 
         $ControllerFactory = $this->getMockControllerFactory($Controller, $controller);
         $ResponderFactory = $this->getMockResponderFactory($Responder, $responderName);
@@ -118,7 +118,7 @@ class DispatcherTest extends PHPUnitTestCase {
         $expected = '<div>SprayFire</div>';
         $this->assertSame($expected, $response);
 
-        $BeforeControllerCallback = $Mediator->getCallbacks(\SprayFire\Dispatcher\Events::BEFORE_CONTROLLER_INVOKED);
+        $BeforeControllerCallback = $Mediator->getCallbacks(\SprayFire\Events::BEFORE_CONTROLLER_INVOKED);
         $this->assertInstanceOf('\SprayFire\Mediator\Callback', $BeforeControllerCallback);
         $FunctionValue = $this->getFunctionPropertyValue($BeforeControllerCallback);
         $this->assertSame(array($Controller, 'beforeAction'), $FunctionValue);
@@ -150,7 +150,7 @@ class DispatcherTest extends PHPUnitTestCase {
         $expected = '<div>SprayFire</div>';
         $this->assertSame($expected, $response);
 
-        $AfterControllerCallback = $Mediator->getCallbacks(\SprayFire\Dispatcher\Events::AFTER_CONTROLLER_INVOKED);
+        $AfterControllerCallback = $Mediator->getCallbacks(\SprayFire\Events::AFTER_CONTROLLER_INVOKED);
         $this->assertInstanceOf('\SprayFire\Mediator\Callback', $AfterControllerCallback);
         $FunctionValue = $this->getFunctionPropertyValue($AfterControllerCallback);
         $this->assertSame(array($Controller, 'afterAction'), $FunctionValue);
