@@ -38,10 +38,11 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
      * - Add any callbacks associated with the plugin to the Mediator
      *
      * @param \SprayFire\Plugin\PluginSignature $PluginSignature
-     * @return boolean
+     * @return \SprayFire\Plugin\FirePlugin\Manager
      */
     public function registerPlugin(SFPlugin\PluginSignature $PluginSignature) {
-        // TODO: Implement registerPlugin() method.
+        $this->registeredPlugins[] = $PluginSignature;
+        return $this;
     }
 
     /**
@@ -51,11 +52,11 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
      * implement the PluginSignature interface.
      *
      * @param array|Traversable $plugins
-     * @return boolean
+     * @return \SprayFire\Plugin\FirePlugin\Manager
      * @throws \InvalidArgumentException
      */
     public function registerPlugins($plugins) {
-        // TODO: Implement registerPlugins() method.
+
     }
 
     /**
