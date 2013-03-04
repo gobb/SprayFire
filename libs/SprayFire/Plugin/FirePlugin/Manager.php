@@ -32,6 +32,14 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
     protected $Loader;
 
     /**
+     * A \SprayFire\Mediator\Mediator that allows plugin callbacks to be properly
+     * added so they can also be triggered appropriately.
+     *
+     * @property \SprayFire\Mediator\Mediator
+     */
+    protected $Mediator;
+
+    /**
      * A collection of \SprayFire\Plugin\PluginSignature objects that have been
      * registered by this Manager.
      *
@@ -45,6 +53,7 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
      */
     public function __construct(ClassLoader $Loader, SFMediator\Mediator $Mediator) {
         $this->Loader = $Loader;
+        $this->Mediator = $Mediator;
     }
 
     /**
@@ -66,7 +75,7 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
                 $message = 'Only \SprayFire\Mediator\Callback objects may be returned from your plugin\'s getCallbacks() method.';
                 throw new \InvalidArgumentException($message);
             }
-
+            $this->Mediator->addCallback($Callback);
         }
 
         $this->registeredPlugins[] = $Signature;
