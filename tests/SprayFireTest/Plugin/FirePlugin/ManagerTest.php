@@ -25,7 +25,8 @@ use \SprayFire\Plugin\FirePlugin as FirePlugin,
 class ManagerTest extends PHPUnitTestCase {
 
     /**
-     *
+     * Ensures that we get back an empty array from Manager::getRegisteredPlugins()
+     * if no plugins have been registered.
      */
     public function testGettingRegisteredPluginsBeforeAnyRegisteredReturnsEmptyArray() {
         $Loader = $this->getClassLoader();
@@ -36,14 +37,14 @@ class ManagerTest extends PHPUnitTestCase {
     }
 
     /**
-     * @return \ClassLoader\Loader
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function getClassLoader() {
         return $this->getMock('\ClassLoader\Loader');
     }
 
     /**
-     * @return \SprayFire\Mediator\Mediator
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function getMediator() {
         return $this->getMock('\SprayFire\Mediator\Mediator');
