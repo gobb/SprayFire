@@ -14,6 +14,18 @@ namespace SprayFire\Plugin;
 use \SprayFire\Object as SFObject;
 
 /**
+ * While any number of things could happen when a plugin is registered this interface
+ * is meant to serve as a contract for the bare minimum of what should happen;
+ * since that is impossible to do in code this interface somewhat breaks normal
+ * rules in that it is dictating to an extent what the implementation should be
+ * like, ultimately though each implementation of this interface should meet the
+ * minimum requirements.
+ *
+ * At minimum the following should occur:
+ * - Set up the plugin for autoloading
+ * - Add any callbacks associated with the plugin to the Mediator
+ * - Run an optional bootstrap for the plugin, by convention located at \Plugin\Bootstrap
+ *
  * @package SprayFire
  * @subpackage Plugin
  */
@@ -24,9 +36,8 @@ interface Manager extends SFObject {
      * and start working; the return value is up to the implementation and can
      * be whatever is needed or desired.
      *
-     * At minimum the following should occur:
-     * - Set up the plugin for autoloading
-     * - Add any callbacks associated with the plugin to the Mediator
+     * Please read the detailed interface level documentation for more info on
+     * what should be taken care of when a plugin is registered.
      *
      * @param \SprayFire\Plugin\PluginSignature $PluginSignature
      * @return mixed
@@ -39,7 +50,7 @@ interface Manager extends SFObject {
      * An exception should be thrown when an element in $plugins does not properly
      * implement the PluginSignature interface.
      *
-     * @param array|Traversable $plugins
+     * @param array|\Traversable $plugins
      * @return boolean
      * @throws \InvalidArgumentException
      */
@@ -49,7 +60,7 @@ interface Manager extends SFObject {
      * Will return a collection of \SprayFire\Plugin\PluginSignature implementations
      * that have been registered so far.
      *
-     * @return array|Traversable
+     * @return array|\Traversable
      */
     public function getRegisteredPlugins();
 
