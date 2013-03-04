@@ -15,7 +15,7 @@ use \SprayFire\Plugin\FirePlugin as FirePlugin,
  * @package SprayFireTest
  * @subpackage Plugin.FirePlugin
  */
-class AppInitializerTest extends PHPUnitTestCase {
+class PluginInitializerTest extends PHPUnitTestCase {
 
     protected $Container;
 
@@ -28,7 +28,7 @@ class AppInitializerTest extends PHPUnitTestCase {
     public function testAppInitializerRunningAppBootstrap() {
         $appName = 'TestApp';
         $Initializer = $this->getInitializer($appName);
-        $Initializer->initializeApp($appName);
+        $Initializer->initializePlugin($appName);
         $this->assertTrue($this->Container->doesServiceExist('TestApp.Service.FromBootstrap'), 'The service from the app bootstrap was not loaded');
     }
 
@@ -36,14 +36,14 @@ class AppInitializerTest extends PHPUnitTestCase {
         $appName = 'NonExistent';
         $Initializer = $this->getInitializer($appName);
         $this->setExpectedException('\\SprayFire\\Dispatcher\\Exception\\BootstrapNotFound');
-        $Initializer->initializeApp($appName);
+        $Initializer->initializePlugin($appName);
     }
 
     public function testAppInitializerWithAppBootstrapNotBootstrapper() {
         $appName = 'AnotherApp';
         $Initializer = $this->getInitializer($appName);
         $this->setExpectedException('\\SprayFire\\Dispatcher\\Exception\\NotBootstrapperInstance');
-        $Initializer->initializeApp($appName);
+        $Initializer->initializePlugin($appName);
     }
 
     protected function getInitializer($appName) {
@@ -51,7 +51,7 @@ class AppInitializerTest extends PHPUnitTestCase {
         $this->ClassLoader = $this->getClassLoader();
         $this->ClassLoader->setAutoloader();
         $this->ClassLoader->registerNamespaceDirectory($appName, \SPRAYFIRE_ROOT . '/tests/SprayFireTest/mockframework/app');
-        return new FirePlugin\AppInitializer($this->Container, $this->ClassLoader);
+        return new FirePlugin\PluginInitializer($this->Container, $this->ClassLoader);
     }
 
     protected function getServiceContainer() {

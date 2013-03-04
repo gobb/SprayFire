@@ -33,7 +33,7 @@ use \SprayFire\Service as SFService,
  * implementation we need to take a look at that and figure out where those
  * exceptions should appropriately belong.
  */
-class AppInitializer extends SFStdLib\CoreObject {
+class PluginInitializer extends SFStdLib\CoreObject {
 
     /**
      * Is here to provide the bootstrap process for the application a way to setup
@@ -76,7 +76,7 @@ class AppInitializer extends SFStdLib\CoreObject {
      * @throws \SprayFire\Dispatcher\Exception\BootstrapNotFound
      * @throws \SprayFire\Dispatcher\Exception\NotBootstrapperInstance
      */
-    public function initializeApp($appNamespace) {
+    public function initializePlugin($appNamespace) {
         $bootstrapName = '\\' . $appNamespace . '\\Bootstrap';
         if (!\class_exists($bootstrapName)) {
             $message = 'The application bootstrap for ' . $appNamespace . ' could not be found.  Please ensure you have created a \\' . $appNamespace . '\\Bootstrap object.';
@@ -104,7 +104,7 @@ class AppInitializer extends SFStdLib\CoreObject {
         $eventName = \SprayFire\Events::APP_LOAD;
         $Initializer = $this;
         $callback = function() use($Initializer, $appNamespace) {
-            $Initializer->initializeApp($appNamespace);
+            $Initializer->initializePlugin($appNamespace);
         };
         return new FireMediator\Callback($eventName, $callback);
     }
