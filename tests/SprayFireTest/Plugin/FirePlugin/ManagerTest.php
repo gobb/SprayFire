@@ -75,6 +75,22 @@ class ManagerTest extends PHPUnitTestCase {
     }
 
     /**
+     * Ensures that plugins can't be registered attempting to add Callbacks that
+     * aren't actually callbacks.
+     */
+    public function testRegisteringPluginWithInvalidCallbacksThrowsException() {
+        $Loader = $this->getClassLoader();
+        $Mediator = $this->getMediator();
+        $Manager = new FirePlugin\Manager($Loader, $Mediator);
+
+        $SprayFire = new FirePlugin\PluginSignature('SprayFire', '/', function() { return [new stdClass]; });
+
+        $this->setExpectedException('\InvalidArgumentException');
+
+        $Manager->registerPlugin($SprayFire);
+    }
+
+    /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function getClassLoader() {
