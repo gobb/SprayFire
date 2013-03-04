@@ -45,16 +45,24 @@ class PluginSignature extends SFStdLib\CoreObject implements SFPlugin\PluginSign
     protected $callbacks;
 
     /**
+     * A flag used to determine if the plugin should be initialized.
+     *
+     * @property boolean
+     */
+    protected $initialize;
+
+    /**
      * @param string $name
      * @param string $dir
      * @param string $callbacks
+     * @param boolean $initialize
      */
-    public function __construct($name, $dir, callable $callbacks) {
+    public function __construct($name, $dir, callable $callbacks, $initialize = true) {
         $this->name = (string) $name;
         $this->dir = (string) $dir;
         $this->callbacks = $callbacks;
+        $this->initialize = (boolean) $initialize;
     }
-
 
     /**
      * Return the name of the plugin, this should correspond to the top level
@@ -90,6 +98,15 @@ class PluginSignature extends SFStdLib\CoreObject implements SFPlugin\PluginSign
     public function getCallbacks() {
         $callbacks = $this->callbacks;
         return $callbacks();
+    }
+
+    /**
+     * Determines whether the plugin should be initialized or not.
+     *
+     * @return boolean
+     */
+    public function initializePlugin() {
+        return $this->initialize;
     }
 
 }
