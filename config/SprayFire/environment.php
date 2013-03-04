@@ -9,6 +9,7 @@ $environment = array(
     'defaultCharset' => $defaultCharset,
     'virtualHost' => $virtualHost,
     'registeredEvents' => array(
+        \SprayFire\Events::APP_LOAD => '',
         \SprayFire\Events::AFTER_CONTROLLER_INVOKED => '',
         \SprayFire\Events::AFTER_RESPONSE_SENT => '',
         \SprayFire\Events::BEFORE_CONTROLLER_INVOKED => '',
