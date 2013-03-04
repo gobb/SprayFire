@@ -117,7 +117,12 @@ function startProcessing() {
         $EventRegistry->registerEvent($eventName, $eventType);
     }
 
-    $AppSignature = new FirePlugin\AppPluginSignature($Paths, $RoutedRequest, $EnvironmentConfig->autoInitializeApp());
+    $AppSignature = new FirePlugin\PluginSignature(
+        $RoutedRequest->getAppNamespace(),
+        $Paths->getAppPath(),
+        function() { return []; },
+        $EnvironmentConfig->autoInitializeApp()
+    );
     $PluginManager->registerPlugin($AppSignature);
 
     $Dispatcher = new FireDispatcher\Dispatcher($Mediator, $ControllerFactory, $ResponderFactory);
