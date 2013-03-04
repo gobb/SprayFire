@@ -13,7 +13,7 @@ use \SprayFire\Plugin\FirePlugin as FirePlugin,
 
 /**
  * @package SprayFireTest
- * @subpackage Dispatcher.FireDispatcher
+ * @subpackage Plugin.FirePlugin
  */
 class AppInitializerTest extends PHPUnitTestCase {
 
@@ -26,37 +26,32 @@ class AppInitializerTest extends PHPUnitTestCase {
     }
 
     public function testAppInitializerRunningAppBootstrap() {
-        $Initializer = $this->getInitializer();
-        $controller = 'TestApp.Controller.Something';
-        $RoutedRequest = $this->getRoutedRequest($controller);
-        $Initializer->initializeApp($RoutedRequest);
+        $appName = 'TestApp';
+        $Initializer = $this->getInitializer($appName);
+        $Initializer->initializeApp($appName);
         $this->assertTrue($this->Container->doesServiceExist('TestApp.Service.FromBootstrap'), 'The service from the app bootstrap was not loaded');
     }
 
     public function testAppInitializerWithInvalidNamespace() {
-        $Initializer = $this->getInitializer();
-        $controller = 'NonExistent.Controller';
-        $RoutedRequest = $this->getRoutedRequest($controller);
+        $appName = 'NonExistent';
+        $Initializer = $this->getInitializer($appName);
         $this->setExpectedException('\\SprayFire\\Dispatcher\\Exception\\BootstrapNotFound');
-        $Initializer->initializeApp($RoutedRequest);
+        $Initializer->initializeApp($appName);
     }
 
     public function testAppInitializerWithAppBootstrapNotBootstrapper() {
-        $Initializer = $this->getInitializer();
-        $controller = 'AnotherApp.Controller.Page';
-        $RoutedRequest = $this->getRoutedRequest($controller);
+        $appName = 'AnotherApp';
+        $Initializer = $this->getInitializer($appName);
         $this->setExpectedException('\\SprayFire\\Dispatcher\\Exception\\NotBootstrapperInstance');
-        $Initializer->initializeApp($RoutedRequest);
+        $Initializer->initializeApp($appName);
     }
 
-    protected function getInitializer() {
+    protected function getInitializer($appName) {
         $this->Container = $this->getServiceContainer();
         $this->ClassLoader = $this->getClassLoader();
         $this->ClassLoader->setAutoloader();
-        $installDir = \SPRAYFIRE_ROOT . '/tests/SprayFireTest/mockframework';
-        $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($installDir);
-        $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
-        return new FirePlugin\AppInitializer($this->Container, $Paths, $this->ClassLoader);
+        $this->ClassLoader->registerNamespaceDirectory($appName, \SPRAYFIRE_ROOT . '/tests/SprayFireTest/mockframework/app');
+        return new FirePlugin\AppInitializer($this->Container, $this->ClassLoader);
     }
 
     protected function getServiceContainer() {
@@ -64,16 +59,8 @@ class AppInitializerTest extends PHPUnitTestCase {
         return new \SprayFire\Service\FireService\Container($ReflectionCache);
     }
 
-    protected function getRoutedRequest($controller, $action = 'index', array $parameters = array(), $isStatic = false) {
-        return new \SprayFire\Http\Routing\FireRouting\RoutedRequest($controller, $action, $parameters, $isStatic);
-    }
-
     protected function getClassLoader() {
         return new \ClassLoader\Loader();
-    }
-
-    public function tearDown() {
-
     }
 
 }
