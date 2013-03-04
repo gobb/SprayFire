@@ -1,7 +1,8 @@
 <?php
 
 /**
- *
+ * An abstract class used as an enum of events that are triggered by the framework
+ * during normal operation.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -11,10 +12,12 @@
 namespace SprayFire;
 
 /**
+ * Each event follows this format: <description of target>.<description of event>
  *
+ * The target corresponds to an object provided by the framework while the event
+ * describes what is happening at the given time.
  *
  * @package SprayFire
- * @subpackage
  */
 abstract class Events {
 
