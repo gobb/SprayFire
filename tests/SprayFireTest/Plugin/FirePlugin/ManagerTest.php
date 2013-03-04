@@ -83,11 +83,38 @@ class ManagerTest extends PHPUnitTestCase {
         $Mediator = $this->getMediator();
         $Manager = new FirePlugin\Manager($Loader, $Mediator);
 
-        $SprayFire = new FirePlugin\PluginSignature('SprayFire', '/', function() { return [new stdClass]; });
+        $SprayFire = new FirePlugin\PluginSignature('SprayFire', '/', function() { return [new \stdClass()]; });
 
         $this->setExpectedException('\InvalidArgumentException');
 
         $Manager->registerPlugin($SprayFire);
+    }
+
+    public function testRegisterValidPluginCallbacksActuallyCallsMediator() {
+        $Loader = $this->getClassLoader();
+        $Mediator = $this->getMediator();
+        $Manager = new FirePlugin\Manager($Loader, $Mediator);
+
+        $fooCallback = $this->getMock('\SprayFire\Mediator\Callback');
+        $barCallback = $this->getMock('\SprayFire\Mediator\Callback');
+        $bazCallback = $this->getMock('\SprayFire\Mediator\Callback');
+
+        $Foo = new FirePlugin\PluginSignature('foo', '/', function() use($fooCallback) { return [$fooCallback]; });
+        $Bar = new FirePlugin\PluginSignature('bar', '/', function() use($barCallback) { return [$barCallback]; });
+        $Baz = new FirePlugin\PluginSignature('baz', '/', function() use($bazCallback) { return [$bazCallback]; });
+
+        $Mediator->expects($this->at(0))
+                 ->method('addCallback')
+                 ->with($fooCallback);
+        $Mediator->expects($this->at(1))
+                 ->method('addCallback')
+                 ->with($barCallback);
+        $Mediator->expects($this->at(2))
+                 ->method('addCallback')
+                 ->with($bazCallback);
+
+        $Manager->registerPlugin($Foo)->registerPlugin($Bar)->registerPlugin($Baz);
+
     }
 
     /**
