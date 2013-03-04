@@ -21,14 +21,15 @@ interface Manager extends SFObject {
 
     /**
      * Registering a plugin should involve any tasks the plugin needs to be setup
-     * and start working.
+     * and start working; the return value is up to the implementation and can
+     * be whatever is needed or desired.
      *
      * At minimum the following should occur:
      * - Set up the plugin for autoloading
      * - Add any callbacks associated with the plugin to the Mediator
      *
      * @param \SprayFire\Plugin\PluginSignature $PluginSignature
-     * @return boolean
+     * @return mixed
      */
     public function registerPlugin(PluginSignature $PluginSignature);
 
