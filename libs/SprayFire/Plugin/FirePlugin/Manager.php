@@ -14,6 +14,7 @@ namespace SprayFire\Plugin\FirePlugin;
 
 use \SprayFire\Plugin as SFPlugin,
     \SprayFire\StdLib as SFStdLib,
+    \SprayFire\Plugin\Exception as SFPluginException,
     \ClassLoader\Loader as ClassLoader;
 
 /**
@@ -106,7 +107,7 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
         foreach($plugins as $Signature) {
             if (!($Signature instanceof SFPlugin\PluginSignature)) {
                 $message = '%s expects collection of plugins to implement %s, %s given.';
-                throw new \InvalidArgumentException(\sprintf($message, __CLASS__, '\\SprayFire\\Plugin\\PluginSignature', \get_class($Signature)));
+                throw new SFPluginException\ElementNotPluginSignature(\sprintf($message, __CLASS__, '\\SprayFire\\Plugin\\PluginSignature', \get_class($Signature)));
             }
             $this->registerPlugin($Signature);
         }

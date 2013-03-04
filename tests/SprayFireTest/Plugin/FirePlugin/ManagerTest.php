@@ -101,7 +101,7 @@ class ManagerTest extends PHPUnitTestCase {
         $Foo = new FirePlugin\PluginSignature('foo', '/');
         $Bar = new \stdClass();
 
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->setExpectedException('\SprayFire\Plugin\Exception\ElementNotPluginSignature');
         $Manager->registerPlugins([$Foo, $Bar]);
     }
 
