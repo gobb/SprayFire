@@ -23,7 +23,6 @@ use \SprayFire\Object as SFObject;
  *
  * At minimum the following should occur:
  * - Set up the plugin for autoloading
- * - Add any callbacks associated with the plugin to the Mediator
  * - Run an optional bootstrap for the plugin, by convention located at \Plugin\Bootstrap
  *
  * @package SprayFire

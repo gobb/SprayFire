@@ -12,7 +12,6 @@
 namespace SprayFireTest\Plugin\FirePlugin;
 
 use \SprayFire\Plugin\FirePlugin as FirePlugin,
-    \SprayFire\Mediator as SFMediator,
     \ClassLoader\Loader as ClassLoader,
     \PHPUnit_Framework_TestCase as PHPUnitTestCase;
 
@@ -30,9 +29,8 @@ class ManagerTest extends PHPUnitTestCase {
      */
     public function testGettingRegisteredPluginsBeforeAnyRegisteredReturnsEmptyArray() {
         $Loader = $this->getClassLoader();
-        $Mediator = $this->getMediator();
         $Initializer = $this->getPluginInitializer($Loader);
-        $Manager = $this->getManager($Loader, $Mediator, $Initializer);
+        $Manager = $this->getManager($Initializer, $Loader);
 
         $this->assertSame([], $Manager->getRegisteredPlugins(), 'When no plugins registered an empty array is not returned');
     }
@@ -43,15 +41,12 @@ class ManagerTest extends PHPUnitTestCase {
      */
     public function testGettingRegisteredPluginsAfterSomeRegisteredReturnsRightCollection() {
         $Loader = $this->getClassLoader();
-        $Mediator = $this->getMediator();
         $Initializer = $this->getPluginInitializer($Loader);
-        $Manager = $this->getManager($Loader, $Mediator, $Initializer);
+        $Manager = $this->getManager($Initializer, $Loader);
 
-        $noCallbacks = function() { return []; };
-
-        $Foo = new FirePlugin\PluginSignature('foo', '/', $noCallbacks);
-        $Bar = new FirePlugin\PluginSignature('bar', '/', $noCallbacks);
-        $Baz = new FirePlugin\PluginSignature('baz', '/', $noCallbacks);
+        $Foo = new FirePlugin\PluginSignature('foo', '/');
+        $Bar = new FirePlugin\PluginSignature('bar', '/');
+        $Baz = new FirePlugin\PluginSignature('baz', '/');
 
         $Manager->registerPlugin($Foo)->registerPlugin($Bar)->registerPlugin($Baz);
 
@@ -68,61 +63,12 @@ class ManagerTest extends PHPUnitTestCase {
         $Loader->expects($this->once())
                ->method('registerNamespaceDirectory')
                ->with('SprayFire', '/');
-        $Mediator = $this->getMediator();
         $Initializer = $this->getPluginInitializer($Loader);
-        $Manager = $this->getManager($Loader, $Mediator, $Initializer);
+        $Manager = $this->getManager($Initializer, $Loader);
 
-        $SprayFire = new FirePlugin\PluginSignature('SprayFire', '/', function() { return []; });
+        $SprayFire = new FirePlugin\PluginSignature('SprayFire', '/');
 
         $Manager->registerPlugin($SprayFire);
-    }
-
-    /**
-     * Ensures that plugins can't be registered attempting to add Callbacks that
-     * aren't actually callbacks.
-     */
-    public function testRegisteringPluginWithInvalidCallbacksThrowsException() {
-        $Loader = $this->getClassLoader();
-        $Mediator = $this->getMediator();
-        $Initializer = $this->getPluginInitializer($Loader);
-        $Manager = $this->getManager($Loader, $Mediator, $Initializer);
-
-        $SprayFire = new FirePlugin\PluginSignature('SprayFire', '/', function() { return [new \stdClass()]; });
-
-        $this->setExpectedException('\InvalidArgumentException');
-
-        $Manager->registerPlugin($SprayFire);
-    }
-
-    /**
-     * Ensures that plugins returning valid callbacks are properly added to
-     * Mediator.
-     */
-    public function testRegisterValidPluginCallbacksActuallyCallsMediator() {
-        $Loader = $this->getClassLoader();
-        $Mediator = $this->getMediator();
-        $Initializer = $this->getPluginInitializer($Loader);
-        $Manager = $this->getManager($Loader, $Mediator, $Initializer);
-
-        $fooCallback = $this->getMock('\SprayFire\Mediator\Callback');
-        $barCallback = $this->getMock('\SprayFire\Mediator\Callback');
-        $bazCallback = $this->getMock('\SprayFire\Mediator\Callback');
-
-        $Foo = new FirePlugin\PluginSignature('foo', '/', function() use($fooCallback) { return [$fooCallback]; });
-        $Bar = new FirePlugin\PluginSignature('bar', '/', function() use($barCallback) { return [$barCallback]; });
-        $Baz = new FirePlugin\PluginSignature('baz', '/', function() use($bazCallback) { return [$bazCallback]; });
-
-        $Mediator->expects($this->at(0))
-                 ->method('addCallback')
-                 ->with($fooCallback);
-        $Mediator->expects($this->at(1))
-                 ->method('addCallback')
-                 ->with($barCallback);
-        $Mediator->expects($this->at(2))
-                 ->method('addCallback')
-                 ->with($bazCallback);
-
-        $Manager->registerPlugin($Foo)->registerPlugin($Bar)->registerPlugin($Baz);
     }
 
     /**
@@ -130,15 +76,12 @@ class ManagerTest extends PHPUnitTestCase {
      */
     public function testRegisteringMultiplePluginsPassedAsArray() {
         $Loader = $this->getClassLoader();
-        $Mediator = $this->getMediator();
         $Initializer = $this->getPluginInitializer($Loader);
-        $Manager = $this->getManager($Loader, $Mediator, $Initializer);
+        $Manager = $this->getManager($Initializer, $Loader);
 
-        $noCallbacks = function() { return []; };
-
-        $Foo = new FirePlugin\PluginSignature('foo', '/', $noCallbacks);
-        $Bar = new FirePlugin\PluginSignature('bar', '/', $noCallbacks);
-        $Baz = new FirePlugin\PluginSignature('baz', '/', $noCallbacks);
+        $Foo = new FirePlugin\PluginSignature('foo', '/');
+        $Bar = new FirePlugin\PluginSignature('bar', '/');
+        $Baz = new FirePlugin\PluginSignature('baz', '/');
 
         $expected = [$Foo, $Bar, $Baz];
 
@@ -155,12 +98,11 @@ class ManagerTest extends PHPUnitTestCase {
      */
     public function testManagerIsInitializingWhenSetToTrue() {
         $Loader = $this->getClassLoader();
-        $Mediator = $this->getMediator();
         $Initializer = $this->getPluginInitializer($Loader);
-        $Manager = $this->getManager($Loader, $Mediator, $Initializer);
+        $Manager = $this->getManager($Initializer, $Loader);
 
-        $DoInit = new FirePlugin\PluginSignature('foo', '/', function() { return []; }, true);
-        $DontDoInit = new FirePlugin\PluginSignature('bar', '/', function() { return []; }, false);
+        $DoInit = new FirePlugin\PluginSignature('foo', '/', true);
+        $DontDoInit = new FirePlugin\PluginSignature('bar', '/', false);
 
         $Initializer->expects($this->once())
                     ->method('initializePlugin')
@@ -174,12 +116,11 @@ class ManagerTest extends PHPUnitTestCase {
      */
     public function testManagerIsInitializingWhenSetToFalse() {
         $Loader = $this->getClassLoader();
-        $Mediator = $this->getMediator();
         $Initializer = $this->getPluginInitializer($Loader);
-        $Manager = $this->getManager($Loader, $Mediator, $Initializer);
+        $Manager = $this->getManager($Initializer, $Loader);
 
-        $DoInit = new FirePlugin\PluginSignature('foo', '/', function() { return []; }, false);
-        $DontDoInit = new FirePlugin\PluginSignature('bar', '/', function() { return []; }, false);
+        $DoInit = new FirePlugin\PluginSignature('foo', '/', false);
+        $DontDoInit = new FirePlugin\PluginSignature('bar', '/', false);
 
         $Initializer->expects($this->never())
             ->method('initializePlugin');
@@ -217,13 +158,12 @@ class ManagerTest extends PHPUnitTestCase {
     }
 
     /**
-     * @param \ClassLoader\Loader $Loader
-     * @param \SprayFire\Mediator\Mediator $Mediator
      * @param \SprayFire\Plugin\FirePlugin\PluginInitializer
+     * @param \ClassLoader\Loader $Loader
      * @return \SprayFire\Plugin\FirePlugin\Manager
      */
-    protected function getManager(ClassLoader $Loader, SFMediator\Mediator $Mediator, FirePlugin\PluginInitializer $Initializer) {
-        return new FirePlugin\Manager($Loader, $Mediator, $Initializer);
+    protected function getManager(FirePlugin\PluginInitializer $Initializer, ClassLoader $Loader) {
+        return new FirePlugin\Manager($Initializer, $Loader);
     }
 
 }

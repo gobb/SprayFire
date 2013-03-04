@@ -57,10 +57,9 @@ class PluginSignature extends SFStdLib\CoreObject implements SFPlugin\PluginSign
      * @param string $callbacks
      * @param boolean $initialize
      */
-    public function __construct($name, $dir, callable $callbacks, $initialize = true) {
+    public function __construct($name, $dir, $initialize = true) {
         $this->name = (string) $name;
         $this->dir = (string) $dir;
-        $this->callbacks = $callbacks;
         $this->initialize = (boolean) $initialize;
     }
 
@@ -85,19 +84,6 @@ class PluginSignature extends SFStdLib\CoreObject implements SFPlugin\PluginSign
      */
     public function getDirectory() {
         return $this->dir;
-    }
-
-    /**
-     * Return a collection of \SprayFire\Mediator\Callback objects that will be
-     * registered against the Mediator; the data structure returned should be
-     * Traversable and every element in that structure should implement
-     * \SprayFire\Mediator\Callback.
-     *
-     * @return \SprayFire\Mediator\Callback[]
-     */
-    public function getCallbacks() {
-        $callbacks = $this->callbacks;
-        return $callbacks();
     }
 
     /**

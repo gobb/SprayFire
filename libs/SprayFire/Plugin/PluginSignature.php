@@ -39,16 +39,6 @@ interface PluginSignature extends SFObject {
     public function getDirectory();
 
     /**
-     * Return a collection of \SprayFire\Mediator\Callback objects that will be
-     * registered against the Mediator; the data structure returned should be
-     * Traversable and every element in that structure should implement
-     * \SprayFire\Mediator\Callback.
-     *
-     * @return \SprayFire\Mediator\Callback[]
-     */
-    public function getCallbacks();
-
-    /**
      * Return true or false if the plugin has a bootstrap that should be ran
      * when the plugin is registered.
      *

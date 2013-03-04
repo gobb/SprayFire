@@ -98,7 +98,7 @@ function startProcessing() {
     $ResponderFactory = new FireResponder\Factory($ReflectionCache, $Container, $LogOverseer);
 
     $PluginInitializer = new FirePlugin\PluginInitializer($Container, $ClassLoader);
-    $PluginManager = new FirePlugin\Manager($ClassLoader, $Mediator, $PluginInitializer);
+    $PluginManager = new FirePlugin\Manager($PluginInitializer, $ClassLoader);
 
     $Container->addService($Request);
     $Container->addService($ClassLoader);
@@ -120,7 +120,6 @@ function startProcessing() {
     $AppSignature = new FirePlugin\PluginSignature(
         $RoutedRequest->getAppNamespace(),
         $Paths->getAppPath(),
-        function() { return []; },
         $EnvironmentConfig->autoInitializeApp()
     );
     $PluginManager->registerPlugin($AppSignature);

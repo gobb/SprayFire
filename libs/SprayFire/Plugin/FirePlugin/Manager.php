@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Framework provided implementation of \SprayFire\Plugin\Manager that will setup
- * autoloading for a plugin and ensure the callbacks associated to that plugin are
- * added to the Mediator.
+ * Framework provided implementation of \SprayFire\Plugin\Manager that will manage
+ * the plugin registration process; check out the class level docs for more details
+ * on what this will entail.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -13,11 +13,22 @@
 namespace SprayFire\Plugin\FirePlugin;
 
 use \SprayFire\Plugin as SFPlugin,
-    \SprayFire\Mediator as SFMediator,
     \SprayFire\StdLib as SFStdLib,
     \ClassLoader\Loader as ClassLoader;
 
 /**
+ * This implementation is a very basic object that will allow simple management
+ * of plugins allowing autoloading for any plugin to be easily setup using the
+ * SprayFire provided autoloading solution and will run a plugin's bootstrap if
+ * configured.
+ *
+ * At minimum the following should occur:
+ * - Set up the plugin for autoloading
+ * - Initialize the plugin, if configured to do so. By convention this means
+ *   that we will look for a \PluginName\Bootstrap object, instantiate it and
+ *   invoke it. Please check out \SprayFire\Plugin\FirePlugin\PluginInitializer
+ *   for more information.
+ *
  * @package SprayFire
  * @subpackage Plugin.FirePlugin
  */
@@ -30,14 +41,6 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
      * @property \ClassLoader\Loader
      */
     protected $Loader;
-
-    /**
-     * A \SprayFire\Mediator\Mediator that allows plugin callbacks to be properly
-     * added so they can also be triggered appropriately.
-     *
-     * @property \SprayFire\Mediator\Mediator
-     */
-    protected $Mediator;
 
     /**
      * Used to initialize and bootstrap the plugin if necessary.
@@ -55,23 +58,20 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
     protected $registeredPlugins = [];
 
     /**
-     * @param \ClassLoader\Loader $Loader
-     * @param \SprayFire\Mediator\Mediator $Mediator
      * @param \SprayFire\Plugin\FirePlugin\PluginInitializer $Initializer
+     * @param \ClassLoader\Loader $Loader
      */
-    public function __construct(ClassLoader $Loader, SFMediator\Mediator $Mediator, PluginInitializer $Initializer) {
-        $this->Loader = $Loader;
-        $this->Mediator = $Mediator;
+    public function __construct(PluginInitializer $Initializer, ClassLoader $Loader) {
         $this->Initializer = $Initializer;
+        $this->Loader = $Loader;
     }
 
     /**
      * Registering a plugin should involve any tasks the plugin needs to be setup
      * and start working.
      *
-     * At minimum the following should occur:
-     * - Set up the plugin for autoloading
-     * - Add any callbacks associated with the plugin to the Mediator
+     * See class level documentation for more information on what occurs when you
+     * register a plugin.
      *
      * @param \SprayFire\Plugin\PluginSignature $Signature
      * @return \SprayFire\Plugin\FirePlugin\Manager
@@ -80,15 +80,9 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
     public function registerPlugin(SFPlugin\PluginSignature $Signature) {
         $name = $Signature->getName();
         $this->Loader->registerNamespaceDirectory($name, $Signature->getDirectory());
+
         if ($Signature->initializePlugin()) {
             $this->Initializer->initializePlugin($name);
-        }
-        foreach($Signature->getCallbacks() as $Callback) {
-            if (!($Callback instanceof SFMediator\Callback)) {
-                $message = 'Only \SprayFire\Mediator\Callback objects may be returned from your PluginSignature::getCallbacks() method.';
-                throw new \InvalidArgumentException($message);
-            }
-            $this->Mediator->addCallback($Callback);
         }
 
         $this->registeredPlugins[] = $Signature;
@@ -97,6 +91,9 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
 
     /**
      * The $plugins parameter should be a structure containing \SprayFire\Plugin\PluginSignature[].
+     *
+     * See class level documentation for more information on what occurs when you
+     * register a plugin.
      *
      * An exception should be thrown when an element in $plugins does not properly
      * implement the PluginSignature interface.
