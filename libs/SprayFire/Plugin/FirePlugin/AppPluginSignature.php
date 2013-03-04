@@ -26,37 +26,14 @@ class AppPluginSignature extends PluginSignature {
     /**
      * @param \SprayFire\FileSys\PathGenerator $Paths
      * @param \SprayFire\Http\Routing\RoutedRequest $RoutedRequest
-     * @param \SprayFire\Plugin\FirePlugin\PluginInitializer $Initializer
+     * @param boolean $autoInitialize
      */
-    public function __construct(
-        SFFileSys\PathGenerator $Paths,
-        SFRouting\RoutedRequest $RoutedRequest,
-        PluginInitializer $Initializer
-    ) {
+    public function __construct(SFFileSys\PathGenerator $Paths, SFRouting\RoutedRequest $RoutedRequest, $autoInitialize = true) {
         $name = $RoutedRequest->getAppNamespace();
         $dir = $Paths->getAppPath();
-        $callback = $this->getCallback($Initializer, $name);
+        $callback = function() { return []; };
 
-        parent::__construct($name, $dir, $callback);
-    }
-
-    /**
-     * Returns a callback function that can be passed to FirePlugin\PluginSignature
-     * that returns a list of Mediator\Callback objects that should be added to
-     * Mediator.
-     *
-     * @param \SprayFire\Plugin\FirePlugin\PluginInitializer $Initializer
-     * @param string $name
-     * @return callable
-     */
-    protected function getCallback(PluginInitializer $Initializer, $name) {
-        return function() use($Initializer, $name) {
-            $eventName = \SprayFire\Events::APP_LOAD;
-            $eventCallback = function() use($Initializer, $name) {
-                $Initializer->initializePlugin($name);
-            };
-            return [new FireMediator\Callback($eventName, $eventCallback)];
-        };
+        parent::__construct($name, $dir, $callback, $autoInitialize);
     }
 
 }
