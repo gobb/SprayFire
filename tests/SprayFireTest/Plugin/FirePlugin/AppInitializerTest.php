@@ -5,9 +5,10 @@
  * @brief Holds a PHPUnit test case to confirm the functionality of AppInitializerTest
  */
 
-namespace SprayFireTest\Dispatcher\FireDispatcher;
+namespace SprayFireTest\Plugin\FirePlugin;
 
-use \SprayFire\Dispatcher\FireDispatcher as SFDispatcher,
+use \SprayFire\Plugin\FirePlugin as FirePlugin,
+    \SprayFire\Dispatcher\FireDispatcher as SFDispatcher,
     \PHPUnit_Framework_TestCase as PHPUnitTestCase;
 
 /**
@@ -55,7 +56,7 @@ class AppInitializerTest extends PHPUnitTestCase {
         $installDir = \SPRAYFIRE_ROOT . '/tests/SprayFireTest/mockframework';
         $RootPaths = new \SprayFire\FileSys\FireFileSys\RootPaths($installDir);
         $Paths = new \SprayFire\FileSys\FireFileSys\Paths($RootPaths);
-        return new \SprayFire\Dispatcher\FireDispatcher\AppInitializer($this->Container, $Paths, $this->ClassLoader);
+        return new FirePlugin\AppInitializer($this->Container, $Paths, $this->ClassLoader);
     }
 
     protected function getServiceContainer() {

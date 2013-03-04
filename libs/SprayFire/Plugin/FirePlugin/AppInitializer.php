@@ -7,10 +7,10 @@
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
  * @version 0.2
- * @since   0.1
+ * @since   0.2
  */
 
-namespace SprayFire\Dispatcher\FireDispatcher;
+namespace SprayFire\Plugin\FirePlugin;
 
 use \SprayFire\Dispatcher as SFDispatcher,
     \SprayFire\Service as SFService,
@@ -29,7 +29,7 @@ use \SprayFire\Dispatcher as SFDispatcher,
  * @package SprayFire
  * @subpackage Dispatcher.FireDispatcher
  */
-class AppInitializer extends SFStdLib\CoreObject implements SFDispatcher\AppInitializer {
+class AppInitializer extends SFStdLib\CoreObject {
 
     /**
      * Is here to provide the bootstrap process for the application a way to setup
@@ -38,7 +38,7 @@ class AppInitializer extends SFStdLib\CoreObject implements SFDispatcher\AppInit
      * Also here to ensure the application we parse from the SprayFire.Http.Routing.RoutedRequest
      * gets autoloading setup properly.
      *
-     * @property ClassLoader.Loader
+     * @property \ClassLoader\Loader
      */
     protected $ClassLoader;
 
@@ -46,7 +46,7 @@ class AppInitializer extends SFStdLib\CoreObject implements SFDispatcher\AppInit
      * Is here to provide the bootstrap process for the application the service
      * container so that the appropriate application specific services may be added.
      *
-     * @property SprayFire.Service.Container
+     * @property \SprayFire\Service\Container
      */
     protected $Container;
 
@@ -54,7 +54,7 @@ class AppInitializer extends SFStdLib\CoreObject implements SFDispatcher\AppInit
      * Is here to provide the directory that application specific classes should
      * be autoloaded from.
      *
-     * @property SprayFire.FileSys.PathGenerator
+     * @property \SprayFire\FileSys\PathGenerator
      */
     protected $Paths;
 
