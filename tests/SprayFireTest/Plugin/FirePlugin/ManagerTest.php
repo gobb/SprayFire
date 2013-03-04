@@ -90,6 +90,10 @@ class ManagerTest extends PHPUnitTestCase {
         $Manager->registerPlugin($SprayFire);
     }
 
+    /**
+     * Ensures that plugins returning valid callbacks are properly added to
+     * Mediator.
+     */
     public function testRegisterValidPluginCallbacksActuallyCallsMediator() {
         $Loader = $this->getClassLoader();
         $Mediator = $this->getMediator();
@@ -114,7 +118,23 @@ class ManagerTest extends PHPUnitTestCase {
                  ->with($bazCallback);
 
         $Manager->registerPlugin($Foo)->registerPlugin($Bar)->registerPlugin($Baz);
+    }
 
+    public function testRegisteringMultiplePluginsPassedAsArray() {
+        $Loader = $this->getClassLoader();
+        $Mediator = $this->getMediator();
+        $Manager = $this->getManager($Loader, $Mediator);
+
+        $noCallbacks = function() { return []; };
+
+        $Foo = new FirePlugin\PluginSignature('foo', '/', $noCallbacks);
+        $Bar = new FirePlugin\PluginSignature('bar', '/', $noCallbacks);
+        $Baz = new FirePlugin\PluginSignature('baz', '/', $noCallbacks);
+
+        $expected = [$Foo, $Bar, $Baz];
+
+        $Manager->registerPlugins($expected);
+        $this->assertCount(3, $Manager->getRegisteredPlugins());
     }
 
     /**
@@ -139,6 +159,5 @@ class ManagerTest extends PHPUnitTestCase {
     protected function getManager(ClassLoader $Loader, SFMediator\Mediator $Mediator) {
         return new FirePlugin\Manager($Loader, $Mediator);
     }
-
 
 }
