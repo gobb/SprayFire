@@ -40,7 +40,8 @@ class EnvironmentConfig extends SFStdLib\CoreObject {
             \SprayFire\Events::BEFORE_CONTROLLER_INVOKED => '',
             \SprayFire\Events::BEFORE_RESPONSE_SENT => ''
         ],
-        'virtualHost' => true
+        'virtualHost' => true,
+        'autoInitializeApp' => true
     ];
 
     /**
@@ -65,6 +66,8 @@ class EnvironmentConfig extends SFStdLib\CoreObject {
      * registeredEvents   | array (default: constants in Dispatcher\Events)
      * -----------------------------------------------
      * virtualHost        | boolean (default: true)
+     * -----------------------------------------------
+     * autoInitializeApp  | boolean (default: true)
      * -----------------------------------------------
      *
      * @param array $options
@@ -99,6 +102,13 @@ class EnvironmentConfig extends SFStdLib\CoreObject {
      */
     public function useVirtualHost() {
         return (boolean) $this->options['virtualHost'];
+    }
+
+    /**
+     * @return boolean
+     */
+    public function autoInitializeApp() {
+        return (boolean) $this->options['autoInitializeApp'];
     }
 
 }
