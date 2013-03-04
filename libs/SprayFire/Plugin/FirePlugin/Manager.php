@@ -57,9 +57,17 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
      *
      * @param \SprayFire\Plugin\PluginSignature $PluginSignature
      * @return \SprayFire\Plugin\FirePlugin\Manager
+     * @throws \InvalidArgumentException
      */
     public function registerPlugin(SFPlugin\PluginSignature $Signature) {
         $this->Loader->registerNamespaceDirectory($Signature->getName(), $Signature->getDirectory());
+        foreach($Signature->getCallbacks() as $Callback) {
+            if (!($Callback instanceof SFMediator\Callback)) {
+                $message = 'Only \SprayFire\Mediator\Callback objects may be returned from your plugin\'s getCallbacks() method.';
+                throw new \InvalidArgumentException($message);
+            }
+
+        }
 
         $this->registeredPlugins[] = $Signature;
         return $this;
