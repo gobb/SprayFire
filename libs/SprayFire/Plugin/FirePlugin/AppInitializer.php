@@ -12,12 +12,11 @@
 
 namespace SprayFire\Plugin\FirePlugin;
 
-use \SprayFire\Dispatcher as SFDispatcher,
-    \SprayFire\Service as SFService,
-    \SprayFire\FileSys as SFFileSys,
-    \SprayFire\Http\Routing as SFRouting,
+use \SprayFire\Service as SFService,
+    \SprayFire\Dispatcher as SFDispatcher,
     \SprayFire\Bootstrap as SFBootstrap,
     \SprayFire\StdLib as SFStdLib,
+    \SprayFire\Mediator\FireMediator as FireMediator,
     \SprayFire\Exception as SFException,
     \ClassLoader\Loader as ClassLoader;
 
@@ -28,6 +27,11 @@ use \SprayFire\Dispatcher as SFDispatcher,
  *
  * @package SprayFire
  * @subpackage Dispatcher.FireDispatcher
+ *
+ * @todo
+ * We are still throwing \SprayFire\Dispatcher\Exception objects from this
+ * implementation we need to take a look at that and figure out where those
+ * exceptions should appropriately belong.
  */
 class AppInitializer extends SFStdLib\CoreObject {
 
@@ -51,60 +55,58 @@ class AppInitializer extends SFStdLib\CoreObject {
     protected $Container;
 
     /**
-     * Is here to provide the directory that application specific classes should
-     * be autoloaded from.
-     *
-     * @property \SprayFire\FileSys\PathGenerator
-     */
-    protected $Paths;
-
-    /**
      * @param \SprayFire\Service\Container $Container
-     * @param \SprayFire\FileSys\PathGenerator $Paths
      * @param \ClassLoader\Loader $ClassLoader
      */
-    public function __construct(SFService\Container $Container, SFFileSys\PathGenerator $Paths, ClassLoader $ClassLoader) {
+    public function __construct(SFService\Container $Container, ClassLoader $ClassLoader) {
         $this->Container = $Container;
-        $this->Paths = $Paths;
         $this->ClassLoader = $ClassLoader;
     }
 
     /**
-     * Based on the application namespace from the $RoutedRequest will setup the
-     * appropriate autoloading and determine if there is a \<AppName>\Bootstrap
+     * Based on the $appNamespace determine if there is a \<AppName>\Bootstrap
      * class that properly implements \SprayFire\Bootstrap\Bootstrapper and, if
      * so, will instantiate and invoke the runBootstrap() object for the application.
      *
      * It is assumed that your application bootstraps are expecting a \SprayFire\Service\Container
      * and a \ClassLoader\Loader are injected at construction time.
      *
-     * @param \SprayFire\Http\Routing\RoutedRequest $RoutedRequest
+     * @param string $appNamespace
      * @return void
      * @throws \SprayFire\Dispatcher\Exception\BootstrapNotFound
      * @throws \SprayFire\Dispatcher\Exception\NotBootstrapperInstance
      */
-    public function initializeApp(SFRouting\RoutedRequest $RoutedRequest) {
-        $appNamespace = $RoutedRequest->getAppNamespace();
-
-        // @codeCoverageIgnoreStart
-        // No reliable way to test
-        if (\strtolower($appNamespace) === 'sprayfire') {
-            return;
-        }
-        // @codeCoverageIgnoreEnd
-
-        $this->ClassLoader->registerNamespaceDirectory($appNamespace, $this->Paths->getAppPath());
+    public function initializeApp($appNamespace) {
         $bootstrapName = '\\' . $appNamespace . '\\Bootstrap';
         if (!\class_exists($bootstrapName)) {
-            $message = 'The application bootstrap for the RoutedRequest could not be found.  Please ensure you have created a \\' . $appNamespace . '\\Bootstrap object.';
+            $message = 'The application bootstrap for ' . $appNamespace . ' could not be found.  Please ensure you have created a \\' . $appNamespace . '\\Bootstrap object.';
             throw new SFDispatcher\Exception\BootstrapNotFound($message);
         }
+
+        /** @var \SprayFire\Bootstrap\Bootstrapper $Bootstrap */
         $Bootstrap = new $bootstrapName($this->Container, $this->ClassLoader);
         if (($Bootstrap instanceof SFBootstrap\Bootstrapper) === false) {
             $message = 'The application bootstrap, ' . $bootstrapName . ', for the RoutedRequest does not implement the appropriate interface, \\SprayFire\\Bootstrap\\Bootstrapper';
             throw new SFDispatcher\Exception\NotBootstrapperInstance($message);
         }
+
         $Bootstrap->runBootstrap();
+    }
+
+    /**
+     * Provides a convenience method to easily retrieve a \SprayFire\Mediator\Callback
+     * that will call AppInitializer::initializeApp with the given $appNamespace.
+     *
+     * @param string $appNamespace
+     * @return \SprayFire\Mediator\FireMediator\Callback
+     */
+    public function getAppLoadCallback($appNamespace) {
+        $eventName = \SprayFire\Events::APP_LOAD;
+        $Initializer = $this;
+        $callback = function() use($Initializer, $appNamespace) {
+            $Initializer->initializeApp($appNamespace);
+        };
+        return new FireMediator\Callback($eventName, $callback);
     }
 
 }
