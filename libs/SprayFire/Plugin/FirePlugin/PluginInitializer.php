@@ -13,11 +13,9 @@
 namespace SprayFire\Plugin\FirePlugin;
 
 use \SprayFire\Service as SFService,
-    \SprayFire\Dispatcher as SFDispatcher,
     \SprayFire\Bootstrap as SFBootstrap,
     \SprayFire\StdLib as SFStdLib,
-    \SprayFire\Mediator\FireMediator as FireMediator,
-    \SprayFire\Exception as SFException,
+    \SprayFire\Plugin\Exception as SFPluginException,
     \ClassLoader\Loader as ClassLoader;
 
 /**
@@ -27,11 +25,6 @@ use \SprayFire\Service as SFService,
  *
  * @package SprayFire
  * @subpackage Dispatcher.FireDispatcher
- *
- * @todo
- * We are still throwing \SprayFire\Dispatcher\Exception objects from this
- * implementation we need to take a look at that and figure out where those
- * exceptions should appropriately belong.
  */
 class PluginInitializer extends SFStdLib\CoreObject {
 
@@ -73,21 +66,22 @@ class PluginInitializer extends SFStdLib\CoreObject {
      *
      * @param string $appNamespace
      * @return void
-     * @throws \SprayFire\Dispatcher\Exception\BootstrapNotFound
-     * @throws \SprayFire\Dispatcher\Exception\NotBootstrapperInstance
+     * @throws \SprayFire\Plugin\Exception\PluginBootstrapNotFound
+     * @throws \SprayFire\Plugin\Exception\PluginBootstrapWrongType
      */
     public function initializePlugin($appNamespace) {
         $bootstrapName = '\\' . $appNamespace . '\\Bootstrap';
         if (!\class_exists($bootstrapName)) {
-            $message = 'The application bootstrap for ' . $appNamespace . ' could not be found.  Please ensure you have created a \\' . $appNamespace . '\\Bootstrap object.';
-            throw new SFDispatcher\Exception\BootstrapNotFound($message);
+            $message = 'The bootstrap for %s could not be found.  Please ensure you have created a %s object and autoloading has been setup for %s';
+            throw new SFPluginException\PluginBootstrapNotFound(\sprintf($message, $appNamespace, $bootstrapName, $appNamespace));
         }
 
         /** @var \SprayFire\Bootstrap\Bootstrapper $Bootstrap */
         $Bootstrap = new $bootstrapName($this->Container, $this->ClassLoader);
+
         if (($Bootstrap instanceof SFBootstrap\Bootstrapper) === false) {
-            $message = 'The application bootstrap, ' . $bootstrapName . ', for the RoutedRequest does not implement the appropriate interface, \\SprayFire\\Bootstrap\\Bootstrapper';
-            throw new SFDispatcher\Exception\NotBootstrapperInstance($message);
+            $message = '%s does not properly implement the %s interface';
+            throw new SFPluginException\PluginBootstrapWrongType(\sprintf($message, $bootstrapName, '\\SprayFire\\Bootstrap\\Bootstrapper'));
         }
 
         $Bootstrap->runBootstrap();

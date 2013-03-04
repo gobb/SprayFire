@@ -35,14 +35,14 @@ class PluginInitializerTest extends PHPUnitTestCase {
     public function testAppInitializerWithInvalidNamespace() {
         $appName = 'NonExistent';
         $Initializer = $this->getInitializer($appName);
-        $this->setExpectedException('\\SprayFire\\Dispatcher\\Exception\\BootstrapNotFound');
+        $this->setExpectedException('\\SprayFire\\Plugin\\Exception\\PluginBootstrapNotFound');
         $Initializer->initializePlugin($appName);
     }
 
     public function testAppInitializerWithAppBootstrapNotBootstrapper() {
         $appName = 'AnotherApp';
         $Initializer = $this->getInitializer($appName);
-        $this->setExpectedException('\\SprayFire\\Dispatcher\\Exception\\NotBootstrapperInstance');
+        $this->setExpectedException('\\SprayFire\\Plugin\\Exception\\PluginBootstrapWrongType');
         $Initializer->initializePlugin($appName);
     }
 
