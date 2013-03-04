@@ -167,7 +167,24 @@ class ManagerTest extends PHPUnitTestCase {
                     ->with('foo');
 
         $Manager->registerPlugin($DoInit)->registerPlugin($DontDoInit);
+    }
 
+    /**
+     * Ensures that we are initializing when the plugin has been set to initialize.
+     */
+    public function testManagerIsInitializingWhenSetToFalse() {
+        $Loader = $this->getClassLoader();
+        $Mediator = $this->getMediator();
+        $Initializer = $this->getPluginInitializer($Loader);
+        $Manager = $this->getManager($Loader, $Mediator, $Initializer);
+
+        $DoInit = new FirePlugin\PluginSignature('foo', '/', function() { return []; }, false);
+        $DontDoInit = new FirePlugin\PluginSignature('bar', '/', function() { return []; }, false);
+
+        $Initializer->expects($this->never())
+            ->method('initializePlugin');
+
+        $Manager->registerPlugin($DoInit)->registerPlugin($DontDoInit);
     }
 
     /**
