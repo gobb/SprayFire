@@ -37,6 +37,26 @@ class ManagerTest extends PHPUnitTestCase {
     }
 
     /**
+     * Ensures that after a plugin is registered it is returned appropriately in
+     * the collection of registered plugins.
+     */
+    public function testGettingRegisteredPluginsAfterSomeRegisteredReturnsRightCollection() {
+        $Loader = $this->getClassLoader();
+        $Mediator = $this->getMediator();
+        $Manager = $this->getManager($Loader, $Mediator);
+
+        $noCallbacks = function() { return []; };
+
+        $Foo = new FirePlugin\PluginSignature('foo', '/', $noCallbacks);
+        $Bar = new FirePlugin\PluginSignature('bar', '/', $noCallbacks);
+        $Baz = new FirePlugin\PluginSignature('baz', '/', $noCallbacks);
+
+        $Manager->registerPlugin($Foo)->registerPlugin($Bar)->registerPlugin($Baz);
+
+        $this->assertSame([$Foo, $Bar, $Baz], $Manager->getRegisteredPlugins());
+    }
+
+    /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function getClassLoader() {
