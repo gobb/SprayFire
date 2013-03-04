@@ -40,6 +40,13 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
     protected $Mediator;
 
     /**
+     * Used to initialize and bootstrap the plugin if necessary.
+     *
+     * @property \SprayFire\Plugin\FirePlugin\PluginInitializer
+     */
+    protected $Initializer;
+
+    /**
      * A collection of \SprayFire\Plugin\PluginSignature objects that have been
      * registered by this Manager.
      *
@@ -50,10 +57,12 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
     /**
      * @param \ClassLoader\Loader $Loader
      * @param \SprayFire\Mediator\Mediator $Mediator
+     * @param \SprayFire\Plugin\FirePlugin\PluginInitializer $Initializer
      */
-    public function __construct(ClassLoader $Loader, SFMediator\Mediator $Mediator) {
+    public function __construct(ClassLoader $Loader, SFMediator\Mediator $Mediator, PluginInitializer $Initializer) {
         $this->Loader = $Loader;
         $this->Mediator = $Mediator;
+        $this->Initializer = $Initializer;
     }
 
     /**
@@ -69,7 +78,11 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
      * @throws \InvalidArgumentException
      */
     public function registerPlugin(SFPlugin\PluginSignature $Signature) {
-        $this->Loader->registerNamespaceDirectory($Signature->getName(), $Signature->getDirectory());
+        $name = $Signature->getName();
+        $this->Loader->registerNamespaceDirectory($name, $Signature->getDirectory());
+        if ($Signature->initializePlugin()) {
+            $this->Initializer->initializePlugin($name);
+        }
         foreach($Signature->getCallbacks() as $Callback) {
             if (!($Callback instanceof SFMediator\Callback)) {
                 $message = 'Only \SprayFire\Mediator\Callback objects may be returned from your PluginSignature::getCallbacks() method.';
@@ -88,7 +101,7 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
      * An exception should be thrown when an element in $plugins does not properly
      * implement the PluginSignature interface.
      *
-     * @param array|Traversable $plugins
+     * @param array|\Traversable $plugins
      * @return \SprayFire\Plugin\FirePlugin\Manager
      * @throws \InvalidArgumentException
      */
@@ -103,7 +116,7 @@ class Manager extends SFStdLib\CoreObject implements SFPlugin\Manager {
      * Will return a collection of \SprayFire\Plugin\PluginSignature implementations
      * that have been registered so far.
      *
-     * @return array|Traversable
+     * @return array|\Traversable
      */
     public function getRegisteredPlugins() {
         return $this->registeredPlugins;
