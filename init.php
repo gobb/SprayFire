@@ -113,7 +113,7 @@ function startProcessing() {
         $EventRegistry->registerEvent($eventName, $eventType);
     }
 
-    $AppInitializer = new FireDispatcher\AppInitializer($Container, $Paths, $ClassLoader);
+    $AppInitializer = new FirePlugin\AppInitializer($Container, $Paths, $ClassLoader);
     $AppInitializer->initializeApp($RoutedRequest);
 
     $Dispatcher = new FireDispatcher\Dispatcher($Mediator, $ControllerFactory, $ResponderFactory);
