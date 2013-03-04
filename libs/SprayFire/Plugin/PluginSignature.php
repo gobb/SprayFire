@@ -48,4 +48,14 @@ interface PluginSignature extends SFObject {
      */
     public function getCallbacks();
 
+    /**
+     * Return true or false if the plugin has a bootstrap that should be ran
+     * when the plugin is registered.
+     *
+     * By convention we typically expect this to mean
+     *
+     * @return boolean
+     */
+    public function initializePlugin();
+
 }
