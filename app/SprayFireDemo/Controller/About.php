@@ -10,11 +10,11 @@
  * @since   0.1
  */
 
-namespace SprayFire\Controller\FireController;
+namespace SprayFireDemo\Controller;
 
-use \SprayFire\Controller as SFController,
-    \SprayFire\Mediator as SFMediator,
-    \SprayFire\Responder\Template as SFResponderTemplate;
+use \SprayFire\Mediator as SFMediator,
+    \SprayFire\Controller\FireController as FireController,
+    \SprayFire\Responder\Template\FireTemplate as FireTemplate;
 
 
 /**
@@ -33,7 +33,7 @@ use \SprayFire\Controller as SFController,
  * @property \SprayFire\Responder\Template\FireTemplate\Manager $TemplateManager
  * @property \SprayFire\Logging\FireLogging\LogOverseer $Logging
  */
-class About extends Base implements SFController\Controller {
+class About extends FireController\Base {
 
     /**
      * Ensures that the default layout template is set in the $TemplateManager
@@ -42,8 +42,8 @@ class About extends Base implements SFController\Controller {
      * @return void
      */
     public function beforeAction(SFMediator\Event $Event) {
-        $filePath = $this->Paths->getLibsPath('SprayFire/Responder/html/layout/default.php');
-        $LayoutTemplate = new SFResponderTemplate\FireTemplate\FileTemplate('layoutContent', $filePath);
+        $filePath = $this->Paths->getAppPath('SprayFireDemo/templates/layout/default.php');
+        $LayoutTemplate = new FireTemplate\FileTemplate('layoutContent', $filePath);
         $this->TemplateManager->setLayoutTemplate($LayoutTemplate);
     }
 
@@ -54,8 +54,8 @@ class About extends Base implements SFController\Controller {
      */
     public function sprayFire() {
         $templateName = 'templateContent';
-        $filePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'about.php');
-        $BodyTemplate = new SFResponderTemplate\FireTemplate\FileTemplate($templateName, $filePath);
+        $filePath = $this->Paths->getAppPath('SprayFireDemo/templates/about.php');
+        $BodyTemplate = new FireTemplate\FileTemplate($templateName, $filePath);
         $this->TemplateManager->addContentTemplate($BodyTemplate);
 
         $messages = [
