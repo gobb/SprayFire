@@ -93,20 +93,4 @@ class PluginInitializer extends SFStdLib\CoreObject {
         $Bootstrap->runBootstrap();
     }
 
-    /**
-     * Provides a convenience method to easily retrieve a \SprayFire\Mediator\Callback
-     * that will call AppInitializer::initializeApp with the given $appNamespace.
-     *
-     * @param string $appNamespace
-     * @return \SprayFire\Mediator\FireMediator\Callback
-     */
-    public function getAppLoadCallback($appNamespace) {
-        $eventName = \SprayFire\Events::APP_LOAD;
-        $Initializer = $this;
-        $callback = function() use($Initializer, $appNamespace) {
-            $Initializer->initializePlugin($appNamespace);
-        };
-        return new FireMediator\Callback($eventName, $callback);
-    }
-
 }
