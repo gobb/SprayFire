@@ -22,12 +22,6 @@ namespace SprayFire;
 abstract class Events {
 
     /**
-     * Should be invoked before any kind of dispatching is done and after all
-     * framework provided services have been added to the Container.
-     */
-    const APP_LOAD = 'plugin_manager.app_load';
-
-    /**
      * Should be invoked before the routed controller is invoked and should set
      * the target as a SprayFire.Controller.Controller.
      */
