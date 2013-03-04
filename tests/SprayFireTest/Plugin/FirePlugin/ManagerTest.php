@@ -134,6 +134,10 @@ class ManagerTest extends PHPUnitTestCase {
         $expected = [$Foo, $Bar, $Baz];
 
         $Manager->registerPlugins($expected);
+
+        // we're only checking if in Manager::getRegisteredPlugins to reduce
+        // testing code needed. we assume that if you add it to the collection
+        // returned from this method that you actually, well, registered it.
         $this->assertCount(3, $Manager->getRegisteredPlugins());
     }
 
