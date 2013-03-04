@@ -97,6 +97,9 @@ function startProcessing() {
     $ControllerFactory = new FireController\Factory($ReflectionCache, $Container, $LogOverseer);
     $ResponderFactory = new FireResponder\Factory($ReflectionCache, $Container, $LogOverseer);
 
+    $PluginInitializer = new FirePlugin\PluginInitializer($Container, $ClassLoader);
+    $PluginManager = new FirePlugin\Manager($ClassLoader, $Mediator, $PluginInitializer);
+
     $Container->addService($Request);
     $Container->addService($ClassLoader);
     $Container->addService($Paths);
@@ -108,13 +111,16 @@ function startProcessing() {
     $Container->addService($TemplateManager);
     $Container->addService($LogOverseer);
     $Container->addService($EnvironmentConfig);
+    $Container->addService($PluginManager);
 
     foreach ($EnvironmentConfig->getRegisteredEvents() as $eventName => $eventType) {
         $EventRegistry->registerEvent($eventName, $eventType);
     }
 
-    $AppInitializer = new FirePlugin\AppInitializer($Container, $Paths, $ClassLoader);
-    $AppInitializer->initializeApp($RoutedRequest);
+    $AppSignature = new FirePlugin\AppPluginSignature($Paths, $RoutedRequest, $PluginInitializer);
+    $PluginManager->registerPlugin($AppSignature);
+
+    $Mediator->triggerEvent(\SprayFire\Events::APP_LOAD, $PluginManager);
 
     $Dispatcher = new FireDispatcher\Dispatcher($Mediator, $ControllerFactory, $ResponderFactory);
     $Dispatcher->dispatchResponse($RoutedRequest);
@@ -128,6 +134,4 @@ function startProcessing() {
     }
 }
 
-startProcessing();
-
-
+\startProcessing();
