@@ -93,6 +93,18 @@ class ManagerTest extends PHPUnitTestCase {
         $this->assertCount(3, $Manager->getRegisteredPlugins());
     }
 
+    public function testRegisteringMultiplePluginsWhereOneIsNotASignatureThrowException() {
+        $Loader = $this->getClassLoader();
+        $Initializer = $this->getPluginInitializer($Loader);
+        $Manager = $this->getManager($Initializer, $Loader);
+
+        $Foo = new FirePlugin\PluginSignature('foo', '/');
+        $Bar = new \stdClass();
+
+        $this->setExpectedException('\InvalidArgumentException');
+        $Manager->registerPlugins([$Foo, $Bar]);
+    }
+
     /**
      * Ensures that we are initializing when the plugin has been set to initialize.
      */
