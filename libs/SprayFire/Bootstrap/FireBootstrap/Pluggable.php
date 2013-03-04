@@ -13,7 +13,7 @@ namespace SprayFire\Bootstrap\FireBootstrap;
 
 use \SprayFire\Bootstrap as SFBootstrap,
     \SprayFire\Service as SFService,
-    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\StdLib as SFStdLib,
     \ClassLoader\Loader as ClassLoader;
 
 /**
@@ -24,7 +24,7 @@ use \SprayFire\Bootstrap as SFBootstrap,
  * @package SprayFire
  * @subpackage Bootstrap.FireBootstrap
  */
-abstract class Pluggable extends SFCoreObject implements SFBootstrap\Bootstrapper {
+abstract class Pluggable extends SFStdLib\CoreObject implements SFBootstrap\Bootstrapper {
 
     /**
      * Container used by framework to hold your services; add services that your
