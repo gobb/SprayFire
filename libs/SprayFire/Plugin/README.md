@@ -30,8 +30,6 @@ This is how you tell the `Plugin\Manager` the information about your plugin; thi
 
 ### SprayFire\Plugin\FirePlugin\PluginSignature
 
-### SprayFire\Plugin\FirePlugin\AppPluginSignature
-
 ### SprayFire\Plugin\FirePlugin\PluginInitializer
 
 ### SprayFire\Plugin\FirePlugin\Manager
