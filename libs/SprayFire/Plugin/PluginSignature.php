@@ -20,6 +20,17 @@ use \SprayFire\Object as SFObject;
 interface PluginSignature extends SFObject {
 
     /**
+     * Constant used to determine that a plugin SHOULD be initialized; that is a
+     * bootstrap should be ran for that plugin.
+     */
+    const DO_INITIALIZE = true;
+
+    /**
+     * Constant used to determine that a plugin SHOULD NOT be initialized.
+     */
+    const DO_NOT_INITIALIZE = false;
+
+    /**
      * Return the name of the plugin, this should correspond to the top level
      * namespace for your plugin.
      *
@@ -42,7 +53,9 @@ interface PluginSignature extends SFObject {
      * Return true or false if the plugin has a bootstrap that should be ran
      * when the plugin is registered.
      *
-     * By convention we typically expect this to mean
+     * By convention we typically expect this to mean a \PluginName\Bootstrap
+     * object implements \SprayFire\Bootstrap\Bootstrapper and exists in the
+     * appropriate directory.
      *
      * @return boolean
      */

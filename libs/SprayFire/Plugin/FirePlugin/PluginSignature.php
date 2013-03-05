@@ -57,7 +57,7 @@ class PluginSignature extends SFStdLib\CoreObject implements SFPlugin\PluginSign
      * @param string $callbacks
      * @param boolean $initialize
      */
-    public function __construct($name, $dir, $initialize = true) {
+    public function __construct($name, $dir, $initialize = self::DO_INITIALIZE) {
         $this->name = (string) $name;
         $this->dir = (string) $dir;
         $this->initialize = (boolean) $initialize;
