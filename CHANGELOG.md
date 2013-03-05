@@ -2,6 +2,11 @@
 
 > All changes were implemented by Charles Sprayberry unless otherwise noted.
 
+### 0.2.0alpha
+
+- JavaNamespaceConverter from v0.1.0a has been turned into an interface + trait combo.
+- SprayFire\Utils renamed to SprayFire\StdLib. Several concrete implementations that were under the SprayFire namespace have been moved to SprayFire\StdLib. This includes the SprayFire\CoreObject and SprayFire\ValueObject implementations.
+
 ## 0.1.0alpha
 
 - Autoloading through ClassLoader library.
