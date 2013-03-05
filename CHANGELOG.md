@@ -4,8 +4,12 @@
 
 ### 0.2.0alpha
 
+- SprayFire\Plugin module that abstracts away management of apps, plugins and third party libraries into a consolidated codebase.
+- Refactored SprayFire\Dispatcher\AppInitializer into PluginInitializer in Plugin module. No longer interface backed, module specific helper object. Several Dispatcher\Exception implementations were removed or refactored as a result of this change.
+- Environment configuration added to determine whether app plugin should be auto initialized.
 - JavaNamespaceConverter from v0.1.0a has been turned into an interface + trait combo.
 - SprayFire\Utils renamed to SprayFire\StdLib. Several concrete implementations that were under the SprayFire namespace have been moved to SprayFire\StdLib. This includes the SprayFire\CoreObject and SprayFire\ValueObject implementations.
+- SprayFire\Dispatcher\Events moved out of module and renamed to SprayFire\Events. This "enum" class will store all events possibly triggered by SprayFire.
 
 ## 0.1.0alpha
 
