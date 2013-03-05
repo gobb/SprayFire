@@ -1,5 +1,7 @@
 # Changelog
 
+> All changes were implemented by Charles Sprayberry unless otherwise noted.
+
 ## 0.1.0alpha
 
 - Autoloading through ClassLoader library.
