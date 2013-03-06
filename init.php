@@ -46,9 +46,6 @@ function startProcessing() {
     $RootPaths = new FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
     $Paths = new FireFileSys\Paths($RootPaths, $EnvironmentConfig->useVirtualHost());
 
-    $ReflectionCache = new SFStdLib\ReflectionCache();
-    $Container = new FireService\Container($ReflectionCache);
-
     $getRouteBag = function() use($Paths) {
         $path = $Paths->getConfigPath('SprayFire/routes.php');
         $Bag = include $path;
@@ -107,6 +104,9 @@ function startProcessing() {
 
     $OutputEscaper = new FireResponder\OutputEscaper($EnvironmentConfig->getDefaultCharset());
     $TemplateManager = new FireTemplate\Manager();
+
+    $ReflectionCache = new SFStdLib\ReflectionCache();
+    $Container = new FireService\Container($ReflectionCache);
 
     $ControllerFactory = new FireController\Factory($ReflectionCache, $Container, $LogOverseer);
     $ResponderFactory = new FireResponder\Factory($ReflectionCache, $Container, $LogOverseer);
