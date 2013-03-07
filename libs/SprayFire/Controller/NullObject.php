@@ -48,7 +48,7 @@ class NullObject extends SFStdLib\CoreObject implements SFController\Controller 
      * to be returned from getTemplateManager()
      */
     public function __construct() {
-        $this->setUpTemplateManager();
+
     }
 
     /**
@@ -74,7 +74,7 @@ class NullObject extends SFStdLib\CoreObject implements SFController\Controller 
      * @param array $arguments
      */
     public function __call($name, $arguments) {
-
+        $this->setUpTemplateManager();
     }
 
     /**

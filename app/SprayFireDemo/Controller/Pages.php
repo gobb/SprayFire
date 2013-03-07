@@ -10,9 +10,10 @@
  * @since   0.1
  */
 
-namespace SprayFire\Controller\FireController;
+namespace SprayFireDemo\Controller;
 
 use \SprayFire\Mediator as SFMediator,
+    \SprayFire\Controller\FireController as FireController,
     \SprayFire\Responder\Template\FireTemplate as FireTemplate;
 
 /**
@@ -34,7 +35,7 @@ use \SprayFire\Mediator as SFMediator,
  * @property \SprayFire\Responder\Template\FireTemplate\Manager $TemplateManager
  * @property \SprayFire\Logging\FireLogging\LogOverseer $Logging
  */
-class Pages extends Base {
+class Pages extends FireController\Base {
 
     /**
      * Ensures that the default layout template is set in the $TemplateManager
@@ -43,7 +44,7 @@ class Pages extends Base {
      */
     public function beforeAction(SFMediator\Event $Event) {
         parent::beforeAction($Event);
-        $layoutFilePath = $this->Paths->getLibsPath('SprayFire/Responder/html/layout/default.php');
+        $layoutFilePath = $this->Paths->getAppPath('SprayFireDemo/templates/layout/default.php');
         $LayoutTemplate = new FireTemplate\FileTemplate('layoutTemplate', $layoutFilePath);
         $this->TemplateManager->setLayoutTemplate($LayoutTemplate);
     }
@@ -54,11 +55,11 @@ class Pages extends Base {
      * content.
      */
     public function index() {
-        $templateFilePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'index.php');
+        $templateFilePath = $this->Paths->getAppPath('SprayFireDemo/templates/index.php');
         $ContentTemplate = new FireTemplate\FileTemplate('templateContent', $templateFilePath);
         $this->TemplateManager->addContentTemplate($ContentTemplate);
 
-        $sidebarTemplateFilePath = $this->Paths->getLibsPath('SprayFire', 'Responder', 'html', 'sidebar.php');
+        $sidebarTemplateFilePath = $this->Paths->getAppPath('SprayFireDemo/templates/sidebar.php');
         $SidebarTemplate = new FireTemplate\FileTemplate('sidebarContent', $sidebarTemplateFilePath);
         $this->TemplateManager->addContentTemplate($SidebarTemplate);
 
@@ -76,7 +77,7 @@ class Pages extends Base {
      * dumps that information out.
      */
     public function debug() {
-        $templateFilePath = $this->Paths->getLibsPath('SprayFire/Responder/html/debug-content.php');
+        $templateFilePath = $this->Paths->getAppPath('SprayFireDemo/templates/debug-content.php');
         $ContentTemplate = new FireTemplate\FileTemplate('templateContent', $templateFilePath);
         $this->TemplateManager->addContentTemplate($ContentTemplate);
 

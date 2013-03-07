@@ -102,9 +102,9 @@ class Dispatcher extends SFStdLib\CoreObject implements SFDispatcher\Dispatcher 
 
         $ResponderName = $Controller->getResponderName();
         $Responder = $this->ResponderFactory->makeObject($ResponderName);
-        $this->Mediator->triggerEvent(SFDispatcher\Events::BEFORE_RESPONSE_SENT, $Responder);
+        $this->Mediator->triggerEvent(\SprayFire\Events::BEFORE_RESPONSE_SENT, $Responder);
         echo $Responder->generateDynamicResponse($Controller);
-        $this->Mediator->triggerEvent(SFDispatcher\Events::AFTER_RESPONSE_SENT, $Responder);
+        $this->Mediator->triggerEvent(\SprayFire\Events::AFTER_RESPONSE_SENT, $Responder);
     }
 
     /**
@@ -114,7 +114,7 @@ class Dispatcher extends SFStdLib\CoreObject implements SFDispatcher\Dispatcher 
      * @param \SprayFire\Controller\Controller $Controller
      */
     protected function addControllerBeforeActionEventToMediator(SFController\Controller $Controller) {
-        $event = SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED;
+        $event = \SprayFire\Events::BEFORE_CONTROLLER_INVOKED;
         $function = [$Controller, 'beforeAction'];
         $Callback = new FireMediator\Callback($event, $function);
         $this->Mediator->addCallback($Callback);
@@ -127,7 +127,7 @@ class Dispatcher extends SFStdLib\CoreObject implements SFDispatcher\Dispatcher 
      * @param \SprayFire\Controller\Controller $Controller
      */
     protected function addControllerAfterActionEventToMediator(SFController\Controller $Controller) {
-        $event = SFDispatcher\Events::AFTER_CONTROLLER_INVOKED;
+        $event = \SprayFire\Events::AFTER_CONTROLLER_INVOKED;
         $function = [$Controller, 'afterAction'];
         $Callback = new FireMediator\Callback($event, $function);
         $this->Mediator->addCallback($Callback);
@@ -162,11 +162,11 @@ class Dispatcher extends SFStdLib\CoreObject implements SFDispatcher\Dispatcher 
      * @return void
      */
     protected function invokeController(SFController\Controller $Controller, SFHttpRouting\RoutedRequest $RoutedRequest) {
-        $this->Mediator->triggerEvent(SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED, $Controller);
+        $this->Mediator->triggerEvent(\SprayFire\Events::BEFORE_CONTROLLER_INVOKED, $Controller);
         $actionName = $RoutedRequest->getAction();
         $parameters = $RoutedRequest->getParameters();
         \call_user_func_array([$Controller, $actionName], $parameters);
-        $this->Mediator->triggerEvent(SFDispatcher\Events::AFTER_CONTROLLER_INVOKED, $Controller);
+        $this->Mediator->triggerEvent(\SprayFire\Events::AFTER_CONTROLLER_INVOKED, $Controller);
     }
 
 }
