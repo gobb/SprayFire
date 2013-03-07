@@ -13,7 +13,6 @@ use \SprayFire\StdLib as SFStdLib,
     \SprayFire\Logging\FireLogging as FireLogging,
     \SprayFire\Plugin\FirePlugin as FirePlugin;
 
-
 function startProcessing() {
     $requestStartTime = \microtime(true);
 
@@ -133,7 +132,6 @@ function startProcessing() {
         FirePlugin\PluginSignature::DO_INITIALIZE
     );
     $PluginManager->registerPlugin($AppSignature);
-
     $PluginManager->registerPlugins($getPlugins());
 
     $Dispatcher = new FireDispatcher\Dispatcher($Mediator, $ControllerFactory, $ResponderFactory);
