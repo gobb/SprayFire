@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Utility object that provides the ability to convert Java style class names
- * into PHP style class names.
+ * A trait that satisfies the requirements for the StdLib\JavaNamespaceConverter
+ * interface.
  *
- * @author  Charles Sprayberry
+ * @author Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
- * @since   0.1
+ * @version 0.2
+ * @since   0.2
  */
 
-namespace SprayFire\Utils;
+namespace SprayFire\StdLib;
 
 /**
  * @package SprayFire
- * @subpackage Utils
+ * @subpackage StdLib
  */
-class JavaNamespaceConverter {
+trait JavaConverterTrait {
 
     /**
      * Will convert a dot separated, Java style $className into its PHP equivalent

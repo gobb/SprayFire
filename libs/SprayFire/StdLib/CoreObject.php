@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Abstract implementation of SprayFire.Object designed to provide basic functionality
+ * Abstract implementation of \SprayFire\Object designed to provide basic functionality
  * across a variety of objects, both in the framework and your applications.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
-namespace SprayFire;
+namespace SprayFire\StdLib;
 
 /**
  * It is recommended that classes needing to implement \SprayFire\Object extend
@@ -22,10 +22,11 @@ namespace SprayFire;
  * they implement require \SprayFire\Object.
  *
  * @package SprayFire
+ * @subpackage StdLib
  *
  * @codeCoverageIgnore
  */
-abstract class CoreObject implements Object {
+abstract class CoreObject implements \SprayFire\Object {
 
     /**
      * Returns a unique identifier for the object that will be the same for objects
@@ -48,7 +49,7 @@ abstract class CoreObject implements Object {
      * @param \SprayFire\Object $CompareObject
      * @return boolean
      */
-    public function equals(Object $CompareObject) {
+    public function equals(\SprayFire\Object $CompareObject) {
         return $this->hashCode() === $CompareObject->hashCode();
     }
 

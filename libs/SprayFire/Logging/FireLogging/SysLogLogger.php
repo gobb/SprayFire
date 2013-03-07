@@ -5,14 +5,14 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
 namespace SprayFire\Logging\FireLogging;
 
 use \SprayFire\Logging as SFLogging,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * There are a variety of options that can be passed to the constructor and
@@ -27,7 +27,7 @@ use \SprayFire\Logging as SFLogging,
  * @package SprayFire
  * @subpackage Logging.FireLogging
  */
-class SysLogLogger extends SFCoreObject implements SFLogging\Logger {
+class SysLogLogger extends SFStdLib\CoreObject implements SFLogging\Logger {
 
     /**
      * Will open the syslog with the appropriate options, preparing it for use.

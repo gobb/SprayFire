@@ -1,23 +1,23 @@
 <?php
 
 /**
- * An "enum" abstract class that holds constants representing the different events
- * that should be fired off by the Dispatching process.
+ * An abstract class used as an enum of events that are triggered by the framework
+ * during normal operation.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
- * @since   0.1
+ * @version 0.2
+ * @since   0.2
  */
-
-namespace SprayFire\Dispatcher;
+namespace SprayFire;
 
 /**
- * Each constant represents a target type and event name that should be triggered
- * at some point during the dispatching process.
+ * Each event follows this format: <description of target>.<description of event>
+ *
+ * The target corresponds to an object provided by the framework while the event
+ * describes what is happening at the given time.
  *
  * @package SprayFire
- * @subpackage Dispatcher
  */
 abstract class Events {
 
@@ -44,5 +44,6 @@ abstract class Events {
      * with the SprayFire.Responder.Responder that was used set as the target.
      */
     const AFTER_RESPONSE_SENT = 'responder.after_responder_sent';
+
 
 }

@@ -5,13 +5,13 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 namespace SprayFire;
 
 use \SprayFire\Dispatcher as SFDispatcher,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * Object representing SprayFire's environment configuration and controls how
@@ -19,7 +19,7 @@ use \SprayFire\Dispatcher as SFDispatcher,
  *
  * @package SprayFire
  */
-class EnvironmentConfig extends SFCoreObject {
+class EnvironmentConfig extends SFStdLib\CoreObject {
 
     /**
      * The current version of the framework.
@@ -35,12 +35,13 @@ class EnvironmentConfig extends SFCoreObject {
         'developmentMode' => false,
         'defaultCharset' => 'UTF-8',
         'registeredEvents' => [
-            SFDispatcher\Events::AFTER_CONTROLLER_INVOKED => '',
-            SFDispatcher\Events::AFTER_RESPONSE_SENT => '',
-            SFDispatcher\Events::BEFORE_CONTROLLER_INVOKED => '',
-            SFDispatcher\Events::BEFORE_RESPONSE_SENT => ''
+            \SprayFire\Events::AFTER_CONTROLLER_INVOKED => '',
+            \SprayFire\Events::AFTER_RESPONSE_SENT => '',
+            \SprayFire\Events::BEFORE_CONTROLLER_INVOKED => '',
+            \SprayFire\Events::BEFORE_RESPONSE_SENT => ''
         ],
-        'virtualHost' => true
+        'virtualHost' => true,
+        'autoInitializeApp' => true
     ];
 
     /**
@@ -65,6 +66,8 @@ class EnvironmentConfig extends SFCoreObject {
      * registeredEvents   | array (default: constants in Dispatcher\Events)
      * -----------------------------------------------
      * virtualHost        | boolean (default: true)
+     * -----------------------------------------------
+     * autoInitializeApp  | boolean (default: true)
      * -----------------------------------------------
      *
      * @param array $options
@@ -99,6 +102,13 @@ class EnvironmentConfig extends SFCoreObject {
      */
     public function useVirtualHost() {
         return (boolean) $this->options['virtualHost'];
+    }
+
+    /**
+     * @return boolean
+     */
+    public function autoInitializeApp() {
+        return (boolean) $this->options['autoInitializeApp'];
     }
 
 }

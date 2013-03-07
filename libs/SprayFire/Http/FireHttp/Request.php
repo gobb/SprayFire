@@ -5,14 +5,14 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
 namespace SprayFire\Http\FireHttp;
 
 use \SprayFire\Http as SFHttp,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * This implementation is specifically designed to work with common indexes available
@@ -24,7 +24,7 @@ use \SprayFire\Http as SFHttp,
  * @package SprayFire
  * @subpackage Http.FireHttp
  */
-class Request extends SFCoreObject implements SFHttp\Request {
+class Request extends SFStdLib\CoreObject implements SFHttp\Request {
 
     /**
      * @property SprayFire.Http.Uri

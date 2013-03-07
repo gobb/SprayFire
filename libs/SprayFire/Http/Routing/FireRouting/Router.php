@@ -6,7 +6,7 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
@@ -14,7 +14,7 @@ namespace SprayFire\Http\Routing\FireRouting;
 
 use \SprayFire\Http as SFHttp,
     \SprayFire\Http\Routing as SFHttpRouting,
-    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\StdLib as SFStdLib,
     \SplObjectStorage as SplObjectStorage;
 
 /**
@@ -29,7 +29,7 @@ use \SprayFire\Http as SFHttp,
  * @package SprayFire
  * @subpackage Http.Routing.FireRouting
  */
-class Router extends SFCoreObject implements SFHttpRouting\Router {
+class Router extends SFStdLib\CoreObject implements SFHttpRouting\Router {
 
     /**
      * @property \SprayFire\Http\Routing\MatchStrategy

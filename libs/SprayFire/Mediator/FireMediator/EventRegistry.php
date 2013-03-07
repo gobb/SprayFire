@@ -6,14 +6,14 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
 namespace SprayFire\Mediator\FireMediator;
 
 use \SprayFire\Mediator\Exception as SFMediatorException,
-    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\StdLib as SFStdLib,
     \ArrayIterator as ArrayIterator,
     \IteratorAggregate as IteratorAggregate;
 
@@ -27,7 +27,7 @@ use \SprayFire\Mediator\Exception as SFMediatorException,
  * @package SprayFire
  * @subpackage Mediator.FireMediator
  */
-class EventRegistry extends SFCoreObject implements IteratorAggregate {
+class EventRegistry extends SFStdLib\CoreObject implements IteratorAggregate {
 
     /**
      * Key value array storing [$eventName => $targetType]

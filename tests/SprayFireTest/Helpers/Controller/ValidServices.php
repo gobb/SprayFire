@@ -21,10 +21,10 @@ class ValidServices extends \SprayFire\Controller\FireController\Base {
 
 }
 
-class ServiceOne extends \SprayFire\CoreObject {
+class ServiceOne extends \SprayFire\StdLib\CoreObject {
 
 }
 
-class ServiceTwo extends \SprayFire\CoreObject {
+class ServiceTwo extends \SprayFire\StdLib\CoreObject {
 
 }

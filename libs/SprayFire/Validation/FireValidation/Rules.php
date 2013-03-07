@@ -5,7 +5,7 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
@@ -14,7 +14,7 @@ namespace SprayFire\Validation\FireValidation;
 use \SprayFire\Validation as SFValidation,
     \SprayFire\Validation\Check as SFValidationCheck,
     \SprayFire\Validation\Exception as SFValidationException,
-    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\StdLib as SFStdLib,
     \SplObjectStorage as SplObjectStorage;
 
 /**
@@ -25,7 +25,7 @@ use \SprayFire\Validation as SFValidation,
  * @package SprayFire
  * @subpackage Validaiton.FireValidation
  */
-class Rules extends SFCoreObject implements SFValidation\Rules {
+class Rules extends SFStdLib\CoreObject implements SFValidation\Rules {
 
     /**
      * Array of [field => SplObjectStorage[Check => breakOnFailure]]

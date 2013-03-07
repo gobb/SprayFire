@@ -6,14 +6,14 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
 namespace SprayFire\Validation\Check\FireCheck;
 
 use \SprayFire\Validation\Check as SFValidationCheck,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  *
@@ -21,7 +21,7 @@ use \SprayFire\Validation\Check as SFValidationCheck,
  * @package SprayFire
  * @subpackage Validation.Check.FireCheck
  */
-class MessageParser extends SFCoreObject implements SFValidationCheck\MessageParser {
+class MessageParser extends SFStdLib\CoreObject implements SFValidationCheck\MessageParser {
 
     /**
      * The beginning delimiter to match tokens in $message being parsed

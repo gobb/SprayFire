@@ -5,14 +5,14 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
 namespace SprayFire;
 
 use \SprayFire\Logging as SFLogging,
-    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\StdLib as SFStdLib,
     \Exception as Exception;
 
 /**
@@ -21,12 +21,12 @@ use \SprayFire\Logging as SFLogging,
  *
  * @package SprayFire
  */
-class Handler extends SFCoreObject {
+class Handler extends SFStdLib\CoreObject {
 
     /**
      * Provides facilities to log error messages that are trapped.
      *
-     * @property SprayFire.Logging.LogOverseer
+     * @property \SprayFire\Logging\LogOverseer
      */
     protected $Logger;
 

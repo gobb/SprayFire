@@ -6,7 +6,7 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
@@ -14,8 +14,7 @@ namespace SprayFire\Factory\FireFactory;
 
 use \SprayFire\Factory as SFFactory,
     \SprayFire\Logging as SFLogging,
-    \SprayFire\Utils as SFUtils,
-    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\StdLib as SFStdLib,
     \ReflectionException as ReflectionException,
     \InvalidArgumentException as InvalidArgumentException;
 
@@ -29,11 +28,11 @@ use \SprayFire\Factory as SFFactory,
  * @todo
  * Look at implementing a strategy pattern for dealing with Factory error handling.
  */
-abstract class Base extends SFCoreObject implements SFFactory\Factory {
+abstract class Base extends SFStdLib\CoreObject implements SFFactory\Factory {
     /**
      * Cache to help prevent unneeded ReflectionClass from being created.
      *
-     * @property \SprayFire\ReflectionCache
+     * @property \SprayFire\StdLib\ReflectionCache
      */
     protected $ReflectionCache;
 
@@ -56,18 +55,18 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
      * A helper object to ensure that the appropriate types are returned from
      * Base::makeObject
      *
-     * @property \SprayFire\Core\Util\ObjectTypeValidator
+     * @property \SprayFire\Factory\FireFactory\ObjectTypeValidator
      */
     protected $TypeValidator;
 
     /**
-     * @param \SprayFire\Utils\ReflectionCache $Cache
+     * @param \SprayFire\StdLib\ReflectionCache $Cache
      * @param \SprayFire\Logging\LogOverseer $LogOverseer
      * @param string $returnTypeRestriction
      * @param string $nullObject
      * @throws \SprayFire\Factory\Exception\TypeNotFound
      */
-    public function __construct(SFUtils\ReflectionCache $Cache, SFLogging\LogOverseer $LogOverseer, $returnTypeRestriction, $nullObject) {
+    public function __construct(SFStdLib\ReflectionCache $Cache, SFLogging\LogOverseer $LogOverseer, $returnTypeRestriction, $nullObject) {
         $this->ReflectionCache = $Cache;
         $this->LogOverseer = $LogOverseer;
         $this->TypeValidator = $this->createTypeValidator($returnTypeRestriction);
@@ -82,7 +81,7 @@ abstract class Base extends SFCoreObject implements SFFactory\Factory {
      * validating types correctly.
      *
      * @param string $objectType
-     * @return \SprayFire\ObjectTypeValidator
+     * @return \SprayFire\Factory\FireFactory\ObjectTypeValidator
      * @throws \SprayFire\Factory\Exception\TypeNotFound
      */
     protected function createTypeValidator($objectType) {

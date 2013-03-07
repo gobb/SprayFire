@@ -6,14 +6,14 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
 namespace SprayFire\Logging\FireLogging;
 
 use \SprayFire\Logging as SFLogging,
-    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\StdLib as SFStdLib,
     \SplFileInfo as SplFileInfo,
     \RuntimeException as RuntimeException,
     \InvalidArgumentException as InvalidArgumentException;
@@ -23,7 +23,7 @@ use \SprayFire\Logging as SFLogging,
  * @package SprayFire
  * @subpackage Logging.FireLogging
  */
-class FileLogger extends SFCoreObject implements SFLogging\Logger  {
+class FileLogger extends SFStdLib\CoreObject implements SFLogging\Logger  {
 
     /**
      * Representation of the file we are writing to.

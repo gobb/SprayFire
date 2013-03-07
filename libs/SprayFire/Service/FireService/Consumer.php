@@ -6,14 +6,14 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
 namespace SprayFire\Service\FireService;
 
 use \SprayFire\Service as SFService,
-    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\StdLib as SFStdLib,
     \InvalidArgumentException as InvalidArgumentException,
     \BadMethodCallException as BadMethodCallException;
 
@@ -21,7 +21,7 @@ use \SprayFire\Service as SFService,
  * @package SprayFire
  * @subpackage Service.FireService
  */
-abstract class Consumer extends SFCoreObject implements SFService\Consumer {
+abstract class Consumer extends SFStdLib\CoreObject implements SFService\Consumer {
 
     /**
      * @property array

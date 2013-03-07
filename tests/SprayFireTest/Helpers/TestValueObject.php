@@ -10,7 +10,7 @@ namespace SprayFireTest\Helpers;
 /**
  * @brief
  */
-class TestValueObject extends \SprayFire\ValueObject {
+class TestValueObject extends \SprayFire\StdLib\ValueObject {
 
     protected $name = 'John Doe';
 

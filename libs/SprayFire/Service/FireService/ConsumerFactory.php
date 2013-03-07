@@ -6,14 +6,14 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
 namespace SprayFire\Service\FireService;
 
 use \SprayFire\Service as SFService,
-    \SprayFire\Utils as SFUtils,
+    \SprayFire\StdLib as SFStdLib,
     \SprayFire\Logging as SFLogging,
     \SprayFire\Factory\FireFactory as FireFactory,
     \SprayFire\Exception as SFException,
@@ -36,19 +36,19 @@ abstract class ConsumerFactory extends FireFactory\Base {
      * The Container that we will be pulling services from when creating the
      * appropriate Consumer.
      *
-     * @property SprayFire.Service.Container
+     * @property \SprayFire\Service\Container
      */
     protected $Container;
 
     /**
-     * @param \SprayFire\Utils\ReflectionCache $Cache
+     * @param \SprayFire\StdLib\ReflectionCache $Cache
      * @param \SprayFire\Service\Container $Container
      * @param \SprayFire\Logging\LogOverseer $LogOverseer
      * @param string $type
      * @param string $nullObject
      */
     public function __construct(
-        SFUtils\ReflectionCache $Cache,
+        SFStdLib\ReflectionCache $Cache,
         SFService\Container $Container,
         SFLogging\LogOverseer $LogOverseer,
         $type,

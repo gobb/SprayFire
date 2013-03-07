@@ -1,16 +1,17 @@
 <?php
 
-use \SprayFire\FileSys\FireFileSys as FireFileSys,
+use \SprayFire\StdLib as SFStdLib,
+    \SprayFire\Controller\FireController as FireController,
+    \SprayFire\Http\FireHttp as FireHttp,
+    \SprayFire\FileSys\FireFileSys as FireFileSys,
     \SprayFire\Service\FireService as FireService,
     \SprayFire\Dispatcher\FireDispatcher as FireDispatcher,
-    \SprayFire\Http\FireHttp as FireHttp,
     \SprayFire\Http\Routing\FireRouting as FireRouting,
     \SprayFire\Mediator\FireMediator as FireMediator,
-    \SprayFire\Controller\FireController as FireController,
     \SprayFire\Responder\FireResponder as FireResponder,
     \SprayFire\Responder\Template\FireTemplate as FireTemplate,
     \SprayFire\Logging\FireLogging as FireLogging,
-    \SprayFire\Utils as SFUtils;
+    \SprayFire\Plugin\FirePlugin as FirePlugin;
 
 function startProcessing() {
     $requestStartTime = \microtime(true);
@@ -38,17 +39,14 @@ function startProcessing() {
         return new \SprayFire\EnvironmentConfig($config);
     };
 
+    /** @var \SprayFire\EnvironmentConfig $EnvironmentConfig */
     $EnvironmentConfig = $getEnvironmentConfig();
 
     $RootPaths = new FireFileSys\RootPaths($installPath, $libsPath, $appPath, $webPath, $configPath, $logsPath);
     $Paths = new FireFileSys\Paths($RootPaths, $EnvironmentConfig->useVirtualHost());
 
-    $JavaNameConverter = new SFUtils\JavaNamespaceConverter();
-    $ReflectionCache = new SFUtils\ReflectionCache($JavaNameConverter);
-    $Container = new FireService\Container($ReflectionCache);
-
-    $getRouteBag = function() use ($Paths) {
-        $path = $Paths->getConfigPath('SprayFire', 'routes.php');
+    $getRouteBag = function() use($Paths) {
+        $path = $Paths->getConfigPath('SprayFire/routes.php');
         $Bag = include $path;
         if (!$Bag instanceof \SprayFire\Http\Routing\RouteBag) {
             $message = 'The return value from %s must be a \SprayFire\Http\Routing\RouteBag implementation.';
@@ -56,6 +54,17 @@ function startProcessing() {
             $Bag = new FireRouting\RouteBag();
         }
         return $Bag;
+    };
+
+    $getPlugins = function() use($Paths, $EnvironmentConfig) {
+        $path = $Paths->getConfigPath('SprayFire/plugins.php');
+        $plugins = include $path;
+        if (!\is_array($plugins) && !($plugins instanceof \stdClass) && !($plugins instanceof \Traversable)) {
+            $message = 'The return value from %s must be a valid foreach argument.';
+            \trigger_error(\sprintf($message, $path), \E_USER_NOTICE);
+            $plugins = [];
+        }
+        return $plugins;
     };
 
     /**
@@ -78,8 +87,11 @@ function startProcessing() {
     $Headers = new FireHttp\RequestHeaders();
     $Request = new FireHttp\Request($Uri, $Headers);
 
+    // this is here to ensure that if we aren't using virtual host the basename
+    // of the install path is removed from the URI
     $installDir = $EnvironmentConfig->useVirtualHost() ? null : \basename($Paths->getInstallPath());
     $Strategy = new FireRouting\ConfigurationMatchStrategy($installDir);
+
     $RouteBag = $getRouteBag();
     $Normalizer = new FireRouting\Normalizer();
     $Router = new FireRouting\Router($Strategy, $RouteBag, $Normalizer);
@@ -92,28 +104,35 @@ function startProcessing() {
     $OutputEscaper = new FireResponder\OutputEscaper($EnvironmentConfig->getDefaultCharset());
     $TemplateManager = new FireTemplate\Manager();
 
+    $ReflectionCache = new SFStdLib\ReflectionCache();
+    $Container = new FireService\Container($ReflectionCache);
+
     $ControllerFactory = new FireController\Factory($ReflectionCache, $Container, $LogOverseer);
     $ResponderFactory = new FireResponder\Factory($ReflectionCache, $Container, $LogOverseer);
 
-    $Container->addService($Request);
-    $Container->addService($ClassLoader);
-    $Container->addService($Paths);
-    $Container->addService($JavaNameConverter);
-    $Container->addService($ReflectionCache);
-    $Container->addService($EventRegistry);
-    $Container->addService($Mediator);
-    $Container->addService($RoutedRequest);
-    $Container->addService($OutputEscaper);
-    $Container->addService($TemplateManager);
-    $Container->addService($LogOverseer);
-    $Container->addService($EnvironmentConfig);
+    $PluginInitializer = new FirePlugin\PluginInitializer($Container, $ClassLoader);
+    $PluginManager = new FirePlugin\Manager($PluginInitializer, $ClassLoader);
+
+    $services = [$Request, $ClassLoader, $Paths, $ReflectionCache, $EventRegistry,
+                 $Mediator, $RoutedRequest, $OutputEscaper, $TemplateManager,
+                 $LogOverseer, $EnvironmentConfig, $PluginManager];
+
+    foreach($services as $Service) {
+        $Container->addService($Service);
+    }
 
     foreach ($EnvironmentConfig->getRegisteredEvents() as $eventName => $eventType) {
         $EventRegistry->registerEvent($eventName, $eventType);
     }
 
-    $AppInitializer = new FireDispatcher\AppInitializer($Container, $Paths, $ClassLoader);
-    $AppInitializer->initializeApp($RoutedRequest);
+    $AppSignature = new FirePlugin\PluginSignature(
+        $RoutedRequest->getAppNamespace(),
+        $Paths->getAppPath(),
+        $EnvironmentConfig->autoInitializeApp(),
+        FirePlugin\PluginSignature::DO_INITIALIZE
+    );
+    $PluginManager->registerPlugin($AppSignature);
+    $PluginManager->registerPlugins($getPlugins());
 
     $Dispatcher = new FireDispatcher\Dispatcher($Mediator, $ControllerFactory, $ResponderFactory);
     $Dispatcher->dispatchResponse($RoutedRequest);
@@ -127,6 +146,4 @@ function startProcessing() {
     }
 }
 
-startProcessing();
-
-
+\startProcessing();

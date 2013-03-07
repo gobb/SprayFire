@@ -6,7 +6,7 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
@@ -15,7 +15,7 @@ namespace SprayFire\Controller;
 use \SprayFire\Controller as SFController,
     \SprayFire\Mediator as SFMediator,
     \SprayFire\Responder as SFResponder,
-    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\StdLib as SFStdLib,
     \SprayFire\Responder\Template\FireTemplate as FireTemplate;
 
 /**
@@ -33,7 +33,7 @@ use \SprayFire\Controller as SFController,
  *
  * @codeCoverageIgnore
  */
-class NullObject extends SFCoreObject implements SFController\Controller {
+class NullObject extends SFStdLib\CoreObject implements SFController\Controller {
 
     /**
      * Returned from self::getTemplateManager to allow the controller to determine
@@ -48,7 +48,7 @@ class NullObject extends SFCoreObject implements SFController\Controller {
      * to be returned from getTemplateManager()
      */
     public function __construct() {
-        $this->setUpTemplateManager();
+
     }
 
     /**
@@ -74,7 +74,7 @@ class NullObject extends SFCoreObject implements SFController\Controller {
      * @param array $arguments
      */
     public function __call($name, $arguments) {
-
+        $this->setUpTemplateManager();
     }
 
     /**

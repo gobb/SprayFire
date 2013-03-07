@@ -6,7 +6,7 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
@@ -16,7 +16,7 @@ use \SprayFire\Validation as SFValidation,
     \SprayFire\Validation\Check as SFValidationCheck,
     \SprayFire\Validation\Check\FireCheck as FireCheck,
     \SprayFire\Validation\Result\FireResult as FireResult,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * Validates a set of data, passed as an associative array, checks against the
@@ -25,7 +25,7 @@ use \SprayFire\Validation as SFValidation,
  * @package SprayFire
  * @subpackage Validation.FireValidation
  */
-class Validator extends SFCoreObject implements SFValidation\Validator {
+class Validator extends SFStdLib\CoreObject implements SFValidation\Validator {
 
     /**
      * @property \SprayFire\Validation\Check\MessageParser

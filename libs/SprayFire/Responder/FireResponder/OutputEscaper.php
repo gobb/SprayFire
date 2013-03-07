@@ -6,14 +6,14 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
 namespace SprayFire\Responder\FireResponder;
 
 use \SprayFire\Responder as SFResponder,
-    \SprayFire\CoreObject as SFCoreObject,
+    \SprayFire\StdLib as SFStdLib,
     \Zend\Escaper as ZendEscaper;
 
 /**
@@ -36,7 +36,7 @@ use \SprayFire\Responder as SFResponder,
  * @package SprayFire
  * @subpackage Responder.FireResponder
  */
-class OutputEscaper extends SFCoreObject implements SFResponder\OutputEscaper {
+class OutputEscaper extends SFStdLib\CoreObject implements SFResponder\OutputEscaper {
 
     /**
      * Used in conjunction with preserveDataType to indicate that boolean and

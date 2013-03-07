@@ -73,14 +73,14 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     public function testAddingObjectAsServiceAndRetrievingRightObject() {
         $Container = $this->getContainer();
         $Container->addService($this->ReflectionCache, function() {return array();});
-        $Cache = $Container->getService('SprayFire.Utils.ReflectionCache');
+        $Cache = $Container->getService('SprayFire.StdLib.ReflectionCache');
         $this->assertSame($this->ReflectionCache, $Cache);
     }
 
     public function testAddingObjectAsServiceAndCheckingServiceExists() {
         $Container = $this->getContainer();
         $Container->addService($this->ReflectionCache, function() {return array();});
-        $this->assertTrue($Container->doesServiceExist('SprayFire.Utils.ReflectionCache'));
+        $this->assertTrue($Container->doesServiceExist('SprayFire.StdLib.ReflectionCache'));
     }
 
     public function testGettingServiceThatDoesNotExist() {
@@ -103,10 +103,10 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
 
     public function testCreatingServiceUsingUnregisteredFactory() {
         $Container = $this->getContainer();
-        $Container->addService('SprayFire.Utils.ReflectionCache', null, FactoryKeyTester::CONTAINER_KEY);
+        $Container->addService('SprayFire.StdLib.ReflectionCache', null, FactoryKeyTester::CONTAINER_KEY);
 
         $this->setExpectedException('\SprayFire\Service\Exception\FactoryNotRegistered');
-        $Container->getService('SprayFire.Utils.ReflectionCache');
+        $Container->getService('SprayFire.StdLib.ReflectionCache');
     }
 
     public function testThrowingExceptionIfServiceAddedIsNotValidClass() {
@@ -118,8 +118,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase {
     }
 
     protected function getContainer() {
-        $JavaNameConverter = new \SprayFire\Utils\JavaNamespaceConverter();
-        $this->ReflectionCache = new \SprayFire\Utils\ReflectionCache($JavaNameConverter);
+        $this->ReflectionCache = new \SprayFire\StdLib\ReflectionCache();
         return new \SprayFire\Service\FireService\Container($this->ReflectionCache);
     }
 
@@ -132,7 +131,7 @@ class FactoryKeyTester implements SFFactory\Factory {
     const CONTAINER_KEY = 'factory_key_tester';
 
     public function __toString() {
-
+        return '';
     }
 
     public function equals(\SprayFire\Object $Object) {

@@ -7,13 +7,13 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 namespace SprayFire\Mediator\FireMediator;
 
 use \SprayFire\Mediator as SFMediator,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  *
@@ -21,7 +21,7 @@ use \SprayFire\Mediator as SFMediator,
  * @package SprayFire
  * @subpackage Mediator.FireMediator
  */
-class CallbackStorage extends SFCoreObject {
+class CallbackStorage extends SFStdLib\CoreObject {
 
     /**
      * Holds arrays of callbacks with each array associated to a key that is the

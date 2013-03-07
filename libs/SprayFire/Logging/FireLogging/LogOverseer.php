@@ -6,14 +6,14 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
 namespace SprayFire\Logging\FireLogging;
 
 use \SprayFire\Logging as SFLogging,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * Provides the ability to log information at a variety of levels and sources.
@@ -25,7 +25,7 @@ use \SprayFire\Logging as SFLogging,
  * We need to create a test to test getting a logger and ensuring that the
  * appropriate loggers are used for the appropriate calls.
  */
-class LogOverseer extends SFCoreObject implements SFLogging\LogOverseer {
+class LogOverseer extends SFStdLib\CoreObject implements SFLogging\LogOverseer {
 
     /**
      * This SprayFire.Logging.Logger can be retrieved from LogOverseer::getLogger()

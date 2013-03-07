@@ -11,9 +11,9 @@
 namespace SprayFireTest\Controller\FireController;
 
 use \SprayFireTest\Helpers as FireTestHelpers,
+    \SprayFire\StdLib as SFStdLib,
     \SprayFire\Service\FireService as FireService,
     \SprayFire\Controller\FireController as FireController,
-    \SprayFire\Utils as SFUtils,
     \PHPUnit_Framework_TestCase as PHPUnitTestCase;
 
 /**
@@ -31,8 +31,7 @@ class FactoryTest extends PHPUnitTestCase {
     protected $ErrorLogger;
 
     public function setUp() {
-        $this->JavaNameConverter = new SFUtils\JavaNamespaceConverter();
-        $this->ReflectionCache = new SFUtils\ReflectionCache($this->JavaNameConverter);
+        $this->ReflectionCache = new SFStdLib\ReflectionCache();
         $this->Container = new FireService\Container($this->ReflectionCache);
         $this->ErrorLogger = new FireTestHelpers\DevelopmentLogger();
     }

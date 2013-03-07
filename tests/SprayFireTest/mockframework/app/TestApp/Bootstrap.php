@@ -9,7 +9,7 @@
 
 namespace TestApp;
 
-class Bootstrap extends \SprayFire\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
+class Bootstrap extends \SprayFire\StdLib\CoreObject implements \SprayFire\Bootstrap\Bootstrapper {
 
     protected $Container;
 

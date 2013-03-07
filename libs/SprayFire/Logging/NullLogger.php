@@ -5,13 +5,13 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
 namespace SprayFire\Logging;
 
-use \SprayFire\CoreObject as SFCoreObject;
+use \SprayFire\StdLib as SFStdLib;
 
 /**
  * Primary use case for this object is as a return value to an implementation of
@@ -22,7 +22,7 @@ use \SprayFire\CoreObject as SFCoreObject;
  *
  * @codeCoverageIgnore
  */
-class NullLogger extends SFCoreObject implements Logger {
+class NullLogger extends SFStdLib\CoreObject implements Logger {
 
     /**
      * Performs no operation, always returns true.

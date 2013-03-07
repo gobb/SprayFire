@@ -6,20 +6,20 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
 namespace SprayFire\Http\Routing\FireRouting;
 
 use \SprayFire\Http\Routing as SFHttpRouting,
-    \SprayFire\CoreObject as SFCoreObject;
+    \SprayFire\StdLib as SFStdLib;
 
 /**
  * @package SprayFire
  * @subpackage Http.Routing.FireRouting
  */
-class Route extends SFCoreObject implements SFHttpRouting\Route {
+class Route extends SFStdLib\CoreObject implements SFHttpRouting\Route {
 
     /**
      * Stores the pattern used to match against an HTTP URI query path

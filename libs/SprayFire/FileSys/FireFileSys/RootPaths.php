@@ -6,13 +6,13 @@
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
- * @version 0.1
+ * @version 0.2
  * @since   0.1
  */
 
 namespace SprayFire\FileSys\FireFileSys;
 
-use \SprayFire\ValueObject as SFValueObject;
+use \SprayFire\StdLib as SFStdLib;
 
 /**
  * This is a package private implementation and is intended to be used by
@@ -21,7 +21,7 @@ use \SprayFire\ValueObject as SFValueObject;
  * @package SprayFire
  * @subpackage FileSys.FireFileSys
  */
-class RootPaths extends SFValueObject {
+class RootPaths extends SFStdLib\ValueObject {
 
     /**
      * The full, absolute path to the directory holding SprayFire source.
