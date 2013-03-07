@@ -1,8 +1,13 @@
 ## Release Info
 
-*SprayFire 0.1.0a*
+Current version in development: *SprayFire 0.2.0a*
 
-master branch: [![Build Status](https://secure.travis-ci.org/cspray/SprayFire.png?branch=master)](https://travis-ci.org/cspray/SprayFire) development branch: [![Build Status](https://travis-ci.org/cspray/SprayFire.png?branch=development)](https://travis-ci.org/cspray/SprayFire)
+### branches
+
+- master branch (Current version stable): [![Build Status](https://secure.travis-ci.org/cspray/SprayFire.png?branch=master)](https://travis-ci.org/cspray/SprayFire)
+- development branch (Current version unstable): [![Build Status](https://travis-ci.org/cspray/SprayFire.png?branch=development)](https://travis-ci.org/cspray/SprayFire)
+
+- v0.1.0 (Release version stable): [![Build Status](https://secure.travis-ci.org/cspray/SprayFire.png?branch=0.1.0)](https://travis-ci.org/cspray/SprayFire)
 
 ## Requirements
 
@@ -27,7 +32,6 @@ git submodule update
 ```
 
 > The rest of this document will refer to the directory you installed the framework in as 'sprayfire_apps'. This may be something different depending on the directory you chose for the installation.
-
 
 If the install was successful you should have the [`cspray\ClassLoader`](https://github.com/cspray/ClassLoader) library in your libs folder. At this point the install process is complete. Check out the details below for configuration and setting up your app.
 
