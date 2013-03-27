@@ -62,7 +62,7 @@ class Container extends SFStdLib\CoreObject implements SFService\Container {
      * so that we do not create unnecessary Closures for multiple calls with
      * null parameters.
      *
-     * @property Closure
+     * @property callable
      */
     protected $emptyCallback;
 
