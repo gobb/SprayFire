@@ -15,6 +15,7 @@ namespace SprayFire\Controller\FireController;
 use \SprayFire\Service as SFService,
     \SprayFire\Logging as SFLogging,
     \SprayFire\StdLib as SFStdLib,
+    \SprayFire\Factory\FireFactory as FireFactory,
     \SprayFire\Service\FireService as FireService;
 
 
@@ -31,23 +32,33 @@ use \SprayFire\Service as SFService,
  * @package SprayFire
  * @subpackage Controller.FireController
  */
-class Factory extends FireService\ConsumerFactory {
+class Factory extends FireFactory\Base {
 
     /**
+     * @property \SprayFire\Service\Builder
+     */
+    protected $Builder;
+
+    /**
+     * @param \SprayFire\Service\Builder $Builder
      * @param \SprayFire\StdLib\ReflectionCache $Cache
-     * @param \SprayFire\Service\Container $Container
      * @param \SprayFire\Logging\LogOverseer $LogOverseer
      * @param string $type
      * @param string $nullType
      */
     public function __construct(
+        SFService\Builder $Builder,
         SFStdLib\ReflectionCache $Cache,
-        SFService\Container $Container,
         SFLogging\LogOverseer $LogOverseer,
         $type = 'SprayFire.Controller.Controller',
         $nullType = 'SprayFire.Controller.NullObject'
     ) {
-        parent::__construct($Cache, $Container, $LogOverseer, $type, $nullType);
+        parent::__construct($Cache, $LogOverseer, $type, $nullType);
+        $this->Builder = $Builder;
+    }
+
+    public function makeObject($className, array $parameters = []) {
+        return parent::makeObject($className, [$this->Builder]);
     }
 
 }
