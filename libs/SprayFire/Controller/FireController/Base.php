@@ -16,6 +16,7 @@ namespace SprayFire\Controller\FireController;
 use \SprayFire\Controller as SFController,
     \SprayFire\Mediator as SFMediator,
     \SprayFire\Responder as SFResponder,
+    \SprayFire\Service as SFService,
     \SprayFire\Service\FireService as FireService;
 
 /**
@@ -86,7 +87,8 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     /**
      * Ensures that the appropriate storage for each escaping context is provided.
      */
-    public function __construct() {
+    public function __construct(SFService\Builder $Builder) {
+        parent::__construct($Builder);
         $this->responderData[SFResponder\OutputEscaper::CSS_CONTEXT] = [];
         $this->responderData[SFResponder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT] = [];
         $this->responderData[SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT] = [];
