@@ -20,13 +20,18 @@ use \SprayFire\Responder\FireResponder as FireResponder;
  */
 class JsonTest extends \PHPUnit_Framework_TestCase {
 
+    protected function getJsonResponder() {
+        $Builder = $this->getMock('\SprayFire\Service\Builder');
+        return new FireResponder\Json($Builder);
+    }
+
     /**
      * Ensures that a Controller with no data passed to it will return the appropriate
      * response
      */
     public function testJsonResponseWithNoDataAndNotTemplates() {
         $Controller = $this->getMock('\SprayFire\Controller\Controller');
-        $Responder = new FireResponder\Json();
+        $Responder = $this->getJsonResponder();
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $Responder->giveService('Escaper', $Escaper);
 
@@ -48,7 +53,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
         $Controller->expects($this->at(1))
                    ->method('getResponderData')
                    ->will($this->returnValue($data));
-        $Responder = new FireResponder\Json();
+        $Responder = $this->getJsonResponder();
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $Responder->giveService('Escaper', $Escaper);
 
