@@ -41,6 +41,15 @@ abstract class Consumer extends SFStdLib\CoreObject implements SFService\Consume
     }
 
     /**
+     * Override this function and add new services to the Consumer.
+     *
+     * @return void
+     */
+    public function beforeBuild() {
+
+    }
+
+    /**
      * Returns an array of $this->services set
      *
      * @return array
