@@ -221,6 +221,7 @@ class DispatcherTest extends PHPUnitTestCase {
             'afterAction',
             'getRequestedServices',
             'giveService',
+            'beforeBuild',
             'equals',
             'hashCode',
             '__toString'
