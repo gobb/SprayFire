@@ -27,7 +27,7 @@ class HtmlTest extends PHPUnitTestCase {
      * produces output from strictly the LayoutTemplate.
      */
     public function testGeneratingValidResponseWithoutDataAndNoContentTemplates() {
-        $Responder = new FireResponder\Html();
+        $Responder = $this->getHtmlResponder();
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $Responder->giveService('Escaper', $Escaper);
 
@@ -56,12 +56,17 @@ class HtmlTest extends PHPUnitTestCase {
         $this->assertSame($expected, $actual);
     }
 
+    protected function getHtmlResponder() {
+        $Builder = $this->getMock('\SprayFire\Service\Builder');
+        return new FireResponder\Html($Builder);
+    }
+
     /**
      * Ensures that a TemplateManager with a single content template passes the
      * appropriate data to the LayoutTemplate.
      */
     public function testGenerateValidResponseWithNoDataButWithSingleContentTemplates() {
-        $Responder = new FireResponder\Html();
+        $Responder = $this->getHtmlResponder();
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $Responder->giveService('Escaper', $Escaper);
 
@@ -109,7 +114,7 @@ class HtmlTest extends PHPUnitTestCase {
      * content templates results in the appropriate data passed to the LayoutTemplate.
      */
     public function testGeneratingValidResponseWithControllerDataAndMultipleContentTemplates() {
-        $Responder = new FireResponder\Html();
+        $Responder = $this->getHtmlResponder();
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $Responder->giveService('Escaper', $Escaper);
 
@@ -175,7 +180,7 @@ class HtmlTest extends PHPUnitTestCase {
     }
 
     public function testAutomaticEscapingOfHtmlContentData() {
-        $Responder = new FireResponder\Html();
+        $Responder = $this->getHtmlResponder();
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $Responder->giveService('Escaper', $Escaper);
 
@@ -214,7 +219,7 @@ class HtmlTest extends PHPUnitTestCase {
     }
 
     public function testAutomaticEscapingOfHtmlAttributeData() {
-        $Responder = new FireResponder\Html();
+        $Responder = $this->getHtmlResponder();
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $Responder->giveService('Escaper', $Escaper);
 
@@ -253,7 +258,7 @@ class HtmlTest extends PHPUnitTestCase {
     }
 
     public function testAutomaticEscapingOfCssData() {
-        $Responder = new FireResponder\Html();
+        $Responder = $this->getHtmlResponder();
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $Responder->giveService('Escaper', $Escaper);
 
@@ -292,7 +297,7 @@ class HtmlTest extends PHPUnitTestCase {
     }
 
     public function testAutomaticEscapingOfJavaScript() {
-        $Responder = new FireResponder\Html();
+        $Responder = $this->getHtmlResponder();
         $Escaper = new FireResponder\OutputEscaper('utf-8');
         $Responder->giveService('Escaper', $Escaper);
 

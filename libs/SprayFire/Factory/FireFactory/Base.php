@@ -107,7 +107,7 @@ abstract class Base extends SFStdLib\CoreObject implements SFFactory\Factory {
         if (!\is_object($NullObject)) {
             try {
                 $ReflectedNullObject = $this->ReflectionCache->getClass($NullObject);
-                $NullObject = $ReflectedNullObject->newInstance();
+                $NullObject = $ReflectedNullObject->newInstanceWithoutConstructor();
             } catch (ReflectionException $ReflectExc) {
                 $message = 'The given null object, ' . $nullObjectType . ', could not be loaded.';
                 throw new SFFactory\Exception\TypeNotFound($message, null, $ReflectExc);

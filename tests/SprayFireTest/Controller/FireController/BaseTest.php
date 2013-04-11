@@ -20,13 +20,18 @@ use \SprayFire\Responder as SFResponder,
  */
 class BaseTest extends PHPUnitTestCase {
 
+    protected function getBaseHelper() {
+        $Container = $this->getMock('\SprayFire\Service\Builder');
+        return new BaseHelper($Container);
+    }
+
     public function testSettingAndGettingSingleDataInAppropriateContexts() {
         $htmlContentData = 'this is HTML content';
         $htmlAttributeData = 'this goes in an HTML attribute';
         $cssData = 'this would be in some dynamic css';
         $javaScriptData = 'this is gonna be some script stuff';
 
-        $BaseHelper = new BaseHelper();
+        $BaseHelper = $this->getBaseHelper();
         $BaseHelper->setResponderData('htmlContent', $htmlContentData, SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT);
         $BaseHelper->setResponderData('htmlAttribute', $htmlAttributeData, SFResponder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT);
         $BaseHelper->setResponderData('css', $cssData, SFResponder\OutputEscaper::CSS_CONTEXT);
@@ -51,25 +56,27 @@ class BaseTest extends PHPUnitTestCase {
         $this->assertSame($expectedJavaScript, $BaseHelper->getResponderData(SFResponder\OutputEscaper::JAVASCRIPT_CONTEXT));
     }
 
+
+
     public function testSettingMultipleResponderDataInOneContext() {
         $data = array(
             'foo' => 'bar',
             'bar' => 'foo',
             'sprayfire' => 'framework'
         );
-        $BaseHelper = new BaseHelper();
+        $BaseHelper = $this->getBaseHelper();
         $BaseHelper->setMultipleResponderData($data);
 
         $this->assertSame($data, $BaseHelper->getResponderData());
     }
 
     public function testGettingDefaultResponderName() {
-        $BaseHelper = new BaseHelper();
+        $BaseHelper = $this->getBaseHelper();
         $this->assertSame('SprayFire.Responder.FireResponder.Html', $BaseHelper->getResponderName());
     }
 
     public function testEnsureProperServiceReturnedForTemplateManager() {
-        $BaseHelper = new BaseHelper();
+        $BaseHelper = $this->getBaseHelper();
         $StdClass = new \stdClass();
         $BaseHelper->giveService('TemplateManager', $StdClass);
 

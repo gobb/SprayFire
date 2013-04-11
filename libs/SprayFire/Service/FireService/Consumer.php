@@ -34,6 +34,22 @@ abstract class Consumer extends SFStdLib\CoreObject implements SFService\Consume
     protected $storedServices = [];
 
     /**
+     * @param \SprayFire\Service\Builder $Builder
+     */
+    public function __construct(SFService\Builder $Builder) {
+        $Builder->buildConsumer($this);
+    }
+
+    /**
+     * Override this function and add new services to the Consumer.
+     *
+     * @return void
+     */
+    public function beforeBuild() {
+
+    }
+
+    /**
      * Returns an array of $this->services set
      *
      * @return array
@@ -79,7 +95,7 @@ abstract class Consumer extends SFStdLib\CoreObject implements SFService\Consume
 
     /**
      * @param string $serviceName
-     * @return object|false
+     * @return object|boolean
      */
     public function __get($serviceName) {
         return $this->service($serviceName);

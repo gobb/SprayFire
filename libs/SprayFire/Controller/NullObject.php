@@ -44,14 +44,6 @@ class NullObject extends SFStdLib\CoreObject implements SFController\Controller 
     protected $TemplateManager;
 
     /**
-     * Ensures that an appropriate \SprayFire\Responder\Template\Manager is setup
-     * to be returned from getTemplateManager()
-     */
-    public function __construct() {
-
-    }
-
-    /**
      * Create a \SprayFire\Responder\FireResponder\FireTemplate\Manager instance
      * and set the appropriate layout template.
      */
@@ -74,17 +66,17 @@ class NullObject extends SFStdLib\CoreObject implements SFController\Controller 
      * @param array $arguments
      */
     public function __call($name, $arguments) {
-        $this->setUpTemplateManager();
+
     }
 
     /**
-     * No operation performed
+     * Ensures that the TemplateManager object has been properly setup.
      *
      * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
     public function beforeAction(SFMediator\Event $Event) {
-
+        $this->setUpTemplateManager();
     }
 
     /**
@@ -158,10 +150,21 @@ class NullObject extends SFStdLib\CoreObject implements SFController\Controller 
     }
 
     /**
+     * No operation; no services are added
+     *
+     * @return void
+     */
+    public function beforeBuild() {
+
+    }
+
+    /**
      * @return \SprayFire\Responder\Template\Manager
      */
     public function getTemplateManager() {
         return $this->TemplateManager;
     }
+
+
 
 }

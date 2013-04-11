@@ -19,54 +19,59 @@ use \SprayFire\Service\FireService as FireService;
  */
 class ConsumerTest extends \PHPUnit_Framework_TestCase {
 
+    protected function getBaseConsumer() {
+        $Builder = $this->getMock('\SprayFire\Service\Builder');
+        return new BaseConsumer($Builder);
+    }
+
     public function testConsumerAddingAndRetrievingProperService() {
         $ServiceOne = new \stdClass();
-        $Consumer = new BaseConsumer();
+        $Consumer = $this->getBaseConsumer();
         $Consumer->giveService('serviceOne', $ServiceOne);
         $this->assertEquals($ServiceOne, $Consumer->service('serviceOne'));
     }
 
     public function testConsumerAddingServiceNotObject() {
         $invalidService = 'not an object';
-        $Consumer = new BaseConsumer();
+        $Consumer = $this->getBaseConsumer();
         $this->setExpectedException('\InvalidArgumentException');
         $Consumer->giveService('serviceOne', $invalidService);
     }
 
     public function testConsumerGettingServiceNotAdded() {
-        $Consumer = new BaseConsumer();
+        $Consumer = $this->getBaseConsumer();
         $this->assertFalse($Consumer->service('doesNotExist'));
     }
 
     public function testConsumerGettingServiceThroughPropertyAccess() {
         $ServiceOne = new \stdClass();
-        $Consumer = new BaseConsumer();
+        $Consumer = $this->getBaseConsumer();
         $Consumer->giveService('ServiceUno', $ServiceOne);
         $this->assertEquals($ServiceOne, $Consumer->ServiceUno);
     }
 
     public function testConsumerThrowExceptionForSettingThroughMagicGetter() {
         $ServiceOne = new \stdClass();
-        $Consumer = new BaseConsumer();
+        $Consumer = $this->getBaseConsumer();
         $Consumer->ServiceUno = $ServiceOne;
         $this->assertEquals($ServiceOne, $Consumer->service('ServiceUno'));
     }
 
     public function testConsumerHasProperService() {
         $ServiceOne = new \stdClass();
-        $Consumer = new BaseConsumer();
+        $Consumer = $this->getBaseConsumer();
         $Consumer->giveService('ServiceUno', $ServiceOne);
         $this->assertTrue(isset($Consumer->ServiceUno));
     }
 
     public function testConsumerDoesNotHaveProperService() {
-        $Consumer = new BaseConsumer();
+        $Consumer = $this->getBaseConsumer();
         $this->assertFalse(isset($Consumer->ServiceUno));
     }
 
     public function testUnsettingAService() {
         $ServiceOne = new \stdClass();
-        $Consumer = new BaseConsumer();
+        $Consumer = $this->getBaseConsumer();
         $Consumer->giveService('ServiceUno', $ServiceOne);
         // we're catching try/block to double ensure that unset service is still
         // accessible.
