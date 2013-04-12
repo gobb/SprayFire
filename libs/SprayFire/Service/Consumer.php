@@ -24,6 +24,15 @@ use \SprayFire\Object as SFObject;
 interface Consumer extends SFObject {
 
     /**
+     * This method should be invoked before the services for the Consumer are given
+     * to it; this is the preferred method to add new services to a Consumer extending
+     * from another Consumer.
+     *
+     * @return void
+     */
+    public function beforeBuild();
+
+    /**
      * An associative array with $key => $nameOfService; the $key should be passed
      * to giveService() along with the created $Service.
      *

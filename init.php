@@ -129,8 +129,7 @@ function startProcessing() {
     $AppSignature = new FirePlugin\PluginSignature(
         $RoutedRequest->getAppNamespace(),
         $Paths->getAppPath(),
-        $EnvironmentConfig->autoInitializeApp(),
-        FirePlugin\PluginSignature::DO_INITIALIZE
+        $EnvironmentConfig->autoInitializeApp()
     );
     $PluginManager->registerPlugin($AppSignature);
     $PluginManager->registerPlugins($getPlugins());

@@ -150,10 +150,21 @@ class NullObject extends SFStdLib\CoreObject implements SFController\Controller 
     }
 
     /**
+     * No operation; no services are added
+     *
+     * @return void
+     */
+    public function beforeBuild() {
+
+    }
+
+    /**
      * @return \SprayFire\Responder\Template\Manager
      */
     public function getTemplateManager() {
         return $this->TemplateManager;
     }
+
+
 
 }

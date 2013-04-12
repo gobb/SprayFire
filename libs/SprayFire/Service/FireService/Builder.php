@@ -46,6 +46,7 @@ class Builder extends SFStdLib\CoreObject implements SFService\Builder {
      * @throws \SprayFire\Service\Exception\FactoryNotRegistered
      */
     public function buildConsumer(SFService\Consumer $Consumer) {
+        $Consumer->beforeBuild();
         $services = $Consumer->getRequestedServices();
         if ($this->isTraversable($services)) {
             foreach ($services as $property => $service) {
