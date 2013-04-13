@@ -1,7 +1,8 @@
 <?php
 
 /**
- * 
+ * An interface that represents an HTTP response that will be sent to the client
+ * upon a processing of an HTTP request.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -13,8 +14,6 @@ namespace SprayFire\Http;
 use \SprayFire\Object as SFObject;
 
 /**
- *
- *
  * @package SprayFire
  * @subpackage Http
  */
@@ -86,28 +85,159 @@ interface Response extends SFObject {
     const STATUS_598 = 598;
     const STATUS_599 = 599;
 
-    public function setBody($body);
+    const HTML_RESPONSE_TYPE = 'text/html';
+    const XHTML_RESPONSE_TYPE = 'application/xhtml+xml';
+    const PLAIN_TEXT_RESPONSE_TYPE = 'text/plain';
+    const JSON_RESPONSE_TYPE = 'application/json';
+    const XML_RESPONSE_TYPE = 'application/xml';
 
-    public function setHeader($header);
-
-    public function setStatusCode($code);
-
-    public function setStatusReason($reason);
-
-    public function getBody();
-
-    public function getHeaders();
-
+    /**
+     * Return the integer HTTP code that will be sent with this response.
+     *
+     * @return integer
+     */
     public function getStatusCode();
 
-    public function getStatusReason();
+    /**
+     * Set the integer HTTP code that will be sent with this response; it is
+     * highly recommended that you take advantage of the constants made available
+     * by this interface.
+     *
+     * @param integer $code
+     * @return \SprayFire\Http\Response
+     */
+    public function setStatusCode($code);
 
-    public function removeHeader($header);
+    /**
+     * HTTP response bodies are ultimately always a string, regardless of how they
+     * might be interpreted by the client when rendering the output.
+     *
+     * @return string
+     */
+    public function getBody();
 
+    /**
+     * Should set the body of the response as a string ready to be echod back to the
+     * client.
+     *
+     * @param string $body
+     * @return \SprayFire\Http\Response
+     */
+    public function setBody($body);
+
+    /**
+     * Will return the MIME type of the content being sent.
+     *
+     * @return string
+     */
+    public function getContentType();
+
+    /**
+     * The $mimeType set should be suitable for sending in the response; e.g. HTML
+     * would need to be text/html, JSON would need to be application/json, etc.
+     *
+     * It is highly recommended that you take advantage of the constants provided
+     * in this interface.
+     *
+     * @param string $mimeType
+     * @return \SprayFire\Http\Response
+     */
+    public function setContentType($mimeType);
+
+    /**
+     * Will add a header key/value pair to be sent with the response; the $headerKey
+     * should be on the left side of the ':' and the $headerValue on the right.
+     *
+     * If a $headerKey is added twice it is up to the implementation to determine
+     * best course of action. However, it is suggested that the default behavior
+     * be that the $headerKey is overridden.
+     *
+     * No colon is needed when passing the values to the method.
+     *
+     * @param string $headerKey
+     * @param string $headerValue
+     * @return \SprayFire\Http\Response
+     */
+    public function addHeader($headerKey, $headerValue);
+
+    /**
+     * Return an array of header key/value pairs that will be sent with this
+     * response.
+     *
+     * @return array
+     */
+    public function getHeaders();
+
+    /**
+     * Will remove a header key/value pair represented by $headerKey; note that if
+     * this method is called after send() it will ultimately have no effect as the
+     * header will have already been sent.
+     *
+     * @param string $headerKey
+     * @return \SprayFire\Http\Response
+     */
+    public function removeHeader($headerKey);
+
+    /**
+     * Should remove all the headers previously added leaving an empty container.
+     *
+     * @return \SprayFire\Http\Response
+     */
     public function removeAllHeaders();
 
+    /**
+     * Should prepare and send all added headers and echo out the string contents
+     * of the body; this method should NOT end processing of the script.
+     *
+     * @return boolean
+     */
     public function send();
 
+    /**
+     * Returns true if the HTTP status code set is explicitly set to 200
+     *
+     * @return boolean
+     */
+    public function isOk();
+
+    /**
+     * Returns true if the HTTP status code is something that is not an error; note
+     * that this may not necessarily mean a 200 response.
+     *
+     * @return boolean
+     */
+    public function isSuccess();
+
+    /**
+     * Returns true if the HTTP status code set would cause a redirect being sent
+     * to the client.
+     *
+     * @return boolean
+     */
+    public function isRedirect();
+
+    /**
+     * Returns true if the HTTP status code indicates that an error was encountered
+     * processing the request as a result of some client action.
+     *
+     * @return boolean
+     */
+    public function isClientError();
+
+    /**
+     * Returns true if the server crapped the bed during processing.
+     *
+     * @return boolean
+     */
+    public function isServerError();
+
+    /**
+     * Returns true if the HTTP status code indicates that the resource requested
+     * could not be found.
+     *
+     * @return boolean
+     */
+    public function isNotFound();
 
 
 
