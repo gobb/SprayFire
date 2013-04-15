@@ -50,4 +50,19 @@ class ResponseTest extends PHPUnitTestCase {
         $this->assertSame('Not Found', $Response->getStatusReason());
     }
 
+    public function testSettingStatusCodePassingOptionDoesNotSetReason() {
+        $Response = new FireHttp\Response();
+        $this->assertSame('OK', $Response->getStatusReason());
+
+        $Response->setStatusCode($Response::STATUS_404, $Response::DO_NOT_SET_REASON);
+        $this->assertSame(404, $Response->getStatusCode());
+        $this->assertSame('OK', $Response->getStatusReason());
+    }
+
+    public function test200CodeIsOk() {
+        $Response = new FireHttp\Response();
+        $Response->setStatusCode($Response::STATUS_200);
+        $this->assertTrue($Response->isOk(), 'The Response was not seen as OK');
+    }
+
 }
