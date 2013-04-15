@@ -56,6 +56,9 @@ interface Response extends SFObject {
     const STATUS_412 = 412;
     const STATUS_413 = 413;
     const STATUS_414 = 414;
+    const STATUS_415 = 415;
+    const STATUS_416 = 416;
+    const STATUS_417 = 417;
     const STATUS_418 = 418;
     const STATUS_420 = 420;
     const STATUS_422 = 422;
@@ -107,6 +110,21 @@ interface Response extends SFObject {
      * @return \SprayFire\Http\Response
      */
     public function setStatusCode($code);
+
+    /**
+     * Return the human readable text representation for why the status is what it is.
+     *
+     * @return string
+     */
+    public function getStatusReason();
+
+    /**
+     * Set the human readable text representation of the status.
+     *
+     * @param string $reason
+     * @return \SprayFire\Http\Response
+     */
+    public function setStatusReason($reason);
 
     /**
      * HTTP response bodies are ultimately always a string, regardless of how they
