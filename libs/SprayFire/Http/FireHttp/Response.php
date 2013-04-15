@@ -233,9 +233,7 @@ class Response extends SFStdLib\CoreObject implements SFHttp\Response {
      * Will add a header key/value pair to be sent with the response; the $headerKey
      * should be on the left side of the ':' and the $headerValue on the right.
      *
-     * If a $headerKey is added twice it is up to the implementation to determine
-     * best course of action. However, it is suggested that the default behavior
-     * be that the $headerKey is overridden.
+     * If a $headerKey is added twice the key is overridden.
      *
      * No colon is needed when passing the values to the method.
      *
@@ -244,7 +242,8 @@ class Response extends SFStdLib\CoreObject implements SFHttp\Response {
      * @return \SprayFire\Http\Response
      */
     public function addHeader($headerKey, $headerValue) {
-        // TODO: Implement addHeader() method.
+        $this->headers[$headerKey] = $headerValue;
+        return $this;
     }
 
     /**
@@ -265,7 +264,7 @@ class Response extends SFStdLib\CoreObject implements SFHttp\Response {
      * @return string|null
      */
     public function getHeader($key) {
-        // TODO: Implement getHeader() method.
+        return $this->headers[$key];
     }
 
     /**
