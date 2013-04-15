@@ -144,25 +144,6 @@ interface Response extends SFObject {
     public function setBody($body);
 
     /**
-     * Will return the MIME type of the content being sent.
-     *
-     * @return string
-     */
-    public function getContentType();
-
-    /**
-     * The $mimeType set should be suitable for sending in the response; e.g. HTML
-     * would need to be text/html, JSON would need to be application/json, etc.
-     *
-     * It is highly recommended that you take advantage of the constants provided
-     * in this interface.
-     *
-     * @param string $mimeType
-     * @return \SprayFire\Http\Response
-     */
-    public function setContentType($mimeType);
-
-    /**
      * Will add a header key/value pair to be sent with the response; the $headerKey
      * should be on the left side of the ':' and the $headerValue on the right.
      *
@@ -179,12 +160,30 @@ interface Response extends SFObject {
     public function addHeader($headerKey, $headerValue);
 
     /**
+     * Return the string header value set against $key or null if no $key has been
+     * set.
+     *
+     * @param string $key
+     * @return string|null
+     */
+    public function getHeader($key);
+
+    /**
      * Return an array of header key/value pairs that will be sent with this
      * response.
      *
      * @return array
      */
     public function getHeaders();
+
+    /**
+     * Return true or false for whether a value has been set against the given
+     * header $key
+     *
+     * @param string $key
+     * @return boolean
+     */
+    public function hasHeader($key);
 
     /**
      * Will remove a header key/value pair represented by $headerKey; note that if
