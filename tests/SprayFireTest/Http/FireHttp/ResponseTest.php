@@ -139,4 +139,15 @@ class ResponseTest extends PHPUnitTestCase {
         $this->assertSame([], $Response->getHeaders());
     }
 
+    public function testAddingAndGettingHeader() {
+        $Response = new FireHttp\Response();
+        $this->assertSame($Response, $Response->addHeader('Content-Type', $Response::JSON_RESPONSE_TYPE));
+        $this->assertSame('application/json', $Response->getHeader('Content-Type'));
+    }
+
+    public function testHasHeaderBeforeKeysSet() {
+        $Response = new FireHttp\Response();
+        $this->assertFalse($Response->hasHeader('Content-Type'));
+    }
+
 }
