@@ -27,4 +27,27 @@ class ResponseTest extends PHPUnitTestCase {
         $this->assertSame(200, $Response->getStatusCode());
     }
 
+    public function testSettingToNotFoundStatus() {
+        $Response = new FireHttp\Response();
+        $Response->setStatusCode($Response::STATUS_404);
+        $this->assertSame(404, $Response->getStatusCode());
+    }
+
+    public function testSettingStatusCodeForcesInteger() {
+        $Response = new FireHttp\Response();
+        $this->assertSame($Response, $Response->setStatusCode('404'));
+        $this->assertSame(404, $Response->getStatusCode());
+    }
+
+    public function testGettingDefaultStatusReason() {
+        $Response = new FireHttp\Response();
+        $this->assertSame('OK', $Response->getStatusReason());
+    }
+
+    public function testSettingStatusCodeSetsAppropriateReason() {
+        $Response = new FireHttp\Response();
+        $Response->setStatusCode($Response::STATUS_404);
+        $this->assertSame('Not Found', $Response->getStatusReason());
+    }
+
 }
