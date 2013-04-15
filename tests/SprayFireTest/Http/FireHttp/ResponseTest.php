@@ -134,4 +134,9 @@ class ResponseTest extends PHPUnitTestCase {
         $this->assertTrue($Response->isNotFound(), 'The Response was not Not Found with 404');
     }
 
+    public function testHeadersEmptyByDefault() {
+        $Response = new FireHttp\Response();
+        $this->assertSame([], $Response->getHeaders());
+    }
+
 }

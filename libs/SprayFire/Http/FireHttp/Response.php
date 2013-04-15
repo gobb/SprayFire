@@ -48,9 +48,9 @@ class Response extends SFStdLib\CoreObject implements SFHttp\Response {
     protected $body;
 
     /**
-     * @property string
+     * @property array
      */
-    protected $contentType;
+    protected $headers = [];
 
     /**
      * This is an associative array holding [HTTP status code => default status reason].
@@ -254,7 +254,7 @@ class Response extends SFStdLib\CoreObject implements SFHttp\Response {
      * @return array
      */
     public function getHeaders() {
-        // TODO: Implement getHeaders() method.
+        return $this->headers;
     }
 
     /**
