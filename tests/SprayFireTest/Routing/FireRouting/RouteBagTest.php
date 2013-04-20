@@ -7,25 +7,25 @@
  * @since   0.1
  */
 
-namespace SprayFireTest\Http\Routing\FireRouting;
+namespace SprayFireTest\Routing\FireRouting;
 
-use \SprayFire\Http\Routing\FireRouting as FireRouting;
+use \SprayFire\Routing\FireRouting;
 
 /**
  * @package SprayFireTest
- * @subpackage Http.Routing.FireRouting
+ * @subpackage Routing
  */
 class RouteBagTest extends \PHPUnit_Framework_TestCase {
 
     /**
-     * Ensures that a SprayFire.Http.Routing.Route added to the RouteBag returns
+     * Ensures that a \SprayFire\Routing\Route added to the RouteBag returns
      * true that it has a Route against the appropriate pattern.
      *
-     * @covers \SprayFire\Http\Routing\FireRouting\RouteBag::addRoute
-     * @covers \SprayFire\Http\Routing\FireRouting\RouteBag::hasRouteWithPattern
+     * @covers \SprayFire\Routing\FireRouting\RouteBag::addRoute
+     * @covers \SprayFire\Routing\FireRouting\RouteBag::hasRouteWithPattern
      */
     public function testRouteBagAddingRouteAndHavingThatRoute() {
-        $MockRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MockRoute = $this->getMock('\SprayFire\Routing\Route');
         $MockRoute->expects($this->once())
                   ->method('getPattern')
                   ->will($this->returnValue('/'));
@@ -39,10 +39,10 @@ class RouteBagTest extends \PHPUnit_Framework_TestCase {
      * Ensures that a Route added can properly be removed based on the pattern
      * associated to the Route.
      *
-     * @covers \SprayFire\Http\Routing\FireRouting\RouteBag::removeRouteWithPattern
+     * @covers \SprayFire\Routing\FireRouting\RouteBag::removeRouteWithPattern
      */
     public function testRouteBagAddingRouteAndRemovingIt() {
-        $MockRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MockRoute = $this->getMock('\SprayFire\Routing\Route');
         $MockRoute->expects($this->once())->method('getPattern')->will($this->returnValue('/'));
         $RouteBag = new FireRouting\RouteBag();
         $RouteBag->addRoute($MockRoute);
@@ -57,12 +57,12 @@ class RouteBagTest extends \PHPUnit_Framework_TestCase {
      * Ensures that we can count the number of routes in a RouteBag by using the
      * PHP count() method.
      *
-     * @covers \SprayFire\Http\Routing\FireRouting\RouteBag::count
+     * @covers \SprayFire\Routing\FireRouting\RouteBag::count
      */
     public function testCountingRoutesInRouteBag() {
-        $MockRouteOne = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MockRouteOne = $this->getMock('\SprayFire\Routing\Route');
         $MockRouteOne->expects($this->once())->method('getPattern')->will($this->returnValue('one'));
-        $MockRouteTwo = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MockRouteTwo = $this->getMock('\SprayFire\Routing\Route');
         $MockRouteTwo->expects($this->once())->method('getPattern')->will($this->returnValue('two'));
         $RouteBag = new FireRouting\RouteBag();
         $RouteBag->addRoute($MockRouteOne);
@@ -75,14 +75,14 @@ class RouteBagTest extends \PHPUnit_Framework_TestCase {
      * Ensures that the RouteBag is iterated over in an order that we expect,
      * first in first out order.
      *
-     * @covers \SprayFire\Http\Routing\FireRouting\RouteBag::getIterator
+     * @covers \SprayFire\Routing\FireRouting\RouteBag::getIterator
      */
     public function testIteratingOverThreeRoutesInRouteBag() {
-        $MockRouteOne = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MockRouteOne = $this->getMock('\SprayFire\Routing\Route');
         $MockRouteOne->expects($this->once())->method('getPattern')->will($this->returnValue('one'));
-        $MockRouteTwo = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MockRouteTwo = $this->getMock('\SprayFire\Routing\Route');
         $MockRouteTwo->expects($this->once())->method('getPattern')->will($this->returnValue('two'));
-        $MockRouteThree = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MockRouteThree = $this->getMock('\SprayFire\Routing\Route');
         $MockRouteThree->expects($this->once())->method('getPattern')->will($this->returnValue('three'));
         $RouteBag = new FireRouting\RouteBag();
         $RouteBag->addRoute($MockRouteOne);
@@ -115,18 +115,18 @@ class RouteBagTest extends \PHPUnit_Framework_TestCase {
      * Ensures that a route pattern can only be added to the collection one time,
      * preventing route objects from being overwritten.
      *
-     * @covers \SprayFire\Http\Routing\FireRouting\RouteBag::addRoute
+     * @covers \SprayFire\Routing\FireRouting\RouteBag::addRoute
      */
     public function testRouteBagThrowingExceptionIfSamePatternPassedMultipleTimes() {
-        $MockRouteOne = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MockRouteOne = $this->getMock('\SprayFire\Routing\Route');
         $MockRouteOne->expects($this->once())->method('getPattern')->will($this->returnValue('one'));
-        $MockRouteTwo = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MockRouteTwo = $this->getMock('\SprayFire\Routing\Route');
         $MockRouteTwo->expects($this->once())->method('getPattern')->will($this->returnValue('one'));
 
         $RouteBag = new FireRouting\RouteBag();
         $RouteBag->addRoute($MockRouteOne);
 
-        $this->setExpectedException('\SprayFire\Http\Routing\Exception\DuplicateRouteAdded');
+        $this->setExpectedException('\SprayFire\Routing\Exception\DuplicateRouteAdded');
         $RouteBag->addRoute($MockRouteTwo);
     }
 
@@ -135,7 +135,7 @@ class RouteBagTest extends \PHPUnit_Framework_TestCase {
      * matching a supplied pattern.
      */
     public function testRouteBagGettingRouteMatchingPattern() {
-        $MockRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MockRoute = $this->getMock('\SprayFire\Routing\Route');
         $MockRoute->expects($this->once())
                   ->method('getPattern')
                   ->will($this->returnValue('test'));
@@ -150,7 +150,7 @@ class RouteBagTest extends \PHPUnit_Framework_TestCase {
      * is properly returned.
      */
     public function testRouteBagGettingRouteWithNoPattern() {
-        $MockRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MockRoute = $this->getMock('\SprayFire\Routing\Route');
         $RouteBag = new FireRouting\RouteBag($MockRoute);
         $this->assertSame($MockRoute, $RouteBag->getRoute());
     }

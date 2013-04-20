@@ -9,25 +9,25 @@
  * @version 0.1
  * @since   0.1
  */
-namespace SprayFireTest\Http\Routing\FireRouting;
+namespace SprayFireTest\Routing\FireRouting;
 
-use \SprayFire\Http\Routing\FireRouting as FireRouting,
-    \PHPUnit_Framework_TestCase as PHPUnitTestCase;
+use \SprayFire\Routing\FireRouting,
+    \PHPUnit_Framework_TestCase;
 
 /**
  *
  *
  * @package SprayFireTest
- * @subpackage Http.Routing.FireRouting
+ * @subpackage Routing
  */
-class ConventionMatchStrategyTest extends PHPUnitTestCase {
+class ConventionMatchStrategyTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Ensures that if a root path is determined to be the path for the request
      * default options are used.
      */
     public function testGettingAppropriateRouteWithOnlyDefaultsForRootPath() {
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Uri = $this->getMock('\SprayFire\Http\Uri');
         $Uri->expects($this->once())
             ->method('getPath')
@@ -39,7 +39,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
 
         $Strategy = new FireRouting\ConventionMatchStrategy();
         $data = $Strategy->getRouteAndParameters($Bag, $Request);
-        /** @var \SprayFire\Http\Routing\Route $Route */
+        /** @var \SprayFire\Routing\Route $Route */
         $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
         $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
 
@@ -54,7 +54,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
      * default options are used for Route object.
      */
     public function testEnsureRootWithInstallDirectoryRemoved() {
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Uri = $this->getMock('\SprayFire\Http\Uri');
         $Uri->expects($this->once())
             ->method('getPath')
@@ -66,7 +66,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
 
         $Strategy = new FireRouting\ConventionMatchStrategy(array('installDirectory' => 'sprayfire'));
         $data = $Strategy->getRouteAndParameters($Bag, $Request);
-        /** @var \SprayFire\Http\Routing\Route $Route */
+        /** @var \SprayFire\Routing\Route $Route */
         $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
         $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
 
@@ -82,7 +82,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
      * options where appropriate and passing the path as the pattern.
      */
     public function testEnsureControllerFragmentParsedCorrectlyPassingActionInOptions() {
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Uri = $this->getMock('\SprayFire\Http\Uri');
         $Uri->expects($this->once())
             ->method('getPath')
@@ -94,7 +94,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
 
         $Strategy = new FireRouting\ConventionMatchStrategy(array('action' => 'index_yo_dog'));
         $data = $Strategy->getRouteAndParameters($Bag, $Request);
-        /** @var \SprayFire\Http\Routing\Route $Route */
+        /** @var \SprayFire\Routing\Route $Route */
         $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
         $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
 
@@ -111,7 +111,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
      * value.
      */
     public function testEnsureControllerAndActionFragmentParsedCorrectlyPassingNamespaceInOptions() {
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Uri = $this->getMock('\SprayFire\Http\Uri');
         $Uri->expects($this->once())
             ->method('getPath')
@@ -123,7 +123,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
 
         $Strategy = new FireRouting\ConventionMatchStrategy(array('namespace' => 'SomeApp.Controller'));
         $data = $Strategy->getRouteAndParameters($Bag, $Request);
-        /** @var \SprayFire\Http\Routing\Route $Route */
+        /** @var \SprayFire\Routing\Route $Route */
         $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
         $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
 
@@ -138,7 +138,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
      * Ensures that if parameters are present after the action they are properly returned.
      */
     public function testEnsureGettingMultipleParametersIfPresent() {
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Uri = $this->getMock('\SprayFire\Http\Uri');
         $Uri->expects($this->once())
             ->method('getPath')
@@ -150,7 +150,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
 
         $Strategy = new FireRouting\ConventionMatchStrategy();
         $data = $Strategy->getRouteAndParameters($Bag, $Request);
-        /** @var \SprayFire\Http\Routing\Route $Route */
+        /** @var \SprayFire\Routing\Route $Route */
         $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
         $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
 
@@ -166,7 +166,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
      * keys.
      */
     public function testEnsureGettingMultipleNamedParameters() {
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Uri = $this->getMock('\SprayFire\Http\Uri');
         $Uri->expects($this->once())
             ->method('getPath')
@@ -178,7 +178,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
 
         $Strategy = new FireRouting\ConventionMatchStrategy();
         $data = $Strategy->getRouteAndParameters($Bag, $Request);
-        /** @var \SprayFire\Http\Routing\Route $Route */
+        /** @var \SprayFire\Routing\Route $Route */
         $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
         $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
 
@@ -194,7 +194,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
      * are properly parsed as parameters.
      */
     public function testGettingMarkedParametersAsFirstFragment() {
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Uri = $this->getMock('\SprayFire\Http\Uri');
         $Uri->expects($this->once())
             ->method('getPath')
@@ -206,7 +206,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
 
         $Strategy = new FireRouting\ConventionMatchStrategy();
         $data = $Strategy->getRouteAndParameters($Bag, $Request);
-        /** @var \SprayFire\Http\Routing\Route $Route */
+        /** @var \SprayFire\Routing\Route $Route */
         $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
         $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
 
@@ -222,7 +222,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
      * onwards are properly parsed as parameters.
      */
     public function testGettingMarkedParametersAsSecondFragment() {
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Uri = $this->getMock('\SprayFire\Http\Uri');
         $Uri->expects($this->once())
             ->method('getPath')
@@ -234,7 +234,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
 
         $Strategy = new FireRouting\ConventionMatchStrategy();
         $data = $Strategy->getRouteAndParameters($Bag, $Request);
-        /** @var \SprayFire\Http\Routing\Route $Route */
+        /** @var \SprayFire\Routing\Route $Route */
         $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
         $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
 
@@ -250,7 +250,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
      * indexed array.
      */
     public function testUnnamedMarkedParametersParsedAsNumericIndexArray() {
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Uri = $this->getMock('\SprayFire\Http\Uri');
         $Uri->expects($this->once())
             ->method('getPath')
@@ -262,7 +262,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
 
         $Strategy = new FireRouting\ConventionMatchStrategy();
         $data = $Strategy->getRouteAndParameters($Bag, $Request);
-        /** @var \SprayFire\Http\Routing\Route $Route */
+        /** @var \SprayFire\Routing\Route $Route */
         $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
         $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
 
@@ -278,7 +278,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
      * parsed.
      */
     public function testNamedAndUnnamedMarkedParameters() {
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Uri = $this->getMock('\SprayFire\Http\Uri');
         $Uri->expects($this->once())
             ->method('getPath')
@@ -290,7 +290,7 @@ class ConventionMatchStrategyTest extends PHPUnitTestCase {
 
         $Strategy = new FireRouting\ConventionMatchStrategy();
         $data = $Strategy->getRouteAndParameters($Bag, $Request);
-        /** @var \SprayFire\Http\Routing\Route $Route */
+        /** @var \SprayFire\Routing\Route $Route */
         $Route = $data[FireRouting\MatchStrategy::ROUTE_KEY];
         $parameters = $data[FireRouting\MatchStrategy::PARAMETER_KEY];
 

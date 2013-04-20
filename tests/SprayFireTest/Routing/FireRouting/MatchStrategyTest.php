@@ -8,12 +8,12 @@
  * @version 0.1
  * @since   0.1
  */
-namespace SprayFireTest\Http\Routing\FireRouting;
+namespace SprayFireTest\Routing\FireRouting;
 
-use \SprayFire\Http as SFHttp,
-    \SprayFire\Http\Routing as SFRouting,
-    \SprayFire\Http\Routing\FireRouting as FireRouting,
-    \PHPUnit_Framework_TestCase as PHPUnitTestCase;
+use \SprayFire\Http,
+    \SprayFire\Routing,
+    \SprayFire\Routing\FireRouting,
+    \PHPUnit_Framework_TestCase;
 
 /**
  *
@@ -21,7 +21,7 @@ use \SprayFire\Http as SFHttp,
  * @package SprayFireTest
  * @subpackage Http.Routing.FireRouting
  */
-class MatchStrategyTest extends PHPUnitTestCase {
+class MatchStrategyTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Ensures that with no install directory passed to constructor no manipulation
@@ -70,18 +70,18 @@ class MatchStrategyTest extends PHPUnitTestCase {
 class MatchStrategyHelper extends FireRouting\MatchStrategy {
 
     /**
-     * Matches a $Request to a \SprayFire\Http\Routing\Route stored in the $Bag
+     * Matches a $Request to a \SprayFire\Routing\Route stored in the $Bag
      * or otherwise creates a Route implementation to be used during routing.
      *
      * Please note that the array returned should have 2 keys:
      * - Route => The Route object matched
      * - parameters => an array of parameters to pass to the action
      *
-     * @param \SprayFire\Http\Routing\RouteBag $Bag
+     * @param \SprayFire\Routing\RouteBag $Bag
      * @param \SprayFire\Http\Request $Request
      * @return array
      */
-    public function getRouteAndParameters(SFRouting\RouteBag $Bag, SFHttp\Request $Request) {
+    public function getRouteAndParameters(Routing\RouteBag $Bag, Http\Request $Request) {
 
     }
 
