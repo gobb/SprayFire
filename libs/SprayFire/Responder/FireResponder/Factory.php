@@ -12,15 +12,15 @@
 
 namespace SprayFire\Responder\FireResponder;
 
-use \SprayFire\Logging as SFLogging,
-    \SprayFire\Service as SFService,
-    \SprayFire\StdLib as SFStdLib,
-    \SprayFire\Factory\FireFactory as FireFactory,
-    \SprayFire\Service\FireService as FireService;
+use \SprayFire\Logging,
+    \SprayFire\Service,
+    \SprayFire\StdLib,
+    \SprayFire\Factory\FireFactory,
+    \SprayFire\Service\FireService;
 
 /**
  * @package SprayFire
- * @subpackage Responder.FireResponder
+ * @subpackage Responder.Implementation
  */
 class Factory extends FireFactory\Base {
 
@@ -37,9 +37,9 @@ class Factory extends FireFactory\Base {
      * @param string $nullType
      */
     public function __construct(
-        SFService\Builder $Builder,
-        SFStdLib\ReflectionCache $Cache,
-        SFLogging\LogOverseer $LogOverseer,
+        Service\Builder $Builder,
+        StdLib\ReflectionCache $Cache,
+        Logging\LogOverseer $LogOverseer,
         $type = 'SprayFire.Responder.Responder',
         $nullType = 'SprayFire.Responder.FireResponder.Html'
     ) {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation of SprayFire.Http.Routing.RoutedRequest provided with the default
+ * Implementation of \SprayFire\Routing\RoutedRequest provided with the default
  * SprayFire install.
  *
  * @author  Charles Sprayberry
@@ -10,27 +10,27 @@
  * @since   0.1
  */
 
-namespace SprayFire\Http\Routing\FireRouting;
+namespace SprayFire\Routing\FireRouting;
 
-use \SprayFire\Http\Routing as SFHttpRouting,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Routing,
+    \SprayFire\StdLib;
 
 /**
  * This implementation is a Data Transfer Object to provide data from the
- * SprayFire.Http.Routing to the SprayFire.Dispatcher module.
+ * \SprayFire\Routing to the \SprayFire\Dispatcher module.
  *
  * Although this object is not package private it is highly recommended that you
  * do not manually create a RoutedRequest object, instead letting the
- * SprayFire.Http.Routing.FireRouting.Router implement the appropriate RoutedRequest.
+ * \SprayFire\Routing\FireRouting\Router implement the appropriate RoutedRequest.
  *
  * Ultimately the only functionality provided by this object is parsing the
  * top level namespace from a controller.  This functionality is only provided
  * internally and can be "used" when passing a constructor value.
  *
  * @package SprayFire
- * @subpackage Http.Routing.FireRouting
+ * @subpackage Routing.Implementation
  */
-class RoutedRequest extends SFStdLib\CoreObject implements SFHttpRouting\RoutedRequest {
+class RoutedRequest extends StdLib\CoreObject implements Routing\RoutedRequest {
 
     /**
      * @property string

@@ -9,17 +9,18 @@
  * @since   0.1
  */
 
-namespace SprayFire\Http\Routing\FireRouting;
+namespace SprayFire\Routing\FireRouting;
 
-use \SprayFire\Http\Routing as SFHttpRouting,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Routing,
+    \SprayFire\StdLib,
+    \ArrayIterator;
 
 /**
  *
  * @package SprayFire
- * @subpackage Http.Routing.FireRouting
+ * @subpackage Routing.Implementation
  */
-class RouteBag extends SFStdLib\CoreObject implements SFHttpRouting\RouteBag {
+class RouteBag extends StdLib\CoreObject implements Routing\RouteBag {
 
     /**
      * Stores a collection of routes [$routePattern => SprayFire.Http.Routing.Route]
@@ -32,13 +33,13 @@ class RouteBag extends SFStdLib\CoreObject implements SFHttpRouting\RouteBag {
      * Stores a route that is returned if a route is attempted to be retrieved
      * and there is no match.
      *
-     * @property \SprayFire\Http\Routing\Route
+     * @property \SprayFire\Routing\Route
      */
     protected $NoMatchRoute;
 
-    public function __construct(SFHttpRouting\Route $NoMatchRoute = null) {
+    public function __construct(Routing\Route $NoMatchRoute = null) {
         if (\is_null($NoMatchRoute)) {
-            $NoMatchRoute = new Route('', 'SprayFire.Controller.FireController');
+            $NoMatchRoute = new Route('', 'SprayFireDemo.Controller');
         }
         $this->NoMatchRoute = $NoMatchRoute;
     }
@@ -46,22 +47,22 @@ class RouteBag extends SFStdLib\CoreObject implements SFHttpRouting\RouteBag {
     /**
      * Will store a $Route with the pattern for that route as the given key.
      *
-     * @param \SprayFire\Http\Routing\Route $Route
-     * @throws \SprayFire\Http\Routing\Exception\DuplicateRouteAdded
+     * @param \SprayFire\Routing\Route $Route
+     * @throws \SprayFire\Routing\Exception\DuplicateRouteAdded
      */
-    public function addRoute(SFHttpRouting\Route $Route) {
+    public function addRoute(Routing\Route $Route) {
         $routePattern = $Route->getPattern();
         if ($this->hasRouteWithPattern($routePattern)) {
             $message = 'The given pattern, ' . $routePattern . ', has already been added to ' . __CLASS__ . ' and may not be overwritten.';
             $message .= '  Please see ' . __CLASS__ . '::removeRouteWithPattern.';
-            throw new SFHttpRouting\Exception\DuplicateRouteAdded($message);
+            throw new Routing\Exception\DuplicateRouteAdded($message);
         }
         $this->routes[$routePattern] = $Route;
     }
 
     /**
      * @param string $pattern
-     * @return \SprayFire\Http\Routing\Route
+     * @return \SprayFire\Routing\Route
      */
     public function getRoute($pattern = null) {
         if (\is_null($pattern) || !$this->hasRouteWithPattern($pattern)) {
@@ -98,7 +99,7 @@ class RouteBag extends SFStdLib\CoreObject implements SFHttpRouting\RouteBag {
     }
 
     /**
-     * @return ArrayIterator
+     * @return \ArrayIterator
      */
     public function getIterator() {
         return new \ArrayIterator($this->routes);

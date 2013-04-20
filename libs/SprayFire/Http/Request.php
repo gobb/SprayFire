@@ -12,30 +12,24 @@
 
 namespace SprayFire\Http;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * It is important to note that implementations of this interface need to return
- * other interfaces in the SprayFire.Http module; please check out the rest of
+ * other interfaces in the \SprayFire\Http module; please check out the rest of
  * this module if you intend on implementing this interface yourself.
  *
  * @package SprayFire
- * @subpackage Http
+ * @subpackage Http.Interface
  */
-interface Request extends SFObject {
+interface Request extends Object {
 
     const METHOD_OPTIONS = 'OPTIONS';
-
     const METHOD_GET = 'GET';
-
     const METHOD_HEAD = 'HEAD';
-
-    const METHOD_POST = 'POST';
-
+    const METHOD_POST= 'POST';
     const METHOD_PUT = 'PUT';
-
     const METHOD_DELETE = 'DELETE';
-
     const METHOD_TRACE = 'TRACE';
 
     /**

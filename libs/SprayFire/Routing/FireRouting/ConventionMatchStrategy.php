@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation of \SprayFire\Http\Routing\MatchStrategy that will determine a
+ * Implementation of \SprayFire\Routing\MatchStrategy that will determine a
  * Route based on a convention of how to parse a pretty URL.
  *
  * @author  Charles Sprayberry
@@ -9,14 +9,14 @@
  * @version 0.2
  * @since   0.1
  */
-namespace SprayFire\Http\Routing\FireRouting;
+namespace SprayFire\Routing\FireRouting;
 
-use \SprayFire\Http as SFHttp,
-    \SprayFire\Http\Routing as SFHttpRouting;
+use \SprayFire\Http,
+    \SprayFire\Routing;
 
 /**
  * This implementation will take a pretty URL and split it into the appropriate
- * controller, action and parameters to use for a returned \SprayFire\Http\Routing\Route.
+ * controller, action and parameters to use for a returned \SprayFire\Routing\Route.
  *
  * The format of pretty URLs mapping to the appropriate information is below. It
  * is fairly common in the web framework world:
@@ -37,7 +37,7 @@ use \SprayFire\Http as SFHttp,
  * made available to you.
  *
  * @package SprayFire
- * @subpackage Http.Routing.FireRouting
+ * @subpackage Routing.Implementation
  */
 class ConventionMatchStrategy extends MatchStrategy {
 
@@ -84,7 +84,7 @@ class ConventionMatchStrategy extends MatchStrategy {
     }
 
     /**
-     * Matches a $Request to a \SprayFire\Http\Routing\Route stored in the $Bag
+     * Matches a $Request to a \SprayFire\Routing\Route stored in the $Bag
      * or otherwise creates a Route implementation to be used during routing.
      *
      * Please note that the array returned should have 2 keys:
@@ -94,11 +94,11 @@ class ConventionMatchStrategy extends MatchStrategy {
      * It is strongly recommended that you use the constants provided by this
      * interface when setting the keys in the array returned from this method.
      *
-     * @param \SprayFire\Http\Routing\RouteBag $Bag
+     * @param \SprayFire\Routing\RouteBag $Bag
      * @param \SprayFire\Http\Request $Request
      * @return array
      */
-    public function getRouteAndParameters(SFHttpRouting\RouteBag $Bag, SFHttp\Request $Request) {
+    public function getRouteAndParameters(Routing\RouteBag $Bag, Http\Request $Request) {
         $originalPath = $Request->getUri()->getPath();
         $path = $this->removeInstallDirectory($originalPath);
         if (empty($path)) {

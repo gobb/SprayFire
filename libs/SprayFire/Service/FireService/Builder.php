@@ -11,16 +11,16 @@
  */
 namespace SprayFire\Service\FireService;
 
-use \SprayFire\Service as SFService,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Service,
+    \SprayFire\StdLib;
 
 /**
  * Provides a concrete implementation to build services needed for a Service\Consumer.
  *
  * @package SprayFire
- * @subpackage Service.FireService
+ * @subpackage Service.Implementation
  */
-class Builder extends SFStdLib\CoreObject implements SFService\Builder {
+class Builder extends StdLib\CoreObject implements Service\Builder {
 
     /**
      * @property \SprayFire\Service\Container
@@ -30,7 +30,7 @@ class Builder extends SFStdLib\CoreObject implements SFService\Builder {
     /**
      * @param \SprayFire\Service\Container $Container
      */
-    public function __construct(SFService\Container $Container) {
+    public function __construct(Service\Container $Container) {
         $this->Container = $Container;
     }
 
@@ -45,7 +45,7 @@ class Builder extends SFStdLib\CoreObject implements SFService\Builder {
      * @throws \SprayFire\Service\Exception\ServiceNotFound
      * @throws \SprayFire\Service\Exception\FactoryNotRegistered
      */
-    public function buildConsumer(SFService\Consumer $Consumer) {
+    public function buildConsumer(Service\Consumer $Consumer) {
         $Consumer->beforeBuild();
         $services = $Consumer->getRequestedServices();
         if ($this->isTraversable($services)) {

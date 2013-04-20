@@ -10,7 +10,7 @@
 
 namespace SprayFire\Validation\Result;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  *
@@ -18,7 +18,7 @@ use \SprayFire\Object as SFObject;
  * @package SprayFire
  * @subpackage Validation.Result
  */
-interface Result extends SFObject {
+interface Result extends Object {
 
     /**
      * @return boolean

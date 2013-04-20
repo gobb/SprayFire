@@ -10,8 +10,8 @@
  */
 namespace SprayFire;
 
-use \SprayFire\Dispatcher as SFDispatcher,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Dispatcher,
+    \SprayFire\StdLib;
 
 /**
  * Object representing SprayFire's environment configuration and controls how
@@ -19,7 +19,7 @@ use \SprayFire\Dispatcher as SFDispatcher,
  *
  * @package SprayFire
  */
-class EnvironmentConfig extends SFStdLib\CoreObject {
+class EnvironmentConfig extends StdLib\CoreObject {
 
     /**
      * The current version of the framework.

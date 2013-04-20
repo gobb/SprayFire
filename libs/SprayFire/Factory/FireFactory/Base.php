@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Abstract implementation of SprayFire.Factory.Factory that will allow for the
+ * Abstract implementation of \SprayFire\Factory\Factory that will allow for the
  * creation of generic SprayFire objects.
  *
  * @author  Charles Sprayberry
@@ -12,23 +12,23 @@
 
 namespace SprayFire\Factory\FireFactory;
 
-use \SprayFire\Factory as SFFactory,
-    \SprayFire\Logging as SFLogging,
-    \SprayFire\StdLib as SFStdLib,
-    \ReflectionException as ReflectionException,
-    \InvalidArgumentException as InvalidArgumentException;
+use \SprayFire\Factory,
+    \SprayFire\Logging,
+    \SprayFire\StdLib,
+    \ReflectionException,
+    \InvalidArgumentException;
 
 /**
  * All Factory implementations provided by the default SprayFire install will
  * extend from this Factory.
  *
  * @package SprayFire
- * @subpackage Factory.FireFactory
+ * @subpackage Factory.Implementation
  *
  * @todo
  * Look at implementing a strategy pattern for dealing with Factory error handling.
  */
-abstract class Base extends SFStdLib\CoreObject implements SFFactory\Factory {
+abstract class Base extends StdLib\CoreObject implements Factory\Factory {
     /**
      * Cache to help prevent unneeded ReflectionClass from being created.
      *
@@ -66,7 +66,7 @@ abstract class Base extends SFStdLib\CoreObject implements SFFactory\Factory {
      * @param string $nullObject
      * @throws \SprayFire\Factory\Exception\TypeNotFound
      */
-    public function __construct(SFStdLib\ReflectionCache $Cache, SFLogging\LogOverseer $LogOverseer, $returnTypeRestriction, $nullObject) {
+    public function __construct(StdLib\ReflectionCache $Cache, Logging\LogOverseer $LogOverseer, $returnTypeRestriction, $nullObject) {
         $this->ReflectionCache = $Cache;
         $this->LogOverseer = $LogOverseer;
         $this->TypeValidator = $this->createTypeValidator($returnTypeRestriction);
@@ -90,7 +90,7 @@ abstract class Base extends SFStdLib\CoreObject implements SFFactory\Factory {
             return new ObjectTypeValidator($ReflectedType);
         } catch (ReflectionException $ReflectExc) {
             $message = 'The injected interface or class, ' . $objectType . ', passed to ' . \get_class($this) . ' could not be loaded.';
-            throw new SFFactory\Exception\TypeNotFound($message, null, $ReflectExc);
+            throw new Factory\Exception\TypeNotFound($message, null, $ReflectExc);
         }
     }
 
@@ -110,7 +110,7 @@ abstract class Base extends SFStdLib\CoreObject implements SFFactory\Factory {
                 $NullObject = $ReflectedNullObject->newInstanceWithoutConstructor();
             } catch (ReflectionException $ReflectExc) {
                 $message = 'The given null object, ' . $nullObjectType . ', could not be loaded.';
-                throw new SFFactory\Exception\TypeNotFound($message, null, $ReflectExc);
+                throw new Factory\Exception\TypeNotFound($message, null, $ReflectExc);
             }
         }
         $this->TypeValidator->throwExceptionIfObjectNotParentType($NullObject);

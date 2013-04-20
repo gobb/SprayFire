@@ -11,13 +11,13 @@
  */
 namespace SprayFire\Plugin;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * @package SprayFire
  * @subpackage Plugin
  */
-interface PluginSignature extends SFObject {
+interface PluginSignature extends Object {
 
     /**
      * Constant used to determine that a plugin SHOULD be initialized; that is a

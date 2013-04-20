@@ -11,19 +11,16 @@
 
 namespace SprayFire\Responder\FireResponder;
 
-use \SprayFire\Responder as SFResponder,
-    \SprayFire\Controller as SFController,
-    \Traversable as Traversable,
-    \stdClass as stdClass;
+use \SprayFire\Responder,
+    \SprayFire\Controller,
+    \Traversable,
+    \stdClass;
 
 /**
  * @package SprayFire
- * @subpackage Responder.FireResponder
- *
- * @property \SprayFire\FileSys\FireFileSys\Paths $Paths
- * @property \SprayFire\Responder\FireResponder\OutputEscaper $Escaper
+ * @subpackage Responder.Implementation
  */
-class Html extends Base implements SFResponder\Responder {
+class Html extends Base implements Responder\Responder {
 
     /**
      * Stores the final generated response from this Responder
@@ -37,7 +34,7 @@ class Html extends Base implements SFResponder\Responder {
      * @param \SprayFire\Controller\Controller $Controller
      * @return string
      */
-    public function generateDynamicResponse(SFController\Controller $Controller) {
+    public function generateDynamicResponse(Controller\Controller $Controller) {
         $TemplateManager = $Controller->getTemplateManager();
         $LayoutTemplate = $TemplateManager->getLayoutTemplate();
         $data = [];

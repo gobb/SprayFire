@@ -9,19 +9,19 @@
  * code
  */
 
-namespace SprayFireTest\Http\Routing\FireRouting;
+namespace SprayFireTest\Routing\FireRouting;
 
-use \SprayFire\Http\Routing\FireRouting as FireRouting,
-    \PHPUnit_Framework_TestCase as PHPUnitTestCase;
+use \SprayFire\Routing\FireRouting,
+    \PHPUnit_Framework_TestCase;
 
 /**
  * @package SprayFireTest
  * @subpackage Http.Routing.FireRouting
  */
-class NormalizerTest extends PHPUnitTestCase {
+class NormalizerTest extends PHPUnit_Framework_TestCase {
 
     /**
-     * @property SprayFire.Http.Routing.Normalizer
+     * @property \SprayFire\Routing\Normalizer
      */
     protected $Normalizer;
 

@@ -2,7 +2,7 @@
 
 /**
  * Interface that represents data about the requested resource after the
- * SprayFire.Http.Routing.Router has routed a SprayFire.Http.Request
+ * \SprayFire\Routing\Router has routed a \SprayFire\Http\Request
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -10,14 +10,14 @@
  * @since   0.1
  */
 
-namespace SprayFire\Http\Routing;
+namespace SprayFire\Routing;
 
 /**
  * This is, in effect, a Data Transfer Object intended to provide pertinent information
- * about the routed resource to SprayFire.Dispatcher.Dispatcher implementations.
+ * about the routed resource to \SprayFire\Dispatcher\Dispatcher implementations.
  *
  * @package SprayFire
- * @subpackage Http.Routing
+ * @subpackage Routing.Interface
  */
 interface RoutedRequest {
 

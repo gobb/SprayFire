@@ -8,18 +8,18 @@
  * @version 0.1
  * @since   0.1
  */
-namespace SprayFireTest\Http\Routing\FireRouting;
+namespace SprayFireTest\Routing\FireRouting;
 
-use \SprayFire\Http\Routing\FireRouting as FireRouting,
-    \PHPUnit_Framework_TestCase as PHPUnitTestCase;
+use \SprayFire\Routing\FireRouting,
+    \PHPUnit_Framework_TestCase;
 
 /**
  *
  *
  * @package SprayFireTest
- * @subpackage Http.Routing.FireRouting
+ * @subpackage Routing
  */
-class RouteTest extends PHPUnitTestCase {
+class RouteTest extends PHPUnit_Framework_TestCase {
 
     public function testGetPatternFromRoute() {
         $pattern = 'regular expression pattern';

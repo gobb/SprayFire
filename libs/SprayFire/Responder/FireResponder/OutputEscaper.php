@@ -12,9 +12,9 @@
 
 namespace SprayFire\Responder\FireResponder;
 
-use \SprayFire\Responder as SFResponder,
-    \SprayFire\StdLib as SFStdLib,
-    \Zend\Escaper as ZendEscaper;
+use \SprayFire\Responder,
+    \SprayFire\StdLib,
+    \Zend\Escaper;
 
 /**
  * This implementation is intended to be used with the \Zend\Escaper\Escaper
@@ -34,9 +34,9 @@ use \SprayFire\Responder as SFResponder,
  * to ensure the API for the module works as expected.
  *
  * @package SprayFire
- * @subpackage Responder.FireResponder
+ * @subpackage Responder.Implementation
  */
-class OutputEscaper extends SFStdLib\CoreObject implements SFResponder\OutputEscaper {
+class OutputEscaper extends StdLib\CoreObject implements Responder\OutputEscaper {
 
     /**
      * Used in conjunction with preserveDataType to indicate that boolean and
@@ -73,7 +73,7 @@ class OutputEscaper extends SFStdLib\CoreObject implements SFResponder\OutputEsc
      * @param string $encoding
      */
     public function __construct($encoding) {
-        $this->ZendEscaper = new ZendEscaper\Escaper($encoding);
+        $this->ZendEscaper = new Escaper\Escaper($encoding);
     }
 
     /**

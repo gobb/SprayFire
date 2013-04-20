@@ -12,7 +12,7 @@
  */
 namespace SprayFire\Mediator\Exception;
 
-use \RuntimeException as RuntimeException;
+use \RuntimeException;
 
 /**
  *

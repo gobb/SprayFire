@@ -10,16 +10,16 @@
  * @since   0.1
  */
 
-namespace SprayFire\Http\Routing;
+namespace SprayFire\Routing;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 
 /**
  * @package SprayFire
- * @subpackage Http.Routing
+ * @subpackage Routing.Interface
  */
-interface Route extends SFObject {
+interface Route extends Object {
 
     /**
      * Return the pattern, presumably regex, that will be used to match against

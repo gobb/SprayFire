@@ -11,7 +11,7 @@
  */
 namespace SprayFire\Service;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * An interface to abstract providing services to a Consumer from a Container
@@ -26,9 +26,9 @@ use \SprayFire\Object as SFObject;
  * it in some factory object creation process.
  *
  * @package SprayFire
- * @subpackage Service
+ * @subpackage Service.Interface
  */
-interface Builder extends SFObject {
+interface Builder extends Object {
 
     /**
      * Should ensure that the requested services from the passed $Consumer are

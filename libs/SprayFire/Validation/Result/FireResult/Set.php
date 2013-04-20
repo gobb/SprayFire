@@ -12,15 +12,15 @@
 
 namespace SprayFire\Validation\Result\FireResult;
 
-use \SprayFire\Validation\Result as SFValidationResult,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Validation\Result as SFResult,
+    \SprayFire\StdLib;
 /**
  *
  *
  * @package SprayFire
  * @subpackage Validation.FireValidation.FireResult
  */
-class Set extends SFStdLib\CoreObject implements SFValidationResult\Set {
+class Set extends StdLib\CoreObject implements SFResult\Set {
 
     /**
      * Holds the valid \SprayFire\Validation\Result\Result objects added stored
@@ -77,7 +77,7 @@ class Set extends SFStdLib\CoreObject implements SFValidationResult\Set {
      *
      * @param \SprayFire\Validation\Result\Result $Result
      */
-    public function addResult(SFValidationResult\Result $Result) {
+    public function addResult(SFResult\Result $Result) {
         if ($Result->passedCheck()) {
             $this->addSuccessfulResult($Result);
         } else {
@@ -88,7 +88,7 @@ class Set extends SFStdLib\CoreObject implements SFValidationResult\Set {
     /**
      * @param \SprayFire\Validation\Result\Result $Result
      */
-    protected function addSuccessfulResult(SFValidationResult\Result $Result) {
+    protected function addSuccessfulResult(SFResult\Result $Result) {
         $field = (string) $Result->getFieldName();
         if (!isset($this->successfulResults[$field])) {
             $this->successfulResults[$field] = [];
@@ -100,7 +100,7 @@ class Set extends SFStdLib\CoreObject implements SFValidationResult\Set {
     /**
      * @param \SprayFire\Validation\Result\Result $Result
      */
-    protected function addFailedResult(SFValidationResult\Result $Result) {
+    protected function addFailedResult(SFResult\Result $Result) {
         $field = (string) $Result->getFieldName();
         if (!isset($this->failureResults[$field])) {
             $this->failureResults[$field] = [];
@@ -119,12 +119,12 @@ class Set extends SFStdLib\CoreObject implements SFValidationResult\Set {
      * @param string $resultType
      * @return integer
      */
-    public function count($resultType = SFValidationResult\Set::ALL_RESULTS) {
-        if ($resultType === SFValidationResult\Set::SUCCESSFUL_RESULTS) {
+    public function count($resultType = SFResult\Set::ALL_RESULTS) {
+        if ($resultType === SFResult\Set::SUCCESSFUL_RESULTS) {
             return $this->numSuccessfulResults;
-        } elseif ($resultType === SFValidationResult\Set::FAILURE_RESULTS) {
+        } elseif ($resultType === SFResult\Set::FAILURE_RESULTS) {
             return $this->numFailureResults;
-        } elseif ($resultType === SFValidationResult\Set::ALL_RESULTS) {
+        } elseif ($resultType === SFResult\Set::ALL_RESULTS) {
             return $this->numSuccessfulResults + $this->numFailureResults;
         }
         \trigger_error(\sprintf($this->errorMessage, $resultType, __METHOD__), \E_USER_NOTICE);
@@ -153,7 +153,7 @@ class Set extends SFStdLib\CoreObject implements SFValidationResult\Set {
      * @return boolean
      */
     public function hasFailedResults() {
-        return ($this->count(SFValidationResult\Set::FAILURE_RESULTS) > 0);
+        return ($this->count(SFResult\Set::FAILURE_RESULTS) > 0);
     }
 
     /**
@@ -189,13 +189,13 @@ class Set extends SFStdLib\CoreObject implements SFValidationResult\Set {
      * @param string $resultType
      * @return array
      */
-    public function getResultsByFieldName($field, $resultType = SFValidationResult\Set::ALL_RESULTS) {
+    public function getResultsByFieldName($field, $resultType = SFResult\Set::ALL_RESULTS) {
         $field = (string) $field;
-        if ($resultType === SFValidationResult\Set::SUCCESSFUL_RESULTS) {
+        if ($resultType === SFResult\Set::SUCCESSFUL_RESULTS) {
             return $this->getSuccessfulResultsByFieldName($field);
-        } elseif ($resultType === SFValidationResult\Set::FAILURE_RESULTS) {
+        } elseif ($resultType === SFResult\Set::FAILURE_RESULTS) {
             return $this->getFailedResultsByFieldName($field);
-        } elseif ($resultType === SFValidationResult\Set::ALL_RESULTS) {
+        } elseif ($resultType === SFResult\Set::ALL_RESULTS) {
             return \array_merge($this->getSuccessfulResultsByFieldName($field), $this->getFailedResultsByFieldName($field));
         }
         \trigger_error(\sprintf($this->errorMessage, $resultType, __METHOD__), \E_USER_NOTICE);

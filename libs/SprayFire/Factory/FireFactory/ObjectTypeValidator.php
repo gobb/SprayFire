@@ -19,7 +19,7 @@ use \ReflectionClass as ReflectionClass,
  * in module SprayFire.Factory.FireFactory
  *
  * @package SprayFire
- * @subpackage Factory.FireFactory
+ * @subpackage Factory.Implementation
  */
 class ObjectTypeValidator {
 

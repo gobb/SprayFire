@@ -8,10 +8,10 @@
  * @version 0.1
  * @since   0.1
  */
-namespace SprayFireTest\Http\Routing\FireRouting;
+namespace SprayFireTest\Routing\FireRouting;
 
-use \SprayFire\Http\Routing\FireRouting as FireRouting,
-    \PHPUnit_Framework_TestCase as PHPUnitTestCase;
+use \SprayFire\Routing\FireRouting,
+    \PHPUnit_Framework_TestCase;
 
 /**
  *
@@ -19,16 +19,16 @@ use \SprayFire\Http\Routing\FireRouting as FireRouting,
  * @package SprayFireTest
  * @subpackage Http.Routing.FireRouting
  */
-class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
+class ConfigurationMatchStrategyTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Ensures that if there are no routes added to a bag that no loop or conditionals
      * are checked and an appropriate default $Route is returned.
      */
     public function testGettingAppropriateRouteAndParametersForEmptyBag() {
-        $NoMatchRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $NoMatchRoute = $this->getMock('\SprayFire\Routing\Route');
 
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Bag->expects($this->once())
             ->method('count')
             ->will($this->returnValue(0));
@@ -52,17 +52,17 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
      * appropriate Route is returned.
      */
     public function testMatchingRequestPathToRouteInBag() {
-        $NotItRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $NotItRoute = $this->getMock('\SprayFire\Routing\Route');
         $NotItRoute->expects($this->once())
                    ->method('getPattern')
                    ->will($this->returnValue('not it'));
 
-        $TheOneRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $TheOneRoute = $this->getMock('\SprayFire\Routing\Route');
         $TheOneRoute->expects($this->once())
                     ->method('getPattern')
                     ->will($this->returnValue('/the_one/'));
 
-        $NopeRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $NopeRoute = $this->getMock('\SprayFire\Routing\Route');
         $NopeRoute->expects($this->never())
                   ->method('getPattern');
 
@@ -71,7 +71,7 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
             $TheOneRoute,
             $NopeRoute
         );
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Bag->expects($this->once())
             ->method('count')
             ->will($this->returnValue(3));
@@ -102,24 +102,24 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
      * bag will be returned.
      */
     public function testEnsureNoMatchRouteIfNoMatchInBag() {
-        $DefaultRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $DefaultRoute = $this->getMock('\SprayFire\Routing\Route');
 
-        $BlankRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $BlankRoute = $this->getMock('\SprayFire\Routing\Route');
         $BlankRoute->expects($this->once())
                    ->method('getPattern')
                    ->will($this->returnValue(''));
 
-        $SprayFireRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $SprayFireRoute = $this->getMock('\SprayFire\Routing\Route');
         $SprayFireRoute->expects($this->once())
                        ->method('getPattern')
                        ->will($this->returnValue('/sprayfire/'));
 
-        $FooRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $FooRoute = $this->getMock('\SprayFire\Routing\Route');
         $FooRoute->expects($this->once())
                  ->method('getPattern')
                  ->will($this->returnValue('/foo/'));
 
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Bag->expects($this->once())
             ->method('count')
             ->will($this->returnValue(3));
@@ -150,10 +150,10 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
     }
 
     public function testStrategyHandlesEmptyPath() {
-        $Route = $this->getMock('\SprayFire\Http\Routing\Route');
+        $Route = $this->getMock('\SprayFire\Routing\Route');
         $Route->expects($this->once())->method('getPattern')->will($this->returnValue('/'));
 
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Bag->expects($this->once())->method('count')->will($this->returnValue(1));
 
         $Bag->expects($this->once())->method('getIterator')->will($this->returnValue(new \ArrayIterator([$Route])));
@@ -170,19 +170,19 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
     }
 
     public function testRouteNotBeingMatchedBecauseOfMethod() {
-        $DefaultRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $DefaultRoute = $this->getMock('\SprayFire\Routing\Route');
 
-        $BlankRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $BlankRoute = $this->getMock('\SprayFire\Routing\Route');
         $BlankRoute->expects($this->once())
                    ->method('getPattern')
                    ->will($this->returnValue(''));
 
-        $FooRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $FooRoute = $this->getMock('\SprayFire\Routing\Route');
         $FooRoute->expects($this->once())
                  ->method('getPattern')
                  ->will($this->returnValue('/foo/'));
 
-        $MatchRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MatchRoute = $this->getMock('\SprayFire\Routing\Route');
         $MatchRoute->expects($this->once())
                    ->method('getPattern')
                    ->will($this->returnValue('/match/'));
@@ -190,7 +190,7 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
                    ->method('getMethod')
                    ->will($this->returnValue('GET'));
 
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Bag->expects($this->once())
             ->method('count')
             ->will($this->returnValue(3));
@@ -223,12 +223,12 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
     }
 
     public function testEnsureInstallDirectoryIsAppropriatelyRemovedInComparison() {
-        $MatchedRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MatchedRoute = $this->getMock('\SprayFire\Routing\Route');
         $MatchedRoute->expects($this->once())
                      ->method('getPattern')
                      ->will($this->returnValue('/match/'));
 
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Bag->expects($this->once())
             ->method('count')
             ->will($this->returnValue(1));
@@ -258,12 +258,12 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
     }
 
     public function testParametersAreMatchedWithSubGroupRoutePattern() {
-        $MatchedRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MatchedRoute = $this->getMock('\SprayFire\Routing\Route');
         $MatchedRoute->expects($this->once())
                      ->method('getPattern')
                      ->will($this->returnValue('/charles/drinks/(?P<brewer>[A-Za-z_]+)/(?P<beer>[A-Za-z_]+)/'));
 
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Bag->expects($this->once())
             ->method('count')
             ->will($this->returnValue(1));
@@ -294,12 +294,12 @@ class ConfigurationMatchStrategyTest extends PHPUnitTestCase {
     }
 
     public function testMatchingPathWithNoLeadingOrTrailingSlash() {
-        $MatchedRoute = $this->getMock('\SprayFire\Http\Routing\Route');
+        $MatchedRoute = $this->getMock('\SprayFire\Routing\Route');
         $MatchedRoute->expects($this->once())
             ->method('getPattern')
             ->will($this->returnValue('/match/'));
 
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Bag->expects($this->once())
             ->method('count')
             ->will($this->returnValue(1));

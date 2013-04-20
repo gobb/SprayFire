@@ -12,16 +12,16 @@
 
 namespace SprayFire\Service\FireService;
 
-use \SprayFire\Service as SFService,
-    \SprayFire\StdLib as SFStdLib,
-    \InvalidArgumentException as InvalidArgumentException,
-    \BadMethodCallException as BadMethodCallException;
+use \SprayFire\Service,
+    \SprayFire\StdLib,
+    \InvalidArgumentException,
+    \BadMethodCallException;
 
 /**
  * @package SprayFire
  * @subpackage Service.FireService
  */
-abstract class Consumer extends SFStdLib\CoreObject implements SFService\Consumer {
+abstract class Consumer extends StdLib\CoreObject implements Service\Consumer {
 
     /**
      * @property array
@@ -36,7 +36,7 @@ abstract class Consumer extends SFStdLib\CoreObject implements SFService\Consume
     /**
      * @param \SprayFire\Service\Builder $Builder
      */
-    public function __construct(SFService\Builder $Builder) {
+    public function __construct(Service\Builder $Builder) {
         $Builder->buildConsumer($this);
     }
 

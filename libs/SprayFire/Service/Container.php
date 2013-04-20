@@ -12,14 +12,14 @@
 
 namespace SprayFire\Service;
 
-use \SprayFire\Factory as SFFactory,
-    \SprayFire\Object as SFObject;
+use \SprayFire\Factory,
+    \SprayFire\Object;
 
 /**
  * @package SprayFire
  * @subpackage Service
  */
-interface Container extends SFObject {
+interface Container extends Object {
 
     /**
      * Will return the object represented by $serviceName or throw an exception
@@ -61,6 +61,6 @@ interface Container extends SFObject {
      * @param string $factoryKey
      * @param \SprayFire\Factory\Factory $Factory
      */
-    public function registerFactory($factoryKey, SFFactory\Factory $Factory);
+    public function registerFactory($factoryKey, Factory\Factory $Factory);
 
 }

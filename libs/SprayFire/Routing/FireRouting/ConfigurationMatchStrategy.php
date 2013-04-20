@@ -9,10 +9,10 @@
  * @version 0.2
  * @since   0.1
  */
-namespace SprayFire\Http\Routing\FireRouting;
+namespace SprayFire\Routing\FireRouting;
 
-use \SprayFire\Http as SFHttp,
-    \SprayFire\Http\Routing as SFHttpRouting;
+use \SprayFire\Http,
+    \SprayFire\Routing;
 
 /**
  * If a $Route is not matched to the request's URI path the default $Route for the
@@ -23,16 +23,16 @@ use \SprayFire\Http as SFHttp,
  * that the beginning and end of the path matches the pattern exactly.
  *
  * @package SprayFire
- * @subpackage Http.Routing.FireRouting
+ * @subpackage Routing.Implementation
  */
 class ConfigurationMatchStrategy extends MatchStrategy {
 
     /**
-     * @param \SprayFire\Http\Routing\RouteBag $Bag
+     * @param \SprayFire\Routing\RouteBag $Bag
      * @param \SprayFire\Http\Request $Request
      * @return array
      */
-    public function getRouteAndParameters(SFHttpRouting\RouteBag $Bag, SFHttp\Request $Request) {
+    public function getRouteAndParameters(Routing\RouteBag $Bag, Http\Request $Request) {
         if (\count($Bag) === 0) {
             return [
                 self::ROUTE_KEY => $Bag->getRoute(),
@@ -49,7 +49,7 @@ class ConfigurationMatchStrategy extends MatchStrategy {
         $method = \strtoupper($Request->getMethod());
 
         foreach ($Bag as $Route) {
-            /* @var \SprayFire\Http\Routing\Route $Route */
+            /* @var \SprayFire\Routing\Route $Route */
             $routePattern = '#^' .  $Route->getPattern() . '$#';
             $routeMethod = \strtoupper($Route->getMethod());
 

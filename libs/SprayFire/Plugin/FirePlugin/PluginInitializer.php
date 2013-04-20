@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Implementation of SprayFire.Dispatcher.AppInitializer provided with the default
- * SprayFire install.
+ * Non-interface backed implementation that handles the plug initialization process
+ * for the Plugin\Manager.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -12,11 +12,11 @@
 
 namespace SprayFire\Plugin\FirePlugin;
 
-use \SprayFire\Service as SFService,
-    \SprayFire\Bootstrap as SFBootstrap,
-    \SprayFire\StdLib as SFStdLib,
-    \SprayFire\Plugin\Exception as SFPluginException,
-    \ClassLoader\Loader as ClassLoader;
+use \SprayFire\Service,
+    \SprayFire\Bootstrap,
+    \SprayFire\StdLib,
+    \SprayFire\Plugin,
+    \ClassLoader\Loader;
 
 /**
  * During framework initialization, after the Request has been routed, this class
@@ -24,9 +24,9 @@ use \SprayFire\Service as SFService,
  * you may run whatever startup scripts your app needs.
  *
  * @package SprayFire
- * @subpackage Dispatcher.FireDispatcher
+ * @subpackage Plugin.Implementation
  */
-class PluginInitializer extends SFStdLib\CoreObject {
+class PluginInitializer extends StdLib\CoreObject {
 
     /**
      * Is here to provide the bootstrap process for the application a way to setup
@@ -51,7 +51,7 @@ class PluginInitializer extends SFStdLib\CoreObject {
      * @param \SprayFire\Service\Container $Container
      * @param \ClassLoader\Loader $ClassLoader
      */
-    public function __construct(SFService\Container $Container, ClassLoader $ClassLoader) {
+    public function __construct(Service\Container $Container, Loader $ClassLoader) {
         $this->Container = $Container;
         $this->ClassLoader = $ClassLoader;
     }
@@ -73,15 +73,15 @@ class PluginInitializer extends SFStdLib\CoreObject {
         $bootstrapName = '\\' . $appNamespace . '\\Bootstrap';
         if (!\class_exists($bootstrapName)) {
             $message = 'The bootstrap for %s could not be found.  Please ensure you have created a %s object and autoloading has been setup for %s';
-            throw new SFPluginException\PluginBootstrapNotFound(\sprintf($message, $appNamespace, $bootstrapName, $appNamespace));
+            throw new Plugin\Exception\PluginBootstrapNotFound(\sprintf($message, $appNamespace, $bootstrapName, $appNamespace));
         }
 
         /** @var \SprayFire\Bootstrap\Bootstrapper $Bootstrap */
         $Bootstrap = new $bootstrapName($this->Container, $this->ClassLoader);
 
-        if (($Bootstrap instanceof SFBootstrap\Bootstrapper) === false) {
+        if (($Bootstrap instanceof Bootstrap\Bootstrapper) === false) {
             $message = '%s does not properly implement the %s interface';
-            throw new SFPluginException\PluginBootstrapWrongType(\sprintf($message, $bootstrapName, '\\SprayFire\\Bootstrap\\Bootstrapper'));
+            throw new Plugin\Exception\PluginBootstrapWrongType(\sprintf($message, $bootstrapName, '\\SprayFire\\Bootstrap\\Bootstrapper'));
         }
 
         $Bootstrap->runBootstrap();

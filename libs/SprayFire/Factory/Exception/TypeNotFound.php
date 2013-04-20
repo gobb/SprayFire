@@ -11,11 +11,11 @@
  */
 namespace SprayFire\Factory\Exception;
 
-use \InvalidArgumentException as InvalidArgumentException;
+use \InvalidArgumentException;
 
 /**
  * @package SprayFire
- * @subpackage Factory.Exception
+ * @subpackage Exception
  */
 class TypeNotFound extends InvalidArgumentException {
 

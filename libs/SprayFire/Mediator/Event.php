@@ -11,13 +11,13 @@
 
 namespace SprayFire\Mediator;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * @package SprayFire
- * @subpackage Mediator
+ * @subpackage Mediator.Interface
  */
-interface Event extends SFObject {
+interface Event extends Object {
 
     /**
      * @return string

@@ -11,13 +11,13 @@
 
 namespace SprayFire\Http;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * @package SprayFire
- * @subpackage Http
+ * @subpackage Http.Interface
  */
-interface Uri extends SFObject {
+interface Uri extends Object {
 
     /**
      * Will return the HTTP protocol for the given request

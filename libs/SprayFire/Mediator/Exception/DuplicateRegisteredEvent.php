@@ -11,7 +11,7 @@
  */
 namespace SprayFire\Mediator\Exception;
 
-use \InvalidArgumentException as InvalidArgumentException;
+use \InvalidArgumentException;
 
 /**
  * @package SprayFire

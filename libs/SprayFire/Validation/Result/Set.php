@@ -11,7 +11,7 @@
 
 namespace SprayFire\Validation\Result;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  *
@@ -19,7 +19,7 @@ use \SprayFire\Object as SFObject;
  * @package SprayFire
  * @subpackage Validation.Result
  */
-interface Set extends SFObject {
+interface Set extends Object {
 
     const ALL_RESULTS = 'all';
 

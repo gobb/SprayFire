@@ -11,7 +11,7 @@
 
 namespace SprayFire\Validation\Check;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * The primary responsibilities for objects implementing this interface are to
@@ -42,7 +42,7 @@ use \SprayFire\Object as SFObject;
  * @package SprayFire
  * @subpackage Validation.Check
  */
-interface Check extends SFObject, MessageTokenizable {
+interface Check extends Object, MessageTokenizable {
 
     /**
      * Determine if the $value passes the rule for the given check.

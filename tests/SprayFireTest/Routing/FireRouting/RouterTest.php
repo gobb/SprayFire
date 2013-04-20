@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Test cases for \SprayFire\Http\Routing\FireRouting\Router to ensure that the
- * appropriate \SprayFire\Http\Routing\RoutedRequest is returned.
+ * Test cases for \SprayFire\Routing\FireRouting\Router to ensure that the
+ * appropriate \SprayFire\Routing\RoutedRequest is returned.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -10,10 +10,10 @@
  * @since   0.1
  */
 
-namespace SprayFireTest\Http\Routing\FireRouting;
+namespace SprayFireTest\Routing\FireRouting;
 
-use \SprayFire\Http\Routing as SFRouting,
-    \SprayFire\Http\Routing\FireRouting as FireRouting,
+use \SprayFire\Routing as SFRouting,
+    \SprayFire\Routing\FireRouting as FireRouting,
     \PHPUnit_Framework_TestCase as PHPUnitTestCase;
 
 /**
@@ -28,9 +28,9 @@ class RouterTest extends PHPUnitTestCase {
      *
      */
     public function testBasicIntegrationWithMatchingStrategy() {
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Request = $this->getMock('\SprayFire\Http\Request');
-        $Route = $this->getMock('\SprayFire\Http\Routing\Route');
+        $Route = $this->getMock('\SprayFire\Routing\Route');
         $Route->expects($this->once())
               ->method('getControllerNamespace')
               ->will($this->returnValue('SprayFire.Controller.FireController'));
@@ -40,13 +40,13 @@ class RouterTest extends PHPUnitTestCase {
         $Route->expects($this->once())
               ->method('getAction')
               ->will($this->returnValue('index'));
-        $Strategy = $this->getMock('\SprayFire\Http\Routing\MatchStrategy');
+        $Strategy = $this->getMock('\SprayFire\Routing\MatchStrategy');
         $Strategy->expects($this->once())
                  ->method('getRouteAndParameters')
                  ->with($Bag, $Request)
                  ->will($this->returnValue(array('Route' => $Route, 'parameters' => array())));
 
-        $Normalizer = $this->getMock('\SprayFire\Http\Routing\FireRouting\Normalizer');
+        $Normalizer = $this->getMock('\SprayFire\Routing\FireRouting\Normalizer');
         $Normalizer->expects($this->never())
                    ->method('normalizeController');
         $Normalizer->expects($this->never())
@@ -60,9 +60,9 @@ class RouterTest extends PHPUnitTestCase {
     }
 
     public function testEnsuringRoutedRequestsAreCachedAppropriately() {
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Request = $this->getMock('\SprayFire\Http\Request');
-        $Route = $this->getMock('\SprayFire\Http\Routing\Route');
+        $Route = $this->getMock('\SprayFire\Routing\Route');
         $Route->expects($this->once())
             ->method('getControllerNamespace')
             ->will($this->returnValue('SprayFire.Controller.FireController'));
@@ -72,13 +72,13 @@ class RouterTest extends PHPUnitTestCase {
         $Route->expects($this->once())
             ->method('getAction')
             ->will($this->returnValue('index'));
-        $Strategy = $this->getMock('\SprayFire\Http\Routing\MatchStrategy');
+        $Strategy = $this->getMock('\SprayFire\Routing\MatchStrategy');
         $Strategy->expects($this->once())
             ->method('getRouteAndParameters')
             ->with($Bag, $Request)
             ->will($this->returnValue(array('Route' => $Route, 'parameters' => array())));
 
-        $Normalizer = $this->getMock('\SprayFire\Http\Routing\FireRouting\Normalizer');
+        $Normalizer = $this->getMock('\SprayFire\Routing\FireRouting\Normalizer');
         $Normalizer->expects($this->never())
             ->method('normalizeController');
         $Normalizer->expects($this->never())
@@ -94,9 +94,9 @@ class RouterTest extends PHPUnitTestCase {
     }
 
     public function testEnsuringControllerIsNormalizedProperly() {
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Request = $this->getMock('\SprayFire\Http\Request');
-        $Route = $this->getMock('\SprayFire\Http\Routing\Route');
+        $Route = $this->getMock('\SprayFire\Routing\Route');
         $Route->expects($this->once())
             ->method('getControllerNamespace')
             ->will($this->returnValue('SprayFire.Controller.FireController'));
@@ -106,13 +106,13 @@ class RouterTest extends PHPUnitTestCase {
         $Route->expects($this->once())
             ->method('getAction')
             ->will($this->returnValue('index'));
-        $Strategy = $this->getMock('\SprayFire\Http\Routing\MatchStrategy');
+        $Strategy = $this->getMock('\SprayFire\Routing\MatchStrategy');
         $Strategy->expects($this->once())
             ->method('getRouteAndParameters')
             ->with($Bag, $Request)
             ->will($this->returnValue(array('Route' => $Route, 'parameters' => array())));
 
-        $Normalizer = $this->getMock('\SprayFire\Http\Routing\FireRouting\Normalizer');
+        $Normalizer = $this->getMock('\SprayFire\Routing\FireRouting\Normalizer');
         $Normalizer->expects($this->once())
             ->method('normalizeController')
             ->with('test_pages')
@@ -128,9 +128,9 @@ class RouterTest extends PHPUnitTestCase {
     }
 
     public function testNormalizingActionProperly() {
-        $Bag = $this->getMock('\SprayFire\Http\Routing\RouteBag');
+        $Bag = $this->getMock('\SprayFire\Routing\RouteBag');
         $Request = $this->getMock('\SprayFire\Http\Request');
-        $Route = $this->getMock('\SprayFire\Http\Routing\Route');
+        $Route = $this->getMock('\SprayFire\Routing\Route');
         $Route->expects($this->once())
             ->method('getControllerNamespace')
             ->will($this->returnValue('SprayFire.Controller.FireController'));
@@ -140,13 +140,13 @@ class RouterTest extends PHPUnitTestCase {
         $Route->expects($this->once())
               ->method('getAction')
               ->will($this->returnValue('index_yo_dog'));
-        $Strategy = $this->getMock('\SprayFire\Http\Routing\MatchStrategy');
+        $Strategy = $this->getMock('\SprayFire\Routing\MatchStrategy');
         $Strategy->expects($this->once())
                  ->method('getRouteAndParameters')
                  ->with($Bag, $Request)
                  ->will($this->returnValue(array('Route' => $Route, 'parameters' => array())));
 
-        $Normalizer = $this->getMock('\SprayFire\Http\Routing\FireRouting\Normalizer');
+        $Normalizer = $this->getMock('\SprayFire\Routing\FireRouting\Normalizer');
         $Normalizer->expects($this->never())
                    ->method('normalizeController');
         $Normalizer->expects($this->once())

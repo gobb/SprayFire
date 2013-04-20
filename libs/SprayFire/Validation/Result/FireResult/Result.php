@@ -12,14 +12,14 @@
 
 namespace SprayFire\Validation\Result\FireResult;
 
-use \SprayFire\Validation\Result as SFValidationResult,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Validation\Result as SFResult,
+    \SprayFire\StdLib;
 
 /**
  * @package SprayFire
  * @subpackage Validation.Result.FireResult
  */
-class Result extends SFStdLib\CoreObject implements SFValidationResult\Result {
+class Result extends StdLib\CoreObject implements SFResult\Result {
 
     /**
      * @property string

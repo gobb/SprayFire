@@ -11,9 +11,9 @@
 
 namespace SprayFire\Http\FireHttp;
 
-use \SprayFire\Http as SFHttp,
-    \SprayFire\Object as SFObject,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Http,
+    \SprayFire\Object,
+    \SprayFire\StdLib;
 
 /**
  * This implementation is designed to gather information about the HTTP URI from
@@ -24,9 +24,9 @@ use \SprayFire\Http as SFHttp,
  * values.
  *
  * @package SprayFire
- * @subpackage Http.FireHttp
+ * @subpackage Http.Implementation
  */
-class Uri extends SFStdLib\CoreObject implements SFHttp\Uri {
+class Uri extends StdLib\CoreObject implements Http\Uri {
 
     /**
      * @property string
@@ -157,8 +157,8 @@ class Uri extends SFStdLib\CoreObject implements SFHttp\Uri {
      * @param \SprayFire\Object $Object
      * @return boolean
      */
-    public function equals(SFObject $Object) {
-        if (!($Object instanceof SFHttp\Uri)) {
+    public function equals(Object $Object) {
+        if (!($Object instanceof Http\Uri)) {
             return false;
         }
 

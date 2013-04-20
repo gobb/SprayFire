@@ -8,13 +8,13 @@
  * @version 0.2
  * @since   0.1
  */
-namespace SprayFire\Http\Routing\Exception;
+namespace SprayFire\Routing\Exception;
 
-use \RuntimeException as RuntimeException;
+use \RuntimeException;
 
 /**
  * @package SprayFire
- * @subpackage Http.Routing.Exception
+ * @subpackage Routing.Exception
  */
 class DuplicateRouteAdded extends RuntimeException {
 

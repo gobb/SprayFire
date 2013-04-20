@@ -12,8 +12,8 @@
 
 namespace SprayFire\Http\FireHttp;
 
-use \SprayFire\Http as SFHttp,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Http,
+    \SprayFire\StdLib;
 
 /**
  * Will determine the appropriate HTTP request headers based on common indices
@@ -25,9 +25,9 @@ use \SprayFire\Http as SFHttp,
  *
  *
  * @package SprayFire
- * @subpackage Http.FireHttp
+ * @subpackage Http.Implementation
  */
-class RequestHeaders extends SFStdLib\CoreObject implements SFHttp\RequestHeaders {
+class RequestHeaders extends StdLib\CoreObject implements Http\RequestHeaders {
 
     /**
      * @property string

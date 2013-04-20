@@ -11,18 +11,18 @@
 
 namespace SprayFire\Logging;
 
-use \SprayFire\StdLib as SFStdLib;
+use \SprayFire\StdLib;
 
 /**
  * Primary use case for this object is as a return value to an implementation of
  * a Logger factory.
  *
  * @package SprayFire
- * @subpackage Logging
+ * @subpackage Logging.Implementation
  *
  * @codeCoverageIgnore
  */
-class NullLogger extends SFStdLib\CoreObject implements Logger {
+class NullLogger extends StdLib\CoreObject implements Logger {
 
     /**
      * Performs no operation, always returns true.

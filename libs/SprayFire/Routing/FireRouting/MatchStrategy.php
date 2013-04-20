@@ -9,16 +9,16 @@
  * @version 0.2
  * @since   0.1
  */
-namespace SprayFire\Http\Routing\FireRouting;
+namespace SprayFire\Routing\FireRouting;
 
-use \SprayFire\Http\Routing as SFHttpRouting,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Routing,
+    \SprayFire\StdLib;
 
 /**
  * @package SprayFire
- * @subpackage Http.Routing.FireRouting
+ * @subpackage Routing.Implementation
  */
-abstract class MatchStrategy extends SFStdLib\CoreObject implements SFHttpRouting\MatchStrategy  {
+abstract class MatchStrategy extends StdLib\CoreObject implements Routing\MatchStrategy  {
 
     /**
      * @property string

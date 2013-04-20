@@ -1,7 +1,7 @@
 <?php
 
 /**
- * An implementation of SprayFire.Controller.Controller that should perform no
+ * An implementation of \SprayFire\Controller\Controller that should perform no
  * operations.
  *
  * @author  Charles Sprayberry
@@ -13,10 +13,10 @@
 namespace SprayFire\Controller;
 
 use \SprayFire\Controller as SFController,
-    \SprayFire\Mediator as SFMediator,
-    \SprayFire\Responder as SFResponder,
-    \SprayFire\StdLib as SFStdLib,
-    \SprayFire\Responder\Template\FireTemplate as FireTemplate;
+    \SprayFire\Mediator,
+    \SprayFire\Responder,
+    \SprayFire\StdLib,
+    \SprayFire\Responder\Template\FireTemplate;
 
 /**
  * By default this object is returned from the SprayFire.Controller.FireController.Factory
@@ -29,11 +29,11 @@ use \SprayFire\Controller as SFController,
  * majority of calls.
  *
  * @package SprayFire
- * @subpackage Controller
+ * @subpackage Controller.Implementation
  *
  * @codeCoverageIgnore
  */
-class NullObject extends SFStdLib\CoreObject implements SFController\Controller {
+class NullObject extends StdLib\CoreObject implements SFController\Controller {
 
     /**
      * Returned from self::getTemplateManager to allow the controller to determine
@@ -75,7 +75,7 @@ class NullObject extends SFStdLib\CoreObject implements SFController\Controller 
      * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
-    public function beforeAction(SFMediator\Event $Event) {
+    public function beforeAction(Mediator\Event $Event) {
         $this->setUpTemplateManager();
     }
 
@@ -85,7 +85,7 @@ class NullObject extends SFStdLib\CoreObject implements SFController\Controller 
      * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
-    public function afterAction(SFMediator\Event $Event) {
+    public function afterAction(Mediator\Event $Event) {
 
     }
 
@@ -96,7 +96,7 @@ class NullObject extends SFStdLib\CoreObject implements SFController\Controller 
      * @param string $context
      * @return void
      */
-    public function setMultipleResponderData(array $data, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
+    public function setMultipleResponderData(array $data, $context = Responder\OutputEscaper::HTML_CONTENT_CONTEXT) {
 
     }
 
@@ -107,7 +107,7 @@ class NullObject extends SFStdLib\CoreObject implements SFController\Controller 
      * @param mixed $value
      * @param string $context
      */
-    public function setResponderData($name, $value, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
+    public function setResponderData($name, $value, $context = Responder\OutputEscaper::HTML_CONTENT_CONTEXT) {
 
     }
 
@@ -117,7 +117,7 @@ class NullObject extends SFStdLib\CoreObject implements SFController\Controller 
      * @param string $context
      * @return array
      */
-    public function getResponderData($context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
+    public function getResponderData($context = Responder\OutputEscaper::HTML_CONTENT_CONTEXT) {
         return [];
     }
 

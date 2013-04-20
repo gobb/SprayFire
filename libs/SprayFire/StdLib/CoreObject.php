@@ -12,6 +12,8 @@
 
 namespace SprayFire\StdLib;
 
+use \SprayFire\Object;
+
 /**
  * It is recommended that classes needing to implement \SprayFire\Object extend
  * this class.
@@ -26,7 +28,7 @@ namespace SprayFire\StdLib;
  *
  * @codeCoverageIgnore
  */
-abstract class CoreObject implements \SprayFire\Object {
+abstract class CoreObject implements Object {
 
     /**
      * Returns a unique identifier for the object that will be the same for objects
@@ -49,7 +51,7 @@ abstract class CoreObject implements \SprayFire\Object {
      * @param \SprayFire\Object $CompareObject
      * @return boolean
      */
-    public function equals(\SprayFire\Object $CompareObject) {
+    public function equals(Object $CompareObject) {
         return $this->hashCode() === $CompareObject->hashCode();
     }
 

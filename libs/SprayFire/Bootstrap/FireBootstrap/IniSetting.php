@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation of SprayFire.Bootstrapper.Bootstrapper that sets variable php.ini
+ * Implementation of \SprayFire\Bootstrapper\Bootstrapper that sets variable php.ini
  * configuration properties during framework initialization.
  *
  * @author  Charles Sprayberry
@@ -12,17 +12,17 @@
 
 namespace SprayFire\Bootstrap\FireBootstrap;
 
-use \SprayFire\Bootstrap as SFBootstrap,
-    \SprayFire\CoreObject as SFCoreObject;
+use \SprayFire\Bootstrap,
+    \SprayFire\StdLib;
 
 /**
  * This bootstrap should be ran by init.php during framework initialization; to alter
  * the ini values that are set please reference install_dir/config/SprayFire/environment.php.
  *
  * @package SprayFire
- * @subpackage Bootstrap.FireBootstrap
+ * @subpackage Bootstrap.Implementation
  */
-class IniSetting extends SFCoreObject implements SFBootstrap\Bootstrapper {
+class IniSetting extends StdLib\CoreObject implements Bootstrap\Bootstrapper {
 
     /**
      * Associative array holding the settings and values that should be used in

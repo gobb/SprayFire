@@ -10,12 +10,12 @@
  * @since   0.1
  */
 
-namespace SprayFire\Http\Routing\FireRouting;
+namespace SprayFire\Routing\FireRouting;
 
-use \SprayFire\Http as SFHttp,
-    \SprayFire\Http\Routing as SFHttpRouting,
-    \SprayFire\StdLib as SFStdLib,
-    \SplObjectStorage as SplObjectStorage;
+use \SprayFire\Http,
+    \SprayFire\Routing,
+    \SprayFire\StdLib,
+    \SplObjectStorage;
 
 /**
  * At the moment this implementation is a configuration strict implementation,
@@ -27,19 +27,19 @@ use \SprayFire\Http as SFHttp,
  * is detailed at https://github.com/cspray/SprayFire/wiki/HTTP-and-Routing.
  *
  * @package SprayFire
- * @subpackage Http.Routing.FireRouting
+ * @subpackage Routing.Implementation
  */
-class Router extends SFStdLib\CoreObject implements SFHttpRouting\Router {
+class Router extends StdLib\CoreObject implements Routing\Router {
 
     /**
-     * @property \SprayFire\Http\Routing\MatchStrategy
+     * @property \SprayFire\Routing\MatchStrategy
      */
     protected $MatchStrategy;
 
     /**
-     * Holds the routes that we can match against SprayFire.Http.Request.
+     * Holds the routes that we can match against \SprayFire\Http\Request.
      *
-     * @property \SprayFire\Http\Routing\RouteBag
+     * @property \SprayFire\Routing\RouteBag
      */
     protected $RouteBag;
 
@@ -47,12 +47,12 @@ class Router extends SFStdLib\CoreObject implements SFHttpRouting\Router {
      * Ensures that the appropriate controller and action name are passed to the
      * SprayFire.Http.Routing.RoutedRequest.
      *
-     * @property \SprayFire\Http\Routing\FireRouting\Normalizer
+     * @property \SprayFire\Routing\FireRouting\Normalizer
      */
     protected $Normalizer;
 
     /**
-     * Stores \SprayFire\Http\Routing\RoutedRequest objects against \SprayFire\Http\Request
+     * Stores \SprayFire\Routing\RoutedRequest objects against \SprayFire\Http\Request
      * objects used to create them.
      *
      * @property \SplObjectStorage
@@ -63,11 +63,11 @@ class Router extends SFStdLib\CoreObject implements SFHttpRouting\Router {
      * Please see the documentation on routing configurations at
      * https://github.com/cspray/SprayFire/wiki/HTTP-and-Routing
      *
-     * @param \SprayFire\Http\Routing\MatchStrategy $Strategy
-     * @param \SprayFire\Http\Routing\RouteBag $RouteBag
-     * @param \SprayFire\Http\Routing\FireRouting\Normalizer $Normalizer
+     * @param \SprayFire\Routing\MatchStrategy $Strategy
+     * @param \SprayFire\Routing\RouteBag $RouteBag
+     * @param \SprayFire\Routing\FireRouting\Normalizer $Normalizer
      */
-    public function __construct(SFHttpRouting\MatchStrategy $Strategy, SFHttpRouting\RouteBag $RouteBag, Normalizer $Normalizer) {
+    public function __construct(Routing\MatchStrategy $Strategy, Routing\RouteBag $RouteBag, Normalizer $Normalizer) {
         $this->MatchStrategy = $Strategy;
         $this->RouteBag = $RouteBag;
         $this->Normalizer = $Normalizer;
@@ -76,21 +76,21 @@ class Router extends SFStdLib\CoreObject implements SFHttpRouting\Router {
 
     /**
      * Based on the URI path and HTTP method passed in the given \SprayFire\Http\Request
-     * will return an appropriate \SprayFire\Http\Routing\FireRouting\RoutedRequest
+     * will return an appropriate \SprayFire\Routing\FireRouting\RoutedRequest
      * configured for the appropriate resource.
      *
      * @param \SprayFire\Http\Request $Request
-     * @return \SprayFire\Http\Routing\FireRouting\RoutedRequest
+     * @return \SprayFire\Routing\FireRouting\RoutedRequest
      */
-    public function getRoutedRequest(SFHttp\Request $Request) {
+    public function getRoutedRequest(Http\Request $Request) {
         if (isset($this->RoutedRequestCache[$Request])) {
             return $this->RoutedRequestCache[$Request];
         }
 
         $data = $this->MatchStrategy->getRouteAndParameters($this->RouteBag, $Request);
-        /* @var \SprayFire\Http\Routing\Route $Route */
-        $Route = $data[SFHttpRouting\MatchStrategy::ROUTE_KEY];
-        $parameters = $data[SFHttpRouting\MatchStrategy::PARAMETER_KEY];
+        /* @var \SprayFire\Routing\Route $Route */
+        $Route = $data[Routing\MatchStrategy::ROUTE_KEY];
+        $parameters = $data[Routing\MatchStrategy::PARAMETER_KEY];
 
         $RoutedRequest = new RoutedRequest(
             $Route->getControllerNamespace() . '.' . $this->normalizeController($Route->getControllerClass()),

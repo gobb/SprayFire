@@ -12,11 +12,10 @@
 
 namespace SprayFire\Service\FireService;
 
-use \SprayFire\Service as SFService,
-    \SprayFire\Factory as SFFactory,
-    \SprayFire\StdLib as SFStdLib,
-    \SprayFire\Service\Exception as SFServiceException,
-    \InvalidArgumentException as InvalidArgumentException;
+use \SprayFire\Service,
+    \SprayFire\Factory,
+    \SprayFire\StdLib,
+    \InvalidArgumentException;
 
 /**
  * A very simple implementation designed to lazy-load services needed and provide
@@ -25,7 +24,7 @@ use \SprayFire\Service as SFService,
  * @package SprayFire
  * @subpackage Service.FireService
  */
-class Container extends SFStdLib\CoreObject implements SFService\Container {
+class Container extends StdLib\CoreObject implements Service\Container {
 
     /**
      * Ensures that we are not creating unneeded Reflection objects when creating
@@ -69,7 +68,7 @@ class Container extends SFStdLib\CoreObject implements SFService\Container {
     /**
      * @param \SprayFire\StdLib\ReflectionCache $ReflectionCache
      */
-    public function __construct(SFStdLib\ReflectionCache $ReflectionCache) {
+    public function __construct(StdLib\ReflectionCache $ReflectionCache) {
         $this->ReflectionCache = $ReflectionCache;
         $this->emptyCallback = function() {
             return [];
@@ -136,7 +135,7 @@ class Container extends SFStdLib\CoreObject implements SFService\Container {
             return $this->storedServices[$serviceKey];
         }
         if (!\array_key_exists($serviceKey, $this->addedServices)) {
-            throw new SFServiceException\ServiceNotFound('A service, ' . $serviceName . ', was not properly added to the container.');
+            throw new Service\Exception\ServiceNotFound('A service, ' . $serviceName . ', was not properly added to the container.');
         }
         $serviceSignature = $this->addedServices[$serviceKey];
         $Service = $this->createService($serviceName, $serviceSignature);
@@ -161,7 +160,7 @@ class Container extends SFStdLib\CoreObject implements SFService\Container {
         if ($factoryKey) {
             if (!\array_key_exists($factoryKey, $this->registeredFactories)) {
                 $message = 'The factory key, ' . $factoryKey . ', does not have a Factory registered.';
-                throw new SFServiceException\FactoryNotRegistered($message);
+                throw new Service\Exception\FactoryNotRegistered($message);
             }
             return $this->registeredFactories[$factoryKey]->makeObject($serviceName, $parameterCallback());
         }
@@ -170,7 +169,7 @@ class Container extends SFStdLib\CoreObject implements SFService\Container {
             $ReflectedService = $this->ReflectionCache->getClass($serviceName);
             $Service = $ReflectedService->newInstanceArgs($parameterCallback());
         } catch(\ReflectionException $NotFoundExc) {
-            throw new SFServiceException\ServiceNotFound($NotFoundExc->getMessage());
+            throw new Service\Exception\ServiceNotFound($NotFoundExc->getMessage());
         }
 
         return $Service;
@@ -192,7 +191,7 @@ class Container extends SFStdLib\CoreObject implements SFService\Container {
      * @param string $factoryKey
      * @param \SprayFire\Factory\Factory $Factory
      */
-    public function registerFactory($factoryKey, SFFactory\Factory $Factory) {
+    public function registerFactory($factoryKey, Factory\Factory $Factory) {
         $this->registeredFactories[(string) $factoryKey] = $Factory;
     }
 
