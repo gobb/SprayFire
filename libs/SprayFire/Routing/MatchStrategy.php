@@ -9,16 +9,16 @@
  * @version 0.2
  * @since   0.1
  */
-namespace SprayFire\Http\Routing;
+namespace SprayFire\Routing;
 
-use \SprayFire\Http as SFHttp,
-    \SprayFire\Object as SFObject;
+use \SprayFire\Http,
+    \SprayFire\Object;
 
 /**
  * @package SprayFire
- * @subpackage Http.Routing
+ * @subpackage Routing.Interface
  */
-interface MatchStrategy extends SFObject {
+interface MatchStrategy extends Object {
 
     /**
      * A value that should be used as the array key for the Route object in return
@@ -33,7 +33,7 @@ interface MatchStrategy extends SFObject {
     const PARAMETER_KEY = 'parameters';
 
     /**
-     * Matches a $Request to a \SprayFire\Http\Routing\Route stored in the $Bag
+     * Matches a $Request to a \SprayFire\Routing\Route stored in the $Bag
      * or otherwise creates a Route implementation to be used during routing.
      *
      * Please note that the array returned should have 2 keys:
@@ -43,10 +43,10 @@ interface MatchStrategy extends SFObject {
      * It is strongly recommended that you use the constants provided by this
      * interface when setting the keys in the array returned from this method.
      *
-     * @param \SprayFire\Http\Routing\RouteBag $Bag
+     * @param \SprayFire\Routing\RouteBag $Bag
      * @param \SprayFire\Http\Request $Request
      * @return array
      */
-    public function getRouteAndParameters(RouteBag $Bag, SFHttp\Request $Request);
+    public function getRouteAndParameters(RouteBag $Bag, Http\Request $Request);
 
 }

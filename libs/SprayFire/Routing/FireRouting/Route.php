@@ -10,16 +10,16 @@
  * @since   0.1
  */
 
-namespace SprayFire\Http\Routing\FireRouting;
+namespace SprayFire\Routing\FireRouting;
 
-use \SprayFire\Http\Routing as SFHttpRouting,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Routing,
+    \SprayFire\StdLib;
 
 /**
  * @package SprayFire
- * @subpackage Http.Routing.FireRouting
+ * @subpackage Routing.Implementation
  */
-class Route extends SFStdLib\CoreObject implements SFHttpRouting\Route {
+class Route extends StdLib\CoreObject implements Routing\Route {
 
     /**
      * Stores the pattern used to match against an HTTP URI query path

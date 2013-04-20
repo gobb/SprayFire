@@ -2,7 +2,7 @@
 
 /**
  * Interface to determine the appropriate resource to provide to the user based
- * off of a given SprayFire.Http.Request
+ * off of a given \SprayFire\Http\Request
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -10,17 +10,17 @@
  * @since   0.1
  */
 
-namespace SprayFire\Http\Routing;
+namespace SprayFire\Routing;
 
-use \SprayFire\Http as SFHttp;
+use \SprayFire\Http;
 
 /**
  * Implementations should accept some configuration that dictates what information
- * should be passed in a \SprayFire\Http\Routing\RoutedRequest when routing is
+ * should be passed in a \SprayFire\Routing\RoutedRequest when routing is
  * processed.
  *
  * @package SprayFire
- * @subpackage Http.Routing
+ * @subpackage Routing.Interface
  */
 interface Router {
 
@@ -30,8 +30,8 @@ interface Router {
      * to the implementation.
      *
      * @param \SprayFire\Http\Request $Request
-     * @return \SprayFire\Http\Routing\RoutedRequest
+     * @return \SprayFire\Routing\RoutedRequest
      */
-    public function getRoutedRequest(SFHttp\Request $Request);
+    public function getRoutedRequest(Http\Request $Request);
 
 }

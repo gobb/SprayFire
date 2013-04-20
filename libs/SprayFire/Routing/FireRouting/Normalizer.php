@@ -10,9 +10,9 @@
  * @since   0.1
  */
 
-namespace SprayFire\Http\Routing\FireRouting;
+namespace SprayFire\Routing\FireRouting;
 
-use \SprayFire\StdLib as SFStdLib;
+use \SprayFire\StdLib;
 
 /**
  * This is a package private class and is intended to be used by other implementations
@@ -21,7 +21,7 @@ use \SprayFire\StdLib as SFStdLib;
  * @package SprayFire
  * @subpackage Http.Routing.FireRouting
  */
-class Normalizer extends SFStdLib\CoreObject {
+class Normalizer extends StdLib\CoreObject {
 
     /**
      * PCRE regex pattern used to remove all non-alphabetic/space characters
@@ -51,7 +51,7 @@ class Normalizer extends SFStdLib\CoreObject {
      * letter or a number and return a string with resulting fragments converted
      * to a camel cased string.
      *
-     * @param strubg $action
+     * @param string $action
      * @return string
      *
      * @todo
