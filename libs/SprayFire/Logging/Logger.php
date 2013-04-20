@@ -11,16 +11,16 @@
 
 namespace SprayFire\Logging;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * Implementations should be used by SprayFire.Logging.LogOverseer to store information
  * to a specific source.
  *
  * @package SprayFire
- * @subpackage Logging
+ * @subpackage Logging.Interface
  */
-interface Logger extends SFObject {
+interface Logger extends Object {
 
     /**
      * @param string $message

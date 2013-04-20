@@ -11,16 +11,16 @@
 
 namespace SprayFire\Bootstrap;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * Your application specific bootstraps should implement this interface to ensure
  * that any initialization scripts are ran at start up time.
  *
  * @package SprayFire
- * @subpackage Bootstrap
+ * @subpackage Bootstrap.Interface
  */
-interface Bootstrapper extends SFObject {
+interface Bootstrapper extends Object {
 
     /**
      * Should perform whatever actions are necessary for the given bootstrap.

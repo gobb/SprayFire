@@ -14,7 +14,7 @@ namespace SprayFire\Mediator;
 
 /**
  * @package SprayFire
- * @subpackage Mediator
+ * @subpackage Mediator.Interface
  */
 interface Mediator {
 
@@ -43,7 +43,7 @@ interface Mediator {
      * returned from their appropriate getter methods.
      *
      * @param string $eventName
-     * @param Object $Target
+     * @param object $Target
      * @param array $arguments
      * @return boolean
      */

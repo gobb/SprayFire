@@ -12,7 +12,7 @@
 
 namespace SprayFire\StdLib;
 
-use \ReflectionClass as ReflectionClass;
+use \ReflectionClass;
 
 /**
  * @package SprayFire

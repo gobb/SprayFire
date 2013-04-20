@@ -12,13 +12,13 @@
 
 namespace SprayFire\Validation\Check;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * @package SprayFire
  * @subpackage Validation.Check
  */
-interface MessageTokenizable extends SFObject {
+interface MessageTokenizable extends Object {
 
     /**
      * A map of [token => value] that should be used for whatever message is

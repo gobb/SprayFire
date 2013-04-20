@@ -12,16 +12,16 @@
  */
 namespace SprayFire\Mediator\FireMediator;
 
-use \SprayFire\Mediator as SFMediator,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Mediator,
+    \SprayFire\StdLib;
 
 /**
  *
  *
  * @package SprayFire
- * @subpackage Mediator.FireMediator
+ * @subpackage Mediator.Implementation
  */
-class CallbackStorage extends SFStdLib\CoreObject {
+class CallbackStorage extends StdLib\CoreObject {
 
     /**
      * Holds arrays of callbacks with each array associated to a key that is the
@@ -53,7 +53,7 @@ class CallbackStorage extends SFStdLib\CoreObject {
      * @param \SprayFire\Mediator\Callback $Callback
      * @return void
      */
-    public function addCallback(SFMediator\Callback $Callback) {
+    public function addCallback(Mediator\Callback $Callback) {
         $this->callbackContainers[$Callback->getEventName()][] = $Callback;
     }
 
@@ -76,7 +76,7 @@ class CallbackStorage extends SFStdLib\CoreObject {
      * @param \SprayFire\Mediator\Callback $Callback
      * @return boolean
      */
-    public function removeCallback(SFMediator\Callback $Callback) {
+    public function removeCallback(Mediator\Callback $Callback) {
         $eventName = $Callback->getEventName();
         if ($this->hasContainer($eventName)) {
             foreach ($this->callbackContainers[$eventName] as $key => $StoredCallback) {

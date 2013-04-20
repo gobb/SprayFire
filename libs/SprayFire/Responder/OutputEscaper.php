@@ -12,7 +12,7 @@
 
 namespace SprayFire\Responder;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * All escape* methods should accept a piece of data in the form of a string or
@@ -20,9 +20,9 @@ use \SprayFire\Object as SFObject;
  * recursively.
  *
  * @package SprayFire
- * @subpackage Responder
+ * @subpackage Responder.Interface
  */
-interface OutputEscaper extends SFObject {
+interface OutputEscaper extends Object {
 
     /**
      * Constant that can be used by other modules to signify data or escaping in

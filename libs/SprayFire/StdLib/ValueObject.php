@@ -11,7 +11,7 @@
 
 namespace SprayFire\StdLib;
 
-use \SprayFire\Exception as SFException;
+use \SprayFire\Exception as Exception;
 
 /**
  * @package SprayFire
@@ -76,7 +76,7 @@ abstract class ValueObject extends CoreObject {
      */
     public final function __set($property, $value) {
         $message = \sprintf($this->errorMessage, \get_class($this));
-        throw new SFException\UnsupportedOperationException($message);
+        throw new Exception\UnsupportedOperationException($message);
     }
 
     /**
@@ -85,7 +85,7 @@ abstract class ValueObject extends CoreObject {
      */
     public final function __unset($property) {
         $message = \sprintf($this->errorMessage, \get_class($this));
-        throw new SFException\UnsupportedOperationException($message);
+        throw new Exception\UnsupportedOperationException($message);
     }
 
     /**

@@ -11,10 +11,10 @@
 
 namespace SprayFire\Controller;
 
-use \SprayFire\Object as SFObject,
-    \SprayFire\Service as SFService,
-    \SprayFire\Responder as SFResponder,
-    \SprayFire\Mediator as SFMediator;
+use \SprayFire\Object,
+    \SprayFire\Service,
+    \SprayFire\Responder,
+    \SprayFire\Mediator;
 
 /**
  * Designed to serve as a data conduit to the chose SprayFire.Responder.Responder
@@ -22,9 +22,9 @@ use \SprayFire\Object as SFObject,
  * the correct resource to the user.
  *
  * @package SprayFire
- * @package Controller
+ * @package Controller.Interface
  */
-interface Controller extends SFObject, SFService\Consumer {
+interface Controller extends Object, Service\Consumer {
 
     /**
      * Provides the fully namespaced name of the class to use as the Responder
@@ -40,7 +40,7 @@ interface Controller extends SFObject, SFService\Consumer {
      * @param string $context
      * @return array
      */
-    public function getResponderData($context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT);
+    public function getResponderData($context = Responder\OutputEscaper::HTML_CONTENT_CONTEXT);
 
     /**
      * Provide a set of data to the SprayFire.Responder.Responder that should be
@@ -52,10 +52,10 @@ interface Controller extends SFObject, SFService\Consumer {
      * @param string $context
      * @return void
      */
-    public function setMultipleResponderData(array $data, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT);
+    public function setMultipleResponderData(array $data, $context = Responder\OutputEscaper::HTML_CONTENT_CONTEXT);
 
     /**
-     * Provide data to the SprayFire.Responder.Responder that should be used
+     * Provide data to the \SprayFire\Responder\Responder that should be used
      * during response processing.
      *
      * @param string $name
@@ -63,7 +63,7 @@ interface Controller extends SFObject, SFService\Consumer {
      * @param string $context
      * @return void
      */
-    public function setResponderData($name, $value, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT);
+    public function setResponderData($name, $value, $context = Responder\OutputEscaper::HTML_CONTENT_CONTEXT);
 
     /**
      * Return an implementation of \SprayFire\Responder\Template\Manager that tells
@@ -81,7 +81,7 @@ interface Controller extends SFObject, SFService\Consumer {
      * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
-    public function beforeAction(SFMediator\Event $Event);
+    public function beforeAction(Mediator\Event $Event);
 
     /**
      * This method is invoked during dispatching of a request after the requested
@@ -90,6 +90,6 @@ interface Controller extends SFObject, SFService\Consumer {
      * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
-    public function afterAction(SFMediator\Event $Event);
+    public function afterAction(Mediator\Event $Event);
 
 }

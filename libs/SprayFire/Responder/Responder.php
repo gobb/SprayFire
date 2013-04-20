@@ -11,15 +11,15 @@
 
 namespace SprayFire\Responder;
 
-use \SprayFire\Object as SFObject,
-    \SprayFire\Service as SFService,
-    \SprayFire\Controller as SFController;
+use \SprayFire\Object,
+    \SprayFire\Service,
+    \SprayFire\Controller;
 
 /**
  * @package SprayFire
- * @subpackage Responder
+ * @subpackage Responder.Interface
  */
-interface Responder extends SFObject, SFService\Consumer {
+interface Responder extends Object, Service\Consumer {
 
     /**
      * Should sanitize the appropriate data and generate a response based on the
@@ -28,6 +28,6 @@ interface Responder extends SFObject, SFService\Consumer {
      * @param \SprayFire\Controller\Controller $Controller
      * @return string
      */
-    public function generateDynamicResponse(SFController\Controller $Controller);
+    public function generateDynamicResponse(Controller\Controller $Controller);
 
 }

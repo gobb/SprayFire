@@ -11,7 +11,7 @@
 
 namespace SprayFire\Logging;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * Implementations should use the SprayFire.Logging.Logger interface in some
@@ -19,9 +19,9 @@ use \SprayFire\Object as SFObject;
  * levels: Emergency, Error, Debug and Info.
  *
  * @package SprayFire
- * @subpackage Logging
+ * @subpackage Logging.Interface
  */
-interface LogOverseer extends SFObject {
+interface LogOverseer extends Object {
 
     /**
      * An internal ID of the Emergency logger, primary use case is an argument
@@ -76,7 +76,7 @@ interface LogOverseer extends SFObject {
      * $loggerType using the constants provided by this interface.
      *
      * @param string $loggerType
-     * @return SprayFire.Logging.Logger
+     * @return \SprayFire\Logging\Logger
      */
     public function getLogger($loggerType);
 

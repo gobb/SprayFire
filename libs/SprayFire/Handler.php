@@ -11,9 +11,9 @@
 
 namespace SprayFire;
 
-use \SprayFire\Logging as SFLogging,
-    \SprayFire\StdLib as SFStdLib,
-    \Exception as Exception;
+use \SprayFire\Logging,
+    \SprayFire\StdLib,
+    \Exception;
 
 /**
  * A universal error and exception handler designed to log various error messages and
@@ -21,7 +21,7 @@ use \SprayFire\Logging as SFLogging,
  *
  * @package SprayFire
  */
-class Handler extends SFStdLib\CoreObject {
+class Handler extends StdLib\CoreObject {
 
     /**
      * Provides facilities to log error messages that are trapped.
@@ -42,7 +42,7 @@ class Handler extends SFStdLib\CoreObject {
      * @param \SprayFire\Logging\LogOverseer $Log
      * @param boolean $developmentModeOn
      */
-    public function __construct(SFLogging\LogOverseer $Log, $developmentModeOn = false) {
+    public function __construct(Logging\LogOverseer $Log, $developmentModeOn = false) {
         $this->Logger = $Log;
         $this->developmentMode = (boolean) $developmentModeOn;
     }

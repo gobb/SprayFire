@@ -12,15 +12,14 @@
 
 namespace SprayFire\Responder\FireResponder;
 
-use \SprayFire\Responder as SFResponder,
-    \SprayFire\Controller as SFController,
-    \SprayFire\Service\FireService as FireService;
+use \SprayFire\Responder,
+    \SprayFire\Controller;
 
 /**
  * @package SprayFire
- * @subpackage Responder.FireResponder
+ * @subpackage Responder.Implementation
  */
-class Json extends Base implements SFResponder\Responder {
+class Json extends Base implements Responder\Responder {
 
     /**
      *
@@ -28,7 +27,7 @@ class Json extends Base implements SFResponder\Responder {
      * @param \SprayFire\Controller\Controller $Controller
      * @return string
      */
-    public function generateDynamicResponse(SFController\Controller $Controller) {
+    public function generateDynamicResponse(Controller\Controller $Controller) {
         $data = $this->getEscapedData($Controller);
         return \json_encode($data);
     }

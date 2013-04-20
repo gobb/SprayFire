@@ -11,8 +11,8 @@
 
 namespace SprayFire\Logging\FireLogging;
 
-use \SprayFire\Logging as SFLogging,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Logging,
+    \SprayFire\StdLib;
 
 /**
  * There are a variety of options that can be passed to the constructor and
@@ -25,9 +25,9 @@ use \SprayFire\Logging as SFLogging,
  * http://us.php.net/manual/en/function.syslog.php
  *
  * @package SprayFire
- * @subpackage Logging.FireLogging
+ * @subpackage Logging.Implementation
  */
-class SysLogLogger extends SFStdLib\CoreObject implements SFLogging\Logger {
+class SysLogLogger extends StdLib\CoreObject implements Logging\Logger {
 
     /**
      * Will open the syslog with the appropriate options, preparing it for use.

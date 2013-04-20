@@ -11,7 +11,7 @@
  */
 namespace SprayFire\Dispatcher\Exception;
 
-use \RuntimeException as RuntimeException;
+use \RuntimeException;
 
 /**
  * Exception thrown if the controller for a route does not have the appropriate

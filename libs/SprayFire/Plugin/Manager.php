@@ -11,7 +11,7 @@
  */
 namespace SprayFire\Plugin;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * While any number of things could happen when a plugin is registered this interface
@@ -26,9 +26,9 @@ use \SprayFire\Object as SFObject;
  * - Run an optional bootstrap for the plugin, by convention located at \Plugin\Bootstrap
  *
  * @package SprayFire
- * @subpackage Plugin
+ * @subpackage Plugin.Interface
  */
-interface Manager extends SFObject {
+interface Manager extends Object {
 
     /**
      * Registering a plugin should involve any tasks the plugin needs to be setup

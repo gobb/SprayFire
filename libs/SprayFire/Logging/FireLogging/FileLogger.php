@@ -12,28 +12,28 @@
 
 namespace SprayFire\Logging\FireLogging;
 
-use \SprayFire\Logging as SFLogging,
-    \SprayFire\StdLib as SFStdLib,
-    \SplFileInfo as SplFileInfo,
-    \RuntimeException as RuntimeException,
-    \InvalidArgumentException as InvalidArgumentException;
+use \SprayFire\Logging,
+    \SprayFire\StdLib,
+    \SplFileInfo,
+    \RuntimeException,
+    \InvalidArgumentException;
 
 /**
  *
  * @package SprayFire
  * @subpackage Logging.FireLogging
  */
-class FileLogger extends SFStdLib\CoreObject implements SFLogging\Logger  {
+class FileLogger extends StdLib\CoreObject implements Logging\Logger  {
 
     /**
      * Representation of the file we are writing to.
      *
-     * @property SplFileObject
+     * @property \SplFileObject
      */
     protected $LogFile;
 
     /**
-     * @param SplFileInfo $LogFile
+     * @param \SplFileInfo $LogFile
      * @param string $openMode
      *
      * @todo
@@ -47,11 +47,11 @@ class FileLogger extends SFStdLib\CoreObject implements SFLogging\Logger  {
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(\SplFileInfo $LogFile, $openMode = 'a') {
+    public function __construct(SplFileInfo $LogFile, $openMode = 'a') {
         try {
             $this->LogFile = $LogFile->openFile($openMode);
         } catch (RuntimeException $RuntimeException) {
-            throw new SFLogging\Exception\FileNotWritable('The file path passed could not be written to');
+            throw new Logging\Exception\FileNotWritable('The file path passed could not be written to');
         }
     }
 

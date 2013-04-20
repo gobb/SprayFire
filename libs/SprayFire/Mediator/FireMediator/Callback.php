@@ -13,14 +13,13 @@
 namespace SprayFire\Mediator\FireMediator;
 
 use \SprayFire\Mediator as SFMediator,
-    \SprayFire\StdLib as SFStdLib,
-    \InvalidArgumentException as InvalidArgumentException;
+    \SprayFire\StdLib;
 
 /**
  * @package SprayFire
- * @subpackage Mediator.FireMediator
+ * @subpackage Mediator.Implementation
  */
-class Callback extends SFStdLib\CoreObject implements SFMediator\Callback {
+class Callback extends StdLib\CoreObject implements SFMediator\Callback {
 
     /**
      * Holds the name of the event that this function should be invoked for.

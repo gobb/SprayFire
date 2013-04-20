@@ -9,19 +9,19 @@
 
 namespace SprayFireTest\Dispatcher\FireDispatcher;
 
-use \SprayFire\Http\Routing as SFRouting,
-    \SprayFire\Controller as SFController,
-    \SprayFire\Responder as SFResponder,
-    \SprayFire\Dispatcher as SFDispatcher,
-    \SprayFire\Mediator as SFMediator,
-    \SprayFire\Dispatcher\FireDispatcher as FireDispatcher,
-    \PHPUnit_Framework_TestCase as PHPUnitTestCase;
+use \SprayFire\Routing,
+    \SprayFire\Controller,
+    \SprayFire\Responder,
+    \SprayFire\Dispatcher,
+    \SprayFire\Mediator,
+    \SprayFire\Dispatcher\FireDispatcher,
+    \PHPUnit_Framework_TestCase;
 
 /**
  * @package SprayFireTest
  * @subpackage Dispatcher.FireDispatcher
  */
-class DispatcherTest extends PHPUnitTestCase {
+class DispatcherTest extends PHPUnit_Framework_TestCase {
 
     public function testFireDispatcherWithValidRoute() {
         $controller = 'SprayFire.Test.Helpers.Controller.TestPages';
@@ -172,7 +172,7 @@ class DispatcherTest extends PHPUnitTestCase {
         $Dispatcher->dispatchResponse($RoutedRequest);
     }
 
-    protected function getFunctionPropertyValue(SFMediator\Callback $Callback) {
+    protected function getFunctionPropertyValue(Mediator\Callback $Callback) {
         $ReflectedCallback = new \ReflectionObject($Callback);
         try {
             $FunctionProperty = $ReflectedCallback->getProperty('function');
@@ -192,7 +192,7 @@ class DispatcherTest extends PHPUnitTestCase {
      * @param string $controllerName
      * @return SprayFire.Factory.Factory
      */
-    protected function getMockControllerFactory(SFController\Controller $MockController, $controllerName) {
+    protected function getMockControllerFactory(Controller\Controller $MockController, $controllerName) {
         $MockControllerFactory = $this->getMock('\\SprayFire\\Factory\\Factory');
         $MockControllerFactory->expects($this->once())
                               ->method('makeObject')
@@ -242,7 +242,7 @@ class DispatcherTest extends PHPUnitTestCase {
      * @param string $returnContent
      * @return SprayFire.Responder.Responder
      */
-    protected function getMockResponder(SFController\Controller $MockController, $returnContent) {
+    protected function getMockResponder(Controller\Controller $MockController, $returnContent) {
         $MockResponder = $this->getMock('\\SprayFire\\Responder\\Responder');
         $MockResponder->expects($this->once())
                       ->method('generateDynamicResponse')
@@ -251,7 +251,7 @@ class DispatcherTest extends PHPUnitTestCase {
         return $MockResponder;
     }
 
-    protected function getMockResponderFactory(SFResponder\Responder $MockResponder, $responderName) {
+    protected function getMockResponderFactory(Responder\Responder $MockResponder, $responderName) {
         $MockResponderFactory = $this->getMock('\\SprayFire\\Factory\\Factory');
         $MockResponderFactory->expects($this->once())
                              ->method('makeObject')
@@ -262,7 +262,7 @@ class DispatcherTest extends PHPUnitTestCase {
 
 
     protected function getMockRoutedRequest($controller, $action, $parameters, $numGetAction = 2, $numGetParameters = 1) {
-        $MockRoutedRequest = $this->getMock('\\SprayFire\\Http\\Routing\\RoutedRequest');
+        $MockRoutedRequest = $this->getMock('\\SprayFire\\Routing\\RoutedRequest');
         $MockRoutedRequest->expects($this->once())
                           ->method('getController')
                           ->will($this->returnValue($controller));
@@ -281,11 +281,11 @@ class DispatcherTest extends PHPUnitTestCase {
  * A stub of the SprayFire.Mediator.Mediator interface to help testing that the
  * Dispatcher adds the appropriate callbacks during request processing.
  */
-abstract class DispatcherCallbackMediator implements SFMediator\Mediator {
+abstract class DispatcherCallbackMediator implements Mediator\Mediator {
 
     protected $addedCallback = array();
 
-    public function addCallback(SFMediator\Callback $Callback) {
+    public function addCallback(Mediator\Callback $Callback) {
         $this->addedCallback[$Callback->getEventName()] = $Callback;
     }
 

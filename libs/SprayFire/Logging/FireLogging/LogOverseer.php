@@ -12,26 +12,26 @@
 
 namespace SprayFire\Logging\FireLogging;
 
-use \SprayFire\Logging as SFLogging,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Logging,
+    \SprayFire\StdLib;
 
 /**
  * Provides the ability to log information at a variety of levels and sources.
  *
  * @package SprayFire
- * @subpackage Logging.FireLogging
+ * @subpackage Logging.Implementation
  *
  * @todo
  * We need to create a test to test getting a logger and ensuring that the
  * appropriate loggers are used for the appropriate calls.
  */
-class LogOverseer extends SFStdLib\CoreObject implements SFLogging\LogOverseer {
+class LogOverseer extends StdLib\CoreObject implements Logging\LogOverseer {
 
     /**
      * This SprayFire.Logging.Logger can be retrieved from LogOverseer::getLogger()
      * by passing SprayFire.Logging.LogOverseer::EMERGENCY_LOGGER.
      *
-     * @property SprayFire.Logging.Logger
+     * @property \SprayFire\Logging\Logger
      */
     protected $EmergencyLogger;
 
@@ -39,7 +39,7 @@ class LogOverseer extends SFStdLib\CoreObject implements SFLogging\LogOverseer {
      * This SprayFire.Logging.Logger can be retrieved from LogOverseer::getLogger()
      * by passing SprayFire.Logging.LogOverseer::ERROR_LOGGER.
      *
-     * @property SprayFire.Logging.Logger
+     * @property \SprayFire\Logging\Logger
      */
     protected $ErrorLogger;
 
@@ -47,7 +47,7 @@ class LogOverseer extends SFStdLib\CoreObject implements SFLogging\LogOverseer {
      * This SprayFire.Logging.Logger can be retrieved from LogOverseer::getLogger()
      * by passing SprayFire.Logging.LogOverseer::DEBUG_LOGGER
      *
-     * @property SprayFire.Logging.Logger
+     * @property \SprayFire\Logging\Logger
      */
     protected $DebugLogger;
 
@@ -55,7 +55,7 @@ class LogOverseer extends SFStdLib\CoreObject implements SFLogging\LogOverseer {
      * This SprayFire.Logging.Logger can be retrieved from LogOverseer::getLogger()
      * by passing SprayFire.Logging.LogOverseer::INFO_LOGGER
      *
-     * @property SprayFire.Logging.Logger
+     * @property \SprayFire\Logging\Logger
      */
     protected $InfoLogger;
 
@@ -65,12 +65,7 @@ class LogOverseer extends SFStdLib\CoreObject implements SFLogging\LogOverseer {
      * @param \SprayFire\Logging\Logger $Debug
      * @param \SprayFire\Logging\Logger $Info
      */
-    public function __construct(
-        SFLogging\Logger $Emergency,
-        SFLogging\Logger $Error,
-        SFLogging\Logger $Debug,
-        SFLogging\Logger $Info
-    ) {
+    public function __construct(Logging\Logger $Emergency, Logging\Logger $Error, Logging\Logger $Debug, Logging\Logger $Info) {
         $this->EmergencyLogger = $Emergency;
         $this->ErrorLogger = $Error;
         $this->DebugLogger = $Debug;
@@ -123,16 +118,16 @@ class LogOverseer extends SFStdLib\CoreObject implements SFLogging\LogOverseer {
     public function getLogger($loggerType) {
         $loggerType = \strtolower($loggerType);
         switch($loggerType) {
-            case SFLogging\LogOverseer::EMERGENCY_LOGGER:
+            case Logging\LogOverseer::EMERGENCY_LOGGER:
                 return $this->EmergencyLogger;
                 break;
-            case SFLogging\LogOverseer::ERROR_LOGGER:
+            case Logging\LogOverseer::ERROR_LOGGER:
                 return $this->ErrorLogger;
                 break;
-            case SFLogging\LogOverseer::INFO_LOGGER:
+            case Logging\LogOverseer::INFO_LOGGER:
                 return $this->InfoLogger;
                 break;
-            case SFLogging\LogOverseer::DEBUG_LOGGER:
+            case Logging\LogOverseer::DEBUG_LOGGER:
                 return $this->DebugLogger;
                 break;
             default:

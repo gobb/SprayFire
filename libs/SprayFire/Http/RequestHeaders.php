@@ -11,16 +11,16 @@
 
 namespace SprayFire\Http;
 
-use SprayFire\Object as SFObject;
+use SprayFire\Object;
 
 /**
  * Implementations of this interface should be returned from
- * SprayFire.Http.Request::getHeaders.
+ * \SprayFire\Http\Request::getHeaders().
  *
  * @package SprayFire
- * @subpackage Http
+ * @subpackage Http.Interface
  */
-interface RequestHeaders extends SFObject {
+interface RequestHeaders extends Object {
 
     /**
      * @return string

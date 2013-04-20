@@ -11,14 +11,14 @@
 
 namespace SprayFire\Mediator;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  *
  * @package SprayFire
- * @subpackage Mediator
+ * @subpackage Mediator.Interface
  */
-interface Callback extends SFObject {
+interface Callback extends Object {
 
     /**
      * Should be the name of the event that this callback should be invoked for.

@@ -11,11 +11,10 @@
 
 namespace SprayFire\Validation\FireValidation;
 
-use \SprayFire\Validation as SFValidation,
-    \SprayFire\Validation\Check as SFValidationCheck,
-    \SprayFire\Validation\Exception as SFValidationException,
-    \SprayFire\StdLib as SFStdLib,
-    \SplObjectStorage as SplObjectStorage;
+use \SprayFire\Validation,
+    \SprayFire\Validation\Check as SFCheck,
+    \SprayFire\StdLib,
+    \SplObjectStorage;
 
 /**
  * This implementation allows for the use of a Fluent API to add SprayFire.Validation.Check.Check
@@ -25,7 +24,7 @@ use \SprayFire\Validation as SFValidation,
  * @package SprayFire
  * @subpackage Validaiton.FireValidation
  */
-class Rules extends SFStdLib\CoreObject implements SFValidation\Rules {
+class Rules extends StdLib\CoreObject implements Validation\Rules {
 
     /**
      * Array of [field => SplObjectStorage[Check => breakOnFailure]]
@@ -49,7 +48,7 @@ class Rules extends SFStdLib\CoreObject implements SFValidation\Rules {
      * @param \SprayFire\Validation\Check\Check $Check
      * @param boolean $breakOnFailure
      */
-    public function addCheck($field, SFValidationCheck\Check $Check, $breakOnFailure = false) {
+    public function addCheck($field, SFCheck\Check $Check, $breakOnFailure = false) {
         $field = (string) $field;
         $this->createFieldStorage($field);
         $this->fieldRules[$field][$Check] = (boolean) $breakOnFailure;
@@ -101,9 +100,9 @@ class Rules extends SFStdLib\CoreObject implements SFValidation\Rules {
      * @return \SprayFire\Validation\FireValidation\Rules
      * @throws \SprayFire\Validation\Exception\InvalidMethodChain
      */
-    public function add(SFValidationCheck\Check $Check, $breakOnFailure = false) {
+    public function add(SFCheck\Check $Check, $breakOnFailure = false) {
         if (!isset($this->activeField)) {
-            throw new SFValidationException\InvalidMethodChain('A field must be specified before calling ' . __METHOD__);
+            throw new Validation\Exception\InvalidMethodChain('A field must be specified before calling ' . __METHOD__);
         }
         $this->addCheck($this->activeField, $Check, $breakOnFailure);
         return $this;

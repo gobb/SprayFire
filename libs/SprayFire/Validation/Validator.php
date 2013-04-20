@@ -12,13 +12,13 @@
 
 namespace SprayFire\Validation;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * @package SprayFire
  * @subpackage Validation
  */
-interface Validator extends SFObject {
+interface Validator extends Object {
 
     /**
      * The $data parameter should be of format ['field' => 'value'], each field

@@ -12,10 +12,10 @@
 
 namespace SprayFire\Mediator\FireMediator;
 
-use \SprayFire\Mediator\Exception as SFMediatorException,
-    \SprayFire\StdLib as SFStdLib,
-    \ArrayIterator as ArrayIterator,
-    \IteratorAggregate as IteratorAggregate;
+use \SprayFire\Mediator,
+    \SprayFire\StdLib,
+    \ArrayIterator,
+    \IteratorAggregate;
 
 /**
  * This is a private package implementation that is designed to be used by the
@@ -27,7 +27,7 @@ use \SprayFire\Mediator\Exception as SFMediatorException,
  * @package SprayFire
  * @subpackage Mediator.FireMediator
  */
-class EventRegistry extends SFStdLib\CoreObject implements IteratorAggregate {
+class EventRegistry extends StdLib\CoreObject implements IteratorAggregate {
 
     /**
      * Key value array storing [$eventName => $targetType]
@@ -60,7 +60,7 @@ class EventRegistry extends SFStdLib\CoreObject implements IteratorAggregate {
      */
     public function registerEvent($eventName, $targetType) {
         if ($this->hasEvent($eventName)) {
-            throw new SFMediatorException\DuplicateRegisteredEvent('The event, ' . $eventName . ', has already been registered.');
+            throw new Mediator\Exception\DuplicateRegisteredEvent('The event, ' . $eventName . ', has already been registered.');
         }
         $this->registry[$eventName] = $targetType;
         $this->Storage->createContainer($eventName);
@@ -85,7 +85,7 @@ class EventRegistry extends SFStdLib\CoreObject implements IteratorAggregate {
      * passed in the constructor of this implementation.
      *
      * @param string $eventName
-     * @return string|false
+     * @return string|boolean
      */
     public function getEventTargetType($eventName) {
         if ($this->hasEvent($eventName)) {
@@ -107,7 +107,7 @@ class EventRegistry extends SFStdLib\CoreObject implements IteratorAggregate {
     /**
      * Allows the registry to be iterated over.
      *
-     * @return Traversable
+     * @return \ArrayIterator
      */
     public function getIterator() {
         return new ArrayIterator($this->registry);

@@ -11,13 +11,13 @@
 
 namespace SprayFire\Validation\Check;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * @package SprayFire
  * @subpackage Validation.Check
  */
-interface MessageParser extends SFObject {
+interface MessageParser extends Object {
 
     /**
      * Should return a formatted string with the values in $tokenValues matching

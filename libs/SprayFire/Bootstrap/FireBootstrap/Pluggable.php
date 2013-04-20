@@ -11,10 +11,10 @@
  */
 namespace SprayFire\Bootstrap\FireBootstrap;
 
-use \SprayFire\Bootstrap as SFBootstrap,
-    \SprayFire\Service as SFService,
-    \SprayFire\StdLib as SFStdLib,
-    \ClassLoader\Loader as ClassLoader;
+use \SprayFire\Bootstrap,
+    \SprayFire\Service,
+    \SprayFire\StdLib,
+    \ClassLoader\Loader;
 
 /**
  * Provides a generic Bootstrapper that will allow applications, plugins and third
@@ -22,9 +22,9 @@ use \SprayFire\Bootstrap as SFBootstrap,
  * framework.
  *
  * @package SprayFire
- * @subpackage Bootstrap.FireBootstrap
+ * @subpackage Bootstrap.Implementation
  */
-abstract class Pluggable extends SFStdLib\CoreObject implements SFBootstrap\Bootstrapper {
+abstract class Pluggable extends StdLib\CoreObject implements Bootstrap\Bootstrapper {
 
     /**
      * Container used by framework to hold your services; add services that your
@@ -43,12 +43,10 @@ abstract class Pluggable extends SFStdLib\CoreObject implements SFBootstrap\Boot
     protected $ClassLoader;
 
     /**
-     *
-     *
      * @param \SprayFire\Service\Container $Container
      * @param \ClassLoader\Loader $ClassLoader
      */
-    public function __construct(SFService\Container $Container, ClassLoader $ClassLoader) {
+    public function __construct(Service\Container $Container, Loader $ClassLoader) {
         $this->Container = $Container;
         $this->ClassLoader = $ClassLoader;
     }

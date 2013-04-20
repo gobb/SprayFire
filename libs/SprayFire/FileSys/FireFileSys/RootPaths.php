@@ -12,16 +12,23 @@
 
 namespace SprayFire\FileSys\FireFileSys;
 
-use \SprayFire\StdLib as SFStdLib;
+use \SprayFire\StdLib;
 
 /**
  * This is a package private implementation and is intended to be used by
  * \SprayFire\FileSys\FireFileSys module.
  *
  * @package SprayFire
- * @subpackage FileSys.FireFileSys
+ * @subpackage FileSys.Implementation
+ *
+ * @property string $install
+ * @property string $libs
+ * @property string $app
+ * @property string $web
+ * @property string $config
+ * @property string $logs
  */
-class RootPaths extends SFStdLib\ValueObject {
+class RootPaths extends StdLib\ValueObject {
 
     /**
      * The full, absolute path to the directory holding SprayFire source.

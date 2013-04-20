@@ -11,7 +11,7 @@
 
 namespace SprayFire\Service;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * Implementations of this object are expected to provide a mechanism for retrieving
@@ -21,7 +21,7 @@ use \SprayFire\Object as SFObject;
  * @package SprayFire
  * @subpackage Service
  */
-interface Consumer extends SFObject {
+interface Consumer extends Object {
 
     /**
      * This method should be invoked before the services for the Consumer are given

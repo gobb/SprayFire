@@ -9,14 +9,14 @@
 
 namespace SprayFire\Mediator\FireMediator;
 
-use \SprayFire\Mediator\Event as MediatorEvent,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Mediator as SFMediator,
+    \SprayFire\StdLib;
 
 /**
  * @package SprayFire
- * @subpackage Mediator.FireMediator
+ * @subpackage Mediator.Implementation
  */
-class Event extends SFStdLib\CoreObject implements MediatorEvent {
+class Event extends StdLib\CoreObject implements SFMediator\Event {
 
     protected $event;
 

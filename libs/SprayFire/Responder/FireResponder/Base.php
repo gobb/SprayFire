@@ -10,19 +10,22 @@
  */
 namespace SprayFire\Responder\FireResponder;
 
-use \SprayFire\Responder as SFResponder,
-    \SprayFire\Controller as SFController,
-    \SprayFire\Service\FireService as FireService;
+use \SprayFire\Responder,
+    \SprayFire\Controller,
+    \SprayFire\Service\FireService;
 
 /**
  *
  * @package SprayFire
- * @subpackage Responder.FireResponder
+ * @subpackage Responder.Implementation
+ *
+ * @property \SprayFire\FileSys\FireFileSys\Paths $Paths
+ * @property \SprayFire\Responder\FireResponder\OutputEscaper $Escaper
  */
-abstract class Base extends FireService\Consumer implements SFResponder\Responder {
+abstract class Base extends FireService\Consumer implements Responder\Responder {
 
     /**
-     * Provides functionality to SprayFire.Service.FireService.Consumer implementation.
+     * Provides functionality to \SprayFire\Service\FireService\Consumer implementation.
      *
      * @property array
      */
@@ -38,11 +41,11 @@ abstract class Base extends FireService\Consumer implements SFResponder\Responde
      * @param \SprayFire\Controller\Controller $Controller
      * @return array
      */
-    protected function getEscapedData(SFController\Controller $Controller) {
-        $dirtyHtmlContent = (array) $Controller->getResponderData(SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT);
-        $dirtyHtmlAttribute = (array) $Controller->getResponderData(SFResponder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT);
-        $dirtyCss = (array) $Controller->getResponderData(SFResponder\OutputEscaper::CSS_CONTEXT);
-        $dirtyJavaScript = (array) $Controller->getResponderData(SFResponder\OutputEscaper::JAVASCRIPT_CONTEXT);
+    protected function getEscapedData(Controller\Controller $Controller) {
+        $dirtyHtmlContent = (array) $Controller->getResponderData(Responder\OutputEscaper::HTML_CONTENT_CONTEXT);
+        $dirtyHtmlAttribute = (array) $Controller->getResponderData(Responder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT);
+        $dirtyCss = (array) $Controller->getResponderData(Responder\OutputEscaper::CSS_CONTEXT);
+        $dirtyJavaScript = (array) $Controller->getResponderData(Responder\OutputEscaper::JAVASCRIPT_CONTEXT);
 
         $cleanHtmlContent = $this->Escaper->escapeHtmlContent($dirtyHtmlContent);
         $cleanHtmlAttribute = $this->Escaper->escapeHtmlAttribute($dirtyHtmlAttribute);

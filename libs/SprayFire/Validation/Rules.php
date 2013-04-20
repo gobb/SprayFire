@@ -11,14 +11,14 @@
 
 namespace SprayFire\Validation;
 
-use \SprayFire\Validation\Check as SFValidationCheck,
-    \SprayFire\Object as SFObject;
+use \SprayFire\Validation\Check,
+    \SprayFire\Object;
 
 /**
  * @package SprayFire
  * @subpackage Validation
  */
-interface Rules extends SFObject {
+interface Rules extends Object {
 
     /**
      * Adds a $Check to the end of the chain for a given $field, if $breakOnFailure
@@ -31,14 +31,14 @@ interface Rules extends SFObject {
      * @param \SprayFire\Validation\Check\Check $Check
      * @param boolean $breakOnFailure
      */
-    public function addCheck($field, SFValidationCheck\Check $Check, $breakOnFailure = false);
+    public function addCheck($field, Check\Check $Check, $breakOnFailure = false);
 
     /**
      * Return a Traversable structure that communicates what order of $Checks to
      * run and whether a $Check should break on failure.
      *
      * @param string $field
-     * @return Traversable
+     * @return \Traversable
      */
     public function getChecks($field);
 

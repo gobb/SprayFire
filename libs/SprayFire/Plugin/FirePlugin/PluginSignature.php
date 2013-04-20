@@ -12,14 +12,14 @@
  */
 namespace SprayFire\Plugin\FirePlugin;
 
-use \SprayFire\Plugin as SFPlugin,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Plugin,
+    \SprayFire\StdLib;
 
 /**
  * @package SprayFire
  * @subpackage Plugin.FirePlugin
  */
-class PluginSignature extends SFStdLib\CoreObject implements SFPlugin\PluginSignature {
+class PluginSignature extends StdLib\CoreObject implements Plugin\PluginSignature {
 
     /**
      * The name and top level namespace of the plugin this signature represents

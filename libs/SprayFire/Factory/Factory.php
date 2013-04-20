@@ -12,13 +12,13 @@
 
 namespace SprayFire\Factory;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
- * @package    SprayFire
- * @subpackage Factory
+ * @package SprayFire
+ * @subpackage Factory.Interface
  */
-interface Factory extends SFObject {
+interface Factory extends Object {
 
     /**
      * If the appropriate object could not be successfully created we should return

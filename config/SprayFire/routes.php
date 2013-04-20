@@ -10,7 +10,7 @@
  * @version 0.2
  * @since   0.1
  */
-use \SprayFire\Http\Routing\FireRouting as FireRouting;
+use \SprayFire\Routing\FireRouting;
 
 // Create your routes here by creating a new \SprayFire\Http\Route object, passing
 // the appropriate regex pattern to match the URI path on, the namespace controllers

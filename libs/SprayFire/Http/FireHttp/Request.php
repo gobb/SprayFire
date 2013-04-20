@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Implementation of SprayFire.Http.Request designed to work with an Apache server.
+ * Implementation of \SprayFire\Http\Request designed to work with an Apache server
+ * or any server that populates the $_SERVER global with commonly expected values.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -11,8 +12,8 @@
 
 namespace SprayFire\Http\FireHttp;
 
-use \SprayFire\Http as SFHttp,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Http,
+    \SprayFire\StdLib;
 
 /**
  * This implementation is specifically designed to work with common indexes available
@@ -22,17 +23,17 @@ use \SprayFire\Http as SFHttp,
  * servers but has not been tested on other servers.
  *
  * @package SprayFire
- * @subpackage Http.FireHttp
+ * @subpackage Http.Implementation
  */
-class Request extends SFStdLib\CoreObject implements SFHttp\Request {
+class Request extends StdLib\CoreObject implements Http\Request {
 
     /**
-     * @property SprayFire.Http.Uri
+     * @property \SprayFire\Http\Uri
      */
     protected $Uri;
 
     /**
-     * @property SprayFire.Http.RequestHeaders
+     * @property \SprayFire\Http\RequestHeaders
      */
     protected $Headers;
 
@@ -51,7 +52,7 @@ class Request extends SFStdLib\CoreObject implements SFHttp\Request {
      * @param \SprayFire\Http\RequestHeaders $Headers
      * @param array $_server
      */
-    public function __construct(SFHttp\Uri $Uri, SFHttp\RequestHeaders $Headers, array $_server = null) {
+    public function __construct(Http\Uri $Uri, Http\RequestHeaders $Headers, array $_server = null) {
         $this->Uri = $Uri;
         $this->Headers = $Headers;
         $_server = $_server ?: $_SERVER;
@@ -66,7 +67,7 @@ class Request extends SFStdLib\CoreObject implements SFHttp\Request {
      * @param array $_server
      */
     protected function parseMethodAndVersion(array $_server) {
-        $this->method = isset($_server['REQUEST_METHOD']) ? \strtoupper($_server['REQUEST_METHOD']) : SFHttp\Request::METHOD_GET;
+        $this->method = isset($_server['REQUEST_METHOD']) ? \strtoupper($_server['REQUEST_METHOD']) : Http\Request::METHOD_GET;
         $version = '1.0';
         if (isset($_server['SERVER_PROTOCOL'])) {
             $version = \preg_replace('/[^0-9\.]/', '', $_server['SERVER_PROTOCOL']);

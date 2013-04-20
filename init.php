@@ -1,17 +1,17 @@
 <?php
 
-use \SprayFire\StdLib as SFStdLib,
-    \SprayFire\Controller\FireController as FireController,
-    \SprayFire\Http\FireHttp as FireHttp,
-    \SprayFire\FileSys\FireFileSys as FireFileSys,
-    \SprayFire\Service\FireService as FireService,
-    \SprayFire\Dispatcher\FireDispatcher as FireDispatcher,
-    \SprayFire\Http\Routing\FireRouting as FireRouting,
-    \SprayFire\Mediator\FireMediator as FireMediator,
-    \SprayFire\Responder\FireResponder as FireResponder,
-    \SprayFire\Responder\Template\FireTemplate as FireTemplate,
-    \SprayFire\Logging\FireLogging as FireLogging,
-    \SprayFire\Plugin\FirePlugin as FirePlugin;
+use \SprayFire\StdLib,
+    \SprayFire\Controller\FireController,
+    \SprayFire\Http\FireHttp,
+    \SprayFire\FileSys\FireFileSys,
+    \SprayFire\Service\FireService,
+    \SprayFire\Dispatcher\FireDispatcher,
+    \SprayFire\Routing\FireRouting,
+    \SprayFire\Mediator\FireMediator,
+    \SprayFire\Responder\FireResponder,
+    \SprayFire\Responder\Template\FireTemplate,
+    \SprayFire\Logging\FireLogging,
+    \SprayFire\Plugin\FirePlugin;
 
 function startProcessing() {
     $requestStartTime = \microtime(true);
@@ -48,7 +48,7 @@ function startProcessing() {
     $getRouteBag = function() use($Paths) {
         $path = $Paths->getConfigPath('SprayFire/routes.php');
         $Bag = include $path;
-        if (!$Bag instanceof \SprayFire\Http\Routing\RouteBag) {
+        if (!$Bag instanceof \SprayFire\Routing\RouteBag) {
             $message = 'The return value from %s must be a \SprayFire\Http\Routing\RouteBag implementation.';
             \trigger_error(\sprintf($message, $path), \E_USER_NOTICE);
             $Bag = new FireRouting\RouteBag();
@@ -104,7 +104,7 @@ function startProcessing() {
     $OutputEscaper = new FireResponder\OutputEscaper($EnvironmentConfig->getDefaultCharset());
     $TemplateManager = new FireTemplate\Manager();
 
-    $ReflectionCache = new SFStdLib\ReflectionCache();
+    $ReflectionCache = new StdLib\ReflectionCache();
     $Container = new FireService\Container($ReflectionCache);
     $ServiceBuilder = new FireService\Builder($Container);
 

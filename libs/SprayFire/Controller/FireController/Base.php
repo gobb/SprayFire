@@ -13,11 +13,11 @@
 
 namespace SprayFire\Controller\FireController;
 
-use \SprayFire\Controller as SFController,
-    \SprayFire\Mediator as SFMediator,
-    \SprayFire\Responder as SFResponder,
-    \SprayFire\Service as SFService,
-    \SprayFire\Service\FireService as FireService;
+use \SprayFire\Controller,
+    \SprayFire\Mediator,
+    \SprayFire\Responder,
+    \SprayFire\Service,
+    \SprayFire\Service\FireService;
 
 /**
  * Application controllers are expected to take advantage of the very basic functionality
@@ -33,15 +33,15 @@ use \SprayFire\Controller as SFController,
  * and SprayFire.Service.Consumer.
  *
  * @package SprayFire
- * @subpackage Controller.FireController
+ * @subpackage Controller.Implementation
  *
  * @property \SprayFire\FileSys\FireFileSys\Paths $Paths
  * @property \SprayFire\Http\FireHttp\Request $Request
- * @property \SprayFire\Http\Routing\FireRouting\RoutedRequest $RoutedRequest
+ * @property \SprayFire\Routing\FireRouting\RoutedRequest $RoutedRequest
  * @property \SprayFire\Responder\Template\FireTemplate\Manager $TemplateManager
  * @property \SprayFire\Logging\FireLogging\LogOverseer $Logging
  */
-abstract class Base extends FireService\Consumer implements SFController\Controller {
+abstract class Base extends FireService\Consumer implements Controller\Controller {
 
     /**
      * The PHP or Java style namespaced class to use as the \SprayFire\Responder\Responder
@@ -70,7 +70,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     protected $services = [
         'Paths' => 'SprayFire.FileSys.FireFileSys.Paths',
         'Request' => 'SprayFire.Http.FireHttp.Request',
-        'RoutedRequest' => 'SprayFire.Http.Routing.FireRouting.RoutedRequest',
+        'RoutedRequest' => 'SprayFire.Routing.FireRouting.RoutedRequest',
         'Logging' => 'SprayFire.Logging.FireLogging.LogOverseer',
         'TemplateManager' => 'SprayFire.Responder.Template.FireTemplate.Manager'
     ];
@@ -87,12 +87,12 @@ abstract class Base extends FireService\Consumer implements SFController\Control
     /**
      * Ensures that the appropriate storage for each escaping context is provided.
      */
-    public function __construct(SFService\Builder $Builder) {
+    public function __construct(Service\Builder $Builder) {
         parent::__construct($Builder);
-        $this->responderData[SFResponder\OutputEscaper::CSS_CONTEXT] = [];
-        $this->responderData[SFResponder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT] = [];
-        $this->responderData[SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT] = [];
-        $this->responderData[SFResponder\OutputEscaper::JAVASCRIPT_CONTEXT] = [];
+        $this->responderData[Responder\OutputEscaper::CSS_CONTEXT] = [];
+        $this->responderData[Responder\OutputEscaper::HTML_ATTRIBUTE_CONTEXT] = [];
+        $this->responderData[Responder\OutputEscaper::HTML_CONTENT_CONTEXT] = [];
+        $this->responderData[Responder\OutputEscaper::JAVASCRIPT_CONTEXT] = [];
     }
 
     /**
@@ -101,7 +101,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      * @param \SprayFire\Mediator\Event $Event
      * @return void
      */
-    public function beforeAction(SFMediator\Event $Event) {
+    public function beforeAction(Mediator\Event $Event) {
         $this->parameters = $this->RoutedRequest->getParameters();
     }
 
@@ -118,7 +118,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      *
      * @codeCoverageIgnore
      */
-    public function afterAction(SFMediator\Event $Event) {
+    public function afterAction(Mediator\Event $Event) {
 
     }
 
@@ -138,7 +138,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      * @param string $context
      * @return void
      */
-    public function setMultipleResponderData(array $data, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
+    public function setMultipleResponderData(array $data, $context = Responder\OutputEscaper::HTML_CONTENT_CONTEXT) {
         foreach ($data as $name => $value) {
             $this->setResponderData($name, $value, $context);
         }
@@ -152,7 +152,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      * @param string $context
      * @return void
      */
-    public function setResponderData($name, $value, $context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
+    public function setResponderData($name, $value, $context = Responder\OutputEscaper::HTML_CONTENT_CONTEXT) {
         $this->responderData[$context][(string) $name] = $value;
     }
 
@@ -162,7 +162,7 @@ abstract class Base extends FireService\Consumer implements SFController\Control
      * @param string $context
      * @return array
      */
-    public function getResponderData($context = SFResponder\OutputEscaper::HTML_CONTENT_CONTEXT) {
+    public function getResponderData($context = Responder\OutputEscaper::HTML_CONTENT_CONTEXT) {
         return $this->responderData[$context];
     }
 

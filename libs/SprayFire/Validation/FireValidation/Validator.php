@@ -12,11 +12,11 @@
 
 namespace SprayFire\Validation\FireValidation;
 
-use \SprayFire\Validation as SFValidation,
-    \SprayFire\Validation\Check as SFValidationCheck,
-    \SprayFire\Validation\Check\FireCheck as FireCheck,
-    \SprayFire\Validation\Result\FireResult as FireResult,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\Validation,
+    \SprayFire\Validation\Check as SFCheck,
+    \SprayFire\Validation\Check\FireCheck,
+    \SprayFire\Validation\Result\FireResult,
+    \SprayFire\StdLib;
 
 /**
  * Validates a set of data, passed as an associative array, checks against the
@@ -25,7 +25,7 @@ use \SprayFire\Validation as SFValidation,
  * @package SprayFire
  * @subpackage Validation.FireValidation
  */
-class Validator extends SFStdLib\CoreObject implements SFValidation\Validator {
+class Validator extends StdLib\CoreObject implements Validation\Validator {
 
     /**
      * @property \SprayFire\Validation\Check\MessageParser
@@ -35,7 +35,7 @@ class Validator extends SFStdLib\CoreObject implements SFValidation\Validator {
     /**
      * @param \SprayFire\Validation\Check\MessageParser $MessageParser
      */
-    public function __construct(SFValidationCheck\MessageParser $MessageParser) {
+    public function __construct(SFCheck\MessageParser $MessageParser) {
         $this->MessageParser = $MessageParser;
     }
 
@@ -44,7 +44,7 @@ class Validator extends SFStdLib\CoreObject implements SFValidation\Validator {
      * @param \SprayFire\Validation\Rules $Rules
      * @return \SprayFire\Validation\Result\Set
      */
-    public function validate(array $data, SFValidation\Rules $Rules) {
+    public function validate(array $data, Validation\Rules $Rules) {
         $ResultSet = new FireResult\Set();
         foreach ($data as $field => $value) {
             $Checks = $Rules->getChecks($field);

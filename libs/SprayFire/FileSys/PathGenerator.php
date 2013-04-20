@@ -11,7 +11,7 @@
 
 namespace SprayFire\FileSys;
 
-use \SprayFire\Object as SFObject;
+use \SprayFire\Object;
 
 /**
  * It is expected that implementations of this interface will accept a variety of
@@ -22,7 +22,7 @@ use \SprayFire\Object as SFObject;
  * @package SprayFire
  * @package FileSys
  */
-interface PathGenerator extends SFObject {
+interface PathGenerator extends Object {
 
     /**
      * Should return the root path that the app and framework is installed in;

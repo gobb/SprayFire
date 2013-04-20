@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation of SprayFire.FileSys.Paths to create absolute paths to various
+ * Implementation of \SprayFire\FileSys\Paths to create absolute paths to various
  * directories in SprayFire.
  *
  * @author  Charles Sprayberry
@@ -12,8 +12,8 @@
 
 namespace SprayFire\FileSys\FireFileSys;
 
-use \SprayFire\FileSys as SFFileSys,
-    \SprayFire\StdLib as SFStdLib;
+use \SprayFire\FileSys,
+    \SprayFire\StdLib;
 
 /**
  * All of the getter methods in this class allow a variable number of parameters
@@ -28,9 +28,9 @@ use \SprayFire\FileSys as SFFileSys,
  * Paths::getInstallPath(array('path', 'to', 'your', 'file'));
  *
  * @package SprayFire
- * @subpackage FileSys.FireFileSys
+ * @subpackage FileSys.Implementation
  */
-class Paths extends SFStdLib\CoreObject implements SFFileSys\PathGenerator {
+class Paths extends StdLib\CoreObject implements FileSys\PathGenerator {
 
     /**
      * The full, absolute path to the directory the SprayFire source was installed
@@ -89,7 +89,11 @@ class Paths extends SFStdLib\CoreObject implements SFFileSys\PathGenerator {
     protected $virtualHost;
 
     /**
-     * @param \SprayFire\FileSys\FireFileSys\RootPaths
+     * The $virtualHost parameter is used to ensure that we appropriately remove
+     * the install path from the URL paths.
+     *
+     * @param \SprayFire\FileSys\FireFileSys\RootPaths $RootPaths
+     * @param boolean $virtualHost
      */
     public function __construct(RootPaths $RootPaths, $virtualHost = false) {
         $this->installPath = $RootPaths->install;

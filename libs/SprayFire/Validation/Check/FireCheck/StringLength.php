@@ -11,7 +11,7 @@
  */
 namespace SprayFire\Validation\Check\FireCheck;
 
-use \SprayFire\Validation\Check as SFValidationCheck;
+use \SprayFire\Validation\Check as SFCheck;
 
 /**
  * @package SprayFire
@@ -27,7 +27,7 @@ class StringLength extends ComparisonCheck {
     /**
      * @param \SprayFire\Validation\Check\Check $Check
      */
-    public function __construct(SFValidationCheck\Check $Check) {
+    public function __construct(SFCheck\Check $Check) {
         $this->Check = $Check;
     }
 
