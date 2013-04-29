@@ -145,9 +145,67 @@ class ResponseTest extends PHPUnitTestCase {
         $this->assertSame('application/json', $Response->getHeader('Content-Type'));
     }
 
+    public function testGettingHeaderKeyNotSet() {
+        $Response = new FireHttp\Response();
+        $this->assertNull($Response->getHeader('Content-Type'));
+    }
+
     public function testHasHeaderBeforeKeysSet() {
         $Response = new FireHttp\Response();
         $this->assertFalse($Response->hasHeader('Content-Type'));
     }
+
+    public function testHasHeaderAfterKeySet() {
+        $Response = new FireHttp\Response();
+        $this->assertFalse($Response->hasHeader('Content-Type'));
+        $Response->addHeader('Content-Type', 'application/sprayfire');
+        $this->assertTrue($Response->hasHeader('Content-Type'));
+    }
+
+    public function testRemovingHeaderAfterKeySet() {
+        $Response = new FireHttp\Response();
+        $Response->addHeader('Content-Type', 'application/sprayfire');
+        $this->assertTrue($Response->hasHeader('Content-Type'));
+        $Response->removeHeader('Content-Type');
+        $this->assertFalse($Response->hasHeader('Content-Type'));
+    }
+
+    public function testRemovingAllHeaders() {
+        $Response = new FireHttp\Response();
+        $Response->addHeader('Content-Type', $Response::JSON_RESPONSE_TYPE);
+        $Response->addHeader('Content-Length', 15);
+        $expected = ['Content-Type' => 'application/json', 'Content-Length' => 15];
+        $this->assertSame($expected, $Response->getHeaders());
+        $Response->removeAllHeaders();
+        $this->assertSame([], $Response->getHeaders());
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testSendingResponse() {
+        $Response = new FireHttp\Response();
+        $Response->addHeader('Content-Type', $Response::JSON_RESPONSE_TYPE);
+        $Response->addHeader('Content-Length', 100);
+        $Response->setBody(\json_encode(['foo' => 'bar']));
+
+        \ob_start();
+
+        $Response->send();
+
+        $actualResponse = \ob_get_clean();
+        $sentHeaders = \xdebug_get_headers();
+
+        $this->assertNotEmpty($actualResponse);
+        $this->assertNotEmpty($sentHeaders);
+
+        $expectedHeaders = [
+            'Content-Type: application/json',
+            'Content-Length: 100'
+        ];
+        $this->assertSame($expectedHeaders, $sentHeaders);
+        $this->assertSame(\json_encode(['foo' => 'bar']), $actualResponse);
+    }
+
 
 }

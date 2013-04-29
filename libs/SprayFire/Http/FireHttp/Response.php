@@ -264,7 +264,10 @@ class Response extends SFStdLib\CoreObject implements SFHttp\Response {
      * @return string|null
      */
     public function getHeader($key) {
-        return $this->headers[$key];
+        if (isset($this->headers[$key])) {
+            return $this->headers[$key];
+        }
+        return null;
     }
 
     /**
@@ -275,7 +278,7 @@ class Response extends SFStdLib\CoreObject implements SFHttp\Response {
      * @return boolean
      */
     public function hasHeader($key) {
-        // TODO: Implement hasHeader() method.
+        return \array_key_exists($key, $this->headers);
     }
 
     /**
@@ -283,11 +286,12 @@ class Response extends SFStdLib\CoreObject implements SFHttp\Response {
      * this method is called after send() it will ultimately have no effect as the
      * header will have already been sent.
      *
-     * @param string $headerKey
+     * @param string $key
      * @return \SprayFire\Http\Response
      */
-    public function removeHeader($headerKey) {
-        // TODO: Implement removeHeader() method.
+    public function removeHeader($key) {
+        unset($this->headers[$key]);
+        return $this;
     }
 
     /**
@@ -296,7 +300,8 @@ class Response extends SFStdLib\CoreObject implements SFHttp\Response {
      * @return \SprayFire\Http\Response
      */
     public function removeAllHeaders() {
-        // TODO: Implement removeAllHeaders() method.
+        $this->headers = [];
+        return $this;
     }
 
     /**
@@ -306,7 +311,30 @@ class Response extends SFStdLib\CoreObject implements SFHttp\Response {
      * @return boolean
      */
     public function send() {
-        // TODO: Implement send() method.
+        $formattedHeaders = $this->getFormattedHeaders();
+        $this->sendStatusHeader();
+        $this->sendHeaders($formattedHeaders);
+        echo $this->body;
+    }
+
+    protected function getFormattedHeaders() {
+        $headers = [];
+        foreach ($this->headers as $name => $value) {
+            $headers[] = \trim($name) . ': ' . \trim($value);
+        }
+        return $headers;
+    }
+
+    protected function sendHeaders(array $formattedHeaders) {
+        foreach ($formattedHeaders as $header) {
+            \header($header);
+        }
+    }
+
+    protected function sendStatusHeader() {
+        $format = 'HTTP/1.1 %s %s';
+        $header = \sprintf($format, $this->getStatusCode(), $this->getStatusReason());
+        \header($header);
     }
 
     /**
