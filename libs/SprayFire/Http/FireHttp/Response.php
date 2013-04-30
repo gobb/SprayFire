@@ -308,33 +308,50 @@ class Response extends SFStdLib\CoreObject implements SFHttp\Response {
      * Should prepare and send all added headers and echo out the string contents
      * of the body; this method should NOT end processing of the script.
      *
-     * @return boolean
+     * @return void
      */
     public function send() {
         $formattedHeaders = $this->getFormattedHeaders();
-        $this->sendStatusHeader();
         $this->sendHeaders($formattedHeaders);
         echo $this->body;
     }
 
+    /**
+     * Will return the appropriately formatted status header with the set status
+     * code and reason used in the appropriate places.
+     *
+     * @return string
+     */
+    protected function getStatusHeader() {
+        $format = 'HTTP/1.1 %s %s';
+        return \sprintf($format, $this->getStatusCode(), $this->getStatusReason());
+
+    }
+
+    /**
+     * Will format the key/value pair header array into a numerically indexed
+     * array holding header strings that are ready to be sent to the user.
+     *
+     * @return array
+     */
     protected function getFormattedHeaders() {
-        $headers = [];
+        $headers = [$this->getStatusHeader()];
         foreach ($this->headers as $name => $value) {
             $headers[] = \trim($name) . ': ' . \trim($value);
         }
         return $headers;
     }
 
+    /**
+     * Will loop through and send every header in the array passed; the headers
+     * passed should be in a format suitable for sending to the user.
+     *
+     * @param array $formattedHeaders
+     */
     protected function sendHeaders(array $formattedHeaders) {
         foreach ($formattedHeaders as $header) {
             \header($header);
         }
-    }
-
-    protected function sendStatusHeader() {
-        $format = 'HTTP/1.1 %s %s';
-        $header = \sprintf($format, $this->getStatusCode(), $this->getStatusReason());
-        \header($header);
     }
 
     /**
