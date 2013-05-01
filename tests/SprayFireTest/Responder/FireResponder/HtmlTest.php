@@ -1,8 +1,8 @@
 <?php
 
 /**
- * A test to ensure that the SprayFire.Responder.FireResponder.Html implementation
- * produces the appropriate output.
+ * A test to ensure that the \SprayFire\Responder\FireResponder\Html implementation
+ * produces the appropriate output, escaped if necessary.
  *
  * @author  Charles Sprayberry
  * @license Subject to the terms of the LICENSE file in the project root
@@ -18,7 +18,7 @@ use \SprayFire\Responder as SFResponder,
 
 /**
  * @package SprayFireTest
- * @subpackage Responder.FireResponder
+ * @subpackage Responder
  */
 class HtmlTest extends PHPUnitTestCase {
 
@@ -28,8 +28,6 @@ class HtmlTest extends PHPUnitTestCase {
      */
     public function testGeneratingValidResponseWithoutDataAndNoContentTemplates() {
         $Responder = $this->getHtmlResponder();
-        $Escaper = new FireResponder\OutputEscaper('utf-8');
-        $Responder->giveService('Escaper', $Escaper);
 
         $LayoutTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
         $LayoutTemplate->expects($this->once())
@@ -49,16 +47,8 @@ class HtmlTest extends PHPUnitTestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        $actual = $Responder->generateDynamicResponse($Controller);
-
-        $expected = '<div>SprayFire</div>';
-
-        $this->assertSame($expected, $actual);
-    }
-
-    protected function getHtmlResponder() {
-        $Builder = $this->getMock('\SprayFire\Service\Builder');
-        return new FireResponder\Html($Builder);
+        $Response = $Responder->generateResponse($Controller);
+        $this->assertInstanceOf('\\SprayFire\\Http\\Response', $Response);
     }
 
     /**
@@ -67,8 +57,6 @@ class HtmlTest extends PHPUnitTestCase {
      */
     public function testGenerateValidResponseWithNoDataButWithSingleContentTemplates() {
         $Responder = $this->getHtmlResponder();
-        $Escaper = new FireResponder\OutputEscaper('utf-8');
-        $Responder->giveService('Escaper', $Escaper);
 
         $ContentTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
         $ContentTemplate->expects($this->once())
@@ -102,7 +90,7 @@ class HtmlTest extends PHPUnitTestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        $actual = $Responder->generateDynamicResponse($Controller);
+        $actual = $Responder->generateResponse($Controller);
 
         $expected = '<div><p>Template content</p></div>';
         $this->assertSame($expected, $actual);
@@ -115,8 +103,6 @@ class HtmlTest extends PHPUnitTestCase {
      */
     public function testGeneratingValidResponseWithControllerDataAndMultipleContentTemplates() {
         $Responder = $this->getHtmlResponder();
-        $Escaper = new FireResponder\OutputEscaper('utf-8');
-        $Responder->giveService('Escaper', $Escaper);
 
         $ContentTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
         $ContentTemplate->expects($this->once())
@@ -173,7 +159,7 @@ class HtmlTest extends PHPUnitTestCase {
                        'bar' => 'foo'
                    )));
 
-        $actual = $Responder->generateDynamicResponse($Controller);
+        $actual = $Responder->generateResponse($Controller);
 
         $expected = '<div>SprayFire</div>';
         $this->assertSame($expected, $actual);
@@ -181,8 +167,6 @@ class HtmlTest extends PHPUnitTestCase {
 
     public function testAutomaticEscapingOfHtmlContentData() {
         $Responder = $this->getHtmlResponder();
-        $Escaper = new FireResponder\OutputEscaper('utf-8');
-        $Responder->giveService('Escaper', $Escaper);
 
         $LayoutTemplate = $this->getMock('\sprayFire\Responder\Template\Template');
         $LayoutTemplate->expects($this->once())
@@ -213,15 +197,13 @@ class HtmlTest extends PHPUnitTestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        $actual = $Responder->generateDynamicResponse($Controller);
+        $actual = $Responder->generateResponse($Controller);
 
         $this->assertSame('<div>&gt;&lt;&amp;</div>', $actual);
     }
 
     public function testAutomaticEscapingOfHtmlAttributeData() {
         $Responder = $this->getHtmlResponder();
-        $Escaper = new FireResponder\OutputEscaper('utf-8');
-        $Responder->giveService('Escaper', $Escaper);
 
         $LayoutTemplate = $this->getMock('\sprayFire\Responder\Template\Template');
         $LayoutTemplate->expects($this->once())
@@ -252,15 +234,13 @@ class HtmlTest extends PHPUnitTestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        $actual = $Responder->generateDynamicResponse($Controller);
+        $actual = $Responder->generateResponse($Controller);
 
         $this->assertSame('<div>&#x20;&&#x09;&#xFFFD;</div>', $actual);
     }
 
     public function testAutomaticEscapingOfCssData() {
         $Responder = $this->getHtmlResponder();
-        $Escaper = new FireResponder\OutputEscaper('utf-8');
-        $Responder->giveService('Escaper', $Escaper);
 
         $LayoutTemplate = $this->getMock('\sprayFire\Responder\Template\Template');
         $LayoutTemplate->expects($this->once())
@@ -291,15 +271,13 @@ class HtmlTest extends PHPUnitTestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        $actual = $Responder->generateDynamicResponse($Controller);
+        $actual = $Responder->generateResponse($Controller);
 
         $this->assertSame('<div>\\2C\\2E\\5F</div>', $actual);
     }
 
     public function testAutomaticEscapingOfJavaScript() {
         $Responder = $this->getHtmlResponder();
-        $Escaper = new FireResponder\OutputEscaper('utf-8');
-        $Responder->giveService('Escaper', $Escaper);
 
         $LayoutTemplate = $this->getMock('\sprayFire\Responder\Template\Template');
         $LayoutTemplate->expects($this->once())
@@ -330,9 +308,20 @@ class HtmlTest extends PHPUnitTestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        $actual = $Responder->generateDynamicResponse($Controller);
+        $actual = $Responder->generateResponse($Controller);
 
         $this->assertSame('<div>\\x27\\x22\\x26</div>', $actual);
+    }
+
+    /**
+     * @return \SprayFire\Responder\FireResponder\Html
+     */
+    protected function getHtmlResponder() {
+        $Builder = $this->getMock('\SprayFire\Service\Builder');
+        $Responder = new FireResponder\Html($Builder);
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $Responder->giveService('Escaper', $Escaper);
+        return $Responder;
     }
 
 }
