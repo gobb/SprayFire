@@ -13,7 +13,9 @@ This interface is responsible for storing and retrieving various services that m
 
 One of the concerns with the design approach of the `SprayFire\Service\Container` is that we want to avoid just passing it around to all the things. Everything shouldn't have access to the `Container` and when services are needed they should be explicitly requested. The first, and most immediate, answer here is just to use traditional [Dependency Injection](http://stackoverflow.com/questions/130794/what-is-dependency-injection). However, being able to dynamically provide that kind of solution would require knowing the dependencies present in virtually any app object created by the framework. This is a daunting task and would require an extensive use of Reflection. Instead we declare dependencies through the `SprayFire\Service\Consumer` interface. Consumer implementations should almost always be created by a factory or builder object to ensure appropriate services are added.
 
-The interface has 2 methods. `Consumer::getServices()`, which should return an associative array of `[keys => className]` for the services required by that consumer. The second method, `Consumer::giveService()` should accept the string key from array of services and the object representing the `className`. If the service requested does not exist in the container an exception should be thrown.
+The interface has 2 primary methods. `Consumer::getServices()`, which should return an associative array of `[keys => className]` for the services required by that consumer. The second method, `Consumer::giveService()` should accept the string key from array of services and the object representing the `className`. If the service requested does not exist in the container an exception should be thrown.
+
+There is also a `Consumer::beforeBuild()` method that should be invoked before the Consumer is given services.
 
 So, that's what the module does. Here's why we did it:
 
@@ -27,7 +29,7 @@ So, that's what the module does. Here's why we did it:
 
 - Requires a factory or builder implementation to create appropriate Consumer objects to ensure the services are added and failures are handled appropriately. This isn't that bad of a concern but it is something that must be considered.
 - Dependencies aren't truly explicit and will not cause code to stop executing if a service is not provided. This has implications that a large majority of processing might occur and, for whatever reason, the service key expecting to hold an object does not and the code fatally quits. With true Dependency Injection this isn't nearly as big a concern.
-- Services required are not part of the constructor parameters and cannot be typehinted or worked with like you would normal injections.
+- Services required are not part of the constructor parameters and cannot be typehinted or worked with like you would normal injections. Although many IDEs will allow you to typehint variables, including "magic" class properties.
 
 ---
 
