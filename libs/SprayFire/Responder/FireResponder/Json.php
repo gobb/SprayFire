@@ -27,7 +27,7 @@ class Json extends Base implements Responder\Responder {
      * @param \SprayFire\Controller\Controller $Controller
      * @return string
      */
-    public function generateDynamicResponse(Controller\Controller $Controller) {
+    public function generateResponse(Controller\Controller $Controller) {
         $data = $this->getEscapedData($Controller);
         return \json_encode($data);
     }

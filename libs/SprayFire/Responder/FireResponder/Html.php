@@ -29,12 +29,16 @@ class Html extends Base implements Responder\Responder {
      */
     protected $response = '';
 
+    public function beforeBuild() {
+        $this->services['Response'] = 'SprayFire.Http.Response';
+    }
+
     /**
      *
      * @param \SprayFire\Controller\Controller $Controller
      * @return string
      */
-    public function generateDynamicResponse(Controller\Controller $Controller) {
+    public function generateResponse(Controller\Controller $Controller) {
         $TemplateManager = $Controller->getTemplateManager();
         $LayoutTemplate = $TemplateManager->getLayoutTemplate();
         $data = [];
