@@ -20,9 +20,15 @@ use \SprayFire\Responder\FireResponder as FireResponder;
  */
 class JsonTest extends \PHPUnit_Framework_TestCase {
 
+    /**
+     * @return \SprayFire\Responder\FireResponder\Json
+     */
     protected function getJsonResponder() {
         $Builder = $this->getMock('\SprayFire\Service\Builder');
-        return new FireResponder\Json($Builder);
+        $Escaper = new FireResponder\OutputEscaper('utf-8');
+        $Responder = new FireResponder\Json($Builder);
+        $Responder->giveService('Escaper', $Escaper);
+        return $Responder;
     }
 
     /**
@@ -30,14 +36,17 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
      * response
      */
     public function testJsonResponseWithNoDataAndNotTemplates() {
-        $Controller = $this->getMock('\SprayFire\Controller\Controller');
+        $Response = $this->getMock('\SprayFire\Http\Response');
+        $Response->expects($this->once())
+                 ->method('setBody')
+                 ->with(\json_encode([]));
+
         $Responder = $this->getJsonResponder();
-        $Escaper = new FireResponder\OutputEscaper('utf-8');
-        $Responder->giveService('Escaper', $Escaper);
+        $Responder->giveService('Response', $Response);
 
-        $actual = $Responder->generateDynamicResponse($Controller);
-
-        $this->assertSame(\json_encode(array()), $actual);
+        $Controller = $this->getMock('\SprayFire\Controller\Controller');
+        $ActualResponse = $Responder->generateResponse($Controller);
+        $this->assertInstanceOf('\SprayFire\Http\Response', $ActualResponse);
     }
 
     /**
@@ -53,13 +62,17 @@ class JsonTest extends \PHPUnit_Framework_TestCase {
         $Controller->expects($this->at(1))
                    ->method('getResponderData')
                    ->will($this->returnValue($data));
+
+        $Response = $this->getMock('\SprayFire\Http\Response');
+        $Response->expects($this->once())
+                 ->method('setBody')
+                 ->with(\json_encode($data));
+
         $Responder = $this->getJsonResponder();
-        $Escaper = new FireResponder\OutputEscaper('utf-8');
-        $Responder->giveService('Escaper', $Escaper);
+        $Responder->giveService('Response', $Response);
 
-        $actual  = $Responder->generateDynamicResponse($Controller);
-
-        $this->assertSame(\json_encode($data), $actual);
+        $ActualResponse  = $Responder->generateResponse($Controller);
+        $this->assertInstanceOf('\SprayFire\Http\Response', $ActualResponse);
     }
 
 }

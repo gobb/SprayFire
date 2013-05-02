@@ -29,7 +29,8 @@ class Json extends Base implements Responder\Responder {
      */
     public function generateResponse(Controller\Controller $Controller) {
         $data = $this->getEscapedData($Controller);
-        return \json_encode($data);
+        $this->Response->setBody(\json_encode($data));
+        return $this->Response;
     }
 
 }
