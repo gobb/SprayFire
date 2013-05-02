@@ -188,9 +188,9 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
      * $MockController when Factory::makeObject is called with $controllerName
      * as the argument.
      *
-     * @param SprayFire.Controller.Controller $MockController
+     * @param \SprayFire\Controller\Controller $MockController
      * @param string $controllerName
-     * @return SprayFire.Factory.Factory
+     * @return \SprayFire\Factory\Factory
      */
     protected function getMockControllerFactory(Controller\Controller $MockController, $controllerName) {
         $MockControllerFactory = $this->getMock('\\SprayFire\\Factory\\Factory');
@@ -208,7 +208,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
      * @param string $action
      * @param string $responderName
      * @param array $extraMethods
-     * @return SprayFire.Controller.Controller
+     * @return \SprayFire\Controller\Controller
      */
     protected function getMockController($action, $responderName, array $extraMethods = array()) {
         $defaultMethods = array(
@@ -238,16 +238,22 @@ class DispatcherTest extends PHPUnit_Framework_TestCase {
 
     /**
      *
-     * @param SprayFire.Controller.Controller $MockController
+     * @param \SprayFire\Controller\Controller $MockController
      * @param string $returnContent
-     * @return SprayFire.Responder.Responder
+     * @return \SprayFire\Responder\Responder
      */
     protected function getMockResponder(Controller\Controller $MockController, $returnContent) {
         $MockResponder = $this->getMock('\\SprayFire\\Responder\\Responder');
+        $MockResponse = $this->getMock('\\SprayFire\\Http\\Response');
+        $MockResponse->expects($this->once())
+                     ->method('send')
+                     ->will($this->returnCallback(function() use($returnContent) {
+                        echo $returnContent;
+                     }));
         $MockResponder->expects($this->once())
-                      ->method('generateDynamicResponse')
+                      ->method('generateResponse')
                       ->with($this->equalTo($MockController))
-                      ->will($this->returnValue($returnContent));
+                      ->will($this->returnValue($MockResponse));
         return $MockResponder;
     }
 
