@@ -33,7 +33,7 @@ abstract class Base extends FireService\Consumer implements Responder\Responder 
     protected $services = [
         'Paths' => 'SprayFire.FileSys.FireFileSys.Paths',
         'Escaper' => 'SprayFire.Responder.FireResponder.OutputEscaper',
-        'Response' => 'SprayFire.Http.Response'
+        'Response' => 'SprayFire.Http.FireHttp.Response'
     ];
 
     /**

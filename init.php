@@ -86,6 +86,7 @@ function startProcessing() {
     $Uri = new FireHttp\Uri();
     $Headers = new FireHttp\RequestHeaders();
     $Request = new FireHttp\Request($Uri, $Headers, ['REQUEST_URI' => '/nope']);
+    $Response = new FireHttp\Response();
 
     // this is here to ensure that if we aren't using virtual host the basename
     // of the install path is removed from the URI
@@ -116,7 +117,8 @@ function startProcessing() {
 
     $services = [$Request, $ClassLoader, $Paths, $ReflectionCache, $EventRegistry,
                  $Mediator, $RoutedRequest, $OutputEscaper, $TemplateManager,
-                 $LogOverseer, $EnvironmentConfig, $PluginManager, $ServiceBuilder];
+                 $LogOverseer, $EnvironmentConfig, $PluginManager, $ServiceBuilder,
+                 $Response];
 
     foreach($services as $Service) {
         $Container->addService($Service);
