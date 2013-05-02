@@ -27,7 +27,13 @@ class HtmlTest extends PHPUnitTestCase {
      * produces output from strictly the LayoutTemplate.
      */
     public function testGeneratingValidResponseWithoutDataAndNoContentTemplates() {
+        $Response = $this->getMock('\SprayFire\Http\Response');
+        $Response->expects($this->once())
+                 ->method('setBody')
+                 ->with('<div>SprayFire</div>');
+
         $Responder = $this->getHtmlResponder();
+        $Responder->giveService('Response', $Response);
 
         $LayoutTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
         $LayoutTemplate->expects($this->once())
@@ -47,8 +53,8 @@ class HtmlTest extends PHPUnitTestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        $Response = $Responder->generateResponse($Controller);
-        $this->assertInstanceOf('\\SprayFire\\Http\\Response', $Response);
+        $ActualResponse = $Responder->generateResponse($Controller);
+        $this->assertInstanceOf('\\SprayFire\\Http\\Response', $ActualResponse);
     }
 
     /**
@@ -56,7 +62,13 @@ class HtmlTest extends PHPUnitTestCase {
      * appropriate data to the LayoutTemplate.
      */
     public function testGenerateValidResponseWithNoDataButWithSingleContentTemplates() {
+        $Response = $this->getMock('\SprayFire\Http\Response');
+        $Response->expects($this->once())
+                 ->method('setBody')
+                 ->with('<div><p>Template content</p></div>');
+
         $Responder = $this->getHtmlResponder();
+        $Responder->giveService('Response', $Response);
 
         $ContentTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
         $ContentTemplate->expects($this->once())
@@ -90,11 +102,8 @@ class HtmlTest extends PHPUnitTestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        $actual = $Responder->generateResponse($Controller);
-
-        $expected = '<div><p>Template content</p></div>';
-        $this->assertSame($expected, $actual);
-
+        $ActualResponse = $Responder->generateResponse($Controller);
+        $this->assertInstanceOf('\\SprayFire\\Http\\Response', $ActualResponse);
     }
 
     /**
@@ -102,7 +111,13 @@ class HtmlTest extends PHPUnitTestCase {
      * content templates results in the appropriate data passed to the LayoutTemplate.
      */
     public function testGeneratingValidResponseWithControllerDataAndMultipleContentTemplates() {
+        $Response = $this->getMock('\SprayFire\Http\Response');
+        $Response->expects($this->once())
+                 ->method('setBody')
+                 ->with('<div>SprayFire</div>');
+
         $Responder = $this->getHtmlResponder();
+        $Responder->giveService('Response', $Response);
 
         $ContentTemplate = $this->getMock('\SprayFire\Responder\Template\Template');
         $ContentTemplate->expects($this->once())
@@ -159,14 +174,18 @@ class HtmlTest extends PHPUnitTestCase {
                        'bar' => 'foo'
                    )));
 
-        $actual = $Responder->generateResponse($Controller);
-
-        $expected = '<div>SprayFire</div>';
-        $this->assertSame($expected, $actual);
+        $ActualResponse = $Responder->generateResponse($Controller);
+        $this->assertInstanceOf('\\SprayFire\\Http\\Response', $ActualResponse);
     }
 
     public function testAutomaticEscapingOfHtmlContentData() {
+        $Response = $this->getMock('\SprayFire\Http\Response');
+        $Response->expects($this->once())
+                 ->method('setBody')
+                 ->with('<div>&gt;&lt;&amp;</div>');
+
         $Responder = $this->getHtmlResponder();
+        $Responder->giveService('Response', $Response);
 
         $LayoutTemplate = $this->getMock('\sprayFire\Responder\Template\Template');
         $LayoutTemplate->expects($this->once())
@@ -197,13 +216,18 @@ class HtmlTest extends PHPUnitTestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        $actual = $Responder->generateResponse($Controller);
-
-        $this->assertSame('<div>&gt;&lt;&amp;</div>', $actual);
+        $ActualResponse = $Responder->generateResponse($Controller);
+        $this->assertInstanceOf('\\SprayFire\\Http\\Response', $ActualResponse);
     }
 
     public function testAutomaticEscapingOfHtmlAttributeData() {
+        $Response = $this->getMock('\SprayFire\Http\Response');
+        $Response->expects($this->once())
+                 ->method('setBody')
+                 ->with('<div>&#x20;&&#x09;&#xFFFD;</div>');
+
         $Responder = $this->getHtmlResponder();
+        $Responder->giveService('Response', $Response);
 
         $LayoutTemplate = $this->getMock('\sprayFire\Responder\Template\Template');
         $LayoutTemplate->expects($this->once())
@@ -234,13 +258,18 @@ class HtmlTest extends PHPUnitTestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        $actual = $Responder->generateResponse($Controller);
-
-        $this->assertSame('<div>&#x20;&&#x09;&#xFFFD;</div>', $actual);
+        $ActualResponse = $Responder->generateResponse($Controller);
+        $this->assertInstanceOf('\\SprayFire\\Http\\Response', $ActualResponse);
     }
 
     public function testAutomaticEscapingOfCssData() {
+        $Response = $this->getMock('\SprayFire\Http\Response');
+        $Response->expects($this->once())
+                 ->method('setBody')
+                 ->with('<div>\\2C\\2E\\5F</div>');
+
         $Responder = $this->getHtmlResponder();
+        $Responder->giveService('Response', $Response);
 
         $LayoutTemplate = $this->getMock('\sprayFire\Responder\Template\Template');
         $LayoutTemplate->expects($this->once())
@@ -271,13 +300,18 @@ class HtmlTest extends PHPUnitTestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        $actual = $Responder->generateResponse($Controller);
-
-        $this->assertSame('<div>\\2C\\2E\\5F</div>', $actual);
+        $ActualResponse = $Responder->generateResponse($Controller);
+        $this->assertInstanceOf('\\SprayFire\\Http\\Response', $ActualResponse);
     }
 
     public function testAutomaticEscapingOfJavaScript() {
+        $Response = $this->getMock('\SprayFire\Http\Response');
+        $Response->expects($this->once())
+                 ->method('setBody')
+                 ->with('<div>\\x27\\x22\\x26</div>');
+
         $Responder = $this->getHtmlResponder();
+        $Responder->giveService('Response', $Response);
 
         $LayoutTemplate = $this->getMock('\sprayFire\Responder\Template\Template');
         $LayoutTemplate->expects($this->once())
@@ -308,9 +342,8 @@ class HtmlTest extends PHPUnitTestCase {
                    ->method('getTemplateManager')
                    ->will($this->returnValue($TemplateManager));
 
-        $actual = $Responder->generateResponse($Controller);
-
-        $this->assertSame('<div>\\x27\\x22\\x26</div>', $actual);
+        $ActualResponse = $Responder->generateResponse($Controller);
+        $this->assertInstanceOf('\\SprayFire\\Http\\Response', $ActualResponse);
     }
 
     /**

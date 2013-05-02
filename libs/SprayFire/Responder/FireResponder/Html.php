@@ -23,24 +23,12 @@ use \SprayFire\Responder,
 class Html extends Base implements Responder\Responder {
 
     /**
-     * Stores the final generated response from this Responder
-     *
-     * @property string
-     */
-    protected $response = '';
-
-    public function beforeBuild() {
-        $this->services['Response'] = 'SprayFire.Http.Response';
-    }
-
-    /**
      *
      * @param \SprayFire\Controller\Controller $Controller
      * @return string
      */
     public function generateResponse(Controller\Controller $Controller) {
         $TemplateManager = $Controller->getTemplateManager();
-        $LayoutTemplate = $TemplateManager->getLayoutTemplate();
         $data = [];
         $data['Responder'] = $this;
         $data = \array_merge($data, $this->getEscapedData($Controller));
@@ -52,7 +40,9 @@ class Html extends Base implements Responder\Responder {
             }
         }
 
-        return $LayoutTemplate->getContent($data);
+        $content = $TemplateManager->getLayoutTemplate()->getContent($data);
+        $this->Response->setBody($content);
+        return $this->Response;
     }
 
     /**
