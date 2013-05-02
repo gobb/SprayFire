@@ -21,6 +21,7 @@ use \SprayFire\Responder,
  *
  * @property \SprayFire\FileSys\FireFileSys\Paths $Paths
  * @property \SprayFire\Responder\FireResponder\OutputEscaper $Escaper
+ * @property \SprayFire\Http\Response $Response
  */
 abstract class Base extends FireService\Consumer implements Responder\Responder {
 
@@ -31,7 +32,8 @@ abstract class Base extends FireService\Consumer implements Responder\Responder 
      */
     protected $services = [
         'Paths' => 'SprayFire.FileSys.FireFileSys.Paths',
-        'Escaper' => 'SprayFire.Responder.FireResponder.OutputEscaper'
+        'Escaper' => 'SprayFire.Responder.FireResponder.OutputEscaper',
+        'Response' => 'SprayFire.Http.FireHttp.Response'
     ];
 
     /**

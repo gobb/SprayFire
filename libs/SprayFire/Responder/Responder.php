@@ -22,12 +22,13 @@ use \SprayFire\Object,
 interface Responder extends Object, Service\Consumer {
 
     /**
-     * Should sanitize the appropriate data and generate a response based on the
-     * $Controller data provided.
+     * Should retrieve the data set in the $Controller, sanitize it if necessary,
+     * and then return a \SprayFire\Http\Response object that represents that
+     * data.
      *
      * @param \SprayFire\Controller\Controller $Controller
-     * @return string
+     * @return \SprayFire\Http\Response
      */
-    public function generateDynamicResponse(Controller\Controller $Controller);
+    public function generateResponse(Controller\Controller $Controller);
 
 }
