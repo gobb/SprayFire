@@ -88,7 +88,7 @@ class Dispatcher extends StdLib\CoreObject implements SFDispatcher\Dispatcher {
         $ResponderName = $Controller->getResponderName();
         $Responder = $this->ResponderFactory->makeObject($ResponderName);
         $this->Mediator->triggerEvent(Events::BEFORE_RESPONSE_SENT, $Responder);
-        echo $Responder->generateResponse($Controller);
+        $Responder->generateResponse($Controller)->send();
         $this->Mediator->triggerEvent(Events::AFTER_RESPONSE_SENT, $Responder);
     }
 
