@@ -7,7 +7,7 @@ Current version in development: *SprayFire 0.2.0a*
 - master branch (Current version stable): [![Build Status](https://secure.travis-ci.org/cspray/SprayFire.png?branch=master)](https://travis-ci.org/cspray/SprayFire)
 - development branch (Current version unstable): [![Build Status](https://travis-ci.org/cspray/SprayFire.png?branch=development)](https://travis-ci.org/cspray/SprayFire)
 
-- v0.1.0 (Release version stable): [![Build Status](https://secure.travis-ci.org/cspray/SprayFire.png?branch=0.1.0)](https://travis-ci.org/cspray/SprayFire)
+- v0.1.0 (Release version stable): [![Build Status](https://secure.travis-ci.org/cspray/SprayFire.png?branch=v0.1.0)](https://travis-ci.org/cspray/SprayFire)
 
 ## Requirements
 
