@@ -4,3 +4,5 @@
 /nbproject
 .idea
 logs/errors.txt
+build
+logs
